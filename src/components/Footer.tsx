@@ -5,6 +5,13 @@ export default function Footer() {
       <div className="flex gap-6">
         <a
           data-cursor-hover
+          href="https://linkedin.com/in/aashish-kumar-pandey"
+          className="hover:text-foreground"
+        >
+          LinkedIn
+        </a>
+        <a
+          data-cursor-hover
           href="https://github.com/aashisharyan2595"
           className="hover:text-foreground"
         >

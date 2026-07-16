@@ -3,9 +3,10 @@
 import MagneticLink from "@/components/MagneticLink";
 
 const links = [
-  { href: "#work", label: "Work" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
+  { href: "/work", label: "Work" },
+  { href: "/#about", label: "About" },
+  { href: "/blog", label: "Writing" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Navbar() {

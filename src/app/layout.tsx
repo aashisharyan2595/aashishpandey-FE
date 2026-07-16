@@ -19,8 +19,9 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Aashish Pandey",
-  description: "Portfolio of Aashish Pandey",
+  title: "Aashish Pandey — Project Manager & Technical Delivery Lead",
+  description:
+    "Project manager and technical delivery lead for global brands — Unilever, Wipro, Reliance, ITC — with hands-on CMS and dev experience.",
 };
 
 export default function RootLayout({

@@ -45,22 +45,23 @@ export default function Hero() {
           data-hero-eyebrow
           className="mb-4 font-mono text-sm uppercase tracking-[0.3em] text-muted"
         >
-          Aashish Pandey
+          Aashish Pandey — Project Manager
         </p>
         <h1 className="font-display text-[9vw] font-medium leading-[1.1] md:text-[6vw] md:leading-[0.9]">
           <span data-hero-line className="block">
-            Building things
+            I keep complex delivery
           </span>
           <span data-hero-line className="block text-accent">
-            that feel alive.
+            shipping on schedule.
           </span>
         </h1>
         <p
           data-hero-sub
           className="mt-8 max-w-md text-lg text-muted md:text-xl"
         >
-          I design and build software with a bit of mischief in it — playful,
-          fast, and made to be explored.
+          6+ years running delivery for global brands — Unilever, Wipro,
+          Reliance, ITC — with enough hands-on CMS and dev background to get
+          into the weeds when a project needs it.
         </p>
       </div>
     </section>
