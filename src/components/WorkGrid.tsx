@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import CaseStudyCover from "@/components/CaseStudyCover";
 import type { CaseStudy } from "@/lib/case-studies";
 
 const MotionLink = motion.create(Link);
 
 export default function WorkGrid({ items }: { items: CaseStudy[] }) {
   return (
-    <div className="mt-16 divide-y divide-white/10 border-t border-white/10">
+    <div className="mt-16 grid gap-8 sm:grid-cols-2">
       {items.map((item, i) => (
         <MotionLink
           key={item.slug}
@@ -18,17 +19,34 @@ export default function WorkGrid({ items }: { items: CaseStudy[] }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, delay: i * 0.05 }}
-          whileHover={{ x: 12 }}
-          className="group flex flex-col gap-2 py-8 md:flex-row md:items-baseline md:justify-between"
+          className="group block overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-colors hover:border-accent/50"
         >
-          <h3 className="font-display text-2xl transition-colors group-hover:text-accent md:text-4xl">
-            {item.title}
-          </h3>
-          <p className="max-w-md text-muted">{item.summary}</p>
-          <div className="flex gap-2 text-xs uppercase tracking-widest text-muted">
-            {item.tags.map((tag) => (
-              <span key={tag}>{tag}</span>
-            ))}
+          <div className="relative aspect-[4/3] overflow-hidden">
+            <CaseStudyCover
+              slug={item.slug}
+              label={item.title}
+              className="h-full w-full scale-105 transition-transform duration-700 ease-out group-hover:scale-100"
+            />
+            <span className="absolute left-4 top-4 font-mono text-xs uppercase tracking-widest text-muted">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="absolute right-4 top-4 rounded-full border border-white/15 bg-background/60 px-3 py-1 font-mono text-xs uppercase tracking-widest text-foreground backdrop-blur-sm">
+              {item.metric.value}
+            </span>
+          </div>
+
+          <div className="p-6">
+            <h3 className="font-display text-xl transition-colors group-hover:text-accent md:text-2xl">
+              {item.title}
+            </h3>
+            <p className="mt-2 text-sm text-muted">{item.summary}</p>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs uppercase tracking-widest text-muted">
+              {item.tags.map((tag) => (
+                <span key={tag} className="rounded-full border border-white/10 px-3 py-1">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </MotionLink>
       ))}

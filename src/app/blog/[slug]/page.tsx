@@ -17,9 +17,20 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
   if (!post) return {};
+
+  const title = post.seoTitle || `${post.title} — Aashish Pandey`;
+  const description = post.seoDescription || post.excerpt;
+  const image = post.ogImage || post.coverImage;
+
   return {
-    title: `${post.title} — Aashish Pandey`,
-    description: post.excerpt,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      images: image ? [{ url: image }] : undefined,
+    },
   };
 }
 
@@ -50,9 +61,14 @@ export default async function BlogPostPage({
           {post.tags.length > 0 && (
             <div className="mt-6 flex flex-wrap gap-2 text-xs uppercase tracking-widest text-muted">
               {post.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-white/10 px-3 py-1">
+                <Link
+                  key={tag}
+                  href={`/blog/tag/${tag}`}
+                  data-cursor-hover
+                  className="rounded-full border border-white/10 px-3 py-1 hover:border-accent"
+                >
                   {tag}
-                </span>
+                </Link>
               ))}
             </div>
           )}

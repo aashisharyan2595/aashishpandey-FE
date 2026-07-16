@@ -44,6 +44,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/posts" className="hover:text-accent">
             Posts
           </Link>
+          <Link href="/admin/media" className="hover:text-accent">
+            Media
+          </Link>
+          <Link href="/admin/categories" className="hover:text-accent">
+            Categories
+          </Link>
           <Link href="/admin/submissions" className="hover:text-accent">
             Submissions
           </Link>

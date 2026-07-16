@@ -1,18 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { adminFetch } from "@/lib/admin-auth";
 import type {
   Block,
   BlockType,
   BlogPost,
+  Category,
   CodeData,
   HeadingData,
   ImageData,
   ParagraphData,
   QuoteData,
 } from "@/lib/blog";
+import MediaPicker from "./MediaPicker";
+
+type Revision = { _id: string; createdAt: string; snapshot: { title?: string; excerpt?: string } };
 
 const TEMPLATES: Record<string, Block[]> = {
   "Standard article": [
@@ -72,10 +76,35 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
   const [excerpt, setExcerpt] = useState(initialPost?.excerpt ?? "");
   const [coverImage, setCoverImage] = useState(initialPost?.coverImage ?? "");
   const [tagsInput, setTagsInput] = useState(initialPost?.tags.join(", ") ?? "");
+  const [category, setCategory] = useState(initialPost?.category ?? "");
+  const [seoTitle, setSeoTitle] = useState(initialPost?.seoTitle ?? "");
+  const [seoDescription, setSeoDescription] = useState(initialPost?.seoDescription ?? "");
+  const [ogImage, setOgImage] = useState(initialPost?.ogImage ?? "");
   const [blocks, setBlocks] = useState<Block[]>(initialPost?.blocks ?? []);
   const [saving, setSaving] = useState<"draft" | "publish" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const dragIndex = useRef<number | null>(null);
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [lastAutosaved, setLastAutosaved] = useState<string | null>(
+    initialPost?.autosave?.savedAt ?? null
+  );
+  const [revisions, setRevisions] = useState<Revision[]>([]);
+  const [showRevisions, setShowRevisions] = useState(false);
+  const [dismissedAutosave, setDismissedAutosave] = useState(false);
+
+  useEffect(() => {
+    adminFetch("/api/admin/categories")
+      .then((res) => (res.ok ? res.json() : []))
+      .then(setCategories);
+  }, []);
+
+  useEffect(() => {
+    if (isNew || !initialPost) return;
+    adminFetch(`/api/admin/blog/${initialPost._id}/revisions`)
+      .then((res) => (res.ok ? res.json() : []))
+      .then(setRevisions);
+  }, [isNew, initialPost]);
 
   const handleTitleChange = (value: string) => {
     setTitle(value);
@@ -107,27 +136,31 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
     dragIndex.current = null;
   };
 
+  const buildPayload = (published: boolean) => ({
+    title,
+    slug,
+    excerpt,
+    coverImage: coverImage || undefined,
+    tags: tagsInput
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean),
+    category: category || undefined,
+    seoTitle: seoTitle || undefined,
+    seoDescription: seoDescription || undefined,
+    ogImage: ogImage || undefined,
+    blocks,
+    published,
+  });
+
   const save = async (published: boolean) => {
     setError(null);
     setSaving(published ? "publish" : "draft");
 
-    const payload = {
-      title,
-      slug,
-      excerpt,
-      coverImage: coverImage || undefined,
-      tags: tagsInput
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
-      blocks,
-      published,
-    };
-
     try {
       const res = await adminFetch(
         isNew ? "/api/admin/blog" : `/api/admin/blog/${initialPost!._id}`,
-        { method: isNew ? "POST" : "PUT", body: JSON.stringify(payload) }
+        { method: isNew ? "POST" : "PUT", body: JSON.stringify(buildPayload(published)) }
       );
       if (!res.ok) {
         setError("Couldn't save — check the fields and try again.");
@@ -139,11 +172,142 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
     }
   };
 
+  // Autosave: for existing posts only, debounced on any field change.
+  const autosavePayload = useMemo(
+    () => ({ title, slug, excerpt, coverImage, tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean), category, seoTitle, seoDescription, ogImage, blocks }),
+    [title, slug, excerpt, coverImage, tagsInput, category, seoTitle, seoDescription, ogImage, blocks]
+  );
+  const skipFirstAutosave = useRef(true);
+  useEffect(() => {
+    if (isNew || !initialPost) return;
+    if (skipFirstAutosave.current) {
+      skipFirstAutosave.current = false;
+      return;
+    }
+    const timer = setTimeout(async () => {
+      const res = await adminFetch(`/api/admin/blog/${initialPost._id}/autosave`, {
+        method: "PATCH",
+        body: JSON.stringify(autosavePayload),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { savedAt: string };
+        setLastAutosaved(data.savedAt);
+      }
+    }, 20000);
+    return () => clearTimeout(timer);
+  }, [autosavePayload, isNew, initialPost]);
+
+  const applyAutosave = () => {
+    const auto = initialPost?.autosave;
+    if (!auto) return;
+    if (auto.title !== undefined) setTitle(auto.title);
+    if (auto.slug !== undefined) setSlug(auto.slug);
+    if (auto.excerpt !== undefined) setExcerpt(auto.excerpt);
+    if (auto.coverImage !== undefined) setCoverImage(auto.coverImage);
+    if (auto.tags !== undefined) setTagsInput(auto.tags.join(", "));
+    if (auto.category !== undefined) setCategory(auto.category);
+    if (auto.seoTitle !== undefined) setSeoTitle(auto.seoTitle);
+    if (auto.seoDescription !== undefined) setSeoDescription(auto.seoDescription);
+    if (auto.ogImage !== undefined) setOgImage(auto.ogImage);
+    if (auto.blocks !== undefined) setBlocks(auto.blocks);
+    setDismissedAutosave(true);
+  };
+
+  const restoreRevision = async (revisionId: string) => {
+    if (!initialPost) return;
+    if (!confirm("Restore this version? Your current unsaved edits will be lost.")) return;
+    const res = await adminFetch(
+      `/api/admin/blog/${initialPost._id}/revisions/${revisionId}/restore`,
+      { method: "POST" }
+    );
+    if (!res.ok) return;
+    const restored = (await res.json()) as BlogPost;
+    setTitle(restored.title);
+    setSlug(restored.slug);
+    setExcerpt(restored.excerpt);
+    setCoverImage(restored.coverImage ?? "");
+    setTagsInput(restored.tags.join(", "));
+    setCategory(restored.category ?? "");
+    setSeoTitle(restored.seoTitle ?? "");
+    setSeoDescription(restored.seoDescription ?? "");
+    setOgImage(restored.ogImage ?? "");
+    setBlocks(restored.blocks);
+    setShowRevisions(false);
+  };
+
+  const hasUnappliedAutosave =
+    !dismissedAutosave &&
+    initialPost?.autosave?.savedAt &&
+    (!initialPost.updatedAt ||
+      new Date(initialPost.autosave.savedAt) > new Date(initialPost.updatedAt));
+
   return (
     <div className="grid max-w-3xl gap-10">
-      <div>
+      <div className="flex items-baseline justify-between">
         <h1 className="font-display text-3xl">{isNew ? "New post" : "Edit post"}</h1>
+        {!isNew && (
+          <div className="text-right font-mono text-xs uppercase tracking-widest text-muted">
+            {lastAutosaved && (
+              <p>Saved automatically at {new Date(lastAutosaved).toLocaleTimeString()}</p>
+            )}
+            {revisions.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setShowRevisions((v) => !v)}
+                className="mt-1 hover:text-accent"
+              >
+                {showRevisions ? "Hide" : "Show"} revision history ({revisions.length})
+              </button>
+            )}
+          </div>
+        )}
       </div>
+
+      {hasUnappliedAutosave && (
+        <div className="flex items-center justify-between rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 text-sm">
+          <span>
+            An autosaved draft from{" "}
+            {new Date(initialPost!.autosave!.savedAt!).toLocaleString()} is newer than this
+            saved post.
+          </span>
+          <div className="flex shrink-0 gap-3 font-mono text-xs uppercase tracking-widest">
+            <button type="button" onClick={applyAutosave} className="hover:text-accent">
+              Restore it
+            </button>
+            <button
+              type="button"
+              onClick={() => setDismissedAutosave(true)}
+              className="text-muted hover:text-accent"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showRevisions && (
+        <div className="rounded-lg border border-white/10 p-4">
+          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-muted">
+            Revision history
+          </p>
+          <div className="grid gap-2">
+            {revisions.map((rev) => (
+              <div key={rev._id} className="flex items-center justify-between gap-4 text-sm">
+                <span>
+                  {new Date(rev.createdAt).toLocaleString()} — {rev.snapshot.title || "Untitled"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => restoreRevision(rev._id)}
+                  className="shrink-0 font-mono text-xs uppercase tracking-widest hover:text-accent"
+                >
+                  Restore
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="grid gap-4">
         <Field label="Title">
@@ -172,12 +336,16 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
           />
         </Field>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Cover image URL (optional)">
-            <input
-              value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
-              className="border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
-            />
+          <Field label="Cover image">
+            <div className="flex items-center gap-2">
+              <input
+                value={coverImage}
+                onChange={(e) => setCoverImage(e.target.value)}
+                placeholder="Image URL"
+                className="min-w-0 flex-1 border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+              />
+              <MediaPicker onSelect={setCoverImage} />
+            </div>
           </Field>
           <Field label="Tags (comma separated)">
             <input
@@ -187,6 +355,52 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
             />
           </Field>
         </div>
+        <Field label="Category">
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+          >
+            <option value="">No category</option>
+            {categories.map((c) => (
+              <option key={c._id} value={c.slug}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </Field>
+      </div>
+
+      <div className="grid gap-4 rounded-lg border border-white/10 p-4">
+        <p className="font-mono text-xs uppercase tracking-widest text-muted">Search &amp; social</p>
+        <Field label={`SEO title (${seoTitle.length}/70 — falls back to post title)`}>
+          <input
+            value={seoTitle}
+            onChange={(e) => setSeoTitle(e.target.value)}
+            maxLength={70}
+            className="border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+          />
+        </Field>
+        <Field label={`SEO description (${seoDescription.length}/160 — falls back to excerpt)`}>
+          <textarea
+            value={seoDescription}
+            onChange={(e) => setSeoDescription(e.target.value)}
+            maxLength={160}
+            rows={2}
+            className="border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+          />
+        </Field>
+        <Field label="Social share image (falls back to cover image)">
+          <div className="flex items-center gap-2">
+            <input
+              value={ogImage}
+              onChange={(e) => setOgImage(e.target.value)}
+              placeholder="Image URL"
+              className="min-w-0 flex-1 border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+            />
+            <MediaPicker onSelect={setOgImage} />
+          </div>
+        </Field>
       </div>
 
       <div>
@@ -334,12 +548,18 @@ function BlockFields({
       const data = block.data as ImageData;
       return (
         <div className="grid gap-2">
-          <input
-            value={data.url}
-            onChange={(e) => onChange({ ...data, url: e.target.value })}
-            placeholder="Image URL"
-            className={inputClass}
-          />
+          <div className="flex items-center gap-2">
+            <input
+              value={data.url}
+              onChange={(e) => onChange({ ...data, url: e.target.value })}
+              placeholder="Image URL"
+              className={inputClass}
+            />
+            <MediaPicker
+              label="Browse"
+              onSelect={(url) => onChange({ ...data, url })}
+            />
+          </div>
           <input
             value={data.alt ?? ""}
             onChange={(e) => onChange({ ...data, alt: e.target.value })}

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BlogList from "@/components/BlogList";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
-import { getBlogPosts } from "@/lib/blog";
+import { getBlogPosts, getCategories } from "@/lib/blog";
 
 export const metadata: Metadata = {
   title: "Writing — Aashish Pandey",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndexPage() {
-  const posts = await getBlogPosts();
+  const [posts, categories] = await Promise.all([getBlogPosts(), getCategories()]);
 
   return (
     <>
@@ -26,30 +27,22 @@ export default async function BlogIndexPage() {
           </h1>
         </Reveal>
 
-        {posts.length === 0 ? (
-          <Reveal delay={0.1} className="mt-20">
-            <p className="max-w-md text-muted">
-              Nothing published yet — check back soon.
-            </p>
-          </Reveal>
-        ) : (
-          <div className="mt-16 divide-y divide-white/10 border-t border-white/10">
-            {posts.map((post, i) => (
-              <Reveal key={post._id} delay={i * 0.05}>
-                <Link
-                  href={`/blog/${post.slug}`}
-                  data-cursor-hover
-                  className="group flex flex-col gap-2 py-8 md:flex-row md:items-baseline md:justify-between"
-                >
-                  <h2 className="font-display text-2xl transition-colors group-hover:text-accent md:text-4xl">
-                    {post.title}
-                  </h2>
-                  <p className="max-w-md text-muted">{post.excerpt}</p>
-                </Link>
-              </Reveal>
+        {categories.length > 0 && (
+          <Reveal delay={0.05} className="mt-10 flex flex-wrap gap-2">
+            {categories.map((c) => (
+              <Link
+                key={c._id}
+                href={`/blog/category/${c.slug}`}
+                data-cursor-hover
+                className="rounded-full border border-white/10 px-4 py-1.5 text-sm hover:border-accent"
+              >
+                {c.name}
+              </Link>
             ))}
-          </div>
+          </Reveal>
         )}
+
+        <BlogList posts={posts} />
       </main>
       <Footer />
     </>

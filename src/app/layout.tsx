@@ -36,6 +36,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <div className="vignette-layer" aria-hidden />
+        <div className="grain-layer" aria-hidden />
         <Cursor />
         {children}
       </body>

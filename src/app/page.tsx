@@ -3,6 +3,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
+import Numbers from "@/components/Numbers";
 import Work from "@/components/Work";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <About />
+        <Numbers />
         <Work />
         <Contact />
       </main>
