@@ -35,7 +35,8 @@ export default function Hero() {
     >
       <div
         data-hero-scene
-        className="pointer-events-none absolute right-[-10%] top-1/2 hidden h-[55vw] max-h-[560px] w-[55vw] max-w-[560px] -translate-y-1/2 opacity-80 md:block"
+        data-cursor-hover
+        className="absolute right-[-10%] top-1/2 hidden h-[55vw] max-h-[560px] w-[55vw] max-w-[560px] -translate-y-1/2 opacity-80 md:block"
       >
         <HeroScene />
       </div>

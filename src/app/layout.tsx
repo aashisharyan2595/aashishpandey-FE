@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import ClickBurst from "@/components/ClickBurst";
 import Cursor from "@/components/Cursor";
+import DevConsoleGreeting from "@/components/DevConsoleGreeting";
+import KonamiEgg from "@/components/KonamiEgg";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -39,6 +42,9 @@ export default function RootLayout({
         <div className="vignette-layer" aria-hidden />
         <div className="grain-layer" aria-hidden />
         <Cursor />
+        <ClickBurst />
+        <KonamiEgg />
+        <DevConsoleGreeting />
         {children}
       </body>
     </html>
