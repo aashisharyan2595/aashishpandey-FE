@@ -9,7 +9,7 @@ export default function CareerTimeline({ items }: { items: ExperienceEntry[] }) 
           <Reveal
             key={`${item.company}-${item.role}`}
             delay={i * 0.05}
-            className="w-[85vw] max-w-md shrink-0 snap-start rounded-2xl border border-ink/10 bg-ink/[0.03] p-8 backdrop-blur-md"
+            className="glass-panel w-[85vw] max-w-md shrink-0 snap-start rounded-3xl p-8"
           >
             <p className="font-display text-5xl text-accent">
               {String(i + 1).padStart(2, "0")}

@@ -39,8 +39,10 @@ function Blob() {
           color="#ff5a36"
           distort={0.45}
           speed={2}
-          roughness={0.15}
-          metalness={0.2}
+          roughness={0.35}
+          metalness={0}
+          transparent
+          opacity={0.65}
         />
       </mesh>
     </Float>

@@ -30,7 +30,7 @@ export default function MediaPicker({
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-lg border border-ink/10 bg-background/80 p-6 shadow-2xl backdrop-blur-xl"
+            className="glass-panel max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-3xl p-6"
           >
             <div className="mb-4 flex items-center justify-between">
               <h2 className="font-display text-xl">Media library</h2>

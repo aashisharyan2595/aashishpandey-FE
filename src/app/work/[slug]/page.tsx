@@ -84,7 +84,7 @@ export default async function CaseStudyPage({
 
           <Reveal
             delay={0.05}
-            className="mt-16 max-w-md rounded-2xl border border-ink/10 bg-ink/[0.03] p-8 backdrop-blur-md"
+            className="glass-panel mt-16 max-w-md rounded-3xl p-8"
           >
             <p className="font-display text-4xl text-accent md:text-5xl">{item.metric.value}</p>
             <p className="mt-2 font-mono text-sm uppercase tracking-widest text-muted">

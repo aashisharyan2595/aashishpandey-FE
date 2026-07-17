@@ -42,7 +42,7 @@ function WorkCard({ item, index }: { item: CaseStudy; index: number }) {
       onPointerMove={handleMove}
       onPointerLeave={reset}
       style={{ rotateX, rotateY, transformPerspective: 800 }}
-      className="group block overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.03] backdrop-blur-md transition-colors hover:border-accent/50"
+      className="glass-panel group block overflow-hidden rounded-3xl"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <CaseStudyCover
@@ -77,7 +77,7 @@ function WorkCard({ item, index }: { item: CaseStudy; index: number }) {
 
 export default function WorkGrid({ items }: { items: CaseStudy[] }) {
   return (
-    <div className="mt-16 grid gap-8 [perspective:1200px] sm:grid-cols-2">
+    <div className="mt-16 grid gap-6 [perspective:1200px] sm:grid-cols-2 xl:grid-cols-3">
       {items.map((item, i) => (
         <WorkCard key={item.slug} item={item} index={i} />
       ))}
