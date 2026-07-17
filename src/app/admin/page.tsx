@@ -12,6 +12,11 @@ type DashboardStats = {
   recentSubmissions: { _id: string; name: string; email: string; createdAt: string }[];
 };
 
+type SyncAllResult = {
+  results: { collection: string; ok: boolean; upserted?: number; deleted?: number; error?: string }[];
+  overallOk: boolean;
+};
+
 function greetingForHour(hour: number): string {
   if (hour < 12) return "Good morning";
   if (hour < 17) return "Good afternoon";
@@ -20,12 +25,40 @@ function greetingForHour(hour: number): string {
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [syncing, setSyncing] = useState(false);
+  const [syncResult, setSyncResult] = useState<SyncAllResult | null>(null);
+  const [syncError, setSyncError] = useState<string | null>(null);
 
   useEffect(() => {
     adminFetch("/api/admin/dashboard-stats")
       .then((res) => (res.ok ? res.json() : null))
       .then(setStats);
   }, []);
+
+  const syncAll = async () => {
+    if (
+      !confirm(
+        "This will overwrite production with staging's current published content, and delete anything on production that's no longer published on staging. Continue?"
+      )
+    ) {
+      return;
+    }
+    setSyncing(true);
+    setSyncError(null);
+    setSyncResult(null);
+    try {
+      const res = await adminFetch("/api/admin/sync-all", { method: "POST" });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok && res.status !== 207) {
+        throw new Error(body.error ?? `Sync failed (${res.status})`);
+      }
+      setSyncResult(body);
+    } catch (e) {
+      setSyncError(e instanceof Error ? e.message : "Sync to production failed");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const greeting = greetingForHour(new Date().getHours());
 
@@ -61,8 +94,58 @@ export default function AdminDashboard() {
           >
             <span>+ New Case Study</span>
           </Link>
+          <button
+            type="button"
+            disabled={syncing}
+            onClick={syncAll}
+            className="flex items-center gap-2 rounded-full border border-[#0B0B0C]/20 bg-transparent px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-[#0B0B0C] hover:border-[#FF5A36] hover:text-[#FF5A36] transition-all disabled:opacity-50"
+          >
+            <span>{syncing ? "Syncing…" : "Sync All to Production"}</span>
+          </button>
         </div>
       </div>
+
+      {syncError && (
+        <div className="rounded-2xl border border-[#FF5A36]/30 bg-[#FF5A36]/5 p-4 font-mono text-xs text-[#FF5A36]">
+          {syncError}
+        </div>
+      )}
+
+      {syncResult && (
+        <div className="rounded-2xl border border-[#0B0B0C]/10 bg-white p-6 shadow-sm space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-sm font-bold text-[#0B0B0C]">
+              Sync to Production — {syncResult.overallOk ? "Completed" : "Completed with errors"}
+            </h2>
+            <button
+              type="button"
+              onClick={() => setSyncResult(null)}
+              className="font-mono text-[10px] uppercase tracking-widest text-[#8A8A86] hover:text-[#FF5A36]"
+            >
+              Dismiss
+            </button>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {syncResult.results.map((r) => (
+              <div
+                key={r.collection}
+                className={`rounded-xl border px-4 py-3 font-mono text-xs ${
+                  r.ok ? "border-[#0B0B0C]/10 bg-[#F5F3EE]/40" : "border-[#FF5A36]/30 bg-[#FF5A36]/5 text-[#FF5A36]"
+                }`}
+              >
+                <p className="uppercase tracking-widest font-semibold">{r.collection}</p>
+                {r.ok ? (
+                  <p className="mt-1 text-[#8A8A86]">
+                    {r.upserted ?? 0} upserted, {r.deleted ?? 0} deleted
+                  </p>
+                ) : (
+                  <p className="mt-1">{r.error}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Metrics Row */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

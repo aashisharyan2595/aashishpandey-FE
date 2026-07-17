@@ -147,6 +147,9 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
   const [blocks, setBlocks] = useState<Block[]>(initialPost?.blocks ?? []);
   const [saving, setSaving] = useState<"draft" | "publish" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [pushing, setPushing] = useState(false);
+  const [pushError, setPushError] = useState<string | null>(null);
+  const [pushSuccessAt, setPushSuccessAt] = useState<Date | null>(null);
   const [view, setView] = useState<"edit" | "split" | "preview">("edit");
   const dragIndex = useRef<number | null>(null);
 
@@ -245,6 +248,24 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
       router.push("/admin/posts");
     } finally {
       setSaving(null);
+    }
+  };
+
+  const pushToProd = async () => {
+    if (!initialPost) return;
+    setPushing(true);
+    setPushError(null);
+    try {
+      const res = await adminFetch(`/api/admin/blog/${initialPost._id}/push`, { method: "POST" });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error ?? `Push failed (${res.status})`);
+      }
+      setPushSuccessAt(new Date());
+    } catch (e) {
+      setPushError(e instanceof Error ? e.message : "Push to production failed");
+    } finally {
+      setPushing(false);
     }
   };
 
@@ -545,6 +566,24 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
           <p className="font-mono text-[9px] uppercase tracking-widest text-[#8A8A86] text-center pt-2">
             Autosaved at {new Date(lastAutosaved).toLocaleTimeString()}
           </p>
+        )}
+        {!isNew && initialPost?.published && (
+          <div className="border-t border-[#0B0B0C]/5 pt-4 space-y-2">
+            <button
+              type="button"
+              disabled={pushing}
+              onClick={pushToProd}
+              className="w-full rounded-full border border-[#0B0B0C]/20 bg-transparent py-3 font-mono text-xs uppercase tracking-widest text-[#0B0B0C] hover:bg-[#F5F3EE] disabled:opacity-50 transition-all"
+            >
+              {pushing ? "Pushing…" : "Push to Production"}
+            </button>
+            {pushError && <p className="text-xs text-[#FF5A36] font-mono">{pushError}</p>}
+            {pushSuccessAt && !pushError && (
+              <p className="font-mono text-[9px] uppercase tracking-widest text-[#8A8A86] text-center">
+                Pushed to production at {pushSuccessAt.toLocaleTimeString()}
+              </p>
+            )}
+          </div>
         )}
       </div>
 
