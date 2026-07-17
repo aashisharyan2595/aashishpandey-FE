@@ -42,7 +42,7 @@ function WorkCard({ item, index }: { item: CaseStudy; index: number }) {
       onPointerMove={handleMove}
       onPointerLeave={reset}
       style={{ rotateX, rotateY, transformPerspective: 800 }}
-      className="group block overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.02] transition-colors hover:border-accent/50"
+      className="group block overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.03] backdrop-blur-md transition-colors hover:border-accent/50"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <CaseStudyCover

@@ -5,8 +5,8 @@ import Reveal from "@/components/Reveal";
 const sitemap = [
   { href: "/work", label: "Work" },
   { href: "/blog", label: "Writing" },
-  { href: "/#about", label: "About" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Footer() {
@@ -14,7 +14,7 @@ export default function Footer() {
     <footer className="border-t border-ink/10 px-6 pt-24 pb-10 md:px-12">
       <Reveal>
         <MagneticLink
-          href="/#contact"
+          href="/contact"
           className="font-display block text-4xl leading-tight md:text-7xl"
         >
           Let&apos;s build <span className="text-accent">something.</span>

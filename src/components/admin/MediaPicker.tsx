@@ -25,12 +25,12 @@ export default function MediaPicker({
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-6 backdrop-blur-sm"
           onClick={() => setOpen(false)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-lg border border-ink/10 bg-background p-6"
+            className="max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-lg border border-ink/10 bg-background/80 p-6 shadow-2xl backdrop-blur-xl"
           >
             <div className="mb-4 flex items-center justify-between">
               <h2 className="font-display text-xl">Media library</h2>

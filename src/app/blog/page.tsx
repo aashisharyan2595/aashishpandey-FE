@@ -1,15 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import BlogList from "@/components/BlogList";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { getBlogPosts, getCategories } from "@/lib/blog";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Writing — Aashish Pandey",
+export const metadata = buildMetadata({
+  title: "Writing",
   description: "Notes on delivery, process, and shipping software.",
-};
+  path: "/blog",
+});
 
 export default async function BlogIndexPage() {
   const [posts, categories] = await Promise.all([getBlogPosts(), getCategories()]);
@@ -17,15 +19,12 @@ export default async function BlogIndexPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-24 md:px-12">
-        <Reveal>
-          <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">
-            Writing
-          </p>
-          <h1 className="font-display mt-4 max-w-2xl text-4xl leading-tight md:text-6xl">
-            Notes on delivery and shipping.
-          </h1>
-        </Reveal>
+      <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
+        <PageHero
+          eyebrow="Writing"
+          title="Notes on delivery and shipping."
+          intro="Field notes on process, tooling, and what actually moves a project forward."
+        />
 
         {categories.length > 0 && (
           <Reveal delay={0.05} className="mt-10 flex flex-wrap gap-2">

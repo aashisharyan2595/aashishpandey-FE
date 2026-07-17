@@ -10,6 +10,7 @@
   --surface-2: #0b0b0c;
   --grain-opacity: 0.05;
   --vignette-opacity: 0.6;
+  color-scheme: dark;
 }
 
 :root[data-theme="light"] {
@@ -22,6 +23,7 @@
   --surface-2: #f5f3ee;
   --grain-opacity: 0.035;
   --vignette-opacity: 0.35;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: light) {
@@ -35,6 +37,7 @@
     --surface-2: #f5f3ee;
     --grain-opacity: 0.035;
     --vignette-opacity: 0.35;
+    color-scheme: light;
   }
 }
 
@@ -77,6 +80,26 @@ body {
   color: var(--background);
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: var(--foreground);
+  opacity: 0.5;
+}
+
+.timeline-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 20%, transparent) transparent;
+}
+
+.timeline-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.timeline-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--foreground) 20%, transparent);
+  border-radius: 4px;
+}
+
 .grain-layer {
   pointer-events: none;
   position: fixed;
@@ -105,4 +128,84 @@ body {
       color-mix(in srgb, var(--accent) 22%, transparent) 0%,
       transparent 60%
     );
+}
+
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: soft-light;
+  filter: blur(10px);
+  will-change: transform;
+}
+
+.ambient-blob-a {
+  top: -10%;
+  left: -10%;
+  width: 55vmax;
+  height: 55vmax;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 55%, transparent) 0%,
+    transparent 65%
+  );
+  animation: ambient-drift-a 34s ease-in-out infinite;
+}
+
+.ambient-blob-b {
+  bottom: -15%;
+  right: -10%;
+  width: 45vmax;
+  height: 45vmax;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 45%, transparent) 0%,
+    transparent 65%
+  );
+  animation: ambient-drift-b 28s ease-in-out infinite;
+}
+
+.ambient-cursor-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32vmax;
+  height: 32vmax;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: soft-light;
+  opacity: 0.8;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 60%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+@keyframes ambient-drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(6vw, 8vh) scale(1.15);
+  }
+}
+
+@keyframes ambient-drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-5vw, -6vh) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob {
+    animation: none;
+  }
+  .ambient-cursor-glow {
+    display: none;
+  }
 }

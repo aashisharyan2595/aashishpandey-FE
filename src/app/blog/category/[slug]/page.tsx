@@ -20,6 +20,7 @@ export async function generateMetadata({
   return {
     title: `${name} — Writing — Aashish Pandey`,
     description: `Posts filed under ${name}.`,
+    alternates: { canonical: `/blog/category/${slug}` },
   };
 }
 
@@ -38,7 +39,7 @@ export default async function BlogCategoryPage({
   return (
     <>
       <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-24 md:px-12">
+      <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <Reveal>
           <Link
             href="/blog"

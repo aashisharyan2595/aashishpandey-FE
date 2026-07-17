@@ -3,6 +3,7 @@ export type Media = {
   url: string;
   publicId: string;
   filename: string;
+  alt?: string;
   format?: string;
   width?: number;
   height?: number;

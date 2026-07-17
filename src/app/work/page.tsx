@@ -1,30 +1,29 @@
-import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import Reveal from "@/components/Reveal";
+import PageHero from "@/components/PageHero";
 import WorkGrid from "@/components/WorkGrid";
 import { getCaseStudies } from "@/lib/case-studies";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Work — Aashish Pandey",
+export const metadata = buildMetadata({
+  title: "Work",
   description: "Delivery case studies from Unilever, Wipro, and other engagements.",
-};
+  path: "/work",
+});
 
-export default function WorkIndexPage() {
-  const items = getCaseStudies();
+export default async function WorkIndexPage() {
+  const items = await getCaseStudies();
 
   return (
     <>
       <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-24 md:px-12">
-        <Reveal>
-          <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">
-            All work
-          </p>
-          <h1 className="font-display mt-4 max-w-2xl text-4xl leading-tight md:text-6xl">
-            Delivery case studies.
-          </h1>
-        </Reveal>
+      <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
+        <PageHero
+          eyebrow="All work"
+          title="Delivery case studies."
+          intro="Real engagements — the problem, the approach, and what shipped."
+          index={`0${items.length}`.slice(-2) + " total"}
+        />
         <WorkGrid items={items} />
       </main>
       <Footer />

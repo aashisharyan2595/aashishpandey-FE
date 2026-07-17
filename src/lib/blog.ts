@@ -1,17 +1,40 @@
-export type BlockType = "heading" | "paragraph" | "image" | "quote" | "code";
+export type BlockType =
+  | "heading"
+  | "paragraph"
+  | "image"
+  | "quote"
+  | "code"
+  | "divider"
+  | "button"
+  | "gallery"
+  | "video"
+  | "embed"
+  | "html";
 
 export type HeadingData = { text: string; level?: 2 | 3 };
 export type ParagraphData = { text: string };
 export type ImageData = { url: string; alt?: string; caption?: string };
 export type QuoteData = { text: string; attribution?: string };
 export type CodeData = { code: string; language?: string };
+export type DividerData = Record<string, never>;
+export type ButtonData = { text: string; url: string };
+export type GalleryData = { images: { url: string; alt?: string }[] };
+export type VideoData = { url: string; caption?: string };
+export type EmbedData = { url: string; caption?: string };
+export type HtmlData = { html: string };
 
 export type Block =
   | { type: "heading"; data: HeadingData }
   | { type: "paragraph"; data: ParagraphData }
   | { type: "image"; data: ImageData }
   | { type: "quote"; data: QuoteData }
-  | { type: "code"; data: CodeData };
+  | { type: "code"; data: CodeData }
+  | { type: "divider"; data: DividerData }
+  | { type: "button"; data: ButtonData }
+  | { type: "gallery"; data: GalleryData }
+  | { type: "video"; data: VideoData }
+  | { type: "embed"; data: EmbedData }
+  | { type: "html"; data: HtmlData };
 
 export type AutosaveSnapshot = {
   title?: string;

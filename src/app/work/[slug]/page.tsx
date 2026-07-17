@@ -6,11 +6,13 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
 import { getCaseStudies, getCaseStudyBySlug } from "@/lib/case-studies";
+import { buildMetadata } from "@/lib/seo";
 
 type Params = { slug: string };
 
-export function generateStaticParams(): Params[] {
-  return getCaseStudies().map((c) => ({ slug: c.slug }));
+export async function generateStaticParams(): Promise<Params[]> {
+  const studies = await getCaseStudies();
+  return studies.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
@@ -19,12 +21,14 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const item = getCaseStudyBySlug(slug);
+  const item = await getCaseStudyBySlug(slug);
   if (!item) return {};
-  return {
-    title: `${item.title} — Aashish Pandey`,
+  return buildMetadata({
+    title: item.title,
     description: item.summary,
-  };
+    path: `/work/${slug}`,
+    image: item.coverImage,
+  });
 }
 
 const SECTIONS = [
@@ -39,10 +43,10 @@ export default async function CaseStudyPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const item = getCaseStudyBySlug(slug);
+  const item = await getCaseStudyBySlug(slug);
   if (!item) notFound();
 
-  const all = getCaseStudies();
+  const all = await getCaseStudies();
   const next = all[(all.findIndex((c) => c.slug === slug) + 1) % all.length];
 
   return (
@@ -78,7 +82,10 @@ export default async function CaseStudyPage({
             </div>
           </Reveal>
 
-          <Reveal delay={0.05} className="mt-16 max-w-md rounded-2xl border border-ink/10 bg-ink/[0.02] p-8">
+          <Reveal
+            delay={0.05}
+            className="mt-16 max-w-md rounded-2xl border border-ink/10 bg-ink/[0.03] p-8 backdrop-blur-md"
+          >
             <p className="font-display text-4xl text-accent md:text-5xl">{item.metric.value}</p>
             <p className="mt-2 font-mono text-sm uppercase tracking-widest text-muted">
               {item.metric.label}

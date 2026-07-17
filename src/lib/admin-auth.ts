@@ -18,7 +18,10 @@ export async function adminFetch(path: string, init: RequestInit = {}): Promise<
   const token = getAdminToken();
   const headers = new Headers(init.headers);
   if (token) headers.set("Authorization", `Bearer ${token}`);
-  if (init.body && !headers.has("Content-Type")) {
+  // FormData bodies (file uploads) must NOT get an explicit Content-Type —
+  // the browser sets multipart/form-data with the correct boundary itself.
+  // Forcing application/json here silently breaks every upload.
+  if (init.body && !(init.body instanceof FormData) && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
 

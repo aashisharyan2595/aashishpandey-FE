@@ -1,3 +1,4 @@
+import Link from "next/link";
 import AboutVisual from "@/components/AboutVisual";
 import Marquee from "@/components/Marquee";
 import Reveal from "@/components/Reveal";
@@ -14,11 +15,11 @@ const skills = [
 
 export default function About() {
   return (
-    <section id="about" className="px-6 py-24 md:px-12">
+    <section id="about" className="px-6 py-28 md:px-12 md:py-32">
       <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-16">
         <Reveal>
           <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">About</p>
-          <h2 className="font-display mt-4 max-w-3xl text-3xl leading-tight md:text-4xl lg:text-5xl">
+          <h2 className="font-display mt-6 max-w-3xl text-4xl leading-[1.05] md:text-5xl lg:text-6xl">
             I like being the person who understands the roadmap and can still
             read the codebase — somewhere between project management and
             hands-on build.
@@ -28,6 +29,13 @@ export default function About() {
             brands that can&apos;t afford a missed launch date. I still open the
             CMS myself when a project needs it.
           </p>
+          <Link
+            href="/about"
+            data-cursor-hover
+            className="mt-6 inline-block font-mono text-sm uppercase tracking-widest text-muted hover:text-accent"
+          >
+            Full career timeline →
+          </Link>
         </Reveal>
 
         <Reveal delay={0.1} className="aspect-[5/6] w-full max-w-xs justify-self-center lg:justify-self-end">

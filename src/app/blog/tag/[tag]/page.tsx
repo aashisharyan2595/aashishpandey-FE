@@ -17,6 +17,7 @@ export async function generateMetadata({
   return {
     title: `#${tag} — Writing — Aashish Pandey`,
     description: `Posts tagged ${tag}.`,
+    alternates: { canonical: `/blog/tag/${tag}` },
   };
 }
 
@@ -27,7 +28,7 @@ export default async function BlogTagPage({ params }: { params: Promise<Params> 
   return (
     <>
       <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-24 md:px-12">
+      <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <Reveal>
           <Link
             href="/blog"

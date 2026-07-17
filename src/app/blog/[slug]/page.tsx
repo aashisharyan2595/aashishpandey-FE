@@ -25,11 +25,19 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       title,
       description,
       type: "article",
+      url: `https://aashishpandey.com/blog/${slug}`,
       images: image ? [{ url: image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: image ? [image] : undefined,
     },
   };
 }
@@ -43,10 +51,26 @@ export default async function BlogPostPage({
   const post = await getBlogPostBySlug(slug);
   if (!post) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.seoDescription || post.excerpt,
+    image: post.ogImage || post.coverImage,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    author: { "@type": "Person", name: "Aashish Pandey", url: "https://aashishpandey.com" },
+    mainEntityOfPage: `https://aashishpandey.com/blog/${slug}`,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-24 md:px-12">
+      <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <Reveal className="max-w-3xl">
           <Link
             href="/blog"

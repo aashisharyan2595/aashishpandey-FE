@@ -9,6 +9,9 @@ export type CaseStudy = {
   approach: string;
   outcome: string;
   metric: { value: string; label: string };
+  coverImage?: string;
+  featured?: boolean;
+  order?: number;
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -78,10 +81,38 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
-export function getCaseStudies(): CaseStudy[] {
-  return caseStudies;
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+
+export async function getCaseStudies(): Promise<CaseStudy[]> {
+  try {
+    const res = await fetch(`${API_URL}/api/case-studies`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return caseStudies;
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      return data;
+    }
+    return caseStudies;
+  } catch {
+    return caseStudies;
+  }
 }
 
-export function getCaseStudyBySlug(slug: string): CaseStudy | undefined {
-  return caseStudies.find((c) => c.slug === slug);
+export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | undefined> {
+  try {
+    const res = await fetch(`${API_URL}/api/case-studies/${slug}`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) {
+      return caseStudies.find((c) => c.slug === slug);
+    }
+    const data = await res.json();
+    if (data && !data.error) {
+      return data;
+    }
+    return caseStudies.find((c) => c.slug === slug);
+  } catch {
+    return caseStudies.find((c) => c.slug === slug);
+  }
 }
