@@ -15,6 +15,8 @@ export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
+  const confirmMismatch = confirm.length > 0 && password !== confirm;
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -76,12 +78,16 @@ export default function ResetPasswordPage() {
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
           placeholder="Confirm new password"
-          className="border-b border-ink/20 bg-transparent py-3 outline-none focus:border-accent"
+          aria-invalid={confirmMismatch}
+          className="border-b border-ink/20 bg-transparent py-3 outline-none focus:border-accent aria-[invalid=true]:border-accent"
         />
+        {confirmMismatch && !error && (
+          <p className="text-sm text-accent">Passwords don&apos;t match.</p>
+        )}
         {error && <p className="text-sm text-accent">{error}</p>}
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || confirmMismatch}
           className="w-fit rounded-full bg-accent px-8 py-3 font-mono text-sm uppercase tracking-widest text-background disabled:opacity-50"
         >
           {loading ? "Saving…" : "Set new password"}

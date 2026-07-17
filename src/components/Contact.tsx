@@ -6,21 +6,33 @@ import Reveal from "@/components/Reveal";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 type Status = "idle" | "sending" | "sent" | "error";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus("sending");
+    setErrorMessage(null);
 
-    const form = new FormData(e.currentTarget);
+    const formEl = e.currentTarget;
+    const form = new FormData(formEl);
     const payload = {
       name: String(form.get("name") ?? ""),
-      email: String(form.get("email") ?? ""),
+      email: String(form.get("email") ?? "").trim(),
       message: String(form.get("message") ?? ""),
     };
+
+    if (!EMAIL_PATTERN.test(payload.email)) {
+      setStatus("error");
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    setStatus("sending");
 
     try {
       const res = await fetch(`${API_URL}/api/contact`, {
@@ -28,11 +40,15 @@ export default function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error ?? "Request failed");
+      }
       setStatus("sent");
-      e.currentTarget.reset();
-    } catch {
+      formEl.reset();
+    } catch (err) {
       setStatus("error");
+      setErrorMessage(err instanceof Error ? err.message : "Something went wrong — retry");
     }
   };
 
@@ -66,6 +82,9 @@ export default function Contact() {
             placeholder="What are you building?"
             className="border-b border-ink/20 bg-transparent py-3 outline-none transition-colors focus:border-accent"
           />
+          {status === "error" && errorMessage && (
+            <p className="text-sm text-accent">{errorMessage}</p>
+          )}
           <motion.button
             type="submit"
             data-cursor-hover
@@ -76,7 +95,7 @@ export default function Contact() {
           >
             {status === "sending" && "Sending…"}
             {status === "sent" && "Sent — thank you!"}
-            {status === "error" && "Something went wrong — retry"}
+            {status === "error" && "Retry"}
             {status === "idle" && "Send message"}
           </motion.button>
         </form>

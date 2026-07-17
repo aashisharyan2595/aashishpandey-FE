@@ -6,6 +6,8 @@ import { setAdminToken } from "@/lib/admin-auth";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const ERROR_MESSAGES: Record<string, string> = {
   pending_approval: "Your access request is pending approval from an existing admin.",
   access_denied: "Access denied for this account.",
@@ -41,8 +43,14 @@ export default function AdminLoginPage() {
 
   const handleBootstrap = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+
+    if (!EMAIL_PATTERN.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const res = await fetch(`${API_URL}/api/admin/auth/bootstrap`, {
@@ -67,8 +75,14 @@ export default function AdminLoginPage() {
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+
+    if (!EMAIL_PATTERN.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const res = await fetch(`${API_URL}/api/admin/auth/login`, {
@@ -92,12 +106,17 @@ export default function AdminLoginPage() {
   };
 
   const handleForgotPassword = async () => {
+    setError(null);
+
     if (!email) {
       setError("Enter your email above first, then click forgot password.");
       return;
     }
+    if (!EMAIL_PATTERN.test(email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
     setLoading(true);
-    setError(null);
     try {
       await fetch(`${API_URL}/api/admin/auth/forgot-password`, {
         method: "POST",
