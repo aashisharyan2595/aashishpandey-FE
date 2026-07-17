@@ -286,7 +286,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
       )}
 
       {showRevisions && (
-        <div className="rounded-lg border border-white/10 p-4">
+        <div className="rounded-lg border border-ink/10 p-4">
           <p className="mb-3 font-mono text-xs uppercase tracking-widest text-muted">
             Revision history
           </p>
@@ -314,7 +314,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
           <input
             value={title}
             onChange={(e) => handleTitleChange(e.target.value)}
-            className="border-b border-white/20 bg-transparent py-2 outline-none focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-2 outline-none focus:border-accent"
           />
         </Field>
         <Field label="Slug">
@@ -324,7 +324,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
               setSlugTouched(true);
               setSlug(e.target.value);
             }}
-            className="border-b border-white/20 bg-transparent py-2 font-mono text-sm outline-none focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-2 font-mono text-sm outline-none focus:border-accent"
           />
         </Field>
         <Field label="Excerpt">
@@ -332,7 +332,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
             value={excerpt}
             onChange={(e) => setExcerpt(e.target.value)}
             rows={2}
-            className="border-b border-white/20 bg-transparent py-2 outline-none focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-2 outline-none focus:border-accent"
           />
         </Field>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -342,7 +342,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
                 value={coverImage}
                 onChange={(e) => setCoverImage(e.target.value)}
                 placeholder="Image URL"
-                className="min-w-0 flex-1 border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+                className="min-w-0 flex-1 border-b border-ink/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
               />
               <MediaPicker onSelect={setCoverImage} />
             </div>
@@ -351,7 +351,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
             <input
               value={tagsInput}
               onChange={(e) => setTagsInput(e.target.value)}
-              className="border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+              className="border-b border-ink/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
             />
           </Field>
         </div>
@@ -359,7 +359,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
           >
             <option value="">No category</option>
             {categories.map((c) => (
@@ -371,14 +371,14 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
         </Field>
       </div>
 
-      <div className="grid gap-4 rounded-lg border border-white/10 p-4">
+      <div className="grid gap-4 rounded-lg border border-ink/10 p-4">
         <p className="font-mono text-xs uppercase tracking-widest text-muted">Search &amp; social</p>
         <Field label={`SEO title (${seoTitle.length}/70 — falls back to post title)`}>
           <input
             value={seoTitle}
             onChange={(e) => setSeoTitle(e.target.value)}
             maxLength={70}
-            className="border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
           />
         </Field>
         <Field label={`SEO description (${seoDescription.length}/160 — falls back to excerpt)`}>
@@ -387,7 +387,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
             onChange={(e) => setSeoDescription(e.target.value)}
             maxLength={160}
             rows={2}
-            className="border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
           />
         </Field>
         <Field label="Social share image (falls back to cover image)">
@@ -396,7 +396,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
               value={ogImage}
               onChange={(e) => setOgImage(e.target.value)}
               placeholder="Image URL"
-              className="min-w-0 flex-1 border-b border-white/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
+              className="min-w-0 flex-1 border-b border-ink/20 bg-transparent py-2 text-sm outline-none focus:border-accent"
             />
             <MediaPicker onSelect={setOgImage} />
           </div>
@@ -411,7 +411,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
               key={name}
               type="button"
               onClick={() => applyTemplate(name)}
-              className="rounded-full border border-white/10 px-4 py-1.5 text-sm hover:border-accent"
+              className="rounded-full border border-ink/10 px-4 py-1.5 text-sm hover:border-accent"
             >
               {name}
             </button>
@@ -427,7 +427,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
             onDragStart={() => (dragIndex.current = i)}
             onDragOver={(e) => e.preventDefault()}
             onDrop={() => handleDrop(i)}
-            className="flex gap-3 rounded-lg border border-white/10 p-4"
+            className="flex gap-3 rounded-lg border border-ink/10 p-4"
           >
             <span
               className="mt-1 shrink-0 cursor-grab select-none text-muted"
@@ -459,7 +459,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
               key={type}
               type="button"
               onClick={() => addBlock(type)}
-              className="rounded-full border border-white/10 px-4 py-1.5 text-sm capitalize hover:border-accent"
+              className="rounded-full border border-ink/10 px-4 py-1.5 text-sm capitalize hover:border-accent"
             >
               + {type}
             </button>
@@ -474,7 +474,7 @@ export default function PostEditor({ initialPost }: { initialPost?: BlogPost }) 
           type="button"
           disabled={saving !== null}
           onClick={() => save(false)}
-          className="rounded-full border border-white/20 px-6 py-2 font-mono text-sm uppercase tracking-widest disabled:opacity-50"
+          className="rounded-full border border-ink/20 px-6 py-2 font-mono text-sm uppercase tracking-widest disabled:opacity-50"
         >
           {saving === "draft" ? "Saving…" : "Save draft"}
         </button>
@@ -508,7 +508,7 @@ function BlockFields({
   onChange: (data: Block["data"]) => void;
 }) {
   const inputClass =
-    "w-full border-b border-white/20 bg-transparent py-1.5 text-sm outline-none focus:border-accent";
+    "w-full border-b border-ink/20 bg-transparent py-1.5 text-sm outline-none focus:border-accent";
 
   switch (block.type) {
     case "heading": {
@@ -524,7 +524,7 @@ function BlockFields({
           <select
             value={data.level ?? 2}
             onChange={(e) => onChange({ ...data, level: Number(e.target.value) as 2 | 3 })}
-            className="border-b border-white/20 bg-transparent py-1.5 text-sm outline-none"
+            className="border-b border-ink/20 bg-transparent py-1.5 text-sm outline-none"
           >
             <option value={2}>H2</option>
             <option value={3}>H3</option>

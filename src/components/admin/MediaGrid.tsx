@@ -58,14 +58,14 @@ export default function MediaGrid({
           const file = e.dataTransfer.files[0];
           if (file) upload(file);
         }}
-        className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 px-6 py-8 text-center"
+        className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-ink/20 px-6 py-8 text-center"
       >
         <p className="text-sm text-muted">Drag an image here, or</p>
         <button
           type="button"
           onClick={() => fileInput.current?.click()}
           disabled={uploading}
-          className="rounded-full border border-white/20 px-4 py-1.5 font-mono text-sm uppercase tracking-widest hover:border-accent disabled:opacity-50"
+          className="rounded-full border border-ink/20 px-4 py-1.5 font-mono text-sm uppercase tracking-widest hover:border-accent disabled:opacity-50"
         >
           {uploading ? "Uploading…" : "Choose file"}
         </button>
@@ -93,7 +93,7 @@ export default function MediaGrid({
           {media.map((item) => (
             <div
               key={item._id}
-              className="group relative aspect-square overflow-hidden rounded-lg border border-white/10"
+              className="group relative aspect-square overflow-hidden rounded-lg border border-ink/10"
             >
               <button
                 type="button"

@@ -46,7 +46,7 @@ export default async function BlogPostPage({
   return (
     <>
       <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-32 md:px-12">
+      <main className="flex-1 px-6 pt-40 pb-24 md:px-12">
         <Reveal className="max-w-3xl">
           <Link
             href="/blog"
@@ -65,7 +65,7 @@ export default async function BlogPostPage({
                   key={tag}
                   href={`/blog/tag/${tag}`}
                   data-cursor-hover
-                  className="rounded-full border border-white/10 px-3 py-1 hover:border-accent"
+                  className="rounded-full border border-ink/10 px-3 py-1 hover:border-accent"
                 >
                   {tag}
                 </Link>

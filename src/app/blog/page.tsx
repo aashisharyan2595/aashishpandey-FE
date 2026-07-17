@@ -17,7 +17,7 @@ export default async function BlogIndexPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-32 md:px-12">
+      <main className="flex-1 px-6 pt-40 pb-24 md:px-12">
         <Reveal>
           <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">
             Writing
@@ -34,7 +34,7 @@ export default async function BlogIndexPage() {
                 key={c._id}
                 href={`/blog/category/${c.slug}`}
                 data-cursor-hover
-                className="rounded-full border border-white/10 px-4 py-1.5 text-sm hover:border-accent"
+                className="rounded-full border border-ink/10 px-4 py-1.5 text-sm hover:border-accent"
               >
                 {c.name}
               </Link>

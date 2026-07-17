@@ -14,7 +14,7 @@ export default function BlogList({ posts }: { posts: BlogPostSummary[] }) {
   }
 
   return (
-    <div className="mt-16 divide-y divide-white/10 border-t border-white/10">
+    <div className="mt-16 divide-y divide-ink/10 border-t border-ink/10">
       {posts.map((post, i) => (
         <Reveal key={post._id} delay={i * 0.05}>
           <Link

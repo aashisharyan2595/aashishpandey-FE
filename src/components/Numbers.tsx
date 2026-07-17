@@ -9,7 +9,7 @@ const stats = [
 
 export default function Numbers() {
   return (
-    <section className="border-y border-white/10 px-6 py-20 md:px-12">
+    <section className="border-y border-ink/10 px-6 py-20 md:px-12">
       <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6">
         {stats.map((stat, i) => (
           <Reveal key={stat.label} delay={i * 0.05}>

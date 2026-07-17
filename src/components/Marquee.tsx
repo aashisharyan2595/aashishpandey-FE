@@ -22,7 +22,7 @@ export default function Marquee({ items }: { items: string[] }) {
   const doubled = [...items, ...items];
 
   return (
-    <div className="overflow-hidden border-y border-white/10 py-6">
+    <div className="overflow-hidden border-y border-ink/10 py-6">
       <div ref={track} className="flex w-max gap-12">
         {doubled.map((item, i) => (
           <span

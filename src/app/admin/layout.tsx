@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+      <header className="flex items-center justify-between border-b border-ink/10 px-6 py-4">
         <nav className="flex items-center gap-6 font-mono text-sm uppercase tracking-widest">
           <Link href="/admin" className="hover:text-accent">
             Admin

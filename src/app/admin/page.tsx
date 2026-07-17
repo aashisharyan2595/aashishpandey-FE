@@ -7,14 +7,14 @@ export default function AdminDashboard() {
       <div className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/admin/posts"
-          className="rounded-lg border border-white/10 p-6 hover:border-accent"
+          className="rounded-lg border border-ink/10 p-6 hover:border-accent"
         >
           <p className="font-mono text-xs uppercase tracking-widest text-muted">Content</p>
           <p className="font-display mt-2 text-xl">Blog posts</p>
         </Link>
         <Link
           href="/admin/submissions"
-          className="rounded-lg border border-white/10 p-6 hover:border-accent"
+          className="rounded-lg border border-ink/10 p-6 hover:border-accent"
         >
           <p className="font-mono text-xs uppercase tracking-widest text-muted">Contact form</p>
           <p className="font-display mt-2 text-xl">Submissions</p>

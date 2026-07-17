@@ -18,7 +18,7 @@ export default function MediaPicker({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-full border border-white/20 px-4 py-1.5 font-mono text-xs uppercase tracking-widest hover:border-accent"
+        className="rounded-full border border-ink/20 px-4 py-1.5 font-mono text-xs uppercase tracking-widest hover:border-accent"
       >
         {label}
       </button>
@@ -30,7 +30,7 @@ export default function MediaPicker({
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-lg border border-white/10 bg-background p-6"
+            className="max-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-lg border border-ink/10 bg-background p-6"
           >
             <div className="mb-4 flex items-center justify-between">
               <h2 className="font-display text-xl">Media library</h2>

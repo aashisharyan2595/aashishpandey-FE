@@ -76,7 +76,7 @@ export default function KonamiEgg() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.15 }}
-            className="font-display rounded-2xl border border-white/10 bg-background/80 px-8 py-6 text-2xl backdrop-blur-sm md:text-4xl"
+            className="font-display rounded-2xl border border-ink/10 bg-background/80 px-8 py-6 text-2xl backdrop-blur-sm md:text-4xl"
           >
             You found it. <span className="text-accent">Nice memory.</span>
           </motion.p>

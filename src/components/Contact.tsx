@@ -37,7 +37,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="px-6 py-32 md:px-12">
+    <section id="contact" className="px-6 py-24 md:px-12">
       <Reveal>
         <h2 className="font-display text-4xl md:text-6xl">
           Say hello: <span className="text-accent">let&apos;s build something.</span>
@@ -50,21 +50,21 @@ export default function Contact() {
             name="name"
             required
             placeholder="Your name"
-            className="border-b border-white/20 bg-transparent py-3 outline-none transition-colors focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-3 outline-none transition-colors focus:border-accent"
           />
           <input
             name="email"
             type="email"
             required
             placeholder="Your email"
-            className="border-b border-white/20 bg-transparent py-3 outline-none transition-colors focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-3 outline-none transition-colors focus:border-accent"
           />
           <textarea
             name="message"
             required
             rows={4}
             placeholder="What are you building?"
-            className="border-b border-white/20 bg-transparent py-3 outline-none transition-colors focus:border-accent"
+            className="border-b border-ink/20 bg-transparent py-3 outline-none transition-colors focus:border-accent"
           />
           <motion.button
             type="submit"

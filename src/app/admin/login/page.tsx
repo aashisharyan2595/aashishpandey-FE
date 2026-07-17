@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
-          className="border-b border-white/20 bg-transparent py-3 outline-none focus:border-accent"
+          className="border-b border-ink/20 bg-transparent py-3 outline-none focus:border-accent"
         />
         {error && <p className="text-sm text-accent">{error}</p>}
         <button

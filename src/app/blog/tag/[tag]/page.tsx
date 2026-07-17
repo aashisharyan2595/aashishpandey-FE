@@ -27,7 +27,7 @@ export default async function BlogTagPage({ params }: { params: Promise<Params> 
   return (
     <>
       <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-32 md:px-12">
+      <main className="flex-1 px-6 pt-40 pb-24 md:px-12">
         <Reveal>
           <Link
             href="/blog"

@@ -72,7 +72,7 @@ export default function AdminCategoriesPage() {
           onChange={(e) => setName(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && create()}
           placeholder="New category name"
-          className="flex-1 border-b border-white/20 bg-transparent py-2 outline-none focus:border-accent"
+          className="flex-1 border-b border-ink/20 bg-transparent py-2 outline-none focus:border-accent"
         />
         <button
           type="button"
@@ -90,7 +90,7 @@ export default function AdminCategoriesPage() {
       ) : categories.length === 0 ? (
         <p className="mt-8 text-muted">No categories yet.</p>
       ) : (
-        <div className="mt-8 divide-y divide-white/10 border-t border-white/10">
+        <div className="mt-8 divide-y divide-ink/10 border-t border-ink/10">
           {categories.map((category) => (
             <div key={category._id} className="flex items-center justify-between gap-4 py-4">
               <div>

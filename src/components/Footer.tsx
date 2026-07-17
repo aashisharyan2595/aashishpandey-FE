@@ -11,7 +11,7 @@ const sitemap = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 px-6 pt-24 pb-10 md:px-12">
+    <footer className="border-t border-ink/10 px-6 pt-24 pb-10 md:px-12">
       <Reveal>
         <MagneticLink
           href="/#contact"
@@ -21,7 +21,7 @@ export default function Footer() {
         </MagneticLink>
       </Reveal>
 
-      <div className="mt-16 flex flex-col gap-8 border-t border-white/10 pt-8 md:flex-row md:items-center md:justify-between">
+      <div className="mt-16 flex flex-col gap-8 border-t border-ink/10 pt-8 md:flex-row md:items-center md:justify-between">
         <nav className="flex flex-wrap gap-x-8 gap-y-3 font-mono text-sm uppercase tracking-widest text-muted">
           {sitemap.map((link) => (
             <Link key={link.href} href={link.href} data-cursor-hover className="hover:text-foreground">

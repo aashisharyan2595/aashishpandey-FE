@@ -37,7 +37,7 @@ export default function AdminPostsPage() {
       ) : posts.length === 0 ? (
         <p className="mt-8 text-muted">No posts yet — create your first one.</p>
       ) : (
-        <div className="mt-8 divide-y divide-white/10 border-t border-white/10">
+        <div className="mt-8 divide-y divide-ink/10 border-t border-ink/10">
           {posts.map((post) => (
             <div key={post._id} className="flex items-center justify-between gap-4 py-4">
               <div>

@@ -69,8 +69,8 @@ export default function CaseStudyCover({
     >
       <defs>
         <linearGradient id={`bg-${slug}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#141416" />
-          <stop offset="100%" stopColor="#0b0b0c" />
+          <stop offset="0%" stopColor="var(--surface-1)" />
+          <stop offset="100%" stopColor="var(--surface-2)" />
         </linearGradient>
         <filter id={`blur-${slug}`}>
           <feGaussianBlur stdDeviation="18" />
@@ -81,7 +81,7 @@ export default function CaseStudyCover({
           height={gridGap}
           patternUnits="userSpaceOnUse"
         >
-          <circle cx={1} cy={1} r={1} fill="#f5f3ee" opacity={0.08} />
+          <circle cx={1} cy={1} r={1} fill="var(--foreground)" opacity={0.08} />
         </pattern>
       </defs>
 
@@ -93,7 +93,7 @@ export default function CaseStudyCover({
           <path
             key={i}
             d={blobPath(b.cx, b.cy, b.r, rand)}
-            fill="#ff5a36"
+            fill="var(--accent)"
             opacity={b.opacity}
           />
         ))}
@@ -103,7 +103,7 @@ export default function CaseStudyCover({
         <path
           d={blobPath(200, 150, 78, rand)}
           fill="none"
-          stroke="#ff5a36"
+          stroke="var(--accent)"
           strokeWidth={1.5}
           opacity={0.7}
         />
@@ -114,7 +114,7 @@ export default function CaseStudyCover({
         y="270"
         fontFamily="var(--font-display)"
         fontSize="120"
-        fill="#f5f3ee"
+        fill="var(--foreground)"
         opacity={0.06}
       >
         {initial}

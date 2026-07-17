@@ -31,7 +31,7 @@ export default function Hero() {
   return (
     <section
       ref={root}
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 md:px-12"
+      className="relative overflow-hidden px-6 pt-40 pb-20 md:px-12"
     >
       <div
         data-hero-scene

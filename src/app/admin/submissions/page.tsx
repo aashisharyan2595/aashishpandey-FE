@@ -31,7 +31,7 @@ export default function AdminSubmissionsPage() {
       ) : (
         <div className="mt-8 grid gap-4">
           {submissions.map((s) => (
-            <div key={s._id} className="rounded-lg border border-white/10 p-4">
+            <div key={s._id} className="rounded-lg border border-ink/10 p-4">
               <div className="flex items-baseline justify-between gap-4">
                 <p className="font-medium">
                   {s.name} <span className="text-muted">— {s.email}</span>

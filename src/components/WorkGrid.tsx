@@ -42,7 +42,7 @@ function WorkCard({ item, index }: { item: CaseStudy; index: number }) {
       onPointerMove={handleMove}
       onPointerLeave={reset}
       style={{ rotateX, rotateY, transformPerspective: 800 }}
-      className="group block overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-colors hover:border-accent/50"
+      className="group block overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.02] transition-colors hover:border-accent/50"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <CaseStudyCover
@@ -53,7 +53,7 @@ function WorkCard({ item, index }: { item: CaseStudy; index: number }) {
         <span className="absolute left-4 top-4 font-mono text-xs uppercase tracking-widest text-muted">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span className="absolute right-4 top-4 rounded-full border border-white/15 bg-background/60 px-3 py-1 font-mono text-xs uppercase tracking-widest text-foreground backdrop-blur-sm">
+        <span className="absolute right-4 top-4 rounded-full border border-ink/15 bg-background/60 px-3 py-1 font-mono text-xs uppercase tracking-widest text-foreground backdrop-blur-sm">
           {item.metric.value}
         </span>
       </div>
@@ -65,7 +65,7 @@ function WorkCard({ item, index }: { item: CaseStudy; index: number }) {
         <p className="mt-2 text-sm text-muted">{item.summary}</p>
         <div className="mt-4 flex flex-wrap gap-2 text-xs uppercase tracking-widest text-muted">
           {item.tags.map((tag) => (
-            <span key={tag} className="rounded-full border border-white/10 px-3 py-1">
+            <span key={tag} className="rounded-full border border-ink/10 px-3 py-1">
               {tag}
             </span>
           ))}

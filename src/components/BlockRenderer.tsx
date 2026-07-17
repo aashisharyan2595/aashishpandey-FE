@@ -40,7 +40,7 @@ function BlockItem({ block }: { block: Block }) {
           <img
             src={data.url}
             alt={data.alt ?? ""}
-            className="w-full rounded-lg border border-white/10"
+            className="w-full rounded-lg border border-ink/10"
           />
           {data.caption && (
             <figcaption className="mt-2 text-sm text-muted">{data.caption}</figcaption>
@@ -64,7 +64,7 @@ function BlockItem({ block }: { block: Block }) {
     case "code": {
       const data = block.data as CodeData;
       return (
-        <pre className="overflow-x-auto rounded-lg border border-white/10 bg-white/5 p-4 text-sm">
+        <pre className="overflow-x-auto rounded-lg border border-ink/10 bg-ink/5 p-4 text-sm">
           <code>{data.code}</code>
         </pre>
       );

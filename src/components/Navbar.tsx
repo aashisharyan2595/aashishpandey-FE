@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import MagneticLink from "@/components/MagneticLink";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
   { href: "/work", label: "Work" },
@@ -17,29 +18,33 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 mix-blend-difference md:px-12">
-        <MagneticLink href="#" className="font-display text-lg font-medium">
+      <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 text-white mix-blend-difference md:px-12">
+        <MagneticLink href="/" className="font-display text-lg font-medium">
           AP
         </MagneticLink>
 
-        <nav className="hidden gap-8 text-sm uppercase tracking-widest sm:flex">
+        <nav className="hidden items-center gap-8 text-sm uppercase tracking-widest sm:flex">
           {links.map((link) => (
             <MagneticLink key={link.href} href={link.href}>
               {link.label}
             </MagneticLink>
           ))}
+          <ThemeToggle />
         </nav>
 
-        <button
-          type="button"
-          data-cursor-hover
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          className="font-mono text-sm uppercase tracking-widest sm:hidden"
-        >
-          {open ? "Close" : "Menu"}
-        </button>
+        <div className="flex items-center gap-5 sm:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            data-cursor-hover
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            className="font-mono text-sm uppercase tracking-widest"
+          >
+            {open ? "Close" : "Menu"}
+          </button>
+        </div>
       </header>
 
       <AnimatePresence>

@@ -48,14 +48,14 @@ export default async function CaseStudyPage({
   return (
     <>
       <Navbar />
-      <main className="flex-1 pb-32">
+      <main className="flex-1 pb-24">
         <div className="relative mt-24 aspect-[16/9] w-full overflow-hidden md:mt-28 md:aspect-[21/9]">
           <CaseStudyCover slug={item.slug} label={item.title} className="h-full w-full" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         </div>
 
         <div className="px-6 md:px-12">
-          <Reveal className="-mt-16 max-w-3xl md:-mt-24">
+          <Reveal className="mt-8 max-w-3xl md:-mt-24">
             <Link
               href="/work"
               data-cursor-hover
@@ -71,14 +71,14 @@ export default async function CaseStudyPage({
             </h1>
             <div className="mt-6 flex flex-wrap gap-2 text-xs uppercase tracking-widest text-muted">
               {item.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-white/10 px-3 py-1">
+                <span key={tag} className="rounded-full border border-ink/10 px-3 py-1">
                   {tag}
                 </span>
               ))}
             </div>
           </Reveal>
 
-          <Reveal delay={0.05} className="mt-16 max-w-md rounded-2xl border border-white/10 bg-white/[0.02] p-8">
+          <Reveal delay={0.05} className="mt-16 max-w-md rounded-2xl border border-ink/10 bg-ink/[0.02] p-8">
             <p className="font-display text-4xl text-accent md:text-5xl">{item.metric.value}</p>
             <p className="mt-2 font-mono text-sm uppercase tracking-widest text-muted">
               {item.metric.label}
@@ -99,7 +99,7 @@ export default async function CaseStudyPage({
             ))}
           </div>
 
-          <Reveal delay={0.1} className="mt-32 max-w-3xl border-t border-white/10 pt-12">
+          <Reveal delay={0.1} className="mt-32 max-w-3xl border-t border-ink/10 pt-12">
             <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">Next up</p>
             <Link
               href={`/work/${next.slug}`}
