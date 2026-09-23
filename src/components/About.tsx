@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PhotoFrame from "@/components/PhotoFrame";
+import FacetPhoto from "@/components/FacetPhoto";
 import Reveal from "@/components/Reveal";
 
 export default function About() {
@@ -20,11 +20,12 @@ export default function About() {
           </Link>
         </Reveal>
         <Reveal scaleIn delay={0.1} className="flex justify-center md:justify-end">
-          <PhotoFrame
+          <FacetPhoto
             src="/images/aashish-overlook.webp"
             alt="Aashish Pandey on his motorcycle overlooking a valley, geometric editorial illustration"
             id="AP / About"
             caption="Pune, IN"
+            variant="corner-tl"
             aspect="aspect-[16/10]"
             objectPosition="50% 40%"
             className="w-full max-w-sm"
