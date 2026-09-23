@@ -64,6 +64,22 @@ export const caseStudies: CaseStudy[] = [
     metric: { value: "+40%", label: "Handling capacity" },
   },
   {
+    slug: "liquid-iv-europe-expansion",
+    title: "Expanding Liquid I.V. across Europe",
+    client: "Liquid I.V. (Unilever), via Langoor",
+    timeframe: "2024 – 2025",
+    summary:
+      "Took the #1 US hydration brand into Europe — one Shopify Plus hub routing to 8 fully localized country storefronts across 9 markets.",
+    tags: ["Shopify Plus", "Localization", "D2C", "Delivery"],
+    problem:
+      "Liquid I.V. had no European D2C footprint. Launching market-by-market would have meant rebuilding the same storefront logic, checkout, and content pipeline up to nine times, with no shared source of truth and no consistent way to add a market later.",
+    approach:
+      "I planned and delivered a hub-and-spoke architecture instead: a single central site (liquid-iv.eu) that geo-routes visitors to their market, sitting in front of eight independent Shopify Plus storefronts — Germany, Spain, France, Italy, the Netherlands, Sweden, Iceland, and Ireland. I owned the delivery plan across design, translation, and build for all nine sites in parallel, sequencing full-content localization (not just currency and shipping — every storefront ships in its own language) against a shared launch window, and coordinating with translation and regional stakeholders so each market's site was genuinely native, not machine-translated boilerplate.",
+    outcome:
+      "Nine live storefronts launched from one coordinated program instead of nine separate ones, each fully localized in its market's language, with a central hub that makes it straightforward to add the next country.",
+    metric: { value: "9", label: "Countries, one launch program" },
+  },
+  {
     slug: "zebronics-campaign-pages",
     title: "Iterating Zebronics' campaign landing pages",
     client: "Zebronics, via 0to1 Media",
