@@ -76,6 +76,7 @@
   --color-moss: var(--moss);
   --color-terracotta: var(--terracotta);
   --font-sans: var(--font-lato);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 html {
@@ -147,6 +148,17 @@ textarea::placeholder {
 .meta {
   font-weight: 500;
   font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* Technical/numerical metadata — client, year, role, discipline, stack —
+   per the guideline's §52: JetBrains Mono for project metadata specifically,
+   not general captions/dates. */
+.meta-mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
   color: var(--muted);
 }
 
@@ -248,6 +260,45 @@ textarea:focus-visible {
   height: 1px;
   background: var(--line);
   border: none;
+}
+
+/* Understated rectangular filter control — deliberately not a pill. */
+.filter-btn {
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--muted);
+  background: transparent;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--foreground);
+}
+
+.filter-btn[data-active="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--cream);
+}
+
+:root[data-theme="dark"] .filter-btn[data-active="true"] {
+  border-color: var(--sand);
+  background: var(--sand);
+  color: var(--night);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .filter-btn[data-active="true"] {
+    border-color: var(--sand);
+    background: var(--sand);
+    color: var(--night);
+  }
 }
 
 /* ---- Geometry primitives (per guideline §06) ---- */

@@ -9,6 +9,25 @@ import Reveal from "@/components/Reveal";
 import { certifications, experience } from "@/lib/experience";
 import { buildMetadata } from "@/lib/seo";
 
+const worlds = [
+  {
+    label: "Product",
+    detail: "Owning outcomes and prioritizing roadmaps against evidence — StoryNest's traffic growth, Wipro's D2C process redesign.",
+  },
+  {
+    label: "Design",
+    detail: "Design-literate enough to work directly in Figma and own a UX redesign end to end, not just review one.",
+  },
+  {
+    label: "Technology",
+    detail: "Hands-on with CMS architecture, Shopify Plus, and CI/CD — enough to open the codebase when a project needs it.",
+  },
+  {
+    label: "Delivery",
+    detail: "Agile/Scrum, stakeholder alignment, and process design — the throughline across every role.",
+  },
+];
+
 const skills = [
   "Delivery Planning",
   "Stakeholder Alignment",
@@ -41,7 +60,28 @@ export default function AboutPage() {
           intro="Six years across agencies and product teams, running delivery for brands that can't afford a missed launch date. I still open the CMS myself when a project needs it."
         />
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-16">
+        <Reveal className="mt-16">
+          <p className="eyebrow">How I work</p>
+          <h2 className="h1 mt-4 max-w-2xl">I work between four worlds.</h2>
+          <p className="mt-4 max-w-xl text-muted">
+            I started as a developer, moved into technical team leadership, and
+            eventually into project management — while keeping the hands-on
+            technical understanding from where I started.
+          </p>
+        </Reveal>
+        <div className="mt-10 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+          {worlds.map((w, i) => (
+            <Reveal key={w.label} delay={i * 0.05} className="bg-background p-6">
+              <p className="tabular text-sm font-black" style={{ color: "var(--gold)" }}>
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <h3 className="h3 mt-3">{w.label}</h3>
+              <p className="mt-2 text-sm text-muted">{w.detail}</p>
+            </Reveal>
+          ))}
+        </div>
+
+        <div className="mt-24 grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-16">
           <Reveal>
             <p className="max-w-xl text-lg text-muted">
               Project manager and business analyst with 6+ years driving integrated

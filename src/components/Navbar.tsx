@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Icon from "@/components/Icon";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
@@ -40,6 +41,9 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          <Link href="/contact" className="btn !py-2 !text-xs">
+            Work with me
+          </Link>
           <ThemeToggle />
         </nav>
 
@@ -50,8 +54,9 @@ export default function Navbar() {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="text-sm font-bold uppercase tracking-widest"
+            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest"
           >
+            <Icon name={open ? "close" : "menu"} size={18} />
             {open ? "Close" : "Menu"}
           </button>
         </div>

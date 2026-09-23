@@ -11,9 +11,14 @@ export default function NotFound() {
         <h1 className="display-l mt-4">
           Nothing built here <span style={{ color: "var(--gold)" }}>yet.</span>
         </h1>
-        <Link href="/" className="mt-8 text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive">
-          ← Back home
-        </Link>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link href="/work" className="btn">
+            Back to work
+          </Link>
+          <Link href="/" className="btn btn-primary">
+            Back home
+          </Link>
+        </div>
       </main>
       <Footer />
     </>

@@ -22,7 +22,7 @@ export default async function BlogIndexPage() {
       <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <PageHero
           eyebrow="Writing"
-          title="Notes on delivery and shipping."
+          title="From the field."
           intro="Field notes on process, tooling, and what actually moves a project forward."
         />
 
