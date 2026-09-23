@@ -49,7 +49,7 @@ export default async function FieldNotesPreview() {
               <Link href={`/field-notes/${post.slug}`} className="group block">
                 <p className="meta-mono">{post.category ?? "Field"}</p>
                 <h3 className="h3 mt-2 transition-colors group-hover:text-interactive">{post.title}</h3>
-                <p className="mt-2 text-sm text-muted">{post.excerpt}</p>
+                <p className="body-sm mt-2 text-muted">{post.excerpt}</p>
               </Link>
             </Reveal>
           ))}

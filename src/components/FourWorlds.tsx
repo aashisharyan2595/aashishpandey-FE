@@ -25,7 +25,7 @@ export default function FourWorlds() {
               {String(i + 1).padStart(2, "0")}
             </p>
             <h3 className="h3 mt-3">{w.label}</h3>
-            <p className="mt-2 text-sm text-muted">{w.detail}</p>
+            <p className="body-sm mt-2 text-muted">{w.detail}</p>
           </Reveal>
         ))}
       </div>

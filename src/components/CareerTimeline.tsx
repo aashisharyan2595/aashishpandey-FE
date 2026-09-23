@@ -17,7 +17,7 @@ export default function CareerTimeline({ items }: { items: ExperienceEntry[] }) 
             <p className="meta-mono mt-4">{item.period}</p>
             <h3 className="h3 mt-2">{item.role}</h3>
             <p className="text-muted">{item.company}</p>
-            <ul className="mt-6 grid gap-3 text-sm text-muted">
+            <ul className="body-sm mt-6 grid gap-3 text-muted">
               {item.bullets.map((bullet) => (
                 <li key={bullet} className="flex gap-2">
                   <span className="mt-1 shrink-0" style={{ color: "var(--gold)" }}>
