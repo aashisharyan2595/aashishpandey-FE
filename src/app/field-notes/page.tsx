@@ -10,7 +10,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Writing",
   description: "Notes on delivery, process, and shipping software.",
-  path: "/blog",
+  path: "/field-notes",
 });
 
 export default async function BlogIndexPage() {
@@ -31,7 +31,7 @@ export default async function BlogIndexPage() {
             {categories.map((c) => (
               <Link
                 key={c._id}
-                href={`/blog/category/${c.slug}`}
+                href={`/field-notes/category/${c.slug}`}
                 className="tag hover:border-accent"
               >
                 {c.name}

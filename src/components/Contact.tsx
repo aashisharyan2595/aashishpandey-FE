@@ -9,14 +9,14 @@ export default function Contact() {
         <Reveal>
           <p className="eyebrow">Get in touch</p>
           <h2 className="display-l mt-5 max-w-2xl">
-            Say hello: <span style={{ color: "var(--gold)" }}>let&apos;s build something.</span>
+            Have a <span style={{ color: "var(--gold)" }}>complicated digital project?</span>
           </h2>
           <p className="mt-6 max-w-xl text-lg text-muted">
-            Hiring, a project in mind, or just want to say hi — the full contact
-            page reaches me directly.
+            If you&apos;re building, redesigning, migrating or scaling a digital
+            product or website, tell me what you&apos;re working on.
           </p>
           <Link href="/contact" className="btn btn-primary mt-8">
-            Get in touch →
+            Let&apos;s talk →
           </Link>
         </Reveal>
         <Reveal delay={0.1} className="hidden lg:block">

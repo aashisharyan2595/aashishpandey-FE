@@ -2,10 +2,10 @@ import Reveal from "@/components/Reveal";
 import Stamp from "@/components/Stamp";
 
 const stats: { value: string; label: string; color: "gold" | "forest" | "sky" }[] = [
-  { value: "6+", label: "Years running delivery", color: "sky" },
-  { value: "35+", label: "Platforms shipped", color: "gold" },
-  { value: "99%", label: "On-time delivery rate", color: "forest" },
-  { value: "+50%", label: "Best traffic growth delivered", color: "gold" },
+  { value: "6+", label: "Years in digital", color: "sky" },
+  { value: "4", label: "Global brands", color: "gold" },
+  { value: "35+", label: "Projects shipped", color: "forest" },
+  { value: "4", label: "Disciplines", color: "gold" },
 ];
 
 export default function Numbers() {

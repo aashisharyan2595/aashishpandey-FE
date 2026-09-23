@@ -29,10 +29,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   });
 }
 
+/* Renamed toward the brand book's case-study vocabulary (Context / The
+   decisions / The evidence) — but kept to the three real content fields
+   the data actually has rather than forcing the brief's full eight-stage
+   structure onto content that doesn't exist for it. */
 const SECTIONS = [
-  { key: "problem" as const, label: "The problem" },
-  { key: "approach" as const, label: "The approach" },
-  { key: "outcome" as const, label: "The outcome" },
+  { key: "problem" as const, label: "Context" },
+  { key: "approach" as const, label: "The response" },
+  { key: "outcome" as const, label: "The evidence" },
 ];
 
 export default async function CaseStudyPage({ params }: { params: Promise<Params> }) {

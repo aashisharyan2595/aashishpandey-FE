@@ -17,7 +17,7 @@ export async function generateMetadata({
   return {
     title: `#${tag} — Writing — Aashish Pandey`,
     description: `Posts tagged ${tag}.`,
-    alternates: { canonical: `/blog/tag/${tag}` },
+    alternates: { canonical: `/field-notes/tag/${tag}` },
   };
 }
 
@@ -30,7 +30,7 @@ export default async function BlogTagPage({ params }: { params: Promise<Params> 
       <Navbar />
       <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <Reveal>
-          <Link href="/blog" className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive">
+          <Link href="/field-notes" className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive">
             ← All writing
           </Link>
           <p className="eyebrow mt-8">Tag</p>
