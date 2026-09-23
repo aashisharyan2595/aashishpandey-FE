@@ -8,29 +8,10 @@ import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
 import RouteLine from "@/components/RouteLine";
 import Stamp from "@/components/Stamp";
-import type { CaseStudyTheme } from "@/lib/case-studies";
-import { getCaseStudies, getCaseStudyBySlug } from "@/lib/case-studies";
+import { getCaseStudies, getCaseStudyBySlug, THEME_COLOR, THEME_STAMP } from "@/lib/case-studies";
 import { buildMetadata } from "@/lib/seo";
 
 type Params = { slug: string };
-
-// Per-project accent (Sprint 01 §13) — existing brand tokens, not new
-// colour. Falls back to gold for any case study without a theme set
-// (e.g. data coming from the backend CMS before it's been given one).
-const THEME_COLOR: Record<CaseStudyTheme, string> = {
-  terracotta: "var(--terracotta)",
-  sky: "var(--sky)",
-  forest: "var(--forest)",
-  orbit: "var(--orbit)",
-  moss: "var(--moss)",
-};
-const THEME_STAMP: Record<CaseStudyTheme, "gold" | "forest" | "sky"> = {
-  terracotta: "gold",
-  sky: "sky",
-  forest: "forest",
-  orbit: "sky",
-  moss: "forest",
-};
 
 export async function generateStaticParams(): Promise<Params[]> {
   const studies = await getCaseStudies();

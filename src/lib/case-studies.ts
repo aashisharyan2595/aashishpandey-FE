@@ -5,6 +5,22 @@
 // falls back to a sensible default rather than assuming it's set.
 export type CaseStudyTheme = "terracotta" | "sky" | "forest" | "orbit" | "moss";
 
+export const THEME_COLOR: Record<CaseStudyTheme, string> = {
+  terracotta: "var(--terracotta)",
+  sky: "var(--sky)",
+  forest: "var(--forest)",
+  orbit: "var(--orbit)",
+  moss: "var(--moss)",
+};
+
+export const THEME_STAMP: Record<CaseStudyTheme, "gold" | "forest" | "sky"> = {
+  terracotta: "gold",
+  sky: "sky",
+  forest: "forest",
+  orbit: "sky",
+  moss: "forest",
+};
+
 export type CaseStudy = {
   slug: string;
   title: string;
