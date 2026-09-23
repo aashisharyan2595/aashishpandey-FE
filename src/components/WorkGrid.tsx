@@ -23,6 +23,7 @@ export default function WorkGrid({ items }: { items: CaseStudy[] }) {
               <CaseStudyCover
                 slug={item.slug}
                 label={item.title}
+                coverImage={item.coverImage}
                 className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
               <span className="tag absolute right-3 top-3 bg-background/90">{item.metric.value}</span>

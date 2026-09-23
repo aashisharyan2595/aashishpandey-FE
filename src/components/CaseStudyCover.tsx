@@ -1,10 +1,12 @@
+import Image from "next/image";
+
 /**
- * Placeholder cover for a case study / post — a small abstract low-poly
- * "plane / facet" arrangement in brand colour, deterministic per slug. The
- * brand guideline's authenticity rule forbids ever presenting a fabricated
- * screenshot as real evidence, so this stays honestly abstract and labelled
- * pending rather than mocking up a fake browser window. Swap for a real
- * screenshot via `coverImage` once one exists.
+ * Cover for a case study / post. When `coverImage` is set, renders the real
+ * image. Otherwise falls back to a small abstract low-poly "plane / facet"
+ * arrangement in brand colour, deterministic per slug — the brand
+ * guideline's authenticity rule forbids ever presenting a fabricated
+ * screenshot as real evidence, so the placeholder stays honestly abstract
+ * and labelled pending rather than mocking up a fake browser window.
  */
 function hashSeed(input: string): number {
   let h = 2166136261;
@@ -31,12 +33,31 @@ const PALETTE = ["#3E4A3D", "#28352D", "#77734B", "#5E97AF", "#B39A55", "#EEE4CF
 export default function CaseStudyCover({
   slug,
   label,
+  coverImage,
   className,
 }: {
   slug: string;
   label: string;
+  coverImage?: string;
   className?: string;
 }) {
+  if (coverImage) {
+    return (
+      <div className={`relative overflow-hidden bg-[var(--night)] ${className ?? ""}`}>
+        <Image
+          src={coverImage}
+          alt={label}
+          fill
+          sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover"
+        />
+        <span className="absolute left-3 top-3 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--sand)] opacity-70">
+          {label.split(" ")[0]}
+        </span>
+      </div>
+    );
+  }
+
   const rand = mulberry32(hashSeed(slug));
 
   // A handful of large coherent planes, not hundreds of tiny random facets —

@@ -30,6 +30,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "The site launched on schedule and stable, with a UX overhaul that improved the brand's positioning on the platform.",
     metric: { value: "On time", label: "Hard launch date, zero slip" },
+    coverImage: "/images/case-studies/tmicc-shopify-relaunch.webp",
   },
   {
     slug: "storynest-ai-platform",
@@ -46,6 +47,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "Traffic grew 50% over the engagement, with a backlog that stayed prioritized against evidence instead of opinion.",
     metric: { value: "+50%", label: "Traffic growth" },
+    coverImage: "/images/case-studies/storynest-ai-platform.webp",
   },
   {
     slug: "wipro-d2c-modernization",
@@ -78,6 +80,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "Nine live storefronts launched from one coordinated program instead of nine separate ones, each fully localized in its market's language, with a central hub that makes it straightforward to add the next country.",
     metric: { value: "9", label: "Countries, one launch program" },
+    coverImage: "/images/case-studies/liquid-iv-europe-expansion.webp",
   },
   {
     slug: "zebronics-campaign-pages",
