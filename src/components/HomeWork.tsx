@@ -1,16 +1,15 @@
-import Image from "next/image";
 import Link from "next/link";
-import CaseStudyCover from "@/components/CaseStudyCover";
+import AnimatedFacets from "@/components/AnimatedFacets";
 import Icon from "@/components/Icon";
 import Reveal from "@/components/Reveal";
 import type { CaseStudy } from "@/lib/case-studies";
 
 /**
  * The homepage's proof section — one consistent card style across all five
- * projects (a first pass tried five different layouts per project; it read
- * as busy and inconsistent rather than editorial). Bigger and more spaced
- * out than the dense /work archive grid: two per row, generous padding,
- * larger type — so it reads as considered rather than a compressed index.
+ * projects. No photos here: covers are a slowly-drifting animated facet
+ * composition (deterministic per project) instead of screenshots, so every
+ * card carries the same visual language rather than mixing real photos
+ * with abstract fallbacks for the two projects with no screenshot on hand.
  */
 export default function HomeWork({ items }: { items: CaseStudy[] }) {
   return (
@@ -19,23 +18,12 @@ export default function HomeWork({ items }: { items: CaseStudy[] }) {
         <Reveal key={item.slug} delay={i * 0.06} className={i === 0 ? "sm:col-span-2" : undefined}>
           <Link href={`/work/${item.slug}`} className="group block">
             <div className={`relative overflow-hidden border border-line ${i === 0 ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
-              {item.coverImage ? (
-                <Image
-                  src={item.coverImage}
-                  alt={item.title}
-                  fill
-                  priority={i === 0}
-                  sizes={i === 0 ? "100vw" : "(min-width: 640px) 50vw, 100vw"}
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                />
-              ) : (
-                <CaseStudyCover
-                  slug={item.slug}
-                  label={item.title}
-                  metric={item.metric}
-                  className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                />
-              )}
+              <AnimatedFacets
+                slug={item.slug}
+                label={item.title}
+                metric={item.metric}
+                className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              />
             </div>
 
             <div className="mt-6">
