@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import RouteLine from "@/components/RouteLine";
 import { worlds } from "@/lib/worlds";
 
 export default function FourWorlds() {
@@ -14,7 +15,10 @@ export default function FourWorlds() {
           More on this →
         </Link>
       </Reveal>
-      <div className="mt-10 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+      {/* The route connecting the four worlds — the brand's rider motif
+          doubling as a literal process line. */}
+      <RouteLine nodes={4} className="mt-8 h-4 w-full" />
+      <div className="mt-2 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
         {worlds.map((w, i) => (
           <Reveal key={w.label} delay={i * 0.05} className="bg-background p-6">
             <p className="tabular text-sm font-black" style={{ color: "var(--gold)" }}>
