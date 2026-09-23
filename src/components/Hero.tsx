@@ -62,7 +62,14 @@ export default function Hero() {
 
         <Reveal delay={0.16} className="flex justify-center lg:justify-end">
           <div className="relative">
-            <PhotoFrame id="AP / 06" caption="Delivery lead" aspect="aspect-[4/5]" className="w-56 md:w-64" />
+            <PhotoFrame
+              src="/images/aashish-hero.webp"
+              alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
+              id="AP / 06"
+              caption="Delivery lead"
+              aspect="aspect-[4/5]"
+              className="w-64 md:w-72 lg:w-80"
+            />
             <Stamp
               value="On time"
               label="Every launch"

@@ -95,12 +95,37 @@ export default function AboutPage() {
             </p>
           </Reveal>
           <Reveal delay={0.1} className="flex justify-center lg:justify-end">
-            <PhotoFrame id="AP / About" caption="Pune, IN" aspect="aspect-[5/6]" className="w-full max-w-xs" />
+            <PhotoFrame
+              src="/images/aashish-about.jpg"
+              alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
+              id="AP / About"
+              caption="Pune, IN"
+              aspect="aspect-[5/6]"
+              className="w-full max-w-xs"
+            />
           </Reveal>
         </div>
 
         <Reveal delay={0.15} className="mt-16">
           <Marquee items={skills} />
+        </Reveal>
+
+        <Reveal delay={0.05} className="mt-24 grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:items-center">
+          <PhotoFrame
+            src="/images/aashish-road.webp"
+            alt="Aashish Pandey, geometric editorial illustration, packed for a ride"
+            id="AP / Field"
+            caption="On the road"
+            aspect="aspect-[4/5]"
+            className="w-full max-w-xs justify-self-start"
+          />
+          <div>
+            <p className="eyebrow">Off the clock</p>
+            <p className="mt-4 max-w-md text-muted">
+              Most weekends away from the CMS look like this — a road, a bike, and
+              a route that isn&apos;t on anyone&apos;s roadmap.
+            </p>
+          </div>
         </Reveal>
 
         <div className="mt-24 -mx-6 border-y border-line md:-mx-12">
