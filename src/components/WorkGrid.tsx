@@ -34,7 +34,7 @@ export default function WorkGrid({ items }: { items: CaseStudy[] }) {
                 {String(i + 1).padStart(2, "0")} · {item.client.split(",")[0]} · {item.timeframe.split(/[\s–]/)[0]}
               </p>
               <h3 className="h3 mt-2 transition-colors group-hover:text-interactive">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted">{item.summary}</p>
+              <p className="body-sm mt-2 text-muted">{item.summary}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {item.tags.map((tag) => (
                   <span key={tag} className="tag">

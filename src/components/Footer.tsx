@@ -26,7 +26,7 @@ export default function Footer() {
       <div className="relative">
         <Reveal>
           <p className="text-sm font-bold uppercase tracking-[0.06em]">AP — Aashish Pandey</p>
-          <p className="mt-2 max-w-md text-sm text-muted">
+          <p className="body-sm mt-2 max-w-md text-muted">
             Project management, digital products, web engineering, D2C. Design
             clarity from complexity.
           </p>

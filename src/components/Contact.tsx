@@ -11,7 +11,7 @@ export default function Contact() {
           <h2 className="display-l mt-5 max-w-2xl">
             Have a <span style={{ color: "var(--gold)" }}>complicated digital project?</span>
           </h2>
-          <p className="mt-6 max-w-xl text-lg text-muted">
+          <p className="body-l mt-6 max-w-xl text-muted">
             If you&apos;re building, redesigning, migrating or scaling a digital
             product or website, tell me what you&apos;re working on.
           </p>

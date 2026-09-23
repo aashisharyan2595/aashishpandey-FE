@@ -45,7 +45,7 @@ export const caseStudies: CaseStudy[] = [
     approach:
       "I ran workflow analysis on how users actually moved through the product, used that to reprioritize the roadmap around the highest-leverage features, and drove strategic targeting decisions for where to invest next.",
     outcome:
-      "Traffic grew 50% over the engagement, with a backlog that stayed prioritized against evidence instead of opinion.",
+      "Traffic grew 50% across my time on the platform (2022–2025), with a backlog that stayed prioritized against evidence instead of opinion.",
     metric: { value: "+50%", label: "Traffic growth" },
     coverImage: "/images/case-studies/storynest-ai-platform.webp",
   },
@@ -55,14 +55,14 @@ export const caseStudies: CaseStudy[] = [
     client: "Wipro Appliances & Wipro Consumer Lighting, via Langoor",
     timeframe: "2025 – Present",
     summary:
-      "Standardized delivery templates across two direct-to-consumer platforms, increasing user handling capacity by 40%.",
+      "Standardized delivery templates across two direct-to-consumer platforms, letting the team take on 40% more incoming requests without a proportional increase in effort.",
     tags: ["D2C", "Process Design", "Stakeholder Alignment"],
     problem:
       "Two related but separate D2C platforms were running on inconsistent delivery processes, which made it hard to scale support and slowed down every new request.",
     approach:
       "I partnered directly with Wipro stakeholders to design and standardize reusable delivery templates across both platforms, replacing ad hoc handling with a repeatable process.",
     outcome:
-      "User handling capacity increased by 40%, with a shared process both platform teams could actually rely on.",
+      "Request-handling capacity — how many incoming requests the standardized process could absorb — increased by 40%, with a shared process both platform teams could actually rely on.",
     metric: { value: "+40%", label: "Handling capacity" },
   },
   {
@@ -88,15 +88,15 @@ export const caseStudies: CaseStudy[] = [
     client: "Zebronics, via 0to1 Media",
     timeframe: "2020 – 2022",
     summary:
-      "Used GA4 data to iterate 10+ campaign landing pages, lifting engagement and social shares by 25%.",
+      "Used GA4 data to iterate 10+ campaign landing pages, lifting a combined engagement-and-shares metric by 25%.",
     tags: ["GA4", "SEO", "Conversion"],
     problem:
       "Campaign landing pages were being built and left alone — no feedback loop from real user behavior back into design decisions.",
     approach:
       "I set up a GA4-driven iteration cycle across 10+ landing pages, combining analytics with SEO best practices to find and fix the specific points where users were dropping off.",
     outcome:
-      "User engagement and social shares rose 25%, and the iteration process became the template for future campaign pages.",
-    metric: { value: "+25%", label: "Engagement & shares" },
+      "A blended engagement-and-social-shares metric rose 25%, and the iteration process became the template for future campaign pages.",
+    metric: { value: "+25%", label: "Engagement + shares (blended)" },
   },
 ];
 

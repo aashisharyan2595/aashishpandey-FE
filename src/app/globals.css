@@ -94,7 +94,13 @@ textarea::placeholder {
   opacity: 0.75;
 }
 
-/* ---- Typography scale (per guideline §04) ---- */
+/* ---- Typography scale (Sprint 01 rebuild) ----
+   Display / Hero / H1–H4 / Body Large / Body / Body Small / Label / Meta.
+   Body sizes were raised across the board — the pre-rebuild site leaned on
+   text-sm (14px) for substantial reading content (card summaries, bios,
+   intros), which reads as caption-weight for anything longer than a
+   sentence. Body is now the reading-content default; Body Small is for
+   genuinely secondary text (captions, helper copy), not paragraphs. */
 
 .display-xl {
   font-weight: 900;
@@ -108,6 +114,16 @@ textarea::placeholder {
   line-height: 1;
   letter-spacing: -0.01em;
   font-size: clamp(2.25rem, 3vw + 1rem, 4rem);
+}
+
+/* Hero: page-header scale (PageHero titles) — a step below Display, a step
+   above H1, since page heroes need presence without competing with the
+   homepage's Display headline. */
+.hero-title {
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  font-size: clamp(2.25rem, 3.2vw + 1.25rem, 4.25rem);
 }
 
 .h1 {
@@ -126,6 +142,34 @@ textarea::placeholder {
   font-weight: 700;
   line-height: 1.3;
   font-size: 1.25rem;
+}
+
+.h4 {
+  font-weight: 700;
+  line-height: 1.35;
+  font-size: 1.0625rem;
+}
+
+.body-l {
+  font-size: 1.1875rem;
+  line-height: 1.6;
+}
+
+.body {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.body-sm {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .eyebrow {
