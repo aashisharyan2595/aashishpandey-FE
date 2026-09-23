@@ -1,85 +1,53 @@
-"use client";
-
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
-import { useRef } from "react";
 import CaseStudyCover from "@/components/CaseStudyCover";
+import Icon from "@/components/Icon";
+import Reveal from "@/components/Reveal";
 import type { CaseStudy } from "@/lib/case-studies";
 
-const MotionLink = motion.create(Link);
-
-function WorkCard({ item, index }: { item: CaseStudy; index: number }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0.5);
-  const y = useMotionValue(0.5);
-  const springX = useSpring(x, { stiffness: 200, damping: 20 });
-  const springY = useSpring(y, { stiffness: 200, damping: 20 });
-  const rotateX = useTransform(springY, [0, 1], [8, -8]);
-  const rotateY = useTransform(springX, [0, 1], [-8, 8]);
-
-  const handleMove = (e: React.PointerEvent<HTMLAnchorElement>) => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    x.set((e.clientX - rect.left) / rect.width);
-    y.set((e.clientY - rect.top) / rect.height);
-  };
-
-  const reset = () => {
-    x.set(0.5);
-    y.set(0.5);
-  };
-
-  return (
-    <MotionLink
-      ref={ref}
-      href={`/work/${item.slug}`}
-      data-cursor-hover
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, delay: index * 0.05 }}
-      onPointerMove={handleMove}
-      onPointerLeave={reset}
-      style={{ rotateX, rotateY, transformPerspective: 800 }}
-      className="glass-panel group block overflow-hidden rounded-3xl"
-    >
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <CaseStudyCover
-          slug={item.slug}
-          label={item.title}
-          className="h-full w-full scale-105 transition-transform duration-700 ease-out group-hover:scale-100"
-        />
-        <span className="absolute left-4 top-4 font-mono text-xs uppercase tracking-widest text-muted">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <span className="absolute right-4 top-4 rounded-full border border-ink/15 bg-background/60 px-3 py-1 font-mono text-xs uppercase tracking-widest text-foreground backdrop-blur-sm">
-          {item.metric.value}
-        </span>
-      </div>
-
-      <div className="p-6">
-        <h3 className="font-display text-xl transition-colors group-hover:text-accent md:text-2xl">
-          {item.title}
-        </h3>
-        <p className="mt-2 text-sm text-muted">{item.summary}</p>
-        <div className="mt-4 flex flex-wrap gap-2 text-xs uppercase tracking-widest text-muted">
-          {item.tags.map((tag) => (
-            <span key={tag} className="rounded-full border border-ink/10 px-3 py-1">
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    </MotionLink>
-  );
-}
-
 export default function WorkGrid({ items }: { items: CaseStudy[] }) {
+  if (items.length === 0) {
+    return (
+      <div className="mt-16 border border-dashed border-line p-10 text-center">
+        <p className="eyebrow">No matches</p>
+        <p className="mt-3 text-muted">Nothing filed under that discipline yet.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="mt-16 grid gap-6 [perspective:1200px] sm:grid-cols-2 xl:grid-cols-3">
+    <div className="mt-16 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 xl:grid-cols-3">
       {items.map((item, i) => (
-        <WorkCard key={item.slug} item={item} index={i} />
+        <Reveal key={item.slug} delay={i * 0.04} className="bg-background">
+          <Link href={`/work/${item.slug}`} className="group block h-full">
+            <div className="relative aspect-[4/3] overflow-hidden">
+              <CaseStudyCover
+                slug={item.slug}
+                label={item.title}
+                className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              />
+              <span className="tag absolute right-3 top-3 bg-background/90">{item.metric.value}</span>
+            </div>
+
+            <div className="p-6">
+              <p className="meta-mono">
+                {String(i + 1).padStart(2, "0")} · {item.client.split(",")[0]} · {item.timeframe.split(/[\s–]/)[0]}
+              </p>
+              <h3 className="h3 mt-2 transition-colors group-hover:text-interactive">{item.title}</h3>
+              <p className="mt-2 text-sm text-muted">{item.summary}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {item.tags.map((tag) => (
+                  <span key={tag} className="tag">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-widest text-muted transition-all group-hover:gap-3 group-hover:text-interactive">
+                View project
+                <Icon name="arrowRight" size={14} />
+              </span>
+            </div>
+          </Link>
+        </Reveal>
       ))}
     </div>
   );

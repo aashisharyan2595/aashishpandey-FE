@@ -36,7 +36,6 @@ export default function MagneticLink({
       <Link
         ref={ref}
         href={href}
-        data-cursor-hover
         onPointerMove={handleMove}
         onPointerLeave={handleLeave}
         className={className}

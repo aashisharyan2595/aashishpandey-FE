@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import MagneticLink from "@/components/MagneticLink";
+import Icon from "@/components/Icon";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
@@ -27,22 +27,23 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 transition-all duration-500 md:px-12 ${
-          scrolled
-            ? "border-b border-foreground/10 bg-background/40 py-4 text-foreground shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_8px_32px_-16px_rgba(0,0,0,0.5)] backdrop-blur-xl backdrop-saturate-150"
-            : "py-6 text-white mix-blend-difference"
+        className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-colors duration-300 md:px-12 ${
+          scrolled ? "border-b border-line bg-background/95 backdrop-blur-sm" : "border-b border-transparent"
         }`}
       >
-        <MagneticLink href="/" className="font-display text-lg font-medium">
-          AP
-        </MagneticLink>
+        <Link href="/" className="text-sm font-black uppercase tracking-[0.12em]">
+          Aashish Pandey
+        </Link>
 
-        <nav className="hidden items-center gap-8 text-sm uppercase tracking-widest sm:flex">
+        <nav className="hidden items-center gap-8 text-sm font-bold uppercase tracking-[0.06em] sm:flex">
           {links.map((link) => (
-            <MagneticLink key={link.href} href={link.href}>
+            <Link key={link.href} href={link.href} className="transition-colors hover:text-interactive">
               {link.label}
-            </MagneticLink>
+            </Link>
           ))}
+          <Link href="/contact" className="btn !py-2 !text-xs">
+            Work with me
+          </Link>
           <ThemeToggle />
         </nav>
 
@@ -50,12 +51,12 @@ export default function Navbar() {
           <ThemeToggle />
           <button
             type="button"
-            data-cursor-hover
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="font-mono text-sm uppercase tracking-widest"
+            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest"
           >
+            <Icon name={open ? "close" : "menu"} size={18} />
             {open ? "Close" : "Menu"}
           </button>
         </div>
@@ -67,21 +68,17 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center gap-6 bg-background/70 px-6 backdrop-blur-2xl sm:hidden"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 flex flex-col justify-center gap-6 bg-background px-6 sm:hidden"
           >
             {links.map((link, i) => (
               <motion.div
                 key={link.href}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.05 + i * 0.06 }}
+                transition={{ delay: 0.04 + i * 0.05 }}
               >
-                <Link
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="font-display text-4xl"
-                >
+                <Link href={link.href} onClick={() => setOpen(false)} className="display-l">
                   {link.label}
                 </Link>
               </motion.div>

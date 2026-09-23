@@ -22,7 +22,7 @@ export default async function BlogIndexPage() {
       <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <PageHero
           eyebrow="Writing"
-          title="Notes on delivery and shipping."
+          title="From the field."
           intro="Field notes on process, tooling, and what actually moves a project forward."
         />
 
@@ -32,8 +32,7 @@ export default async function BlogIndexPage() {
               <Link
                 key={c._id}
                 href={`/blog/category/${c.slug}`}
-                data-cursor-hover
-                className="rounded-full border border-ink/10 px-4 py-1.5 text-sm hover:border-accent"
+                className="tag hover:border-accent"
               >
                 {c.name}
               </Link>

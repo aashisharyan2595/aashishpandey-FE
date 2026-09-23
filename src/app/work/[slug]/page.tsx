@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CaseStudyCover from "@/components/CaseStudyCover";
 import Footer from "@/components/Footer";
+import Icon from "@/components/Icon";
 import Navbar from "@/components/Navbar";
 import Reveal from "@/components/Reveal";
+import Stamp from "@/components/Stamp";
 import { getCaseStudies, getCaseStudyBySlug } from "@/lib/case-studies";
 import { buildMetadata } from "@/lib/seo";
 
@@ -15,11 +17,7 @@ export async function generateStaticParams(): Promise<Params[]> {
   return studies.map((c) => ({ slug: c.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<Params>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
   const item = await getCaseStudyBySlug(slug);
   if (!item) return {};
@@ -37,11 +35,7 @@ const SECTIONS = [
   { key: "outcome" as const, label: "The outcome" },
 ];
 
-export default async function CaseStudyPage({
-  params,
-}: {
-  params: Promise<Params>;
-}) {
+export default async function CaseStudyPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const item = await getCaseStudyBySlug(slug);
   if (!item) notFound();
@@ -49,76 +43,72 @@ export default async function CaseStudyPage({
   const all = await getCaseStudies();
   const next = all[(all.findIndex((c) => c.slug === slug) + 1) % all.length];
 
+  const metaRows: [string, string][] = [
+    ["Client", item.client],
+    ["Timeframe", item.timeframe],
+    ["Disciplines", item.tags.join(", ")],
+    ["Status", "Shipped"],
+  ];
+
   return (
     <>
       <Navbar />
       <main className="flex-1 pb-24">
-        <div className="relative mt-24 aspect-[16/9] w-full overflow-hidden md:mt-28 md:aspect-[21/9]">
+        {/* Real screenshot / artifact slot — see CaseStudyCover: honestly
+            labelled "cover pending" rather than a fabricated screenshot,
+            per the authenticity rule. Swap `coverImage` in once a real
+            capture exists. */}
+        <div className="relative mt-24 aspect-[16/9] w-full overflow-hidden border-b border-line md:mt-28 md:aspect-[21/9]">
           <CaseStudyCover slug={item.slug} label={item.title} className="h-full w-full" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         </div>
 
         <div className="px-6 md:px-12">
-          <Reveal className="mt-8 max-w-3xl md:-mt-24">
-            <Link
-              href="/work"
-              data-cursor-hover
-              className="font-mono text-sm uppercase tracking-widest text-muted hover:text-accent"
-            >
+          <Reveal className="mt-10 max-w-3xl">
+            <Link href="/work" className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive">
               ← All work
             </Link>
-            <p className="mt-8 font-mono text-sm uppercase tracking-[0.3em] text-muted">
-              {item.client} — {item.timeframe}
-            </p>
-            <h1 className="font-display mt-4 text-4xl leading-tight md:text-6xl">
-              {item.title}
-            </h1>
-            <div className="mt-6 flex flex-wrap gap-2 text-xs uppercase tracking-widest text-muted">
-              {item.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-ink/10 px-3 py-1">
-                  {tag}
-                </span>
+            <p className="eyebrow mt-8">Case study</p>
+            <h1 className="display-l mt-4">{item.title}</h1>
+          </Reveal>
+
+          <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_2fr] lg:gap-16">
+            <Reveal delay={0.04}>
+              <dl className="grid gap-5 border-t border-line pt-6 lg:sticky lg:top-28">
+                {metaRows.map(([label, value]) => (
+                  <div key={label}>
+                    <dt className="meta-mono opacity-70">{label}</dt>
+                    <dd className="mt-1 text-sm font-bold">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-8">
+                <Stamp value={item.metric.value} label={item.metric.label} color="forest" size="md" />
+              </div>
+            </Reveal>
+
+            <div className="grid gap-16">
+              {SECTIONS.map((section, i) => (
+                <Reveal key={section.key} delay={0.06 + i * 0.05}>
+                  <div className="flex items-baseline gap-4">
+                    <span className="tabular text-sm font-black" style={{ color: "var(--gold)" }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h2 className="h2">{section.label}</h2>
+                  </div>
+                  <p className="mt-4 max-w-2xl text-lg text-muted">{item[section.key]}</p>
+                </Reveal>
               ))}
             </div>
-          </Reveal>
-
-          <Reveal
-            delay={0.05}
-            className="glass-panel mt-16 max-w-md rounded-3xl p-8"
-          >
-            <p className="font-display text-4xl text-accent md:text-5xl">{item.metric.value}</p>
-            <p className="mt-2 font-mono text-sm uppercase tracking-widest text-muted">
-              {item.metric.label}
-            </p>
-          </Reveal>
-
-          <div className="mt-20 grid max-w-3xl gap-16">
-            {SECTIONS.map((section, i) => (
-              <Reveal key={section.key} delay={i * 0.05}>
-                <div className="flex items-baseline gap-4">
-                  <span className="font-mono text-sm text-accent">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h2 className="font-display text-2xl md:text-3xl">{section.label}</h2>
-                </div>
-                <p className="mt-4 max-w-2xl text-lg text-muted">{item[section.key]}</p>
-              </Reveal>
-            ))}
           </div>
 
-          <Reveal delay={0.1} className="mt-32 max-w-3xl border-t border-ink/10 pt-12">
-            <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">Next up</p>
-            <Link
-              href={`/work/${next.slug}`}
-              data-cursor-hover
-              className="group mt-4 flex items-baseline justify-between gap-4"
-            >
-              <h3 className="font-display text-2xl transition-colors group-hover:text-accent md:text-4xl">
-                {next.title}
-              </h3>
-              <span className="shrink-0 font-mono text-sm uppercase tracking-widest text-muted group-hover:text-accent">
-                →
-              </span>
+          <Reveal delay={0.1} className="mt-32 max-w-3xl border-t border-line pt-12">
+            <p className="eyebrow">Next up</p>
+            <Link href={`/work/${next.slug}`} className="group mt-4 flex items-center justify-between gap-4">
+              <h3 className="h2 transition-colors group-hover:text-interactive">{next.title}</h3>
+              <Icon
+                name="arrowRight"
+                className="shrink-0 text-muted transition-all group-hover:translate-x-1 group-hover:text-interactive"
+              />
             </Link>
           </Reveal>
         </div>

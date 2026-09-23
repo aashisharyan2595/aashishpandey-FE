@@ -20,7 +20,7 @@ export default function ContactPage() {
           eyebrow="Contact"
           title={
             <>
-              Say hello: <span className="text-accent">let&apos;s build something.</span>
+              Say hello: <span style={{ color: "var(--gold)" }}>let&apos;s build something.</span>
             </>
           }
           intro="Whether you're hiring, have a project in mind, or just want to say hi — this reaches me directly."
@@ -28,33 +28,22 @@ export default function ContactPage() {
 
         <div className="mt-16 grid gap-16 lg:grid-cols-[1fr_1.2fr]">
           <Reveal>
-            <p className="font-mono text-sm uppercase tracking-widest text-muted">
-              Email
+            <p className="eyebrow">Two ways to reach me</p>
+            <p className="mt-3 max-w-sm text-sm text-muted">
+              Hiring for a role, or have a project that needs delivery, product,
+              or hands-on technical work — pick the closer fit in the form.
             </p>
-            <a
-              href="mailto:hello@aashishpandey.com"
-              data-cursor-hover
-              className="mt-2 block font-display text-2xl hover:text-accent md:text-3xl"
-            >
+            <p className="eyebrow mt-10">Email</p>
+            <a href="mailto:hello@aashishpandey.com" className="h2 mt-2 block hover:text-interactive">
               hello@aashishpandey.com
             </a>
 
-            <p className="mt-10 font-mono text-sm uppercase tracking-widest text-muted">
-              Elsewhere
-            </p>
+            <p className="eyebrow mt-10">Elsewhere</p>
             <div className="mt-2 grid gap-2">
-              <a
-                href="https://linkedin.com/in/aashish-kumar-pandey"
-                data-cursor-hover
-                className="block hover:text-accent"
-              >
+              <a href="https://linkedin.com/in/aashish-kumar-pandey" className="block hover:text-interactive">
                 LinkedIn
               </a>
-              <a
-                href="https://github.com/aashisharyan2595"
-                data-cursor-hover
-                className="block hover:text-accent"
-              >
+              <a href="https://github.com/aashisharyan2595" className="block hover:text-interactive">
                 GitHub
               </a>
             </div>
