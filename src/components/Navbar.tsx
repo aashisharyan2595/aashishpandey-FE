@@ -6,10 +6,13 @@ import { useEffect, useState } from "react";
 import Icon from "@/components/Icon";
 import ThemeToggle from "@/components/ThemeToggle";
 
+// Field Notes stays a real, indexed route (linked contextually from the
+// homepage's Field Notes module) but isn't a primary-nav destination — it
+// has no published content yet, and a nav item leading to "nothing filed
+// yet" reads as an unfinished site.
 const links = [
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/field-notes", label: "Field Notes" },
   { href: "/contact", label: "Contact" },
 ];
 
