@@ -2,9 +2,9 @@ import Link from "next/link";
 import Icon from "@/components/Icon";
 import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
-import Stamp from "@/components/Stamp";
+import RouteLine from "@/components/RouteLine";
 
-const DISCIPLINES = ["Project Management", "Digital Products", "Web Engineering", "D2C"];
+const METADATA = ["Pune / India", "Project Management", "Digital Products", "Web + D2C"];
 
 export default function Hero() {
   return (
@@ -15,17 +15,27 @@ export default function Hero() {
         viewBox="0 0 800 600"
         preserveAspectRatio="xMidYMid slice"
         aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.06]"
+        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.08]"
       >
         <polygon points="500,0 800,120 800,600 380,600" fill="var(--forest)" />
         <polygon points="800,120 800,600 620,600" fill="var(--gold)" />
       </svg>
 
-      <div className="relative grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-start lg:gap-16">
-        <div>
+      {/* Mobile/tablet: stacks headline -> photo -> supporting copy, so the
+          editorial hero object sits right under the headline instead of
+          being buried below the CTAs. Desktop: two columns, photo spans
+          both rows via named grid areas. */}
+      <div
+        className={[
+          "relative grid gap-10",
+          "[grid-template-areas:'heading'_'photo'_'body']",
+          "lg:grid-cols-[1.5fr_1fr] lg:items-start lg:gap-16",
+          "lg:[grid-template-areas:'heading_photo'_'body_photo']",
+        ].join(" ")}
+      >
+        <div style={{ gridArea: "heading" }}>
           <Reveal>
-            <p className="eyebrow">Aashish Pandey — Project Manager</p>
-            <h1 className="display-xl mt-5">
+            <h1 className="display-xl">
               I turn complex digital work
               <br />
               into things that
@@ -33,52 +43,56 @@ export default function Hero() {
               <span style={{ color: "var(--gold)" }}>actually ship.</span>
             </h1>
           </Reveal>
+        </div>
 
-          <Reveal delay={0.08} className="mt-6 flex flex-wrap gap-x-2 gap-y-1">
-            {DISCIPLINES.map((d, i) => (
+        <Reveal
+          scaleIn
+          delay={0.14}
+          className="flex justify-center lg:justify-end"
+          style={{ gridArea: "photo" }}
+        >
+          <PhotoFrame
+            src="/images/aashish-hero.webp"
+            alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
+            id="AP / Field"
+            caption="Pune, IN"
+            aspect="aspect-[4/5]"
+            objectPosition="50% 30%"
+            className="w-64 md:w-72 lg:w-80"
+          />
+        </Reveal>
+
+        <div style={{ gridArea: "body" }}>
+          <Reveal delay={0.1} className="max-w-lg text-lg text-muted">
+            I&apos;m Aashish — a Project Manager working across digital products,
+            websites, D2C and technology. I sit between business goals, design,
+            engineering and delivery to turn ambiguous briefs into work teams
+            can actually build and launch.
+          </Reveal>
+
+          <Reveal delay={0.18} className="mt-8 flex flex-wrap gap-x-2 gap-y-1">
+            {METADATA.map((d, i) => (
               <span key={d} className="meta-mono">
                 {d}
-                {i < DISCIPLINES.length - 1 && <span className="mx-2 opacity-50">/</span>}
+                {i < METADATA.length - 1 && <span className="mx-2 opacity-50">/</span>}
               </span>
             ))}
           </Reveal>
 
-          <Reveal delay={0.14} className="mt-8 max-w-lg text-lg text-muted">
-            6+ years running delivery for global brands — Unilever, Wipro, Reliance,
-            ITC — with enough hands-on CMS and dev background to get into the weeds
-            when a project needs it.
-          </Reveal>
+          {/* The route connecting where he is to what he does — the rider
+              motif, doubling as the brand's "Route" geometry primitive. */}
+          <RouteLine nodes={4} className="mt-4 h-3 w-full max-w-sm" />
 
-          <Reveal delay={0.2} className="mt-10 flex flex-wrap items-center gap-4">
+          <Reveal delay={0.24} className="mt-8 flex flex-wrap items-center gap-4">
             <Link href="/work" className="btn btn-primary">
-              See the work
+              View my work
               <Icon name="arrowRight" size={16} />
             </Link>
             <Link href="/contact" className="btn">
-              Work with me
+              Let&apos;s talk
             </Link>
           </Reveal>
         </div>
-
-        <Reveal delay={0.16} className="flex justify-center lg:justify-end">
-          <div className="relative">
-            <PhotoFrame
-              src="/images/aashish-hero.webp"
-              alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
-              id="AP / 06"
-              caption="Delivery lead"
-              aspect="aspect-[4/5]"
-              className="w-64 md:w-72 lg:w-80"
-            />
-            <Stamp
-              value="On time"
-              label="Every launch"
-              color="gold"
-              size="sm"
-              className="absolute -left-6 -bottom-6 w-28 bg-background md:-left-10"
-            />
-          </div>
-        </Reveal>
       </div>
     </section>
   );

@@ -20,7 +20,7 @@ export async function generateMetadata({
   return {
     title: `${name} — Writing — Aashish Pandey`,
     description: `Posts filed under ${name}.`,
-    alternates: { canonical: `/blog/category/${slug}` },
+    alternates: { canonical: `/field-notes/category/${slug}` },
   };
 }
 
@@ -41,7 +41,7 @@ export default async function BlogCategoryPage({
       <Navbar />
       <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <Reveal>
-          <Link href="/blog" className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive">
+          <Link href="/field-notes" className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive">
             ← All writing
           </Link>
           <p className="eyebrow mt-8">Category</p>

@@ -5,6 +5,11 @@ import Image from "next/image";
  * geometry primitive) — no rotation, no tape, no glassmorphism, per the UI
  * foundation. Pass `src` once a real photo exists; until then it renders a
  * clearly-labelled pending state rather than fake art.
+ *
+ * `objectPosition` lets each placement choose where the subject sits when
+ * the frame's aspect ratio crops the source image — the geometric artworks
+ * are tall (9:16-ish) and each one's subject sits at a different point in
+ * frame, so a single centred crop doesn't suit all of them.
  */
 export default function PhotoFrame({
   src,
@@ -12,6 +17,7 @@ export default function PhotoFrame({
   id,
   caption,
   aspect = "aspect-[4/5]",
+  objectPosition = "50% 50%",
   className,
 }: {
   src?: string;
@@ -19,14 +25,23 @@ export default function PhotoFrame({
   id: string;
   caption: string;
   aspect?: string;
-  rotate?: number;
+  objectPosition?: string;
   className?: string;
 }) {
   return (
-    <div className={`card cut-corner overflow-hidden ${className ?? ""}`}>
-      <div className={`relative ${aspect} bg-[var(--surface)]`}>
+    <div
+      className={`card cut-corner group overflow-hidden transition-colors duration-300 hover:border-[var(--gold)] ${className ?? ""}`}
+    >
+      <div className={`relative overflow-hidden ${aspect} bg-[var(--surface)]`}>
         {src ? (
-          <Image src={src} alt={alt} fill sizes="480px" className="object-cover" />
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="480px"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            style={{ objectPosition }}
+          />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-center">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className="text-muted opacity-60">

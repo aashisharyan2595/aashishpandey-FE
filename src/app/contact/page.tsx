@@ -2,6 +2,7 @@ import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageHero from "@/components/PageHero";
+import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
 import { buildMetadata } from "@/lib/seo";
 
@@ -20,10 +21,10 @@ export default function ContactPage() {
           eyebrow="Contact"
           title={
             <>
-              Say hello: <span style={{ color: "var(--gold)" }}>let&apos;s build something.</span>
+              Have a <span style={{ color: "var(--gold)" }}>complicated digital project?</span>
             </>
           }
-          intro="Whether you're hiring, have a project in mind, or just want to say hi — this reaches me directly."
+          intro="If you're building, redesigning, migrating or scaling a digital product or website, tell me what you're working on."
         />
 
         <div className="mt-16 grid gap-16 lg:grid-cols-[1fr_1.2fr]">
@@ -47,6 +48,16 @@ export default function ContactPage() {
                 GitHub
               </a>
             </div>
+
+            <PhotoFrame
+              src="/images/aashish-roadside.webp"
+              alt="Aashish Pandey sitting roadside next to his motorcycle, geometric editorial illustration"
+              id="AP / Field"
+              caption="Pune, IN"
+              aspect="aspect-[4/5]"
+              objectPosition="50% 15%"
+              className="mt-10 w-full max-w-[220px]"
+            />
           </Reveal>
 
           <Reveal delay={0.1}>

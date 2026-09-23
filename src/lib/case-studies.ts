@@ -30,6 +30,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "The site launched on schedule and stable, with a UX overhaul that improved the brand's positioning on the platform.",
     metric: { value: "On time", label: "Hard launch date, zero slip" },
+    coverImage: "/images/case-studies/tmicc-shopify-relaunch.webp",
   },
   {
     slug: "storynest-ai-platform",
@@ -46,6 +47,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "Traffic grew 50% over the engagement, with a backlog that stayed prioritized against evidence instead of opinion.",
     metric: { value: "+50%", label: "Traffic growth" },
+    coverImage: "/images/case-studies/storynest-ai-platform.webp",
   },
   {
     slug: "wipro-d2c-modernization",
@@ -62,6 +64,23 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "User handling capacity increased by 40%, with a shared process both platform teams could actually rely on.",
     metric: { value: "+40%", label: "Handling capacity" },
+  },
+  {
+    slug: "liquid-iv-europe-expansion",
+    title: "Expanding Liquid I.V. across Europe",
+    client: "Liquid I.V. (Unilever), via Langoor",
+    timeframe: "2024 – 2025",
+    summary:
+      "Took the #1 US hydration brand into Europe — one Shopify Plus hub routing to 8 fully localized country storefronts across 9 markets.",
+    tags: ["Shopify Plus", "Localization", "D2C", "Delivery"],
+    problem:
+      "Liquid I.V. had no European D2C footprint. Launching market-by-market would have meant rebuilding the same storefront logic, checkout, and content pipeline up to nine times, with no shared source of truth and no consistent way to add a market later.",
+    approach:
+      "I planned and delivered a hub-and-spoke architecture instead: a single central site (liquid-iv.eu) that geo-routes visitors to their market, sitting in front of eight independent Shopify Plus storefronts — Germany, Spain, France, Italy, the Netherlands, Sweden, Iceland, and Ireland. I owned the delivery plan across design, translation, and build for all nine sites in parallel, sequencing full-content localization (not just currency and shipping — every storefront ships in its own language) against a shared launch window, and coordinating with translation and regional stakeholders so each market's site was genuinely native, not machine-translated boilerplate.",
+    outcome:
+      "Nine live storefronts launched from one coordinated program instead of nine separate ones, each fully localized in its market's language, with a central hub that makes it straightforward to add the next country.",
+    metric: { value: "9", label: "Countries, one launch program" },
+    coverImage: "/images/case-studies/liquid-iv-europe-expansion.webp",
   },
   {
     slug: "zebronics-campaign-pages",

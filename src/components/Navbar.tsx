@@ -9,7 +9,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 const links = [
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/blog", label: "Writing" },
+  { href: "/field-notes", label: "Field Notes" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -35,19 +35,19 @@ export default function Navbar() {
           Aashish Pandey
         </Link>
 
-        <nav className="hidden items-center gap-8 text-sm font-bold uppercase tracking-[0.06em] sm:flex">
+        <nav className="hidden items-center gap-6 text-sm font-bold uppercase tracking-[0.06em] lg:flex lg:gap-8">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="transition-colors hover:text-interactive">
+            <Link key={link.href} href={link.href} className="nav-link transition-colors hover:text-interactive">
               {link.label}
             </Link>
           ))}
-          <Link href="/contact" className="btn !py-2 !text-xs">
+          <Link href="/contact" className="btn !py-2 !text-xs whitespace-nowrap">
             Work with me
           </Link>
           <ThemeToggle />
         </nav>
 
-        <div className="flex items-center gap-5 sm:hidden">
+        <div className="flex items-center gap-5 lg:hidden">
           <ThemeToggle />
           <button
             type="button"
@@ -69,7 +69,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center gap-6 bg-background px-6 sm:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-center gap-6 bg-background px-6 lg:hidden"
           >
             {links.map((link, i) => (
               <motion.div

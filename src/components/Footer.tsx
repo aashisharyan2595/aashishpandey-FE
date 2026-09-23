@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 
 const sitemap = [
   { href: "/work", label: "Work" },
-  { href: "/blog", label: "Writing" },
+  { href: "/field-notes", label: "Field Notes" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

@@ -29,10 +29,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   });
 }
 
+/* Renamed toward the brand book's case-study vocabulary (Context / The
+   decisions / The evidence) — but kept to the three real content fields
+   the data actually has rather than forcing the brief's full eight-stage
+   structure onto content that doesn't exist for it. */
 const SECTIONS = [
-  { key: "problem" as const, label: "The problem" },
-  { key: "approach" as const, label: "The approach" },
-  { key: "outcome" as const, label: "The outcome" },
+  { key: "problem" as const, label: "Context" },
+  { key: "approach" as const, label: "The response" },
+  { key: "outcome" as const, label: "The evidence" },
 ];
 
 export default async function CaseStudyPage({ params }: { params: Promise<Params> }) {
@@ -54,12 +58,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
     <>
       <Navbar />
       <main className="flex-1 pb-24">
-        {/* Real screenshot / artifact slot — see CaseStudyCover: honestly
-            labelled "cover pending" rather than a fabricated screenshot,
-            per the authenticity rule. Swap `coverImage` in once a real
-            capture exists. */}
         <div className="relative mt-24 aspect-[16/9] w-full overflow-hidden border-b border-line md:mt-28 md:aspect-[21/9]">
-          <CaseStudyCover slug={item.slug} label={item.title} className="h-full w-full" />
+          <CaseStudyCover
+            slug={item.slug}
+            label={item.title}
+            coverImage={item.coverImage}
+            className="h-full w-full"
+          />
         </div>
 
         <div className="px-6 md:px-12">
