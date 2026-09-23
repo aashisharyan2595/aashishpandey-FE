@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
 import { getBlogPosts } from "@/lib/blog";
 
@@ -19,13 +20,26 @@ export default async function FieldNotesPreview() {
         </Link>
       </Reveal>
 
-      <Reveal delay={0.05} className="mt-8 grid gap-4 sm:grid-cols-2">
-        {PULL_QUOTES.map((q) => (
-          <p key={q} className="h3 max-w-sm border-l-2 pl-4" style={{ borderColor: "var(--gold)" }}>
-            &ldquo;{q}&rdquo;
-          </p>
-        ))}
-      </Reveal>
+      <div className="mt-10 grid gap-10 md:grid-cols-[220px_1fr] md:items-center md:gap-12">
+        <Reveal scaleIn delay={0.05}>
+          <PhotoFrame
+            src="/images/aashish-checking-time.webp"
+            alt="Aashish Pandey checking the time on a ride, geometric editorial illustration"
+            id="AP / Field"
+            caption="On schedule"
+            aspect="aspect-[4/5]"
+            objectPosition="50% 20%"
+            className="w-full max-w-[220px]"
+          />
+        </Reveal>
+        <Reveal delay={0.1} className="grid gap-4 sm:grid-cols-2">
+          {PULL_QUOTES.map((q) => (
+            <p key={q} className="h3 max-w-sm border-l-2 pl-4" style={{ borderColor: "var(--gold)" }}>
+              &ldquo;{q}&rdquo;
+            </p>
+          ))}
+        </Reveal>
+      </div>
 
       {posts.length > 0 ? (
         <div className="mt-12 grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-3">

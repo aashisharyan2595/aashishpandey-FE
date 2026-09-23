@@ -2,6 +2,7 @@ import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageHero from "@/components/PageHero";
+import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
 import { buildMetadata } from "@/lib/seo";
 
@@ -47,6 +48,16 @@ export default function ContactPage() {
                 GitHub
               </a>
             </div>
+
+            <PhotoFrame
+              src="/images/aashish-roadside.webp"
+              alt="Aashish Pandey sitting roadside next to his motorcycle, geometric editorial illustration"
+              id="AP / Field"
+              caption="Pune, IN"
+              aspect="aspect-[4/5]"
+              objectPosition="50% 15%"
+              className="mt-10 w-full max-w-[220px]"
+            />
           </Reveal>
 
           <Reveal delay={0.1}>

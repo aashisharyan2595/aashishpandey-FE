@@ -1,5 +1,6 @@
 import About from "@/components/About";
 import Contact from "@/components/Contact";
+import FieldBreak from "@/components/FieldBreak";
 import FieldNotesPreview from "@/components/FieldNotesPreview";
 import Footer from "@/components/Footer";
 import FourWorlds from "@/components/FourWorlds";
@@ -16,6 +17,7 @@ export default function Home() {
         <Hero />
         <Numbers />
         <Work />
+        <FieldBreak />
         <FourWorlds />
         <FieldNotesPreview />
         <About />

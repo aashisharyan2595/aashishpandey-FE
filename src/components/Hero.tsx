@@ -2,6 +2,7 @@ import Link from "next/link";
 import Icon from "@/components/Icon";
 import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
+import RouteLine from "@/components/RouteLine";
 
 const METADATA = ["Pune / India", "Project Management", "Digital Products", "Web + D2C"];
 
@@ -78,7 +79,11 @@ export default function Hero() {
             ))}
           </Reveal>
 
-          <Reveal delay={0.24} className="mt-10 flex flex-wrap items-center gap-4">
+          {/* The route connecting where he is to what he does — the rider
+              motif, doubling as the brand's "Route" geometry primitive. */}
+          <RouteLine nodes={4} className="mt-4 h-3 w-full max-w-sm" />
+
+          <Reveal delay={0.24} className="mt-8 flex flex-wrap items-center gap-4">
             <Link href="/work" className="btn btn-primary">
               View my work
               <Icon name="arrowRight" size={16} />
