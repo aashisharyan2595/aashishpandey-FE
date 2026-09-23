@@ -16,11 +16,9 @@ export default function PageHero({
     <Reveal className="border-b border-line pb-16">
       <div className="flex items-baseline justify-between gap-4">
         <p className="eyebrow">{eyebrow}</p>
-        {index && <p className="font-mono text-sm text-muted">{index}</p>}
+        {index && <p className="meta tabular">{index}</p>}
       </div>
-      <h1 className="font-display mt-6 max-w-3xl text-5xl font-extrabold leading-[0.95] tracking-tight md:text-7xl">
-        {title}
-      </h1>
+      <h1 className="display-l mt-6 max-w-3xl">{title}</h1>
       {intro && <p className="mt-6 max-w-xl text-lg text-muted">{intro}</p>}
     </Reveal>
   );

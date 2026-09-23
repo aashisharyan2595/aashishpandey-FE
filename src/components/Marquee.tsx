@@ -26,8 +26,8 @@ export default function Marquee({ items }: { items: string[] }) {
     <div className="overflow-hidden border-y border-line py-5">
       <div ref={track} className="flex w-max gap-10">
         {doubled.map((item, i) => (
-          <span key={i} className="font-mono text-sm uppercase tracking-[0.15em] text-muted">
-            {item} <span className="text-accent">·</span>
+          <span key={i} className="text-sm font-bold uppercase tracking-[0.08em] text-muted">
+            {item} <span style={{ color: "var(--gold)" }}>·</span>
           </span>
         ))}
       </div>

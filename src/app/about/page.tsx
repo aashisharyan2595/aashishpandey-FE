@@ -55,7 +55,7 @@ export default function AboutPage() {
             </p>
           </Reveal>
           <Reveal delay={0.1} className="flex justify-center lg:justify-end">
-            <PhotoFrame id="AP / About" caption="Pune, IN" aspect="aspect-[5/6]" rotate={-3} className="w-full max-w-xs" />
+            <PhotoFrame id="AP / About" caption="Pune, IN" aspect="aspect-[5/6]" className="w-full max-w-xs" />
           </Reveal>
         </div>
 
@@ -69,9 +69,7 @@ export default function AboutPage() {
 
         <Reveal className="mt-24">
           <p className="eyebrow">Career</p>
-          <h2 className="font-display mt-4 max-w-2xl text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">
-            Where the last six years went.
-          </h2>
+          <h2 className="h1 mt-4 max-w-2xl">Where the last six years went.</h2>
         </Reveal>
         <CareerTimeline items={experience} />
 

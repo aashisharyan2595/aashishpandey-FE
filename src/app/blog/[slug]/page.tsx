@@ -74,11 +74,11 @@ export default async function BlogPostPage({
         <Reveal className="max-w-3xl">
           <Link
             href="/blog"
-            className="font-mono text-sm uppercase tracking-widest text-muted hover:text-accent"
+            className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive"
           >
             ← All writing
           </Link>
-          <h1 className="font-display mt-8 text-4xl font-extrabold leading-[0.95] tracking-tight md:text-6xl">
+          <h1 className="display-l mt-8">
             {post.title}
           </h1>
           {post.tags.length > 0 && (

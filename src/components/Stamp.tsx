@@ -1,47 +1,40 @@
-type StampColor = "amber" | "green" | "cobalt";
+type MetricColor = "gold" | "forest" | "sky";
 
-const colorClass: Record<StampColor, string> = {
-  amber: "stamp-amber",
-  green: "stamp-green",
-  cobalt: "stamp-cobalt",
+const colorVar: Record<MetricColor, string> = {
+  gold: "var(--accent)",
+  forest: "var(--success)",
+  sky: "var(--interactive)",
 };
 
 /**
- * The site's signature element: an ink stamp, like the ones on a shipping
- * manifest marking a parcel ON TIME / DELIVERED. Used wherever there's a
- * real, shipped outcome to mark — never decoratively.
+ * A metric block — large tabular numeral + label, flat and bordered with a
+ * single cut corner (the brand's "Cut" geometry primitive). Marks a real,
+ * evidenced outcome; never decorative.
  */
 export default function Stamp({
   value,
   label,
-  color = "amber",
-  tilt = -7,
+  color = "gold",
   size = "md",
   className,
 }: {
   value: string;
   label: string;
-  color?: StampColor;
+  color?: MetricColor;
   tilt?: number;
   size?: "sm" | "md" | "lg";
   className?: string;
 }) {
-  const sizeClass =
-    size === "lg" ? "w-36 h-36 md:w-44 md:h-44" : size === "sm" ? "w-20 h-20" : "w-28 h-28";
+  const pad = size === "lg" ? "p-8" : size === "sm" ? "p-4" : "p-6";
+  const valueSize =
+    size === "lg" ? "text-5xl md:text-6xl" : size === "sm" ? "text-2xl" : "text-3xl md:text-4xl";
 
   return (
-    <div
-      className={`stamp ${colorClass[color]} ${sizeClass} ${className ?? ""}`}
-      style={{ "--stamp-tilt": `${tilt}deg` } as React.CSSProperties}
-    >
-      <span
-        className={`font-display leading-none ${
-          size === "lg" ? "text-3xl md:text-4xl" : size === "sm" ? "text-base" : "text-xl md:text-2xl"
-        }`}
-      >
+    <div className={`card cut-corner-sm ${pad} ${className ?? ""}`} style={{ borderTopColor: colorVar[color] }}>
+      <p className={`tabular font-black leading-none ${valueSize}`} style={{ color: colorVar[color] }}>
         {value}
-      </span>
-      <span className="mt-1 text-[0.55rem] tracking-[0.18em]">{label}</span>
+      </p>
+      <p className="eyebrow mt-3">{label}</p>
     </div>
   );
 }

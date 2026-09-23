@@ -41,18 +41,11 @@ export default async function BlogCategoryPage({
       <Navbar />
       <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <Reveal>
-          <Link
-            href="/blog"
-            className="font-mono text-sm uppercase tracking-widest text-muted hover:text-accent"
-          >
+          <Link href="/blog" className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive">
             ← All writing
           </Link>
-          <p className="font-mono mt-8 text-sm uppercase tracking-[0.3em] text-muted">
-            Category
-          </p>
-          <h1 className="font-display mt-4 max-w-2xl text-4xl font-extrabold leading-[0.95] tracking-tight md:text-6xl">
-            {category?.name ?? slug}
-          </h1>
+          <p className="eyebrow mt-8">Category</p>
+          <h1 className="display-l mt-4 max-w-2xl">{category?.name ?? slug}</h1>
         </Reveal>
 
         <BlogList posts={posts} />

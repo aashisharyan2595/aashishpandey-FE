@@ -109,7 +109,11 @@ export default function ContactForm() {
 
       <textarea name="message" required rows={4} placeholder="What are you building?" className={fieldClass} />
 
-      {status === "error" && errorMessage && <p className="text-sm text-accent">{errorMessage}</p>}
+      {status === "error" && errorMessage && (
+        <p className="text-sm" style={{ color: "var(--terracotta)" }}>
+          {errorMessage}
+        </p>
+      )}
 
       <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-4 w-fit disabled:opacity-50">
         {status === "sending" && "Sending…"}

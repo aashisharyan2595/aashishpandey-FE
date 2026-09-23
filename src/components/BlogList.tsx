@@ -33,7 +33,7 @@ export default function BlogList({ posts }: { posts: BlogPostSummary[] }) {
               )}
             </div>
             <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-              <h2 className="font-display text-2xl font-bold transition-colors group-hover:text-accent md:text-4xl">
+              <h2 className="h2 transition-colors group-hover:text-interactive">
                 {post.title}
               </h2>
               <p className="max-w-md text-muted">{post.excerpt}</p>

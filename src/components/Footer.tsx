@@ -14,14 +14,14 @@ export default function Footer() {
       <Reveal>
         <Link href="/contact" className="group block">
           <p className="eyebrow">Next stop</p>
-          <span className="font-display mt-3 block text-4xl font-extrabold leading-[0.95] tracking-tight md:text-7xl">
-            Let&apos;s build <span className="text-accent">something.</span>
+          <span className="display-l mt-3 block">
+            Let&apos;s build <span style={{ color: "var(--gold)" }}>something.</span>
           </span>
         </Link>
       </Reveal>
 
       <div className="mt-16 flex flex-col gap-8 border-t border-line pt-8 md:flex-row md:items-center md:justify-between">
-        <nav className="flex flex-wrap gap-x-8 gap-y-3 font-mono text-sm uppercase tracking-widest text-muted">
+        <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm font-bold uppercase tracking-widest text-muted">
           {sitemap.map((link) => (
             <Link key={link.href} href={link.href} className="hover:text-foreground">
               {link.label}
@@ -36,9 +36,7 @@ export default function Footer() {
           <a href="https://github.com/aashisharyan2595" className="hover:text-foreground">
             GitHub
           </a>
-          <span className="font-mono text-xs uppercase tracking-widest">
-            © {new Date().getFullYear()} Aashish Pandey
-          </span>
+          <span className="meta">© {new Date().getFullYear()} Aashish Pandey</span>
         </div>
       </div>
     </footer>

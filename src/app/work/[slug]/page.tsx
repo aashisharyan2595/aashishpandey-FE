@@ -52,15 +52,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
 
         <div className="px-6 md:px-12">
           <Reveal className="mt-10 max-w-3xl">
-            <Link href="/work" className="font-mono text-sm uppercase tracking-widest text-muted hover:text-accent">
+            <Link href="/work" className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive">
               ← All work
             </Link>
             <p className="eyebrow mt-8">
               {item.client} — {item.timeframe}
             </p>
-            <h1 className="font-display mt-4 text-4xl font-extrabold leading-[0.95] tracking-tight md:text-6xl">
-              {item.title}
-            </h1>
+            <h1 className="display-l mt-4">{item.title}</h1>
             <div className="mt-6 flex flex-wrap gap-2">
               {item.tags.map((tag) => (
                 <span key={tag} className="tag">
@@ -71,15 +69,17 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           </Reveal>
 
           <Reveal delay={0.05} className="mt-16">
-            <Stamp value={item.metric.value} label={item.metric.label} color="green" tilt={-5} size="lg" />
+            <Stamp value={item.metric.value} label={item.metric.label} color="forest" size="lg" />
           </Reveal>
 
           <div className="mt-20 grid max-w-3xl gap-16">
             {SECTIONS.map((section, i) => (
               <Reveal key={section.key} delay={i * 0.05}>
                 <div className="flex items-baseline gap-4">
-                  <span className="font-mono text-sm text-accent">{String(i + 1).padStart(2, "0")}</span>
-                  <h2 className="font-display text-2xl font-bold md:text-3xl">{section.label}</h2>
+                  <span className="tabular text-sm font-black" style={{ color: "var(--gold)" }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h2 className="h2">{section.label}</h2>
                 </div>
                 <p className="mt-4 max-w-2xl text-lg text-muted">{item[section.key]}</p>
               </Reveal>
@@ -89,10 +89,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           <Reveal delay={0.1} className="mt-32 max-w-3xl border-t border-line pt-12">
             <p className="eyebrow">Next up</p>
             <Link href={`/work/${next.slug}`} className="group mt-4 flex items-baseline justify-between gap-4">
-              <h3 className="font-display text-2xl font-bold transition-colors group-hover:text-accent md:text-4xl">
-                {next.title}
-              </h3>
-              <span className="shrink-0 font-mono text-sm uppercase tracking-widest text-muted group-hover:text-accent">
+              <h3 className="h2 transition-colors group-hover:text-interactive">{next.title}</h3>
+              <span className="shrink-0 text-sm font-bold uppercase tracking-widest text-muted group-hover:text-interactive">
                 →
               </span>
             </Link>

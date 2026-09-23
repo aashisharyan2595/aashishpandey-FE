@@ -27,17 +27,16 @@ export default function Navbar() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-colors duration-300 md:px-12 ${
-          scrolled ? "border-b border-line bg-background/90 backdrop-blur-sm" : "border-b border-transparent"
+          scrolled ? "border-b border-line bg-background/95 backdrop-blur-sm" : "border-b border-transparent"
         }`}
       >
-        <Link href="/" className="flex items-center gap-2">
-          <span className="font-display text-xl font-extrabold tracking-tight">AP</span>
-          <span className="eyebrow hidden sm:inline">— Delivery Manifest</span>
+        <Link href="/" className="text-sm font-black uppercase tracking-[0.12em]">
+          Aashish Pandey
         </Link>
 
-        <nav className="hidden items-center gap-8 font-mono text-sm uppercase tracking-widest sm:flex">
+        <nav className="hidden items-center gap-8 text-sm font-bold uppercase tracking-[0.06em] sm:flex">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="transition-colors hover:text-accent">
+            <Link key={link.href} href={link.href} className="transition-colors hover:text-interactive">
               {link.label}
             </Link>
           ))}
@@ -51,7 +50,7 @@ export default function Navbar() {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="font-mono text-sm uppercase tracking-widest"
+            className="text-sm font-bold uppercase tracking-widest"
           >
             {open ? "Close" : "Menu"}
           </button>
@@ -74,11 +73,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.04 + i * 0.05 }}
               >
-                <Link
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="font-display text-4xl font-bold"
-                >
+                <Link href={link.href} onClick={() => setOpen(false)} className="display-l">
                   {link.label}
                 </Link>
               </motion.div>

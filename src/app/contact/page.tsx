@@ -20,7 +20,7 @@ export default function ContactPage() {
           eyebrow="Contact"
           title={
             <>
-              Say hello: <span className="text-accent">let&apos;s build something.</span>
+              Say hello: <span style={{ color: "var(--gold)" }}>let&apos;s build something.</span>
             </>
           }
           intro="Whether you're hiring, have a project in mind, or just want to say hi — this reaches me directly."
@@ -29,16 +29,16 @@ export default function ContactPage() {
         <div className="mt-16 grid gap-16 lg:grid-cols-[1fr_1.2fr]">
           <Reveal>
             <p className="eyebrow">Email</p>
-            <a href="mailto:hello@aashishpandey.com" className="font-display mt-2 block text-2xl font-bold hover:text-accent md:text-3xl">
+            <a href="mailto:hello@aashishpandey.com" className="h2 mt-2 block hover:text-interactive">
               hello@aashishpandey.com
             </a>
 
             <p className="eyebrow mt-10">Elsewhere</p>
             <div className="mt-2 grid gap-2">
-              <a href="https://linkedin.com/in/aashish-kumar-pandey" className="block hover:text-accent">
+              <a href="https://linkedin.com/in/aashish-kumar-pandey" className="block hover:text-interactive">
                 LinkedIn
               </a>
-              <a href="https://github.com/aashisharyan2595" className="block hover:text-accent">
+              <a href="https://github.com/aashisharyan2595" className="block hover:text-interactive">
                 GitHub
               </a>
             </div>

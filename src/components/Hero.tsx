@@ -6,22 +6,28 @@ import Stamp from "@/components/Stamp";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-line px-6 pb-20 pt-32 md:px-12 md:pb-28 md:pt-40">
-      <Reveal className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-line pb-4 font-mono text-xs uppercase tracking-[0.15em] text-muted">
-        <span>Manifest No. AP-2026-06</span>
-        <span>Origin: Pune, IN</span>
-        <span className="hidden sm:inline">Status: In transit → on schedule</span>
-      </Reveal>
+      {/* A single large geometric plane, restrained, behind the headline —
+          the brand's "environment" layer, per composition hierarchy. */}
+      <svg
+        viewBox="0 0 800 600"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden
+        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.06]"
+      >
+        <polygon points="500,0 800,120 800,600 380,600" fill="var(--forest)" />
+        <polygon points="800,120 800,600 620,600" fill="var(--gold)" />
+      </svg>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-start lg:gap-16">
+      <div className="relative grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-start lg:gap-16">
         <div>
           <Reveal>
             <p className="eyebrow">Aashish Pandey — Project Manager</p>
-            <h1 className="font-display mt-5 text-[13vw] font-extrabold leading-[0.9] tracking-tight sm:text-6xl md:text-7xl xl:text-8xl">
+            <h1 className="display-xl mt-5">
               I keep complex
               <br />
               delivery
               <br />
-              <span className="text-accent">shipping on schedule.</span>
+              <span style={{ color: "var(--gold)" }}>shipping on schedule.</span>
             </h1>
           </Reveal>
 
@@ -43,20 +49,13 @@ export default function Hero() {
 
         <Reveal delay={0.12} className="flex justify-center lg:justify-end">
           <div className="relative">
-            <PhotoFrame
-              id="AP / 06"
-              caption="Delivery lead"
-              aspect="aspect-[4/5]"
-              rotate={2}
-              className="w-56 md:w-64"
-            />
+            <PhotoFrame id="AP / 06" caption="Delivery lead" aspect="aspect-[4/5]" className="w-56 md:w-64" />
             <Stamp
               value="On time"
               label="Every launch"
-              color="amber"
-              tilt={-10}
+              color="gold"
               size="sm"
-              className="absolute -left-8 -bottom-6 bg-background md:-left-10"
+              className="absolute -left-6 -bottom-6 w-28 bg-background md:-left-10"
             />
           </div>
         </Reveal>

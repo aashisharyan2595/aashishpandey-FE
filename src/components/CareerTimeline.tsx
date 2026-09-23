@@ -11,16 +11,18 @@ export default function CareerTimeline({ items }: { items: ExperienceEntry[] }) 
             delay={i * 0.05}
             className="card w-[85vw] max-w-md shrink-0 snap-start p-8"
           >
-            <p className="font-mono text-xs uppercase tracking-[0.15em] text-accent">
-              Stop {String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+            <p className="tabular text-sm font-black" style={{ color: "var(--gold)" }}>
+              {String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
             </p>
-            <p className="mt-4 font-mono text-xs uppercase tracking-widest text-muted">{item.period}</p>
-            <h3 className="font-display mt-2 text-2xl font-bold">{item.role}</h3>
+            <p className="meta mt-4">{item.period}</p>
+            <h3 className="h3 mt-2">{item.role}</h3>
             <p className="text-muted">{item.company}</p>
             <ul className="mt-6 grid gap-3 text-sm text-muted">
               {item.bullets.map((bullet) => (
                 <li key={bullet} className="flex gap-2">
-                  <span className="mt-1 shrink-0 text-accent">—</span>
+                  <span className="mt-1 shrink-0" style={{ color: "var(--gold)" }}>
+                    —
+                  </span>
                   <span>{bullet}</span>
                 </li>
               ))}
@@ -28,7 +30,7 @@ export default function CareerTimeline({ items }: { items: ExperienceEntry[] }) 
           </Reveal>
         ))}
       </div>
-      <p className="font-mono text-xs uppercase tracking-widest text-muted">Scroll for more →</p>
+      <p className="meta">Scroll for more →</p>
     </div>
   );
 }

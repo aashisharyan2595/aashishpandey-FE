@@ -36,7 +36,7 @@ function BlockItem({ block }: { block: Block }) {
       const data = block.data as HeadingData;
       const Tag = data.level === 3 ? "h3" : "h2";
       return (
-        <Tag className="font-display text-2xl font-bold text-accent md:text-3xl">
+        <Tag className="h2" style={{ color: "var(--gold)" }}>
           {data.text}
         </Tag>
       );
@@ -66,9 +66,9 @@ function BlockItem({ block }: { block: Block }) {
       const data = block.data as QuoteData;
       return (
         <blockquote className="border-l-2 border-accent pl-6">
-          <p className="font-display text-xl md:text-2xl">&ldquo;{data.text}&rdquo;</p>
+          <p className="h2">&ldquo;{data.text}&rdquo;</p>
           {data.attribution && (
-            <cite className="mt-2 block font-mono text-sm not-italic text-muted">
+            <cite className="meta mt-2 block not-italic">
               — {data.attribution}
             </cite>
           )}
@@ -91,7 +91,7 @@ function BlockItem({ block }: { block: Block }) {
       return (
         <a
           href={data.url}
-          className="w-fit bg-accent px-8 py-3 font-mono text-sm uppercase tracking-widest text-background"
+          className="btn btn-primary w-fit"
         >
           {data.text || "Learn more"}
         </a>
