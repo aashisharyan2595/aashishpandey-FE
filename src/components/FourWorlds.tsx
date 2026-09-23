@@ -5,7 +5,7 @@ import { worlds } from "@/lib/worlds";
 export default function FourWorlds() {
   return (
     <section className="border-b border-line px-6 py-24 md:px-12 md:py-28">
-      <Reveal className="flex items-baseline justify-between gap-4">
+      <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="eyebrow">System</p>
           <h2 className="h1 mt-4 max-w-2xl">I work between four worlds.</h2>

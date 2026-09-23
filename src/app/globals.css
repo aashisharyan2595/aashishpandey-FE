@@ -164,6 +164,11 @@ textarea::placeholder {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 4px;
+  transition: border-color 0.25s ease;
+}
+
+.card:hover {
+  border-color: var(--gold);
 }
 
 .tag {
@@ -236,6 +241,43 @@ textarea::placeholder {
   background: var(--ochre);
   border-color: var(--ochre);
   color: var(--night);
+}
+
+.btn svg {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* Nav link underline — grows from left on hover/focus, a small directional
+   reveal rather than a colour swap alone. */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -4px;
+  height: 1px;
+  background: var(--gold);
+  transition: right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  right: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn svg,
+  .nav-link::after {
+    transition: none;
+  }
 }
 
 /* Focus: 2px outer ring, never removed (per guideline §12) */
