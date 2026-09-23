@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import Icon from "@/components/Icon";
-import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
 import RouteLine from "@/components/RouteLine";
 
@@ -9,31 +9,8 @@ const METADATA = ["Pune / India", "Project Management", "Digital Products", "Web
 export default function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-line px-6 pb-20 pt-32 md:px-12 md:pb-28 md:pt-40">
-      {/* A single large geometric plane, restrained, behind the headline —
-          the brand's "environment" layer, per composition hierarchy. */}
-      <svg
-        viewBox="0 0 800 600"
-        preserveAspectRatio="xMidYMid slice"
-        aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.08]"
-      >
-        <polygon points="500,0 800,120 800,600 380,600" fill="var(--forest)" />
-        <polygon points="800,120 800,600 620,600" fill="var(--gold)" />
-      </svg>
-
-      {/* Mobile/tablet: stacks headline -> photo -> supporting copy, so the
-          editorial hero object sits right under the headline instead of
-          being buried below the CTAs. Desktop: two columns, photo spans
-          both rows via named grid areas. */}
-      <div
-        className={[
-          "relative grid gap-10",
-          "[grid-template-areas:'heading'_'photo'_'body']",
-          "lg:grid-cols-[1.5fr_1fr] lg:items-start lg:gap-16",
-          "lg:[grid-template-areas:'heading_photo'_'body_photo']",
-        ].join(" ")}
-      >
-        <div style={{ gridArea: "heading" }}>
+      <div className="relative grid gap-10 lg:grid-cols-[1fr_minmax(0,42%)] lg:items-stretch lg:gap-0">
+        <div className="relative lg:pr-16 lg:py-2">
           <Reveal>
             <h1 className="display-xl">
               I turn complex digital work
@@ -43,27 +20,15 @@ export default function Hero() {
               <span style={{ color: "var(--gold)" }}>actually ship.</span>
             </h1>
           </Reveal>
-        </div>
 
-        <Reveal
-          scaleIn
-          delay={0.14}
-          className="flex justify-center lg:justify-end"
-          style={{ gridArea: "photo" }}
-        >
-          <PhotoFrame
-            src="/images/aashish-hero.webp"
-            alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
-            id="AP / Field"
-            caption="Pune, IN"
-            aspect="aspect-[4/5]"
-            objectPosition="50% 30%"
-            className="w-64 md:w-72 lg:w-80"
-          />
-        </Reveal>
+          {/* Phone/tablet: the photo as a large band right under the
+              headline, not a small framed card — the geometric "cut corner"
+              primitive carrying a real, art-directed photo. */}
+          <Reveal scaleIn delay={0.1} className="relative mt-8 aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] lg:hidden">
+            <HeroPhoto objectPosition="50% 26%" />
+          </Reveal>
 
-        <div style={{ gridArea: "body" }}>
-          <Reveal delay={0.1} className="max-w-lg text-lg text-muted">
+          <Reveal delay={0.1} className="mt-8 max-w-lg text-lg text-muted lg:mt-6">
             I&apos;m Aashish — a Project Manager working across digital products,
             websites, D2C and technology. I sit between business goals, design,
             engineering and delivery to turn ambiguous briefs into work teams
@@ -93,7 +58,93 @@ export default function Hero() {
             </Link>
           </Reveal>
         </div>
+
+        {/* Desktop: the photo as a large standing panel, not a small
+            framed card — the brand's "cut corner" primitive scaled up to
+            environment size, carrying the full portrait. */}
+        <Reveal scaleIn delay={0.14} className="relative hidden lg:block">
+          <div className="relative h-full min-h-[600px] w-full">
+            <HeroPhoto objectPosition="50% 28%" />
+          </div>
+        </Reveal>
       </div>
     </section>
+  );
+}
+
+// The same "large coherent planes" faceting language as CaseStudyCover's
+// low-poly art — a crystalline silhouette instead of a single rounded/cut
+// corner. Both chamfers stay clear of the subject (face sits centred,
+// roughly 25–75% x / 5–55% y): the top-left facet is a small sliver, the
+// bottom-right facet is a deep cut through empty road/foliage.
+const PHOTO_MASK = "polygon(14% 0%, 100% 0%, 100% 64%, 78% 100%, 0% 100%, 0% 18%)";
+const CORNER_FACET = "polygon(100% 64%, 100% 100%, 78% 100%)";
+
+function HeroPhoto({ objectPosition }: { objectPosition: string }) {
+  return (
+    <div className="group relative h-full w-full overflow-hidden">
+      {/* The brand-colour plane sitting behind the photo, revealed only in
+          the chamfered corner — the same colour-blocked facet treatment as
+          the site's other geometric artwork. */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ clipPath: CORNER_FACET, background: "var(--gold)" }}
+        aria-hidden
+      />
+
+      <div className="absolute inset-0" style={{ clipPath: PHOTO_MASK }}>
+        <Image
+          src="/images/aashish-hero.webp"
+          alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
+          fill
+          priority
+          sizes="(min-width: 1024px) 42vw, 100vw"
+          className="object-cover"
+          style={{ objectPosition }}
+        />
+        {/* A warm colour wash over the photo — ties the art-directed
+            illustration into the site's own palette, poster-style, rather
+            than sitting as a flat, unrelated photo. */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "linear-gradient(150deg, var(--gold) 0%, transparent 55%)",
+            mixBlendMode: "color",
+            opacity: 0.35,
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "linear-gradient(0deg, var(--night) 0%, transparent 22%)",
+            opacity: 0.6,
+          }}
+        />
+      </div>
+
+      {/* A crisp gold seam along the facet edges — the "cut glass" line
+          that reads as geometry rather than a soft crop. */}
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        aria-hidden
+      >
+        <polygon
+          points="14,0 100,0 100,64 78,100 0,100 0,18"
+          fill="none"
+          stroke="var(--gold)"
+          strokeWidth="0.4"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+
+      <span className="pointer-events-none absolute bottom-4 left-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--sand)] opacity-80">
+        AP / Field
+      </span>
+      <span className="pointer-events-none absolute bottom-4 right-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--night)] opacity-90">
+        Pune, IN
+      </span>
+    </div>
   );
 }

@@ -56,6 +56,10 @@ export default function Footer() {
             <span className="meta">© {new Date().getFullYear()} Aashish Pandey</span>
           </div>
         </div>
+
+        <p className="mt-6 text-center text-[9px] uppercase tracking-[0.08em] text-muted opacity-50">
+          love to PB ❤️
+        </p>
       </div>
     </footer>
   );
