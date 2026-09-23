@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageHero from "@/components/PageHero";
-import WorkGrid from "@/components/WorkGrid";
+import WorkFilterGrid from "@/components/WorkFilterGrid";
 import { getCaseStudies } from "@/lib/case-studies";
 import { buildMetadata } from "@/lib/seo";
 
@@ -20,11 +20,11 @@ export default async function WorkIndexPage() {
       <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <PageHero
           eyebrow="All work"
-          title="Delivery case studies."
-          intro="Real engagements — the problem, the approach, and what shipped."
+          title="Things I've shipped."
+          intro="Real work, real constraints, real delivery."
           index={`0${items.length}`.slice(-2) + " total"}
         />
-        <WorkGrid items={items} />
+        <WorkFilterGrid items={items} />
       </main>
       <Footer />
     </>

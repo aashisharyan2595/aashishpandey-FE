@@ -7,17 +7,18 @@ export default function NotFound() {
     <>
       <Navbar />
       <main className="flex flex-1 flex-col items-start justify-center px-6 md:px-12">
-        <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">404</p>
-        <h1 className="font-display mt-4 text-4xl leading-tight md:text-6xl">
-          Nothing built here <span className="text-accent">yet.</span>
+        <p className="eyebrow">404</p>
+        <h1 className="display-l mt-4">
+          Nothing built here <span style={{ color: "var(--gold)" }}>yet.</span>
         </h1>
-        <Link
-          href="/"
-          data-cursor-hover
-          className="mt-8 font-mono text-sm uppercase tracking-widest text-muted hover:text-accent"
-        >
-          ← Back home
-        </Link>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link href="/work" className="btn">
+            Back to work
+          </Link>
+          <Link href="/" className="btn btn-primary">
+            Back home
+          </Link>
+        </div>
       </main>
       <Footer />
     </>

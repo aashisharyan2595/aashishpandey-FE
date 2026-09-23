@@ -1,3 +1,11 @@
+/**
+ * Placeholder cover for a case study / post — a small abstract low-poly
+ * "plane / facet" arrangement in brand colour, deterministic per slug. The
+ * brand guideline's authenticity rule forbids ever presenting a fabricated
+ * screenshot as real evidence, so this stays honestly abstract and labelled
+ * pending rather than mocking up a fake browser window. Swap for a real
+ * screenshot via `coverImage` once one exists.
+ */
 function hashSeed(input: string): number {
   let h = 2166136261;
   for (let i = 0; i < input.length; i++) {
@@ -18,25 +26,7 @@ function mulberry32(seed: number) {
   };
 }
 
-function blobPath(cx: number, cy: number, r: number, rand: () => number): string {
-  const points = 7;
-  const step = (Math.PI * 2) / points;
-  const coords: [number, number][] = [];
-  for (let i = 0; i < points; i++) {
-    const angle = i * step;
-    const radius = r * (0.72 + rand() * 0.32);
-    coords.push([cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius]);
-  }
-  let d = `M ${coords[0][0]} ${coords[0][1]} `;
-  for (let i = 0; i < points; i++) {
-    const [x1, y1] = coords[i];
-    const [x2, y2] = coords[(i + 1) % points];
-    const mx = (x1 + x2) / 2 + (rand() - 0.5) * r * 0.3;
-    const my = (y1 + y2) / 2 + (rand() - 0.5) * r * 0.3;
-    d += `Q ${mx} ${my} ${x2} ${y2} `;
-  }
-  return d + "Z";
-}
+const PALETTE = ["#3E4A3D", "#28352D", "#77734B", "#5E97AF", "#B39A55", "#EEE4CF"];
 
 export default function CaseStudyCover({
   slug,
@@ -49,76 +39,36 @@ export default function CaseStudyCover({
 }) {
   const rand = mulberry32(hashSeed(slug));
 
-  const blobs = Array.from({ length: 3 }, () => ({
-    cx: 60 + rand() * 280,
-    cy: 40 + rand() * 220,
-    r: 60 + rand() * 90,
-    opacity: 0.16 + rand() * 0.22,
-  }));
-
-  const rotation = Math.floor(rand() * 12 - 6);
-  const gridGap = 28;
-  const initial = label.trim().charAt(0).toUpperCase() || "*";
+  // A handful of large coherent planes, not hundreds of tiny random facets —
+  // per the guideline's geometry hierarchy and do/don't matrix.
+  const planes = Array.from({ length: 6 }, () => {
+    const cx = rand() * 400;
+    const cy = rand() * 300;
+    const r = 90 + rand() * 160;
+    const a1 = rand() * Math.PI * 2;
+    const a2 = a1 + 1.4 + rand() * 1.6;
+    const a3 = a2 + 1.4 + rand() * 1.6;
+    const pt = (a: number) => `${cx + Math.cos(a) * r},${cy + Math.sin(a) * r}`;
+    return {
+      points: `${pt(a1)} ${pt(a2)} ${pt(a3)}`,
+      fill: PALETTE[Math.floor(rand() * PALETTE.length)],
+      opacity: 0.5 + rand() * 0.4,
+    };
+  });
 
   return (
-    <svg
-      viewBox="0 0 400 300"
-      className={className}
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden
-    >
-      <defs>
-        <linearGradient id={`bg-${slug}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="var(--surface-1)" />
-          <stop offset="100%" stopColor="var(--surface-2)" />
-        </linearGradient>
-        <filter id={`blur-${slug}`}>
-          <feGaussianBlur stdDeviation="18" />
-        </filter>
-        <pattern
-          id={`grid-${slug}`}
-          width={gridGap}
-          height={gridGap}
-          patternUnits="userSpaceOnUse"
-        >
-          <circle cx={1} cy={1} r={1} fill="var(--foreground)" opacity={0.08} />
-        </pattern>
-      </defs>
-
-      <rect width="400" height="300" fill={`url(#bg-${slug})`} />
-      <rect width="400" height="300" fill={`url(#grid-${slug})`} />
-
-      <g filter={`url(#blur-${slug})`}>
-        {blobs.map((b, i) => (
-          <path
-            key={i}
-            d={blobPath(b.cx, b.cy, b.r, rand)}
-            fill="var(--accent)"
-            opacity={b.opacity}
-          />
+    <div className={`relative overflow-hidden bg-[var(--night)] ${className ?? ""}`}>
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden>
+        {planes.map((p, i) => (
+          <polygon key={i} points={p.points} fill={p.fill} opacity={p.opacity} />
         ))}
-      </g>
-
-      <g transform={`rotate(${rotation} 200 150)`}>
-        <path
-          d={blobPath(200, 150, 78, rand)}
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth={1.5}
-          opacity={0.7}
-        />
-      </g>
-
-      <text
-        x="24"
-        y="270"
-        fontFamily="var(--font-display)"
-        fontSize="120"
-        fill="var(--foreground)"
-        opacity={0.06}
-      >
-        {initial}
-      </text>
-    </svg>
+      </svg>
+      <span className="absolute left-3 top-3 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--sand)] opacity-70">
+        {label.split(" ")[0]}
+      </span>
+      <span className="absolute bottom-3 right-3 text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--sand)] opacity-50">
+        Cover pending
+      </span>
+    </div>
   );
 }

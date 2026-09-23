@@ -7,22 +7,19 @@ import type { BlogPostSummary } from "@/lib/blog";
 export default function BlogList({ posts }: { posts: BlogPostSummary[] }) {
   if (posts.length === 0) {
     return (
-      <Reveal delay={0.1} className="mt-20">
-        <p className="max-w-md text-muted">Nothing published here yet — check back soon.</p>
+      <Reveal delay={0.1} className="mt-20 border border-dashed border-line p-10 text-center">
+        <p className="eyebrow">Nothing filed yet</p>
+        <p className="mt-3 max-w-md mx-auto text-muted">Check back soon — the first entry is on its way.</p>
       </Reveal>
     );
   }
 
   return (
-    <div className="mt-16 divide-y divide-ink/10 border-t border-ink/10">
+    <div className="mt-16 divide-y divide-line border-t border-line">
       {posts.map((post, i) => (
-        <Reveal key={post._id} delay={i * 0.05}>
-          <Link
-            href={`/blog/${post.slug}`}
-            data-cursor-hover
-            className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center"
-          >
-            <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded-xl sm:w-32">
+        <Reveal key={post._id} delay={i * 0.04}>
+          <Link href={`/blog/${post.slug}`} className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center">
+            <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden border border-line sm:w-32">
               {post.coverImage ? (
                 <Image
                   src={post.coverImage}
@@ -36,7 +33,7 @@ export default function BlogList({ posts }: { posts: BlogPostSummary[] }) {
               )}
             </div>
             <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-              <h2 className="font-display text-2xl transition-colors group-hover:text-accent md:text-4xl">
+              <h2 className="h2 transition-colors group-hover:text-interactive">
                 {post.title}
               </h2>
               <p className="max-w-md text-muted">{post.excerpt}</p>

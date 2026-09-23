@@ -74,12 +74,11 @@ export default async function BlogPostPage({
         <Reveal className="max-w-3xl">
           <Link
             href="/blog"
-            data-cursor-hover
-            className="font-mono text-sm uppercase tracking-widest text-muted hover:text-accent"
+            className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive"
           >
             ← All writing
           </Link>
-          <h1 className="font-display mt-8 text-4xl leading-tight md:text-6xl">
+          <h1 className="display-l mt-8">
             {post.title}
           </h1>
           {post.tags.length > 0 && (
@@ -88,8 +87,7 @@ export default async function BlogPostPage({
                 <Link
                   key={tag}
                   href={`/blog/tag/${tag}`}
-                  data-cursor-hover
-                  className="rounded-full border border-ink/10 px-3 py-1 hover:border-accent"
+                  className="tag hover:border-accent"
                 >
                   {tag}
                 </Link>

@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono, Lato } from "next/font/google";
 import Script from "next/script";
-import ClickBurst from "@/components/ClickBurst";
-import Cursor from "@/components/Cursor";
-import DevConsoleGreeting from "@/components/DevConsoleGreeting";
-import InteractiveBackground from "@/components/InteractiveBackground";
-import KonamiEgg from "@/components/KonamiEgg";
 import "./globals.css";
 
 const THEME_INIT_SCRIPT = `
@@ -13,24 +8,21 @@ const THEME_INIT_SCRIPT = `
     var stored = localStorage.getItem('theme');
     var theme = stored === 'light' || stored === 'dark'
       ? stored
-      : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', theme);
   } catch (e) {}
 `;
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const lato = Lato({
+  variable: "--font-lato",
   subsets: ["latin"],
+  weight: ["400", "700", "900"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-});
-
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 const SITE_URL = "https://aashishpandey.com";
@@ -93,7 +85,7 @@ export default function RootLayout({
       lang="en"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased`}
+      className={`${lato.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <script
@@ -103,13 +95,6 @@ export default function RootLayout({
         <Script id="theme-init" strategy="beforeInteractive">
           {THEME_INIT_SCRIPT}
         </Script>
-        <div className="vignette-layer" aria-hidden />
-        <div className="grain-layer" aria-hidden />
-        <InteractiveBackground />
-        <Cursor />
-        <ClickBurst />
-        <KonamiEgg />
-        <DevConsoleGreeting />
         {children}
       </body>
     </html>

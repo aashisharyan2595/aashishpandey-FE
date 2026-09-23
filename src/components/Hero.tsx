@@ -1,69 +1,84 @@
-"use client";
+import Link from "next/link";
+import Icon from "@/components/Icon";
+import PhotoFrame from "@/components/PhotoFrame";
+import Reveal from "@/components/Reveal";
+import Stamp from "@/components/Stamp";
 
-import dynamic from "next/dynamic";
-import { useEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
-
-const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
-  ssr: false,
-});
+const DISCIPLINES = ["Project Management", "Digital Products", "Web Engineering", "D2C"];
 
 export default function Hero() {
-  const root = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap
-        .timeline({ defaults: { ease: "power3.out" } })
-        .from("[data-hero-eyebrow]", { y: 20, opacity: 0, duration: 0.6 })
-        .from(
-          "[data-hero-line]",
-          { y: 60, opacity: 0, duration: 0.9, stagger: 0.12 },
-          "-=0.3"
-        )
-        .from("[data-hero-sub]", { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
-        .from("[data-hero-scene]", { scale: 0.8, opacity: 0, duration: 1 }, "-=0.9");
-    }, root);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      ref={root}
-      className="relative overflow-hidden px-6 pt-40 pb-20 md:px-12"
-    >
-      <div
-        data-hero-scene
-        data-cursor-hover
-        className="absolute right-[-10%] top-1/2 hidden h-[55vw] max-h-[560px] w-[55vw] max-w-[560px] -translate-y-1/2 opacity-80 md:block"
+    <section className="relative overflow-hidden border-b border-line px-6 pb-20 pt-32 md:px-12 md:pb-28 md:pt-40">
+      {/* A single large geometric plane, restrained, behind the headline —
+          the brand's "environment" layer, per composition hierarchy. */}
+      <svg
+        viewBox="0 0 800 600"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden
+        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.06]"
       >
-        <HeroScene />
-      </div>
+        <polygon points="500,0 800,120 800,600 380,600" fill="var(--forest)" />
+        <polygon points="800,120 800,600 620,600" fill="var(--gold)" />
+      </svg>
 
-      <div className="relative z-10 max-w-2xl">
-        <p
-          data-hero-eyebrow
-          className="mb-4 font-mono text-sm uppercase tracking-[0.3em] text-muted"
-        >
-          Aashish Pandey — Project Manager
-        </p>
-        <h1 className="font-display text-[9vw] font-medium leading-[1.1] md:text-[6vw] md:leading-[0.9]">
-          <span data-hero-line className="block">
-            I keep complex delivery
-          </span>
-          <span data-hero-line className="block text-accent">
-            shipping on schedule.
-          </span>
-        </h1>
-        <p
-          data-hero-sub
-          className="mt-8 max-w-md text-lg text-muted md:text-xl"
-        >
-          6+ years running delivery for global brands — Unilever, Wipro,
-          Reliance, ITC — with enough hands-on CMS and dev background to get
-          into the weeds when a project needs it.
-        </p>
+      <div className="relative grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-start lg:gap-16">
+        <div>
+          <Reveal>
+            <p className="eyebrow">Aashish Pandey — Project Manager</p>
+            <h1 className="display-xl mt-5">
+              I turn complex digital work
+              <br />
+              into things that
+              <br />
+              <span style={{ color: "var(--gold)" }}>actually ship.</span>
+            </h1>
+          </Reveal>
+
+          <Reveal delay={0.08} className="mt-6 flex flex-wrap gap-x-2 gap-y-1">
+            {DISCIPLINES.map((d, i) => (
+              <span key={d} className="meta-mono">
+                {d}
+                {i < DISCIPLINES.length - 1 && <span className="mx-2 opacity-50">/</span>}
+              </span>
+            ))}
+          </Reveal>
+
+          <Reveal delay={0.14} className="mt-8 max-w-lg text-lg text-muted">
+            6+ years running delivery for global brands — Unilever, Wipro, Reliance,
+            ITC — with enough hands-on CMS and dev background to get into the weeds
+            when a project needs it.
+          </Reveal>
+
+          <Reveal delay={0.2} className="mt-10 flex flex-wrap items-center gap-4">
+            <Link href="/work" className="btn btn-primary">
+              See the work
+              <Icon name="arrowRight" size={16} />
+            </Link>
+            <Link href="/contact" className="btn">
+              Work with me
+            </Link>
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.16} className="flex justify-center lg:justify-end">
+          <div className="relative">
+            <PhotoFrame
+              src="/images/aashish-hero.webp"
+              alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
+              id="AP / 06"
+              caption="Delivery lead"
+              aspect="aspect-[4/5]"
+              className="w-64 md:w-72 lg:w-80"
+            />
+            <Stamp
+              value="On time"
+              label="Every launch"
+              color="gold"
+              size="sm"
+              className="absolute -left-6 -bottom-6 w-28 bg-background md:-left-10"
+            />
+          </div>
+        </Reveal>
       </div>
     </section>
   );
