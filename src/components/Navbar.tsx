@@ -6,10 +6,13 @@ import { useEffect, useState } from "react";
 import Icon from "@/components/Icon";
 import ThemeToggle from "@/components/ThemeToggle";
 
+// Field Notes stays a real, indexed route (linked contextually from the
+// homepage's Field Notes module) but isn't a primary-nav destination — it
+// has no published content yet, and a nav item leading to "nothing filed
+// yet" reads as an unfinished site.
 const links = [
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/field-notes", label: "Field Notes" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -28,7 +31,7 @@ export default function Navbar() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-colors duration-300 md:px-12 ${
-          scrolled ? "border-b border-line bg-background/95 backdrop-blur-sm" : "border-b border-transparent"
+          scrolled ? "glass border-b border-line" : "border-b border-transparent"
         }`}
       >
         <Link href="/" className="text-sm font-black uppercase tracking-[0.12em]">
@@ -69,7 +72,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center gap-6 bg-background px-6 lg:hidden"
+            className="glass fixed inset-0 z-40 flex flex-col justify-center gap-6 px-6 lg:hidden"
           >
             {links.map((link, i) => (
               <motion.div

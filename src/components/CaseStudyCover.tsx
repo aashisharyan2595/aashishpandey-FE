@@ -2,11 +2,13 @@ import Image from "next/image";
 
 /**
  * Cover for a case study / post. When `coverImage` is set, renders the real
- * image. Otherwise falls back to a small abstract low-poly "plane / facet"
- * arrangement in brand colour, deterministic per slug — the brand
- * guideline's authenticity rule forbids ever presenting a fabricated
- * screenshot as real evidence, so the placeholder stays honestly abstract
- * and labelled pending rather than mocking up a fake browser window.
+ * image. Otherwise renders an abstract low-poly "plane / facet" arrangement
+ * in brand colour, deterministic per slug, carrying the case study's own
+ * real metric in large type — the brand guideline's authenticity rule
+ * forbids ever presenting a fabricated screenshot as real evidence, so
+ * this stays honestly abstract and built from real project data (the
+ * metric) instead of mocking up a fake browser window or, worse, telling
+ * the visitor a cover is still "pending."
  */
 function hashSeed(input: string): number {
   let h = 2166136261;
@@ -34,11 +36,13 @@ export default function CaseStudyCover({
   slug,
   label,
   coverImage,
+  metric,
   className,
 }: {
   slug: string;
   label: string;
   coverImage?: string;
+  metric?: { value: string; label: string };
   className?: string;
 }) {
   if (coverImage) {
@@ -84,12 +88,15 @@ export default function CaseStudyCover({
           <polygon key={i} points={p.points} fill={p.fill} opacity={p.opacity} />
         ))}
       </svg>
-      <span className="absolute left-3 top-3 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--sand)] opacity-70">
-        {label.split(" ")[0]}
-      </span>
-      <span className="absolute bottom-3 right-3 text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--sand)] opacity-50">
-        Cover pending
-      </span>
+      <span className="label absolute left-4 top-4 text-[var(--sand)] opacity-80">{label}</span>
+      {metric && (
+        <div className="absolute bottom-4 left-4 right-4">
+          <p className="display-l leading-none" style={{ color: "var(--sand)" }}>
+            {metric.value}
+          </p>
+          <p className="label mt-1 text-[var(--sand)] opacity-70">{metric.label}</p>
+        </div>
+      )}
     </div>
   );
 }

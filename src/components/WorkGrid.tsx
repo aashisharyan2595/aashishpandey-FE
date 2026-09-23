@@ -24,9 +24,13 @@ export default function WorkGrid({ items }: { items: CaseStudy[] }) {
                 slug={item.slug}
                 label={item.title}
                 coverImage={item.coverImage}
+                metric={item.metric}
                 className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
-              <span className="tag absolute right-3 top-3 bg-background/90">{item.metric.value}</span>
+              {/* The typographic cover already features the metric in large
+                  type — the badge is only needed as an accent over a real
+                  photo, where it'd otherwise have no metric visible at all. */}
+              {item.coverImage && <span className="tag absolute right-3 top-3 bg-background/90">{item.metric.value}</span>}
             </div>
 
             <div className="p-6">
@@ -34,7 +38,7 @@ export default function WorkGrid({ items }: { items: CaseStudy[] }) {
                 {String(i + 1).padStart(2, "0")} · {item.client.split(",")[0]} · {item.timeframe.split(/[\s–]/)[0]}
               </p>
               <h3 className="h3 mt-2 transition-colors group-hover:text-interactive">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted">{item.summary}</p>
+              <p className="body-sm mt-2 text-muted">{item.summary}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {item.tags.map((tag) => (
                   <span key={tag} className="tag">

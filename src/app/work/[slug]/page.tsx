@@ -63,6 +63,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
             slug={item.slug}
             label={item.title}
             coverImage={item.coverImage}
+            metric={item.metric}
             className="h-full w-full"
           />
         </div>
@@ -100,7 +101,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                     </span>
                     <h2 className="h2">{section.label}</h2>
                   </div>
-                  <p className="mt-4 max-w-2xl text-lg text-muted">{item[section.key]}</p>
+                  <p className="body-l mt-4 max-w-2xl text-muted">{item[section.key]}</p>
                 </Reveal>
               ))}
             </div>

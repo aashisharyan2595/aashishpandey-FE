@@ -37,7 +37,7 @@ export default function Hero() {
             />
           </Reveal>
 
-          <Reveal delay={0.1} className="mt-8 max-w-lg text-lg text-muted lg:mt-6">
+          <Reveal delay={0.1} className="body-l mt-8 max-w-lg text-muted lg:mt-6">
             I&apos;m Aashish — a Project Manager working across digital products,
             websites, D2C and technology. I sit between business goals, design,
             engineering and delivery to turn ambiguous briefs into work teams
