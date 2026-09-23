@@ -43,7 +43,7 @@ function BlockItem({ block }: { block: Block }) {
     }
     case "paragraph": {
       const data = block.data as ParagraphData;
-      return <p className="max-w-2xl text-lg text-muted">{data.text}</p>;
+      return <p className="body-l max-w-2xl text-muted">{data.text}</p>;
     }
     case "image": {
       const data = block.data as ImageData;

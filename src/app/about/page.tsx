@@ -42,7 +42,7 @@ export default function AboutPage() {
         <PageHero
           eyebrow="About"
           title="Somewhere between project management and hands-on build."
-          intro="Six years across agencies and product teams, running delivery for brands that can't afford a missed launch date. I still open the CMS myself when a project needs it."
+          intro="6+ years across agencies and product teams, running delivery for brands that can't afford a missed launch date. I still open the CMS myself when a project needs it."
         />
 
         {/* FIELD — grounded, personal */}
@@ -61,7 +61,7 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="eyebrow">Field</p>
-            <p className="mt-4 max-w-md text-muted">
+            <p className="body mt-4 max-w-md text-muted">
               Most weekends away from the CMS look like this — a road, a bike, and
               a route that isn&apos;t on anyone&apos;s roadmap. Managing uncertainty
               on a route and managing it in a project plan aren&apos;t that different.
@@ -73,7 +73,7 @@ export default function AboutPage() {
         <Reveal className="mt-24">
           <p className="eyebrow">System</p>
           <h2 className="h1 mt-4 max-w-2xl">I work between four worlds.</h2>
-          <p className="mt-4 max-w-xl text-muted">
+          <p className="body mt-4 max-w-xl text-muted">
             I started as a developer, moved into technical team leadership, and
             eventually into project management — while keeping the hands-on
             technical understanding from where I started.
@@ -86,14 +86,14 @@ export default function AboutPage() {
                 {String(i + 1).padStart(2, "0")}
               </p>
               <h3 className="h3 mt-3">{w.label}</h3>
-              <p className="mt-2 text-sm text-muted">{w.detail}</p>
+              <p className="body-sm mt-2 text-muted">{w.detail}</p>
             </Reveal>
           ))}
         </div>
 
         <div className="mt-24 grid gap-12 md:grid-cols-[1.4fr_1fr] md:items-center md:gap-16">
           <Reveal className="order-2 md:order-1">
-            <p className="max-w-xl text-lg text-muted">
+            <p className="body-l max-w-xl text-muted">
               Project manager and business analyst with 6+ years driving integrated
               delivery, operational efficiency, and stakeholder alignment in
               fast-paced media, advertising, and digital agency environments — for
@@ -128,7 +128,7 @@ export default function AboutPage() {
 
         <Reveal className="mt-24">
           <p className="eyebrow">System / Career</p>
-          <h2 className="h1 mt-4 max-w-2xl">Where the last six years went.</h2>
+          <h2 className="h1 mt-4 max-w-2xl">Where the last 6+ years went.</h2>
         </Reveal>
         <CareerTimeline items={experience} />
 
@@ -140,7 +140,7 @@ export default function AboutPage() {
               Orbit
             </p>
             <h2 className="h1 mt-4 max-w-2xl">Staying curious about what&apos;s next.</h2>
-            <p className="mt-4 max-w-xl text-muted">
+            <p className="body mt-4 max-w-xl text-muted">
               Delivery is the day job; the curiosity runs a layer above it —
               picking up the fundamentals of the tools reshaping how digital
               work gets built.

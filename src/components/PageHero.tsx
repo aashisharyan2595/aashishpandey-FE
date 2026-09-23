@@ -18,8 +18,8 @@ export default function PageHero({
         <p className="eyebrow">{eyebrow}</p>
         {index && <p className="meta tabular">{index}</p>}
       </div>
-      <h1 className="display-l mt-6 max-w-3xl">{title}</h1>
-      {intro && <p className="mt-6 max-w-xl text-lg text-muted">{intro}</p>}
+      <h1 className="hero-title mt-6 max-w-3xl">{title}</h1>
+      {intro && <p className="body-l mt-6 max-w-xl text-muted">{intro}</p>}
     </Reveal>
   );
 }

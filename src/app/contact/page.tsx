@@ -30,7 +30,7 @@ export default function ContactPage() {
         <div className="mt-16 grid gap-16 lg:grid-cols-[1fr_1.2fr]">
           <Reveal>
             <p className="eyebrow">Two ways to reach me</p>
-            <p className="mt-3 max-w-sm text-sm text-muted">
+            <p className="body-sm mt-3 max-w-sm text-muted">
               Hiring for a role, or have a project that needs delivery, product,
               or hands-on technical work — pick the closer fit in the form.
             </p>
