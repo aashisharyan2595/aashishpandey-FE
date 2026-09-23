@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PhotoFrame from "@/components/PhotoFrame";
+import FacetPhoto from "@/components/FacetPhoto";
 import Reveal from "@/components/Reveal";
 import { getBlogPosts } from "@/lib/blog";
 
@@ -22,11 +22,12 @@ export default async function FieldNotesPreview() {
 
       <div className="mt-10 grid gap-10 md:grid-cols-[220px_1fr] md:items-center md:gap-12">
         <Reveal scaleIn delay={0.05}>
-          <PhotoFrame
+          <FacetPhoto
             src="/images/aashish-checking-time.webp"
             alt="Aashish Pandey checking the time on a ride, geometric editorial illustration"
             id="AP / Field"
             caption="On schedule"
+            variant="corner-tr"
             aspect="aspect-[4/5]"
             objectPosition="50% 20%"
             className="w-full max-w-[220px]"
