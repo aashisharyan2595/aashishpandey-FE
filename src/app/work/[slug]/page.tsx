@@ -63,6 +63,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
             slug={item.slug}
             label={item.title}
             coverImage={item.coverImage}
+            metric={item.metric}
             className="h-full w-full"
           />
         </div>
