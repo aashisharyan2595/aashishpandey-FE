@@ -1,8 +1,8 @@
 import ContactForm from "@/components/ContactForm";
+import FacetPhoto from "@/components/FacetPhoto";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PageHero from "@/components/PageHero";
-import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
 import { buildMetadata } from "@/lib/seo";
 
@@ -49,11 +49,12 @@ export default function ContactPage() {
               </a>
             </div>
 
-            <PhotoFrame
+            <FacetPhoto
               src="/images/aashish-roadside.webp"
               alt="Aashish Pandey sitting roadside next to his motorcycle, geometric editorial illustration"
               id="AP / Field"
               caption="Pune, IN"
+              variant="corner-tr"
               aspect="aspect-[4/5]"
               objectPosition="50% 15%"
               className="mt-10 w-full max-w-[220px]"

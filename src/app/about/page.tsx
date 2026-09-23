@@ -1,11 +1,11 @@
 import CareerTimeline from "@/components/CareerTimeline";
+import FacetPhoto from "@/components/FacetPhoto";
 import Footer from "@/components/Footer";
 import Marquee from "@/components/Marquee";
 import Navbar from "@/components/Navbar";
 import Numbers from "@/components/Numbers";
 import OrbitMark from "@/components/OrbitMark";
 import PageHero from "@/components/PageHero";
-import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
 import { certifications, experience } from "@/lib/experience";
 import { buildMetadata } from "@/lib/seo";
@@ -48,11 +48,12 @@ export default function AboutPage() {
         {/* FIELD — grounded, personal */}
         <div className="mt-16 grid gap-8 md:grid-cols-[1fr_1.4fr] md:items-center">
           <Reveal scaleIn delay={0.05}>
-            <PhotoFrame
+            <FacetPhoto
               src="/images/aashish-road.webp"
               alt="Aashish Pandey, geometric editorial illustration, riding fully packed through a misty valley"
               id="AP / Field"
               caption="On the road"
+              variant="corner-bl"
               aspect="aspect-[4/5]"
               objectPosition="50% 22%"
               className="w-full max-w-xs"
@@ -104,11 +105,12 @@ export default function AboutPage() {
             </p>
           </Reveal>
           <Reveal scaleIn delay={0.1} className="order-1 flex justify-center md:order-2 md:justify-end">
-            <PhotoFrame
+            <FacetPhoto
               src="/images/aashish-about.jpg"
               alt="Aashish Pandey, geometric editorial illustration, close portrait with a road helmet"
               id="AP / About"
               caption="Pune, IN"
+              variant="corner-br"
               aspect="aspect-[5/6]"
               objectPosition="50% 18%"
               className="w-full max-w-xs"
