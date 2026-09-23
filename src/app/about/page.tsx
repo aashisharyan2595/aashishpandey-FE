@@ -9,7 +9,7 @@ import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { certifications, experience } from "@/lib/experience";
 import { buildMetadata } from "@/lib/seo";
-import { worlds } from "@/lib/worlds";
+import { worlds } from "@/lib/field";
 
 const skills = [
   "Delivery Planning",

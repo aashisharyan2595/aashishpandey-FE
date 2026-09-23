@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import RouteLine from "@/components/RouteLine";
-import { worlds } from "@/lib/worlds";
+import { worlds } from "@/lib/field";
 
 export default function FourWorlds() {
   return (

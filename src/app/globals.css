@@ -102,6 +102,17 @@ textarea::placeholder {
    sentence. Body is now the reading-content default; Body Small is for
    genuinely secondary text (captions, helper copy), not paragraphs. */
 
+/* Rebuild 02: the homepage opening statement ("From brief to shipped.")
+   needed a tier above Display XL — the environment-scale hero treats
+   typography as part of the scene, not a headline sitting beside it, so it
+   has to hold its own against a full-bleed photo. */
+.display-mega {
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.015em;
+  font-size: clamp(3.25rem, 6vw + 1.5rem, 8rem);
+}
+
 .display-xl {
   font-weight: 900;
   line-height: 0.98;
