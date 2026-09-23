@@ -28,33 +28,17 @@ export default function ContactPage() {
 
         <div className="mt-16 grid gap-16 lg:grid-cols-[1fr_1.2fr]">
           <Reveal>
-            <p className="font-mono text-sm uppercase tracking-widest text-muted">
-              Email
-            </p>
-            <a
-              href="mailto:hello@aashishpandey.com"
-              data-cursor-hover
-              className="mt-2 block font-display text-2xl hover:text-accent md:text-3xl"
-            >
+            <p className="eyebrow">Email</p>
+            <a href="mailto:hello@aashishpandey.com" className="font-display mt-2 block text-2xl font-bold hover:text-accent md:text-3xl">
               hello@aashishpandey.com
             </a>
 
-            <p className="mt-10 font-mono text-sm uppercase tracking-widest text-muted">
-              Elsewhere
-            </p>
+            <p className="eyebrow mt-10">Elsewhere</p>
             <div className="mt-2 grid gap-2">
-              <a
-                href="https://linkedin.com/in/aashish-kumar-pandey"
-                data-cursor-hover
-                className="block hover:text-accent"
-              >
+              <a href="https://linkedin.com/in/aashish-kumar-pandey" className="block hover:text-accent">
                 LinkedIn
               </a>
-              <a
-                href="https://github.com/aashisharyan2595"
-                data-cursor-hover
-                className="block hover:text-accent"
-              >
+              <a href="https://github.com/aashisharyan2595" className="block hover:text-accent">
                 GitHub
               </a>
             </div>

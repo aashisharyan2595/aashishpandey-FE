@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import { Big_Shoulders, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import Script from "next/script";
-import ClickBurst from "@/components/ClickBurst";
-import Cursor from "@/components/Cursor";
-import DevConsoleGreeting from "@/components/DevConsoleGreeting";
-import InteractiveBackground from "@/components/InteractiveBackground";
-import KonamiEgg from "@/components/KonamiEgg";
 import "./globals.css";
 
 const THEME_INIT_SCRIPT = `
@@ -13,24 +8,27 @@ const THEME_INIT_SCRIPT = `
     var stored = localStorage.getItem('theme');
     var theme = stored === 'light' || stored === 'dark'
       ? stored
-      : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', theme);
   } catch (e) {}
 `;
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const bigShoulders = Big_Shoulders({
+  variable: "--font-shoulders",
   subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
 });
 
 const SITE_URL = "https://aashishpandey.com";
@@ -93,7 +91,7 @@ export default function RootLayout({
       lang="en"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased`}
+      className={`${plexSans.variable} ${plexMono.variable} ${bigShoulders.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <script
@@ -103,13 +101,14 @@ export default function RootLayout({
         <Script id="theme-init" strategy="beforeInteractive">
           {THEME_INIT_SCRIPT}
         </Script>
-        <div className="vignette-layer" aria-hidden />
-        <div className="grain-layer" aria-hidden />
-        <InteractiveBackground />
-        <Cursor />
-        <ClickBurst />
-        <KonamiEgg />
-        <DevConsoleGreeting />
+        {/* Shared filter used by every .stamp element for an inked, slightly
+            imperfect stamp edge instead of a clean vector circle. */}
+        <svg width="0" height="0" aria-hidden style={{ position: "absolute" }}>
+          <filter id="stamp-roughen">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" />
+          </filter>
+        </svg>
         {children}
       </body>
     </html>

@@ -32,13 +32,12 @@ export default async function BlogTagPage({ params }: { params: Promise<Params> 
         <Reveal>
           <Link
             href="/blog"
-            data-cursor-hover
             className="font-mono text-sm uppercase tracking-widest text-muted hover:text-accent"
           >
             ← All writing
           </Link>
           <p className="font-mono mt-8 text-sm uppercase tracking-[0.3em] text-muted">Tag</p>
-          <h1 className="font-display mt-4 max-w-2xl text-4xl leading-tight md:text-6xl">
+          <h1 className="font-display mt-4 max-w-2xl text-4xl font-extrabold leading-[0.95] tracking-tight md:text-6xl">
             #{tag}
           </h1>
         </Reveal>

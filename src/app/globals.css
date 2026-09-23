@@ -1,43 +1,68 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0b0b0c;
-  --foreground: #f5f3ee;
-  --accent: #ff5a36;
-  --muted: #8a8a86;
-  --ink-rgb: 245 243 238;
-  --surface-1: #141416;
-  --surface-2: #0b0b0c;
-  --grain-opacity: 0.05;
-  --vignette-opacity: 0.6;
-  color-scheme: dark;
-}
+/*
+  Design language: "manifest" — Aashish ships complex delivery on schedule,
+  so the site borrows from shipping manifests, waybills, and ink stamps.
+  Paper background, ink typography, a courier-blue for structure, and an
+  amber/green stamp pair for the outcomes he actually shipped.
+*/
 
-:root[data-theme="light"] {
-  --background: #f5f3ee;
-  --foreground: #0b0b0c;
-  --accent: #e14a28;
-  --muted: #6b6b66;
-  --ink-rgb: 11 11 12;
-  --surface-1: #eae7de;
-  --surface-2: #f5f3ee;
-  --grain-opacity: 0.035;
-  --vignette-opacity: 0.35;
+:root {
+  --paper: #f5f1e6;
+  --paper-dim: #eae3ce;
+  --ink: #1e1b16;
+  --ink-soft: #6f6656;
+  --cobalt: #29408a;
+  --amber: #c9711a;
+  --stamp-green: #2f6b4f;
+  --line: #d9cfb4;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --accent: var(--amber);
+  --muted: var(--ink-soft);
+  --surface-1: var(--paper-dim);
+  --surface-2: var(--paper);
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --background: #f5f3ee;
-    --foreground: #0b0b0c;
-    --accent: #e14a28;
-    --muted: #6b6b66;
-    --ink-rgb: 11 11 12;
-    --surface-1: #eae7de;
-    --surface-2: #f5f3ee;
-    --grain-opacity: 0.035;
-    --vignette-opacity: 0.35;
-    color-scheme: light;
+:root[data-theme="dark"] {
+  --paper: #17140f;
+  --paper-dim: #211c14;
+  --ink: #f2ead9;
+  --ink-soft: #a89b81;
+  --cobalt: #8fa3ea;
+  --amber: #eba043;
+  --stamp-green: #7bc9a0;
+  --line: #3a3222;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --accent: var(--amber);
+  --muted: var(--ink-soft);
+  --surface-1: var(--paper-dim);
+  --surface-2: var(--paper);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #17140f;
+    --paper-dim: #211c14;
+    --ink: #f2ead9;
+    --ink-soft: #a89b81;
+    --cobalt: #8fa3ea;
+    --amber: #eba043;
+    --stamp-green: #7bc9a0;
+    --line: #3a3222;
+
+    --background: var(--paper);
+    --foreground: var(--ink);
+    --accent: var(--amber);
+    --muted: var(--ink-soft);
+    --surface-1: var(--paper-dim);
+    --surface-2: var(--paper);
+    color-scheme: dark;
   }
 }
 
@@ -45,21 +70,14 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
+  --color-cobalt: var(--cobalt);
+  --color-stamp-green: var(--stamp-green);
   --color-muted: var(--muted);
-  --color-ink: rgb(var(--ink-rgb) / <alpha-value>);
-  --font-sans: var(--font-geist-sans);
-  --font-display: var(--font-bricolage);
-  --font-mono: var(--font-geist-mono);
-}
-
-* {
-  cursor: none;
-}
-
-@media (hover: none), (pointer: coarse) {
-  * {
-    cursor: auto;
-  }
+  --color-line: var(--line);
+  --color-ink: var(--foreground);
+  --font-sans: var(--font-plex-sans);
+  --font-display: var(--font-shoulders);
+  --font-mono: var(--font-plex-mono);
 }
 
 html {
@@ -73,37 +91,170 @@ body {
   overflow-x: hidden;
   position: relative;
   transition: background-color 0.3s ease, color 0.3s ease;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--foreground) 6%, transparent) 0.6px,
+    transparent 0.6px
+  );
+  background-size: 18px 18px;
 }
 
 ::selection {
   background: var(--accent);
-  color: var(--background);
+  color: var(--paper);
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: var(--foreground);
-  opacity: 0.5;
+  color: var(--muted);
+  opacity: 0.8;
 }
 
-.glass-panel {
+/* ---- Manifest system ---- */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.card {
   position: relative;
-  background: color-mix(in srgb, var(--foreground) 4%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
-  box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--foreground) 12%, transparent),
-    0 24px 60px -24px rgba(0, 0, 0, 0.55);
-  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  box-shadow: 3px 3px 0 0 var(--line);
 }
 
-.glass-panel:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  padding: 0.3rem 0.65rem;
+  color: var(--ink-soft);
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper);
+}
+
+.btn-primary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+/* Torn / perforated divider — a manifest tear-line between sections */
+.tear-line {
+  position: relative;
+  height: 1px;
+  background-image: linear-gradient(to right, var(--line) 60%, transparent 0%);
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
+}
+
+/* Ink stamp — the site's signature element */
+.stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  border: 2.5px solid currentColor;
+  border-radius: 999px;
+  padding: 0.9em 0.6em;
+  line-height: 1.15;
+  mix-blend-mode: multiply;
+  filter: url(#stamp-roughen);
+  transform: rotate(var(--stamp-tilt, -7deg));
+}
+
+:root[data-theme="dark"] .stamp {
+  mix-blend-mode: screen;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .stamp {
+    mix-blend-mode: screen;
+  }
+}
+
+.stamp-amber {
+  color: var(--accent);
+}
+
+.stamp-green {
+  color: var(--stamp-green);
+}
+
+.stamp-cobalt {
+  color: var(--cobalt);
+}
+
+/* Photo frame — a placeholder photo taped/clipped to the page */
+.photo-frame {
+  position: relative;
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  padding: 10px 10px 34px;
+  box-shadow: 0 18px 32px -20px rgba(0, 0, 0, 0.35);
+}
+
+.photo-frame__area {
+  position: relative;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ink) 6%, transparent) 0px,
+    color-mix(in srgb, var(--ink) 6%, transparent) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  border: 1px solid var(--line);
+}
+
+.photo-frame__caption {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
 }
 
 .timeline-scroll {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--foreground) 20%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--foreground) 25%, transparent) transparent;
 }
 
 .timeline-scroll::-webkit-scrollbar {
@@ -111,96 +262,11 @@ textarea::placeholder {
 }
 
 .timeline-scroll::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--foreground) 20%, transparent);
-  border-radius: 4px;
-}
-
-.grain-layer {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  opacity: var(--grain-opacity);
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  background-size: 180px 180px;
-}
-
-.vignette-layer {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  mix-blend-mode: soft-light;
-  opacity: var(--vignette-opacity);
-  background: radial-gradient(
-      120% 90% at 15% 0%,
-      color-mix(in srgb, var(--accent) 35%, transparent) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      100% 80% at 100% 100%,
-      color-mix(in srgb, var(--accent) 22%, transparent) 0%,
-      transparent 60%
-    );
-}
-
-.grid-base,
-.grid-glow {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-      to right,
-      color-mix(in srgb, var(--foreground) 12%, transparent) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--foreground) 12%, transparent) 1px,
-      transparent 1px
-    );
-  background-size: 48px 48px;
-}
-
-.grid-base {
-  opacity: 0.3;
-}
-
-.grid-glow {
-  --spot-x: 50%;
-  --spot-y: 40%;
-  background-image: linear-gradient(
-      to right,
-      color-mix(in srgb, var(--accent) 80%, transparent) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--accent) 80%, transparent) 1px,
-      transparent 1px
-    );
-  opacity: 0.9;
-  mask-image: radial-gradient(
-    circle 260px at var(--spot-x) var(--spot-y),
-    black 0%,
-    transparent 70%
-  );
-  -webkit-mask-image: radial-gradient(
-    circle 260px at var(--spot-x) var(--spot-y),
-    black 0%,
-    transparent 70%
-  );
-  transition: opacity 0.3s ease;
+  background: color-mix(in srgb, var(--foreground) 25%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .grid-glow {
-    display: none;
-  }
-}
-
-@media (pointer: coarse) {
-  .grid-glow {
-    display: none;
+  html {
+    scroll-behavior: auto;
   }
 }

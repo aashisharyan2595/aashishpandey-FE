@@ -32,8 +32,7 @@ export default async function BlogIndexPage() {
               <Link
                 key={c._id}
                 href={`/blog/category/${c.slug}`}
-                data-cursor-hover
-                className="rounded-full border border-ink/10 px-4 py-1.5 text-sm hover:border-accent"
+                className="tag hover:border-accent"
               >
                 {c.name}
               </Link>

@@ -36,7 +36,7 @@ function BlockItem({ block }: { block: Block }) {
       const data = block.data as HeadingData;
       const Tag = data.level === 3 ? "h3" : "h2";
       return (
-        <Tag className="font-display text-2xl text-accent md:text-3xl">
+        <Tag className="font-display text-2xl font-bold text-accent md:text-3xl">
           {data.text}
         </Tag>
       );
@@ -54,7 +54,7 @@ function BlockItem({ block }: { block: Block }) {
           <img
             src={data.url}
             alt={data.alt ?? ""}
-            className="w-full rounded-lg border border-ink/10"
+            className="w-full border border-line"
           />
           {data.caption && (
             <figcaption className="mt-2 text-sm text-muted">{data.caption}</figcaption>
@@ -78,20 +78,20 @@ function BlockItem({ block }: { block: Block }) {
     case "code": {
       const data = block.data as CodeData;
       return (
-        <pre className="overflow-x-auto rounded-lg border border-ink/10 bg-ink/5 p-4 text-sm">
+        <pre className="overflow-x-auto border border-line bg-[var(--surface-1)] p-4 text-sm">
           <code>{data.code}</code>
         </pre>
       );
     }
     case "divider":
-      return <hr className="border-t border-ink/10" />;
+      return <hr className="border-t border-line" />;
     case "button": {
       const data = block.data as ButtonData;
       if (!data.url) return null;
       return (
         <a
           href={data.url}
-          className="w-fit rounded-full bg-accent px-8 py-3 font-mono text-sm uppercase tracking-widest text-background"
+          className="w-fit bg-accent px-8 py-3 font-mono text-sm uppercase tracking-widest text-background"
         >
           {data.text || "Learn more"}
         </a>
@@ -109,7 +109,7 @@ function BlockItem({ block }: { block: Block }) {
               key={i}
               src={img.url}
               alt={img.alt ?? ""}
-              className="aspect-[4/3] w-full rounded-lg border border-ink/10 object-cover"
+              className="aspect-[4/3] w-full border border-line object-cover"
             />
           ))}
         </div>
@@ -122,9 +122,9 @@ function BlockItem({ block }: { block: Block }) {
       return (
         <figure>
           {isDirectFile ? (
-            <video src={data.url} controls className="w-full rounded-lg border border-ink/10" />
+            <video src={data.url} controls className="w-full border border-line" />
           ) : (
-            <div className="aspect-video w-full overflow-hidden rounded-lg border border-ink/10">
+            <div className="aspect-video w-full overflow-hidden border border-line">
               <iframe
                 src={toEmbedUrl(data.url)}
                 className="h-full w-full"
@@ -144,7 +144,7 @@ function BlockItem({ block }: { block: Block }) {
       if (!data.url) return null;
       return (
         <figure>
-          <div className="aspect-video w-full overflow-hidden rounded-lg border border-ink/10">
+          <div className="aspect-video w-full overflow-hidden border border-line">
             <iframe src={data.url} className="h-full w-full" allowFullScreen />
           </div>
           {data.caption && (

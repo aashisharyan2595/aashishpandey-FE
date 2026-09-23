@@ -8,9 +8,10 @@ export default function Marquee({ items }: { items: string[] }) {
 
   useEffect(() => {
     if (!track.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const tween = gsap.to(track.current, {
       xPercent: -50,
-      duration: 20,
+      duration: 24,
       ease: "linear",
       repeat: -1,
     });
@@ -22,14 +23,11 @@ export default function Marquee({ items }: { items: string[] }) {
   const doubled = [...items, ...items];
 
   return (
-    <div className="overflow-hidden border-y border-ink/10 py-6">
-      <div ref={track} className="flex w-max gap-12">
+    <div className="overflow-hidden border-y border-line py-5">
+      <div ref={track} className="flex w-max gap-10">
         {doubled.map((item, i) => (
-          <span
-            key={i}
-            className="font-display text-3xl text-muted md:text-5xl"
-          >
-            {item} <span className="text-accent">*</span>
+          <span key={i} className="font-mono text-sm uppercase tracking-[0.15em] text-muted">
+            {item} <span className="text-accent">·</span>
           </span>
         ))}
       </div>

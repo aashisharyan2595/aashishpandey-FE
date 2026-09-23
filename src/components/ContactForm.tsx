@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState, type FormEvent } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
@@ -17,7 +16,7 @@ const INQUIRY_OPTIONS: { value: InquiryType; label: string }[] = [
 ];
 
 const fieldClass =
-  "border-b border-ink/20 bg-transparent py-3 outline-none transition-colors focus:border-accent";
+  "border-b border-line bg-transparent py-3 font-sans outline-none transition-colors focus:border-accent";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -72,20 +71,15 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="grid max-w-xl gap-6">
       <div>
-        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-muted">
-          I&apos;m reaching out as…
-        </p>
+        <p className="eyebrow mb-3">I&apos;m reaching out as…</p>
         <div className="flex flex-wrap gap-2">
           {INQUIRY_OPTIONS.map((opt) => (
             <button
               key={opt.value}
               type="button"
-              data-cursor-hover
               onClick={() => setInquiryType(opt.value)}
-              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
-                inquiryType === opt.value
-                  ? "border-accent bg-accent text-background"
-                  : "border-ink/20 hover:border-accent"
+              className={`tag transition-colors ${
+                inquiryType === opt.value ? "border-accent bg-accent text-background" : "hover:border-accent"
               }`}
             >
               {opt.label}
@@ -95,13 +89,7 @@ export default function ContactForm() {
       </div>
 
       <input name="name" required placeholder="Your name" className={fieldClass} />
-      <input
-        name="email"
-        type="email"
-        required
-        placeholder="Your email"
-        className={fieldClass}
-      />
+      <input name="email" type="email" required placeholder="Your email" className={fieldClass} />
 
       {inquiryType === "recruiter" && (
         <div className="grid gap-6 sm:grid-cols-2">
@@ -112,42 +100,23 @@ export default function ContactForm() {
 
       {inquiryType === "project" && (
         <div className="grid gap-6 sm:grid-cols-2">
-          <input
-            name="company"
-            placeholder="Company / organization"
-            className={fieldClass}
-          />
+          <input name="company" placeholder="Company / organization" className={fieldClass} />
           <input name="projectType" placeholder="Project type" className={fieldClass} />
           <input name="budget" placeholder="Budget range (optional)" className={fieldClass} />
           <input name="timeline" placeholder="Timeline (optional)" className={fieldClass} />
         </div>
       )}
 
-      <textarea
-        name="message"
-        required
-        rows={4}
-        placeholder="What are you building?"
-        className={fieldClass}
-      />
+      <textarea name="message" required rows={4} placeholder="What are you building?" className={fieldClass} />
 
-      {status === "error" && errorMessage && (
-        <p className="text-sm text-accent">{errorMessage}</p>
-      )}
+      {status === "error" && errorMessage && <p className="text-sm text-accent">{errorMessage}</p>}
 
-      <motion.button
-        type="submit"
-        data-cursor-hover
-        disabled={status === "sending"}
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        className="mt-4 w-fit rounded-full bg-accent px-8 py-3 font-mono text-sm uppercase tracking-widest text-background disabled:opacity-50"
-      >
+      <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-4 w-fit disabled:opacity-50">
         {status === "sending" && "Sending…"}
         {status === "sent" && "Sent — thank you!"}
         {status === "error" && "Retry"}
         {status === "idle" && "Send message"}
-      </motion.button>
+      </button>
     </form>
   );
 }

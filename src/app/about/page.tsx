@@ -1,10 +1,10 @@
-import AboutVisual from "@/components/AboutVisual";
 import CareerTimeline from "@/components/CareerTimeline";
 import Footer from "@/components/Footer";
 import Marquee from "@/components/Marquee";
 import Navbar from "@/components/Navbar";
 import Numbers from "@/components/Numbers";
 import PageHero from "@/components/PageHero";
+import PhotoFrame from "@/components/PhotoFrame";
 import Reveal from "@/components/Reveal";
 import { certifications, experience } from "@/lib/experience";
 import { buildMetadata } from "@/lib/seo";
@@ -26,8 +26,7 @@ const skills = [
 
 export const metadata = buildMetadata({
   title: "About",
-  description:
-    "Project manager and technical delivery lead — career timeline, skills, and certifications.",
+  description: "Project manager and technical delivery lead — career timeline, skills, and certifications.",
   path: "/about",
 });
 
@@ -55,11 +54,8 @@ export default function AboutPage() {
               onshore and offshore teams aligned, paced, and unblocked.
             </p>
           </Reveal>
-          <Reveal
-            delay={0.1}
-            className="aspect-[5/6] w-full max-w-xs justify-self-center lg:justify-self-end"
-          >
-            <AboutVisual />
+          <Reveal delay={0.1} className="flex justify-center lg:justify-end">
+            <PhotoFrame id="AP / About" caption="Pune, IN" aspect="aspect-[5/6]" rotate={-3} className="w-full max-w-xs" />
           </Reveal>
         </div>
 
@@ -67,30 +63,23 @@ export default function AboutPage() {
           <Marquee items={skills} />
         </Reveal>
 
-        <div className="mt-24 -mx-6 md:-mx-12">
+        <div className="mt-24 -mx-6 border-y border-line md:-mx-12">
           <Numbers />
         </div>
 
         <Reveal className="mt-24">
-          <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">
-            Career
-          </p>
-          <h2 className="font-display mt-4 max-w-2xl text-3xl leading-tight md:text-5xl">
+          <p className="eyebrow">Career</p>
+          <h2 className="font-display mt-4 max-w-2xl text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">
             Where the last six years went.
           </h2>
         </Reveal>
         <CareerTimeline items={experience} />
 
         <Reveal className="mt-24 max-w-2xl">
-          <p className="font-mono text-sm uppercase tracking-[0.3em] text-muted">
-            Certifications
-          </p>
+          <p className="eyebrow">Certifications</p>
           <div className="mt-6 flex flex-wrap gap-2">
             {certifications.map((c) => (
-              <span
-                key={c}
-                className="rounded-full border border-ink/10 px-4 py-1.5 text-sm"
-              >
+              <span key={c} className="tag">
                 {c}
               </span>
             ))}

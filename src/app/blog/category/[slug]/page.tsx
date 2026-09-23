@@ -43,7 +43,6 @@ export default async function BlogCategoryPage({
         <Reveal>
           <Link
             href="/blog"
-            data-cursor-hover
             className="font-mono text-sm uppercase tracking-widest text-muted hover:text-accent"
           >
             ← All writing
@@ -51,7 +50,7 @@ export default async function BlogCategoryPage({
           <p className="font-mono mt-8 text-sm uppercase tracking-[0.3em] text-muted">
             Category
           </p>
-          <h1 className="font-display mt-4 max-w-2xl text-4xl leading-tight md:text-6xl">
+          <h1 className="font-display mt-4 max-w-2xl text-4xl font-extrabold leading-[0.95] tracking-tight md:text-6xl">
             {category?.name ?? slug}
           </h1>
         </Reveal>
