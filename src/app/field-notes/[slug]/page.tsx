@@ -25,12 +25,12 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: `/field-notes/${slug}` },
     openGraph: {
       title,
       description,
       type: "article",
-      url: `https://aashishpandey.com/blog/${slug}`,
+      url: `https://aashishpandey.com/field-notes/${slug}`,
       images: image ? [{ url: image }] : undefined,
     },
     twitter: {
@@ -60,7 +60,7 @@ export default async function BlogPostPage({
     datePublished: post.publishedAt,
     dateModified: post.updatedAt || post.publishedAt,
     author: { "@type": "Person", name: "Aashish Pandey", url: "https://aashishpandey.com" },
-    mainEntityOfPage: `https://aashishpandey.com/blog/${slug}`,
+    mainEntityOfPage: `https://aashishpandey.com/field-notes/${slug}`,
   };
 
   return (
@@ -73,7 +73,7 @@ export default async function BlogPostPage({
       <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
         <Reveal className="max-w-3xl">
           <Link
-            href="/blog"
+            href="/field-notes"
             className="text-sm font-bold uppercase tracking-widest text-muted hover:text-interactive"
           >
             ← All writing
@@ -86,7 +86,7 @@ export default async function BlogPostPage({
               {post.tags.map((tag) => (
                 <Link
                   key={tag}
-                  href={`/blog/tag/${tag}`}
+                  href={`/field-notes/tag/${tag}`}
                   className="tag hover:border-accent"
                 >
                   {tag}

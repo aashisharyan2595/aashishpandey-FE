@@ -20,10 +20,10 @@ export default function ContactPage() {
           eyebrow="Contact"
           title={
             <>
-              Say hello: <span style={{ color: "var(--gold)" }}>let&apos;s build something.</span>
+              Have a <span style={{ color: "var(--gold)" }}>complicated digital project?</span>
             </>
           }
-          intro="Whether you're hiring, have a project in mind, or just want to say hi — this reaches me directly."
+          intro="If you're building, redesigning, migrating or scaling a digital product or website, tell me what you're working on."
         />
 
         <div className="mt-16 grid gap-16 lg:grid-cols-[1fr_1.2fr]">

@@ -3,12 +3,12 @@ import { JetBrains_Mono, Lato } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
+// Night is the brand's default site background (Ground mode), not a
+// system-preference echo — only an explicit stored choice opts into light.
 const THEME_INIT_SCRIPT = `
   try {
     var stored = localStorage.getItem('theme');
-    var theme = stored === 'light' || stored === 'dark'
-      ? stored
-      : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var theme = stored === 'light' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', theme);
   } catch (e) {}
 `;

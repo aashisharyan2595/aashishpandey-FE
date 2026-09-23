@@ -18,7 +18,7 @@ export default function BlogList({ posts }: { posts: BlogPostSummary[] }) {
     <div className="mt-16 divide-y divide-line border-t border-line">
       {posts.map((post, i) => (
         <Reveal key={post._id} delay={i * 0.04}>
-          <Link href={`/blog/${post.slug}`} className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center">
+          <Link href={`/field-notes/${post.slug}`} className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center">
             <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden border border-line sm:w-32">
               {post.coverImage ? (
                 <Image
