@@ -72,38 +72,78 @@ export default function Hero() {
   );
 }
 
+// The same "large coherent planes" faceting language as CaseStudyCover's
+// low-poly art — a crystalline silhouette instead of a single rounded/cut
+// corner. Both chamfers stay clear of the subject (face sits centred,
+// roughly 25–75% x / 5–55% y): the top-left facet is a small sliver, the
+// bottom-right facet is a deep cut through empty road/foliage.
+const PHOTO_MASK = "polygon(14% 0%, 100% 0%, 100% 64%, 78% 100%, 0% 100%, 0% 18%)";
+const CORNER_FACET = "polygon(100% 64%, 100% 100%, 78% 100%)";
+
 function HeroPhoto({ objectPosition }: { objectPosition: string }) {
   return (
-    <div className="cut-corner group relative h-full w-full overflow-hidden border border-line">
-      <Image
-        src="/images/aashish-hero.webp"
-        alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
-        fill
-        priority
-        sizes="(min-width: 1024px) 42vw, 100vw"
-        className="object-cover"
-        style={{ objectPosition }}
-      />
-      {/* A warm colour wash over the photo — ties the art-directed
-          illustration into the site's own palette, poster-style, rather
-          than sitting as a flat, unrelated photo. */}
+    <div className="group relative h-full w-full overflow-hidden">
+      {/* The brand-colour plane sitting behind the photo, revealed only in
+          the chamfered corner — the same colour-blocked facet treatment as
+          the site's other geometric artwork. */}
       <div
         className="pointer-events-none absolute inset-0"
-        style={{
-          background: "linear-gradient(150deg, var(--gold) 0%, transparent 55%)",
-          mixBlendMode: "color",
-          opacity: 0.35,
-        }}
+        style={{ clipPath: CORNER_FACET, background: "var(--gold)" }}
+        aria-hidden
       />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "linear-gradient(0deg, var(--night) 0%, transparent 22%)",
-          opacity: 0.6,
-        }}
-      />
-      <span className="pointer-events-none absolute bottom-4 right-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--sand)] opacity-80">
-        AP / Field — Pune, IN
+
+      <div className="absolute inset-0" style={{ clipPath: PHOTO_MASK }}>
+        <Image
+          src="/images/aashish-hero.webp"
+          alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
+          fill
+          priority
+          sizes="(min-width: 1024px) 42vw, 100vw"
+          className="object-cover"
+          style={{ objectPosition }}
+        />
+        {/* A warm colour wash over the photo — ties the art-directed
+            illustration into the site's own palette, poster-style, rather
+            than sitting as a flat, unrelated photo. */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "linear-gradient(150deg, var(--gold) 0%, transparent 55%)",
+            mixBlendMode: "color",
+            opacity: 0.35,
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "linear-gradient(0deg, var(--night) 0%, transparent 22%)",
+            opacity: 0.6,
+          }}
+        />
+      </div>
+
+      {/* A crisp gold seam along the facet edges — the "cut glass" line
+          that reads as geometry rather than a soft crop. */}
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        aria-hidden
+      >
+        <polygon
+          points="14,0 100,0 100,64 78,100 0,100 0,18"
+          fill="none"
+          stroke="var(--gold)"
+          strokeWidth="0.4"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+
+      <span className="pointer-events-none absolute bottom-4 left-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--sand)] opacity-80">
+        AP / Field
+      </span>
+      <span className="pointer-events-none absolute bottom-4 right-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--night)] opacity-90">
+        Pune, IN
       </span>
     </div>
   );
