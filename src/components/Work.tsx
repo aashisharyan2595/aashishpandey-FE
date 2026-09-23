@@ -8,7 +8,7 @@ export default async function Work() {
 
   return (
     <section id="work" className="border-b border-line px-6 py-24 md:px-12 md:py-28">
-      <Reveal className="flex items-baseline justify-between gap-4">
+      <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="eyebrow">Things I&apos;ve shipped</p>
           <p className="mt-2 text-muted">Real work, real constraints, real delivery.</p>

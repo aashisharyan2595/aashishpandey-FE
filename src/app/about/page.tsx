@@ -46,24 +46,27 @@ export default function AboutPage() {
         />
 
         {/* FIELD — grounded, personal */}
-        <Reveal delay={0.05} className="mt-16 grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:items-center">
-          <PhotoFrame
-            src="/images/aashish-road.webp"
-            alt="Aashish Pandey, geometric editorial illustration, packed for a ride"
-            id="AP / Field"
-            caption="On the road"
-            aspect="aspect-[4/5]"
-            className="w-full max-w-xs justify-self-start"
-          />
-          <div>
+        <div className="mt-16 grid gap-8 md:grid-cols-[1fr_1.4fr] md:items-center">
+          <Reveal scaleIn delay={0.05}>
+            <PhotoFrame
+              src="/images/aashish-road.webp"
+              alt="Aashish Pandey, geometric editorial illustration, riding fully packed through a misty valley"
+              id="AP / Field"
+              caption="On the road"
+              aspect="aspect-[4/5]"
+              objectPosition="50% 22%"
+              className="w-full max-w-xs"
+            />
+          </Reveal>
+          <Reveal delay={0.1}>
             <p className="eyebrow">Field</p>
             <p className="mt-4 max-w-md text-muted">
               Most weekends away from the CMS look like this — a road, a bike, and
               a route that isn&apos;t on anyone&apos;s roadmap. Managing uncertainty
               on a route and managing it in a project plan aren&apos;t that different.
             </p>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
 
         {/* SYSTEM — career, technology, delivery */}
         <Reveal className="mt-24">
@@ -87,8 +90,8 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <div className="mt-24 grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-16">
-          <Reveal>
+        <div className="mt-24 grid gap-12 md:grid-cols-[1.4fr_1fr] md:items-center md:gap-16">
+          <Reveal className="order-2 md:order-1">
             <p className="max-w-xl text-lg text-muted">
               Project manager and business analyst with 6+ years driving integrated
               delivery, operational efficiency, and stakeholder alignment in
@@ -100,13 +103,14 @@ export default function AboutPage() {
               onshore and offshore teams aligned, paced, and unblocked.
             </p>
           </Reveal>
-          <Reveal delay={0.1} className="flex justify-center lg:justify-end">
+          <Reveal scaleIn delay={0.1} className="order-1 flex justify-center md:order-2 md:justify-end">
             <PhotoFrame
               src="/images/aashish-about.jpg"
-              alt="Aashish Pandey, geometric editorial illustration, on a mountain road"
+              alt="Aashish Pandey, geometric editorial illustration, close portrait with a road helmet"
               id="AP / About"
               caption="Pune, IN"
               aspect="aspect-[5/6]"
+              objectPosition="50% 18%"
               className="w-full max-w-xs"
             />
           </Reveal>
