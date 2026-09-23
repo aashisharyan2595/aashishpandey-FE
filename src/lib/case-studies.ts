@@ -1,3 +1,10 @@
+// Per-project art direction (Sprint 01 §13) — reuses the site's existing
+// brand palette tokens rather than introducing new colours, so each case
+// study reads distinctly without the system fragmenting. Optional: data
+// coming from the backend CMS may not have it yet, so every consumer
+// falls back to a sensible default rather than assuming it's set.
+export type CaseStudyTheme = "terracotta" | "sky" | "forest" | "orbit" | "moss";
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -10,6 +17,7 @@ export type CaseStudy = {
   outcome: string;
   metric: { value: string; label: string };
   coverImage?: string;
+  theme?: CaseStudyTheme;
   featured?: boolean;
   order?: number;
 };
@@ -31,6 +39,7 @@ export const caseStudies: CaseStudy[] = [
       "The site launched on schedule and stable, with a UX overhaul that improved the brand's positioning on the platform.",
     metric: { value: "On time", label: "Hard launch date, zero slip" },
     coverImage: "/images/case-studies/tmicc-shopify-relaunch.webp",
+    theme: "terracotta",
   },
   {
     slug: "storynest-ai-platform",
@@ -48,6 +57,7 @@ export const caseStudies: CaseStudy[] = [
       "Traffic grew 50% across my time on the platform (2022–2025), with a backlog that stayed prioritized against evidence instead of opinion.",
     metric: { value: "+50%", label: "Traffic growth" },
     coverImage: "/images/case-studies/storynest-ai-platform.webp",
+    theme: "sky",
   },
   {
     slug: "wipro-d2c-modernization",
@@ -64,6 +74,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "Request-handling capacity — how many incoming requests the standardized process could absorb — increased by 40%, with a shared process both platform teams could actually rely on.",
     metric: { value: "+40%", label: "Handling capacity" },
+    theme: "forest",
   },
   {
     slug: "liquid-iv-europe-expansion",
@@ -81,6 +92,7 @@ export const caseStudies: CaseStudy[] = [
       "Nine live storefronts launched from one coordinated program instead of nine separate ones, each fully localized in its market's language, with a central hub that makes it straightforward to add the next country.",
     metric: { value: "9", label: "Countries, one launch program" },
     coverImage: "/images/case-studies/liquid-iv-europe-expansion.webp",
+    theme: "orbit",
   },
   {
     slug: "zebronics-campaign-pages",
@@ -97,6 +109,7 @@ export const caseStudies: CaseStudy[] = [
     outcome:
       "A blended engagement-and-social-shares metric rose 25%, and the iteration process became the template for future campaign pages.",
     metric: { value: "+25%", label: "Engagement + shares (blended)" },
+    theme: "moss",
   },
 ];
 
