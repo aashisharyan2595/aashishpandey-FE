@@ -553,29 +553,31 @@ export default function CriticalPathPage() {
       sun.shadow.bias = -0.0006;
       scene.add(sun);
       const std = (c: number, ro2 = 0.7, em = 0) => new THREE.MeshStandardMaterial({ color: c, roughness: ro2, emissive: em ? c : 0x000000, emissiveIntensity: em });
-      // Glass: translucent + a soft interior glow (emissive), for the
-      // Gantt bars specifically. Kept off MeshPhysicalMaterial's
-      // `transmission` (real refraction) since that needs an extra
+      // Frosted glass: translucent + diffuse (high roughness scatters the
+      // light instead of a clear specular pass-through) + a soft interior
+      // glow (emissive). No clearcoat — that reads as a glossy clear-glass
+      // coat, the opposite of frosted. Still skipping MeshPhysicalMaterial's
+      // `transmission` (real refraction/blur) since that needs an extra
       // offscreen render pass per frame — too costly for a laptop GPU;
-      // this fakes the glass read with opacity + clearcoat + emissive.
-      const glass = (c: number, opacity = 0.42, glow = 0.3) =>
+      // the high roughness does the "can't see sharp detail through it"
+      // job instead, at effectively no extra cost.
+      const glass = (c: number, opacity = 0.55, glow = 0.3) =>
         new THREE.MeshPhysicalMaterial({
           color: c,
           transparent: true,
           opacity,
-          roughness: 0.12,
-          metalness: 0.05,
-          clearcoat: 0.6,
-          clearcoatRoughness: 0.15,
+          roughness: 0.8,
+          metalness: 0,
+          clearcoat: 0,
           emissive: c,
           emissiveIntensity: glow,
           side: THREE.DoubleSide,
         });
       const M = {
-        bone: glass(0xf2e2c6, 0.4, 0.22),
-        bone2: glass(0xe6cfa8, 0.4, 0.22),
-        ver: glass(0xe8773a, 0.5, 0.5),
-        verHot: glass(0xf4b24a, 0.55, 0.8),
+        bone: glass(0xf2e2c6, 0.55, 0.22),
+        bone2: glass(0xe6cfa8, 0.55, 0.22),
+        ver: glass(0xe8773a, 0.62, 0.5),
+        verHot: glass(0xf4b24a, 0.68, 0.8),
         ink: std(0x171b2e, 0.6),
         chipOff: std(0xf6ead6, 0.8),
         cob: new THREE.MeshBasicMaterial({ color: 0x5a6d96, transparent: true, opacity: 0.1, side: THREE.DoubleSide, depthWrite: false }),
