@@ -83,6 +83,18 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* The warm-redesign pages (components/warm/*) run a Three.js backdrop
+   appended to document.body at z-index -2 (see SiteFx.tsx) — CSS paints
+   negative-z-index content before normal in-flow boxes, so that canvas
+   needs to sit behind body's OWN background, not behind a same-page
+   wrapper div with its own opaque background (which would paint over it
+   regardless of z-index, since it isn't a positioned/stacking element).
+   Toggled by WarmBody.tsx so pages that haven't been redesigned yet keep
+   the default night theme. */
+body.warm-bg {
+  background: linear-gradient(180deg, #f6ead6 0%, #f4dfc0 60%, #efc995 100%) fixed;
+}
+
 ::selection {
   background: var(--gold);
   color: var(--night);

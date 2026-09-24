@@ -1,6 +1,7 @@
 import SiteFooter from "@/components/warm/SiteFooter";
 import SiteFx from "@/components/warm/SiteFx";
 import SiteHeader from "@/components/warm/SiteHeader";
+import WarmBody from "@/components/warm/WarmBody";
 import styles from "@/components/warm/warm.module.css";
 
 const ROLES = [
@@ -86,14 +87,13 @@ export default function AboutPage() {
     <div
       style={{
         margin: 0,
-        background: "linear-gradient(180deg,#f6ead6 0%,#f4dfc0 60%,#efc995 100%)",
-        backgroundAttachment: "fixed",
         color: "#171b2e",
         fontFamily: "var(--font-bricolage), Helvetica, Arial, sans-serif",
         minHeight: "100vh",
         overflowX: "hidden",
       }}
     >
+      <WarmBody />
       <SiteFx scene="about" />
       <SiteHeader />
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import SiteFooter from "@/components/warm/SiteFooter";
 import SiteFx from "@/components/warm/SiteFx";
 import SiteHeader from "@/components/warm/SiteHeader";
+import WarmBody from "@/components/warm/WarmBody";
 import styles from "@/components/warm/warm.module.css";
 import { ROLE_BY_SLUG } from "@/components/warm/work-data";
 import type { CaseStudy } from "@/lib/case-studies";
@@ -29,14 +30,13 @@ export default function WorkCasePage({
     <div
       style={{
         margin: 0,
-        background: "linear-gradient(180deg,#f6ead6 0%,#f4dfc0 60%,#efc995 100%)",
-        backgroundAttachment: "fixed",
         color: "#171b2e",
         fontFamily: "var(--font-bricolage), Helvetica, Arial, sans-serif",
         minHeight: "100vh",
         overflowX: "hidden",
       }}
     >
+      <WarmBody />
       <SiteFx scene="work" />
       <SiteHeader />
 
