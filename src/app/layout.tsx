@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Lato } from "next/font/google";
+import { Bricolage_Grotesque, IBM_Plex_Mono, JetBrains_Mono, Lato } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -23,6 +23,20 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
+});
+
+// For the "warm" redesign (components/warm/*) — loaded globally since pages
+// migrate one at a time, but scoped to those components via the CSS
+// variable rather than becoming the site default.
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 const SITE_URL = "https://aashishpandey.com";
@@ -85,7 +99,7 @@ export default function RootLayout({
       lang="en"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${lato.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${lato.variable} ${jetbrainsMono.variable} ${bricolage.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <script
