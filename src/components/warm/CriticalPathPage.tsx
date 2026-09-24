@@ -99,6 +99,9 @@ export default function CriticalPathPage() {
     lastHov: number;
     hotBar: boolean;
     hover: number;
+    secOffs: number[];
+    secLastSpan: number;
+    secMax: number;
   }>({
     c: 0,
     plan: 0,
@@ -128,6 +131,9 @@ export default function CriticalPathPage() {
     lastHov: -1,
     hotBar: false,
     hover: -1,
+    secOffs: [],
+    secLastSpan: 1,
+    secMax: 0,
   });
 
   // Live refs mirroring the latest state, so the rAF loop (set up once)
@@ -285,7 +291,7 @@ export default function CriticalPathPage() {
       window.scrollTo({ top: y, behavior: eng.current.reduced ? "auto" : "smooth" });
       return;
     }
-    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const max = eng.current.secMax;
     s.tgt = Math.max(0, Math.min(max, y));
     if (!s.on) {
       s.cur = window.scrollY;
@@ -298,19 +304,31 @@ export default function CriticalPathPage() {
     if (el) goTo(el.offsetTop);
   }
 
-  function measureScroll() {
+  // Chapter offsets and the scrollable max are read from layout once here
+  // (and again on resize) rather than inside measureScroll, which runs on
+  // every scroll/rAF tick — reading offsetTop/scrollHeight that often forces
+  // a synchronous layout on each call and was the source of the scroll
+  // jitter/lag, especially now that the 3D render loop is heavier.
+  function recomputeSections() {
     const secs = Array.from(document.querySelectorAll<HTMLElement>("[data-ch]")).sort((a, b) => Number(a.dataset.ch) - Number(b.dataset.ch));
     if (!secs.length) return;
+    eng.current.secOffs = secs.map((s) => s.offsetTop);
+    eng.current.secLastSpan = secs[secs.length - 1].offsetHeight - window.innerHeight;
+    eng.current.secMax = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  }
+
+  function measureScroll() {
+    const offs = eng.current.secOffs;
+    if (!offs.length) return;
     const y = window.scrollY;
-    const offs = secs.map((s) => s.offsetTop);
     let i = 0;
     while (i < offs.length - 1 && y >= offs[i + 1]) i++;
-    const span = i < offs.length - 1 ? offs[i + 1] - offs[i] : secs[i].offsetHeight - window.innerHeight;
+    const span = i < offs.length - 1 ? offs[i + 1] - offs[i] : eng.current.secLastSpan;
     const f = Math.max(0, Math.min(1, (y - offs[i]) / Math.max(1, span)));
     const e = Math.max(0, Math.min(1, (f - 0.3) / 0.6));
     const ease = e * e * (3 - 2 * e);
     eng.current.c = i + (i < offs.length - 1 ? ease : 0);
-    eng.current.plan = Math.min(1, y / Math.max(1, document.documentElement.scrollHeight - window.innerHeight));
+    eng.current.plan = Math.min(1, y / Math.max(1, eng.current.secMax));
     const nextCh = f > 0.72 && i < offs.length - 1 ? i + 1 : i;
     if (nextCh !== chRef.current) {
       if (chRef.current != null) sfx("chap");
@@ -390,7 +408,7 @@ export default function CriticalPathPage() {
       const target = e.target as HTMLElement;
       if (target.closest && target.closest("[data-own-scroll]")) return;
       e.preventDefault();
-      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const max = eng.current.secMax;
       const s = eng.current.sc;
       if (!s.on) {
         s.cur = window.scrollY;
@@ -512,8 +530,14 @@ export default function CriticalPathPage() {
       measureScroll();
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    const t0 = setTimeout(onScroll, 50);
+    const onResize = () => {
+      recomputeSections();
+      onScroll();
+    };
+    window.addEventListener("resize", onResize);
+    recomputeSections();
+    const t0 = setTimeout(onResize, 50);
+    if (document.fonts?.ready) document.fonts.ready.then(onResize);
 
     let disposed = false;
     let raf3d = 0;
@@ -532,6 +556,12 @@ export default function CriticalPathPage() {
       if (disposed || !stageRef.current) return;
       renderer = r;
       r.setPixelRatio(Math.min(window.devicePixelRatio, eng.current.fine ? 2 : 1.5));
+      // The Gantt bars use MeshPhysicalMaterial transmission (real frosted
+      // glass) — Three.js renders an extra offscreen pass each frame to
+      // sample what's behind them. Capping its resolution keeps that pass
+      // cheap without visibly softening the frosted look (frosted glass is
+      // already meant to be blurry).
+      r.transmissionResolutionScale = 0.5;
       r.toneMapping = THREE.ACESFilmicToneMapping;
       r.toneMappingExposure = 1.05;
       r.shadowMap.enabled = true;
@@ -553,31 +583,31 @@ export default function CriticalPathPage() {
       sun.shadow.bias = -0.0006;
       scene.add(sun);
       const std = (c: number, ro2 = 0.7, em = 0) => new THREE.MeshStandardMaterial({ color: c, roughness: ro2, emissive: em ? c : 0x000000, emissiveIntensity: em });
-      // Frosted glass: translucent + diffuse (high roughness scatters the
-      // light instead of a clear specular pass-through) + a soft interior
-      // glow (emissive). No clearcoat — that reads as a glossy clear-glass
-      // coat, the opposite of frosted. Still skipping MeshPhysicalMaterial's
-      // `transmission` (real refraction/blur) since that needs an extra
-      // offscreen render pass per frame — too costly for a laptop GPU;
-      // the high roughness does the "can't see sharp detail through it"
-      // job instead, at effectively no extra cost.
-      const glass = (c: number, opacity = 0.55, glow = 0.3) =>
+      // Real frosted glass: MeshPhysicalMaterial's `transmission` actually
+      // refracts/samples what's behind the bar (Three.js renders a
+      // transmission pass each frame) — roughness blurs that sample into
+      // the soft, color-bleeding frosted look, which flat opacity can't
+      // produce (that only blends a constant color, no refraction/blur of
+      // what's actually behind it). Capped via r.transmissionResolutionScale
+      // below to keep the extra render pass cheap.
+      const glass = (c: number, glow = 0.25) =>
         new THREE.MeshPhysicalMaterial({
           color: c,
           transparent: true,
-          opacity,
-          roughness: 0.8,
+          transmission: 1,
+          thickness: 1.4,
+          roughness: 0.35,
+          ior: 1.4,
           metalness: 0,
-          clearcoat: 0,
           emissive: c,
           emissiveIntensity: glow,
           side: THREE.DoubleSide,
         });
       const M = {
-        bone: glass(0xf2e2c6, 0.55, 0.22),
-        bone2: glass(0xe6cfa8, 0.55, 0.22),
-        ver: glass(0xe8773a, 0.62, 0.5),
-        verHot: glass(0xf4b24a, 0.68, 0.8),
+        bone: glass(0xf2e2c6, 0.18),
+        bone2: glass(0xe6cfa8, 0.18),
+        ver: glass(0xe8773a, 0.45),
+        verHot: glass(0xf4b24a, 0.75),
         ink: std(0x171b2e, 0.6),
         chipOff: std(0xf6ead6, 0.8),
         cob: new THREE.MeshBasicMaterial({ color: 0x5a6d96, transparent: true, opacity: 0.1, side: THREE.DoubleSide, depthWrite: false }),
@@ -914,7 +944,7 @@ export default function CriticalPathPage() {
       cancelAnimationFrame(raf3d);
       clearInterval(eqT);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", onResize);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("pointermove", onMove2);
       window.removeEventListener("pointerdown", onDown);
