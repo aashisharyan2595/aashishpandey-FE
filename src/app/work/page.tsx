@@ -1,32 +1,14 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import PageHero from "@/components/PageHero";
-import WorkFilterGrid from "@/components/WorkFilterGrid";
+import WorkPage from "@/components/warm/WorkPage";
 import { getCaseStudies } from "@/lib/case-studies";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Work",
-  description: "Delivery case studies from Unilever, Wipro, and other engagements.",
+  description: "Selected delivery work by Aashish Pandey: Liquid I.V. across Europe, Wipro D2C, Magnum Canada, StoryNest and Zebronics. 35+ platforms shipped, 99% on time.",
   path: "/work",
 });
 
-export default async function WorkIndexPage() {
+export default async function Work() {
   const items = await getCaseStudies();
-
-  return (
-    <>
-      <Navbar />
-      <main className="flex-1 px-6 pt-40 pb-28 md:px-12 md:pb-32">
-        <PageHero
-          eyebrow="All work"
-          title="Things I've shipped."
-          intro="Real work, real constraints, real delivery."
-          index={`0${items.length}`.slice(-2) + " total"}
-        />
-        <WorkFilterGrid items={items} />
-      </main>
-      <Footer />
-    </>
-  );
+  return <WorkPage caseStudies={items} />;
 }

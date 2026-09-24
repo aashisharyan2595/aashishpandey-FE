@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import styles from "@/components/warm/warm.module.css";
 
 const LINKS: { key: string; label: string; href: string }[] = [
   { key: "home", label: "Home", href: "/" },
@@ -92,6 +93,7 @@ export default function SiteHeader() {
               key={l.key}
               href={l.href}
               aria-current={on ? "page" : undefined}
+              className={styles.navLink}
               style={{
                 padding: "8px 14px",
                 borderRadius: 999,
@@ -112,6 +114,7 @@ export default function SiteHeader() {
       <div style={{ pointerEvents: "auto", display: "flex", gap: 6, alignItems: "center" }}>
         <Link
           href="/ride"
+          className={styles.raceMode}
           style={{
             borderRadius: 999,
             padding: "9px 14px",
@@ -130,6 +133,7 @@ export default function SiteHeader() {
         </Link>
         <Link
           href="/contact"
+          className={styles.talkCta}
           style={{
             borderRadius: 999,
             padding: "10px 16px",

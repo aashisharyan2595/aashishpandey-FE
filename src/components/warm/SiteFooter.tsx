@@ -1,4 +1,5 @@
 import Link from "next/link";
+import styles from "@/components/warm/warm.module.css";
 
 const linkStyle: React.CSSProperties = { color: "#f6ead6", textDecoration: "none" };
 
@@ -35,6 +36,7 @@ export default function SiteFooter() {
           </h2>
           <a
             href="mailto:aashishpandey406@gmail.com"
+            className={styles.footerLink}
             style={{ alignSelf: "flex-start", fontSize: "clamp(18px,2vw,24px)", fontWeight: 600, borderBottom: "2px solid #e8773a", paddingBottom: 4, ...linkStyle }}
           >
             aashishpandey406@gmail.com
@@ -45,26 +47,26 @@ export default function SiteFooter() {
           <span style={{ fontFamily: "var(--font-ibm-plex-mono), monospace", fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", color: "#9aa0b4" }}>
             Site
           </span>
-          <Link href="/" style={linkStyle}>Home</Link>
-          <Link href="/work" style={linkStyle}>Work</Link>
-          <Link href="/about" style={linkStyle}>About</Link>
-          <Link href="/contact" style={linkStyle}>Contact</Link>
+          <Link href="/" className={styles.footerLink} style={linkStyle}>Home</Link>
+          <Link href="/work" className={styles.footerLink} style={linkStyle}>Work</Link>
+          <Link href="/about" className={styles.footerLink} style={linkStyle}>About</Link>
+          <Link href="/contact" className={styles.footerLink} style={linkStyle}>Contact</Link>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 16 }}>
           <span style={{ fontFamily: "var(--font-ibm-plex-mono), monospace", fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", color: "#9aa0b4" }}>
             Play
           </span>
-          <Link href="/ride" style={linkStyle}>Race mode ↗</Link>
+          <Link href="/ride" className={styles.footerLink} style={linkStyle}>Race mode ↗</Link>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 16 }}>
           <span style={{ fontFamily: "var(--font-ibm-plex-mono), monospace", fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", color: "#9aa0b4" }}>
             Elsewhere
           </span>
-          <a href="https://linkedin.com/in/aashish-kumar-pandey" style={linkStyle}>LinkedIn ↗</a>
-          <a href="https://github.com/aashisharyan2595" style={linkStyle}>GitHub ↗</a>
-          <a href="/assets/Aashish-Pandey-Resume.docx" download style={linkStyle}>Résumé ↓</a>
+          <a href="https://linkedin.com/in/aashish-kumar-pandey" className={styles.footerLink} style={linkStyle}>LinkedIn ↗</a>
+          <a href="https://github.com/aashisharyan2595" className={styles.footerLink} style={linkStyle}>GitHub ↗</a>
+          <a href="/assets/Aashish-Pandey-Resume.docx" download className={styles.footerLink} style={linkStyle}>Résumé ↓</a>
         </div>
       </div>
 

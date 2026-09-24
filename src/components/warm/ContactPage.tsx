@@ -4,6 +4,7 @@ import { useState, useSyncExternalStore, type FormEvent } from "react";
 import SiteFooter from "@/components/warm/SiteFooter";
 import SiteFx from "@/components/warm/SiteFx";
 import SiteHeader from "@/components/warm/SiteHeader";
+import styles from "@/components/warm/warm.module.css";
 
 const TYPES = ["Launch / rollout", "Replatform / migration", "D2C / Shopify", "Delivery rescue", "Something else"];
 
@@ -148,13 +149,13 @@ export default function ContactPage() {
               aashishpandey406@gmail.com
             </a>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <a href="https://linkedin.com/in/aashish-kumar-pandey" style={pillLink}>
+              <a href="https://linkedin.com/in/aashish-kumar-pandey" className={styles.pillOutline} style={pillLink}>
                 LinkedIn ↗
               </a>
-              <a href="https://github.com/aashisharyan2595" style={pillLink}>
+              <a href="https://github.com/aashisharyan2595" className={styles.pillOutline} style={pillLink}>
                 GitHub ↗
               </a>
-              <a href="/assets/Aashish-Pandey-Resume.docx" download style={pillLink}>
+              <a href="/assets/Aashish-Pandey-Resume.docx" download className={styles.pillOutline} style={pillLink}>
                 Résumé ↓
               </a>
             </div>
@@ -228,6 +229,7 @@ export default function ContactPage() {
 
           <button
             type="submit"
+            className={styles.pillPrimary}
             style={{
               alignSelf: "flex-start",
               display: "flex",

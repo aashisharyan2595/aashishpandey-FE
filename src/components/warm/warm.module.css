@@ -1,0 +1,78 @@
+/* Shared hover treatments for the warm-redesign pages (components/warm/*).
+   Inline React style objects can't express :hover, and every one of these
+   patterns repeats across Header/Footer/About/Work/Contact, so it's a
+   module instead of duplicating onMouseEnter/onMouseLeave state per button. */
+
+.pillPrimary {
+  transition: background-color 0.2s, color 0.2s;
+}
+.pillPrimary:hover {
+  background: #e8773a !important;
+  color: #171b2e !important;
+}
+
+.pillOutline {
+  transition: background-color 0.2s, color 0.2s;
+}
+.pillOutline:hover {
+  background: #171b2e !important;
+  color: #fbf3e4 !important;
+}
+
+.navLink {
+  transition: background-color 0.25s, color 0.25s;
+}
+.navLink:hover {
+  background: rgba(23, 27, 46, 0.08) !important;
+}
+
+.raceMode {
+  transition: background-color 0.2s;
+}
+.raceMode:hover {
+  background: #e8773a !important;
+}
+
+.talkCta {
+  transition: background-color 0.2s, color 0.2s;
+}
+.talkCta:hover {
+  background: #e8773a !important;
+  color: #171b2e !important;
+}
+
+.footerLink {
+  transition: color 0.2s;
+}
+.footerLink:hover {
+  color: #f4b24a !important;
+}
+
+.expCard {
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.skillCard {
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.2, 1), background-color 0.3s;
+}
+.skillCard:hover {
+  transform: translateY(-3px);
+  background: #fbf3e4 !important;
+}
+
+.workCard {
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.35s, background-color 0.3s;
+}
+.workCard:hover {
+  transform: translateY(-4px);
+  background: #fbf3e4 !important;
+  box-shadow: 0 34px 60px -30px rgba(23, 27, 46, 0.6) !important;
+}
+
+.archiveRow {
+  transition: padding 0.3s, background-color 0.3s;
+}
+.archiveRow:hover {
+  padding-left: 14px !important;
+  background: rgba(251, 243, 228, 0.6) !important;
+}
