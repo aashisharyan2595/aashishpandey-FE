@@ -738,14 +738,6 @@ export default function CriticalPathPage() {
       ro = new ResizeObserver(size);
       ro.observe(el);
 
-      // Bars still scale in progressively as the camera approaches (kept —
-      // cheap, just a per-bar lerp) but the source's visual fog reveal — 9
-      // full-viewport shader planes plus a fog "wall", each running a
-      // 5-octave noise fragment shader every frame — was too heavy on
-      // integrated GPUs, so removed. Approach now just reveals bars
-      // directly with no mist visual.
-      let revX = X(2018) + 6;
-
       const ray = new THREE.Raycaster();
       const ndc = new THREE.Vector2();
       const hit = new THREE.Vector3();
@@ -803,16 +795,6 @@ export default function CriticalPathPage() {
         ct.lerp(tt, kt);
         cam.position.copy(cp);
         cam.lookAt(ct);
-        revX = Math.max(revX, ct.x + 9);
-        const rv = revX;
-        bars.forEach((b, i) => {
-          const R = ROWS[i];
-          const tgt = X(R.a) < rv - 2 ? 1 : 0;
-          b.lv = (b.lv ?? 0) + (tgt - b.g.scale.y) * Math.min(1, ldt * 2.2);
-          b.g.scale.y = Math.max(0.001, b.g.scale.y + b.lv * ldt);
-          b.g.visible = b.g.scale.y > 0.01;
-          if (b.dia) b.dia.visible = b.g.scale.y > 0.6;
-        });
         const yr = Math.max(2018, Math.min(NOW, 2018 + ct.x / 10));
         if (hudDateRef.current) hudDateRef.current.textContent = fmt(yr);
         if (hudPctRef.current) hudPctRef.current.textContent = Math.round((eng.current.plan || 0) * 100) + "%";
