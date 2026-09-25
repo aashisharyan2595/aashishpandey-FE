@@ -829,12 +829,13 @@ transformed.z += sway * ${wdz.toFixed(3)};
         const dx = bp.x - dino.position.x, dz = bp.z - dino.position.z, d = Math.hypot(dx, dz) || 0.001;
         if (d < 1.5) { dinoState = 'jumpon'; dinoJumpT = 0; scene.attach(dino); dino.getWorldPosition(dinoJumpFrom); }
         else {
-          const spdD = Math.min(6.5, 2.4 + d * 0.32);
+          const spdD = Math.min(16, 2.4 + d * 0.55);
           dino.position.x += dx / d * spdD * dt; dino.position.z += dz / d * spdD * dt;
-          dino.position.y = groundY(dino.position.x, dino.position.z) + Math.abs(Math.sin(dinoRunPhase * 9)) * 0.08;
-          const targetYaw = Math.atan2(-dx, -dz); let dyaw = targetYaw - dino.rotation.y; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); dino.rotation.y += dyaw * Math.min(1, dt * 8); dinoRunPhase += dt * 1.3;
-          dLegs.forEach((l, i) => { l.m.rotation.x = Math.sin(dinoRunPhase * 9 + (i % 2 ? Math.PI : 0)) * 0.7; });
-          dTail.rotation.y = Math.sin(dinoRunPhase * 9) * 0.3;
+          const legFreq = 7 + spdD * 0.9;
+          dino.position.y = groundY(dino.position.x, dino.position.z) + Math.abs(Math.sin(dinoRunPhase * legFreq)) * 0.08;
+          const targetYaw = Math.atan2(-dx, -dz); let dyaw = targetYaw - dino.rotation.y; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); dino.rotation.y += dyaw * Math.min(1, dt * 8); dinoRunPhase += dt;
+          dLegs.forEach((l, i) => { l.m.rotation.x = Math.sin(dinoRunPhase * legFreq + (i % 2 ? Math.PI : 0)) * 0.7; });
+          dTail.rotation.y = Math.sin(dinoRunPhase * legFreq) * 0.3;
         }
       } else if (dinoState === 'jumpon') {
         dinoJumpT += dt / 0.42; const p = clamp(dinoJumpT, 0, 1), ease = p * p * (3 - 2 * p);
