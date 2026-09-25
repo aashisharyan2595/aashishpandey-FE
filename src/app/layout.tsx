@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, IBM_Plex_Mono, JetBrains_Mono, Lato } from "next/font/google";
 import Script from "next/script";
+import MujasaurusGate from "@/components/mujasaurus/MujasaurusGate";
 import "./globals.css";
 
 // Night is the brand's default site background (Ground mode), not a
@@ -110,6 +111,7 @@ export default function RootLayout({
           {THEME_INIT_SCRIPT}
         </Script>
         {children}
+        <MujasaurusGate />
       </body>
     </html>
   );
