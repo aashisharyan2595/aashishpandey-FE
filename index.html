@@ -58,7 +58,7 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
     <sc-if value="{{ isTurnoff }}" hint-placeholder-val="{{ false }}">
       <div style="position:absolute;left:50%;top:30%;transform:translateX(-50%);width:min(900px,88vw);text-align:center;display:flex;flex-direction:column;gap:18px;align-items:center;">
         <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(40px,6vw,88px);line-height:1;color:#fff6ea;text-wrap:balance;text-shadow:0 4px 40px rgba(20,10,40,.6);">Most people stay on the highway.</div>
-        <div style="font-size:clamp(15px,1.3vw,18px);line-height:1.55;color:#fff1dd;max-width:520px;text-wrap:pretty;text-shadow:0 1px 14px rgba(20,10,40,.7);">B.E. dropout, Pune University. Everything since, I learned by shipping, and by taking things apart to see how they work.</div>
+        <div style="font-size:clamp(15px,1.3vw,18px);line-height:1.55;color:#fff1dd;max-width:520px;text-wrap:pretty;text-shadow:0 1px 14px rgba(20,10,40,.7);">Pune University. Everything since, I learned by shipping, and by taking things apart to see how they work.</div>
       </div>
     </sc-if>
     <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px clamp(16px,2.4vw,28px);opacity:{{ chromeOp }};transition:opacity 1.2s .4s;">
@@ -73,6 +73,9 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
         <button onClick="{{ toggleRadio }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid {{ settingsBtn.border }};background:{{ settingsBtn.bg }};color:{{ settingsBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:border-color .2s;" style-hover="border-color:#7ff3e1;">
           <span style="width:7px;height:7px;border-radius:50%;background:{{ soundDot }};flex-shrink:0;"></span>Settings ▾
         </button>
+        <sc-if value="{{ showCallDino }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ callDino }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
+        </sc-if>
       </div>
       <button onClick="{{ openProof }}" style="height:40px;padding:0 10px 0 18px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:linear-gradient(180deg,#ffc880,#f2ac5a);color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;pointer-events:auto;flex-shrink:0;display:flex;align-items:center;gap:8px;box-shadow:0 4px 18px rgba(242,181,107,.35);transition:transform .2s,box-shadow .2s;" style-hover="background:linear-gradient(180deg,#ffd699,#ffbd73);box-shadow:0 6px 22px rgba(242,181,107,.5);transform:translateY(-1px);">
         {{ proofLabel }}
@@ -103,10 +106,6 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
       </div>
     </sc-if>
 
-    <!-- call MujaSauros (story mode) -->
-    <sc-if value="{{ showCallDino }}" hint-placeholder-val="{{ false }}">
-      <button onClick="{{ callDino }}" style="position: absolute; left: 20px; bottom: {{ callDinoBottom }}; pointer-events: auto; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(159,224,110,.5); background: rgba(20,32,18,.72); backdrop-filter: blur(8px); color: #c9f2a3; font-family: 'JetBrains Mono',monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: capitalize; cursor: pointer; white-space: nowrap" style-hover="border-color:#9fe06e;">Call MujaSauros</button>
-    </sc-if>
 
     <!-- free ride HUD -->
     <sc-if value="{{ free }}" hint-placeholder-val="{{ false }}">
@@ -128,7 +127,7 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
             </sc-for>
           </div>
         </sc-if>
-        <button onClick="{{ callDino }}" style="align-self:flex-start;height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(159,224,110,.5);background:rgba(20,32,18,.5);color:#c9f2a3;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">♪ Call MujaSauros</button>
+        <button onClick="{{ callDino }}" style="align-self:flex-start;height:36px;padding:0 16px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);backdrop-filter:blur(8px);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
         <button onClick="{{ toggleFree }}" style="align-self:flex-start;height:40px;padding:0 16px;border-radius:999px;border:none;background:#7ff3e1;color:#0b1030;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">← Back to the story ride</button>
       </div>
     </sc-if>
@@ -191,11 +190,16 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
       <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;flex-direction:column;gap:14px;">
           <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(32px,3.2vw,44px);line-height:1;color:#fff6ea;">More from the logbook.</h2>
-          <p style="margin:0;font-size:14.5px;line-height:1.55;color:#efe6d4;">Eight crystals in the clearing, one for each project. Screenshots and write-ups are on their way.</p>
+          <p style="margin:0;font-size:14.5px;line-height:1.55;color:#efe6d4;">Ten crystals in the clearing, one for each project. A few write-ups are still on their way.</p>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
-            <sc-for list="{{ projects }}" as="pr" hint-placeholder-count="8">
+            <sc-for list="{{ projects }}" as="pr" hint-placeholder-count="10">
               <div style="display:flex;flex-direction:column;gap:8px;">
-                <div style="aspect-ratio:16/10;border-radius:10px;border:1px solid rgba(255,236,210,.14);background:repeating-linear-gradient(135deg,rgba(255,236,210,.06) 0 6px,rgba(255,236,210,.02) 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#cfc4b0;">screenshot</div>
+                <sc-if value="{{ pr.img }}" hint-placeholder-val="{{ false }}">
+                  <div style="aspect-ratio:16/10;border-radius:10px;border:1px solid rgba(255,236,210,.14);background-image:url({{ pr.img }});background-size:cover;background-position:center;background-repeat:no-repeat;"></div>
+                </sc-if>
+                <sc-else>
+                  <div style="aspect-ratio:16/10;border-radius:10px;border:1px solid rgba(255,236,210,.14);background:repeating-linear-gradient(135deg,rgba(255,236,210,.06) 0 6px,rgba(255,236,210,.02) 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#cfc4b0;">screenshot</div>
+                </sc-else>
                 <span style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:#fff6ea;line-height:1.1;">{{ pr.name }}</span>
                 <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#7ff3e1;">{{ pr.kind }}</span>
                 <span style="font-size:12.5px;line-height:1.45;color:#dcd2bf;">{{ pr.summary }}</span>
@@ -484,7 +488,7 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
       </section>
 
       <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;border-top:1px solid rgba(28,26,34,.16);padding-top:32px;">
-        <div style="display:flex;flex-direction:column;gap:8px;"><h2 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Education &amp; certifications</h2><p style="margin:0;font-size:14.5px;line-height:1.7;">B.E. (dropout), Pune University · Agile PM (Udemy) · DevOps Essentials (Linux Academy) · Google Digital Marketing · LinkedIn Marketing Fundamentals · Prompt Engineering (freeCodeCamp) · Python Fundamentals (Scaler) · Fundamentals of PM (Great Learning)</p></div>
+        <div style="display:flex;flex-direction:column;gap:8px;"><h2 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Education &amp; certifications</h2><p style="margin:0;font-size:14.5px;line-height:1.7;">Pune University · Agile PM (Udemy) · DevOps Essentials (Linux Academy) · Google Digital Marketing · LinkedIn Marketing Fundamentals · Prompt Engineering (freeCodeCamp) · Python Fundamentals (Scaler) · Fundamentals of PM (Great Learning)</p></div>
         <div style="display:flex;flex-direction:column;gap:8px;"><h2 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Off the clock</h2><p style="margin:0;font-size:14.5px;line-height:1.7;">Rides a Honda H'ness 350: 3,000+ km in 45 days. Runs an old Pixel Watch with a custom ROM as a handlebar navigation module. Keeps rebuilding a Pi-hole homelab, automates lights and fans at home, and drives an RC car.</p></div>
       </section>
       <footer style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#f2ede3;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;background:#1c1a22;border-radius:16px;padding:20px 24px;">
@@ -525,15 +529,17 @@ const TIMELINE = [
   { years: '2020 – 2022', role: 'CMS Developer & Project Lead', org: '0TO1 Media', text: 'Custom CMS and eCommerce for Reliance, Zebronics, Bajaj Electronics.', points: ['Custom CMS and eCommerce for Reliance Industries, Zebronics, Bajaj Electronics', '10+ Zebronics landing pages with on-page SEO; 8+ Bajaj campaign pages plus packaging design', 'Mentored junior developers; delivery tracked in Jira and Azure DevOps'] },
   { years: '2018 – 2020', role: 'Freelance Web Developer & Consultant', org: 'Independent', text: '15+ projects for ITC, Zebronics, Anchor, MSI India.', points: ['15+ projects for ITC, Zebronics, Anchor, MSI India', 'Custom WordPress plugins, full release cycles, QA and deployment'] }];
 const PROJECTS = [
-  ['Bytzsoft', 'Web Development · Project Management', 'WordPress corporate site for an aviation software suite covering CAMO, MRO engineering, crew rostering, QMS and SMS.'],
+  ['Bytzsoft', 'Web Development · Project Management', 'WordPress corporate site for an aviation software suite covering CAMO, MRO engineering, crew rostering, QMS and SMS.', 'assets/work/bytzsoft.webp'],
   ['Jungle by sturmfrei', 'CMS Web Development · Project Management', 'CMS-driven hostel brand site with destination pages for Manali, Kasol, Agra, Jaipur, Vagator and Palolem.'],
-  ['NSKT Global', 'Project Management · SEO · Digital Marketing', 'SEO and digital marketing for a UAE firm offering assurance, advisory, tax and CFO services.'],
-  ['Copper Chocs', 'Web Development · Project Management', 'Shopify storefront with online cake ordering, same-day delivery and store pickup.'],
+  ['NSKT Global', 'Project Management · SEO · Digital Marketing', 'SEO and digital marketing for a UAE firm offering assurance, advisory, tax and CFO services.', 'assets/work/nskt-global.webp'],
+  ['Copper Chocs', 'Web Development · Project Management', 'Shopify storefront with online cake ordering, same-day delivery and store pickup.', 'assets/work/copper-chocs.webp'],
   ['Barùkas', 'Web Development · Project Management', 'Shopify store with a product collection, a comparison with other nuts, and recipe content.'],
   ['Knowledge Units', 'Web Development · Project Management', 'Webflow agency site showing branding, marketing, web, UI/UX and production services.'],
-  ['ACCESS Health International', 'Web Development · Project Management', "WordPress site covering the organisation's story, people and offices, plus research and news publishing."],
-  ['Royal Arc', 'Web Development · Project Management', 'WordPress product catalogue for electrodes, flux-cored and MIG/TIG wires, strip cladding and SAW flux.']
-].map(([name, kind, summary]) => ({ name, kind, summary }));
+  ['ACCESS Health International', 'Web Development · Project Management', "WordPress site covering the organisation's story, people and offices, plus research and news publishing.", 'assets/work/access-health.webp'],
+  ['Royal Arc', 'Web Development · Project Management', 'WordPress product catalogue for electrodes, flux-cored and MIG/TIG wires, strip cladding and SAW flux.', 'assets/work/royal-arc.webp'],
+  ['Bohiyaanam Talent', 'Web Development · Project Management', 'Staffing and HR consulting site covering recruitment, RPO and core HR services, with live job vacancies and an FAQ.', 'assets/work/bohiyaanam-talent.webp'],
+  ['Tekgeminus', 'Web Development · Project Management', 'Digital solutions corporate site spanning Oracle utilities, cloud and integration services, Salesforce and the FinHub product.', 'assets/work/tekgeminus.webp']
+].map(([name, kind, summary, img]) => ({ name, kind, summary, img }));
 const WORKSHOP = [
   { name: 'Pixel Watch → handlebar nav', text: 'An old Pixel Watch, flashed with a custom ROM and mounted on my handlebar as a turn-by-turn navigation module. Its cousin is in the bottom-right corner.' },
   { name: 'Pi-hole & homelab', text: 'A homelab I keep tearing down and rebuilding. Pi-hole guards the network.' },
@@ -550,7 +556,7 @@ const NOTES = [
   { t: 0.38, side: -1, text: 'Somewhere in this forest a firefly swarm only shows up once the sun’s fully down.' },
   { t: 0.44, side: 1, text: 'Docker + GitHub Actions pipelines, so a release stops being an event.' },
   { t: 0.49, side: -1, text: 'The lake ripples if you throw your cursor at it. Try clicking the water.' },
-  { t: 0.53, side: 1, text: 'B.E. dropout, Pune University. The curiosity stayed.' },
+  { t: 0.53, side: 1, text: 'Pune University. The curiosity stayed.' },
   { t: 0.6, side: -1, text: 'Lights and fan at home are automated. The switches are mostly decorative now.' },
   { t: 0.65, side: 1, text: 'Free ride mode is the one part of this site with no destination. Go find something.' },
   { t: 0.69, side: -1, text: 'Avatar’s bioluminescent forests are the lighting reference for this whole website.' },
@@ -663,7 +669,7 @@ class Component extends DCLogic {
       introOp: boot !== 'done' ? 0 : free ? 0 : ready ? 1 - sstep(0.003, 0.03, t) : 1,
       free, mobile, hudPe: free ? 'none' : 'auto', toggleFree: () => this.toggleFree(),
       callDino: () => { this.whistle && this.whistle(); this.world && this.world.callDino(); },
-      showCallDino: !free && boot === 'done' && !!this.state.dinoOff, callDinoBottom: mobile ? (ws + 50) + 'px' : '28px',
+      showCallDino: !free && boot === 'done' && !!this.state.dinoOff,
       freeBtn: free ? { label: mobile ? 'Exit' : 'Exit free ride', bg: 'rgba(127,243,225,.18)', border: '#7ff3e1', fg: '#e9fdff' } : { label: mobile ? 'Free ride' : 'Free ride ◇', bg: 'rgba(10,13,32,.45)', border: 'rgba(255,240,220,.3)', fg: '#f3ead9' },
       freeHud: { left: mobile ? '16px' : '28px', right: mobile ? '16px' : 'auto', bottom: mobile ? (ws + 50) + 'px' : '28px' },
       freeSpeedKmh: Math.round(Math.abs(freeSpd) * 6),
