@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Aashish Pandey · Project Manager &amp; Creative Technologist, Bangalore</title>
+<meta name="description" content="Aashish Pandey is a Project Manager and Creative Technologist in Bangalore. He ships multi-market digital work for Liquid I.V. (Unilever), Talenti (Magnum Ice Cream Co.), StoryNest and 50+ sites since 2018.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0b1030;scrollbar-width:none;-webkit-font-smoothing:antialiased}
+html::-webkit-scrollbar{display:none}
+a{color:#f2b56b;text-decoration:none}
+a:hover{color:#ffd9a3}
+::selection{background:#7ff3e1;color:#0b1030}
+input,textarea,select,button{font:inherit}
+html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Aashish Pandey","jobTitle":"Project Manager · Creative Technologist","worksFor":{"@type":"Organization","name":"Langoor (an LS Digital company)"},"address":{"@type":"PostalAddress","addressLocality":"Bangalore","addressCountry":"IN"},"email":"mailto:aashishpandey406@gmail.com","telephone":"+917558415031","sameAs":["https://www.linkedin.com/in/aashish-kumar-pandey"],"knowsAbout":["Program management","Project delivery","Shopify","WordPress","CI/CD","SEO","Creative technology"]}</script>
+</helmet>
+
+<div style="position:relative;min-height:100vh;background:#0b1030;color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;">
+
+  <div ref="{{ canvasHost }}" style="position:fixed;inset:0;z-index:0;background:radial-gradient(120% 90% at 50% 100%,#e29a72 0%,#7a5a8e 45%,#2a3a7c 100%);"></div>
+  <sc-if value="{{ noGL }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:0;background-image:url(assets/portrait-ride.png);background-size:cover;background-position:center;filter:saturate(.9) brightness(.7);"></div>
+  </sc-if>
+
+  <div style="position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 45%,rgba(0,0,0,0) 55%,rgba(8,6,18,.55) 100%);"></div>
+  <div style="position:fixed;inset:0;z-index:1;pointer-events:none;background:{{ grade.bg }};mix-blend-mode:{{ grade.mode }};opacity:{{ grade.op }};transition:background 1.5s linear,opacity 1.5s linear;"></div>
+  <div style="position:fixed;inset:0;z-index:1;pointer-events:none;background-image:{{ grain }};background-size:160px 160px;mix-blend-mode:overlay;opacity:.13;"></div>
+  <div onClick="{{ skipBoot }}" style="position:fixed;inset:0;z-index:1;background:#05060c;opacity:{{ bootOp }};pointer-events:{{ bootPe }};transition:opacity 1.8s ease;cursor:pointer;"></div>
+  <div style="height:{{ spacerH }};pointer-events:none;"></div>
+
+  <!-- fixed overlay -->
+  <div style="position:fixed;inset:0;z-index:2;pointer-events:none;">
+
+    <!-- intro -->
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:112px 24px 24px;gap:18px;opacity:{{ introOp }};transition:opacity .6s;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#ffe6c7;">Bangalore · 12.97° N · dusk</div>
+      <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(56px,11vw,148px);line-height:.9;letter-spacing:-.02em;color:#fff6ea;text-shadow:0 4px 40px rgba(60,20,40,.45);">Aashish Pandey</h1>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,30px);color:#fff1dd;text-shadow:0 2px 20px rgba(40,20,40,.5);">Project Manager · Creative Technologist · Explorer</div>
+      <p style="margin:6px 0 0;max-width:560px;font-size:clamp(15px,1.3vw,17px);line-height:1.55;color:#fff4e6;text-wrap:pretty;text-shadow:0 1px 14px rgba(30,15,40,.6);">I take messy, multi-market, multi-team digital work and get it shipped. After hours I flash custom ROMs onto old smartwatches to see what they can become. Ride along.</p>
+      <div style="margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff;display:flex;flex-direction:column;align-items:center;gap:10px;">
+        <span>{{ loadMsg }}</span>
+        <span style="width:1px;height:38px;background:linear-gradient(#fff,rgba(255,255,255,0));"></span>
+      </div>
+    </div>
+
+    <!-- top bar -->
+    <div style="position:absolute;top:26px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#f3ead9;opacity:{{ actOp }};transition:opacity .8s;white-space:nowrap;text-shadow:0 1px 10px rgba(0,0,0,.5);">{{ act }}</div>
+    <sc-if value="{{ isTurnoff }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:50%;top:30%;transform:translateX(-50%);width:min(900px,88vw);text-align:center;display:flex;flex-direction:column;gap:18px;align-items:center;">
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(40px,6vw,88px);line-height:1;color:#fff6ea;text-wrap:balance;text-shadow:0 4px 40px rgba(20,10,40,.6);">Most people stay on the highway.</div>
+        <div style="font-size:clamp(15px,1.3vw,18px);line-height:1.55;color:#fff1dd;max-width:520px;text-wrap:pretty;text-shadow:0 1px 14px rgba(20,10,40,.7);">B.E. dropout, Pune University. Everything since, I learned by shipping, and by taking things apart to see how they work.</div>
+      </div>
+    </sc-if>
+    <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px clamp(16px,2.4vw,28px);opacity:{{ chromeOp }};transition:opacity 1.2s .4s;">
+      <div onClick="{{ goHome }}" style="pointer-events: auto; cursor: pointer; display: flex; align-items: baseline; gap: 12px; flex-shrink: 0; min-width: 0; flex-direction: column">
+        <span style="font-family: 'Cormorant Garamond',serif; font-size: 30px; font-style: normal; font-weight: 500; color: #fff6ea; white-space: nowrap; width: 210px; height: 28px">Aashish Pandey</span>
+        <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#f3ead9;">PM · Creative Technologist</span>
+        </sc-if>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:flex-end;pointer-events:auto;background:rgba(10,13,32,.4);backdrop-filter:blur(10px);border:1px solid rgba(255,236,210,.12);border-radius:20px;padding:5px;min-width:0;margin-left:24px;">
+        <button onClick="{{ toggleFree }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid {{ freeBtn.border }};background:{{ freeBtn.bg }};color:{{ freeBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:border-color .2s;" style-hover="border-color:#7ff3e1;">{{ freeBtn.label }}</button>
+        <button onClick="{{ toggleRadio }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid {{ settingsBtn.border }};background:{{ settingsBtn.bg }};color:{{ settingsBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:border-color .2s;" style-hover="border-color:#7ff3e1;">
+          <span style="width:7px;height:7px;border-radius:50%;background:{{ soundDot }};flex-shrink:0;"></span>Settings ▾
+        </button>
+      </div>
+      <button onClick="{{ openProof }}" style="height:40px;padding:0 10px 0 18px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:linear-gradient(180deg,#ffc880,#f2ac5a);color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;pointer-events:auto;flex-shrink:0;display:flex;align-items:center;gap:8px;box-shadow:0 4px 18px rgba(242,181,107,.35);transition:transform .2s,box-shadow .2s;" style-hover="background:linear-gradient(180deg,#ffd699,#ffbd73);box-shadow:0 6px 22px rgba(242,181,107,.5);transform:translateY(-1px);">
+        {{ proofLabel }}
+        <span style="width:22px;height:22px;border-radius:50%;background:rgba(26,20,32,.14);display:flex;align-items:center;justify-content:center;font-size:12px;">↗</span>
+      </button>
+    </div>
+
+    <!-- HUD: recruiter stats + stop dots -->
+    <div style="position:absolute;left:{{ hud.left }};right:{{ hud.right }};top:{{ hud.top }};bottom:{{ hud.bottom }};display:flex;flex-direction:column;gap:10px;pointer-events:{{ hudPe }};opacity:{{ hudOp }};visibility:{{ hudVis }};transition:opacity .6s;">
+      <div style="display:flex;gap:6px;align-items:center;">
+        <sc-for list="{{ dots }}" as="d" hint-placeholder-count="9">
+          <button title="{{ d.label }}" onClick="{{ d.go }}" style="width:{{ d.w }};height:8px;border-radius:99px;border:none;padding:0;background:{{ d.bg }};cursor:pointer;transition:width .4s,background .4s;"></button>
+        </sc-for>
+        <span style="margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;color:#f3ead9;">ODO {{ odo }} KM</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px 14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#f3ead9;max-width:520px;">
+        <span><b style="color:#f2b56b;font-weight:500;">50+</b> sites shipped</span>
+        <span><b style="color:#f2b56b;font-weight:500;">7+</b> years</span>
+        <span><b style="color:#f2b56b;font-weight:500;">9/10</b> EU markets live</span>
+        <span><b style="color:#f2b56b;font-weight:500;">4×</b> StoryNest users</span>
+      </div>
+    </div>
+
+    <!-- controls hint -->
+    <sc-if value="{{ showHint }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:50%;bottom:96px;transform:translateX(-50%);display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;background:rgba(10,13,32,.5);backdrop-filter:blur(8px);padding:9px 16px;border-radius:99px;white-space:nowrap;">
+        <span>Scroll · ride</span><span>Drag · look around</span><span>← → · steer</span><span>Click the wisps</span>
+      </div>
+    </sc-if>
+
+    <!-- call MujaSauros (story mode) -->
+    <sc-if value="{{ showCallDino }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ callDino }}" style="position: absolute; left: 20px; bottom: {{ callDinoBottom }}; pointer-events: auto; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(159,224,110,.5); background: rgba(20,32,18,.72); backdrop-filter: blur(8px); color: #c9f2a3; font-family: 'JetBrains Mono',monospace; font-size: 10.5px; letter-spacing: .1em; text-transform: capitalize; cursor: pointer; white-space: nowrap" style-hover="border-color:#9fe06e;">Call MujaSauros</button>
+    </sc-if>
+
+    <!-- free ride HUD -->
+    <sc-if value="{{ free }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:{{ freeHud.left }};bottom:{{ freeHud.bottom }};right:{{ freeHud.right }};display:flex;flex-direction:column;gap:12px;pointer-events:auto;">
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:34px;line-height:1;color:#fff6ea;text-shadow:0 2px 20px rgba(0,0,0,.5);">Free ride</div>
+        <div style="display:flex;align-items:baseline;gap:8px;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:38px;font-weight:500;color:#7ff3e1;text-shadow:0 2px 16px rgba(0,0,0,.5);">{{ freeSpeedKmh }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;">km/h</span>
+        </div>
+        <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-wrap:wrap;gap:8px 16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;background:rgba(10,13,32,.5);backdrop-filter:blur(8px);padding:9px 14px;border-radius:12px;">
+            <span>W / ↑ · throttle</span><span>S / ↓ · brake</span><span>A D / ← → · steer</span><span>Drag · look around</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:10px;">
+            <sc-for list="{{ pad }}" as="p" hint-placeholder-count="4">
+              <button onPointerDown="{{ p.down }}" onPointerUp="{{ p.up }}" onPointerLeave="{{ p.up }}" onPointerCancel="{{ p.up }}" style="width:58px;height:58px;border-radius:16px;border:1px solid rgba(255,236,210,.25);background:rgba(10,13,32,.6);backdrop-filter:blur(8px);color:#fff6ea;font-size:20px;touch-action:none;user-select:none;-webkit-user-select:none;" style-active="background:rgba(127,243,225,.3);">{{ p.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <button onClick="{{ callDino }}" style="align-self:flex-start;height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(159,224,110,.5);background:rgba(20,32,18,.5);color:#c9f2a3;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">♪ Call MujaSauros</button>
+        <button onClick="{{ toggleFree }}" style="align-self:flex-start;height:40px;padding:0 16px;border-radius:999px;border:none;background:#7ff3e1;color:#0b1030;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">← Back to the story ride</button>
+      </div>
+    </sc-if>
+
+    <!-- chapter panel -->
+    <div style="position:fixed;left:20px;bottom:{{ panelBottom }};width:min(420px,calc(100vw - 40px));max-height:{{ panelMaxH }};overflow:auto;overscroll-behavior:contain;background:rgba(10,13,32,.86);backdrop-filter:blur(20px) saturate(1.2);-webkit-backdrop-filter:blur(20px) saturate(1.2);border:1px solid rgba(255,236,210,.16);border-radius:20px;padding:clamp(20px,2.4vw,28px);box-sizing:border-box;opacity:{{ panel.op }};pointer-events:{{ panel.pe }};transition:opacity .4s ease,transform .6s cubic-bezier(.16,1,.3,1);box-shadow:0 30px 90px rgba(0,0,0,.4);transform:{{ panelTf }};z-index:3;">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7ff3e1;margin-bottom:14px;">
+        <span>Stop {{ pStop.num }} / 08</span>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span>KM {{ pStop.km }}</span>
+          <button onClick="{{ closePanel }}" style="background:rgba(255,236,210,.08);border:none;border-radius:50%;width:22px;height:22px;color:#f3ead9;cursor:pointer;padding:0;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;" style-hover="background:rgba(255,236,210,.18);">×</button>
+        </div>
+      </div>
+
+      <sc-if value="{{ isCase }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#f2b56b;text-transform:uppercase;">{{ cs.client }}</div>
+          <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(32px,3.2vw,44px);line-height:1;color:#fff6ea;text-wrap:balance;">{{ cs.title }}</h2>
+          <div style="font-size:12.5px;color:#cfc4b0;">{{ cs.meta }}</div>
+          <p style="margin:0;font-size:15.5px;line-height:1.6;color:#efe6d4;text-wrap:pretty;">{{ cs.lede }}</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1px;background:rgba(255,236,210,.12);border-radius:12px;overflow:hidden;">
+            <sc-for list="{{ cs.stats }}" as="s" hint-placeholder-count="3">
+              <div style="background:rgba(10,13,32,.9);padding:14px 14px 12px;display:flex;flex-direction:column;gap:4px;">
+                <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff6ea;line-height:1;">{{ s.v }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#cfc4b0;">{{ s.l }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ toggleExpand }}" style="align-self:flex-start;background:none;border:none;padding:4px 0;color:#7ff3e1;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;">{{ expandLabel }}</button>
+          <sc-if value="{{ expanded }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid rgba(255,236,210,.14);padding-top:14px;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#cfc4b0;">Role · {{ cs.role }}</div>
+              <sc-for list="{{ cs.did }}" as="x" hint-placeholder-count="3">
+                <div style="display:flex;gap:10px;font-size:14.5px;line-height:1.5;color:#efe6d4;"><span style="color:#f2b56b;">—</span><span>{{ x }}</span></div>
+              </sc-for>
+              <div style="font-size:13px;color:#cfc4b0;font-style:italic;">{{ cs.note }}</div>
+              <a href="{{ cs.url }}" onClick="{{ openCaseProof }}" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;">Case study page ↗</a>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isTimeline }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(32px,3.2vw,44px);line-height:1;color:#fff6ea;">The road so far.</h2>
+          <p style="margin:0;font-size:15px;line-height:1.55;color:#efe6d4;">Four standing stones, one for each stretch of road. 50+ websites and platforms since 2018.</p>
+          <sc-for list="{{ timeline }}" as="j" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:86px 1fr;gap:14px;border-top:1px solid rgba(255,236,210,.12);padding-top:12px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#7ff3e1;letter-spacing:.06em;line-height:1.5;">{{ j.years }}</span>
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <span style="font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:#fff6ea;line-height:1.15;">{{ j.role }}</span>
+                <span style="font-size:13px;color:#f2b56b;">{{ j.org }}</span>
+                <span style="font-size:13.5px;line-height:1.5;color:#dcd2bf;">{{ j.text }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(32px,3.2vw,44px);line-height:1;color:#fff6ea;">More from the logbook.</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.55;color:#efe6d4;">Eight crystals in the clearing, one for each project. Screenshots and write-ups are on their way.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+            <sc-for list="{{ projects }}" as="pr" hint-placeholder-count="8">
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="aspect-ratio:16/10;border-radius:10px;border:1px solid rgba(255,236,210,.14);background:repeating-linear-gradient(135deg,rgba(255,236,210,.06) 0 6px,rgba(255,236,210,.02) 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#cfc4b0;">screenshot</div>
+                <span style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:#fff6ea;line-height:1.1;">{{ pr.name }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#7ff3e1;">{{ pr.kind }}</span>
+                <span style="font-size:12.5px;line-height:1.45;color:#dcd2bf;">{{ pr.summary }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isWorkshop }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(32px,3.2vw,44px);line-height:1;color:#fff6ea;">After hours, I open things up.</h2>
+          <p style="margin:0;font-size:15px;line-height:1.55;color:#efe6d4;">The shed by the road holds whatever I'm rebuilding this month. Curiosity comes first; the job title comes after.</p>
+          <sc-for list="{{ workshop }}" as="w" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:3px;border-top:1px solid rgba(255,236,210,.12);padding-top:10px;">
+              <span style="font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:#fff6ea;">{{ w.name }}</span>
+              <span style="font-size:14px;line-height:1.5;color:#dcd2bf;">{{ w.text }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isVantage }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <img src="assets/portrait-ride.png" alt="Faceted low-poly artwork of Aashish's black Honda H'ness 350 parked in a field at sunset" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;display:block;">
+          <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(32px,3.2vw,44px);line-height:1;color:#fff6ea;">Somewhere to sit and watch the sky.</h2>
+          <p style="margin:0;font-size:15px;line-height:1.6;color:#efe6d4;text-wrap:pretty;">On every ride I'm looking for the same thing: a quiet vantage point where I can sit alone and watch the sky and the nature around me. I'd rather experience the world than read about it.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,236,210,.12);border-radius:12px;overflow:hidden;">
+            <div style="background:rgba(10,13,32,.9);padding:14px;display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff6ea;line-height:1;">3,000+ km</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#cfc4b0;">in 45 days</span></div>
+            <div style="background:rgba(10,13,32,.9);padding:14px;display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff6ea;line-height:1;">H'ness 350</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#cfc4b0;">gloss black · red stripe</span></div>
+          </div>
+          <p style="margin:0;font-size:13.5px;line-height:1.55;color:#cfc4b0;">Forests, jungles, fantasy and magic. Avatar's bioluminescence and anime worlds are why the forest glows after dark.</p>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isFire }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(34px,3.4vw,48px);line-height:1;color:#fff6ea;">Pull up a log.</h2>
+          <p style="margin:0;font-size:15px;line-height:1.55;color:#efe6d4;text-wrap:pretty;">Hiring a <b style="color:#f2b56b;font-weight:600;">Program Manager</b> full-time, or need a freelance build shipped? Leave a brief by the fire, or reach me directly.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <a href="assets/Aashish-Pandey-Resume.pdf" download="" style="padding:9px 14px;border-radius:99px;background:#f2b56b;color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;">Résumé ↓</a>
+            <a href="#" onClick="{{ bookCall }}" style="padding:9px 14px;border-radius:99px;border:1px solid rgba(255,236,210,.3);color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;">Book a call [TBD]</a>
+            <a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="padding:9px 14px;border-radius:99px;border:1px solid rgba(255,236,210,.3);color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;">WhatsApp</a>
+            <a href="mailto:aashishpandey406@gmail.com" style="padding:9px 14px;border-radius:99px;border:1px solid rgba(255,236,210,.3);color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;">Email</a>
+            <a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener" style="padding:9px 14px;border-radius:99px;border:1px solid rgba(255,236,210,.3);color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;">LinkedIn</a>
+          </div>
+          <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ submitBrief }}" style="display:flex;flex-direction:column;gap:10px;border-top:1px solid rgba(255,236,210,.14);padding-top:14px;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7ff3e1;">Freelance brief</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;">
+                <input required="" placeholder="Your name" value="{{ form.name }}" onChange="{{ onName }}" style="background:rgba(255,236,210,.06);border:1px solid rgba(255,236,210,.18);border-radius:10px;padding:11px 12px;color:#fff6ea;outline:none;font-size:14px;" style-focus="border-color:#7ff3e1;">
+                <input required="" type="email" placeholder="Email" value="{{ form.email }}" onChange="{{ onEmail }}" style="background:rgba(255,236,210,.06);border:1px solid rgba(255,236,210,.18);border-radius:10px;padding:11px 12px;color:#fff6ea;outline:none;font-size:14px;" style-focus="border-color:#7ff3e1;">
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <sc-for list="{{ types }}" as="ty" hint-placeholder-count="5">
+                  <button type="button" onClick="{{ ty.pick }}" style="padding:7px 12px;border-radius:99px;border:1px solid {{ ty.border }};background:{{ ty.bg }};color:{{ ty.fg }};font-size:12.5px;cursor:pointer;">{{ ty.label }}</button>
+                </sc-for>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <select value="{{ form.budget }}" onChange="{{ onBudget }}" style="background:#161a36;border:1px solid rgba(255,236,210,.18);border-radius:10px;padding:11px 10px;color:#fff6ea;font-size:13.5px;">
+                  <option value="">Budget</option><option>Under $2K</option><option>$2K – $5K</option><option>$5K – $15K</option><option>$15K+</option><option>Not sure yet</option>
+                </select>
+                <select value="{{ form.timeline }}" onChange="{{ onTimeline }}" style="background:#161a36;border:1px solid rgba(255,236,210,.18);border-radius:10px;padding:11px 10px;color:#fff6ea;font-size:13.5px;">
+                  <option value="">Timeline</option><option>ASAP</option><option>1–3 months</option><option>3–6 months</option><option>Flexible</option>
+                </select>
+              </div>
+              <textarea required="" rows="3" placeholder="What are we building?" value="{{ form.msg }}" onChange="{{ onMsg }}" style="background:rgba(255,236,210,.06);border:1px solid rgba(255,236,210,.18);border-radius:10px;padding:11px 12px;color:#fff6ea;outline:none;font-size:14px;resize:vertical;" style-focus="border-color:#7ff3e1;"></textarea>
+              <button type="submit" style="height:44px;border-radius:12px;border:none;background:linear-gradient(180deg,#ffb45a,#f08a3a);color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;">Leave it by the fire</button>
+            </form>
+          </sc-if>
+          <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+            <div style="border-top:1px solid rgba(255,236,210,.14);padding-top:14px;font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#fff6ea;">Your brief is in your mail app, ready to send. I reply within [TBD] hours.</div>
+          </sc-if>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- radio panel -->
+    <sc-if value="{{ radioOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;right:20px;top:{{ radioTop }};width:min(320px,calc(100vw - 40px));max-height:{{ radioMaxH }};overflow:auto;overscroll-behavior:contain;background:rgba(10,13,32,.82);backdrop-filter:blur(18px);border:1px solid rgba(255,236,210,.14);border-radius:18px;padding:16px;box-sizing:border-box;pointer-events:auto;display:flex;flex-direction:column;gap:4px;box-shadow:0 20px 60px rgba(0,0,0,.4);transform:{{ radioTf }};">
+        <div onMouseDown="{{ dragRadio }}" onTouchStart="{{ dragRadio }}" style="display:flex;justify-content:space-between;align-items:center;padding:0 6px 10px;cursor:move;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7ff3e1;">Settings</span>
+          <button onClick="{{ toggleRadio }}" style="background:none;border:none;color:#f3ead9;cursor:pointer;font-size:16px;line-height:1;">×</button>
+        </div>
+        <button onClick="{{ toggleSound }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 8px;border:none;border-radius:10px;background:{{ scoreRowBg }};color:#f3ead9;text-align:left;cursor:pointer;margin-bottom:2px;" style-hover="background:rgba(255,236,210,.08);">
+          <span style="display:flex;align-items:center;gap:9px;"><span style="width:7px;height:7px;border-radius:50%;background:{{ soundDot }};flex-shrink:0;"></span><span style="font-size:13.5px;">Adaptive score</span></span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#cfc4b0;">{{ scoreOnLabel }}</span>
+        </button>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;padding:10px 6px 4px;border-top:1px solid rgba(255,236,210,.1);margin-top:4px;">Ambient sound</div>
+        <sc-for list="{{ sndToggles }}" as="sn" hint-placeholder-count="3">
+          <button onClick="{{ sn.click }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 8px;border:none;border-radius:10px;background:transparent;color:#f3ead9;text-align:left;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);">
+            <span style="font-size:13.5px;">{{ sn.label }}</span>
+            <span style="width:30px;height:17px;border-radius:9px;background:{{ sn.trackBg }};position:relative;flex-shrink:0;"><span style="position:absolute;top:2px;left:{{ sn.dotLeft }};width:13px;height:13px;border-radius:50%;background:#fff;transition:left .15s;"></span></span>
+          </button>
+        </sc-for>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;padding:10px 6px 4px;border-top:1px solid rgba(255,236,210,.1);margin-top:4px;">Bike radio · generated live</div>
+        <sc-for list="{{ tracks }}" as="tr" hint-placeholder-count="6">
+          <button onClick="{{ tr.play }}" style="display:flex;align-items:center;gap:12px;padding:9px 8px;border:none;border-radius:10px;background:{{ tr.bg }};color:#f3ead9;text-align:left;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);">
+            <span style="width:22px;font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ tr.numColor }};">{{ tr.num }}</span>
+            <span style="display:flex;flex-direction:column;gap:1px;">
+              <span style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;line-height:1.1;">{{ tr.name }}</span>
+              <span style="font-size:11.5px;color:#cfc4b0;">{{ tr.desc }}</span>
+            </span>
+          </button>
+        </sc-for>
+        <button onClick="{{ toggleLowGfx }}" style="margin-top:10px;height:36px;border-radius:10px;border:1px solid {{ lowGfxBg }};background:none;color:{{ lowGfxFg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;">{{ lowGfxLabel }}</button>
+        <button onClick="{{ stopMusic }}" style="margin-top:8px;height:36px;border-radius:10px;border:1px solid rgba(255,236,210,.2);background:none;color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;">Silence</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ egg }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;right:{{ eggPos.right }};bottom:{{ eggPos.bottom }};width:min(420px,calc(100vw - 32px));max-height:calc(100vh - 150px);overflow:auto;background:#04070b;border:1px solid rgba(127,243,225,.3);border-radius:20px;padding:0 0 20px;box-sizing:border-box;pointer-events:auto;font-family:'JetBrains Mono',monospace;color:#bfeee6;box-shadow:0 20px 70px rgba(0,0,0,.5),0 0 60px rgba(111,240,255,.14);display:flex;flex-direction:column;gap:16px;transform:{{ eggTf }};">
+        <div onMouseDown="{{ dragEgg }}" onTouchStart="{{ dragEgg }}" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(127,243,225,.16);cursor:move;">
+          <span style="display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#7ff3e1;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#6dff9a;box-shadow:0 0 8px #6dff9a;"></span>AP·OS · under the hood
+          </span>
+          <button onClick="{{ closeEgg }}" style="background:rgba(191,238,230,.08);border:none;border-radius:50%;width:24px;height:24px;color:#bfeee6;cursor:pointer;font-size:14px;padding:0;display:flex;align-items:center;justify-content:center;" style-hover="background:rgba(191,238,230,.18);">×</button>
+        </div>
+        <div style="padding:0 20px;display:flex;flex-direction:column;gap:16px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:27px;line-height:1.15;color:#fff6ea;">You cracked the watch open.</div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:12px;line-height:1.5;background:rgba(127,243,225,.05);border-radius:12px;padding:12px 14px;">
+          <span style="color:#5d7480;">device</span><span>Pixel Watch [model TBD]</span>
+          <span style="color:#5d7480;">rom</span><span>[ROM name + version TBD]</span>
+          <span style="color:#5d7480;">job</span><span>Turn-by-turn nav on the handlebar</span>
+          <span style="color:#5d7480;">why</span><span>It was headed for a drawer.</span>
+        </div>
+        <div style="background:#0a1118;border-radius:12px;padding:0;overflow:hidden;border:1px solid rgba(191,238,230,.1);">
+          <div style="display:flex;gap:6px;padding:9px 12px;border-bottom:1px solid rgba(191,238,230,.08);">
+            <span style="width:9px;height:9px;border-radius:50%;background:#ff5f57;"></span><span style="width:9px;height:9px;border-radius:50%;background:#febc2e;"></span><span style="width:9px;height:9px;border-radius:50%;background:#28c840;"></span>
+          </div>
+          <div style="padding:12px 14px;font-size:11.5px;line-height:1.7;color:#8fb3bd;display:flex;flex-direction:column;">
+            <span>$ adb reboot bootloader</span><span>$ fastboot flash [partition] [image]</span><span style="color:#6dff9a;">OKAY</span><span>$ adb shell [start nav service]</span><span style="color:#7ff3e1;">handlebar-nav … running</span>
+            <span style="margin-top:6px;color:#5d7480;font-size:10px;letter-spacing:.08em;">ILLUSTRATIVE LOG · REPLACE WITH THE REAL ONE [TBD]</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:11.5px;line-height:1.5;">
+          <span style="color:#5d7480;font-size:10px;letter-spacing:.16em;text-transform:uppercase;">Changelog</span>
+          <div style="display:flex;gap:8px;"><span style="color:#7ff3e1;">—</span><span>v0.x · [what you changed · TBD]</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#7ff3e1;">—</span><span>v0.x · [what broke, and how you fixed it · TBD]</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#7ff3e1;">—</span><span>v0.x · [next experiment · TBD]</span></div>
+        </div>
+        <div style="font-size:10.5px;letter-spacing:.1em;color:#7ff3e1;border-top:1px solid rgba(127,243,225,.18);padding-top:12px;">Five taps got you here. Mention it when we talk.</div>
+        </div>
+      </div>
+    </sc-if>
+    <!-- the watch -->
+    <div style="position:absolute;right:{{ watch.right }};bottom:{{ watch.bottom }};width:{{ watch.px }};height:{{ watch.px }};pointer-events:auto;transform:{{ watch.tf }};transition:{{ watch.tr }};z-index:5;">
+      <div style="position:absolute;left:24%;right:24%;top:-34%;height:40%;background:linear-gradient(#141418,#23232a);border-radius:16px 16px 6px 6px;"></div>
+      <div style="position:absolute;left:24%;right:24%;bottom:-34%;height:40%;background:linear-gradient(#23232a,#141418);border-radius:6px 6px 16px 16px;"></div>
+      <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 26%,#8b8e98,#3a3c44 48%,#15161a 80%);box-shadow:0 24px 60px rgba(0,0,0,.55),inset 0 0 0 1.5px rgba(255,255,255,.12);"></div>
+      <button onClick="{{ crown }}" title="Crown: next stop / next track" style="position:absolute;right:-9px;top:34%;width:13px;height:28px;border-radius:5px;border:none;background:linear-gradient(90deg,#4b4d55,#9a9da6,#4b4d55);cursor:pointer;padding:0;" style-active="transform:translateX(-2px);"></button>
+      <button onClick="{{ sideBtn }}" title="Button: previous stop / play-pause" style="position:absolute;right:-5px;top:64%;width:8px;height:18px;border-radius:4px;border:none;background:linear-gradient(90deg,#3a3c44,#80838c);cursor:pointer;padding:0;" style-active="transform:translateX(-2px);"></button>
+      <div style="position:absolute;inset:5.5%;border-radius:50%;background:conic-gradient(#7ff3e1 {{ ringNow }},rgba(255,255,255,.06) 0);"></div>
+      <div onClick="{{ screenTap }}" style="position:absolute;inset:8.5%;border-radius:50%;background:radial-gradient(circle at 50% 38%,#0e1c28,#04070b 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;overflow:hidden;text-align:center;box-shadow:inset 0 0 24px rgba(111,240,255,.16);">
+        <sc-if value="{{ booting }}" hint-placeholder-val="{{ true }}">
+          <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:{{ watch.name }};color:#fff;line-height:1;">AP·OS</span>
+          <div style="display:flex;flex-direction:column;gap:1px;align-items:center;min-height:30%;justify-content:flex-end;">
+            <sc-for list="{{ bootLines }}" as="b" hint-placeholder-count="1">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:{{ watch.small }};letter-spacing:.06em;color:{{ b.c }};white-space:nowrap;">{{ b.l }}</span>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ watchGuideOn }}" hint-placeholder-val="{{ false }}">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:{{ watch.small }};letter-spacing:.14em;color:#9fe06e;text-transform:uppercase;">MujaSauros</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:calc({{ watch.small }} * 1.35);line-height:1.22;color:#f3fbe9;padding:0 10%;">{{ guideText }}</span>
+        </sc-if>
+        <sc-if value="{{ watchNavOn }}" hint-placeholder-val="{{ false }}">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:{{ watch.small }};letter-spacing:.16em;color:#7ff3e1;text-transform:uppercase;">{{ wn.top }}</span>
+          <span style="display:block;font-size:{{ watch.arrow }};line-height:1;color:#e9fdff;transform:rotate({{ wn.rot }});transition:transform .5s;font-family:system-ui;">↑</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:{{ watch.name }};font-weight:600;color:#fff;line-height:1.05;max-width:78%;">{{ wn.name }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:{{ watch.small }};color:#9fb3bf;letter-spacing:.1em;">{{ wn.sub }}</span>
+        </sc-if>
+        <sc-if value="{{ watchMusicOn }}" hint-placeholder-val="{{ false }}">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:{{ watch.small }};letter-spacing:.16em;color:#7ff3e1;text-transform:uppercase;">Radio</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:{{ watch.name }};font-weight:600;color:#fff;line-height:1.05;max-width:78%;">{{ wm.name }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:{{ watch.small }};color:#9fb3bf;letter-spacing:.1em;">{{ wm.state }}</span>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- field note -->
+    <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:{{ note.left }};top:{{ note.top }};width:min(300px,calc(100vw - 32px));background:linear-gradient(180deg,rgba(18,22,46,.92),rgba(10,13,32,.92));backdrop-filter:blur(16px);border:1px solid rgba(127,243,225,.4);border-radius:16px;padding:16px 18px 18px;box-sizing:border-box;pointer-events:auto;display:flex;flex-direction:column;gap:10px;box-shadow:0 12px 50px rgba(0,0,0,.4),0 0 40px rgba(111,240,255,.16);transform:{{ noteTf }};">
+        <div onMouseDown="{{ dragNote }}" onTouchStart="{{ dragNote }}" style="display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:move;">
+          <span style="display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7ff3e1;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;box-shadow:0 0 8px #7ff3e1;"></span>Field note {{ note.num }}
+          </span>
+          <button onClick="{{ closeNote }}" style="background:rgba(255,236,210,.08);border:none;border-radius:50%;width:22px;height:22px;color:#f3ead9;cursor:pointer;padding:0;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;" style-hover="background:rgba(255,236,210,.18);">×</button>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;line-height:1.35;color:#fff6ea;">{{ note.text }}</div>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- PROOF SHEET: the 20-second path, also the indexable content -->
+  <main ref="{{ proofRef }}" aria-hidden="{{ proofHidden }}" style="position:fixed;inset:0;z-index:20;overflow:auto;background:#f2ede3;color:#1c1a22;transform:translateY({{ proofY }});transition:transform .7s cubic-bezier(.7,0,.2,1);visibility:{{ proofVis }};">
+    <div style="position:sticky;top:0;z-index:2;background:rgba(242,237,227,.88);backdrop-filter:blur(10px);border-bottom:1px solid rgba(28,26,34,.14);">
+      <div style="max-width:1080px;margin:0 auto;padding:16px clamp(18px,4vw,40px);display:flex;justify-content:space-between;align-items:center;gap:12px;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Proof sheet · Bangalore, India</span>
+        <button onClick="{{ closeProof }}" style="height:36px;padding:0 16px;border-radius:99px;border:1px solid rgba(28,26,34,.2);background:none;color:#1c1a22;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;" style-hover="background:#1c1a22;color:#f2ede3;">Back to the ride ✕</button>
+      </div>
+    </div>
+    <div style="max-width:1080px;margin:0 auto;padding:clamp(28px,5vw,56px) clamp(18px,4vw,40px) 80px;display:flex;flex-direction:column;gap:clamp(48px,6.5vw,80px);">
+      <header style="display:flex;flex-direction:column;gap:24px;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#9a5418;">Project Manager · Creative Technologist</span>
+        <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(52px,8vw,108px);line-height:.92;letter-spacing:-.02em;">Aashish Pandey</h1>
+        <p style="margin:0;font-family:'Cormorant Garamond',serif;font-size:clamp(22px,2.6vw,32px);line-height:1.25;max-width:820px;text-wrap:pretty;color:#2c2832;">I lead technical delivery for multi-market digital programs, and I build the experimental things myself. Currently Project Manager at <b style="font-weight:600;">Langoor (an LS Digital company)</b>.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+          <a href="assets/Aashish-Pandey-Resume.pdf" download="" style="padding:13px 22px;border-radius:99px;background:#1c1a22;color:#f2ede3;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 6px 20px rgba(28,26,34,.18);">Download résumé ↓</a>
+          <a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="padding:13px 20px;border-radius:99px;border:1px solid rgba(28,26,34,.25);color:#1c1a22;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;">WhatsApp</a>
+          <a href="mailto:aashishpandey406@gmail.com" style="padding:13px 20px;border-radius:99px;border:1px solid rgba(28,26,34,.25);color:#1c1a22;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;">Email</a>
+          <a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener" style="padding:13px 20px;border-radius:99px;border:1px solid rgba(28,26,34,.25);color:#1c1a22;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;">LinkedIn</a>
+          <a href="#" onClick="{{ bookCall }}" style="padding:13px 20px;border-radius:99px;border:1px dashed rgba(28,26,34,.3);color:#4a4550;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;">Book a call [TBD]</a>
+        </div>
+      </header>
+
+      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
+        <div style="padding:26px 24px 26px 0;display:flex;flex-direction:column;gap:8px;border-top:2px solid #1c1a22;"><span style="font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:500;line-height:1;color:#9a5418;">50+</span><span style="font-size:13.5px;color:#4a4550;">websites &amp; platforms shipped since 2018</span></div>
+        <div style="padding:26px 24px 26px 0;display:flex;flex-direction:column;gap:8px;border-top:2px solid #1c1a22;"><span style="font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:500;line-height:1;color:#9a5418;">9 / 10</span><span style="font-size:13.5px;color:#4a4550;">Liquid I.V. EU market sites launched, all still live</span></div>
+        <div style="padding:26px 24px 26px 0;display:flex;flex-direction:column;gap:8px;border-top:2px solid #1c1a22;"><span style="font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:500;line-height:1;color:#9a5418;">$100K+</span><span style="font-size:13.5px;color:#4a4550;">tech expansion managed across Europe</span></div>
+        <div style="padding:26px 24px 26px 0;display:flex;flex-direction:column;gap:8px;border-top:2px solid #1c1a22;"><span style="font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:500;line-height:1;color:#9a5418;">4×</span><span style="font-size:13.5px;color:#4a4550;">StoryNest users, 100K → 400K</span></div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:0;">
+        <h2 style="margin:0 0 8px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Selected work</h2>
+        <sc-for list="{{ caseList }}" as="c" hint-placeholder-count="3">
+          <article id="{{ c.slug }}" style="display:grid;grid-template-columns:56px repeat(auto-fit,minmax(240px,1fr));gap:18px 32px;padding:32px 0;border-top:1px solid rgba(28,26,34,.16);">
+            <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:28px;color:rgba(28,26,34,.28);line-height:1;">{{ c.idx }}</span>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9a5418;">{{ c.client }}</span>
+              <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.4vw,42px);font-weight:500;font-style:italic;line-height:1.02;">{{ c.title }}</h3>
+              <span style="font-size:13px;color:#5a5560;">{{ c.meta }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <p style="margin:0;font-size:16px;line-height:1.6;color:#2c2832;text-wrap:pretty;">{{ c.lede }}</p>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <sc-for list="{{ c.stats }}" as="s" hint-placeholder-count="3">
+                  <span style="padding:6px 12px;border-radius:99px;background:#e6dfd1;font-size:13px;"><b style="font-weight:600;">{{ s.v }}</b> {{ s.l }}</span>
+                </sc-for>
+              </div>
+              <sc-for list="{{ c.did }}" as="x" hint-placeholder-count="3">
+                <div style="display:flex;gap:10px;font-size:14.5px;line-height:1.5;color:#3a3640;"><span style="color:#9a5418;">—</span><span>{{ x }}</span></div>
+              </sc-for>
+              <span style="font-size:13px;color:#6a6470;font-style:italic;">{{ c.note }}</span>
+            </div>
+          </article>
+        </sc-for>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:0;">
+        <h2 style="margin:0 0 8px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Career</h2>
+        <sc-for list="{{ timeline }}" as="j" hint-placeholder-count="4">
+          <div style="display:grid;grid-template-columns:16px minmax(104px,160px) 1fr;gap:10px 20px;padding:20px 0;border-top:1px solid rgba(28,26,34,.16);position:relative;">
+            <span style="width:9px;height:9px;border-radius:50%;background:#9a5418;margin-top:8px;justify-self:center;"></span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5a5560;padding-top:6px;">{{ j.years }}</span>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <span style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;line-height:1.1;">{{ j.role }} · <i style="font-weight:500;">{{ j.org }}</i></span>
+              <sc-for list="{{ j.points }}" as="pt" hint-placeholder-count="3">
+                <span style="font-size:14.5px;line-height:1.5;color:#3a3640;">— {{ pt }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:8px;">
+        <h2 style="margin:0 0 8px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Toolkit</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(28,26,34,.14);border-radius:14px;overflow:hidden;">
+          <div style="background:#f2ede3;padding:22px;display:flex;flex-direction:column;gap:8px;"><h3 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#9a5418;">Delivery</h3><p style="margin:0;font-size:14.5px;line-height:1.6;">Program &amp; project delivery, roadmapping, stakeholder and client management, agile. Jira, Azure DevOps, Trello, Notion, Smartsheet.</p></div>
+          <div style="background:#f2ede3;padding:22px;display:flex;flex-direction:column;gap:8px;"><h3 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#9a5418;">Platforms &amp; DevOps</h3><p style="margin:0;font-size:14.5px;line-height:1.6;">Shopify, WordPress, Webflow, Wix, custom CMS. Docker, GitHub Actions, cPanel/WHM, DNS.</p></div>
+          <div style="background:#f2ede3;padding:22px;display:flex;flex-direction:column;gap:8px;"><h3 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#9a5418;">Growth</h3><p style="margin:0;font-size:14.5px;line-height:1.6;">On-page &amp; technical SEO, GA, GTM, Hotjar, MS Clarity, SEMrush, Ahrefs. Google Ads, Meta Ads, HubSpot, Mailchimp.</p></div>
+          <div style="background:#f2ede3;padding:22px;display:flex;flex-direction:column;gap:8px;"><h3 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#9a5418;">Build</h3><p style="margin:0;font-size:14.5px;line-height:1.6;">Figma, Lunacy. Python, prompt engineering, AI.</p></div>
+        </div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:8px;">
+        <h2 style="margin:0 0 8px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Built with</h2>
+        <p style="margin:0 0 4px;font-size:13.5px;line-height:1.6;color:#5a5560;max-width:640px;">This site itself: a 3D ride built and rendered live in the browser, no video.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <sc-for list="{{ stack }}" as="tc" hint-placeholder-count="8">
+            <span style="display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:99px;border:1px solid rgba(28,26,34,.18);background:#f2ede3;font-size:13px;color:#2c2832;">
+              <span style="width:8px;height:8px;border-radius:2px;background:{{ tc.c }};flex-shrink:0;"></span>{{ tc.n }}
+            </span>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;border-top:1px solid rgba(28,26,34,.16);padding-top:32px;">
+        <div style="display:flex;flex-direction:column;gap:8px;"><h2 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Education &amp; certifications</h2><p style="margin:0;font-size:14.5px;line-height:1.7;">B.E. (dropout), Pune University · Agile PM (Udemy) · DevOps Essentials (Linux Academy) · Google Digital Marketing · LinkedIn Marketing Fundamentals · Prompt Engineering (freeCodeCamp) · Python Fundamentals (Scaler) · Fundamentals of PM (Great Learning)</p></div>
+        <div style="display:flex;flex-direction:column;gap:8px;"><h2 style="margin:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#6a6470;">Off the clock</h2><p style="margin:0;font-size:14.5px;line-height:1.7;">Rides a Honda H'ness 350: 3,000+ km in 45 days. Runs an old Pixel Watch with a custom ROM as a handlebar navigation module. Keeps rebuilding a Pi-hole homelab, automates lights and fans at home, and drives an RC car.</p></div>
+      </section>
+      <footer style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#f2ede3;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;background:#1c1a22;border-radius:16px;padding:20px 24px;">
+        <span>Open to full-time Program Manager roles · freelance by brief</span><span style="color:#9a5418;">Bangalore, India</span>
+      </footer>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;lowPower&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Performance&quot;},&quot;rideLength&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:260,&quot;min&quot;:80,&quot;max&quot;:260,&quot;step&quot;:10,&quot;unit&quot;:&quot;vh per stop&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Ride&quot;},&quot;showHints&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Ride&quot;}}">
+const N = 8;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const sstep = (a, b, v) => { const x = clamp((v - a) / (b - a), 0, 1); return x * x * (3 - 2 * x); };
+const STOPS = [
+  { name: 'Bangalore', rot: '0deg' }, { name: 'Liquid I.V.', rot: '45deg' }, { name: 'Talenti', rot: '-45deg' }, { name: 'StoryNest', rot: '45deg' },
+  { name: 'The turn-off', rot: '-45deg' }, { name: 'More work', rot: '45deg' }, { name: 'The workshop', rot: '-45deg' }, { name: 'Vantage point', rot: '45deg' }, { name: 'Campfire', rot: '0deg' }];
+const KIND = ['start', 'case', 'case', 'case', 'turnoff', 'projects', 'workshop', 'vantage', 'fire'];
+const CASES = {
+  1: { slug: 'work-liquid-iv', client: 'Liquid I.V. · Unilever', title: 'Nine lanterns, still burning.', meta: 'via Langoor (an LS Digital company) · May 2025 – present · Shopify',
+    lede: 'Europe, one market at a time. I manage $100K+ of tech expansion across the region. Of ten new market websites, I helped launch nine, and every one of them is still live and maintained today.',
+    stats: [{ v: '$100K+', l: 'tech expansion' }, { v: '9 of 10', l: 'market sites launched' }, { v: 'All live', l: 'and maintained' }],
+    role: 'Project Manager, Langoor', did: ['Managing the European tech expansion across markets and teams', 'Coordinating new market storefront launches on Shopify', 'Keeping every launched market live and maintained'], note: 'Ongoing. Market list, team size and timelines: [TBD]' },
+  2: { slug: 'work-talenti', client: 'Talenti · The Magnum Ice Cream Company', title: 'A flag in new ground: Canada.', meta: 'via Langoor (an LS Digital company) · dates [TBD]',
+    lede: 'Helped launch the Talenti brand into a new market: Canada.',
+    stats: [{ v: 'Canada', l: 'new market launch' }, { v: '[TBD]', l: 'platform & scope' }],
+    role: 'Project Manager, Langoor', did: ['Launch support for the brand’s entry into Canada', 'Scope, platform and outcomes: [TBD]'], note: 'Details to be added: [TBD]' },
+  3: { slug: 'work-storynest', client: 'StoryNest · Knowledge Units Solutions', title: '100K → 400K, one release at a time.', meta: 'Led end to end · Knowledge Units Solutions LLP',
+    lede: 'I owned StoryNest from the first requirement to the latest release: gathering needs, planning UX in Figma, coordinating development, testing and launching, then improving it continuously as traffic climbed.',
+    stats: [{ v: '100K → 400K', l: 'users' }, { v: '4×', l: 'growth' }, { v: 'End to end', l: 'ownership' }],
+    role: 'Project Manager & Sr Web Developer', did: ['Requirement gathering and UX planning in Figma', 'Development coordination, testing and launch', 'Continuous improvement, release after release'], note: 'Timeline and product screenshots: [TBD]' }
+};
+const SUBS = ['Route locked', '9 of 10 markets lit', 'New ground: Canada', '100K → 400K riders', 'Highway ends here', '8 more in the logbook', 'After hours', 'Sit a while', 'End of the road'];
+const ACTS = [[0, 'I · The highway'], [0.44, 'II · The turn-off'], [0.56, 'III · The forest'], [0.82, 'Coda · The vantage point']];
+const BOOT = ['rom v0.9 [TBD]', 'kernel … ok', 'gps 12.97°N', 'finding route…', 'route locked'];
+const TIMELINE = [
+  { years: '2025 – now', role: 'Project Manager', org: 'Langoor (an LS Digital company)', text: 'Liquid I.V. EU expansion, Talenti Canada.', points: ['Liquid I.V. (Unilever) European expansion: $100K+ tech, 9 of 10 market sites launched', 'Talenti (Magnum Ice Cream Co.) launch into Canada'] },
+  { years: '2022 – 2025', role: 'Project Manager & Sr Web Developer', org: 'Knowledge Units Solutions LLP', text: '35+ sites for Panchshil Realty, JW Marriott, Westin Pune. Led StoryNest. Docker + GitHub Actions CI/CD.', points: ['35+ websites and CMS platforms for Panchshil Realty, JW Marriott, Westin Pune', 'Led StoryNest end to end: 100K → 400K users', 'Automated content and recommendation features for StaySturmFrei and The Dhamaal', 'Docker + GitHub Actions CI/CD pipelines to cut release effort', 'SOPs, onboarding guides, agile ceremonies in Jira, Trello and Notion'] },
+  { years: '2020 – 2022', role: 'CMS Developer & Project Lead', org: '0TO1 Media', text: 'Custom CMS and eCommerce for Reliance, Zebronics, Bajaj Electronics.', points: ['Custom CMS and eCommerce for Reliance Industries, Zebronics, Bajaj Electronics', '10+ Zebronics landing pages with on-page SEO; 8+ Bajaj campaign pages plus packaging design', 'Mentored junior developers; delivery tracked in Jira and Azure DevOps'] },
+  { years: '2018 – 2020', role: 'Freelance Web Developer & Consultant', org: 'Independent', text: '15+ projects for ITC, Zebronics, Anchor, MSI India.', points: ['15+ projects for ITC, Zebronics, Anchor, MSI India', 'Custom WordPress plugins, full release cycles, QA and deployment'] }];
+const PROJECTS = [
+  ['Bytzsoft', 'Web Development · Project Management', 'WordPress corporate site for an aviation software suite covering CAMO, MRO engineering, crew rostering, QMS and SMS.'],
+  ['Jungle by sturmfrei', 'CMS Web Development · Project Management', 'CMS-driven hostel brand site with destination pages for Manali, Kasol, Agra, Jaipur, Vagator and Palolem.'],
+  ['NSKT Global', 'Project Management · SEO · Digital Marketing', 'SEO and digital marketing for a UAE firm offering assurance, advisory, tax and CFO services.'],
+  ['Copper Chocs', 'Web Development · Project Management', 'Shopify storefront with online cake ordering, same-day delivery and store pickup.'],
+  ['Barùkas', 'Web Development · Project Management', 'Shopify store with a product collection, a comparison with other nuts, and recipe content.'],
+  ['Knowledge Units', 'Web Development · Project Management', 'Webflow agency site showing branding, marketing, web, UI/UX and production services.'],
+  ['ACCESS Health International', 'Web Development · Project Management', "WordPress site covering the organisation's story, people and offices, plus research and news publishing."],
+  ['Royal Arc', 'Web Development · Project Management', 'WordPress product catalogue for electrodes, flux-cored and MIG/TIG wires, strip cladding and SAW flux.']
+].map(([name, kind, summary]) => ({ name, kind, summary }));
+const WORKSHOP = [
+  { name: 'Pixel Watch → handlebar nav', text: 'An old Pixel Watch, flashed with a custom ROM and mounted on my handlebar as a turn-by-turn navigation module. Its cousin is in the bottom-right corner.' },
+  { name: 'Pi-hole & homelab', text: 'A homelab I keep tearing down and rebuilding. Pi-hole guards the network.' },
+  { name: 'Home automation', text: 'Lights and fan, automated.' },
+  { name: 'RC car', text: 'A remote-controlled car. It’s the one circling the shed.' },
+  { name: 'Raspberry Pi & AI', text: 'Pi projects and AI experiments, built between client sites.' }];
+const NOTES = [
+  { t: 0.03, side: -1, text: 'Rule of the road: take the turn you don’t know yet.' },
+  { t: 0.09, side: 1, text: 'Yes, I read every commit message. No, I don’t write mine in past tense.' },
+  { t: 0.17, side: -1, text: 'The nav on my handlebar is an old Pixel Watch running a custom ROM. It was headed for a drawer.' },
+  { t: 0.23, side: 1, text: 'I write SOPs and onboarding guides so a team doesn’t need me in every room.' },
+  { t: 0.28, side: -1, text: 'Tap the watch face five times fast. It’s not just for navigation.' },
+  { t: 0.31, side: 1, text: 'Pi-hole runs on my homelab. Ads don’t make it past the front door.' },
+  { t: 0.38, side: -1, text: 'Somewhere in this forest a firefly swarm only shows up once the sun’s fully down.' },
+  { t: 0.44, side: 1, text: 'Docker + GitHub Actions pipelines, so a release stops being an event.' },
+  { t: 0.49, side: -1, text: 'The lake ripples if you throw your cursor at it. Try clicking the water.' },
+  { t: 0.53, side: 1, text: 'B.E. dropout, Pune University. The curiosity stayed.' },
+  { t: 0.6, side: -1, text: 'Lights and fan at home are automated. The switches are mostly decorative now.' },
+  { t: 0.65, side: 1, text: 'Free ride mode is the one part of this site with no destination. Go find something.' },
+  { t: 0.69, side: -1, text: 'Avatar’s bioluminescent forests are the lighting reference for this whole website.' },
+  { t: 0.75, side: 1, text: 'I once shipped a launch during a power cut, on a phone hotspot, from a train.' },
+  { t: 0.81, side: -1, text: '3,000+ km in 45 days on the H’ness.' },
+  { t: 0.87, side: 1, text: 'The wind you feel here is the same math that moves every tree in the forest.' },
+  { t: 0.93, side: -1, text: 'Raspberry Pi projects and AI experiments live on my desk between client builds.' },
+  { t: 0.97, side: 1, text: 'If you made it this far reading rocks in a 3D bike ride: hi. Let’s talk.' }];
+const TYPES = ['Website build', 'Shopify store', 'CMS / WordPress', 'Program rescue', 'Something experimental'];
+const TRACKS = [
+  { id: 'evening', name: 'Evening Improvisation', desc: 'ethera · gentle piano' }, { id: 'flyaway', name: 'Fly Away', desc: 'fog settled · calm strings' },
+  { id: 'celtic', name: 'Celtic Forest', desc: 'mystical · forest ambience' }];
+
+class Component extends DCLogic {
+  state = { snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', track: -1, playing: false, note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, slots: [null, null, null], scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', guide: null, lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })() };
+  canvasHost = React.createRef(); proofRef = React.createRef(); lastPanel = 1;
+  onDragStart(id, e) {
+    e.preventDefault(); e.stopPropagation();
+    const p0 = e.touches ? e.touches[0] : e; const startX = p0.clientX, startY = p0.clientY;
+    const base = (this.state.drag && this.state.drag[id]) || { x: 0, y: 0 };
+    const move = ev => { const p = ev.touches ? ev.touches[0] : ev; const dx = p.clientX - startX, dy = p.clientY - startY;
+      this.setState(s => ({ drag: { ...s.drag, [id]: { x: base.x + dx, y: base.y + dy } } })); };
+    const up = () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); window.removeEventListener('touchmove', move); window.removeEventListener('touchend', up); };
+    window.addEventListener('mousemove', move); window.addEventListener('mouseup', up); window.addEventListener('touchmove', move, { passive: false }); window.addEventListener('touchend', up);
+  }
+  dragTf(id) { const d = (this.state.drag || {})[id]; return d ? 'translate(' + d.x + 'px,' + d.y + 'px)' : 'none'; }
+
+  componentDidMount() {
+    this.onResize = () => { const m = innerWidth < 760; if (m !== this.state.mobile) { this.setState({ mobile: m }); this.world && this.world.setMobile(m); } this.onScroll(); };
+    this.onScroll = () => { if (this.raf) return; this.raf = requestAnimationFrame(() => { this.raf = 0; const max = document.documentElement.scrollHeight - innerHeight; const u = max > 0 ? clamp(scrollY / max, 0, 1) : 0; const s = Math.min(N - 1, Math.floor(u * N)), l = u * N - s; const t = (s + sstep(0.18, 0.82, l)) / N;
+      this.world && this.world.setTarget(t); if (t > 0.01 && this.world && !this.skipped) { this.skipped = true; this.world.skipIntro(); }
+      { const a = Math.round(t * N); const arr = Math.abs(t - a / N) < 0.004 ? a : -1; if (arr > 0 && arr !== this.lastArr) this.buzzWatch(); this.lastArr = arr; }
+      if (Math.abs(t - this.state.t) > 0.0015 || (t !== this.state.t && Math.abs(t * N - Math.round(t * N)) < 0.08)) { const si = Math.round(t * N); const ch = si !== Math.round(this.state.t * N); this.setState(s => ({ t, ...(ch ? { expanded: false, panelClosed: false } : {}), radio: Math.abs(t - s.t) > 0.003 ? false : s.radio })); } }); };
+    this.onKey = e => { if (e.key === 'Escape') { if (this.state.free) this.toggleFree(); this.closeProof(); this.setState({ note: null, radio: false, egg: false }); } };
+    this.onHash = () => { const h = location.hash.slice(1); if (h === 'proof' || h.startsWith('work-')) this.openProof(h.startsWith('work-') ? h : null); };
+    addEventListener('resize', this.onResize); addEventListener('scroll', this.onScroll, { passive: true }); addEventListener('keydown', this.onKey); addEventListener('hashchange', this.onHash);
+    this.onResize(); this.onHash();
+    this.tryAutoplay = () => { if (this.autoplayDone || !this.radio) return; this.autoplayDone = true; this.playTrack(0); ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); };
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(ev => addEventListener(ev, this.tryAutoplay, { passive: true }));
+    try { const c = document.createElement('canvas'); c.width = c.height = 160; const g = c.getContext('2d'), d = g.createImageData(160, 160); for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } g.putImageData(d, 0, 0); this.setState({ grain: 'url(' + c.toDataURL() + ')' }); } catch (e) {}
+    let seen = false; try { seen = sessionStorage.getItem('apos-booted') === '1'; } catch (e) {}
+    if (seen || scrollY > 10) this.finishBoot(true); else { this.bootT = [500, 1100, 1700, 2400, 3100].map((ms, i) => setTimeout(() => this.setState({ bootLine: i + 1 }), ms)); this.bootT.push(setTimeout(() => this.finishBoot(), 3900)); }
+    const base = new URL('.', location.href).href;
+    import(base + 'audio-v2.js').then(m => { this.radio = new m.Radio(); this.radio.setBrakeMuted(!this.state.snd.brake); this.score = new m.Score(this.radio); this.score.mute.nature = this.state.snd.nature ? 1 : 0; this.score.mute.fire = this.state.snd.fire ? 1 : 0; }).catch(e => console.warn('audio', e));
+    this.poll = setInterval(() => { if (this.score && this.score.on && this.world) this.score.update(this.world.getState()); }, 150);
+    const lp = !!this.props.lowPower || ((navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4 || innerWidth < 760);
+    import(base + 'world-v2.js').then(m => {
+      if (!this.canvasHost.current) return;
+      this.world = m.createWorld(this.canvasHost.current, { lowPower: lp || this.state.lowGfx, mobile: innerWidth < 760, notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })),
+        onNote: (i, x, y) => { this.blip(1180); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
+        holdIntro: true,
+        onFree: (ft, fs) => this.setState({ freeT: ft, freeSpd: fs }),
+        onGuide: (text, mood) => { clearTimeout(this._guideTO); this.setState({ guide: { text, mood } }); this._guideTO = setTimeout(() => this.setState(st => st.guide && st.guide.text === text ? { guide: null } : null), 7000); },
+        onDino: () => this.blip && this.blip(720, 0.06),
+        onBrake: () => { if (this.state.snd.brake && this.radio) this.radio.brakeSfx(); },
+        onEnv: (night, glow, tE, dinoOff) => { this.env = { night, glow, tE }; if (this.state.dinoOff !== dinoOff) this.setState({ dinoOff }); if (!this.envTick) { this.envTick = true; requestAnimationFrame(() => { this.envTick = false; this.forceUpdate(); }); } },
+        onReady: () => this.setState({ ready: true }), onError: () => this.setState({ noGL: true, ready: true }) });
+      if (!this.world) this.setState({ noGL: true, ready: true }); else { this.onScroll(); if (this.state.boot !== 'boot') this.world.startIntro(); }
+    }).catch(e => { console.error(e); this.setState({ noGL: true, ready: true }); });
+  }
+  componentWillUnmount() { clearInterval(this.poll); this.score && this.score.stop(); removeEventListener('resize', this.onResize); removeEventListener('scroll', this.onScroll); removeEventListener('keydown', this.onKey); removeEventListener('hashchange', this.onHash); this.tryAutoplay && ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); this.world && this.world.dispose(); this.radio && this.radio.stop(); }
+
+  blip(f) { if (this.radio && (this.state.playing || this.state.scoreOn)) this.radio.blip(f || 880); }
+  toggleSnd(cat) { const snd = { ...this.state.snd, [cat]: !this.state.snd[cat] }; this.setState({ snd }); try { localStorage.setItem('apSoundPrefs', JSON.stringify(snd)); } catch (e) {} if (cat === 'brake' && this.radio) this.radio.setBrakeMuted(!snd.brake); if (this.score) this.score.setMute(cat, snd[cat]); }
+  jump(i) { const max = document.documentElement.scrollHeight - innerHeight; scrollTo({ top: clamp(i, 0, N) / N * max, behavior: 'smooth' }); this.blip(760 + i * 40); }
+  playTrack(i) { if (!this.radio) return; this.score && this.score.stop(); this.radio.play(TRACKS[i].id); this.setState({ track: i, playing: true, scoreOn: false }); }
+  stopMusic() { this.radio && this.radio.stop(); this.score && this.score.stop(); this.setState({ playing: false, scoreOn: false, track: -1 }); }
+  openProof(slug) { this.setState({ proof: true }); clearTimeout(this.pauseT); this.pauseT = setTimeout(() => this.world && this.state.proof && this.world.setPaused(true), 750); requestAnimationFrame(() => { const el = this.proofRef.current; if (!el) return; const tgt = slug && el.querySelector('#' + slug); el.scrollTop = tgt ? tgt.offsetTop - 20 : 0; }); if (location.hash !== '#' + (slug || 'proof')) history.replaceState(null, '', '#' + (slug || 'proof')); }
+  closeProof() { if (!this.state.proof) return; clearTimeout(this.pauseT); this.world && this.world.setPaused(false); this.setState({ proof: false }); history.replaceState(null, '', location.pathname + location.search); }
+  finishBoot(instant) { if (this.state.boot === 'done') return; (this.bootT || []).forEach(clearTimeout); try { sessionStorage.setItem('apos-booted', '1'); } catch (e) {}
+    if (instant) { this.setState({ boot: 'done', bootLine: BOOT.length }); } else { this.setState({ boot: 'fly', bootLine: BOOT.length }); setTimeout(() => this.setState({ boot: 'done' }), 1700); }
+    this.world && this.world.startIntro(); }
+  buzzWatch() { try { navigator.vibrate && navigator.vibrate(30); } catch (e) {} let k = 0; clearInterval(this.buzzI); this.buzzI = setInterval(() => { k++; this.setState({ buzz: k >= 6 ? 0 : (k % 2 ? 1 : -1) }); if (k >= 6) clearInterval(this.buzzI); }, 55); this.blip(1400); }
+  whistle() { try { const ctx = new (window.AudioContext || window.webkitAudioContext)(); const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine';
+    o.frequency.setValueAtTime(900, t); o.frequency.linearRampToValueAtTime(1500, t + 0.15); o.frequency.linearRampToValueAtTime(1100, t + 0.32);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.04); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.36);
+    o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.4); setTimeout(() => ctx.close(), 500); } catch (e) {} }
+  toggleFree() { const on = !this.state.free; this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false }); if (!on) this.onScroll(); }
+  setForm(k, v) { this.setState(s => ({ form: { ...s.form, [k]: v } })); }
+
+  renderVals() {
+    const { t, mobile, ready, noGL, proof, radio, watchMode, track, playing, note, expanded, form, sent, slots, free, freeT, freeSpd, boot, bootLine, buzz, grain } = this.state;
+    const si = Math.round(t * N), dist = Math.abs(t - si / N), near = !free && boot === 'done' && dist < 0.008 && si > 0;
+    if (near) this.lastPanel = si;
+    const pi = this.lastPanel, kind = KIND[pi];
+    const nextI = Math.min(N, STOPS.findIndex((s, i) => i / N > t + 0.004) === -1 ? N : STOPS.findIndex((s, i) => i / N > t + 0.004));
+    const arrived = dist < 0.006;
+    const km = Math.round(t * 3000), ws = mobile ? 116 : 168;
+    const wide = kind === 'projects' ? 640 : 470;
+    const wn = arrived ? { top: si === N ? 'Destination' : 'Waypoint', rot: '0deg', name: STOPS[si].name, sub: si === 0 ? 'SCROLL TO RIDE' : SUBS[si] }
+      : { top: 'In ' + Math.max(1, Math.round((nextI / N - t) * 3000)) + ' km', rot: STOPS[nextI].rot, name: STOPS[nextI].name, sub: 'ODO ' + km };
+    const ap = i => clamp((t - (i / N - 0.056)) / 0.05, 0, 1);
+    if (!arrived && nextI === 1 && ap(1) > 0) wn.sub = Math.min(9, Math.floor(ap(1) * 9.99)) + ' OF 10 LIT';
+    if (!arrived && nextI === 2 && ap(2) > 0.3) wn.sub = 'BORDER AHEAD';
+    if (!arrived && nextI === 3 && ap(3) > 0) wn.sub = Math.round(100 + 300 * ap(3)) + 'K RIDERS';
+    const segStart = Math.floor(t * N) / N, ring = Math.round(((t - segStart) * N) * 360) + 'deg';
+    const cs = CASES[pi] || CASES[1];
+    return {
+      canvasHost: this.canvasHost, proofRef: this.proofRef, noGL,
+      grade: (() => { const e = this.env || { night: 0, glow: 0, tE: 0 }; const dusk = 1 - Math.abs(e.tE - 0.05) * 4; const warm = clamp(dusk, 0, 1);
+        if (e.night > 0.05) return { bg: 'linear-gradient(180deg,rgba(20,30,70,.35),rgba(6,10,30,.15))', mode: 'multiply', op: e.night * 0.55 };
+        if (warm > 0.05) return { bg: 'linear-gradient(180deg,rgba(255,150,80,.18),rgba(120,40,60,.1))', mode: 'soft-light', op: warm * 0.6 };
+        return { bg: 'transparent', mode: 'normal', op: 0 }; })(),
+      spacerH: ((this.props.rideLength ?? 260) * N + 100) + 'vh',
+      booting: boot !== 'done', bootOp: boot === 'boot' ? 1 : 0, bootPe: boot === 'boot' ? 'auto' : 'none', skipBoot: () => this.finishBoot(),
+      bootLines: BOOT.slice(0, Math.max(1, bootLine)).slice(-3).map((l, i, a) => ({ l, c: i === a.length - 1 ? '#7ff3e1' : '#5d7480' })),
+      chromeOp: boot === 'done' ? 1 : 0, grain,
+      act: (ACTS.filter(a => t >= a[0]).pop() || ACTS[0])[1], actOp: free || boot !== 'done' || t < 0.01 ? 0 : 1,
+      isTurnoff: KIND[si] === 'turnoff' && dist < 0.01 && !free && boot === 'done',
+      introOp: boot !== 'done' ? 0 : free ? 0 : ready ? 1 - sstep(0.003, 0.03, t) : 1,
+      free, mobile, hudPe: free ? 'none' : 'auto', toggleFree: () => this.toggleFree(),
+      callDino: () => { this.whistle && this.whistle(); this.world && this.world.callDino(); },
+      showCallDino: !free && boot === 'done' && !!this.state.dinoOff, callDinoBottom: mobile ? (ws + 50) + 'px' : '28px',
+      freeBtn: free ? { label: mobile ? 'Exit' : 'Exit free ride', bg: 'rgba(127,243,225,.18)', border: '#7ff3e1', fg: '#e9fdff' } : { label: mobile ? 'Free ride' : 'Free ride ◇', bg: 'rgba(10,13,32,.45)', border: 'rgba(255,240,220,.3)', fg: '#f3ead9' },
+      freeHud: { left: mobile ? '16px' : '28px', right: mobile ? '16px' : 'auto', bottom: mobile ? (ws + 50) + 'px' : '28px' },
+      freeSpeedKmh: Math.round(Math.abs(freeSpd) * 6),
+      pad: [['l', '◀'], ['r', '▶'], ['b', '▼'], ['u', '▲']].map(([k, label]) => ({ label, down: e => { e.preventDefault(); this.world && this.world.setTouch(k, true); }, up: () => this.world && this.world.setTouch(k, false) })), loadMsg: ready ? 'Scroll to ride' : 'Warming up the engine…',
+      desktop: !mobile, hudOp: free ? 0 : (boot !== 'done' || (ready ? 1 - sstep(0.003, 0.03, t) : 1) > 0.05 ? 0 : 1),
+      soundDot: playing || this.state.scoreOn ? '#7ff3e1' : 'rgba(255,236,210,.35)', soundLabel: this.state.scoreOn ? (mobile ? 'On' : 'Score on') : playing ? (mobile ? 'On' : (track >= 100 ? 'Your track' : TRACKS[Math.max(0, track)].name)) : (mobile ? 'Sound' : 'Sound off'),
+      settingsBtn: radio ? { border: '#7ff3e1', bg: 'rgba(127,243,225,.14)', fg: '#e9fdff' } : { border: 'rgba(255,240,220,.3)', bg: 'transparent', fg: '#f3ead9' },
+      scoreRowBg: this.state.scoreOn ? 'rgba(127,243,225,.12)' : 'transparent', scoreOnLabel: this.state.scoreOn ? 'On' : 'Off',
+      sndToggles: [['nature', 'Nature ambience'], ['fire', 'Campfire crackle'], ['brake', 'Braking sound']].map(([k, label]) => ({ label, click: () => this.toggleSnd(k), trackBg: this.state.snd[k] ? '#7ff3e1' : 'rgba(255,236,210,.2)', dotLeft: this.state.snd[k] ? '15px' : '2px' })),
+      toggleSound: () => { if (!this.score) return; if (this.state.scoreOn) { this.score.stop(); this.setState({ scoreOn: false }); } else { this.radio.stop(); this.score.start(); this.world && this.score.update(this.world.getState()); this.setState({ scoreOn: true, playing: false }); } },
+      egg: this.state.egg, closeEgg: () => this.setState({ egg: false }), eggPos: { right: mobile ? '16px' : (ws + 64) + 'px', bottom: mobile ? (ws + 44) + 'px' : '40px' },
+      screenTap: () => { const now = Date.now(); this.taps = (this.taps || []).filter(x => now - x < 1800); this.taps.push(now); clearTimeout(this.tapT); if (this.taps.length >= 5) { this.taps = []; this.buzzWatch(); this.setState({ egg: true, radio: false }); return; } this.tapT = setTimeout(() => { this.blip(600); this.setState(st => ({ watchMode: st.watchMode === 'nav' ? 'music' : 'nav' })); }, 330); },
+      proofLabel: mobile ? 'Proof' : 'Proof in 20 sec',
+      toggleRadio: () => { this.setState(st => ({ radio: !st.radio, egg: false })); },
+      toggleLowGfx: () => { const v = !this.state.lowGfx; this.setState({ lowGfx: v }); try { localStorage.setItem('apLowGfx', v ? '1' : '0'); } catch (e) {} this.world && this.world.setForceLow(v); },
+      lowGfxBg: this.state.lowGfx ? '#7ff3e1' : 'rgba(255,236,210,.2)', lowGfxFg: this.state.lowGfx ? '#7ff3e1' : '#f3ead9', lowGfxLabel: this.state.lowGfx ? 'Low graphics · on' : 'Low graphics · off',
+      openProof: () => { this.blip(990); this.openProof(); }, closeProof: () => this.closeProof(), goHome: () => this.jump(0),
+      hud: mobile ? { left: '16px', right: '16px', top: '64px', bottom: 'auto' } : { left: '28px', right: 'auto', top: 'auto', bottom: '24px' },
+      dots: STOPS.map((s, i) => ({ label: s.name, go: () => this.jump(i), w: i === si && arrived ? '26px' : '8px', bg: i === si && arrived ? '#7ff3e1' : i / N <= t + 0.004 ? '#f2b56b' : 'rgba(255,236,210,.28)' })),
+      odo: String(km).padStart(4, '0'),
+      showHint: ready && !noGL && (this.props.showHints ?? true) && t < 0.004 && !mobile && !free,
+      closePanel: () => { this.blip(640); this.setState({ panelClosed: true }); },
+
+      eggTf: this.dragTf('egg'), dragEgg: e => this.onDragStart('egg', e),
+      noteTf: this.dragTf('note'), dragNote: e => this.onDragStart('note', e),
+      radioTf: this.dragTf('radio'), dragRadio: e => this.onDragStart('radio', e),
+      panel: (() => { const open = near && kind !== 'turnoff' && !this.state.panelClosed; return { op: open ? 1 : 0, pe: open ? 'auto' : 'none' }; })(),
+      panelTf: (near && kind !== 'turnoff' && !this.state.panelClosed) ? 'scale(1)' : 'translate(-20px,20px) scale(0.04)',
+      panelBottom: mobile ? (ws + 44) + 'px' : '40px', panelMaxH: mobile ? 'calc(100vh - ' + (ws + 170) + 'px)' : 'calc(100vh - 100px)',
+      pStop: { num: String(pi).padStart(2, '0'), km: String(Math.round(pi / N * 3000)).padStart(4, '0') },
+      isCase: kind === 'case', isTimeline: kind === 'timeline', isProjects: kind === 'projects', isWorkshop: kind === 'workshop', isVantage: kind === 'vantage', isFire: kind === 'fire',
+      cs: { ...cs, url: '#' + cs.slug }, expanded, expandLabel: expanded ? 'Less ↑' : 'Read the full story ↓',
+      toggleExpand: () => { this.blip(700); this.setState(s => ({ expanded: !s.expanded })); },
+      openCaseProof: e => { e.preventDefault(); this.openProof(cs.slug); },
+      timeline: TIMELINE, projects: PROJECTS, workshop: WORKSHOP,
+      caseList: [CASES[1], CASES[2], CASES[3]].map((c, i) => ({ ...c, idx: String(i + 1).padStart(2, '0') })),
+      stack: [['Three.js', '#9a5418'], ['WebGL', '#7ff3e1'], ['Web Audio API', '#f2b56b'], ['GLSL shaders', '#6dff9a'], ['React', '#61dafb'], ['JetBrains Mono', '#5a5560'], ['Cormorant Garamond', '#5a5560'], ['Procedural audio synthesis', '#c8ff7a']].map(([n, c]) => ({ n, c })),
+      bookCall: e => { e.preventDefault(); alert('Booking link coming soon. [TBD]'); },
+      form, notSent: !sent, sent,
+      onName: e => this.setForm('name', e.target.value), onEmail: e => this.setForm('email', e.target.value), onBudget: e => this.setForm('budget', e.target.value), onTimeline: e => this.setForm('timeline', e.target.value), onMsg: e => this.setForm('msg', e.target.value),
+      types: TYPES.map(l => { const on = form.type === l; return { label: l, pick: () => this.setForm('type', on ? '' : l), bg: on ? '#7ff3e1' : 'transparent', fg: on ? '#0b1030' : '#f3ead9', border: on ? '#7ff3e1' : 'rgba(255,236,210,.25)' }; }),
+      submitBrief: e => { e.preventDefault(); const f = this.state.form; const body = `Name: ${f.name}\nEmail: ${f.email}\nType: ${f.type || '-'}\nBudget: ${f.budget || '-'}\nTimeline: ${f.timeline || '-'}\n\n${f.msg}`; location.href = 'mailto:aashishpandey406@gmail.com?subject=' + encodeURIComponent('Project brief: ' + f.name) + '&body=' + encodeURIComponent(body); this.blip(1320); this.setState({ sent: true }); },
+      radioOpen: radio, radioTop: '70px', radioMaxH: 'calc(100vh - 90px)',
+      tracks: TRACKS.map((tr, i) => ({ ...tr, num: String(i + 1).padStart(2, '0'), play: () => this.playTrack(i), bg: playing && track === i ? 'rgba(127,243,225,.12)' : 'transparent', numColor: playing && track === i ? '#7ff3e1' : '#cfc4b0' })),
+      slots: slots.map((sl, i) => ({ num: 'U' + (i + 1), label: sl ? sl.name : 'Add a royalty-free MP3…', bg: playing && track === 100 + i ? 'rgba(127,243,225,.12)' : 'transparent',
+        onFile: e => { const f = e.target.files && e.target.files[0]; if (!f || !this.radio) return; const url = URL.createObjectURL(f); const ns = [...this.state.slots]; ns[i] = { name: f.name, url }; this.score && this.score.stop(); this.radio.playFile(url); this.setState({ slots: ns, track: 100 + i, playing: true, scoreOn: false }); } })),
+      stopMusic: () => this.stopMusic(),
+      watch: { px: ws + 'px', right: mobile ? '18px' : '26px', bottom: mobile ? '28px' : '40px', tf: boot === 'done' ? 'rotate(' + buzz * 3 + 'deg)' : 'translate(calc(-50vw + ' + ((mobile ? 18 : 26) + ws / 2) + 'px), calc(-50vh + ' + ((mobile ? 28 : 40) + ws / 2) + 'px)) scale(' + (mobile ? 2.1 : 2.3) + ')', tr: boot === 'done' ? 'transform .05s' : 'transform 1.6s cubic-bezier(.75,0,.2,1)', small: mobile ? '7.5px' : '9px', arrow: mobile ? '26px' : '38px', name: mobile ? '14px' : '19px' },
+      ringNow: boot !== 'done' ? Math.round(bootLine / BOOT.length * 360) + 'deg' : ring, watchGuideOn: boot === 'done' && !!this.state.guide, guideText: this.state.guide ? this.state.guide.text : '', watchNavOn: boot === 'done' && watchMode === 'nav' && !this.state.guide, watchMusicOn: boot === 'done' && watchMode === 'music' && !this.state.guide, hudVis: boot === 'done' ? 'visible' : 'hidden', wn: free ? { top: 'Free ride', rot: '0deg', name: 'Near ' + STOPS[Math.round(freeT * N)].name, sub: Math.round(Math.abs(freeSpd) * 6) + ' KM/H' } : wn,
+      wm: { name: this.state.scoreOn ? 'Adaptive score' : track >= 100 ? (slots[track - 100] || {}).name || 'Your track' : TRACKS[Math.max(0, track)].name, state: playing || this.state.scoreOn ? '▶ PLAYING' : '❚❚ PAUSED' },
+      toggleWatchMode: () => { this.blip(600); this.setState(s => ({ watchMode: s.watchMode === 'nav' ? 'music' : 'nav' })); },
+      crown: () => { if (watchMode === 'music') this.playTrack(((track >= 0 && track < 100 ? track : -1) + 1) % TRACKS.length); else this.jump(arrived ? si + 1 : nextI); },
+      sideBtn: () => { if (watchMode === 'music') { playing ? this.stopMusic() : this.playTrack(track >= 0 && track < 100 ? track : 0); } else this.jump(arrived ? si - 1 : nextI - 1); },
+      hasNote: !!note, closeNote: () => this.setState({ note: null }),
+      note: note ? { num: String(note.i + 1).padStart(2, '0'), text: NOTES[note.i].text, left: clamp(note.x + 16, 12, innerWidth - 300) + 'px', top: clamp(note.y - 30, 70, innerHeight - 200) + 'px' } : { num: '', text: '', left: '0px', top: '0px' },
+      proofY: proof ? '0%' : '100%', proofVis: proof ? 'visible' : 'hidden', proofHidden: proof ? 'false' : 'true'
+    };
+  }
+}
+</script>
+</body>
+</html>
