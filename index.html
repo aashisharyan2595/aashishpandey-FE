@@ -630,10 +630,7 @@ class Component extends DCLogic {
     if (instant) { this.setState({ boot: 'done', bootLine: BOOT.length }); } else { this.setState({ boot: 'fly', bootLine: BOOT.length }); setTimeout(() => this.setState({ boot: 'done' }), 1700); }
     this.world && this.world.startIntro(); }
   buzzWatch() { try { navigator.vibrate && navigator.vibrate(30); } catch (e) {} let k = 0; clearInterval(this.buzzI); this.buzzI = setInterval(() => { k++; this.setState({ buzz: k >= 6 ? 0 : (k % 2 ? 1 : -1) }); if (k >= 6) clearInterval(this.buzzI); }, 55); this.blip(1400); }
-  whistle() { try { const ctx = new (window.AudioContext || window.webkitAudioContext)(); const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine';
-    o.frequency.setValueAtTime(900, t); o.frequency.linearRampToValueAtTime(1500, t + 0.15); o.frequency.linearRampToValueAtTime(1100, t + 0.32);
-    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.18, t + 0.04); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.36);
-    o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.4); setTimeout(() => ctx.close(), 500); } catch (e) {} }
+  whistle() { try { const a = new Audio('assets/whistle.mp3'); a.volume = 0.55; a.play().catch(() => {}); } catch (e) {} }
   toggleFree() { const on = !this.state.free; this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false }); if (!on) this.onScroll(); }
   setForm(k, v) { this.setState(s => ({ form: { ...s.form, [k]: v } })); }
 
