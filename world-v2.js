@@ -664,7 +664,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
   // Input
   let lastMouse = 0; const aimNDC = new THREE.Vector2(), projV = new THREE.Vector3(), headAim = new THREE.Vector3(0, 0, -14), gPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), gPt = new THREE.Vector3();
   let target = 0, t = 0, steer = 0, steerT = 0, keyDir = 0, mobile = !!opts.mobile;
-  let vel = 0, yawOff = 0, pitchOff = 0, lastPan = 0, free = false, fx = 0, fz = 0, fh = 0, fs = 0, curSpeed = 0, lastFreeCb = 0, brakeSpd = 0, shake = 0, lastBX = 0, lastBZ = 0, susY = null, susVel = 0, susFront = 0, susRear = 0, susFrontV = 0, susRearV = 0; const keys = {}, touch = {};
+  let vel = 0, yawOff = 0, pitchOff = 0, lastPan = 0, free = false, fx = 0, fz = 0, fh = 0, fs = 0, curSpeed = 0, lastFreeCb = 0, brakeSpd = 0, shake = 0, lastBX = 0, lastBZ = 0, susY = null, susVel = 0, susFront = 0, susRear = 0, susFrontV = 0, susRearV = 0, stickX = 0, stickY = 0; const keys = {}, touch = {};
   const mouse = new THREE.Vector2(0, 0), mouseW = new THREE.Vector3(), ray = new THREE.Raycaster();
   let down = null, lastRip = 0, hover = -1;
   const wPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -LAKE.y), wPt = new THREE.Vector3();
@@ -683,12 +683,15 @@ transformed.z += sway * ${wdz.toFixed(3)};
   const startFlee = () => { const dx = dino.position.x - lastBX, dz = dino.position.z - lastBZ, d = Math.hypot(dx, dz) || 1, away = 3 + Math.random() * 3;
     dinoTarget.set(dino.position.x + dx / d * away, 0, dino.position.z + dz / d * away); dinoFleeT = 4.5 + Math.random() * 2.5; };
   const clickDino = () => { dinoReactT = 0.5; if (dinoState === 'roam') { dinoSeekLake = false; opts.onDino && opts.onDino('flee'); startFlee(); } else { opts.onDino && opts.onDino('poke'); } };
-  const onDown = e => { down = { x: e.clientX, y: e.clientY, yo: yawOff, po: pitchOff, t: performance.now(), drag: false }; };
+  const onDown = e => { down = { x: e.clientX, y: e.clientY, yo: yawOff, po: pitchOff, t: performance.now(), drag: false, pad: mobile && free && e.clientY > host.clientHeight * 0.58 }; };
   const onMove = e => { toNDC(e); if (e.pointerType !== 'touch') lastMouse = performance.now();
-    if (down) { const dx = e.clientX - down.x, dy = e.clientY - down.y; if (Math.hypot(dx, dy) > 6) down.drag = true; if (down.drag) { yawOff = down.yo - dx * 0.006; pitchOff = clamp(down.po + dy * 0.004, -0.3, 0.9); lastPan = performance.now(); } }
+    if (down) { const dx = e.clientX - down.x, dy = e.clientY - down.y; if (Math.hypot(dx, dy) > 6) down.drag = true;
+      if (down.drag && down.pad) { const R = 70; let ddx = dx, ddy = dy; const d = Math.hypot(ddx, ddy); if (d > R) { ddx = ddx / d * R; ddy = ddy / d * R; } stickX = clamp(ddx / R, -1, 1); stickY = clamp(-ddy / R, -1, 1); }
+      else if (down.drag) { yawOff = down.yo - dx * 0.006; pitchOff = clamp(down.po + dy * 0.004, -0.3, 0.9); lastPan = performance.now(); } }
     const now = performance.now();
     if (e.target === canvas && now - lastRip > 90) { lastRip = now; const wp = waterHit(); if (wp) wU.rip.value[ripI++ % 8].set(wp.x, wp.z, wU.time.value); hover = hitNote(); canvas.style.cursor = hover >= 0 ? 'pointer' : fireHit() ? 'pointer' : down && down.drag ? 'grabbing' : 'grab'; } };
-  const onUp = e => { if (down && !down.drag && e.target === canvas && performance.now() - down.t < 500) { toNDC(e); const n = hitNote(); if (n >= 0) opts.onNote && opts.onNote(n, e.clientX, e.clientY); else if (hitDino()) clickDino(); else { const wp = waterHit(); if (wp) for (let k = 0; k < 3; k++) wU.rip.value[ripI++ % 8].set(wp.x + k * 0.01, wp.z, wU.time.value + k * 0.35); } } down = null; };
+  const onUp = e => { if (down && down.pad) { stickX = 0; stickY = 0; }
+    if (down && !down.drag && e.target === canvas && performance.now() - down.t < 500) { toNDC(e); const n = hitNote(); if (n >= 0) opts.onNote && opts.onNote(n, e.clientX, e.clientY); else if (hitDino()) clickDino(); else { const wp = waterHit(); if (wp) for (let k = 0; k < 3; k++) wU.rip.value[ripI++ % 8].set(wp.x + k * 0.01, wp.z, wU.time.value + k * 0.35); } } down = null; };
   const KM = { arrowleft: 'l', a: 'l', arrowright: 'r', d: 'r', arrowup: 'u', w: 'u', arrowdown: 'b', s: 'b' };
   const onKey = e => { if (e.target && /input|textarea|select/i.test(e.target.tagName)) return; const m = KM[(e.key || '').toLowerCase()]; if (!m) return; if (!free && (m === 'u' || m === 'b')) return; keys[m] = e.type === 'keydown'; e.preventDefault(); };
   canvas.addEventListener('pointerdown', onDown); window.addEventListener('pointermove', onMove); window.addEventListener('pointerup', onUp); window.addEventListener('keydown', onKey); window.addEventListener('keyup', onKey);
@@ -714,7 +717,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
     const intro = introStart === null ? 0 : sstep(0, 1, (now - introStart) / 6500);
     { const gap = (target - t) * L, vmax = 34 + Math.max(0, Math.abs(gap) - 60) * 0.6, want = clamp(gap * 1.4, -vmax, vmax); vel += (want - vel) * (1 - Math.exp(-dt * 2.2)); t = clamp(t + vel * dt / L, 0, 1); if (Math.abs(gap) < 0.05 && Math.abs(vel) < 0.5) { t = target; vel = 0; } }
     if (!down && now - lastPan > 2500) { yawOff *= Math.exp(-dt * 1.2); pitchOff *= Math.exp(-dt * 1.2); }
-    keyDir = (keys.r || touch.r ? 1 : 0) - (keys.l || touch.l ? 1 : 0);
+    keyDir = clamp((keys.r || touch.r ? 1 : 0) - (keys.l || touch.l ? 1 : 0) + stickX, -1, 1);
     let bp, yaw, z, fr, spd, pitch;
     if (!free) {
       if (keyDir) steerT = clamp(steerT + keyDir * dt * 1.8, -1, 1); else steerT *= Math.exp(-dt * 0.35);
@@ -728,7 +731,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
       wheels.forEach(w => { w.rotation.x -= (prevZ - z) / 0.36; });
       fx = bp.x; fz = bp.z; fh = yaw; fs = 0;
     } else {
-      const thr = (keys.u || touch.u ? 1 : 0) - (keys.b || touch.b ? 1 : 0);
+      const thr = clamp((keys.u || touch.u ? 1 : 0) - (keys.b || touch.b ? 1 : 0) + stickY, -1, 1);
       const accel = (thr > 0 ? (fs < 0 ? 20 : 12) : (fs > 0 ? 20 : 8)) * (1 - Math.min(0.6, Math.abs(fs) / 30));
       fs += thr * dt * accel; if (!thr) fs *= Math.exp(-dt * 0.85); fs = clamp(fs, -5, 24);
       const turnRate = 2.3 * clamp(1 - Math.abs(fs) / 42, 0.6, 1);
@@ -963,8 +966,9 @@ transformed.z += sway * ${wdz.toFixed(3)};
     setMobile(m) { mobile = m; },
     skipIntro() { introArmed = true; introStart = -1e9; },
     startIntro() { introArmed = true; },
-    setFree(on) { free = !!on; fs = 0; for (const k in keys) keys[k] = false; for (const k in touch) touch[k] = false; canvas.style.touchAction = free ? 'none' : 'pan-y'; if (free) introStart = -1e9; },
+    setFree(on) { free = !!on; fs = 0; stickX = 0; stickY = 0; for (const k in keys) keys[k] = false; for (const k in touch) touch[k] = false; canvas.style.touchAction = free ? 'none' : 'pan-y'; if (free) introStart = -1e9; },
     setTouch(k, v) { touch[k] = !!v; },
+    setStick(x, y) { stickX = clamp(x, -1, 1); stickY = clamp(y, -1, 1); },
     setPaused(p) { paused = !!p; last = performance.now(); },
     getTier() { return tier; },
     setForceLow(v) { forceLow = !!v; if (forceLow && tier > 0) setTier(0); },

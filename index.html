@@ -21,6 +21,7 @@ a:hover{color:#ffd9a3}
 ::selection{background:#7ff3e1;color:#0b1030}
 input,textarea,select,button{font:inherit}
 html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(127,243,225,.5)}50%{box-shadow:0 0 16px 5px rgba(127,243,225,.7)}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Aashish Pandey","jobTitle":"Project Manager · Creative Technologist","worksFor":{"@type":"Organization","name":"Langoor (an LS Digital company)"},"address":{"@type":"PostalAddress","addressLocality":"Bangalore","addressCountry":"IN"},"email":"mailto:aashishpandey406@gmail.com","telephone":"+917558415031","sameAs":["https://www.linkedin.com/in/aashish-kumar-pandey"],"knowsAbout":["Program management","Project delivery","Shopify","WordPress","CI/CD","SEO","Creative technology"]}</script>
 </helmet>
@@ -42,7 +43,7 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
   <div style="position:fixed;inset:0;z-index:2;pointer-events:none;">
 
     <!-- intro -->
-    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:112px 24px 24px;gap:18px;opacity:{{ introOp }};transition:opacity .6s;">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:{{ introPadTop }} 24px 24px;gap:18px;opacity:{{ introOp }};transition:opacity .6s;">
       <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#ffe6c7;">Bangalore · 12.97° N · dusk</div>
       <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(56px,11vw,148px);line-height:.9;letter-spacing:-.02em;color:#fff6ea;text-shadow:0 4px 40px rgba(60,20,40,.45);">Aashish Pandey</h1>
       <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,30px);color:#fff1dd;text-shadow:0 2px 20px rgba(40,20,40,.5);">Project Manager · Creative Technologist · Explorer</div>
@@ -54,33 +55,43 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
     </div>
 
     <!-- top bar -->
-    <div style="position:absolute;top:26px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#f3ead9;opacity:{{ actOp }};transition:opacity .8s;white-space:nowrap;text-shadow:0 1px 10px rgba(0,0,0,.5);">{{ act }}</div>
+    <div style="position:absolute;top:26px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#f3ead9;opacity:{{ actOpFinal }};transition:opacity .8s;white-space:nowrap;text-shadow:0 1px 10px rgba(0,0,0,.5);">{{ act }}</div>
     <sc-if value="{{ isTurnoff }}" hint-placeholder-val="{{ false }}">
       <div style="position:absolute;left:50%;top:30%;transform:translateX(-50%);width:min(900px,88vw);text-align:center;display:flex;flex-direction:column;gap:18px;align-items:center;">
         <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:clamp(40px,6vw,88px);line-height:1;color:#fff6ea;text-wrap:balance;text-shadow:0 4px 40px rgba(20,10,40,.6);">Most people stay on the highway.</div>
         <div style="font-size:clamp(15px,1.3vw,18px);line-height:1.55;color:#fff1dd;max-width:520px;text-wrap:pretty;text-shadow:0 1px 14px rgba(20,10,40,.7);">Pune University. Everything since, I learned by shipping, and by taking things apart to see how they work.</div>
       </div>
     </sc-if>
-    <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px clamp(16px,2.4vw,28px);opacity:{{ chromeOp }};transition:opacity 1.2s .4s;">
+    <div style="position:absolute;top:0;left:0;right:0;display:flex;flex-direction:{{ headerDir }};align-items:{{ headerAlign }};justify-content:space-between;gap:10px;padding:18px clamp(16px,2.4vw,28px);opacity:{{ chromeOp }};transition:opacity 1.2s .4s;">
       <div onClick="{{ goHome }}" style="pointer-events: auto; cursor: pointer; display: flex; align-items: baseline; gap: 12px; flex-shrink: 0; min-width: 0; flex-direction: column">
-        <span style="font-family: 'Cormorant Garamond',serif; font-size: 30px; font-style: normal; font-weight: 500; color: #fff6ea; white-space: nowrap; width: 210px; height: 28px">Aashish Pandey</span>
+        <span style="font-family: 'Cormorant Garamond',serif; font-size: {{ nameSize }}; font-style: normal; font-weight: 500; color: #fff6ea; white-space: nowrap;">Aashish Pandey</span>
         <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
           <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#f3ead9;">PM · Creative Technologist</span>
         </sc-if>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:flex-end;pointer-events:auto;background:rgba(10,13,32,.4);backdrop-filter:blur(10px);border:1px solid rgba(255,236,210,.12);border-radius:20px;padding:5px;min-width:0;margin-left:24px;">
-        <button onClick="{{ toggleFree }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid {{ freeBtn.border }};background:{{ freeBtn.bg }};color:{{ freeBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:border-color .2s;" style-hover="border-color:#7ff3e1;">{{ freeBtn.label }}</button>
-        <button onClick="{{ toggleRadio }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid {{ settingsBtn.border }};background:{{ settingsBtn.bg }};color:{{ settingsBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:border-color .2s;" style-hover="border-color:#7ff3e1;">
-          <span style="width:7px;height:7px;border-radius:50%;background:{{ soundDot }};flex-shrink:0;"></span>Settings ▾
+      <div style="display:flex;flex-direction:{{ headerDir }};align-items:center;justify-content:{{ rightGroupJustify }};gap:10px;width:{{ rightGroupWidth }};min-width:0;">
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;pointer-events:auto;background:rgba(10,13,32,.4);backdrop-filter:blur(10px);border:1px solid rgba(255,236,210,.12);border-radius:20px;padding:5px;min-width:0;">
+          <div style="position:relative;display:inline-flex;">
+            <button onClick="{{ toggleFree }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid {{ freeBtn.border }};background:{{ freeBtn.bg }};color:{{ freeBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:border-color .2s;animation:{{ freeGlowAnim }};" style-hover="border-color:#7ff3e1;">{{ freeBtn.label }}</button>
+            <sc-if value="{{ freeTip }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);white-space:nowrap;background:rgba(10,13,32,.94);color:#e9fdff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:none;padding:7px 11px;border-radius:9px;border:1px solid rgba(127,243,225,.4);pointer-events:none;opacity:{{ freeTipOp }};transition:opacity .5s;box-shadow:0 4px 14px rgba(0,0,0,.35);z-index:5;">
+                <div style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:5px solid rgba(10,13,32,.94);"></div>
+                Try Free ride — explore off the route
+              </div>
+            </sc-if>
+          </div>
+          <button onClick="{{ toggleRadio }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid {{ settingsBtn.border }};background:{{ settingsBtn.bg }};color:{{ settingsBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:border-color .2s;" style-hover="border-color:#7ff3e1;">
+            <span style="width:7px;height:7px;border-radius:50%;background:{{ soundDot }};flex-shrink:0;"></span>Settings ▾
+          </button>
+          <sc-if value="{{ showCallDino }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ callDino }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
+          </sc-if>
+        </div>
+        <button onClick="{{ openProof }}" style="height:40px;padding:{{ proofPad }};border-radius:999px;border:1px solid rgba(255,255,255,.4);background:linear-gradient(180deg,#ffc880,#f2ac5a);color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;pointer-events:auto;flex-shrink:0;display:flex;align-items:center;gap:8px;box-shadow:0 4px 18px rgba(242,181,107,.35);transition:transform .2s,box-shadow .2s;white-space:nowrap;" style-hover="background:linear-gradient(180deg,#ffd699,#ffbd73);box-shadow:0 6px 22px rgba(242,181,107,.5);transform:translateY(-1px);">
+          {{ proofLabel }}
+          <span style="width:22px;height:22px;border-radius:50%;background:rgba(26,20,32,.14);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">↗</span>
         </button>
-        <sc-if value="{{ showCallDino }}" hint-placeholder-val="{{ false }}">
-          <button onClick="{{ callDino }}" style="height:34px;padding:0 14px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
-        </sc-if>
       </div>
-      <button onClick="{{ openProof }}" style="height:40px;padding:0 10px 0 18px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:linear-gradient(180deg,#ffc880,#f2ac5a);color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;pointer-events:auto;flex-shrink:0;display:flex;align-items:center;gap:8px;box-shadow:0 4px 18px rgba(242,181,107,.35);transition:transform .2s,box-shadow .2s;" style-hover="background:linear-gradient(180deg,#ffd699,#ffbd73);box-shadow:0 6px 22px rgba(242,181,107,.5);transform:translateY(-1px);">
-        {{ proofLabel }}
-        <span style="width:22px;height:22px;border-radius:50%;background:rgba(26,20,32,.14);display:flex;align-items:center;justify-content:center;font-size:12px;">↗</span>
-      </button>
     </div>
 
     <!-- HUD: recruiter stats + stop dots -->
@@ -109,27 +120,30 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
 
     <!-- free ride HUD -->
     <sc-if value="{{ free }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute;left:{{ freeHud.left }};bottom:{{ freeHud.bottom }};right:{{ freeHud.right }};display:flex;flex-direction:column;gap:12px;pointer-events:auto;">
-        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:34px;line-height:1;color:#fff6ea;text-shadow:0 2px 20px rgba(0,0,0,.5);">Free ride</div>
-        <div style="display:flex;align-items:baseline;gap:8px;">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:38px;font-weight:500;color:#7ff3e1;text-shadow:0 2px 16px rgba(0,0,0,.5);">{{ freeSpeedKmh }}</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;">km/h</span>
-        </div>
-        <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute;left:{{ freeHud.left }};bottom:{{ freeHud.bottom }};right:{{ freeHud.right }};display:flex;flex-direction:column;gap:12px;pointer-events:auto;">
+          <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:34px;line-height:1;color:#fff6ea;text-shadow:0 2px 20px rgba(0,0,0,.5);">Free ride</div>
+          <div style="display:flex;align-items:baseline;gap:8px;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:38px;font-weight:500;color:#7ff3e1;text-shadow:0 2px 16px rgba(0,0,0,.5);">{{ freeSpeedKmh }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;">km/h</span>
+          </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px 16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;background:rgba(10,13,32,.5);backdrop-filter:blur(8px);padding:9px 14px;border-radius:12px;">
             <span>W / ↑ · throttle</span><span>S / ↓ · brake</span><span>A D / ← → · steer</span><span>Drag · look around</span>
           </div>
-        </sc-if>
-        <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
-          <div style="display:flex;gap:10px;">
-            <sc-for list="{{ pad }}" as="p" hint-placeholder-count="4">
-              <button onPointerDown="{{ p.down }}" onPointerUp="{{ p.up }}" onPointerLeave="{{ p.up }}" onPointerCancel="{{ p.up }}" style="width:58px;height:58px;border-radius:16px;border:1px solid rgba(255,236,210,.25);background:rgba(10,13,32,.6);backdrop-filter:blur(8px);color:#fff6ea;font-size:20px;touch-action:none;user-select:none;-webkit-user-select:none;" style-active="background:rgba(127,243,225,.3);">{{ p.label }}</button>
-            </sc-for>
+          <button onClick="{{ callDino }}" style="align-self:flex-start;height:36px;padding:0 16px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);backdrop-filter:blur(8px);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
+          <button onClick="{{ toggleFree }}" style="align-self:flex-start;height:40px;padding:0 16px;border-radius:999px;border:none;background:#7ff3e1;color:#0b1030;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">← Back to the story ride</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:16px;top:{{ freeInfoTop }};display:flex;flex-direction:column;gap:8px;pointer-events:auto;">
+          <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;line-height:1;color:#fff6ea;text-shadow:0 2px 20px rgba(0,0,0,.5);">Free ride</div>
+          <div style="display:flex;align-items:baseline;gap:6px;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:500;color:#7ff3e1;text-shadow:0 2px 16px rgba(0,0,0,.5);">{{ freeSpeedKmh }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;">km/h</span>
           </div>
-        </sc-if>
-        <button onClick="{{ callDino }}" style="align-self:flex-start;height:36px;padding:0 16px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);backdrop-filter:blur(8px);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
-        <button onClick="{{ toggleFree }}" style="align-self:flex-start;height:40px;padding:0 16px;border-radius:999px;border:none;background:#7ff3e1;color:#0b1030;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">← Back to the story ride</button>
-      </div>
+          <button onClick="{{ callDino }}" style="align-self:flex-start;height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
+        </div>
+      </sc-if>
     </sc-if>
 
     <!-- chapter panel -->
@@ -522,7 +536,7 @@ const CASES = {
 };
 const SUBS = ['Route locked', '9 of 10 markets lit', 'New ground: Canada', '100K → 400K riders', 'Highway ends here', '8 more in the logbook', 'After hours', 'Sit a while', 'End of the road'];
 const ACTS = [[0, 'I · The highway'], [0.44, 'II · The turn-off'], [0.56, 'III · The forest'], [0.82, 'Coda · The vantage point']];
-const BOOT = ['rom v0.9 [TBD]', 'kernel … ok', 'gps 12.97°N', 'finding route…', 'route locked'];
+const BOOT = ['rom v0.9 [TBD]', 'kernel … ok', 'gps 12.97°N', 'finding route…', 'free ride unlocked', 'route locked'];
 const TIMELINE = [
   { years: '2025 – now', role: 'Project Manager', org: 'Langoor (an LS Digital company)', text: 'Liquid I.V. EU expansion, Talenti Canada.', points: ['Liquid I.V. (Unilever) European expansion: $100K+ tech, 9 of 10 market sites launched', 'Talenti (Magnum Ice Cream Co.) launch into Canada'] },
   { years: '2022 – 2025', role: 'Project Manager & Sr Web Developer', org: 'Knowledge Units Solutions LLP', text: '35+ sites for Panchshil Realty, JW Marriott, Westin Pune. Led StoryNest. Docker + GitHub Actions CI/CD.', points: ['35+ websites and CMS platforms for Panchshil Realty, JW Marriott, Westin Pune', 'Led StoryNest end to end: 100K → 400K users', 'Automated content and recommendation features for StaySturmFrei and The Dhamaal', 'Docker + GitHub Actions CI/CD pipelines to cut release effort', 'SOPs, onboarding guides, agile ceremonies in Jira, Trello and Notion'] },
@@ -587,7 +601,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this.onResize = () => { const m = innerWidth < 760; if (m !== this.state.mobile) { this.setState({ mobile: m }); this.world && this.world.setMobile(m); } this.onScroll(); };
     this.onScroll = () => { if (this.raf) return; this.raf = requestAnimationFrame(() => { this.raf = 0; const max = document.documentElement.scrollHeight - innerHeight; const u = max > 0 ? clamp(scrollY / max, 0, 1) : 0; const s = Math.min(N - 1, Math.floor(u * N)), l = u * N - s; const t = (s + sstep(0.18, 0.82, l)) / N;
-      this.world && this.world.setTarget(t); if (t > 0.01 && this.world && !this.skipped) { this.skipped = true; this.world.skipIntro(); }
+      this.world && this.world.setTarget(t); if (t > 0.01 && this.world && !this.skipped) { this.skipped = true; this.world.skipIntro(); this.triggerFreeHint(); }
       { const a = Math.round(t * N); const arr = Math.abs(t - a / N) < 0.004 ? a : -1; if (arr > 0 && arr !== this.lastArr) this.buzzWatch(); this.lastArr = arr; }
       if (Math.abs(t - this.state.t) > 0.0015 || (t !== this.state.t && Math.abs(t * N - Math.round(t * N)) < 0.08)) { const si = Math.round(t * N); const ch = si !== Math.round(this.state.t * N); this.setState(s => ({ t, ...(ch ? { expanded: false, panelClosed: false } : {}), radio: Math.abs(t - s.t) > 0.003 ? false : s.radio })); } }); };
     this.onKey = e => { if (e.key === 'Escape') { if (this.state.free) this.toggleFree(); this.closeProof(); this.setState({ note: null, radio: false, egg: false }); } };
@@ -602,11 +616,11 @@ class Component extends DCLogic {
     const base = new URL('.', location.href).href;
     import(base + 'audio-v2.js').then(m => { this.radio = new m.Radio(); this.radio.setBrakeMuted(!this.state.snd.brake); this.score = new m.Score(this.radio); this.score.mute.nature = this.state.snd.nature ? 1 : 0; this.score.mute.fire = this.state.snd.fire ? 1 : 0; }).catch(e => console.warn('audio', e));
     this.poll = setInterval(() => { if (this.score && this.score.on && this.world) this.score.update(this.world.getState()); }, 150);
-    const lp = !!this.props.lowPower || ((navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4 || innerWidth < 760);
+    const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
     import(base + 'world-v2.js').then(m => {
       if (!this.canvasHost.current) return;
       this.world = m.createWorld(this.canvasHost.current, { lowPower: lp || this.state.lowGfx, mobile: innerWidth < 760, notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })),
-        onNote: (i, x, y) => { this.blip(1180); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
+        onNote: (i, x, y) => { this.blip(1180); this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
         holdIntro: true,
         onFree: (ft, fs) => this.setState({ freeT: ft, freeSpd: fs }),
         onGuide: (text, mood) => { clearTimeout(this._guideTO); this.setState({ guide: { text, mood } }); this._guideTO = setTimeout(() => this.setState(st => st.guide && st.guide.text === text ? { guide: null } : null), 7000); },
@@ -629,6 +643,15 @@ class Component extends DCLogic {
   finishBoot(instant) { if (this.state.boot === 'done') return; (this.bootT || []).forEach(clearTimeout); try { sessionStorage.setItem('apos-booted', '1'); } catch (e) {}
     if (instant) { this.setState({ boot: 'done', bootLine: BOOT.length }); } else { this.setState({ boot: 'fly', bootLine: BOOT.length }); setTimeout(() => this.setState({ boot: 'done' }), 1700); }
     this.world && this.world.startIntro(); }
+  triggerFreeHint() {
+    let seen = false; try { seen = sessionStorage.getItem('apFreeHintSeen') === '1'; } catch (e) {}
+    if (seen || this.state.free) return;
+    try { sessionStorage.setItem('apFreeHintSeen', '1'); } catch (e) {}
+    this.setState({ freeGlow: true, freeTip: true, freeTipOp: 1 });
+    setTimeout(() => this.setState({ freeTipOp: 0 }), 4500);
+    setTimeout(() => this.setState({ freeTip: false }), 5000);
+    setTimeout(() => this.setState({ freeGlow: false }), 18000);
+  }
   buzzWatch() { try { navigator.vibrate && navigator.vibrate(30); } catch (e) {} let k = 0; clearInterval(this.buzzI); this.buzzI = setInterval(() => { k++; this.setState({ buzz: k >= 6 ? 0 : (k % 2 ? 1 : -1) }); if (k >= 6) clearInterval(this.buzzI); }, 55); this.blip(1400); }
   whistle() { try { const a = new Audio('assets/whistle.mp3'); a.volume = 0.55; a.play().catch(() => {}); } catch (e) {} }
   toggleFree() { const on = !this.state.free; this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false }); if (!on) this.onScroll(); }
@@ -662,15 +685,23 @@ class Component extends DCLogic {
       bootLines: BOOT.slice(0, Math.max(1, bootLine)).slice(-3).map((l, i, a) => ({ l, c: i === a.length - 1 ? '#7ff3e1' : '#5d7480' })),
       chromeOp: boot === 'done' ? 1 : 0, grain,
       act: (ACTS.filter(a => t >= a[0]).pop() || ACTS[0])[1], actOp: free || boot !== 'done' || t < 0.01 ? 0 : 1,
+      actOpFinal: mobile ? 0 : (free || boot !== 'done' || t < 0.01 ? 0 : 1),
       isTurnoff: KIND[si] === 'turnoff' && dist < 0.01 && !free && boot === 'done',
       introOp: boot !== 'done' ? 0 : free ? 0 : ready ? 1 - sstep(0.003, 0.03, t) : 1,
       free, mobile, hudPe: free ? 'none' : 'auto', toggleFree: () => this.toggleFree(),
+      headerDir: mobile ? 'column' : 'row', headerAlign: mobile ? 'stretch' : 'center',
+      rightGroupJustify: mobile ? 'flex-start' : 'flex-end', rightGroupWidth: mobile ? '100%' : 'auto',
+      nameSize: mobile ? '20px' : '30px', proofPad: mobile ? '0 8px 0 12px' : '0 10px 0 18px', introPadTop: mobile ? '210px' : '112px',
       callDino: () => { this.whistle && this.whistle(); this.world && this.world.callDino(); },
       showCallDino: !free && boot === 'done' && !!this.state.dinoOff,
+      freeGlowAnim: !free && this.state.freeGlow ? 'pulseGlow 1.7s ease-in-out infinite' : 'none',
+      freeTip: !free && this.state.freeTip, freeTipOp: this.state.freeTipOp ?? 1,
       freeBtn: free ? { label: mobile ? 'Exit' : 'Exit free ride', bg: 'rgba(127,243,225,.18)', border: '#7ff3e1', fg: '#e9fdff' } : { label: mobile ? 'Free ride' : 'Free ride ◇', bg: 'rgba(10,13,32,.45)', border: 'rgba(255,240,220,.3)', fg: '#f3ead9' },
       freeHud: { left: mobile ? '16px' : '28px', right: mobile ? '16px' : 'auto', bottom: mobile ? (ws + 50) + 'px' : '28px' },
+      freeInfoTop: '272px',
       freeSpeedKmh: Math.round(Math.abs(freeSpd) * 6),
-      pad: [['l', '◀'], ['r', '▶'], ['b', '▼'], ['u', '▲']].map(([k, label]) => ({ label, down: e => { e.preventDefault(); this.world && this.world.setTouch(k, true); }, up: () => this.world && this.world.setTouch(k, false) })), loadMsg: ready ? 'Scroll to ride' : 'Warming up the engine…',
+      pad: [['l', '◀'], ['r', '▶'], ['b', '▼'], ['u', '▲']].map(([k, label]) => ({ label, down: e => { e.preventDefault(); this.world && this.world.setTouch(k, true); }, up: () => this.world && this.world.setTouch(k, false) })),
+      loadMsg: ready ? 'Scroll to ride' : 'Warming up the engine…',
       desktop: !mobile, hudOp: free ? 0 : (boot !== 'done' || (ready ? 1 - sstep(0.003, 0.03, t) : 1) > 0.05 ? 0 : 1),
       soundDot: playing || this.state.scoreOn ? '#7ff3e1' : 'rgba(255,236,210,.35)', soundLabel: this.state.scoreOn ? (mobile ? 'On' : 'Score on') : playing ? (mobile ? 'On' : (track >= 100 ? 'Your track' : TRACKS[Math.max(0, track)].name)) : (mobile ? 'Sound' : 'Sound off'),
       settingsBtn: radio ? { border: '#7ff3e1', bg: 'rgba(127,243,225,.14)', fg: '#e9fdff' } : { border: 'rgba(255,240,220,.3)', bg: 'transparent', fg: '#f3ead9' },
@@ -684,7 +715,7 @@ class Component extends DCLogic {
       toggleLowGfx: () => { const v = !this.state.lowGfx; this.setState({ lowGfx: v }); try { localStorage.setItem('apLowGfx', v ? '1' : '0'); } catch (e) {} this.world && this.world.setForceLow(v); },
       lowGfxBg: this.state.lowGfx ? '#7ff3e1' : 'rgba(255,236,210,.2)', lowGfxFg: this.state.lowGfx ? '#7ff3e1' : '#f3ead9', lowGfxLabel: this.state.lowGfx ? 'Low graphics · on' : 'Low graphics · off',
       openProof: () => { this.blip(990); this.openProof(); }, closeProof: () => this.closeProof(), goHome: () => this.jump(0),
-      hud: mobile ? { left: '16px', right: '16px', top: '64px', bottom: 'auto' } : { left: '28px', right: 'auto', top: 'auto', bottom: '24px' },
+      hud: mobile ? { left: '16px', right: (ws + 34) + 'px', top: 'auto', bottom: '24px' } : { left: '28px', right: 'auto', top: 'auto', bottom: '24px' },
       dots: STOPS.map((s, i) => ({ label: s.name, go: () => this.jump(i), w: i === si && arrived ? '26px' : '8px', bg: i === si && arrived ? '#7ff3e1' : i / N <= t + 0.004 ? '#f2b56b' : 'rgba(255,236,210,.28)' })),
       odo: String(km).padStart(4, '0'),
       showHint: ready && !noGL && (this.props.showHints ?? true) && t < 0.004 && !mobile && !free,
