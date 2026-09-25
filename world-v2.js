@@ -584,8 +584,31 @@ transformed.z += sway * ${wdz.toFixed(3)};
   const logSeatYaw = Math.atan2(FIRE.x - logSeat.x, FIRE.z - logSeat.z) + Math.PI;
   let riderState = 'onBike', riderT = 0; const riderFrom = new THREE.Vector3();
   const dinoSeatPos = new THREE.Vector3(0, 0.95, 0.82), dinoSeatRot = new THREE.Euler(0, 0, 0);
-  let dinoState = 'ride', dinoBreath = 0, dinoStand = 0, dinoAway = new THREE.Vector3(), dinoTarget = new THREE.Vector3(), dinoJumpT = 0, dinoRunPhase = 0, dinoSnapAt = 3 + Math.random() * 4, dinoSnapT = -1, dinoLookY = 0, dinoMood = 'curious', dinoJumpFrom = new THREE.Vector3(), dinoJumpTo = new THREE.Vector3(), dinoBaseY = 0, dinoReactT = -1, dinoFleeT = 0;
-  function pickRoamTarget(originX, originZ) { const a = Math.random() * Math.PI * 2, r = 3 + Math.random() * 6; dinoTarget.set(originX + Math.cos(a) * r, 0, originZ + Math.sin(a) * r); }
+  let dinoState = 'ride', dinoBreath = 0, dinoStand = 0, dinoAway = new THREE.Vector3(), dinoTarget = new THREE.Vector3(), dinoJumpT = 0, dinoRunPhase = 0, dinoSnapAt = 3 + Math.random() * 4, dinoSnapT = -1, dinoLookY = 0, dinoMood = 'curious', dinoJumpFrom = new THREE.Vector3(), dinoJumpTo = new THREE.Vector3(), dinoBaseY = 0, dinoReactT = -1, dinoFleeT = 0, dinoStuckT = 0, dinoSeekLake = false, dinoNoteCool = Object.create(null), curNight = 0;
+  // Roam target: sniffs out nearby field notes out of curiosity, otherwise wanders to a clear spot (avoids trees/rocks and the lake)
+  function pickRoamTarget(originX, originZ) {
+    if (Math.random() < 0.45) {
+      let bestI = -1, bestD = 13;
+      for (let i = 0; i < notes.length; i++) { const n = notes[i], dd = Math.hypot(n.w.position.x - originX, n.w.position.z - originZ); if (dd < bestD && (dinoNoteCool[i] || 0) < performance.now()) { bestD = dd; bestI = i; } }
+      if (bestI >= 0) { const n = notes[bestI], a2 = Math.random() * Math.PI * 2; dinoTarget.set(n.w.position.x + Math.cos(a2) * 1.3, 0, n.w.position.z + Math.sin(a2) * 1.3); return; }
+    }
+    for (let tries = 0; tries < 6; tries++) {
+      const a = Math.random() * Math.PI * 2, r = 3 + Math.random() * 6, x = originX + Math.cos(a) * r, z = originZ + Math.sin(a) * r;
+      if (collideAt(x, z, 0.5)) continue;
+      if (Math.hypot(x - LAKE.x, z - LAKE.z) < LAKE.r + 2) continue;
+      dinoTarget.set(x, 0, z); return;
+    }
+    dinoTarget.set(originX, 0, originZ);
+  }
+  // Local obstacle avoidance: deflects around a solid ahead instead of walking straight into it
+  function dinoAvoid(px, pz, dirx, dirz) {
+    if (!collideAt(px + dirx * 0.4, pz + dirz * 0.4, 0.35)) return [dirx, dirz];
+    for (const ang of [0.6, -0.6, 1.15, -1.15]) {
+      const ca = Math.cos(ang), sa = Math.sin(ang), ndx = dirx * ca - dirz * sa, ndz = dirx * sa + dirz * ca;
+      if (!collideAt(px + ndx * 0.4, pz + ndz * 0.4, 0.35)) return [ndx, ndz];
+    }
+    return [0, 0];
+  }
   let dinoRoamT = 0, rideStarted = false, holdActive = false, holdT = 0;
 
   // Wildlife — deer grazing in the forest, birds circling above the canopy
@@ -659,7 +682,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
   const hitDino = () => { ray.setFromCamera(mouse, camera); return ray.intersectObject(dino, true).length > 0; };
   const startFlee = () => { const dx = dino.position.x - lastBX, dz = dino.position.z - lastBZ, d = Math.hypot(dx, dz) || 1, away = 3 + Math.random() * 3;
     dinoTarget.set(dino.position.x + dx / d * away, 0, dino.position.z + dz / d * away); dinoFleeT = 4.5 + Math.random() * 2.5; };
-  const clickDino = () => { dinoReactT = 0.5; opts.onDino && opts.onDino('poke'); if (dinoState === 'roam') startFlee(); };
+  const clickDino = () => { dinoReactT = 0.5; if (dinoState === 'roam') { dinoSeekLake = false; opts.onDino && opts.onDino('flee'); startFlee(); } else { opts.onDino && opts.onDino('poke'); } };
   const onDown = e => { down = { x: e.clientX, y: e.clientY, yo: yawOff, po: pitchOff, t: performance.now(), drag: false }; };
   const onMove = e => { toNDC(e); if (e.pointerType !== 'touch') lastMouse = performance.now();
     if (down) { const dx = e.clientX - down.x, dy = e.clientY - down.y; if (Math.hypot(dx, dy) > 6) down.drag = true; if (down.drag) { yawOff = down.yo - dx * 0.006; pitchOff = clamp(down.po + dy * 0.004, -0.3, 0.9); lastPan = performance.now(); } }
@@ -752,6 +775,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
 
     // MujaSauros behavior
     { dinoBreath += dt;
+      curNight = night;
       const mood = dinoFleeT > 0 ? 'scared' : night ? 'sleepy' : (curSpeed > 8 ? 'thrilled' : (dinoState !== 'ride' ? 'playful' : 'curious')); dinoMood = mood;
       const breathe = 1 + Math.sin(dinoBreath * (mood === 'sleepy' ? 1.6 : 3.2)) * (mood === 'sleepy' ? 0.02 : 0.045);
       dBody.scale.set(1.15, breathe * 0.92, breathe * 0.96 * 1.35 + 0.04);
@@ -770,22 +794,35 @@ transformed.z += sway * ${wdz.toFixed(3)};
       if (dinoState === 'ride') {
         if (curSpeed > 1.0) rideStarted = true;
         if (rideStarted && curSpeed < 0.35) { dinoStand += dt; } else dinoStand = 0;
-        if (dinoStand > 1.4) { dinoState = 'jumpoff'; dinoJumpT = 0; dinoRoamT = 0; scene.attach(dino); dino.getWorldPosition(dinoJumpFrom); dinoBaseY = groundY(bp.x, bp.z + 0.9); const atFireStop = !free && Math.round(t * NSTOP) === 8; const ro = atFireStop ? [FIRE.x, FIRE.z + 1.6] : [bp.x, bp.z + 1.1]; pickRoamTarget(ro[0], ro[1]); dinoJumpTo.set(bp.x + (Math.random() - 0.5) * 1.4, dinoBaseY, bp.z + 1.0 + Math.random() * 0.6); }
+        if (dinoStand > 1.4) { dinoState = 'jumpoff'; dinoJumpT = 0; dinoRoamT = 0; scene.attach(dino); dino.getWorldPosition(dinoJumpFrom); dinoBaseY = groundY(bp.x, bp.z + 0.9); const atFireStop = !free && Math.round(t * NSTOP) === 8; const ro = atFireStop ? [FIRE.x, FIRE.z + 1.6] : [bp.x, bp.z + 1.1]; dinoSeekLake = !atFireStop && Math.hypot(bp.x - LAKE.x, bp.z - LAKE.z) < LAKE.r + 60; pickRoamTarget(ro[0], ro[1]); dinoJumpTo.set(bp.x + (Math.random() - 0.5) * 1.4, dinoBaseY, bp.z + 1.0 + Math.random() * 0.6); }
       } else if (dinoState === 'jumpoff') {
         dinoJumpT += dt / 0.55; const p = clamp(dinoJumpT, 0, 1), ease = p * p * (3 - 2 * p);
         dino.position.lerpVectors(dinoJumpFrom, dinoJumpTo, ease); dino.position.y += Math.sin(p * Math.PI) * 0.5;
         dino.rotation.y += dt * 8; dino.rotation.x = -Math.sin(p * Math.PI) * 0.6;
-        if (p >= 1) { dinoState = 'roam'; dino.rotation.set(0, Math.random() * Math.PI * 2, 0); pickRoamTarget(dino.position.x, dino.position.z); }
+        if (p >= 1) { dinoState = 'roam'; dino.rotation.set(0, Math.random() * Math.PI * 2, 0);
+          if (dinoSeekLake) { const ddx = dino.position.x - LAKE.x, ddz = dino.position.z - LAKE.z, dl = Math.hypot(ddx, ddz) || 1, edge = LAKE.r + 1.2; dinoTarget.set(LAKE.x + ddx / dl * edge, 0, LAKE.z + ddz / dl * edge); }
+          else pickRoamTarget(dino.position.x, dino.position.z);
+        }
       } else if (dinoState === 'roam') {
         const fleeing = dinoFleeT > 0; if (fleeing) dinoFleeT -= dt;
         dinoRoamT += dt;
+        if (frameNo % 5 === 0 && !fleeing) { let bi = -1, bd = 2.4; for (let i = 0; i < notes.length; i++) { const n = notes[i], dd = Math.hypot(n.w.position.x - dino.position.x, n.w.position.z - dino.position.z); if (dd < bd) { bd = dd; bi = i; } } if (bi >= 0 && (dinoNoteCool[bi] || 0) < performance.now()) { dinoNoteCool[bi] = performance.now() + 15000; dinoReactT = 0.5; dinoSnapT = 0.35; opts.onDino && opts.onDino('curious'); } }
         const dBike = Math.hypot(bp.x - dino.position.x, bp.z - dino.position.z);
         if (!fleeing && dinoRoamT > 3.5 && curSpeed > 1.2 && dBike < 3.2) { dinoState = 'run'; }
         else if (fleeing && dBike < 1.7) { dinoState = 'run'; dinoFleeT = 0; }
         else { const dx = dinoTarget.x - dino.position.x, dz = dinoTarget.z - dino.position.z, d = Math.hypot(dx, dz);
-          if (d < 0.25) { if (fleeing) startFlee(); else pickRoamTarget(dino.position.x, dino.position.z); }
-          else { const spdD = fleeing ? 3.4 : 1.5 + reactBounce * 1.5; dino.position.x += dx / d * spdD * dt; dino.position.z += dz / d * spdD * dt; dino.position.y = groundY(dino.position.x, dino.position.z) + Math.abs(Math.sin(dinoRunPhase * (fleeing ? 7.5 : 5.5))) * 0.05;
-            const targetYaw = Math.atan2(-dx, -dz); let dyaw = targetYaw - dino.rotation.y; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); dino.rotation.y += dyaw * Math.min(1, dt * 6); dinoRunPhase += dt; }
+          if (d < 0.25) {
+            if (fleeing) startFlee();
+            else if (dinoSeekLake) { dinoSeekLake = false; dinoReactT = 0.6; opts.onDino && opts.onDino('paddle'); pickRoamTarget(dino.position.x, dino.position.z); }
+            else pickRoamTarget(dino.position.x, dino.position.z);
+          } else {
+            const spdD = fleeing ? 3.4 : 1.5 + reactBounce * 1.5, ux = dx / d, uz = dz / d;
+            const [adx, adz] = dinoAvoid(dino.position.x, dino.position.z, ux, uz);
+            if (!adx && !adz) { dinoStuckT += dt; if (dinoStuckT > 0.6) { dinoStuckT = 0; dinoSeekLake = false; pickRoamTarget(dino.position.x, dino.position.z); } }
+            else { dinoStuckT = 0; dino.position.x += adx * spdD * dt; dino.position.z += adz * spdD * dt; }
+            dino.position.y = groundY(dino.position.x, dino.position.z) + Math.abs(Math.sin(dinoRunPhase * (fleeing ? 7.5 : 5.5))) * 0.05;
+            const targetYaw = Math.atan2(-dx, -dz); let dyaw = targetYaw - dino.rotation.y; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); dino.rotation.y += dyaw * Math.min(1, dt * 6); dinoRunPhase += dt;
+          }
           dLegs.forEach((l, i) => { l.m.rotation.x = Math.sin(dinoRunPhase * (fleeing ? 7.5 : 5.5) + (i % 2 ? Math.PI : 0)) * 0.5; });
         }
       } else if (dinoState === 'run') {
@@ -931,7 +968,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
     getTier() { return tier; },
     setForceLow(v) { forceLow = !!v; if (forceLow && tier > 0) setTier(0); },
     setHold(active) { if (active && !holdActive) holdT = t; holdActive = active; },
-    callDino() { if (dinoState === 'roam') { dinoFleeT = 0; dinoState = 'run'; } else if (dinoState === 'jumpoff') { dinoState = 'run'; scene.attach(dino); } dinoReactT = 0.5; },
+    callDino() { const wasSleepy = curNight && dinoState === 'roam'; if (dinoState === 'roam') { dinoFleeT = 0; dinoSeekLake = false; dinoState = 'run'; } else if (dinoState === 'jumpoff') { dinoState = 'run'; scene.attach(dino); } dinoReactT = wasSleepy ? 0.9 : 0.5; opts.onDino && opts.onDino('called'); },
     getState() { const distLake = Math.hypot(lastBX - LAKE.x, lastBZ - LAKE.z), water = clamp(1 - distLake / 70, 0, 1); return { t: free ? clamp((Z0 - fz) / L, 0, 1) : t, speed: curSpeed, trail: trailMix(free ? fz : zAt(t)), water }; },
     dispose() { cancelAnimationFrame(raf); window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); window.removeEventListener('keydown', onKey); window.removeEventListener('keyup', onKey); window.removeEventListener('resize', onResize); document.removeEventListener('visibilitychange', onVis); renderer.dispose(); postRT.dispose(); canvas.remove(); }
   };
