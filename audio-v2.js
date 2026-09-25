@@ -6,6 +6,8 @@ export const TRACKS = [
 ];
 
 const MP3 = { evening: 'assets/evening-improvisation.mp3', flyaway: 'assets/fly-away.mp3', celtic: 'assets/celtic-forest.mp3' };
+// Each track's silent/near-silent lead-in, so playback starts already audible instead of into dead air
+const START_OFFSET = { evening: 8, flyaway: 6.5, celtic: 0 };
 
 export class Radio {
   constructor() { this.ctx = null; this.cur = null; }
@@ -23,11 +25,18 @@ export class Radio {
     const dry = ctx.createGain(); dry.gain.value = 0.6; const wet = ctx.createGain(); wet.gain.value = wetAmt; g.connect(dry); dry.connect(this.master); g.connect(wet); wet.connect(this.rev); return g; }
   play(id) {
     this.init(); this.stop();
-    if (MP3[id]) { this.playFile(MP3[id]); return; }
+    if (MP3[id]) { this.playFile(MP3[id], START_OFFSET[id] || 0); return; }
     const s = { alive: true, nodes: [], bus: this.bus(id === 'lofi' ? 0.35 : 0.85) }; this.cur = s;
     const g = GENS[id] || GENS.forest; g(this, s);
   }
-  playFile(url) { this.init(); this.stop(); const el = new Audio(url); el.loop = true; el.crossOrigin = 'anonymous'; const s = { alive: true, nodes: [], bus: this.bus(0.15), el }; const src = this.ctx.createMediaElementSource(el); src.connect(s.bus); el.play().catch(() => {}); this.cur = s; }
+  playFile(url, offset = 0) {
+    this.init(); this.stop();
+    const el = new Audio(url); el.loop = false; el.crossOrigin = 'anonymous';
+    const seekAndPlay = () => { try { el.currentTime = offset; } catch (e) {} el.play().catch(() => {}); };
+    if (el.readyState >= 1) seekAndPlay(); else el.addEventListener('loadedmetadata', seekAndPlay, { once: true });
+    el.addEventListener('ended', seekAndPlay);
+    const s = { alive: true, nodes: [], bus: this.bus(0.15), el }; const src = this.ctx.createMediaElementSource(el); src.connect(s.bus); this.cur = s;
+  }
   stop() { const s = this.cur; if (!s) return; s.alive = false; const t = this.ctx.currentTime; s.bus.gain.cancelScheduledValues(t); s.bus.gain.setValueAtTime(s.bus.gain.value, t); s.bus.gain.linearRampToValueAtTime(0, t + 1.2);
     setTimeout(() => { s.nodes.forEach(n => { try { n.stop(); } catch (e) {} }); if (s.el) s.el.pause(); s.bus.disconnect(); }, 1400); this.cur = null; }
   brakeSfx() { if (!this.ctx || this.brakeMuted) return; const ctx = this.ctx, t = ctx.currentTime, n = ctx.createBufferSource(); n.buffer = this.noise; const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.setValueAtTime(2200, t); f.frequency.exponentialRampToValueAtTime(600, t + 0.25); const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.16, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.3); n.connect(f); f.connect(g); g.connect(this.uiBus); n.start(t); n.stop(t + 0.32); }

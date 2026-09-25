@@ -376,10 +376,6 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
             </sc-for>
           </div>
         </sc-if>
-        <sc-if value="{{ watchGuideOn }}" hint-placeholder-val="{{ false }}">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:{{ watch.small }};letter-spacing:.14em;color:#9fe06e;text-transform:uppercase;">MujaSauros</span>
-          <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:calc({{ watch.small }} * 1.35);line-height:1.22;color:#f3fbe9;padding:0 10%;">{{ guideText }}</span>
-        </sc-if>
         <sc-if value="{{ watchNavOn }}" hint-placeholder-val="{{ false }}">
           <span style="font-family:'JetBrains Mono',monospace;font-size:{{ watch.small }};letter-spacing:.16em;color:#7ff3e1;text-transform:uppercase;">{{ wn.top }}</span>
           <span style="display:block;font-size:{{ watch.arrow }};line-height:1;color:#e9fdff;transform:rotate({{ wn.rot }});transition:transform .5s;font-family:system-ui;">↑</span>
@@ -585,7 +581,7 @@ const TRACKS = [
   { id: 'celtic', name: 'Celtic Forest', desc: 'mystical · forest ambience' }];
 
 class Component extends DCLogic {
-  state = { snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', track: -1, playing: false, note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, slots: [null, null, null], scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', guide: null, lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })() };
+  state = { snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', track: -1, playing: false, note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, slots: [null, null, null], scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })() };
   canvasHost = React.createRef(); proofRef = React.createRef(); lastPanel = 1;
   onDragStart(id, e) {
     e.preventDefault(); e.stopPropagation();
@@ -608,8 +604,8 @@ class Component extends DCLogic {
     this.onHash = () => { const h = location.hash.slice(1); if (h === 'proof' || h.startsWith('work-')) this.openProof(h.startsWith('work-') ? h : null); };
     addEventListener('resize', this.onResize); addEventListener('scroll', this.onScroll, { passive: true }); addEventListener('keydown', this.onKey); addEventListener('hashchange', this.onHash);
     this.onResize(); this.onHash();
-    this.tryAutoplay = () => { if (this.autoplayDone || !this.radio) return; this.autoplayDone = true; this.playTrack(0); ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); };
-    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(ev => addEventListener(ev, this.tryAutoplay, { passive: true }));
+    this.tryAutoplay = () => { if (this.autoplayDone || !this.radio) return; this.autoplayDone = true; this.playTrack(0); ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); };
+    ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => addEventListener(ev, this.tryAutoplay, { passive: true }));
     try { const c = document.createElement('canvas'); c.width = c.height = 160; const g = c.getContext('2d'), d = g.createImageData(160, 160); for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } g.putImageData(d, 0, 0); this.setState({ grain: 'url(' + c.toDataURL() + ')' }); } catch (e) {}
     let seen = false; try { seen = sessionStorage.getItem('apos-booted') === '1'; } catch (e) {}
     if (seen || scrollY > 10) this.finishBoot(true); else { this.bootT = [500, 1100, 1700, 2400, 3100].map((ms, i) => setTimeout(() => this.setState({ bootLine: i + 1 }), ms)); this.bootT.push(setTimeout(() => this.finishBoot(), 3900)); }
@@ -623,7 +619,6 @@ class Component extends DCLogic {
         onNote: (i, x, y) => { this.blip(1180); this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
         holdIntro: true,
         onFree: (ft, fs) => this.setState({ freeT: ft, freeSpd: fs }),
-        onGuide: (text, mood) => { clearTimeout(this._guideTO); this.setState({ guide: { text, mood } }); this._guideTO = setTimeout(() => this.setState(st => st.guide && st.guide.text === text ? { guide: null } : null), 7000); },
         onDino: () => this.blip && this.blip(720, 0.06),
         onBrake: () => { if (this.state.snd.brake && this.radio) this.radio.brakeSfx(); },
         onEnv: (night, glow, tE, dinoOff) => { this.env = { night, glow, tE }; if (this.state.dinoOff !== dinoOff) this.setState({ dinoOff }); if (!this.envTick) { this.envTick = true; requestAnimationFrame(() => { this.envTick = false; this.forceUpdate(); }); } },
@@ -631,7 +626,7 @@ class Component extends DCLogic {
       if (!this.world) this.setState({ noGL: true, ready: true }); else { this.onScroll(); if (this.state.boot !== 'boot') this.world.startIntro(); }
     }).catch(e => { console.error(e); this.setState({ noGL: true, ready: true }); });
   }
-  componentWillUnmount() { clearInterval(this.poll); this.score && this.score.stop(); removeEventListener('resize', this.onResize); removeEventListener('scroll', this.onScroll); removeEventListener('keydown', this.onKey); removeEventListener('hashchange', this.onHash); this.tryAutoplay && ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); this.world && this.world.dispose(); this.radio && this.radio.stop(); }
+  componentWillUnmount() { clearInterval(this.poll); this.score && this.score.stop(); removeEventListener('resize', this.onResize); removeEventListener('scroll', this.onScroll); removeEventListener('keydown', this.onKey); removeEventListener('hashchange', this.onHash); this.tryAutoplay && ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); this.world && this.world.dispose(); this.radio && this.radio.stop(); }
 
   blip(f) { if (this.radio && (this.state.playing || this.state.scoreOn)) this.radio.blip(f || 880); }
   toggleSnd(cat) { const snd = { ...this.state.snd, [cat]: !this.state.snd[cat] }; this.setState({ snd }); try { localStorage.setItem('apSoundPrefs', JSON.stringify(snd)); } catch (e) {} if (cat === 'brake' && this.radio) this.radio.setBrakeMuted(!snd.brake); if (this.score) this.score.setMute(cat, snd[cat]); }
@@ -746,7 +741,7 @@ class Component extends DCLogic {
         onFile: e => { const f = e.target.files && e.target.files[0]; if (!f || !this.radio) return; const url = URL.createObjectURL(f); const ns = [...this.state.slots]; ns[i] = { name: f.name, url }; this.score && this.score.stop(); this.radio.playFile(url); this.setState({ slots: ns, track: 100 + i, playing: true, scoreOn: false }); } })),
       stopMusic: () => this.stopMusic(),
       watch: { px: ws + 'px', right: mobile ? '18px' : '26px', bottom: mobile ? '28px' : '40px', tf: boot === 'done' ? 'rotate(' + buzz * 3 + 'deg)' : 'translate(calc(-50vw + ' + ((mobile ? 18 : 26) + ws / 2) + 'px), calc(-50vh + ' + ((mobile ? 28 : 40) + ws / 2) + 'px)) scale(' + (mobile ? 2.1 : 2.3) + ')', tr: boot === 'done' ? 'transform .05s' : 'transform 1.6s cubic-bezier(.75,0,.2,1)', small: mobile ? '7.5px' : '9px', arrow: mobile ? '26px' : '38px', name: mobile ? '14px' : '19px' },
-      ringNow: boot !== 'done' ? Math.round(bootLine / BOOT.length * 360) + 'deg' : ring, watchGuideOn: boot === 'done' && !!this.state.guide, guideText: this.state.guide ? this.state.guide.text : '', watchNavOn: boot === 'done' && watchMode === 'nav' && !this.state.guide, watchMusicOn: boot === 'done' && watchMode === 'music' && !this.state.guide, hudVis: boot === 'done' ? 'visible' : 'hidden', wn: free ? { top: 'Free ride', rot: '0deg', name: 'Near ' + STOPS[Math.round(freeT * N)].name, sub: Math.round(Math.abs(freeSpd) * 6) + ' KM/H' } : wn,
+      ringNow: boot !== 'done' ? Math.round(bootLine / BOOT.length * 360) + 'deg' : ring, watchNavOn: boot === 'done' && watchMode === 'nav', watchMusicOn: boot === 'done' && watchMode === 'music', hudVis: boot === 'done' ? 'visible' : 'hidden', wn: free ? { top: 'Free ride', rot: '0deg', name: 'Near ' + STOPS[Math.round(freeT * N)].name, sub: Math.round(Math.abs(freeSpd) * 6) + ' KM/H' } : wn,
       wm: { name: this.state.scoreOn ? 'Adaptive score' : track >= 100 ? (slots[track - 100] || {}).name || 'Your track' : TRACKS[Math.max(0, track)].name, state: playing || this.state.scoreOn ? '▶ PLAYING' : '❚❚ PAUSED' },
       toggleWatchMode: () => { this.blip(600); this.setState(s => ({ watchMode: s.watchMode === 'nav' ? 'music' : 'nav' })); },
       crown: () => { if (watchMode === 'music') this.playTrack(((track >= 0 && track < 100 ? track : -1) + 1) % TRACKS.length); else this.jump(arrived ? si + 1 : nextI); },
