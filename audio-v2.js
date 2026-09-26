@@ -106,40 +106,122 @@ const GENS = {
   drone(r, s) { pad(r, s, [55, 82.4, 110, 164.8], 'sine', 600, 0.07); pad(r, s, [220, 329.6], 'triangle', 500, 0.012); const sh = [1318.5, 1760, 1975.5, 2637]; loop(s, 2500, 5500, () => tone(r, s, sh[Math.floor(Math.random() * 4)], { dur: 6, gain: 0.012, attack: 2, pan: Math.random() * 1.6 - 0.8 })); }
 };
 
-// Adaptive score: layers crossfade with story progress, plus engine / gravel / fire foley
+// Adaptive score v3 — calm, serene, a little magical. Everything is synthesized live.
+// Harmony: D major / lydian colour. Slow chords breathe under a dark hall reverb; celesta sparkles
+// drift through a ping-pong delay; a breathy flute sings now and then; glassy harmonics bloom in the forest.
 const cl = (v, x, y) => Math.max(x, Math.min(y, v)), ss = (e0, e1, v) => { const x = cl((v - e0) / (e1 - e0), 0, 1); return x * x * (3 - 2 * x); };
+const CHORDS = [
+  [146.83, 220, 369.99, 554.37, 659.25],  // Dmaj9
+  [123.47, 185, 293.66, 329.63, 440],     // Bm11
+  [98, 146.83, 246.94, 369.99, 554.37],   // Gmaj7#11
+  [110, 164.81, 246.94, 293.66, 329.63],  // Asus
+  [82.41, 123.47, 196, 293.66, 369.99],   // Em9
+  [98, 146.83, 246.94, 369.99, 493.88]];  // Gmaj9
+const PENTA = [587.33, 659.25, 739.99, 880, 987.77, 1174.66, 1318.51, 1479.98, 1760];
+const MID = [440, 493.88, 587.33, 659.25, 739.99, 880];
+const LOW = [293.66, 329.63, 369.99, 440, 493.88, 587.33];
+function darkImpulse(ctx, sec, decay) { const r = ctx.sampleRate, len = Math.floor(r * sec), b = ctx.createBuffer(2, len, r);
+  for (let c = 0; c < 2; c++) { const d = b.getChannelData(c); let y = 0; for (let i = 0; i < len; i++) { const k = i / len, a = 0.2 + 0.72 * k; y = y * a + (Math.random() * 2 - 1) * (1 - a); d[i] = y * Math.pow(1 - k, decay) * (i < r * 0.03 ? i / (r * 0.03) : 1); } } return b; }
+function padVoice(r, o, f, { dur = 18, attack = 5, release = 7, gain = 0.02, pan = 0, pure = false } = {}) {
+  const ctx = r.ctx, t = ctx.currentTime, g = ctx.createGain(), p = ctx.createStereoPanner(), lp = ctx.createBiquadFilter();
+  lp.type = 'lowpass'; lp.frequency.value = Math.min(3800, f * 3); lp.Q.value = 0.2; p.pan.value = pan;
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + attack); g.gain.setValueAtTime(gain, t + dur - release); g.gain.linearRampToValueAtTime(0, t + dur);
+  const a = ctx.createOscillator(); a.type = 'sine'; a.frequency.value = f;
+  const b = ctx.createOscillator(); b.type = pure ? 'sine' : 'triangle'; b.frequency.value = f * (pure ? 2 : 1); b.detune.value = (Math.random() < 0.5 ? -1 : 1) * (4 + Math.random() * 5);
+  const bg = ctx.createGain(); bg.gain.value = pure ? 0.12 : 0.4;
+  const vib = ctx.createOscillator(); vib.frequency.value = 0.12 + Math.random() * 0.2; const vg = ctx.createGain(); vg.gain.value = 4; vib.connect(vg); vg.connect(a.detune); vg.connect(b.detune);
+  a.connect(lp); b.connect(bg); bg.connect(lp); lp.connect(g); g.connect(p); p.connect(o.bus);
+  [a, b, vib].forEach(n => { n.start(t); n.stop(t + dur + 0.1); });
+}
+function celesta(r, o, f, gain = 0.03, pan = 0, send = null, when = 0) {
+  const ctx = r.ctx, t = ctx.currentTime + when, p = ctx.createStereoPanner(); p.pan.value = pan; p.connect(o.bus); if (send) { const sg = ctx.createGain(); sg.gain.value = 0.7; p.connect(sg); sg.connect(send); }
+  [[1, 1, 3.8], [2, 0.26, 1.6], [3.01, 0.07, 0.7], [4.2, 0.035, 0.35]].forEach(([m, a, d]) => { const os = ctx.createOscillator(); os.type = 'sine'; os.frequency.value = f * m; const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(gain * a, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + d); os.connect(g); g.connect(p); os.start(t); os.stop(t + d + 0.05); });
+}
+function softFlute(r, o, f, dur, gain, pan) {
+  const ctx = r.ctx, t = ctx.currentTime, g = ctx.createGain(), p = ctx.createStereoPanner(); p.pan.value = pan;
+  const os = ctx.createOscillator(); os.type = 'sine'; os.frequency.setValueAtTime(f * 0.992, t); os.frequency.exponentialRampToValueAtTime(f, t + 0.25);
+  const lfo = ctx.createOscillator(); lfo.frequency.value = 4.6 + Math.random() * 0.6; const lg = ctx.createGain(); lg.gain.setValueAtTime(0, t); lg.gain.linearRampToValueAtTime(f * 0.005, t + dur * 0.6); lfo.connect(lg); lg.connect(os.frequency);
+  const n = ctx.createBufferSource(); n.buffer = r.noise; n.loop = true; const nf = ctx.createBiquadFilter(); nf.type = 'bandpass'; nf.frequency.value = f * 1.5; nf.Q.value = 2; const ng = ctx.createGain(); ng.gain.value = 0.012; n.connect(nf); nf.connect(ng); ng.connect(g);
+  g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(gain, t + 0.45); g.gain.setValueAtTime(gain, t + dur - 0.6); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  os.connect(g); g.connect(p); p.connect(o.bus); [os, lfo, n].forEach(x => { x.start(t); x.stop(t + dur + 0.1); });
+}
+function kalimba(r, o, f, pan, send) {
+  const ctx = r.ctx, t = ctx.currentTime, g = ctx.createGain(), p = ctx.createStereoPanner(); p.pan.value = pan; g.connect(p); p.connect(o.bus); if (send) p.connect(send);
+  [[1, 0.06, 2.6], [2.01, 0.02, 1.4], [5.4, 0.006, 0.3]].forEach(([m, a, d]) => { const os = ctx.createOscillator(); os.type = 'sine'; os.frequency.value = f * m; const og = ctx.createGain();
+    og.gain.setValueAtTime(0.0001, t); og.gain.linearRampToValueAtTime(a, t + 0.004); og.gain.exponentialRampToValueAtTime(0.0001, t + d); os.connect(og); og.connect(g); os.start(t); os.stop(t + d + 0.05); });
+}
+function chirpS(r, o) { const ctx = r.ctx, pan = Math.random() * 1.6 - 0.8, base = 2400 + Math.random() * 1600, n = 2 + Math.floor(Math.random() * 3);
+  for (let k = 0; k < n; k++) { const t = ctx.currentTime + k * 0.12, os = ctx.createOscillator(), g = ctx.createGain(), p = ctx.createStereoPanner(); p.pan.value = pan; os.frequency.setValueAtTime(base, t); os.frequency.exponentialRampToValueAtTime(base * (1.25 + Math.random() * 0.3), t + 0.08); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.012, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.1); os.connect(g); g.connect(p); p.connect(o.bus); os.start(t); os.stop(t + 0.13); } }
+
 export class Score {
-  constructor(radio) { this.r = radio; this.on = false; this.mute = { nature: 1, fire: 1 }; }
+  constructor(radio) { this.r = radio; this.on = false; this.mute = { nature: 1, fire: 1 }; this.dens = 0.4; }
   setMute(cat, on) { this.mute[cat] = on ? 1 : 0; if (this.on) this.update(this.last || { t: 0, speed: 0, trail: 0 }); }
   start() {
-    const r = this.r; r.init(); if (this.on) return; this.on = true; const ctx = r.ctx;
-    const s = this.s = { alive: true, nodes: [], bus: r.bus(0.7) }; const L = this.L = {};
-    const sub = name => { const g = ctx.createGain(); g.gain.value = 0; g.connect(s.bus); L[name] = g; const o = Object.create(s); o.bus = g; return o; };
-    const keyState = { ratio: 1 };
-    scoreBed(r, sub('hwyPad'), keyState); fluteMelody(r, sub('flute'), keyState); handpanLoop(r, sub('handpan'), keyState);
-    GENS.ride(r, sub('hwyPulse'));
-    pad(r, sub('thin'), [110, 164.8], 'sine', 500, 0.05);
-    GENS.forest(r, sub('forest'));
-    { const o = sub('insects'); noise(r, o, 'bandpass', 4300, 0.006);
-      const cricket = () => { if (!o.alive) return; const ctx = r.ctx, t = ctx.currentTime, n = ctx.createBufferSource(); n.buffer = r.noise; const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 3800 + Math.random() * 1400; f.Q.value = 8; const g = ctx.createGain(); const pulses = 3 + Math.floor(Math.random() * 3);
-        for (let k = 0; k < pulses; k++) { const t0 = t + k * 0.09; g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.03, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.05); }
+    const r = this.r; r.init(); if (this.on) return; this.on = true; const ctx = r.ctx, now = ctx.currentTime;
+    const out = ctx.createGain(); out.gain.setValueAtTime(0, now); out.gain.linearRampToValueAtTime(1, now + 5);
+    const rev = ctx.createConvolver(); rev.buffer = darkImpulse(ctx, 8, 2.1); const revLP = ctx.createBiquadFilter(); revLP.type = 'lowpass'; revLP.frequency.value = 4000;
+    const wet = ctx.createGain(); wet.gain.value = 1.0; const dry = ctx.createGain(); dry.gain.value = 0.5; const final = ctx.createGain(); final.gain.value = 0.9;
+    out.connect(dry); dry.connect(final); out.connect(wet); wet.connect(rev); rev.connect(revLP); revLP.connect(final); final.connect(r.master);
+    const dIn = ctx.createGain(), dA = ctx.createDelay(2), dB = ctx.createDelay(2), fb = ctx.createGain(), dLP = ctx.createBiquadFilter(), pA = ctx.createStereoPanner(), pB = ctx.createStereoPanner(), dOut = ctx.createGain();
+    dA.delayTime.value = 0.46; dB.delayTime.value = 0.69; fb.gain.value = 0.4; dLP.type = 'lowpass'; dLP.frequency.value = 2400; pA.pan.value = -0.75; pB.pan.value = 0.75; dOut.gain.value = 0.55;
+    dIn.connect(dA); dA.connect(pA); pA.connect(dOut); dA.connect(dB); dB.connect(pB); pB.connect(dOut); dB.connect(dLP); dLP.connect(fb); fb.connect(dA); dOut.connect(out);
+    const s = this.s = { alive: true, nodes: [], bus: out, final }; const L = this.L = {}; this.send = dIn;
+    const sub = name => { const g = ctx.createGain(); g.gain.value = 0; g.connect(out); L[name] = g; const o = Object.create(s); o.bus = g; return o; };
+    const loopS = (min, max, fn, first = 400) => { const tick = () => { if (!s.alive) return; fn(); setTimeout(tick, min + Math.random() * (max - min)); }; setTimeout(tick, first); };
+    // chords + shimmer
+    { const po = sub('pad'), sh = sub('shimmer'); let ci = 0;
+      const chord = () => { if (!s.alive) return; const c = CHORDS[ci++ % CHORDS.length];
+        c.forEach((f, k) => padVoice(r, po, f, { gain: k === 0 ? 0.03 : 0.017, pan: (k - 2) * 0.22, attack: 4.5 + Math.random() * 1.5 }));
+        c.slice(-2).forEach((f, k) => padVoice(r, sh, f * 2, { gain: 0.006, pan: k ? 0.5 : -0.5, attack: 7, release: 8, pure: true }));
+        setTimeout(chord, 14000); };
+      chord(); }
+    // low drone that breathes
+    { const o = sub('drone'); [73.42, 110].forEach((f, k) => { const os = ctx.createOscillator(); os.type = 'sine'; os.frequency.value = f; const g = ctx.createGain(); g.gain.value = k ? 0.012 : 0.028;
+        const l = ctx.createOscillator(); l.frequency.value = 0.05 + k * 0.03; const lg = ctx.createGain(); lg.gain.value = g.gain.value * 0.5; l.connect(lg); lg.connect(g.gain); os.connect(g); g.connect(o.bus); os.start(); l.start(); s.nodes.push(os, l); }); }
+    // celesta sparkles
+    { const o = sub('twinkle'); loopS(1800, 5200, () => { if (Math.random() > this.dens) return; const n = Math.random() < 0.3 ? 3 : Math.random() < 0.5 ? 2 : 1; let idx = Math.floor(Math.random() * (PENTA.length - 2));
+        for (let k = 0; k < n; k++) { celesta(r, o, PENTA[Math.min(PENTA.length - 1, idx)], 0.022, (Math.random() - 0.5) * 1.4, dIn, k * (0.18 + Math.random() * 0.12)); idx += 1 + Math.floor(Math.random() * 2); } }, 3000); }
+    // breathy flute phrases
+    { const o = sub('flute'); const phrase = () => { if (!s.alive) return; const len = 2 + Math.floor(Math.random() * 3); let idx = 1 + Math.floor(Math.random() * 3), k = 0;
+        const seq = () => { if (!s.alive) return; const d = 2 + Math.random() * 1.6; softFlute(r, o, MID[idx], d, 0.026, (Math.random() - 0.5) * 0.8); idx = cl(idx + (Math.random() < 0.5 ? -1 : 1), 0, MID.length - 1); if (++k < len) setTimeout(seq, d * 780); };
+        seq(); setTimeout(phrase, 16000 + Math.random() * 12000); };
+      setTimeout(phrase, 9000); }
+    // kalimba, closer and warmer near the end of the road
+    { const o = sub('kalimba'); loopS(3200, 7800, () => kalimba(r, o, LOW[Math.floor(Math.random() * LOW.length)], (Math.random() - 0.5) * 1.2, dIn), 5000); }
+    // glass harmonics: the forest's bioluminescence
+    { const o = sub('glass'); loopS(4000, 8000, () => { const f = PENTA[3 + Math.floor(Math.random() * 6)]; padVoice(r, o, f, { dur: 11, attack: 4, release: 6, gain: 0.0045, pan: (Math.random() - 0.5) * 1.6, pure: true }); }, 2000); }
+    // nature
+    pad(r, sub('thin'), [110, 164.8], 'sine', 500, 0.04);
+    { const o = sub('forest'); loopS(1800, 5600, () => chirpS(r, o)); noise(r, o, 'bandpass', 900, 0.006); }
+    { const o = sub('insects'); noise(r, o, 'bandpass', 4300, 0.004);
+      const cricket = () => { if (!o.alive) return; const t = ctx.currentTime, n = ctx.createBufferSource(); n.buffer = r.noise; const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 3800 + Math.random() * 1400; f.Q.value = 8; const g = ctx.createGain(); const pulses = 3 + Math.floor(Math.random() * 3);
+        for (let k = 0; k < pulses; k++) { const t0 = t + k * 0.09; g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.022, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.05); }
         n.connect(f); f.connect(g); g.connect(o.bus); n.start(t); n.stop(t + pulses * 0.09 + 0.1); };
-      loop(o, 700, 2600, cricket); }
-    GENS.lake(r, sub('lake')); this.lakePan = ctx.createStereoPanner(); L.lake.disconnect(); L.lake.connect(this.lakePan); this.lakePan.connect(s.bus);
-    { const o = sub('fire'); noise(r, o, 'lowpass', 500, 0.045); loop(o, 220, 900, () => tick(r, o, 0, 0.035 * Math.random(), 1400 + Math.random() * 2200, 0.02)); }
-    this.firePan = ctx.createStereoPanner(); L.fire.disconnect(); L.fire.connect(this.firePan); this.firePan.connect(s.bus);
+      loop(o, 900, 2800, cricket); }
+    { const o = sub('lake'); noise(r, o, 'lowpass', 420, 0.02); loopS(1400, 3800, () => celesta(r, o, PENTA[Math.floor(Math.random() * 5)] / 2, 0.018, (Math.random() - 0.5) * 1.2, null)); }
+    this.lakePan = ctx.createStereoPanner(); L.lake.disconnect(); L.lake.connect(this.lakePan); this.lakePan.connect(out);
+    { const o = sub('fire'); noise(r, o, 'lowpass', 500, 0.04); loopS(220, 900, () => tick(r, o, 0, 0.03 * Math.random(), 1400 + Math.random() * 2200, 0.02)); }
+    this.firePan = ctx.createStereoPanner(); L.fire.disconnect(); L.fire.connect(this.firePan); this.firePan.connect(out);
+    this.atStop = null;
     this.update(this.last || { t: 0, speed: 0, trail: 0 });
   }
+  arrive(i) { if (!this.on) return; const o = Object.create(this.s); o.bus = this.s.bus; const base = [0, 2, 4, 5, 7];
+    base.forEach((k, j) => celesta(this.r, o, PENTA[Math.min(PENTA.length - 1, k + (i % 2))], 0.03 * (1 - j * 0.1), -0.6 + j * 0.3, this.send, j * 0.13)); }
   update(p) {
     this.last = p; if (!this.on) return; const { t, speed, trail, water, lakePan, lakeDist, firePan, fireDist } = p, now = this.r.ctx.currentTime, sp = cl(speed / 20, 0, 1), L = this.L;
     const bump = (a, b, c, d) => ss(a, b, t) * (1 - ss(c, d, t));
-    const gust = 1 + 0.25 * Math.sin(now * 0.4) + 0.12 * Math.sin(now * 1.3), ambGust = 0.5 + 0.35 * Math.sin(now * 0.17) + 0.2 * Math.sin(now * 0.41 + 1);
-    const nm = this.mute.nature, fm = this.mute.fire;
+    const nm = this.mute.nature, fm = this.mute.fire, night = ss(0.45, 0.8, t), forestZ = bump(0.53, 0.6, 0.86, 0.92), end = ss(0.84, 0.96, t);
     const lakeProx = lakeDist != null ? cl(1 - lakeDist / 70, 0, 1) : 0, fireProx = fireDist != null ? cl(1 - fireDist / 45, 0, 1) : 0;
     if (this.lakePan) this.lakePan.pan.setTargetAtTime(lakePan || 0, now, 0.5);
     if (this.firePan) this.firePan.pan.setTargetAtTime(firePan || 0, now, 0.5);
-    const w = { hwyPad: 0.55, flute: 0.6, handpan: 0.55, hwyPulse: 0, thin: bump(0.43, 0.48, 0.53, 0.58) * nm, forest: Math.max(bump(0.53, 0.6, 0.84, 0.9), trail * 0.5, 0.4) * nm, insects: Math.max(bump(0.56, 0.66, 0.93, 0.98) * 0.8, trail * 0.35, 0.32) * nm, lake: Math.max(bump(0.82, 0.86, 0.9, 0.94), (water || 0) * 0.9, lakeProx * 0.9) * nm, fire: Math.max(ss(0.92, 0.985, t), fireProx * 0.85) * fm };
-    for (const k in w) L[k].gain.setTargetAtTime(w[k], now, 0.6);
+    this.dens = 0.35 + 0.5 * night - 0.2 * sp;
+    const w = { pad: 0.95 - 0.2 * end, shimmer: 0.5 + 0.5 * night + 0.25 * sp, drone: 0.7 - 0.3 * end, twinkle: 0.55 + 0.45 * night, flute: 0.8 - 0.35 * forestZ - 0.3 * end, kalimba: 0.2 + 0.7 * end, glass: Math.max(forestZ, trail * 0.5) * 0.9 + night * 0.2,
+      thin: bump(0.43, 0.48, 0.53, 0.58) * nm * 0.8, forest: Math.max(bump(0.53, 0.6, 0.84, 0.9), trail * 0.5, 0.3) * nm, insects: Math.max(bump(0.56, 0.66, 0.93, 0.98) * 0.7, trail * 0.3, 0.2) * nm * night,
+      lake: Math.max(bump(0.82, 0.86, 0.9, 0.94), (water || 0) * 0.9, lakeProx * 0.9) * nm, fire: Math.max(ss(0.92, 0.985, t), fireProx * 0.85) * fm };
+    for (const k in w) L[k].gain.setTargetAtTime(w[k], now, 1.2);
+    const sf = t * 8, si = Math.round(sf);
+    if (Math.abs(sf - si) < 0.025) { if (si !== this.atStop) { if (si > 0 && this.atStop !== undefined) this.arrive(si); this.atStop = si; } } else if (Math.abs(sf - si) > 0.12) this.atStop = -1;
   }
-  stop() { if (!this.on) return; this.on = false; const s = this.s, t = this.r.ctx.currentTime; s.alive = false; s.bus.gain.cancelScheduledValues(t); s.bus.gain.setValueAtTime(s.bus.gain.value, t); s.bus.gain.linearRampToValueAtTime(0, t + 1.2); setTimeout(() => { s.nodes.forEach(n => { try { n.stop(); } catch (e) {} }); s.bus.disconnect(); }, 1400); }
+  stop() { if (!this.on) return; this.on = false; const s = this.s, t = this.r.ctx.currentTime; s.alive = false; s.bus.gain.cancelScheduledValues(t); s.bus.gain.setValueAtTime(s.bus.gain.value, t); s.bus.gain.linearRampToValueAtTime(0, t + 1.6); setTimeout(() => { s.nodes.forEach(n => { try { n.stop(); } catch (e) {} }); s.bus.disconnect(); s.final.disconnect(); }, 1800); }
 }
