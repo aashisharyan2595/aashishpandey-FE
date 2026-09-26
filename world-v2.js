@@ -426,8 +426,68 @@ transformed.z += sway * ${wdz.toFixed(3)};
         else if (c < NC) { dummy.position.set(x, y - 0.05, zz); dummy.rotation.set((rnd() - 0.5) * 0.5, rnd() * 6, (rnd() - 0.5) * 0.5); const s = 0.6 + rnd() * 1.4; dummy.scale.set(s, s * (0.8 + rnd()), s); dummy.updateMatrix(); crys.setMatrixAt(c, dummy.matrix); crys.setColorAt(c++, gc); } } }
     caps.count = stems.count = m; crys.count = c; scene.add(caps, stems, crys); }
 
+  // Fallen logs — forest floor debris
+  { const N = lp ? 70 : 170, logs = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.24, 0.32, 1, 6), std('#4a3624', { roughness: 1 }), N); logs.name = 'fallen-logs'; let n = 0;
+    for (let k = 0; k < N * 3 && n < N; k++) { const z = lerp(TZ0 - 20, ZEND + 20, rnd()), prog = clamp((Z0 - z) / L, 0, 1); if (rnd() > 0.3 + 0.55 * prog) continue;
+      const x = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (7 + Math.pow(rnd(), 1.3) * 100); if (!okSpot(x, z, 4.5)) continue;
+      const len = 2.2 + rnd() * 4.4, rad = 0.4 + rnd() * 0.5, y = H(x, z), ang = rnd() * 6;
+      dummy.position.set(x, y + rad * 0.55, z); dummy.rotation.set(0, ang, Math.PI / 2); dummy.scale.set(rad, len, rad); dummy.updateMatrix();
+      logs.setMatrixAt(n, dummy.matrix); logs.setColorAt(n++, new THREE.Color('#4a3624').lerp(new THREE.Color('#5c6b3f'), rnd() * 0.4).multiplyScalar(0.85 + rnd() * 0.3)); }
+    logs.count = n; logs.castShadow = !lp; scene.add(logs); }
+
+  // Undergrowth — ferns & bushes for ground-level variety
+  { const NB = lp ? 500 : 1400, bushes = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 0), std('#3d5c2e'), NB); bushes.name = 'bushes'; windify(bushes.material, 0.22);
+    const NF = lp ? 400 : 1100, ferns = new THREE.InstancedMesh(new THREE.ConeGeometry(0.5, 1, 5).translate(0, 0.5, 0), std('#4a6b34'), NF); ferns.name = 'ferns'; windify(ferns.material, 0.5);
+    const BC = ['#3d5c2e', '#466b34', '#345228', '#4f7038'].map(c => new THREE.Color(c));
+    let bi = 0, fi = 0;
+    while (bi < NB || fi < NF) { const z = lerp(TZ0 - 20, ZEND + 10, rnd()), prog = clamp((Z0 - z) / L, 0, 1); if (rnd() > 0.4 + 0.5 * prog) { if (rnd() < 0.02) break; continue; }
+      const x = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (5 + Math.pow(rnd(), 1.4) * 90); if (!okSpot(x, z, 3)) continue; const y = H(x, z);
+      if (rnd() < 0.45 && bi < NB) { const s = 0.4 + rnd() * 0.7; dummy.position.set(x, y + s * 0.55, z); dummy.rotation.set(rnd() * 0.2, rnd() * 6, rnd() * 0.2); dummy.scale.set(s, s * 0.75, s); dummy.updateMatrix(); bushes.setMatrixAt(bi, dummy.matrix); bushes.setColorAt(bi++, pick(BC)); }
+      else if (fi < NF) { const s = 0.3 + rnd() * 0.5, h = s * (2 + rnd() * 1.5); dummy.position.set(x, y + h * 0.5, z); dummy.rotation.set(0, rnd() * 6, 0); dummy.scale.set(s, h, s); dummy.updateMatrix(); ferns.setMatrixAt(fi, dummy.matrix); ferns.setColorAt(fi++, pick(BC)); } }
+    bushes.count = bi; ferns.count = fi; scene.add(bushes, ferns); }
+
+  // Ground grass — dense low tufts across the forest floor
+  { const N = lp ? 1400 : 4200, grass = new THREE.InstancedMesh(new THREE.ConeGeometry(0.14, 1, 3).translate(0, 0.5, 0), std('#4c6b30'), N); grass.name = 'ground-grass'; windify(grass.material, 0.6);
+    const GRC = ['#4c6b30', '#557836', '#42602b', '#5f8038'].map(c => new THREE.Color(c));
+    let n = 0;
+    while (n < N) { const z = lerp(TZ0 - 20, ZEND + 10, rnd()), prog = clamp((Z0 - z) / L, 0, 1); if (rnd() > 0.45 + 0.45 * prog) { if (rnd() < 0.01) break; continue; }
+      const cx = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (4.5 + Math.pow(rnd(), 1.4) * 95); if (!okSpot(cx, z, 2.5)) continue;
+      const cnt = 3 + Math.floor(rnd() * 5), gc = pick(GRC);
+      for (let j = 0; j < cnt && n < N; j++) { const x = cx + (rnd() - 0.5) * 2.4, zz = z + (rnd() - 0.5) * 2.4; if (roadDist(x, zz) < 2.6) continue; const y = H(x, zz), s = 0.5 + rnd() * 0.6, h = s * (1.3 + rnd());
+        dummy.position.set(x, y + h * 0.5, zz); dummy.rotation.set(0, rnd() * 6, (rnd() - 0.5) * 0.3); dummy.scale.set(s, h, s); dummy.updateMatrix(); grass.setMatrixAt(n, dummy.matrix); grass.setColorAt(n++, gc); } }
+    grass.count = n; scene.add(grass); }
+
+  // Wildflower patches — color accents in clearings
+  { const N = lp ? 500 : 1300, flowers = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 6, 4), std('#ffffff', { roughness: 0.6 }), N); flowers.name = 'wildflowers';
+    const FC = ['#e8556f', '#f0a83c', '#f4e04d', '#c95de0', '#6ec6e8'].map(c => new THREE.Color(c));
+    let n = 0;
+    while (n < N) { const z = lerp(TZ0 - 10, ZEND + 10, rnd()), prog = clamp((Z0 - z) / L, 0, 1); if (rnd() > 0.35 + 0.45 * prog) { if (rnd() < 0.02) break; continue; }
+      const cx = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (5 + Math.pow(rnd(), 1.3) * 60); if (!okSpot(cx, z, 4)) continue;
+      const fc = pick(FC), cnt = 4 + Math.floor(rnd() * 7);
+      for (let j = 0; j < cnt && n < N; j++) { const x = cx + (rnd() - 0.5) * 4, zz = z + (rnd() - 0.5) * 4; if (roadDist(x, zz) < 3.2) continue; const y = H(x, zz), s = 0.09 + rnd() * 0.1;
+        dummy.position.set(x, y + s, zz); dummy.rotation.set(rnd() * 6, rnd() * 6, rnd() * 6); dummy.scale.set(s, s, s); dummy.updateMatrix(); flowers.setMatrixAt(n, dummy.matrix); flowers.setColorAt(n++, fc); } }
+    flowers.count = n; scene.add(flowers); }
+
+  // Mossy boulder outcrops — larger rock clusters for terrain variety
+  { const mossRock = std('#6f766a', { roughness: 1 }), mossCap = std('#3f5c34', { roughness: 1 });
+    for (let k = 0; k < 14; k++) { const z = lerp(TZ0 - 30, ZEND, rnd()); const x = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (10 + rnd() * 70); if (!okSpot(x, z, 9)) continue;
+      const n2 = 2 + Math.floor(rnd() * 3);
+      for (let j = 0; j < n2; j++) { const ox = (rnd() - 0.5) * 4, oz = (rnd() - 0.5) * 4, s = 1.4 + rnd() * 2.4, yy = H(x + ox, z + oz);
+        const b = mk(new THREE.DodecahedronGeometry(s, 0), mossRock, 'moss-boulder'); b.scale.y = 0.72 + rnd() * 0.3; b.position.set(x + ox, yy + s * 0.32, z + oz); b.rotation.set(rnd(), rnd() * 6, rnd()); b.castShadow = !lp; scene.add(b);
+        if (rnd() < 0.6) { const cap = mk(new THREE.IcosahedronGeometry(s * 0.55, 0), mossCap, 'moss-cap'); cap.scale.y = 0.4; cap.position.set(x + ox, yy + s * 0.6, z + oz); scene.add(cap); }
+        solids.push({ x: x + ox, z: z + oz, r: s * 0.7 }); } } }
+
+  // Birch grove — canopy color variety near a forest clearing
+  { const birchBark = std('#e8e4d8', { roughness: 0.8 }), birchLeaf = std('#d9c14a', { roughness: 0.9 });
+    const gz = zAt(0.62), gx = roadX(gz) + 55;
+    for (let k = 0; k < 16; k++) { const a = rnd() * Math.PI * 2, r = rnd() * 14, x = gx + Math.cos(a) * r, z = gz + Math.sin(a) * r; if (!okSpot(x, z, 3)) continue; const y = H(x, z), h = 5 + rnd() * 4;
+      const trunk = mk(new THREE.CylinderGeometry(0.1, 0.16, h, 6), birchBark, 'birch-trunk'); trunk.position.set(x, y + h / 2, z); trunk.castShadow = !lp; scene.add(trunk);
+      const leaf = mk(new THREE.IcosahedronGeometry(1.3 + rnd() * 0.7, 0), birchLeaf, 'birch-leaf'); leaf.position.set(x, y + h + 0.6, z); leaf.castShadow = !lp; scene.add(leaf);
+      solids.push({ x, z, r: 0.35 }); }
+    clearZones.push({ x: gx, z: gz, r: 4 }); }
+
   // Spatial chunking: split big instanced sets so frustum + distance culling can skip them
-  { const m4 = new THREE.Matrix4(), c3 = new THREE.Color(), NAMES = ['tree-trunks', 'pine-crowns', 'round-crowns', 'rocks', 'glow-mushrooms', 'mushroom-stems', 'glow-grass'];
+  { const m4 = new THREE.Matrix4(), c3 = new THREE.Color(), NAMES = ['tree-trunks', 'pine-crowns', 'round-crowns', 'rocks', 'glow-mushrooms', 'mushroom-stems', 'glow-grass', 'fallen-logs', 'bushes', 'ferns', 'wildflowers', 'ground-grass'];
     scene.children.filter(o => o.isInstancedMesh && NAMES.includes(o.name)).forEach(im => { const B = new Map();
       for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, m4); const k = Math.floor((TZ0 - m4.elements[14]) / CH); let b = B.get(k); if (!b) B.set(k, b = []); b.push(i); }
       B.forEach(ids => { const n = new THREE.InstancedMesh(im.geometry, im.material, ids.length); n.name = im.name; n.castShadow = im.castShadow; ids.forEach((id, j) => { im.getMatrixAt(id, m4); n.setMatrixAt(j, m4); if (im.instanceColor) { im.getColorAt(id, c3); n.setColorAt(j, c3); } });
