@@ -128,7 +128,7 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
             <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;">km/h</span>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px 16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;background:rgba(10,13,32,.5);backdrop-filter:blur(8px);padding:9px 14px;border-radius:12px;">
-            <span>W / ↑ · throttle</span><span>S / ↓ · brake</span><span>A D / ← → · steer</span><span>Drag · look around</span>
+            <span>W / ↑ · throttle</span><span>S / ↓ · brake</span><span>A D / ← → · steer</span><span>Space · jump</span><span>Drag · look around</span>
           </div>
           <button onClick="{{ callDino }}" style="align-self:flex-start;height:36px;padding:0 16px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);backdrop-filter:blur(8px);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
           <button onClick="{{ toggleFree }}" style="align-self:flex-start;height:40px;padding:0 16px;border-radius:999px;border:none;background:#7ff3e1;color:#0b1030;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">← Back to the story ride</button>
@@ -142,7 +142,13 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
             <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;">km/h</span>
           </div>
           <button onClick="{{ callDino }}" style="align-self:flex-start;height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ Call MujaSauros</button>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;color:#f3ead9;background:rgba(10,13,32,.5);backdrop-filter:blur(8px);padding:7px 11px;border-radius:10px;line-height:1.5;max-width:150px;">Left pad · ride · right side · look · Jump · hop</div>
         </div>
+        <div onPointerDown="{{ onJoyStart }}" onPointerMove="{{ onJoyMove }}" onPointerUp="{{ onJoyEnd }}" onPointerCancel="{{ onJoyEnd }}" style="position:absolute;left:22px;bottom:104px;width:120px;height:120px;border-radius:50%;background:rgba(10,13,32,.4);backdrop-filter:blur(6px);border:1px solid rgba(255,236,210,.28);pointer-events:auto;touch-action:none;">
+          <div style="position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px;border-radius:50%;background:rgba(255,236,210,.3);"></div>
+          <div style="position:absolute;left:50%;top:50%;width:52px;height:52px;border-radius:50%;background:rgba(127,243,225,.28);border:1px solid rgba(127,243,225,.65);transform:translate(calc(-50% + {{ joyX }}px), calc(-50% + {{ joyY }}px));"></div>
+        </div>
+        <button onPointerDown="{{ jumpDown }}" onPointerUp="{{ jumpUp }}" onPointerLeave="{{ jumpUp }}" style="position:absolute;right:22px;bottom:196px;width:62px;height:62px;border-radius:50%;background:rgba(159,224,110,.18);border:1px solid rgba(159,224,110,.55);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;pointer-events:auto;">Jump</button>
       </sc-if>
     </sc-if>
 
@@ -309,16 +315,6 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
             <span style="width:30px;height:17px;border-radius:9px;background:{{ sn.trackBg }};position:relative;flex-shrink:0;"><span style="position:absolute;top:2px;left:{{ sn.dotLeft }};width:13px;height:13px;border-radius:50%;background:#fff;transition:left .15s;"></span></span>
           </button>
         </sc-for>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;padding:10px 6px 4px;border-top:1px solid rgba(255,236,210,.1);margin-top:4px;">Bike radio · generated live</div>
-        <sc-for list="{{ tracks }}" as="tr" hint-placeholder-count="6">
-          <button onClick="{{ tr.play }}" style="display:flex;align-items:center;gap:12px;padding:9px 8px;border:none;border-radius:10px;background:{{ tr.bg }};color:#f3ead9;text-align:left;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);">
-            <span style="width:22px;font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ tr.numColor }};">{{ tr.num }}</span>
-            <span style="display:flex;flex-direction:column;gap:1px;">
-              <span style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;line-height:1.1;">{{ tr.name }}</span>
-              <span style="font-size:11.5px;color:#cfc4b0;">{{ tr.desc }}</span>
-            </span>
-          </button>
-        </sc-for>
         <button onClick="{{ toggleLowGfx }}" style="margin-top:10px;height:36px;border-radius:10px;border:1px solid {{ lowGfxBg }};background:none;color:{{ lowGfxFg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;">{{ lowGfxLabel }}</button>
         <button onClick="{{ stopMusic }}" style="margin-top:8px;height:36px;border-radius:10px;border:1px solid rgba(255,236,210,.2);background:none;color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;">Silence</button>
       </div>
@@ -364,8 +360,8 @@ html.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!importan
       <div style="position:absolute;left:24%;right:24%;top:-34%;height:40%;background:linear-gradient(#141418,#23232a);border-radius:16px 16px 6px 6px;"></div>
       <div style="position:absolute;left:24%;right:24%;bottom:-34%;height:40%;background:linear-gradient(#23232a,#141418);border-radius:6px 6px 16px 16px;"></div>
       <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 26%,#8b8e98,#3a3c44 48%,#15161a 80%);box-shadow:0 24px 60px rgba(0,0,0,.55),inset 0 0 0 1.5px rgba(255,255,255,.12);"></div>
-      <button onClick="{{ crown }}" title="Crown: next stop / next track" style="position:absolute;right:-9px;top:34%;width:13px;height:28px;border-radius:5px;border:none;background:linear-gradient(90deg,#4b4d55,#9a9da6,#4b4d55);cursor:pointer;padding:0;" style-active="transform:translateX(-2px);"></button>
-      <button onClick="{{ sideBtn }}" title="Button: previous stop / play-pause" style="position:absolute;right:-5px;top:64%;width:8px;height:18px;border-radius:4px;border:none;background:linear-gradient(90deg,#3a3c44,#80838c);cursor:pointer;padding:0;" style-active="transform:translateX(-2px);"></button>
+      <button onClick="{{ crown }}" title="Crown: next stop" style="position:absolute;right:-9px;top:34%;width:13px;height:28px;border-radius:5px;border:none;background:linear-gradient(90deg,#4b4d55,#9a9da6,#4b4d55);cursor:pointer;padding:0;" style-active="transform:translateX(-2px);"></button>
+      <button onClick="{{ sideBtn }}" title="Button: previous stop / toggle score" style="position:absolute;right:-5px;top:64%;width:8px;height:18px;border-radius:4px;border:none;background:linear-gradient(90deg,#3a3c44,#80838c);cursor:pointer;padding:0;" style-active="transform:translateX(-2px);"></button>
       <div style="position:absolute;inset:5.5%;border-radius:50%;background:conic-gradient(#7ff3e1 {{ ringNow }},rgba(255,255,255,.06) 0);"></div>
       <div onClick="{{ screenTap }}" style="position:absolute;inset:8.5%;border-radius:50%;background:radial-gradient(circle at 50% 38%,#0e1c28,#04070b 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;overflow:hidden;text-align:center;box-shadow:inset 0 0 24px rgba(111,240,255,.16);">
         <sc-if value="{{ booting }}" hint-placeholder-val="{{ true }}">
@@ -576,12 +572,9 @@ const NOTES = [
   { t: 0.93, side: -1, text: 'Raspberry Pi projects and AI experiments live on my desk between client builds.' },
   { t: 0.97, side: 1, text: 'If you made it this far reading rocks in a 3D bike ride: hi. Let’s talk.' }];
 const TYPES = ['Website build', 'Shopify store', 'CMS / WordPress', 'Program rescue', 'Something experimental'];
-const TRACKS = [
-  { id: 'evening', name: 'Evening Improvisation', desc: 'ethera · gentle piano' }, { id: 'flyaway', name: 'Fly Away', desc: 'fog settled · calm strings' },
-  { id: 'celtic', name: 'Celtic Forest', desc: 'mystical · forest ambience' }];
 
 class Component extends DCLogic {
-  state = { snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', track: -1, playing: false, note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, slots: [null, null, null], scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })() };
+  state = { snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })() };
   canvasHost = React.createRef(); proofRef = React.createRef(); lastPanel = 1;
   onDragStart(id, e) {
     e.preventDefault(); e.stopPropagation();
@@ -604,7 +597,7 @@ class Component extends DCLogic {
     this.onHash = () => { const h = location.hash.slice(1); if (h === 'proof' || h.startsWith('work-')) this.openProof(h.startsWith('work-') ? h : null); };
     addEventListener('resize', this.onResize); addEventListener('scroll', this.onScroll, { passive: true }); addEventListener('keydown', this.onKey); addEventListener('hashchange', this.onHash);
     this.onResize(); this.onHash();
-    this.tryAutoplay = () => { if (this.autoplayDone || !this.radio) return; this.autoplayDone = true; this.playTrack(0); ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); };
+    this.tryAutoplay = () => { if (this.autoplayDone || !this.radio || !this.score) return; this.autoplayDone = true; this.radio.stop(); this.score.start(); this.world && this.score.update(this.world.getState()); this.setState({ scoreOn: true, playing: false }); ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); };
     ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => addEventListener(ev, this.tryAutoplay, { passive: true }));
     try { const c = document.createElement('canvas'); c.width = c.height = 160; const g = c.getContext('2d'), d = g.createImageData(160, 160); for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } g.putImageData(d, 0, 0); this.setState({ grain: 'url(' + c.toDataURL() + ')' }); } catch (e) {}
     let seen = false; try { seen = sessionStorage.getItem('apos-booted') === '1'; } catch (e) {}
@@ -628,11 +621,10 @@ class Component extends DCLogic {
   }
   componentWillUnmount() { clearInterval(this.poll); this.score && this.score.stop(); removeEventListener('resize', this.onResize); removeEventListener('scroll', this.onScroll); removeEventListener('keydown', this.onKey); removeEventListener('hashchange', this.onHash); this.tryAutoplay && ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); this.world && this.world.dispose(); this.radio && this.radio.stop(); }
 
-  blip(f) { if (this.radio && (this.state.playing || this.state.scoreOn)) this.radio.blip(f || 880); }
+  blip(f) { if (this.radio && this.state.scoreOn) this.radio.blip(f || 880); }
   toggleSnd(cat) { const snd = { ...this.state.snd, [cat]: !this.state.snd[cat] }; this.setState({ snd }); try { localStorage.setItem('apSoundPrefs', JSON.stringify(snd)); } catch (e) {} if (cat === 'brake' && this.radio) this.radio.setBrakeMuted(!snd.brake); if (this.score) this.score.setMute(cat, snd[cat]); }
   jump(i) { const max = document.documentElement.scrollHeight - innerHeight; scrollTo({ top: clamp(i, 0, N) / N * max, behavior: 'smooth' }); this.blip(760 + i * 40); }
-  playTrack(i) { if (!this.radio) return; this.score && this.score.stop(); this.radio.play(TRACKS[i].id); this.setState({ track: i, playing: true, scoreOn: false }); }
-  stopMusic() { this.radio && this.radio.stop(); this.score && this.score.stop(); this.setState({ playing: false, scoreOn: false, track: -1 }); }
+  stopMusic() { this.radio && this.radio.stop(); this.score && this.score.stop(); this.setState({ scoreOn: false }); }
   openProof(slug) { this.setState({ proof: true }); clearTimeout(this.pauseT); this.pauseT = setTimeout(() => this.world && this.state.proof && this.world.setPaused(true), 750); requestAnimationFrame(() => { const el = this.proofRef.current; if (!el) return; const tgt = slug && el.querySelector('#' + slug); el.scrollTop = tgt ? tgt.offsetTop - 20 : 0; }); if (location.hash !== '#' + (slug || 'proof')) history.replaceState(null, '', '#' + (slug || 'proof')); }
   closeProof() { if (!this.state.proof) return; clearTimeout(this.pauseT); this.world && this.world.setPaused(false); this.setState({ proof: false }); history.replaceState(null, '', location.pathname + location.search); }
   finishBoot(instant) { if (this.state.boot === 'done') return; (this.bootT || []).forEach(clearTimeout); try { sessionStorage.setItem('apos-booted', '1'); } catch (e) {}
@@ -648,12 +640,17 @@ class Component extends DCLogic {
     setTimeout(() => this.setState({ freeGlow: false }), 18000);
   }
   buzzWatch() { try { navigator.vibrate && navigator.vibrate(30); } catch (e) {} let k = 0; clearInterval(this.buzzI); this.buzzI = setInterval(() => { k++; this.setState({ buzz: k >= 6 ? 0 : (k % 2 ? 1 : -1) }); if (k >= 6) clearInterval(this.buzzI); }, 55); this.blip(1400); }
-  whistle() { try { const a = new Audio('assets/whistle.mp3'); a.volume = 0.55; a.play().catch(() => {}); } catch (e) {} }
+  whistle() { if (this.radio) this.radio.hornCall(); }
+  onJoyStart(e) { e.preventDefault(); this.joyOrigin = { x: e.clientX, y: e.clientY }; this.setState({ joyX: 0, joyY: 0 }); }
+  onJoyMove(e) { if (!this.joyOrigin) return; const R = 44; let dx = e.clientX - this.joyOrigin.x, dy = e.clientY - this.joyOrigin.y; const d = Math.hypot(dx, dy); if (d > R) { dx = dx / d * R; dy = dy / d * R; } this.setState({ joyX: dx, joyY: dy }); this.world && this.world.setStick(dx / R, -dy / R); }
+  onJoyEnd() { this.joyOrigin = null; this.setState({ joyX: 0, joyY: 0 }); this.world && this.world.setStick(0, 0); }
+  jumpDown(e) { e.preventDefault(); this.world && this.world.setTouch('jump', true); }
+  jumpUp() { this.world && this.world.setTouch('jump', false); }
   toggleFree() { const on = !this.state.free; this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false }); if (!on) this.onScroll(); }
   setForm(k, v) { this.setState(s => ({ form: { ...s.form, [k]: v } })); }
 
   renderVals() {
-    const { t, mobile, ready, noGL, proof, radio, watchMode, track, playing, note, expanded, form, sent, slots, free, freeT, freeSpd, boot, bootLine, buzz, grain } = this.state;
+    const { t, mobile, ready, noGL, proof, radio, watchMode, note, expanded, form, sent, free, freeT, freeSpd, boot, bootLine, buzz, grain } = this.state;
     const si = Math.round(t * N), dist = Math.abs(t - si / N), near = !free && boot === 'done' && dist < 0.008 && si > 0;
     if (near) this.lastPanel = si;
     const pi = this.lastPanel, kind = KIND[pi];
@@ -695,10 +692,13 @@ class Component extends DCLogic {
       freeHud: { left: mobile ? '16px' : '28px', right: mobile ? '16px' : 'auto', bottom: mobile ? (ws + 50) + 'px' : '28px' },
       freeInfoTop: '272px',
       freeSpeedKmh: Math.round(Math.abs(freeSpd) * 6),
+      joyX: this.state.joyX || 0, joyY: this.state.joyY || 0,
+      onJoyStart: e => this.onJoyStart(e), onJoyMove: e => this.onJoyMove(e), onJoyEnd: () => this.onJoyEnd(),
+      jumpDown: e => this.jumpDown(e), jumpUp: () => this.jumpUp(),
       pad: [['l', '◀'], ['r', '▶'], ['b', '▼'], ['u', '▲']].map(([k, label]) => ({ label, down: e => { e.preventDefault(); this.world && this.world.setTouch(k, true); }, up: () => this.world && this.world.setTouch(k, false) })),
       loadMsg: ready ? 'Scroll to ride' : 'Warming up the engine…',
       desktop: !mobile, hudOp: free ? 0 : (boot !== 'done' || (ready ? 1 - sstep(0.003, 0.03, t) : 1) > 0.05 ? 0 : 1),
-      soundDot: playing || this.state.scoreOn ? '#7ff3e1' : 'rgba(255,236,210,.35)', soundLabel: this.state.scoreOn ? (mobile ? 'On' : 'Score on') : playing ? (mobile ? 'On' : (track >= 100 ? 'Your track' : TRACKS[Math.max(0, track)].name)) : (mobile ? 'Sound' : 'Sound off'),
+      soundDot: this.state.scoreOn ? '#7ff3e1' : 'rgba(255,236,210,.35)', soundLabel: this.state.scoreOn ? (mobile ? 'On' : 'Score on') : (mobile ? 'Sound' : 'Sound off'),
       settingsBtn: radio ? { border: '#7ff3e1', bg: 'rgba(127,243,225,.14)', fg: '#e9fdff' } : { border: 'rgba(255,240,220,.3)', bg: 'transparent', fg: '#f3ead9' },
       scoreRowBg: this.state.scoreOn ? 'rgba(127,243,225,.12)' : 'transparent', scoreOnLabel: this.state.scoreOn ? 'On' : 'Off',
       sndToggles: [['nature', 'Nature ambience'], ['fire', 'Campfire crackle'], ['brake', 'Braking sound']].map(([k, label]) => ({ label, click: () => this.toggleSnd(k), trackBg: this.state.snd[k] ? '#7ff3e1' : 'rgba(255,236,210,.2)', dotLeft: this.state.snd[k] ? '15px' : '2px' })),
@@ -736,16 +736,13 @@ class Component extends DCLogic {
       types: TYPES.map(l => { const on = form.type === l; return { label: l, pick: () => this.setForm('type', on ? '' : l), bg: on ? '#7ff3e1' : 'transparent', fg: on ? '#0b1030' : '#f3ead9', border: on ? '#7ff3e1' : 'rgba(255,236,210,.25)' }; }),
       submitBrief: e => { e.preventDefault(); const f = this.state.form; const body = `Name: ${f.name}\nEmail: ${f.email}\nType: ${f.type || '-'}\nBudget: ${f.budget || '-'}\nTimeline: ${f.timeline || '-'}\n\n${f.msg}`; location.href = 'mailto:aashishpandey406@gmail.com?subject=' + encodeURIComponent('Project brief: ' + f.name) + '&body=' + encodeURIComponent(body); this.blip(1320); this.setState({ sent: true }); },
       radioOpen: radio, radioTop: '70px', radioMaxH: 'calc(100vh - 90px)',
-      tracks: TRACKS.map((tr, i) => ({ ...tr, num: String(i + 1).padStart(2, '0'), play: () => this.playTrack(i), bg: playing && track === i ? 'rgba(127,243,225,.12)' : 'transparent', numColor: playing && track === i ? '#7ff3e1' : '#cfc4b0' })),
-      slots: slots.map((sl, i) => ({ num: 'U' + (i + 1), label: sl ? sl.name : 'Add a royalty-free MP3…', bg: playing && track === 100 + i ? 'rgba(127,243,225,.12)' : 'transparent',
-        onFile: e => { const f = e.target.files && e.target.files[0]; if (!f || !this.radio) return; const url = URL.createObjectURL(f); const ns = [...this.state.slots]; ns[i] = { name: f.name, url }; this.score && this.score.stop(); this.radio.playFile(url); this.setState({ slots: ns, track: 100 + i, playing: true, scoreOn: false }); } })),
       stopMusic: () => this.stopMusic(),
       watch: { px: ws + 'px', right: mobile ? '18px' : '26px', bottom: mobile ? '28px' : '40px', tf: boot === 'done' ? 'rotate(' + buzz * 3 + 'deg)' : 'translate(calc(-50vw + ' + ((mobile ? 18 : 26) + ws / 2) + 'px), calc(-50vh + ' + ((mobile ? 28 : 40) + ws / 2) + 'px)) scale(' + (mobile ? 2.1 : 2.3) + ')', tr: boot === 'done' ? 'transform .05s' : 'transform 1.6s cubic-bezier(.75,0,.2,1)', small: mobile ? '7.5px' : '9px', arrow: mobile ? '26px' : '38px', name: mobile ? '14px' : '19px' },
       ringNow: boot !== 'done' ? Math.round(bootLine / BOOT.length * 360) + 'deg' : ring, watchNavOn: boot === 'done' && watchMode === 'nav', watchMusicOn: boot === 'done' && watchMode === 'music', hudVis: boot === 'done' ? 'visible' : 'hidden', wn: free ? { top: 'Free ride', rot: '0deg', name: 'Near ' + STOPS[Math.round(freeT * N)].name, sub: Math.round(Math.abs(freeSpd) * 6) + ' KM/H' } : wn,
-      wm: { name: this.state.scoreOn ? 'Adaptive score' : track >= 100 ? (slots[track - 100] || {}).name || 'Your track' : TRACKS[Math.max(0, track)].name, state: playing || this.state.scoreOn ? '▶ PLAYING' : '❚❚ PAUSED' },
+      wm: { name: 'Adaptive score', state: this.state.scoreOn ? 'PLAYING' : 'PAUSED' },
       toggleWatchMode: () => { this.blip(600); this.setState(s => ({ watchMode: s.watchMode === 'nav' ? 'music' : 'nav' })); },
-      crown: () => { if (watchMode === 'music') this.playTrack(((track >= 0 && track < 100 ? track : -1) + 1) % TRACKS.length); else this.jump(arrived ? si + 1 : nextI); },
-      sideBtn: () => { if (watchMode === 'music') { playing ? this.stopMusic() : this.playTrack(track >= 0 && track < 100 ? track : 0); } else this.jump(arrived ? si - 1 : nextI - 1); },
+      crown: () => { if (watchMode !== 'music') this.jump(arrived ? si + 1 : nextI); },
+      sideBtn: () => { if (watchMode === 'music') { this.state.scoreOn ? this.stopMusic() : (this.radio && this.score && (this.radio.stop(), this.score.start(), this.setState({ scoreOn: true }))); } else this.jump(arrived ? si - 1 : nextI - 1); },
       hasNote: !!note, closeNote: () => this.setState({ note: null }),
       note: note ? { num: String(note.i + 1).padStart(2, '0'), text: NOTES[note.i].text, left: clamp(note.x + 16, 12, innerWidth - 300) + 'px', top: clamp(note.y - 30, 70, innerHeight - 200) + 'px' } : { num: '', text: '', left: '0px', top: '0px' },
       proofY: proof ? '0%' : '100%', proofVis: proof ? 'visible' : 'hidden', proofHidden: proof ? 'false' : 'true'

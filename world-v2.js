@@ -83,7 +83,7 @@ export function createWorld(host, opts = {}) {
   try {
     renderer = new THREE.WebGLRenderer({ antialias: !lp, powerPreference: 'high-performance' });
   } catch (e) { opts.onError && opts.onError(e); return null; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lp ? 1 : 1.75));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lp ? 1 : 2));
   renderer.setSize(host.clientWidth, host.clientHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.3;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -92,17 +92,19 @@ export function createWorld(host, opts = {}) {
   host.appendChild(canvas);
 
   // Post-process: vignette + grain + subtle color grade (cinematic still-frame look)
-  const postRT = new THREE.WebGLRenderTarget(1, 1, { colorSpace: THREE.SRGBColorSpace });
+  const postRT = new THREE.WebGLRenderTarget(1, 1, { colorSpace: THREE.SRGBColorSpace, samples: lp ? 0 : 4 });
   const postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const postU = { map: { value: postRT.texture }, time: { value: 0 }, night: { value: 0 } };
   const postMat = new THREE.ShaderMaterial({ uniforms: postU, depthWrite: false, depthTest: false,
     vertexShader: 'varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.0,1.0); }',
     fragmentShader: `uniform sampler2D map; uniform float time,night; varying vec2 vUv;
       float hash(vec2 p){ return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453); }
-      void main(){ vec3 c=texture2D(map,vUv).rgb; c=pow(c,vec3(0.72))*1.1; vec2 ce=vUv-0.5; float vig=1.0-smoothstep(0.4,0.95,length(ce))*0.4; c*=vig;
-        float g=(hash(vUv*vec2(1920.0,1080.0)+time)-0.5)*0.03; c+=g;
+      void main(){ vec3 c=texture2D(map,vUv).rgb; c=pow(c,vec3(0.72))*1.12;
+        float lum=dot(c,vec3(0.299,0.587,0.114)); c=mix(vec3(lum),c,1.16);
+        vec2 ce=vUv-0.5; float vig=1.0-smoothstep(0.46,1.02,length(ce))*0.3; c*=vig;
+        float g=(hash(vUv*vec2(1920.0,1080.0)+time)-0.5)*0.018; c+=g;
         c=mix(c,c*vec3(1.05,0.99,0.93),0.3*(1.0-night)); c=mix(c,c*vec3(0.95,0.98,1.06),0.28*night);
-        c=(c-0.5)*1.08+0.5;
+        c=(c-0.5)*1.12+0.5;
         gl_FragColor=vec4(c,1.0); }` });
   const postScene = new THREE.Scene(); postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), postMat));
   const resizePost = () => { const pr = renderer.getPixelRatio(); postRT.setSize(Math.max(1, host.clientWidth * pr), Math.max(1, host.clientHeight * pr)); };
@@ -148,11 +150,22 @@ export function createWorld(host, opts = {}) {
   const camFwd = new THREE.Vector3();
 
   // Lights
-  const hemi = new THREE.HemisphereLight(0xffd6a8, 0x3b2f4a, 2.4); scene.add(hemi);
-  const ambientFill = new THREE.AmbientLight(0xdfe8ff, 0.9); scene.add(ambientFill);
-  const key = new THREE.DirectionalLight(0xffb070, 3.2); key.castShadow = !lp;
-  key.shadow.mapSize.set(1024, 1024); Object.assign(key.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 140 }); key.shadow.bias = -0.0005;
+  const hemi = new THREE.HemisphereLight(0xffd6a8, 0x3b2f4a, 2.15); scene.add(hemi);
+  const ambientFill = new THREE.AmbientLight(0xdfe8ff, 0.62); scene.add(ambientFill);
+  const key = new THREE.DirectionalLight(0xffb070, 3.6); key.castShadow = !lp;
+  key.shadow.mapSize.set(lp ? 1024 : 2048, lp ? 1024 : 2048); Object.assign(key.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 140 }); key.shadow.bias = -0.0004; key.shadow.radius = 2.2;
   scene.add(key); scene.add(key.target);
+
+  // Studio-gradient environment map for realistic reflections on chrome/gloss/water
+  if (!lp) {
+    const pmrem = new THREE.PMREMGenerator(renderer); pmrem.compileEquirectangularShader();
+    const envCanvas = document.createElement('canvas'); envCanvas.width = 16; envCanvas.height = 128;
+    const ectx = envCanvas.getContext('2d'); const eg = ectx.createLinearGradient(0, 0, 0, 128);
+    eg.addColorStop(0, '#bcd6ff'); eg.addColorStop(0.45, '#f2ddc4'); eg.addColorStop(0.62, '#caa77a'); eg.addColorStop(1, '#2a2018');
+    ectx.fillStyle = eg; ectx.fillRect(0, 0, 16, 128);
+    const envTex = new THREE.CanvasTexture(envCanvas); envTex.mapping = THREE.EquirectangularReflectionMapping; envTex.colorSpace = THREE.SRGBColorSpace;
+    const envRT = pmrem.fromEquirectangular(envTex); scene.environment = envRT.texture; envTex.dispose(); pmrem.dispose();
+  }
 
   // Terrain
   const TX0 = -300, TX1 = 300, TZ0 = 150, TZ1 = ZEND - 230;
@@ -179,7 +192,9 @@ export function createWorld(host, opts = {}) {
     else if (rel > 80 && ny > 0.6) C.copy(SNOW);
     else if (ny < 0.74 || rel > 50) C.copy(ROCK[Math.floor(hh * 3)]);
     else { C.copy(GR[Math.floor(hh * 5)]); if (h2(i, 5) < prog * 0.8) C.lerp(MOSS[Math.floor(hh * 3)], 0.7); }
-    C.multiplyScalar(0.92 + h2(i, 13) * 0.16); C.lerp(HAZE, clamp((Y - roadY(clamp(Z, ZEND, Z0))) / 150, 0, 0.38));
+    C.multiplyScalar(0.92 + h2(i, 13) * 0.16); { const l = (C.r + C.g + C.b) / 3; C.r = l + (C.r - l) * 1.14; C.g = l + (C.g - l) * 1.14; C.b = l + (C.b - l) * 1.14; }
+    C.multiplyScalar(0.96 + fbm(X * 0.85 + 3, Z * 0.85) * 0.09);
+    C.lerp(HAZE, clamp((Y - roadY(clamp(Z, ZEND, Z0))) / 150, 0, 0.38));
     for (let k = 0; k < 3; k++) { col[(i + k) * 3] = C.r; col[(i + k) * 3 + 1] = C.g; col[(i + k) * 3 + 2] = C.b; }
   }
   tg.setAttribute('color', new THREE.BufferAttribute(col, 3));
@@ -361,8 +376,8 @@ transformed.z += sway * ${wdz.toFixed(3)};
   const dummy = new THREE.Object3D();
   const NP = lp ? 1100 : 2600, NR = lp ? 350 : 900;
   const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.14, 0.24, 1, 5).translate(0, 0.5, 0), std('#5a3f2c'), NP + NR); trunks.name = 'tree-trunks';
-  const pines = new THREE.InstancedMesh(new THREE.ConeGeometry(1, 1, 6).translate(0, 0.5, 0), std('#ffffff'), NP * 2); pines.name = 'pine-crowns'; windify(pines.material, 0.4);
-  const rounds = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 0), std('#ffffff'), NR); rounds.name = 'round-crowns'; windify(rounds.material, 0.34);
+  const pines = new THREE.InstancedMesh(new THREE.ConeGeometry(1, 1, 8).translate(0, 0.5, 0), std('#ffffff'), NP * 2); pines.name = 'pine-crowns'; windify(pines.material, 0.4);
+  const rounds = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 1), std('#ffffff'), NR); rounds.name = 'round-crowns'; windify(rounds.material, 0.34);
   const PC = ['#2f5a3a', '#3a6b3f', '#27493a', '#446f3a', '#2c5236'].map(c => new THREE.Color(c)), RC = ['#5b7f35', '#6d8c3a', '#4d7536', '#7d8f3a'].map(c => new THREE.Color(c));
   const BIO = ['#39f3e0', '#6ff0ff', '#9dffc4', '#c8ff7a'].map(c => new THREE.Color(c)); const tbPos = [], tbCol = [];
   let ti = 0, pi = 0, ri = 0;
@@ -487,16 +502,16 @@ transformed.z += sway * ${wdz.toFixed(3)};
   solids.forEach((s, i) => { const key = Math.floor(s.x / SG) + ',' + Math.floor(s.z / SG); if (!solidGrid.has(key)) solidGrid.set(key, []); solidGrid.get(key).push(i); });
   function collideAt(x, z, extra) { const cx = Math.floor(x / SG), cz = Math.floor(z / SG); for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) { const arr = solidGrid.get((cx + dx) + ',' + (cz + dz)); if (!arr) continue; for (const i of arr) { const s = solids[i], ddx = x - s.x, ddz = z - s.z, rr = s.r + extra; if (ddx * ddx + ddz * ddz < rr * rr) return s; } } return null; }
   const bike = new THREE.Group(); bike.name = 'hness-350';
-  const M = { gloss: std('#101014', { roughness: 0.28, metalness: 0.25 }), red: std('#b3202a', { roughness: 0.3, metalness: 0.2 }), chrome: std('#c9ccd4', { roughness: 0.25, metalness: 0.4 }), rubber: std('#17171a', { roughness: 0.95 }), engine: std('#3b3c42', { roughness: 0.6, metalness: 0.3 }), seat: std('#1e1917', { roughness: 0.8 }) };
+  const M = { gloss: new THREE.MeshPhysicalMaterial({ color: '#101014', flatShading: true, roughness: 0.16, metalness: 0.4, clearcoat: 0.9, clearcoatRoughness: 0.12, envMapIntensity: 1.4 }), red: new THREE.MeshPhysicalMaterial({ color: '#b3202a', flatShading: true, roughness: 0.18, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.08, envMapIntensity: 1.3 }), chrome: std('#d4d7de', { roughness: 0.14, metalness: 0.65, envMapIntensity: 2 }), rubber: std('#17171a', { roughness: 0.92 }), engine: std('#3b3c42', { roughness: 0.5, metalness: 0.4, envMapIntensity: 1.3 }), seat: std('#1e1917', { roughness: 0.7 }) };
   const lamp = new THREE.MeshBasicMaterial({ color: '#eaf6ff' }), amber = new THREE.MeshBasicMaterial({ color: '#ffb23a' }), tail = new THREE.MeshBasicMaterial({ color: '#ff2a2a' }), screen = new THREE.MeshBasicMaterial({ color: '#6ff0ff' });
   const tube = (a, b, r, mat, name) => { const d = new THREE.Vector3().subVectors(b, a); const m = mk(new THREE.CylinderGeometry(r, r, d.length(), 8), mat, name); m.position.copy(a).addScaledVector(d, 0.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()); bike.add(m); return m; };
   const V = (x, y, z) => new THREE.Vector3(x, y, z);
   const wheels = [];
   [-0.72, 0.7].forEach((z, k) => { const w = new THREE.Group(); w.name = k ? 'rear-wheel' : 'front-wheel'; w.position.set(0, 0.36, z);
-    const tyre = mk(new THREE.TorusGeometry(0.29, 0.075, 8, 22), M.rubber, 'tyre'); tyre.rotation.y = Math.PI / 2; w.add(tyre);
-    const rim = mk(new THREE.CylinderGeometry(0.225, 0.225, 0.05, 20, 1, true), M.chrome, 'rim'); rim.rotation.z = Math.PI / 2; w.add(rim);
-    for (let s = 0; s < 5; s++) { const sp = mk(new THREE.BoxGeometry(0.03, 0.44, 0.035), M.gloss, 'spoke'); sp.rotation.x = s / 5 * Math.PI; w.add(sp); }
-    const hub = mk(new THREE.CylinderGeometry(0.06, 0.06, 0.14, 12), M.chrome, 'hub'); hub.rotation.z = Math.PI / 2; w.add(hub);
+    const tyre = mk(new THREE.TorusGeometry(0.29, 0.075, 12, 32), M.rubber, 'tyre'); tyre.rotation.y = Math.PI / 2; w.add(tyre);
+    const rim = mk(new THREE.CylinderGeometry(0.225, 0.225, 0.05, 28, 1, true), M.chrome, 'rim'); rim.rotation.z = Math.PI / 2; w.add(rim);
+    for (let s = 0; s < 7; s++) { const sp = mk(new THREE.BoxGeometry(0.025, 0.44, 0.03), M.gloss, 'spoke'); sp.rotation.x = s / 7 * Math.PI; w.add(sp); }
+    const hub = mk(new THREE.CylinderGeometry(0.06, 0.06, 0.14, 16), M.chrome, 'hub'); hub.rotation.z = Math.PI / 2; w.add(hub);
     bike.add(w); wheels.push(w); });
   const fF = mk(new THREE.TorusGeometry(0.34, 0.05, 4, 12, Math.PI * 0.55), M.gloss, 'front-fender'); fF.rotation.y = Math.PI / 2; fF.rotation.x = 0; fF.position.set(0, 0.36, -0.72); fF.rotation.z = 0.35; bike.add(fF);
   const rF = mk(new THREE.TorusGeometry(0.36, 0.07, 4, 12, Math.PI * 0.6), M.gloss, 'rear-fender'); rF.rotation.y = Math.PI / 2; rF.position.set(0, 0.36, 0.7); rF.rotation.z = 1.1; bike.add(rF);
@@ -504,31 +519,37 @@ transformed.z += sway * ${wdz.toFixed(3)};
   tube(V(0, 0.98, -0.5), V(0, 0.92, 0.35), 0.035, M.gloss, 'frame-top'); tube(V(0, 0.95, -0.46), V(0, 0.42, -0.2), 0.035, M.gloss, 'frame-down');
   tube(V(0, 0.42, -0.2), V(0, 0.4, 0.3), 0.03, M.gloss, 'frame-low');
   [-0.13, 0.13].forEach(x => { tube(V(x, 0.36, 0.7), V(x, 0.46, 0.05), 0.025, M.gloss, 'swingarm'); tube(V(x, 0.44, 0.64), V(x, 0.9, 0.44), 0.03, M.chrome, 'shock'); });
-  const tank = mk(new THREE.SphereGeometry(1, 12, 8), M.gloss, 'tank'); tank.scale.set(0.17, 0.13, 0.3); tank.position.set(0, 0.99, -0.14); tank.castShadow = true; bike.add(tank);
-  const stripe = mk(new THREE.SphereGeometry(1, 12, 8), M.red, 'tank-stripe'); stripe.scale.set(0.174, 0.045, 0.24); stripe.position.set(0, 0.99, -0.12); bike.add(stripe);
+  const tank = mk(new THREE.SphereGeometry(1, 20, 16), M.gloss, 'tank'); tank.scale.set(0.17, 0.13, 0.3); tank.position.set(0, 0.99, -0.14); tank.castShadow = true; bike.add(tank);
+  const stripe = mk(new THREE.SphereGeometry(1, 20, 16), M.red, 'tank-stripe'); stripe.scale.set(0.174, 0.045, 0.24); stripe.position.set(0, 0.99, -0.12); bike.add(stripe);
   const seat = mk(new THREE.BoxGeometry(0.26, 0.09, 0.62, 1, 1, 2), M.seat, 'seat'); seat.position.set(0, 0.93, 0.36); seat.rotation.x = -0.06; bike.add(seat);
   const eng = mk(new THREE.BoxGeometry(0.26, 0.3, 0.36), M.engine, 'engine'); eng.position.set(0, 0.56, -0.08); eng.castShadow = true; bike.add(eng);
   for (let k = 0; k < 4; k++) { const fin = mk(new THREE.BoxGeometry(0.3, 0.02, 0.26), M.engine, 'cyl-fin'); fin.position.set(0, 0.74 + k * 0.045, -0.2); fin.rotation.x = 0.35; bike.add(fin); }
   const cover = mk(new THREE.CylinderGeometry(0.1, 0.1, 0.03, 20), M.chrome, 'engine-cover'); cover.rotation.z = Math.PI / 2; cover.position.set(0.14, 0.52, -0.04); bike.add(cover);
   const panel = mk(new THREE.BoxGeometry(0.2, 0.18, 0.24), M.gloss, 'side-panel'); panel.position.set(0, 0.74, 0.22); bike.add(panel);
   tube(V(0.12, 0.62, -0.3), V(0.16, 0.36, -0.05), 0.035, M.chrome, 'header-pipe'); tube(V(0.16, 0.36, -0.05), V(0.17, 0.44, 0.78), 0.05, M.chrome, 'exhaust');
-  const hl = mk(new THREE.CylinderGeometry(0.105, 0.09, 0.12, 20), M.chrome, 'headlight-bucket'); hl.rotation.x = Math.PI / 2; hl.position.set(0, 0.95, -0.66); bike.add(hl);
-  const lens = mk(new THREE.CircleGeometry(0.092, 20), lamp, 'headlight-lens'); lens.position.set(0, 0.95, -0.721); lens.rotation.y = Math.PI; bike.add(lens);
+  const hl = mk(new THREE.CylinderGeometry(0.105, 0.09, 0.12, 28), M.chrome, 'headlight-bucket'); hl.rotation.x = Math.PI / 2; hl.position.set(0, 0.95, -0.66); bike.add(hl);
+  const lens = mk(new THREE.CircleGeometry(0.092, 28), lamp, 'headlight-lens'); lens.position.set(0, 0.95, -0.721); lens.rotation.y = Math.PI; bike.add(lens);
   [-0.17, 0.17].forEach(x => { const ind = mk(new THREE.SphereGeometry(0.03, 8, 6), amber, 'indicator'); ind.position.set(x, 0.92, -0.62); bike.add(ind); });
   tube(V(-0.38, 1.1, -0.42), V(0.38, 1.1, -0.42), 0.014, M.gloss, 'handlebar');
   [-0.36, 0.36].forEach(x => { tube(V(x * 0.98, 1.1, -0.42), V(x, 1.1, -0.42), 0.022, M.rubber, 'grip'); tube(V(x * 0.7, 1.1, -0.42), V(x * 0.8, 1.35, -0.38), 0.008, M.chrome, 'mirror-stem'); const mi = mk(new THREE.CylinderGeometry(0.05, 0.05, 0.015, 14), M.chrome, 'mirror'); mi.rotation.x = Math.PI / 2; mi.position.set(x * 0.8, 1.37, -0.38); bike.add(mi); });
   const wtc = mk(new THREE.CylinderGeometry(0.026, 0.026, 0.014, 18), M.gloss, 'pixel-watch'); wtc.rotation.x = Math.PI / 2 - 0.6; wtc.position.set(0, 1.14, -0.42); bike.add(wtc);
   const wsc = mk(new THREE.CircleGeometry(0.021, 18), screen, 'watch-screen'); wsc.position.set(0, 1.146, -0.414); wsc.rotation.x = -0.6 - Math.PI / 2 + Math.PI / 2; wsc.rotation.x = -0.97; bike.add(wsc);
   const tl = mk(new THREE.BoxGeometry(0.1, 0.05, 0.03), tail, 'taillight'); tl.position.set(0, 0.8, 0.98); bike.add(tl);
-  { const jacket = std('#3d4a3a', { roughness: 0.85 }), jeans = std('#2a3346', { roughness: 0.9 }), boot = std('#2a1f18'), helm = std('#18181c', { roughness: 0.3, metalness: 0.2 }), visor = std('#0d1a24', { roughness: 0.1, metalness: 0.6 }), skin = std('#b98a66'), glove = std('#1c1a18');
+  const plate = mk(new THREE.BoxGeometry(0.14, 0.09, 0.015), std('#e9e4da'), 'license-plate'); plate.position.set(0, 0.72, 1.0); plate.rotation.x = -0.25; bike.add(plate);
+  const discF = mk(new THREE.TorusGeometry(0.17, 0.012, 6, 20), M.chrome, 'brake-disc'); discF.rotation.y = Math.PI / 2; discF.position.set(-0.08, 0.36, -0.72); bike.add(discF);
+  const caliper = mk(new THREE.BoxGeometry(0.04, 0.06, 0.08), M.engine, 'brake-caliper'); caliper.position.set(-0.14, 0.3, -0.72); bike.add(caliper);
+  for (let i = 0; i < 22; i++) { const a = i / 22 * Math.PI * 2; const link = mk(new THREE.BoxGeometry(0.018, 0.018, 0.012), M.chrome, 'chain-link'); link.position.set(0.15, 0.36 + Math.sin(a) * 0.12, 0.35 + Math.cos(a) * 0.34); bike.add(link); }
+  { const jacket = std('#3d4a3a', { roughness: 0.85 }), jeans = std('#2a3346', { roughness: 0.9 }), boot = std('#2a1f18'), helm = new THREE.MeshPhysicalMaterial({ color: '#18181c', flatShading: true, roughness: 0.16, metalness: 0.25, clearcoat: 1, clearcoatRoughness: 0.1 }), visor = std('#0d1a24', { roughness: 0.1, metalness: 0.6 }), skin = std('#b98a66'), glove = std('#1c1a18');
     const rider = new THREE.Group(); rider.name = 'rider'; bike.add(rider);
     const put = (geo, mat, name, p, rx = 0) => { const m = mk(geo, mat, name); m.position.copy(p); m.rotation.x = rx; rider.add(m); return m; };
-    const limb = (a, b, r, mat, name) => { const d = new THREE.Vector3().subVectors(b, a); const m = mk(new THREE.CylinderGeometry(r * 0.85, r, d.length(), 6), mat, name); m.position.copy(a).addScaledVector(d, 0.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()); rider.add(m); return m; };
+    const limb = (a, b, r, mat, name) => { const d = new THREE.Vector3().subVectors(b, a); const m = mk(new THREE.CylinderGeometry(r * 0.85, r, d.length(), 10), mat, name); m.position.copy(a).addScaledVector(d, 0.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()); rider.add(m); return m; };
     put(new THREE.BoxGeometry(0.34, 0.16, 0.26), jeans, 'hips', V(0, 1.02, 0.3));
     put(new THREE.BoxGeometry(0.38, 0.5, 0.24, 1, 2, 1), jacket, 'torso', V(0, 1.3, 0.16), -0.55);
+    put(new THREE.BoxGeometry(0.03, 0.46, 0.01), std('#20241f'), 'jacket-zip', V(0, 1.32, 0.04), -0.55);
+    put(new THREE.BoxGeometry(0.3, 0.06, 0.24), std('#2c3628'), 'jacket-collar', V(0, 1.5, 0.1), -0.4);
     put(new THREE.BoxGeometry(0.3, 0.3, 0.16), std('#6b4a2e'), 'backpack', V(0, 1.36, 0.33), -0.55);
     put(new THREE.CylinderGeometry(0.05, 0.06, 0.08, 6), skin, 'neck', V(0, 1.55, 0.02));
-    const hel = put(new THREE.IcosahedronGeometry(0.15, 1), helm, 'helmet', V(0, 1.66, -0.02)); hel.scale.set(1, 1.05, 1.12);
+    const hel = put(new THREE.IcosahedronGeometry(0.15, 2), helm, 'helmet', V(0, 1.66, -0.02)); hel.scale.set(1, 1.05, 1.12);
     put(new THREE.BoxGeometry(0.22, 0.09, 0.05), visor, 'visor', V(0, 1.66, -0.17), 0.15);
     put(new THREE.BoxGeometry(0.04, 0.03, 0.3), std('#b3202a'), 'helmet-stripe', V(0, 1.81, -0.02));
     [-1, 1].forEach(s => { const sh = V(s * 0.19, 1.47, 0.06), el = V(s * 0.27, 1.27, -0.18), gr = V(s * 0.34, 1.12, -0.4);
@@ -557,12 +578,12 @@ transformed.z += sway * ${wdz.toFixed(3)};
   const watchGlow = glowSprite('#6ff0ff', 0.18, 0.9); watchGlow.position.set(0, 1.16, -0.41); bike.add(watchGlow);
 
   // MujaSauros — pillion dino guide
-  const dnSkin = std('#4bc97a', { roughness: 0.5 }), dnBelly = std('#fff3c4', { roughness: 0.6 }), dnDark = std('#16321f', { roughness: 0.5 }), dnRed = std('#ff5f6d', { roughness: 0.5 }), dnHorn = std('#ffd88c', { roughness: 0.4 });
+  const dnSkin = std('#4bc97a', { roughness: 0.4, metalness: 0.05 }), dnBelly = std('#fff3c4', { roughness: 0.5 }), dnDark = std('#16321f', { roughness: 0.4 }), dnRed = std('#ff5f6d', { roughness: 0.4 }), dnHorn = new THREE.MeshPhysicalMaterial({ color: '#ffd88c', flatShading: true, roughness: 0.22, clearcoat: 0.8, clearcoatRoughness: 0.15 });
   const dino = new THREE.Group(); dino.name = 'mujasauros';
-  const dBody = mk(new THREE.SphereGeometry(0.105, 12, 9), dnSkin, 'dino-body'); dBody.scale.set(1.15, 0.92, 1.35); dBody.position.set(0, 0.135, 0.02); dino.add(dBody);
-  const dBelly = mk(new THREE.SphereGeometry(0.08, 10, 8), dnBelly, 'dino-belly'); dBelly.scale.set(1, 0.85, 1.1); dBelly.position.set(0, 0.075, 0.03); dino.add(dBelly);
+  const dBody = mk(new THREE.SphereGeometry(0.105, 18, 14), dnSkin, 'dino-body'); dBody.scale.set(1.15, 0.92, 1.35); dBody.position.set(0, 0.135, 0.02); dino.add(dBody);
+  const dBelly = mk(new THREE.SphereGeometry(0.08, 16, 12), dnBelly, 'dino-belly'); dBelly.scale.set(1, 0.85, 1.1); dBelly.position.set(0, 0.075, 0.03); dino.add(dBelly);
   const dHead = new THREE.Group(); dHead.name = 'dino-head'; dHead.position.set(0, 0.225, -0.14); dino.add(dHead);
-  const dSkull = mk(new THREE.SphereGeometry(0.09, 12, 10), dnSkin, 'dino-skull'); dSkull.scale.set(1.05, 0.95, 1); dHead.add(dSkull);
+  const dSkull = mk(new THREE.SphereGeometry(0.09, 18, 16), dnSkin, 'dino-skull'); dSkull.scale.set(1.05, 0.95, 1); dHead.add(dSkull);
   const dSnout = mk(new THREE.BoxGeometry(0.09, 0.06, 0.05, 2, 2, 2), dnSkin, 'dino-snout'); dSnout.position.set(0, -0.02, -0.085); dHead.add(dSnout);
   const dJaw = new THREE.Group(); dJaw.name = 'dino-jaw'; dJaw.position.set(0, -0.05, -0.07); dHead.add(dJaw);
   const dJawMesh = mk(new THREE.BoxGeometry(0.075, 0.03, 0.045), dnBelly, 'dino-jaw-mesh'); dJawMesh.position.set(0, -0.008, -0.02); dJaw.add(dJawMesh);
@@ -575,8 +596,10 @@ transformed.z += sway * ${wdz.toFixed(3)};
   const dNoseHorn = mk(new THREE.ConeGeometry(0.015, 0.04, 6), dnHorn, 'dino-nose-horn'); dNoseHorn.position.set(0, -0.01, -0.11); dNoseHorn.rotation.x = -1.9; dHead.add(dNoseHorn);
   const dFrill = mk(new THREE.CylinderGeometry(0.1, 0.11, 0.025, 12, 1, true, 0, Math.PI), dnSkin, 'dino-frill'); dFrill.rotation.y = Math.PI; dFrill.position.set(0, 0.09, 0.03); dHead.add(dFrill);
   const dSpikes = []; for (let i = 0; i < 5; i++) { const a = (i / 4 - 0.5) * Math.PI * 0.85; const sp = mk(new THREE.ConeGeometry(0.015, 0.035, 5), dnHorn, 'dino-spike'); sp.position.set(Math.sin(a) * 0.105, 0.115 + Math.cos(a * 0.5) * 0.01, 0.03 + Math.cos(a) * 0.03); sp.rotation.x = 0.5; sp.rotation.z = -a; dHead.add(sp); dSpikes.push(sp); }
-  const dLegs = []; [[-0.075, -1], [0.075, -1], [-0.08, 1], [0.08, 1]].forEach(([x, zs]) => { const leg = mk(new THREE.CapsuleGeometry(0.028, 0.05, 4, 6), dnSkin, 'dino-leg'); leg.position.set(x, 0.028, zs * 0.09); dino.add(leg); dLegs.push({ m: leg, side: zs }); });
+  const dLegs = []; [[-0.075, -1], [0.075, -1], [-0.08, 1], [0.08, 1]].forEach(([x, zs]) => { const leg = mk(new THREE.CapsuleGeometry(0.028, 0.05, 6, 10), dnSkin, 'dino-leg'); leg.position.set(x, 0.028, zs * 0.09); dino.add(leg); dLegs.push({ m: leg, side: zs }); });
   const dTail = mk(new THREE.ConeGeometry(0.045, 0.11, 8), dnSkin, 'dino-tail'); dTail.rotation.x = Math.PI / 2 + 0.3; dTail.position.set(0, 0.12, 0.19); dino.add(dTail);
+  for (let i = 0; i < 6; i++) { const p = i / 5, sp = mk(new THREE.ConeGeometry(0.013, 0.032, 5), dnHorn, 'dino-spine-spike'); sp.position.set(0, 0.2 - p * 0.02, -0.1 + p * 0.32); sp.rotation.x = -0.2; dino.add(sp); }
+  dLegs && [-0.075, 0.075, -0.08, 0.08].forEach((x, i) => { const claw = mk(new THREE.ConeGeometry(0.01, 0.022, 5), dnHorn, 'dino-claw'); claw.position.set(x, 0.008, (i < 2 ? -1 : 1) * 0.09 - 0.03); claw.rotation.x = Math.PI / 2; dino.add(claw); });
   const dinoHit = mk(new THREE.SphereGeometry(0.22, 10, 8), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }), 'dino-hit'); dinoHit.position.set(0, 0.18, -0.04); dino.add(dinoHit);
   // Speech bubble above the head — replaces the old watch-face dialogue
   const dBubbleCanvas = document.createElement('canvas'); dBubbleCanvas.width = 480; dBubbleCanvas.height = 240;
@@ -609,7 +632,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
   const logSeatYaw = Math.atan2(FIRE.x - logSeat.x, FIRE.z - logSeat.z) + Math.PI;
   let riderState = 'onBike', riderT = 0; const riderFrom = new THREE.Vector3();
   const dinoSeatPos = new THREE.Vector3(0, 0.95, 0.82), dinoSeatRot = new THREE.Euler(0, 0, 0);
-  let dinoState = 'ride', dinoBreath = 0, dinoStand = 0, dinoAway = new THREE.Vector3(), dinoTarget = new THREE.Vector3(), dinoJumpT = 0, dinoRunPhase = 0, dinoSnapAt = 3 + Math.random() * 4, dinoSnapT = -1, dinoLookY = 0, dinoMood = 'curious', dinoJumpFrom = new THREE.Vector3(), dinoJumpTo = new THREE.Vector3(), dinoBaseY = 0, dinoReactT = -1, dinoFleeT = 0, dinoStuckT = 0, dinoSeekLake = false, dinoNoteCool = Object.create(null), curNight = 0, dinoCheckInT = 7, dinoSeekBike = false, dinoLingerT = 0, dinoChaseFF = false, dinoWagBoost = 0;
+  let dinoState = 'ride', dinoBreath = 0, dinoStand = 0, dinoAway = new THREE.Vector3(), dinoTarget = new THREE.Vector3(), dinoJumpT = 0, dinoRunPhase = 0, dinoSnapAt = 3 + Math.random() * 4, dinoSnapT = -1, dinoLookY = 0, dinoMood = 'curious', dinoJumpFrom = new THREE.Vector3(), dinoJumpTo = new THREE.Vector3(), dinoBaseY = 0, dinoReactT = -1, dinoFleeT = 0, dinoStuckT = 0, dinoSeekLake = false, dinoNoteCool = Object.create(null), curNight = 0, dinoCheckInT = 7, dinoSeekBike = false, dinoLingerT = 0, dinoChaseFF = false, dinoWagBoost = 0, dinoLandT = 0;
   // Roam target: a pet-like dino stays close — mostly chases nearby fireflies or sniffs field notes out of curiosity, otherwise wanders a short distance (avoids trees/rocks and the lake)
   function pickRoamTarget(originX, originZ) {
     dinoChaseFF = false;
@@ -654,12 +677,82 @@ transformed.z += sway * ${wdz.toFixed(3)};
     if (rnd() < 0.5) [-1, 1].forEach(s => { const a = mk(new THREE.ConeGeometry(0.02, 0.16, 4), antlerMat, 'deer-antler'); a.position.set(s * 0.05, 1.02, -0.52); a.rotation.x = -0.3; a.rotation.z = s * 0.3; g.add(a); });
     scene.add(g); deer.push({ g, legs, head, state: 'graze', t: rnd() * 4, phase: rnd() * 6, target: new THREE.Vector3() }); }
   const birdMat = std('#2e2c30'); const birds = [];
-  for (let k = 0; k < 14; k++) { const g = new THREE.Group(); g.name = 'bird';
+  for (let k = 0; k < 22; k++) { const g = new THREE.Group(); g.name = 'bird';
     const body = mk(new THREE.ConeGeometry(0.04, 0.14, 4), birdMat, 'bird-body'); body.rotation.x = Math.PI / 2; g.add(body);
     const wL = mk(new THREE.PlaneGeometry(0.16, 0.05), birdMat, 'bird-wing'); wL.position.set(-0.08, 0, 0); g.add(wL);
     const wR = mk(new THREE.PlaneGeometry(0.16, 0.05), birdMat, 'bird-wing'); wR.position.set(0.08, 0, 0); g.add(wR);
     scene.add(g); const cz = lerp(zAt(0.1), zAt(0.85), rnd()), cx = roadX(cz) + (rnd() - 0.5) * 90;
-    birds.push({ g, wL, wR, cx, cz, r: 6 + rnd() * 10, h: 16 + rnd() * 10 + H(cx, cz), ph: rnd() * 6, spd: 0.3 + rnd() * 0.3, flap: rnd() * 10 }); }
+    birds.push({ g, wL, wR, cx, cz, r: 6 + rnd() * 10, h: 16 + rnd() * 10 + H(cx, cz), ph: rnd() * 6, spd: 0.3 + rnd() * 0.3, flap: rnd() * 10, scatter: 0 }); }
+
+  // Butterflies — small fluttering accents near forest clearings
+  const flyMat = new THREE.MeshBasicMaterial({ color: '#f2b56b', side: THREE.DoubleSide, transparent: true, opacity: 0.9 });
+  const BF = lp ? 12 : 26, flies2 = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.09, 0.06), flyMat, BF); flies2.name = 'butterflies'; flies2.frustumCulled = false;
+  const flyDat = []; const BFC = ['#f2b56b', '#f6ecd8', '#9fe06e', '#e88a5a'].map(c => new THREE.Color(c));
+  for (let k = 0; k < BF; k++) { const z = lerp(zAt(0.12), zAt(0.88), rnd()), x = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (8 + rnd() * 40), y = H(x, z) + 0.6 + rnd() * 0.8;
+    flies2.setColorAt(k, BFC[k % BFC.length]); flyDat.push({ x0: x, y0: y, z0: z, ph: rnd() * 10, spd: 0.6 + rnd() * 0.8 }); }
+  scene.add(flies2);
+
+  // Night owls — perched forest sentries, active after dark
+  const owlMat = std('#5a4a3a'), owlBelly = std('#c9a878'), owlEye = new THREE.MeshBasicMaterial({ color: '#ffd35a' });
+  const owls = [];
+  for (let k = 0; k < 3; k++) { let x = 0, z = 0; for (let tries = 0; tries < 20; tries++) { z = lerp(zAt(0.15), zAt(0.8), rnd()); x = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (10 + rnd() * 30); if (okSpot(x, z, 6)) break; }
+    const y = H(x, z); const g = new THREE.Group(); g.name = 'owl'; g.position.set(x, y + 1.4, z);
+    const body = mk(new THREE.SphereGeometry(0.13, 10, 8), owlMat, 'owl-body'); body.scale.set(1, 1.25, 0.9); g.add(body);
+    const belly = mk(new THREE.SphereGeometry(0.09, 8, 6), owlBelly, 'owl-belly'); belly.position.set(0, -0.02, 0.09); g.add(belly);
+    [-1, 1].forEach(s => { const ear = mk(new THREE.ConeGeometry(0.025, 0.06, 5), owlMat, 'owl-ear'); ear.position.set(s * 0.06, 0.19, 0.02); g.add(ear);
+      const eye = mk(new THREE.SphereGeometry(0.028, 8, 6), owlEye, 'owl-eye'); eye.position.set(s * 0.05, 0.08, 0.11); g.add(eye); });
+    const beak = mk(new THREE.ConeGeometry(0.02, 0.04, 5), std('#e8a83a'), 'owl-beak'); beak.rotation.x = Math.PI / 2; beak.position.set(0, 0.03, 0.13); g.add(beak);
+    scene.add(g); owls.push({ g, ph: rnd() * 10, blinkAt: 2 + rnd() * 4 }); }
+
+  // Lake fish jumps
+  const fishMat = std('#b7c4cf', { roughness: 0.3, metalness: 0.2 });
+  const fishJump = mk(new THREE.CapsuleGeometry(0.05, 0.16, 3, 6), fishMat, 'fish'); fishJump.visible = false; scene.add(fishJump);
+  let fishT = 4 + Math.random() * 6, fishJumping = 0, fishFrom = new THREE.Vector3(), fishTo = new THREE.Vector3();
+  const fishSplash = glowSprite('#dff4ff', 1.6, 0); scene.add(fishSplash);
+
+  // New wildlife — rabbits, foxes, squirrels, mountain goats, a desert roadrunner: each an ownable silhouette with idle/wander/flee behavior
+  const critters = [];
+  function spawnCritter(kind, zRange, mat, opt) {
+    for (let tries = 0; tries < 26; tries++) {
+      const z = lerp(zRange[0], zRange[1], rnd()), x = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (opt.minOff + rnd() * 45);
+      if (!okSpot(x, z, opt.clear)) continue;
+      const y = H(x, z); const g = new THREE.Group(); g.name = kind; g.position.set(x, y, z); g.rotation.y = rnd() * 6;
+      const legs = []; opt.build(g, mat, legs);
+      scene.add(g); critters.push({ g, legs, kind, state: 'idle', t: rnd() * 3, phase: rnd() * 6, target: new THREE.Vector3(), hop: !!opt.hop, wanderSpd: opt.wanderSpd, fleeSpd: opt.fleeSpd, fleeDist: opt.fleeDist, gait: opt.gait || 6 });
+      return;
+    }
+  }
+  const cM = { rabbit: std('#c9b896'), rabbitTail: std('#fbf3e2'), fox: std('#d9743a'), foxTip: std('#f6ecd8'), squirrel: std('#8a6a44'), squirrelTail: std('#d8cdb0'), goat: std('#d9d3c0'), goatHorn: std('#463a2c'), roadr: std('#6b5a3a'), roadrCrest: std('#2f2a1c'), roadrLeg: std('#c98a3a') };
+  for (let k = 0; k < 14; k++) spawnCritter('rabbit', [zAt(0.08), zAt(0.92)], cM.rabbit, { hop: true, wanderSpd: 1.1, fleeSpd: 5.2, fleeDist: 6, clear: 5, minOff: 6,
+    build: (g, mat, legs) => { const body = mk(new THREE.CapsuleGeometry(0.085, 0.1, 3, 6), mat, 'rabbit-body'); body.rotation.z = Math.PI / 2; body.position.y = 0.1; g.add(body);
+      const head = mk(new THREE.SphereGeometry(0.065, 8, 6), mat, 'rabbit-head'); head.position.set(0, 0.17, -0.11); g.add(head);
+      [-1, 1].forEach(s => { const ear = mk(new THREE.CapsuleGeometry(0.016, 0.11, 2, 4), mat, 'rabbit-ear'); ear.position.set(s * 0.028, 0.3, -0.12); ear.rotation.z = s * 0.12; g.add(ear); });
+      const tail = mk(new THREE.SphereGeometry(0.04, 6, 6), cM.rabbitTail, 'rabbit-tail'); tail.position.set(0, 0.12, 0.12); g.add(tail);
+      for (let i = 0; i < 4; i++) { const leg = mk(new THREE.CylinderGeometry(0.018, 0.022, 0.09, 5), mat, 'rabbit-leg'); leg.position.set((i % 2 ? 1 : -1) * 0.045, 0.045, i < 2 ? -0.05 : 0.05); g.add(leg); legs.push(leg); } } });
+  for (let k = 0; k < 9; k++) spawnCritter('fox', [zAt(0.55), zAt(0.97)], cM.fox, { wanderSpd: 1.3, fleeSpd: 5.6, fleeDist: 7, clear: 6, minOff: 8,
+    build: (g, mat, legs) => { const body = mk(new THREE.CapsuleGeometry(0.11, 0.22, 4, 8), mat, 'fox-body'); body.rotation.z = Math.PI / 2; body.position.y = 0.16; body.castShadow = !lp; g.add(body);
+      const head = mk(new THREE.ConeGeometry(0.09, 0.2, 6), mat, 'fox-head'); head.rotation.x = Math.PI / 2; head.position.set(0, 0.22, -0.24); g.add(head);
+      [-1, 1].forEach(s => { const ear = mk(new THREE.ConeGeometry(0.035, 0.08, 5), mat, 'fox-ear'); ear.position.set(s * 0.05, 0.32, -0.2); g.add(ear); });
+      const tail = mk(new THREE.ConeGeometry(0.07, 0.42, 7), mat, 'fox-tail'); tail.rotation.x = Math.PI / 2 + 0.5; tail.position.set(0, 0.2, 0.32); g.add(tail);
+      const tip = mk(new THREE.SphereGeometry(0.045, 6, 6), cM.foxTip, 'fox-tail-tip'); tip.position.set(0, 0.09, 0.52); g.add(tip);
+      for (let i = 0; i < 4; i++) { const leg = mk(new THREE.CylinderGeometry(0.025, 0.03, 0.17, 5), mat, 'fox-leg'); leg.position.set((i % 2 ? 1 : -1) * 0.07, 0.09, i < 2 ? -0.1 : 0.1); g.add(leg); legs.push(leg); } } });
+  for (let k = 0; k < 12; k++) spawnCritter('squirrel', [zAt(0.1), zAt(0.75)], cM.squirrel, { wanderSpd: 1.6, fleeSpd: 5.8, fleeDist: 5, clear: 4, minOff: 4, gait: 10,
+    build: (g, mat, legs) => { const body = mk(new THREE.CapsuleGeometry(0.055, 0.08, 3, 6), mat, 'sq-body'); body.rotation.x = 0.5; body.position.y = 0.08; g.add(body);
+      const head = mk(new THREE.SphereGeometry(0.045, 8, 6), mat, 'sq-head'); head.position.set(0, 0.13, -0.08); g.add(head);
+      const tail = mk(new THREE.ConeGeometry(0.06, 0.26, 6), cM.squirrelTail, 'sq-tail'); tail.rotation.x = -1.3; tail.position.set(0, 0.2, 0.12); g.add(tail);
+      for (let i = 0; i < 4; i++) { const leg = mk(new THREE.CylinderGeometry(0.014, 0.017, 0.07, 4), mat, 'sq-leg'); leg.position.set((i % 2 ? 1 : -1) * 0.035, 0.035, i < 2 ? -0.04 : 0.04); g.add(leg); legs.push(leg); } } });
+  for (let k = 0; k < 7; k++) spawnCritter('goat', [sZ(2) + 60, sZ(3) - 55], cM.goat, { wanderSpd: 0.8, fleeSpd: 4.2, fleeDist: 8, clear: 7, minOff: 3, gait: 4,
+    build: (g, mat, legs) => { const body = mk(new THREE.CapsuleGeometry(0.16, 0.26, 4, 8), mat, 'goat-body'); body.rotation.z = Math.PI / 2; body.position.y = 0.32; body.castShadow = !lp; g.add(body);
+      const head = mk(new THREE.BoxGeometry(0.14, 0.16, 0.2), mat, 'goat-head'); head.position.set(0, 0.46, -0.28); g.add(head);
+      [-1, 1].forEach(s => { const horn = mk(new THREE.ConeGeometry(0.025, 0.22, 6), cM.goatHorn, 'goat-horn'); horn.position.set(s * 0.06, 0.58, -0.32); horn.rotation.x = -0.7; horn.rotation.z = s * 0.3; g.add(horn); });
+      for (let i = 0; i < 4; i++) { const leg = mk(new THREE.CylinderGeometry(0.032, 0.038, 0.32, 5), mat, 'goat-leg'); leg.position.set((i % 2 ? 1 : -1) * 0.1, 0.16, i < 2 ? -0.16 : 0.16); g.add(leg); legs.push(leg); } } });
+  for (let k = 0; k < 8; k++) spawnCritter('roadrunner', [DESERT.z - DESERT.r, DESERT.z + DESERT.r], cM.roadr, { wanderSpd: 1.8, fleeSpd: 8, fleeDist: 7, clear: 4, minOff: 4, gait: 12,
+    build: (g, mat, legs) => { const body = mk(new THREE.ConeGeometry(0.09, 0.32, 6), mat, 'rr-body'); body.rotation.x = Math.PI / 2 + 0.2; body.position.y = 0.24; g.add(body);
+      const head = mk(new THREE.SphereGeometry(0.05, 8, 6), mat, 'rr-head'); head.position.set(0, 0.33, -0.2); g.add(head);
+      const beak = mk(new THREE.ConeGeometry(0.015, 0.1, 5), cM.roadrCrest, 'rr-beak'); beak.rotation.x = Math.PI / 2; beak.position.set(0, 0.33, -0.29); g.add(beak);
+      const crest = mk(new THREE.ConeGeometry(0.02, 0.08, 4), cM.roadrCrest, 'rr-crest'); crest.position.set(0, 0.4, -0.16); crest.rotation.x = -0.4; g.add(crest);
+      const tail = mk(new THREE.PlaneGeometry(0.06, 0.3), mat, 'rr-tail'); tail.position.set(0, 0.28, 0.24); tail.rotation.x = 0.3; g.add(tail);
+      [-1, 1].forEach(s => { const leg = mk(new THREE.CylinderGeometry(0.012, 0.014, 0.2, 4), cM.roadrLeg, 'rr-leg'); leg.position.set(s * 0.03, 0.1, 0); g.add(leg); legs.push(leg); }); } });
 
   // Fireflies
   const FN = lp ? 140 : 320; const ffg = new THREE.BufferGeometry(); const ffp = new Float32Array(FN * 3), ffv = new Float32Array(FN * 3);
@@ -695,7 +788,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
   // Input
   let lastMouse = 0; const aimNDC = new THREE.Vector2(), projV = new THREE.Vector3(), headAim = new THREE.Vector3(0, 0, -14), gPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), gPt = new THREE.Vector3();
   let target = 0, t = 0, steer = 0, steerT = 0, keyDir = 0, mobile = !!opts.mobile;
-  let vel = 0, yawOff = 0, pitchOff = 0, lastPan = 0, free = false, fx = 0, fz = 0, fh = 0, fs = 0, curSpeed = 0, lastFreeCb = 0, brakeSpd = 0, shake = 0, lastBX = 0, lastBZ = 0, susY = null, susVel = 0, susFront = 0, susRear = 0, susFrontV = 0, susRearV = 0, stickX = 0, stickY = 0; const keys = {}, touch = {};
+  let vel = 0, yawOff = 0, pitchOff = 0, lastPan = 0, free = false, fx = 0, fz = 0, fh = 0, fs = 0, curSpeed = 0, lastFreeCb = 0, brakeSpd = 0, shake = 0, lastBX = 0, lastBZ = 0, lastYaw = 0, susY = null, susVel = 0, susFront = 0, susRear = 0, susFrontV = 0, susRearV = 0, stickX = 0, stickY = 0, airY = 0, airVel = 0, grounded = true; const keys = {}, touch = {};
   const mouse = new THREE.Vector2(0, 0), mouseW = new THREE.Vector3(), ray = new THREE.Raycaster();
   let down = null, lastRip = 0, hover = -1;
   const wPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -LAKE.y), wPt = new THREE.Vector3();
@@ -714,7 +807,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
   const startFlee = () => { const dx = dino.position.x - lastBX, dz = dino.position.z - lastBZ, d = Math.hypot(dx, dz) || 1, away = 3 + Math.random() * 3;
     dinoTarget.set(dino.position.x + dx / d * away, 0, dino.position.z + dz / d * away); dinoFleeT = 4.5 + Math.random() * 2.5; };
   const clickDino = () => { dinoReactT = 0.5; if (dinoState === 'roam') { dinoSeekLake = false; dinoSeekBike = false; dinoLingerT = 0; opts.onDino && opts.onDino('flee'); startFlee(); } else { opts.onDino && opts.onDino('poke'); } };
-  const onDown = e => { down = { x: e.clientX, y: e.clientY, yo: yawOff, po: pitchOff, t: performance.now(), drag: false, pad: mobile && free && e.clientY > host.clientHeight * 0.58 }; };
+  const onDown = e => { down = { x: e.clientX, y: e.clientY, yo: yawOff, po: pitchOff, t: performance.now(), drag: false, pad: mobile && free && e.clientY > host.clientHeight * 0.5 && e.clientX < host.clientWidth * 0.55 }; };
   const onMove = e => { toNDC(e); if (e.pointerType !== 'touch') lastMouse = performance.now();
     if (down) { const dx = e.clientX - down.x, dy = e.clientY - down.y; if (Math.hypot(dx, dy) > 6) down.drag = true;
       if (down.drag && down.pad) { const R = 70; let ddx = dx, ddy = dy; const d = Math.hypot(ddx, ddy); if (d > R) { ddx = ddx / d * R; ddy = ddy / d * R; } stickX = clamp(ddx / R, -1, 1); stickY = clamp(-ddy / R, -1, 1); }
@@ -723,8 +816,8 @@ transformed.z += sway * ${wdz.toFixed(3)};
     if (e.target === canvas && now - lastRip > 90) { lastRip = now; const wp = waterHit(); if (wp) wU.rip.value[ripI++ % 8].set(wp.x, wp.z, wU.time.value); hover = hitNote(); canvas.style.cursor = hover >= 0 ? 'pointer' : fireHit() ? 'pointer' : hitDino() ? 'pointer' : down && down.drag ? 'grabbing' : 'grab'; } };
   const onUp = e => { if (down && down.pad) { stickX = 0; stickY = 0; }
     if (down && !down.drag && e.target === canvas && performance.now() - down.t < 500) { toNDC(e); const n = hitNote(); if (n >= 0) opts.onNote && opts.onNote(n, e.clientX, e.clientY); else if (hitDino()) clickDino(); else { const wp = waterHit(); if (wp) for (let k = 0; k < 3; k++) wU.rip.value[ripI++ % 8].set(wp.x + k * 0.01, wp.z, wU.time.value + k * 0.35); } } down = null; };
-  const KM = { arrowleft: 'l', a: 'l', arrowright: 'r', d: 'r', arrowup: 'u', w: 'u', arrowdown: 'b', s: 'b' };
-  const onKey = e => { if (e.target && /input|textarea|select/i.test(e.target.tagName)) return; const m = KM[(e.key || '').toLowerCase()]; if (!m) return; if (!free && (m === 'u' || m === 'b')) return; keys[m] = e.type === 'keydown'; e.preventDefault(); };
+  const KM = { arrowleft: 'l', a: 'l', arrowright: 'r', d: 'r', arrowup: 'u', w: 'u', arrowdown: 'b', s: 'b', ' ': 'jump' };
+  const onKey = e => { if (e.target && /input|textarea|select/i.test(e.target.tagName)) return; const m = KM[(e.key || '').toLowerCase()]; if (!m) return; if (!free && (m === 'u' || m === 'b' || m === 'jump')) return; keys[m] = e.type === 'keydown'; e.preventDefault(); };
   canvas.addEventListener('pointerdown', onDown); window.addEventListener('pointermove', onMove); window.addEventListener('pointerup', onUp); window.addEventListener('keydown', onKey); window.addEventListener('keyup', onKey);
   const onResize = () => { const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return; renderer.setSize(w, h); resizePost(); camera.aspect = w / h; camera.fov = w < h ? 64 : 52; camera.updateProjectionMatrix(); };
   window.addEventListener('resize', onResize); onResize();
@@ -758,7 +851,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
       yaw = Math.atan2(-fr.f.x, -fr.f.z); pitch = Math.atan(fr.slope) * 0.8;
       const curv = (roadX(z - 3) - 2 * roadX(z) + roadX(z + 3));
       spd = Math.abs(prevZ - z) / Math.max(dt, 1e-3);
-      lean += (clamp(-(steer - ps) / Math.max(dt, 1e-3) * 0.12 + curv * spd * 0.02, -0.45, 0.45) - lean) * (1 - Math.exp(-dt * 6));
+      lean += (clamp(-(steer - ps) / Math.max(dt, 1e-3) * 0.15 + curv * spd * 0.028, -0.52, 0.52) - lean) * (1 - Math.exp(-dt * 7));
       wheels.forEach(w => { w.rotation.x -= (prevZ - z) / 0.36; });
       fx = bp.x; fz = bp.z; fh = yaw; fs = 0;
     } else {
@@ -766,25 +859,30 @@ transformed.z += sway * ${wdz.toFixed(3)};
       const accel = (thr > 0 ? (fs < 0 ? 20 : 12) : (fs > 0 ? 20 : 8)) * (1 - Math.min(0.6, Math.abs(fs) / 30));
       fs += thr * dt * accel; if (!thr) fs *= Math.exp(-dt * 0.85); fs = clamp(fs, -5, 24);
       const turnRate = 2.3 * clamp(1 - Math.abs(fs) / 42, 0.6, 1);
-      fh -= keyDir * dt * turnRate * clamp(Math.abs(fs) / 2.2, 0, 1) * (fs < 0 ? -1 : 1);
+      fh -= keyDir * dt * turnRate * clamp(Math.abs(fs) / 2.2, 0.18, 1) * (fs < 0 ? -1 : 1);
       const dir = fs < 0 ? -1 : 1, nx = fx - Math.sin(fh) * fs * dt, nz = fz - Math.cos(fh) * fs * dt;
       const steep = roadDist(nx, nz) > roadW(nz) + 0.5 && hFast(fx - Math.sin(fh) * dir, fz - Math.cos(fh) * dir) - hFast(fx, fz) > 1.0;
       const hit = collideAt(nx, nz, 0.25);
-      if (nx > TX0 + 25 && nx < TX1 - 25 && nz < TZ0 - 25 && nz > TZ1 + 25 && !steep && !hit) { fx = nx; fz = nz; } else { fs *= -0.3; shake = 1; opts.onBrake && opts.onBrake(); if (hit) { const pdx = fx - hit.x, pdz = fz - hit.z, pl = Math.hypot(pdx, pdz) || 1; fx += pdx / pl * 0.12; fz += pdz / pl * 0.12; } }
-      z = fz; bp = tmp.set(fx, groundY(fx, fz), fz); yaw = fh;
+      if (nx > TX0 + 25 && nx < TX1 - 25 && nz < TZ0 - 25 && nz > TZ1 + 25 && !steep && !hit) { fx = nx; fz = nz; } else { fs *= -0.3; shake = 1; opts.onBrake && opts.onBrake();
+        if (hit) { const pdx = fx - hit.x, pdz = fz - hit.z, pl = Math.hypot(pdx, pdz) || 1, nx2 = pdx / pl, nz2 = pdz / pl, tx2 = -nz2, tz2 = nx2;
+          const along = (nx - fx) * tx2 + (nz - fz) * tz2; fx += nx2 * 0.12 + tx2 * along * 0.6; fz += nz2 * 0.12 + tz2 * along * 0.6; } }
+      z = fz; const gy0 = groundY(fx, fz);
+      if ((keys.jump || touch.jump) && grounded) { airVel = 7.2; grounded = false; shake = Math.max(shake, 0.3); }
+      if (!grounded) { airVel -= 20 * dt; airY += airVel * dt; if (airY <= 0) { airY = 0; airVel = 0; grounded = true; shake = Math.max(shake, 0.55); } }
+      bp = tmp.set(fx, gy0 + airY, fz); yaw = fh;
       const ga = groundY(fx - Math.sin(fh) * 0.8, fz - Math.cos(fh) * 0.8), gb = groundY(fx + Math.sin(fh) * 0.8, fz + Math.cos(fh) * 0.8); pitch = Math.atan2(ga - gb, 1.6);
-      lean += (clamp(keyDir * fs * 0.03, -0.45, 0.45) - lean) * (1 - Math.exp(-dt * 5));
+      lean += (clamp(keyDir * fs * 0.04, -0.52, 0.52) - lean) * (1 - Math.exp(-dt * 6));
       spd = Math.abs(fs); wheels.forEach(w => { w.rotation.x -= fs * dt / 0.36; });
       fr = { f: new THREE.Vector3(-Math.sin(fh), 0, -Math.cos(fh)), r: new THREE.Vector3(Math.cos(fh), 0, -Math.sin(fh)) };
       if (opts.onFree && T - lastFreeCb > 0.25) { lastFreeCb = T; opts.onFree(clamp((Z0 - fz) / L, 0, 1), fs); }
     }
-    prevZ = z;
+    prevZ = z; lastYaw = yaw;
     if (susY === null) susY = bp.y;
-    susVel += (bp.y - susY) * 260 * dt; susVel *= Math.max(0, 1 - dt * 14); susY += susVel * dt;
-    const susTravel = clamp(bp.y - susY, -0.16, 0.22); susY = bp.y - susTravel;
+    susVel += (bp.y - susY) * 300 * dt; susVel *= Math.max(0, 1 - dt * 12.5); susY += susVel * dt;
+    const susTravel = clamp(bp.y - susY, -0.19, 0.25); susY = bp.y - susTravel;
     const groundYAhead = groundY(bp.x - Math.sin(yaw) * 0.75, bp.z - Math.cos(yaw) * 0.75), groundYBack = groundY(bp.x + Math.sin(yaw) * 0.65, bp.z + Math.cos(yaw) * 0.65);
-    susFrontV += ((groundYAhead - bp.y) - susFront) * 220 * dt; susFrontV *= Math.max(0, 1 - dt * 16); susFront += susFrontV * dt; susFront = clamp(susFront, -0.14, 0.1);
-    susRearV += ((groundYBack - bp.y) - susRear) * 220 * dt; susRearV *= Math.max(0, 1 - dt * 16); susRear += susRearV * dt; susRear = clamp(susRear, -0.14, 0.1);
+    susFrontV += ((groundYAhead - bp.y) - susFront) * 250 * dt; susFrontV *= Math.max(0, 1 - dt * 14); susFront += susFrontV * dt; susFront = clamp(susFront, -0.16, 0.12);
+    susRearV += ((groundYBack - bp.y) - susRear) * 250 * dt; susRearV *= Math.max(0, 1 - dt * 14); susRear += susRearV * dt; susRear = clamp(susRear, -0.16, 0.12);
     bp.y = susY;
     if (Math.abs(susTravel) > 0.04) shake = Math.max(shake, Math.min(1, Math.abs(susTravel) * 3.5));
     bikeRoot.position.copy(bp); bikeRoot.rotation.set(pitch + (susRear - susFront) * 0.4, yaw, 0, 'YXZ'); bike.rotation.z = -lean;
@@ -824,6 +922,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
       dinoLookY += (Math.sin(dinoBreath * 0.4) * 0.5 - dinoLookY) * dt * 2; dHead.rotation.y = dinoLookY * (dinoState === 'ride' ? 0.5 : 0.15);
       let reactBounce = 0; if (dinoReactT > 0) { dinoReactT -= dt; const rp = clamp(dinoReactT / 0.5, 0, 1); reactBounce = Math.abs(Math.sin(rp * Math.PI * 3)) * rp; dHead.rotation.z = Math.sin(rp * Math.PI * 4) * 0.22 * rp; dEars.forEach(e => { e.rotation.x = -reactBounce * 0.3; }); }
       if (dinoState === 'ride') dBody.position.y = 0.135 + reactBounce * 0.03;
+      if (dinoLandT > 0) { dinoLandT -= dt; const lp = Math.max(0, dinoLandT) / 0.3, sq = Math.sin(lp * Math.PI) * 0.3 * lp; dBody.scale.y *= 1 - sq; dBody.scale.x *= 1 + sq * 0.5; dBody.scale.z *= 1 + sq * 0.5; }
 
       if (dinoState === 'ride') {
         if (curSpeed > 1.0) rideStarted = true;
@@ -833,7 +932,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
         dinoJumpT += dt / 0.55; const p = clamp(dinoJumpT, 0, 1), ease = p * p * (3 - 2 * p);
         dino.position.lerpVectors(dinoJumpFrom, dinoJumpTo, ease); dino.position.y += Math.sin(p * Math.PI) * 0.5;
         dino.rotation.y += dt * 8; dino.rotation.x = -Math.sin(p * Math.PI) * 0.6;
-        if (p >= 1) { dinoState = 'roam'; dino.rotation.set(0, Math.random() * Math.PI * 2, 0); dinoCheckInT = 6 + Math.random() * 6;
+        if (p >= 1) { dinoState = 'roam'; dino.rotation.set(0, Math.random() * Math.PI * 2, 0); dinoCheckInT = 6 + Math.random() * 6; dinoLandT = 0.3;
           if (dinoSeekLake) { const ddx = dino.position.x - LAKE.x, ddz = dino.position.z - LAKE.z, dl = Math.hypot(ddx, ddz) || 1, edge = LAKE.r + 1.2; dinoTarget.set(LAKE.x + ddx / dl * edge, 0, LAKE.z + ddz / dl * edge); }
           else pickRoamTarget(dino.position.x, dino.position.z);
         }
@@ -885,7 +984,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
         const worldSeatTarget = bike.localToWorld(dinoSeatPos.clone());
         dino.position.lerpVectors(dinoJumpFrom, worldSeatTarget, ease); dino.position.y += Math.sin(p * Math.PI) * 0.45;
         const jdx = worldSeatTarget.x - dinoJumpFrom.x, jdz = worldSeatTarget.z - dinoJumpFrom.z; if (Math.hypot(jdx, jdz) > 0.05) { const targetYaw2 = Math.atan2(-jdx, -jdz); let dy2 = targetYaw2 - dino.rotation.y; dy2 = Math.atan2(Math.sin(dy2), Math.cos(dy2)); dino.rotation.y += dy2 * Math.min(1, dt * 8); }
-        if (p >= 1) { dinoState = 'ride'; bike.attach(dino); dino.position.copy(dinoSeatPos); dino.rotation.set(0, 0, 0); dinoStand = 0; dinoRoamT = 0; }
+        if (p >= 1) { dinoState = 'ride'; bike.attach(dino); dino.position.copy(dinoSeatPos); dino.rotation.set(0, 0, 0); dinoStand = 0; dinoRoamT = 0; dinoLandT = 0.3; }
       }
     }
     for (let gi = 0; gi < GUIDE.length; gi++) { const g = GUIDE[gi]; if (!g.fired && tE >= g.t) { g.fired = true; setDinoBubble(g.text); } }
@@ -909,7 +1008,33 @@ transformed.z += sway * ${wdz.toFixed(3)};
       else if (d.state === 'walk') { const dx = d.target.x - d.g.position.x, dz = d.target.z - d.g.position.z, dl = Math.hypot(dx, dz);
         if (dl < 0.3) { d.state = 'graze'; d.t = 3 + rnd() * 4; } else { const sp = 1.1; d.g.position.x += dx / dl * sp * dt; d.g.position.z += dz / dl * sp * dt; d.g.position.y = H(d.g.position.x, d.g.position.z);
           const ty = Math.atan2(-dx, -dz); let dy = ty - d.g.rotation.y; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); d.g.rotation.y += dy * Math.min(1, dt * 5); d.phase += dt * 4; d.legs.forEach((l, i) => { l.rotation.x = Math.sin(d.phase + (i % 2 ? Math.PI : 0)) * 0.4; }); } } });
-    birds.forEach(b => { b.ph += dt * b.spd; b.flap += dt * 14; const a = b.ph; b.g.position.set(b.cx + Math.cos(a) * b.r, b.h + Math.sin(a * 2) * 1.2, b.cz + Math.sin(a) * b.r * 0.7); b.g.rotation.y = -a - Math.PI / 2; const flapA = Math.sin(b.flap) * 0.6; b.wL.rotation.z = flapA; b.wR.rotation.z = -flapA; });
+    critters.forEach(c => {
+      const distBike = Math.hypot(bp.x - c.g.position.x, bp.z - c.g.position.z), distDino = Math.hypot(dino.position.x - c.g.position.x, dino.position.z - c.g.position.z), threat = Math.min(distBike, distDino);
+      if (threat < c.fleeDist && c.state !== 'flee') { c.state = 'flee'; const fromX = distBike < distDino ? bp.x : dino.position.x, fromZ = distBike < distDino ? bp.z : dino.position.z, dx = c.g.position.x - fromX, dz = c.g.position.z - fromZ, dl = Math.hypot(dx, dz) || 1; c.target.set(c.g.position.x + dx / dl * 10, 0, c.g.position.z + dz / dl * 10); }
+      if (c.state === 'flee') { const dx = c.target.x - c.g.position.x, dz = c.target.z - c.g.position.z, dl = Math.hypot(dx, dz);
+        if (dl < 0.4 || threat > c.fleeDist + 5) { c.state = 'idle'; c.t = 1.5 + rnd() * 2; } else { const [adx, adz] = dinoAvoid(c.g.position.x, c.g.position.z, dx / dl, dz / dl);
+          c.g.position.x += adx * c.fleeSpd * dt; c.g.position.z += adz * c.fleeSpd * dt; c.g.position.y = H(c.g.position.x, c.g.position.z);
+          const ty = Math.atan2(-adx, -adz); let dy = ty - c.g.rotation.y; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); c.g.rotation.y += dy * Math.min(1, dt * 8);
+          c.phase += dt * c.gait; c.legs.forEach((l, i) => { l.rotation.x = Math.sin(c.phase + (i % 2 ? Math.PI : 0)) * (c.hop ? 0.9 : 0.6); });
+          if (c.hop) c.g.position.y += Math.abs(Math.sin(c.phase)) * 0.06; } }
+      else if (c.state === 'idle') { c.t -= dt; c.g.scale.setScalar(1 + Math.sin(T * 2.4 + c.phase) * 0.02);
+        if (c.t <= 0) { c.g.scale.setScalar(1); c.state = 'walk'; const a = rnd() * Math.PI * 2, r = 1.5 + rnd() * (c.kind === 'goat' ? 5 : 3), nx = c.g.position.x + Math.cos(a) * r, nz = c.g.position.z + Math.sin(a) * r; if (!collideAt(nx, nz, 0.4)) c.target.set(nx, 0, nz); else c.t = 1; } }
+      else if (c.state === 'walk') { const dx = c.target.x - c.g.position.x, dz = c.target.z - c.g.position.z, dl = Math.hypot(dx, dz);
+        if (dl < 0.3) { c.state = 'idle'; c.t = 2 + rnd() * 3; } else { const [adx, adz] = dinoAvoid(c.g.position.x, c.g.position.z, dx / dl, dz / dl);
+          c.g.position.x += adx * c.wanderSpd * dt; c.g.position.z += adz * c.wanderSpd * dt; c.g.position.y = H(c.g.position.x, c.g.position.z);
+          const ty = Math.atan2(-adx, -adz); let dy = ty - c.g.rotation.y; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); c.g.rotation.y += dy * Math.min(1, dt * 5);
+          c.phase += dt * c.gait * 0.6; c.legs.forEach((l, i) => { l.rotation.x = Math.sin(c.phase + (i % 2 ? Math.PI : 0)) * (c.hop ? 0.5 : 0.35); });
+          if (c.hop) c.g.position.y += Math.abs(Math.sin(c.phase)) * 0.035; } }
+    });
+    birds.forEach(b => { b.ph += dt * b.spd; b.flap += dt * 14; const distB = Math.hypot(bp.x - b.cx, bp.z - b.cz); b.scatter += ((distB < 22 ? 1 : 0) - b.scatter) * dt * 2;
+      const a = b.ph; const rr = b.r * (1 + b.scatter * 0.6); b.g.position.set(b.cx + Math.cos(a) * rr, b.h + b.scatter * 4 + Math.sin(a * 2) * 1.2, b.cz + Math.sin(a) * rr * 0.7); b.g.rotation.y = -a - Math.PI / 2; const flapA = Math.sin(b.flap * (1 + b.scatter * 0.8)) * 0.6; b.wL.rotation.z = flapA; b.wR.rotation.z = -flapA; });
+    flies2.count = BF; flyDat.forEach((f, i) => { const tt = T * f.spd + f.ph; const x = f.x0 + Math.sin(tt) * 1.4 + Math.sin(tt * 2.3) * 0.4, y = f.y0 + Math.sin(tt * 1.7) * 0.35, z = f.z0 + Math.cos(tt * 0.8) * 1.4;
+      dummy.position.set(x, y, z); dummy.rotation.set(0, T * 2 + i, Math.sin(T * 10 + i) * 0.5); dummy.updateMatrix(); flies2.setMatrixAt(i, dummy.matrix); }); flies2.instanceMatrix.needsUpdate = true; flyMat.opacity = lerp(0.15, 0.95, 1 - night * 0.7);
+    owls.forEach(o => { const on = night > 0.3; o.g.visible = on; if (on) { o.ph += dt; o.g.rotation.y = Math.sin(o.ph * 0.3) * 0.4; o.blinkAt -= dt; const blink = o.blinkAt < 0.12 ? 0.15 : 1; o.g.children.forEach(c => { if (c.name === 'owl-eye') c.scale.y = blink; }); if (o.blinkAt < 0) o.blinkAt = 2.5 + Math.random() * 4; } });
+    fishT -= dt; if (fishT <= 0 && fishJumping <= 0 && !free) { fishT = 5 + Math.random() * 9; fishJumping = 1; const a2 = Math.random() * Math.PI * 2, rr2 = Math.random() * LAKE.r * 0.7; fishFrom.set(LAKE.x + Math.cos(a2) * rr2, LAKE.y, LAKE.z + Math.sin(a2) * rr2); fishTo.set(fishFrom.x + Math.cos(a2) * 1.6, LAKE.y, fishFrom.z + Math.sin(a2) * 1.6); }
+    if (fishJumping > 0) { fishJumping -= dt / 0.7; const p = clamp(1 - fishJumping, 0, 1); fishJump.visible = p < 1; fishJump.position.lerpVectors(fishFrom, fishTo, p); fishJump.position.y += Math.sin(p * Math.PI) * 0.9; fishJump.rotation.x = Math.cos(p * Math.PI) * 0.8; fishJump.rotation.y = Math.atan2(fishTo.x - fishFrom.x, fishTo.z - fishFrom.z);
+      fishSplash.position.set(fishTo.x, LAKE.y + 0.1, fishTo.z); fishSplash.material.opacity = p > 0.85 ? 0.6 : fishSplash.material.opacity * Math.exp(-dt * 2); }
+    else { fishJump.visible = false; fishSplash.material.opacity *= Math.exp(-dt * 2.5); }
     clouds.forEach(c => { c.g.position.x = c.x0 + ((T * c.v + c.ph * 80) % 520) - 260; c.g.position.y = c.y0 + Math.sin(T * 0.2 + c.ph) * 2; c.g.rotation.y = Math.sin(T * 0.05 + c.ph) * 0.2; });
     fogPatches.forEach(f => { f.m.position.x = f.x0 + Math.sin(T * 0.045 + f.ph) * 7; f.m.position.z = f.z0 + Math.cos(T * 0.038 + f.ph) * 7; f.m.material.opacity = 0.05 + 0.05 * Math.sin(T * 0.09 + f.ph) + night * 0.02; });
     windTimeU.value = T; windAmtU.value = clamp(0.35 + 0.35 * Math.sin(T * 0.11) + 0.25 * Math.sin(T * 0.27 + 2) + 0.15 * Math.sin(T * 0.6 + 4), 0, 1);
@@ -1009,7 +1134,7 @@ transformed.z += sway * ${wdz.toFixed(3)};
     setMobile(m) { mobile = m; },
     skipIntro() { introArmed = true; introStart = -1e9; },
     startIntro() { introArmed = true; },
-    setFree(on) { free = !!on; fs = 0; stickX = 0; stickY = 0; for (const k in keys) keys[k] = false; for (const k in touch) touch[k] = false; canvas.style.touchAction = free ? 'none' : 'pan-y'; if (free) introStart = -1e9; },
+    setFree(on) { free = !!on; fs = 0; stickX = 0; stickY = 0; airY = 0; airVel = 0; grounded = true; for (const k in keys) keys[k] = false; for (const k in touch) touch[k] = false; canvas.style.touchAction = free ? 'none' : 'pan-y'; if (free) introStart = -1e9; },
     setTouch(k, v) { touch[k] = !!v; },
     setStick(x, y) { stickX = clamp(x, -1, 1); stickY = clamp(y, -1, 1); },
     setPaused(p) { paused = !!p; last = performance.now(); },
@@ -1017,7 +1142,10 @@ transformed.z += sway * ${wdz.toFixed(3)};
     setForceLow(v) { forceLow = !!v; if (forceLow && tier > 0) setTier(0); },
     setHold(active) { if (active && !holdActive) holdT = t; holdActive = active; },
     callDino() { const wasSleepy = curNight && dinoState === 'roam'; if (dinoState === 'roam') { dinoFleeT = 0; dinoSeekLake = false; dinoSeekBike = false; dinoLingerT = 0; dinoState = 'run'; } else if (dinoState === 'jumpoff') { dinoState = 'run'; scene.attach(dino); } dinoReactT = wasSleepy ? 0.9 : 0.5; opts.onDino && opts.onDino('called'); },
-    getState() { const distLake = Math.hypot(lastBX - LAKE.x, lastBZ - LAKE.z), water = clamp(1 - distLake / 70, 0, 1); return { t: free ? clamp((Z0 - fz) / L, 0, 1) : t, speed: curSpeed, trail: trailMix(free ? fz : zAt(t)), water }; },
+    getState() { const distLake = Math.hypot(lastBX - LAKE.x, lastBZ - LAKE.z), water = clamp(1 - distLake / 70, 0, 1);
+      const rx = Math.cos(lastYaw), rz = -Math.sin(lastYaw), distFire = Math.hypot(lastBX - FIRE.x, lastBZ - FIRE.z);
+      const lakePan = clamp(((LAKE.x - lastBX) * rx + (LAKE.z - lastBZ) * rz) / Math.max(1, distLake), -1, 1), firePan = clamp(((FIRE.x - lastBX) * rx + (FIRE.z - lastBZ) * rz) / Math.max(1, distFire), -1, 1);
+      return { t: free ? clamp((Z0 - fz) / L, 0, 1) : t, speed: curSpeed, trail: trailMix(free ? fz : zAt(t)), water, lakePan, lakeDist: distLake, firePan, fireDist: distFire }; },
     dispose() { cancelAnimationFrame(raf); window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); window.removeEventListener('keydown', onKey); window.removeEventListener('keyup', onKey); window.removeEventListener('resize', onResize); document.removeEventListener('visibilitychange', onVis); renderer.dispose(); postRT.dispose(); canvas.remove(); }
   };
 }
