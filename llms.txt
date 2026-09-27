@@ -1,0 +1,21 @@
+# Aashish Pandey
+
+> Project Manager and Creative Technologist in Bangalore, India. Project Manager at Langoor (an LS Digital company). 7+ years and 50+ websites and platforms shipped since 2018 for Unilever, Reliance, Marriott and others. Open to Program Manager roles and taking freelance briefs.
+
+## Pages
+
+- [Proof in 20 seconds](https://aashishpandey.com/proof): case studies, client sites, career, toolkit and contact.
+- [How this site was built](https://aashishpandey.com/how-this-site-was-built): build guide for the 3D motorcycle-ride portfolio (Three.js, WebGL, Web Audio).
+- [Home](https://aashishpandey.com/): the interactive 3D ride.
+
+## Selected work
+
+- [Liquid I.V. · Unilever](https://aashishpandey.com/work-liquid-iv): global Shopify rollout, 15 markets in scope, 12+ live, 9 new EU markets in H1 2026.
+- [Talenti · The Magnum Ice Cream Company](https://aashishpandey.com/work-talenti): Canada site live in 20 days.
+- [StoryNest](https://aashishpandey.com/work-storynest): 100K → 400K users as PM, solution architect and SEO strategist.
+- [CEAT Specialty · CEAT Ltd](https://aashishpandey.com/work-ceat-specialty): zero-downtime AEM 6.5 vendor transition and managed support.
+
+## Contact
+
+- Email: hello@aashishpandey.com
+- LinkedIn: https://www.linkedin.com/in/aashish-kumar-pandey

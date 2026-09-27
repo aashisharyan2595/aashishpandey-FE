@@ -1,5 +1,182 @@
 {
   "framework": null,
-  "buildCommand": null,
-  "outputDirectory": "."
+  "buildCommand": "node scripts/prerender.cjs",
+  "outputDirectory": ".",
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Portfolio.dc.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Proof.dc.html",
+      "destination": "/proof",
+      "permanent": true
+    },
+    {
+      "source": "/proof.html",
+      "destination": "/proof",
+      "permanent": true
+    },
+    {
+      "source": "/proof/",
+      "destination": "/proof",
+      "permanent": true
+    },
+    {
+      "source": "/How-This-Site-Was-Built.dc.html",
+      "destination": "/how-this-site-was-built",
+      "permanent": true
+    },
+    {
+      "source": "/how-this-site-was-built.html",
+      "destination": "/how-this-site-was-built",
+      "permanent": true
+    },
+    {
+      "source": "/Work-Liquid-IV.dc.html",
+      "destination": "/work-liquid-iv",
+      "permanent": true
+    },
+    {
+      "source": "/work/liquid-iv",
+      "destination": "/work-liquid-iv",
+      "permanent": true
+    },
+    {
+      "source": "/Work-Talenti.dc.html",
+      "destination": "/work-talenti",
+      "permanent": true
+    },
+    {
+      "source": "/work/talenti",
+      "destination": "/work-talenti",
+      "permanent": true
+    },
+    {
+      "source": "/Work-StoryNest.dc.html",
+      "destination": "/work-storynest",
+      "permanent": true
+    },
+    {
+      "source": "/work/storynest",
+      "destination": "/work-storynest",
+      "permanent": true
+    },
+    {
+      "source": "/Work-CEAT-Specialty.dc.html",
+      "destination": "/work-ceat-specialty",
+      "permanent": true
+    },
+    {
+      "source": "/work/ceat-specialty",
+      "destination": "/work-ceat-specialty",
+      "permanent": true
+    },
+    {
+      "source": "/scripts/:path*",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/Portfolio.dc.html"
+    },
+    {
+      "source": "/proof",
+      "destination": "/Proof.dc.html"
+    },
+    {
+      "source": "/how-this-site-was-built",
+      "destination": "/How-This-Site-Was-Built.dc.html"
+    },
+    {
+      "source": "/work-liquid-iv",
+      "destination": "/Work-Liquid-IV.dc.html"
+    },
+    {
+      "source": "/work-talenti",
+      "destination": "/Work-Talenti.dc.html"
+    },
+    {
+      "source": "/work-storynest",
+      "destination": "/Work-StoryNest.dc.html"
+    },
+    {
+      "source": "/work-ceat-specialty",
+      "destination": "/Work-CEAT-Specialty.dc.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/(sitemap.xml|robots.txt|llms.txt)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/site.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    }
+  ]
 }

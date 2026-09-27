@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://aashishpandey.com/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og-image.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/proof</loc>
+    <lastmod>2026-09-27</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/me-portrait.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/me-ride.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/how-this-site-was-built</loc>
+    <lastmod>2026-09-27</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/intro.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/work-liquid-iv</loc>
+    <lastmod>2026-09-27</lastmod>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/work-talenti</loc>
+    <lastmod>2026-09-27</lastmod>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/work-storynest</loc>
+    <lastmod>2026-09-27</lastmod>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/work-ceat-specialty</loc>
+    <lastmod>2026-09-27</lastmod>
+  </url>
+</urlset>
