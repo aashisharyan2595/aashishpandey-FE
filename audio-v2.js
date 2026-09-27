@@ -220,7 +220,7 @@ export class Score {
       thin: bump(0.43, 0.48, 0.53, 0.58) * nm * 0.8, forest: Math.max(bump(0.53, 0.6, 0.84, 0.9), trail * 0.5, 0.3) * nm, insects: Math.max(bump(0.56, 0.66, 0.93, 0.98) * 0.7, trail * 0.3, 0.2) * nm * night,
       lake: Math.max(bump(0.82, 0.86, 0.9, 0.94), (water || 0) * 0.9, lakeProx * 0.9) * nm, fire: Math.max(ss(0.92, 0.985, t), fireProx * 0.85) * fm };
     for (const k in w) L[k].gain.setTargetAtTime(w[k], now, 1.2);
-    const sf = t * 8, si = Math.round(sf);
+    const sf = t * 9, si = Math.round(sf);
     if (Math.abs(sf - si) < 0.025) { if (si !== this.atStop) { if (si > 0 && this.atStop !== undefined) this.arrive(si); this.atStop = si; } } else if (Math.abs(sf - si) > 0.12) this.atStop = -1;
   }
   stop() { if (!this.on) return; this.on = false; const s = this.s, t = this.r.ctx.currentTime; s.alive = false; s.bus.gain.cancelScheduledValues(t); s.bus.gain.setValueAtTime(s.bus.gain.value, t); s.bus.gain.linearRampToValueAtTime(0, t + 1.6); setTimeout(() => { s.nodes.forEach(n => { try { n.stop(); } catch (e) {} }); s.bus.disconnect(); s.final.disconnect(); }, 1800); }
