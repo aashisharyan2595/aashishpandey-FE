@@ -36,7 +36,7 @@
 <script src="./support.js"></script>
 </head>
 <body>
-<div id="ap-pre" style="position:fixed;inset:0;z-index:30;background:radial-gradient(120% 90% at 50% 100%,#e29a72 0%,#7a5a8e 45%,#2a3a7c 100%);color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;"><nav style="position:absolute;top:20px;left:24px;right:24px;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:12px;"><a href="/" style="color:#fff6ea;font-family:'Cormorant Garamond',serif;font-size:26px;text-decoration:none;">Aashish Pandey</a><a href="/case-studies" style="height:36px;padding:0 14px;display:flex;align-items:center;border-radius:999px;background:#f5b867;color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">Proof in 20 sec</a></nav>
+<div id="ap-pre" style="position:fixed;inset:0;z-index:30;background:radial-gradient(120% 90% at 50% 100%,#e29a72 0%,#7a5a8e 45%,#2a3a7c 100%);color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;"><nav style="position:absolute;top:20px;left:24px;right:24px;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:12px;"><a href="/" style="color:#fff6ea;font-family:'Cormorant Garamond',serif;font-size:26px;text-decoration:none;">Aashish Pandey</a><a href="/case-studies" style="height:36px;padding:0 14px;display:flex;align-items:center;border-radius:999px;background:#f5b867;color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">Portfolio</a></nav>
     <div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#ffe6c7;">Bangalore · 12.97° N · dusk</div>
       <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:clamp(56px,11vw,148px);line-height:.9;letter-spacing:-.02em;color:#fff6ea;text-shadow:0 4px 40px rgba(60,20,40,.45);">Aashish Pandey</h1>
@@ -67,7 +67,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
 </helmet>
 
 <div style="position:relative;min-height:100vh;background:#0b1030;color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;">
-  <a href="/case-studies" style="position:fixed;left:12px;top:-80px;z-index:100;padding:12px 18px;border-radius:999px;background:#f5b867;color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;" style-focus="top:12px;">Skip the ride: go to the case studies page</a>
+  <a href="/case-studies" style="position:fixed;left:12px;top:-80px;z-index:100;padding:12px 18px;border-radius:999px;background:#f5b867;color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;" style-focus="top:12px;">Skip the ride: go to the portfolio page</a>
 
   <div ref="{{ canvasHost }}" style="position:fixed;inset:0;height:100lvh;bottom:auto;z-index:0;background:radial-gradient(120% 90% at 50% 100%,#e29a72 0%,#7a5a8e 45%,#2a3a7c 100%);"></div>
   <sc-if value="{{ noGL }}" hint-placeholder-val="{{ false }}">
@@ -101,6 +101,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
       <div style="margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff;display:flex;flex-direction:column;align-items:center;gap:10px;">
         <span>{{ loadMsg }}</span>
         <span style="width:1px;height:38px;background:linear-gradient(#fff,rgba(255,255,255,0));"></span>
+        <sc-if value="{{ tourReady }}" hint-placeholder-val="{{ false }}"><button onClick="{{ startTour }}" style="pointer-events:auto;height:34px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,240,220,.35);background:rgba(10,13,32,.55);color:#fff6ea;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;" style-hover="border-color:#f2b56b;background:rgba(10,13,32,.8);">▷ Or take the 2-min auto tour</button></sc-if>
       </div>
     </div>
 
@@ -141,7 +142,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
       <div style="position:absolute;top:0;left:0;right:0;padding:calc(env(safe-area-inset-top, 0px) + 12px) 12px 0;display:flex;flex-direction:column;gap:8px;opacity:{{ chromeOp }};transition:opacity 1.2s .4s;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;height:44px;padding:0 4px 0 16px;border-radius:999px;background:rgba(10,13,32,.9);border:1px solid rgba(255,236,210,.16);pointer-events:auto;">
           <button type="button" onClick="{{ goHome }}" aria-label="Back to the start of the ride" style="background:none;border:none;padding:0;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;line-height:1;color:#fff6ea;white-space:nowrap;">Aashish Pandey</button>
-          <a href="/case-studies" style="display:flex;align-items:center;height:36px;padding:0 14px;border-radius:999px;border:none;background:#f5b867;color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;">Proof in 20s <span style="font-size:12px;line-height:1;">↗</span></a>
+          <a href="/case-studies" style="display:flex;align-items:center;height:36px;padding:0 14px;border-radius:999px;border:none;background:#f5b867;color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;">Portfolio <span style="font-size:12px;line-height:1;">↗</span></a>
         </div>
         <div style="display:flex;gap:4px;align-items:center;padding:4px;border-radius:999px;background:rgba(10,13,32,.9);border:1px solid rgba(255,236,210,.16);pointer-events:auto;">
           <button onClick="{{ toggleFree }}" style="flex:1;height:36px;padding:0 10px;border-radius:999px;border:1px solid {{ freeBtn.border }};background:transparent;color:{{ freeBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;animation:{{ freeGlowAnim }};">{{ freeBtn.label }}</button>
@@ -196,11 +197,11 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
 
 
     <!-- free ride HUD -->
-    <sc-if value="{{ free }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ freeHudOn }}" hint-placeholder-val="{{ false }}">
       <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
         <div style="position:absolute;left:{{ freeHud.left }};bottom:{{ freeHud.bottom }};width:320px;background:rgba(10,13,32,.72);backdrop-filter:blur(14px);border:1px solid rgba(255,236,210,.14);border-radius:18px;padding:16px 18px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;pointer-events:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);">
           <div style="display:flex;justify-content:space-between;align-items:baseline;">
-            <div style="display:flex;flex-direction:column;gap:5px;"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:26px;line-height:1;color:#fff6ea;">Free ride</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#7ff3e1;">◇ {{ secretsLabel }}</span></div>
+            <div style="display:flex;flex-direction:column;gap:5px;"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:26px;line-height:1;color:#fff6ea;">Free ride</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#7ff3e1;">◇ {{ secretsLabel }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#f2b56b;">{{ lifeLabel }}</span></div>
             <div style="display:flex;align-items:baseline;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:500;color:#7ff3e1;line-height:1;">{{ freeSpeedKmh }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#f3ead9;">KM/H</span></div>
           </div>
           <div style="height:3px;border-radius:3px;background:rgba(255,236,210,.12);overflow:hidden;"><div style="width:{{ freeSpeedPct }};height:100%;background:#7ff3e1;transition:width .25s;"></div></div>
@@ -212,6 +213,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
             <span style="display:flex;gap:4px;align-items:center;"><span style="padding:2px 6px;border:1px solid rgba(255,236,210,.25);border-radius:5px;color:#f3ead9;">⇧</span>boost</span>
             <span>drag · look</span>
           </div>
+          <div style="display:flex;gap:8px;"><button onClick="{{ openJournal }}" style="flex:1;height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(127,243,225,.45);background:rgba(127,243,225,.1);color:#e9fdff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s;" style-hover="border-color:#7ff3e1;background:rgba(127,243,225,.2);">Journal · {{ journalTotal }}</button><button onClick="{{ openPhoto }}" style="flex:1;height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,236,210,.25);background:rgba(255,236,210,.05);color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s;" style-hover="border-color:#7ff3e1;background:rgba(127,243,225,.2);">◉ Photo</button></div>
           <div style="display:flex;gap:8px;">
             <button onClick="{{ toggleFree }}" style="flex:1;height:36px;border-radius:999px;border:none;background:#7ff3e1;color:#0b1030;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">← Back to story</button>
             <button onClick="{{ callDino }}" style="height:36px;padding:0 14px;border-radius:999px;border:1px solid rgba(159,224,110,.55);background:rgba(159,224,110,.16);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s;" style-hover="border-color:#9fe06e;background:rgba(159,224,110,.28);">♪ MujaSauros</button>
@@ -222,6 +224,8 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
         <div style="position:absolute;left:12px;top:{{ freeInfoTop }};display:flex;flex-direction:column;gap:8px;pointer-events:auto;padding:12px 14px;border-radius:16px;background:rgba(10,13,32,.88);border:1px solid rgba(255,236,210,.14);box-shadow:0 12px 40px rgba(0,0,0,.3);">
           <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;line-height:1;color:#fff6ea;text-shadow:0 2px 20px rgba(0,0,0,.5);">Free ride</div>
           <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#7ff3e1;text-shadow:0 1px 8px rgba(0,0,0,.6);">◇ {{ secretsLabel }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#f2b56b;text-shadow:0 1px 8px rgba(0,0,0,.6);">{{ lifeLabel }}</span>
+          <div style="display:flex;gap:6px;"><button onClick="{{ openJournal }}" style="flex:1;height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(127,243,225,.45);background:rgba(127,243,225,.1);color:#e9fdff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s;" style-hover="border-color:#7ff3e1;background:rgba(127,243,225,.2);">Journal</button><button onClick="{{ openPhoto }}" style="flex:1;height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,236,210,.25);background:rgba(255,236,210,.05);color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s,border-color .2s;" style-hover="border-color:#7ff3e1;background:rgba(127,243,225,.2);">Photo</button></div>
           <div style="display:flex;align-items:baseline;gap:6px;">
             <span style="font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:500;color:#7ff3e1;text-shadow:0 2px 16px rgba(0,0,0,.5);">{{ freeSpeedKmh }}</span>
             <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#f3ead9;">km/h</span>
@@ -235,6 +239,61 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
         </div>
         <button onPointerDown="{{ jumpDown }}" onPointerUp="{{ jumpUp }}" onPointerLeave="{{ jumpUp }}" style="position:absolute;right:22px;bottom:196px;width:62px;height:62px;border-radius:50%;background:rgba(159,224,110,.18);border:1px solid rgba(159,224,110,.55);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;pointer-events:auto;">Jump</button>
       </sc-if>
+    </sc-if>
+
+
+    <!-- v2 · toast (spotted / tricks) -->
+    <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:50%;top:{{ toastTop }};transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:rgba(10,13,32,.88);border:1px solid rgba(127,243,225,.35);box-shadow:0 12px 40px rgba(0,0,0,.3);white-space:nowrap;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7ff3e1;">{{ toast.kind }}</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;line-height:1;color:#fff6ea;">{{ toast.text }}</span>
+      </div>
+    </sc-if>
+
+    <!-- v2 · auto tour pill -->
+    <sc-if value="{{ touring }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ stopTour }}" style="position:absolute;left:50%;top:{{ toastTop }};transform:translateX(-50%);pointer-events:auto;display:flex;align-items:center;gap:10px;height:36px;padding:0 16px;border-radius:999px;background:rgba(10,13,32,.88);border:1px solid rgba(242,181,107,.5);color:#ffe0b3;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;white-space:nowrap;" style-hover="border-color:#f2b56b;">▷ Touring · stop {{ tourLabel }} <span style="color:#cfc4b0;">· tap to take the wheel</span></button>
+    </sc-if>
+
+    <!-- v2 · field journal -->
+    <sc-if value="{{ journal }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 140px);overflow:auto;overscroll-behavior:contain;background:rgba(10,13,32,.94);backdrop-filter:blur(16px);border:1px solid rgba(255,236,210,.14);border-radius:20px;padding:20px 22px 22px;box-sizing:border-box;pointer-events:auto;display:flex;flex-direction:column;gap:16px;box-shadow:0 30px 90px rgba(0,0,0,.45);z-index:4;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7ff3e1;">Field journal</span><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:28px;line-height:1;color:#fff6ea;">{{ journalTotal }} found</span></div>
+          <button onClick="{{ closeJournal }}" aria-label="Close" style="width:32px;height:32px;border-radius:50%;background:rgba(255,236,210,.08);border:none;color:#f3ead9;cursor:pointer;font-size:17px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;" style-hover="background:rgba(255,236,210,.18);">×</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;"><span>Secrets</span><span style="color:#7ff3e1;">{{ secretsCount }}</span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;">
+            <sc-for list="{{ jSecrets }}" as="js" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;border:1px solid {{ js.border }};background:{{ js.bg }};font-size:13px;color:{{ js.fg }};"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;">{{ js.mark }}</span>{{ js.name }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px solid rgba(255,236,210,.1);">
+          <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;"><span>Wildlife spotted</span><span style="color:#9fe06e;">{{ wildCount }}</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <sc-for list="{{ jWild }}" as="jw" hint-placeholder-count="14">
+              <span style="padding:6px 10px;border-radius:999px;border:1px solid {{ jw.border }};background:{{ jw.bg }};color:{{ jw.fg }};font-size:12.5px;">{{ jw.name }}</span>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;border-top:1px solid rgba(255,236,210,.1);">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;">Best airtime</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#f2b56b;">{{ bestAirLabel }}</span>
+        </div>
+        <div style="font-size:12.5px;line-height:1.5;color:#cfc4b0;text-wrap:pretty;">Ride slowly near animals to spot them. They bolt if you arrive fast. Jump with ␣ off crests for airtime.</div>
+      </div>
+    </sc-if>
+
+    <!-- v2 · photo mode -->
+    <sc-if value="{{ photo }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:#fff;opacity:{{ flashOp }};transition:opacity .5s;pointer-events:none;"></div>
+      <div style="position:absolute;left:50%;bottom:{{ photoBottom }};transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:6px;border-radius:999px;background:rgba(10,13,32,.85);border:1px solid rgba(255,236,210,.16);pointer-events:auto;box-shadow:0 12px 40px rgba(0,0,0,.35);">
+        <span style="padding:0 10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#cfc4b0;white-space:nowrap;">Drag to frame</span>
+        <button onClick="{{ snapPhoto }}" style="height:40px;padding:0 18px;border-radius:999px;border:none;background:#7ff3e1;color:#0b1030;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;white-space:nowrap;">◉ Snap</button>
+        <button onClick="{{ closePhoto }}" style="height:40px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,236,210,.25);background:transparent;color:#f3ead9;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">Done</button>
+      </div>
     </sc-if>
 
     <!-- chapter panel -->
@@ -424,6 +483,24 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
             <button onClick="{{ g.click }}" aria-pressed="{{ g.pressed }}" style="padding:8px 0;border:none;border-radius:9px;background:{{ g.bg }};color:{{ g.fg }};font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s;">{{ g.label }}</button>
           </sc-for>
         </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;padding:12px 4px 4px;border-top:1px solid rgba(255,236,210,.1);margin-top:4px;">World · {{ lifeLabel }}</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;border-radius:12px;background:rgba(255,236,210,.06);">
+          <sc-for list="{{ seasonOpts }}" as="g" hint-placeholder-count="4">
+            <button onClick="{{ g.click }}" style="padding:8px 0;border:none;border-radius:9px;background:{{ g.bg }};color:{{ g.fg }};font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;">{{ g.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:rgba(255,236,210,.06);">
+            <sc-for list="{{ weatherOpts }}" as="g" hint-placeholder-count="2">
+              <button onClick="{{ g.click }}" style="padding:8px 0;border:none;border-radius:9px;background:{{ g.bg }};color:{{ g.fg }};font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;">{{ g.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:rgba(255,236,210,.06);">
+            <sc-for list="{{ dayOpts }}" as="g" hint-placeholder-count="2">
+              <button onClick="{{ g.click }}" style="padding:8px 0;border:none;border-radius:9px;background:{{ g.bg }};color:{{ g.fg }};font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;">{{ g.label }}</button>
+            </sc-for>
+          </div>
+        </div>
         <button onClick="{{ stopMusic }}" style="align-self:center;margin-top:8px;padding:6px 10px;border:none;background:none;color:#cfc4b0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;" style-hover="color:#fff6ea;">Silence everything</button>
       </div>
     </sc-if>
@@ -464,7 +541,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
       </div>
     </sc-if>
     <!-- the watch -->
-    <div style="position:absolute;right:{{ watch.right }};bottom:{{ watch.bottom }};width:{{ watch.px }};height:{{ watch.px }};pointer-events:auto;transform:{{ watch.tf }};transition:{{ watch.tr }};z-index:5;">
+    <div style="position:absolute;right:{{ watch.right }};bottom:{{ watch.bottom }};width:{{ watch.px }};height:{{ watch.px }};pointer-events:{{ watchPe }};opacity:{{ watchOp }};transform:{{ watch.tf }};transition:{{ watch.tr }};z-index:5;">
       <div style="position:absolute;left:24%;right:24%;top:-34%;height:40%;background:linear-gradient(#141418,#23232a);border-radius:16px 16px 6px 6px;"></div>
       <div style="position:absolute;left:24%;right:24%;bottom:-34%;height:40%;background:linear-gradient(#23232a,#141418);border-radius:6px 6px 16px 16px;"></div>
       <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 26%,#8b8e98,#3a3c44 48%,#15161a 80%);box-shadow:0 24px 60px rgba(0,0,0,.55),inset 0 0 0 1.5px rgba(255,255,255,.12);"></div>
@@ -625,11 +702,12 @@ const SECRETS = [
   { region: 'pier', text: 'End of the land, not the road. Say “lighthouse” when we talk and I’ll know you got this far.' },
   { region: 'lighthouse', text: 'Five of five. That kind of curiosity is the whole point of this site. Let’s build something.' }];
 const ALLNOTES = NOTES.concat(SECRETS);
+const WILD = ['deer', 'rabbit', 'squirrel', 'fox', 'fox cubs', 'goat', 'boar', 'roadrunner', 'lizard', 'frog', 'heron', 'crab', 'owl', 'eagle', 'tiger', 'leopard', 'peacock', 'seal', 'flamingo', 'dragonfly', 'bee', 'bat'];
 const TYPES = ['Website build', 'Shopify store', 'CMS / WordPress', 'Program rescue', 'Something experimental'];
 
 class Component extends DCLogic {
-  state = { reduceMotion: (() => { try { const v = localStorage.getItem('apReduceMotion'); if (v != null) return v === '1'; } catch (e) {} return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); })(), snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })(), found: (() => { try { return JSON.parse(localStorage.getItem('apSecrets')) || []; } catch (e) { return []; } })() };
-  canvasHost = React.createRef(); proofRef = React.createRef(); lbDialog = React.createRef(); lbClose = React.createRef(); lastPanel = 1;
+  state = { reduceMotion: (() => { try { const v = localStorage.getItem('apReduceMotion'); if (v != null) return v === '1'; } catch (e) {} return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); })(), snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })(), found: (() => { try { return JSON.parse(localStorage.getItem('apSecrets')) || []; } catch (e) { return []; } })(), spotted: (() => { try { return JSON.parse(localStorage.getItem('apSpotted')) || []; } catch (e) { return []; } })(), bestAir: (() => { try { return parseFloat(localStorage.getItem('apBestAir')) || 0; } catch (e) { return 0; } })(), wxPref: (() => { try { return localStorage.getItem('apWeather') || 'auto'; } catch (e) { return 'auto'; } })(), dayPref: (() => { try { return localStorage.getItem('apDayClock') || 'on'; } catch (e) { return 'on'; } })(), journal: false, photo: false, flash: false, toast: null, touring: false, tourI: 0 };
+  canvasHost = React.createRef(); mapRef = React.createRef(); proofRef = React.createRef(); lbDialog = React.createRef(); lbClose = React.createRef(); lastPanel = 1;
   onDragStart(id, e) {
     e.preventDefault(); e.stopPropagation();
     const p0 = e.touches ? e.touches[0] : e; const startX = p0.clientX, startY = p0.clientY;
@@ -652,7 +730,7 @@ class Component extends DCLogic {
       this.world && this.world.setTarget(t); if (t > 0.01 && this.world && !this.skipped) { this.skipped = true; this.world.skipIntro(); this.triggerFreeHint(); }
       { const a = Math.round(t * N); const arr = Math.abs(t - a / N) < 0.004 ? a : -1; if (arr > 0 && arr !== this.lastArr) this.buzzWatch(); this.lastArr = arr; }
       if (Math.abs(t - this.state.t) > 0.0015 || (t !== this.state.t && Math.abs(t * N - Math.round(t * N)) < 0.08)) { const si = Math.round(t * N); const ch = si !== Math.round(this.state.t * N); this.setState(s => ({ t, ...(ch ? { expanded: false, panelClosed: false } : {}), radio: Math.abs(t - s.t) > 0.003 ? false : s.radio })); } }); };
-    this.onKey = e => { const tg = e.target && e.target.tagName, mod = e.metaKey || e.ctrlKey || e.altKey; if (this.state.boot !== 'done' && !mod) this.finishBoot(); if (!this.state.free && this.state.lbI == null && !mod && tg !== 'INPUT' && tg !== 'TEXTAREA' && tg !== 'SELECT') { const u = this.state.t * N; if (e.key === 'n' || e.key === '.') { this.jump(Math.min(N, Math.floor(u + 0.02) + 1)); return; } if (e.key === 'p' || e.key === ',') { this.jump(Math.max(0, Math.ceil(u - 0.02) - 1)); return; } } if (this.state.lbI != null) { const n = PROJECTS.filter(p => p.img).length; if (e.key === 'Escape') { this.setState({ lbI: null }); return; } if (e.key === 'ArrowRight') { this.setState(st => ({ lbI: (st.lbI + 1) % n })); return; } if (e.key === 'ArrowLeft') { this.setState(st => ({ lbI: (st.lbI - 1 + n) % n })); return; } } if (e.key === 'Escape') { if (this.state.free) this.toggleFree(); this.closeProof(); this.setState({ note: null, radio: false, egg: false }); } };
+    this.onKey = e => { const tg = e.target && e.target.tagName, mod = e.metaKey || e.ctrlKey || e.altKey; if (this.state.boot !== 'done' && !mod) this.finishBoot(); if (!this.state.free && this.state.lbI == null && !mod && tg !== 'INPUT' && tg !== 'TEXTAREA' && tg !== 'SELECT') { const u = this.state.t * N; if (e.key === 'n' || e.key === '.') { this.jump(Math.min(N, Math.floor(u + 0.02) + 1)); return; } if (e.key === 'p' || e.key === ',') { this.jump(Math.max(0, Math.ceil(u - 0.02) - 1)); return; } } if (this.state.lbI != null) { const n = PROJECTS.filter(p => p.img).length; if (e.key === 'Escape') { this.setState({ lbI: null }); return; } if (e.key === 'ArrowRight') { this.setState(st => ({ lbI: (st.lbI + 1) % n })); return; } if (e.key === 'ArrowLeft') { this.setState(st => ({ lbI: (st.lbI - 1 + n) % n })); return; } } if (e.key === 'Escape') { if (this.state.free) this.toggleFree(); this.closeProof(); this.setState({ note: null, radio: false, egg: false, journal: false, photo: false }); if (this.touring) this.stopTour(); } };
     this.onHash = () => { const h = location.hash.slice(1); if (h === 'proof' || h.startsWith('work-')) this.openProof(h.startsWith('work-') ? h : null); };
     addEventListener('resize', this.onResize); addEventListener('scroll', this.onScroll, { passive: true }); addEventListener('keydown', this.onKey); addEventListener('hashchange', this.onHash);
     this.onResize(); this.onHash();
@@ -662,25 +740,25 @@ class Component extends DCLogic {
     let seen = false; try { seen = sessionStorage.getItem('apos-booted') === '1'; } catch (e) {}
     if (seen || scrollY > 10 || this.state.reduceMotion) this.finishBoot(true); else { this.bootT = [500, 1100, 1700, 2400, 3100].map((ms, i) => setTimeout(() => this.setState({ bootLine: i + 1 }), ms)); this.bootT.push(setTimeout(() => this.finishBoot(), 3900)); }
     const base = new URL('.', location.href).href;
-    this.loadAudio = () => this.audioP || (this.audioP = import(base + 'audio-v2.js').then(m => { this.radio = new m.Radio(); this.radio.setBrakeMuted(!this.state.snd.brake); this.score = new m.Score(this.radio); this.score.mute.nature = this.state.snd.nature ? 1 : 0; this.score.mute.fire = this.state.snd.fire ? 1 : 0; }).catch(e => console.warn('audio', e)));
+    this.loadAudio = () => this.audioP || (this.audioP = import(base + 'audio-v3.js').then(m => { this.radio = new m.Radio(); this.radio.setBrakeMuted(!this.state.snd.brake); this.score = new m.Score(this.radio); this.score.mute.nature = this.state.snd.nature ? 1 : 0; this.score.mute.fire = this.state.snd.fire ? 1 : 0; }).catch(e => console.warn('audio', e)));
     this.poll = setInterval(() => { if (this.score && this.score.on && this.world) this.score.update(this.world.getState()); }, 150);
     const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
-    const loadWorld = () => import(base + 'world-v2.js').then(m => {
+    const loadWorld = () => import(base + 'world-v4.js').then(m => {
       if (!this.canvasHost.current) return;
       (window.__ap = this), this.world = m.createWorld(this.canvasHost.current, { lowPower: lp || this.state.lowGfx, mobile: innerWidth < 760, notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
         onNote: (i, x, y) => { this.blip(1180); if (i >= NOTES.length && !(this.state.found || []).includes(i)) { const found = [...(this.state.found || []), i]; this.setState({ found }); try { localStorage.setItem('apSecrets', JSON.stringify(found)); } catch (e) {} } this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
-        holdIntro: true,
+        holdIntro: true, spotted: this.state.spotted, onSpot: k => this.onSpot(k), onTrick: tr => this.onTrick(tr),
         onFree: (ft, fs) => this.setState({ freeT: ft, freeSpd: fs }),
         onDino: () => this.blip && this.blip(720, 0.06),
         onSplash: () => this.blip && this.blip(240 + Math.random() * 90),
         onBrake: () => { if (this.state.snd.brake && this.radio) this.radio.brakeSfx(); },
         onEnv: (night, glow, tE, dinoOff) => { this.env = { night, glow, tE }; if (this.state.dinoOff !== dinoOff) this.setState({ dinoOff }); if (!this.envTick) { this.envTick = true; requestAnimationFrame(() => { this.envTick = false; this.forceUpdate(); }); } },
         onReady: () => this.setState({ ready: true }), onError: () => this.setState({ noGL: true, ready: true }) });
-      if (!this.world) this.setState({ noGL: true, ready: true }); else { this.world.setReducedMotion && this.world.setReducedMotion(!!this.state.reduceMotion); this.onScroll(); if (this.state.boot !== 'boot') this.world.startIntro(); }
+      if (!this.world) this.setState({ noGL: true, ready: true }); else { this.world.setReducedMotion && this.world.setReducedMotion(!!this.state.reduceMotion); if (this.state.wxPref === 'clear') this.world.setWeather('clear'); if (this.state.dayPref === 'off') this.world.setDayClock(false); this.onScroll(); if (this.state.boot !== 'boot') this.world.startIntro(); }
     }).catch(e => { console.error(e); this.setState({ noGL: true, ready: true }); });
     { const idle = () => (window.requestIdleCallback ? requestIdleCallback(loadWorld, { timeout: 900 }) : setTimeout(loadWorld, 60)); if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true }); }
   }
-  componentWillUnmount() { clearInterval(this.poll); this.score && this.score.stop(); removeEventListener('resize', this.onResize); removeEventListener('scroll', this.onScroll); removeEventListener('keydown', this.onKey); removeEventListener('keydown', this.onTab); removeEventListener('hashchange', this.onHash); this.tryAutoplay && ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); this.world && this.world.dispose(); this.radio && this.radio.stop(); }
+  componentWillUnmount() { clearInterval(this.poll); clearInterval(this.mapI); this.stopTour(true); this.score && this.score.stop(); removeEventListener('resize', this.onResize); removeEventListener('scroll', this.onScroll); removeEventListener('keydown', this.onKey); removeEventListener('keydown', this.onTab); removeEventListener('hashchange', this.onHash); this.tryAutoplay && ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(ev => removeEventListener(ev, this.tryAutoplay)); this.world && this.world.dispose(); this.radio && this.radio.stop(); }
 
   componentDidUpdate() { const was = !!this.lbWas, is = this.state.lbI != null; this.lbWas = is; if (!was && is) { this.lbPrev = document.activeElement; requestAnimationFrame(() => this.lbClose.current && this.lbClose.current.focus()); } if (was && !is && this.lbPrev && this.lbPrev.focus) this.lbPrev.focus(); }
   blip(f) { if (this.radio && this.state.scoreOn) this.radio.blip(f || 880); }
@@ -708,7 +786,32 @@ class Component extends DCLogic {
   onJoyEnd() { this.joyOrigin = null; this.setState({ joyX: 0, joyY: 0 }); this.world && this.world.setStick(0, 0); }
   jumpDown(e) { e.preventDefault(); this.world && this.world.setTouch('jump', true); }
   jumpUp() { this.world && this.world.setTouch('jump', false); }
-  toggleFree() { const on = !this.state.free; this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false }); if (!on) this.onScroll(); }
+  toggleFree() { const on = !this.state.free; this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false, photo: false, journal: false }); if (!on) this.onScroll(); }
+  onSpot(k) { const sp = this.state.spotted || []; if (sp.includes(k)) return; const spotted = [...sp, k]; this.setState({ spotted }); try { localStorage.setItem('apSpotted', JSON.stringify(spotted)); } catch (e) {} this.showToast('Spotted', k.charAt(0).toUpperCase() + k.slice(1)); this.blip(1320); window.apTrack && window.apTrack('wildlife_spotted', { kind: k }); }
+  onTrick(tr) { const nb = tr.air > (this.state.bestAir || 0); if (nb) { this.setState({ bestAir: tr.air }); try { localStorage.setItem('apBestAir', String(tr.air)); } catch (e) {} } this.showToast(nb ? 'New best air' : 'Airtime', tr.air.toFixed(2) + ' s'); this.blip(nb ? 1560 : 1100); }
+  showToast(kind, text) { clearTimeout(this.toastT); this.setState({ toast: { kind, text } }); this.toastT = setTimeout(() => this.setState({ toast: null }), 2600); }
+  lifeInfo() { const L = this.world && this.world.getLife ? this.world.getLife() : null; if (!L) return { label: '', season: 'summer' }; const w = L.weather, ph = L.dayMix > 0.5 && L.dayPh >= 0 ? L.dayPh : null;
+    const tod = ph == null ? (this.env && this.env.night > 0.5 ? 'Night' : 'Dusk') : ph < 0.2 || ph >= 0.9 ? 'Night' : ph < 0.31 ? 'Dawn' : ph < 0.43 ? 'Morning' : ph < 0.57 ? 'Noon' : ph < 0.7 ? 'Afternoon' : ph < 0.78 ? 'Golden hour' : 'Dusk';
+    const wx = w.storm > 0.3 ? 'Storm' : w.rain > 0.25 ? 'Rain' : w.snow > 0.25 ? 'Snow' : w.dust > 0.25 ? 'Dust storm' : w.drizzle > 0.12 ? 'Drizzle' : w.mist > 0.3 ? 'Mist' : 'Clear';
+    return { label: tod + ' · ' + wx + ' · ' + L.season, season: L.season }; }
+  drawMap() { const c = this.mapRef.current; if (!c || !this.world || !this.state.free || this.state.photo || !this.world.getMapInfo) return; if (!this.mapInfo) this.mapInfo = this.world.getMapInfo();
+    const M = this.mapInfo, st = this.world.getState(), g = c.getContext('2d'), W = c.width, R = 240, k = W / 2 / R;
+    g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, W); g.save(); g.translate(W / 2, W / 2); g.scale(k, k); g.translate(-st.x, -st.z);
+    const line = (pts, col, w) => { g.beginPath(); pts.forEach(([x, z], i) => i ? g.lineTo(x, z) : g.moveTo(x, z)); g.strokeStyle = col; g.lineWidth = w / k; g.lineJoin = 'round'; g.lineCap = 'round'; g.stroke(); };
+    const disc = (x, z, r, fill) => { g.beginPath(); g.arc(x, z, r, 0, 6.283); g.fillStyle = fill; g.fill(); };
+    disc(M.meadow.x, M.meadow.z, M.meadow.r, 'rgba(159,224,110,.16)'); disc(M.desert.x, M.desert.z, M.desert.r, 'rgba(226,192,125,.22)'); disc(M.lake.x, M.lake.z, M.lake.r, 'rgba(95,168,200,.5)');
+    line(M.coast, 'rgba(95,168,200,.85)', 3); line(M.river, 'rgba(95,168,200,.75)', 4); line(M.road, 'rgba(243,234,217,.85)', 4);
+    M.stops.forEach(([x, z]) => disc(x, z, 5 / k, '#f2b56b')); disc(M.fire.x, M.fire.z, 6 / k, '#ff8a3a');
+    const found = this.state.found || []; SECRETS.forEach((s2, i) => { const q0 = M.secrets[s2.region]; if (!q0) return; const f = found.includes(NOTES.length + i), q = 6 / k; g.save(); g.translate(q0.x, q0.z); g.rotate(Math.PI / 4); g.lineWidth = 2 / k; g.strokeStyle = '#7ff3e1'; g.fillStyle = f ? '#7ff3e1' : 'rgba(10,13,32,.7)'; g.fillRect(-q, -q, 2 * q, 2 * q); g.strokeRect(-q, -q, 2 * q, 2 * q); g.restore(); });
+    g.restore(); g.save(); g.translate(W / 2, W / 2); g.rotate(-st.yaw); g.beginPath(); g.moveTo(0, -15); g.lineTo(10, 11); g.lineTo(0, 5); g.lineTo(-10, 11); g.closePath(); g.fillStyle = '#7ff3e1'; g.fill(); g.restore(); }
+  startTour() { window.apTrack && window.apTrack('tour_start', {}); if (this.state.free) this.toggleFree(); this.stopTour(true); if (this.state.boot !== 'done') this.finishBoot(true); this.touring = true; this.setState({ touring: true, radio: false, journal: false });
+    let i = Math.round(this.state.t * N); const step = () => { if (!this.touring) return; i++; if (i > N) { this.stopTour(); return; } this.jump(i); this.setState({ tourI: i }); this.tourT = setTimeout(step, 12500); };
+    this.tourCancel = e => { if (e.type === 'keydown' && e.key !== 'Escape' && !/^(Arrow|Page)|^ $/.test(e.key)) return; this.stopTour(); };
+    this.tourArm = setTimeout(() => { if (this.tourCancel) ['wheel', 'touchstart', 'keydown'].forEach(ev => addEventListener(ev, this.tourCancel, { passive: true })); }, 400); step(); }
+  stopTour(silent) { this.touring = false; clearTimeout(this.tourT); clearTimeout(this.tourArm); if (this.tourCancel) ['wheel', 'touchstart', 'keydown'].forEach(ev => removeEventListener(ev, this.tourCancel)); this.tourCancel = null; if (!silent) this.setState({ touring: false }); }
+  openPhoto() { this.blip(900); this.setState({ photo: true, journal: false }); }
+  closePhoto() { this.setState({ photo: false }); }
+  snapPhoto() { if (!this.world || !this.world.snapshot) return; try { const url = this.world.snapshot(), a = document.createElement('a'); a.href = url; a.download = 'aashishpandey-ride-' + Date.now() + '.jpg'; document.body.appendChild(a); a.click(); a.remove(); window.apTrack && window.apTrack('photo_snap', {}); } catch (e) { console.warn(e); } this.blip(1500); this.setState({ flash: true }); setTimeout(() => this.setState({ flash: false }), 120); }
   setForm(k, v) { this.setState(s => ({ form: { ...s.form, [k]: v } })); }
 
   renderVals() {
@@ -745,7 +848,7 @@ class Component extends DCLogic {
       ringColor: boot === 'done' && watchMode === 'music' ? '#f2b56b' : '#7ff3e1',
       booting: boot !== 'done', bootOp: boot === 'boot' ? 1 : 0, bootPe: boot === 'boot' ? 'auto' : 'none', skipBoot: () => this.finishBoot(),
       bootLines: BOOT.slice(0, Math.max(1, bootLine)).slice(-3).map((l, i, a) => ({ l, c: i === a.length - 1 ? '#7ff3e1' : '#5d7480' })),
-      chromeOp: boot === 'done' ? 1 : 0, grain,
+      chromeOp: boot === 'done' && !this.state.photo ? 1 : 0, grain,
       act: (ACTS.filter(a => t >= a[0]).pop() || ACTS[0])[1], actOp: free || boot !== 'done' || t < 0.01 ? 0 : 1,
       actOpFinal: mobile || (near && kind !== 'turnoff' && !this.state.panelClosed) ? 0 : (free || boot !== 'done' || t < 0.01 ? 0 : 1),
       isTurnoff: KIND[si] === 'turnoff' && dist < 0.01 && !free && boot === 'done',
@@ -775,7 +878,7 @@ class Component extends DCLogic {
       toggleSound: () => { if (!this.score) { this.loadAudio && this.loadAudio().then(() => { if (this.score && !this.state.scoreOn) { this.radio.stop(); this.score.start(); this.setState({ scoreOn: true }); } }); return; } if (this.state.scoreOn) { this.score.stop(); this.setState({ scoreOn: false }); } else { this.radio.stop(); this.score.start(); this.world && this.score.update(this.world.getState()); this.setState({ scoreOn: true, playing: false }); } },
       egg: this.state.egg, closeEgg: () => this.setState({ egg: false }), eggPos: { right: mobile ? '16px' : (ws + 64) + 'px', bottom: mobile ? (ws + 44) + 'px' : '40px' },
       screenTap: () => { const now = Date.now(); this.taps = (this.taps || []).filter(x => now - x < 1800); this.taps.push(now); clearTimeout(this.tapT); if (this.taps.length >= 5) { this.taps = []; this.buzzWatch(); this.setState({ egg: true, radio: false }); return; } this.tapT = setTimeout(() => { this.blip(600); this.setState(st => ({ watchMode: st.watchMode === 'nav' ? 'music' : 'nav' })); }, 330); },
-      proofLabel: mobile ? 'Proof' : 'Proof in 20 sec',
+      proofLabel: mobile ? 'Portfolio' : 'Portfolio',
       lbDialog: this.lbDialog, lbClose: this.lbClose,
       watchKey: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.blip(600); this.setState(s => ({ watchMode: s.watchMode === 'nav' ? 'music' : 'nav' })); } },
       motionOpts: [['Full', false], ['Reduced', true]].map(([label, v]) => { const on = !!this.state.reduceMotion === v; return { label, pressed: on ? 'true' : 'false', bg: on ? 'rgba(127,243,225,.16)' : 'transparent', fg: on ? '#e9fdff' : '#f3ead9', click: () => { if (on) return; this.setState({ reduceMotion: v }); try { localStorage.setItem('apReduceMotion', v ? '1' : '0'); } catch (e) {} document.documentElement.classList.toggle('ap-rm', v); this.world && this.world.setReducedMotion && this.world.setReducedMotion(v); window.apTrack && window.apTrack('reduce_motion', { on: v }); } }; }),
@@ -815,13 +918,29 @@ class Component extends DCLogic {
       radioOpen: radio, radioTop: mobile ? '104px' : '70px', radioRight: mobile ? '12px' : '20px', radioW: mobile ? 'calc(100vw - 24px)' : 'min(320px,calc(100vw - 40px))', radioMaxH: mobile ? 'calc(100vh - ' + (ws + 150) + 'px)' : 'calc(100vh - 90px)',
       stopMusic: () => this.stopMusic(),
       watch: { px: ws + 'px', right: mobile ? '18px' : '26px', bottom: mobile ? '28px' : '40px', tf: boot === 'done' ? 'rotate(' + buzz * 3 + 'deg)' : 'translate(calc(-50vw + ' + ((mobile ? 18 : 26) + ws / 2) + 'px), calc(-50vh + ' + ((mobile ? 28 : 40) + ws / 2) + 'px)) scale(' + (mobile ? 2.1 : 2.3) + ')', tr: boot === 'done' ? 'transform .05s' : 'transform 1.6s cubic-bezier(.75,0,.2,1)', small: mobile ? '7.5px' : '9px', arrow: mobile ? '26px' : '38px', name: mobile ? '14px' : '19px' },
-      ringNow: boot !== 'done' ? Math.round(bootLine / BOOT.length * 360) + 'deg' : ring, watchNavOn: boot === 'done' && watchMode === 'nav', watchMusicOn: boot === 'done' && watchMode === 'music', hudVis: boot === 'done' ? 'visible' : 'hidden', wn: free ? { top: 'Free ride', rot: '0deg', name: 'Near ' + STOPS[Math.round(freeT * N)].name, sub: Math.round(Math.abs(freeSpd) * 6) + ' KM/H' } : wn,
+      ringNow: boot !== 'done' ? Math.round(bootLine / BOOT.length * 360) + 'deg' : ring, watchNavOn: boot === 'done' && watchMode === 'nav', watchMusicOn: boot === 'done' && watchMode === 'music', hudVis: boot === 'done' ? 'visible' : 'hidden', wn: free ? { top: 'Free ride', rot: '0deg', name: 'Near ' + STOPS[clamp(Math.round(freeT * N) || 0, 0, N)].name, sub: Math.round(Math.abs(freeSpd) * 6) + ' KM/H' } : wn,
       wm: { name: 'Adaptive score', state: (this.state.scoreOn ? 'PLAYING' : 'PAUSED') + ' · TAP', eqOp: this.state.scoreOn ? 1 : 0.3 },
       toggleWatchMode: () => { this.blip(600); this.setState(s => ({ watchMode: s.watchMode === 'nav' ? 'music' : 'nav' })); },
       crown: () => { if (watchMode !== 'music') this.jump(arrived ? si + 1 : nextI); },
       sideBtn: () => { if (watchMode === 'music') { this.state.scoreOn ? this.stopMusic() : (this.radio && this.score && (this.radio.stop(), this.score.start(), this.setState({ scoreOn: true }))); } else this.jump(arrived ? si - 1 : nextI - 1); },
       hasNote: !!note, closeNote: () => this.setState({ note: null }),
       note: note ? { num: String(note.i + 1).padStart(2, '0'), label: note.i >= NOTES.length ? 'Secret ' + String(note.i - NOTES.length + 1).padStart(2, '0') + ' of ' + String(SECRETS.length).padStart(2, '0') : 'Field note ' + String(note.i + 1).padStart(2, '0'), text: ALLNOTES[note.i].text, left: clamp(note.x + 16, 12, innerWidth - 300) + 'px', top: clamp(note.y - 30, 70, innerHeight - 200) + 'px' } : { num: '', label: '', text: '', left: '0px', top: '0px' },
+      ...(() => { const li = this.lifeInfo(), sp = this.state.spotted || [], fnd = this.state.found || [], cap = s => s.charAt(0).toUpperCase() + s.slice(1), nSec = fnd.filter(i => i >= NOTES.length).length, ph = !!this.state.photo;
+        const opt = (on, label, click) => ({ label, click, bg: on ? 'rgba(127,243,225,.16)' : 'transparent', fg: on ? '#e9fdff' : '#f3ead9' });
+        return { lifeLabel: li.label, freeHudOn: free && !ph, mapOn: false, mapRef: this.mapRef, mapPos: mobile ? { right: '12px', top: '112px', size: '104px' } : { right: '26px', top: '84px', size: '168px' },
+          hasToast: !!this.state.toast && !ph, toast: this.state.toast || { kind: '', text: '' }, toastTop: mobile ? '230px' : '132px',
+          touring: !!this.state.touring, tourLabel: String(this.state.tourI || 0).padStart(2, '0') + ' / 09', tourReady: ready && !noGL && !free && !this.state.touring && t < 0.004 && boot === 'done',
+          startTour: () => this.startTour(), stopTour: () => this.stopTour(),
+          journal: !!this.state.journal && !ph, openJournal: () => { this.blip(900); this.setState({ journal: true }); }, closeJournal: () => this.setState({ journal: false }),
+          journalTotal: (nSec + sp.length) + ' / ' + (SECRETS.length + WILD.length), secretsCount: nSec + ' / ' + SECRETS.length, wildCount: sp.length + ' / ' + WILD.length,
+          jSecrets: SECRETS.map((s2, i) => { const f = fnd.includes(NOTES.length + i); return { name: cap(s2.region), mark: f ? '◆' : '◇', border: f ? 'rgba(127,243,225,.4)' : 'rgba(255,236,210,.12)', bg: f ? 'rgba(127,243,225,.08)' : 'transparent', fg: f ? '#e9fdff' : '#9a9284' }; }),
+          jWild: WILD.map(w => { const f = sp.includes(w); return { name: f ? cap(w) : '???', border: f ? 'rgba(159,224,110,.45)' : 'rgba(255,236,210,.12)', bg: f ? 'rgba(159,224,110,.1)' : 'transparent', fg: f ? '#e6fbd0' : '#9a9284' }; }),
+          bestAirLabel: this.state.bestAir ? this.state.bestAir.toFixed(2) + ' s' : '—',
+          photo: ph, openPhoto: () => this.openPhoto(), closePhoto: () => this.closePhoto(), snapPhoto: () => this.snapPhoto(), flashOp: this.state.flash ? 0.85 : 0, photoBottom: mobile ? '28px' : '40px',
+          watchOp: ph ? 0 : 1, watchPe: ph ? 'none' : 'auto',
+          seasonOpts: ['summer', 'spring', 'autumn', 'winter'].map(sn => opt(li.season === sn, sn, () => { this.world && this.world.setSeason(sn); this.blip(880); this.forceUpdate(); })),
+          weatherOpts: [['Auto wx', 'auto'], ['Clear', 'clear']].map(([label, v]) => opt(this.state.wxPref === v, label, () => { this.setState({ wxPref: v }); try { localStorage.setItem('apWeather', v); } catch (e) {} this.world && this.world.setWeather(v === 'clear' ? 'clear' : null); })),
+          dayOpts: [['Day cycle', 'on'], ['Fixed', 'off']].map(([label, v]) => opt(this.state.dayPref === v, label, () => { this.setState({ dayPref: v }); try { localStorage.setItem('apDayClock', v); } catch (e) {} this.world && this.world.setDayClock(v === 'on'); })) }; })(),
       proofY: proof ? '0%' : '100%', proofVis: proof ? 'visible' : 'hidden', proofHidden: proof ? 'false' : 'true'
     };
   }

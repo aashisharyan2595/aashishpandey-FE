@@ -10,7 +10,7 @@
     '/work-ceat-specialty': 'Work-CEAT-Specialty.dc.html'
   };
   // Set a GA4 measurement ID (e.g. 'G-XXXXXXX') to enable Google Analytics. Vercel Web Analytics loads automatically in production.
-  var GA_ID = '';
+  var GA_ID = 'G-H9J2D0RHRT';
 
   var dev = /\.dc\.html$/.test(location.pathname);
   window.__apRoute = function (p) {
