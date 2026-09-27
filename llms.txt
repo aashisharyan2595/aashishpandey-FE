@@ -4,7 +4,7 @@
 
 ## Pages
 
-- [Proof in 20 seconds](https://aashishpandey.com/proof): case studies, client sites, career, toolkit and contact.
+- [Case Studies](https://aashishpandey.com/case-studies): case studies, client sites, career, toolkit and contact.
 - [How this site was built](https://aashishpandey.com/how-this-site-was-built): build guide for the 3D motorcycle-ride portfolio (Three.js, WebGL, Web Audio).
 - [Home](https://aashishpandey.com/): the interactive 3D ride.
 
