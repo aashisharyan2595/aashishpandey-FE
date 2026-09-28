@@ -271,6 +271,14 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px solid rgba(255,236,210,.1);">
+          <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;"><span>Stamps</span><span style="color:#f2b56b;">{{ stampsCount }}</span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;">
+            <sc-for list="{{ jStamps }}" as="jt" hint-placeholder-count="12">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;border:1px solid {{ jt.border }};background:{{ jt.bg }};font-size:13px;color:{{ jt.fg }};"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#f2b56b;">{{ jt.mark }}</span>{{ jt.name }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px solid rgba(255,236,210,.1);">
           <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;"><span>Wildlife spotted</span><span style="color:#9fe06e;">{{ wildCount }}</span></div>
           <div style="display:flex;flex-wrap:wrap;gap:6px;">
             <sc-for list="{{ jWild }}" as="jw" hint-placeholder-count="14">
@@ -282,7 +290,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
           <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#cfc4b0;">Best airtime</span>
           <span style="font-family:'JetBrains Mono',monospace;font-size:22px;color:#f2b56b;">{{ bestAirLabel }}</span>
         </div>
-        <div style="font-size:12.5px;line-height:1.5;color:#cfc4b0;text-wrap:pretty;">Ride slowly near animals to spot them. They bolt if you arrive fast. Jump with ␣ off crests for airtime.</div>
+        <div style="font-size:12.5px;line-height:1.5;color:#cfc4b0;text-wrap:pretty;">Ride slowly near animals to spot them. They bolt if you arrive fast. Jump with ␣ off crests for airtime. Some places in the hills leave a stamp.</div>
       </div>
     </sc-if>
 
@@ -702,11 +710,26 @@ const SECRETS = [
   { region: 'pier', text: 'End of the land, not the road. Say “lighthouse” when we talk and I’ll know you got this far.' },
   { region: 'lighthouse', text: 'Five of five. That kind of curiosity is the whole point of this site. Let’s build something.' }];
 const ALLNOTES = NOTES.concat(SECRETS);
+const STAMPS = [
+  { k: 'summit', name: 'Summit', text: 'You found the hill nobody told you about and rode to the top. Most good work starts with the part of the map no one drew yet.' },
+  { k: 'cave', name: 'Ice cave', text: 'Cold, blue and completely quiet. Honestly the best place I know to debug.' },
+  { k: 'spin', name: 'Ice spin', text: 'A full turn on the ice. Recovering from a skid is a skill, on a bike and on a launch.' },
+  { k: 'snowman', name: 'Snowman', text: 'Sorry, snowman. Some prototypes are there to be knocked over.' },
+  { k: 'gates', name: 'Gate run', text: 'Five gates, in order, without stopping. Process looks dull until it takes you somewhere this pretty.' },
+  { k: 'aurora', name: 'Aurora', text: 'You waited on a mountain for the night sky. Patience is underrated in this line of work.' },
+  { k: 'crop', name: 'Crop circle', text: 'Someone pressed a perfect circle into the wheat. It wasn’t me. Probably.' },
+  { k: 'chai', name: 'Chai break', text: 'You stopped for chai at the estate. The best ideas usually turn up about halfway through the cup.' },
+  { k: 'soak', name: 'Hot soak', text: 'You parked the bike in a hot spring. The monkeys have been doing this for years, and they seem fine.' },
+  { k: 'arch', name: 'Canyon arch', text: 'You rode under an arch the river spent a very long time carving. Some good things just take longer.' },
+  { k: 'loop', name: 'Grand loop', text: 'Farms, tea, springs and canyon in one ride. That’s the site in a sentence: lots of small places, one road joining them up.' },
+  { k: 'yeti', name: 'Yeti', text: 'You saw it. Nobody is going to believe you. Keep it between us.' }];
+const loadStamps = () => { try { return JSON.parse(localStorage.getItem('apStamps') || '[]'); } catch (e) { return []; } };
 const WILD = ['deer', 'rabbit', 'squirrel', 'fox', 'fox cubs', 'goat', 'boar', 'roadrunner', 'lizard', 'frog', 'heron', 'crab', 'owl', 'eagle', 'tiger', 'leopard', 'peacock', 'seal', 'flamingo', 'dragonfly', 'bee', 'bat'];
+WILD.push('yak', 'snow leopard', 'marmot', 'crane', 'cow', 'sheep', 'crow', 'gaur', 'hornbill', 'butterfly', 'macaque', 'vulture');
 const TYPES = ['Website build', 'Shopify store', 'CMS / WordPress', 'Program rescue', 'Something experimental'];
 
 class Component extends DCLogic {
-  state = { reduceMotion: (() => { try { const v = localStorage.getItem('apReduceMotion'); if (v != null) return v === '1'; } catch (e) {} return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); })(), snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })(), found: (() => { try { return JSON.parse(localStorage.getItem('apSecrets')) || []; } catch (e) { return []; } })(), spotted: (() => { try { return JSON.parse(localStorage.getItem('apSpotted')) || []; } catch (e) { return []; } })(), bestAir: (() => { try { return parseFloat(localStorage.getItem('apBestAir')) || 0; } catch (e) { return 0; } })(), wxPref: (() => { try { return localStorage.getItem('apWeather') || 'auto'; } catch (e) { return 'auto'; } })(), dayPref: (() => { try { return localStorage.getItem('apDayClock') || 'on'; } catch (e) { return 'on'; } })(), journal: false, photo: false, flash: false, toast: null, touring: false, tourI: 0 };
+  state = { stamps: loadStamps(), reduceMotion: (() => { try { const v = localStorage.getItem('apReduceMotion'); if (v != null) return v === '1'; } catch (e) {} return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); })(), snd: (() => { try { return JSON.parse(localStorage.getItem('apSoundPrefs')) || { nature: true, fire: true, brake: true }; } catch (e) { return { nature: true, fire: true, brake: true }; } })(), t: 0, ready: false, noGL: false, mobile: false, proof: false, radio: false, watchMode: 'nav', note: null, expanded: false, panelClosed: false, form: { name: '', email: '', type: '', budget: '', timeline: '', msg: '' }, sent: false, scoreOn: false, egg: false, free: false, freeT: 0, freeSpd: 0, boot: 'boot', bootLine: 0, buzz: 0, grain: '', lowGfx: (() => { try { return localStorage.getItem('apLowGfx') === '1'; } catch (e) { return false; } })(), found: (() => { try { return JSON.parse(localStorage.getItem('apSecrets')) || []; } catch (e) { return []; } })(), spotted: (() => { try { return JSON.parse(localStorage.getItem('apSpotted')) || []; } catch (e) { return []; } })(), bestAir: (() => { try { return parseFloat(localStorage.getItem('apBestAir')) || 0; } catch (e) { return 0; } })(), wxPref: (() => { try { return localStorage.getItem('apWeather') || 'auto'; } catch (e) { return 'auto'; } })(), dayPref: (() => { try { return localStorage.getItem('apDayClock') || 'on'; } catch (e) { return 'on'; } })(), journal: false, photo: false, flash: false, toast: null, touring: false, tourI: 0 };
   canvasHost = React.createRef(); mapRef = React.createRef(); proofRef = React.createRef(); lbDialog = React.createRef(); lbClose = React.createRef(); lastPanel = 1;
   onDragStart(id, e) {
     e.preventDefault(); e.stopPropagation();
@@ -743,11 +766,11 @@ class Component extends DCLogic {
     this.loadAudio = () => this.audioP || (this.audioP = import(base + 'audio-v3.js').then(m => { this.radio = new m.Radio(); this.radio.setBrakeMuted(!this.state.snd.brake); this.score = new m.Score(this.radio); this.score.mute.nature = this.state.snd.nature ? 1 : 0; this.score.mute.fire = this.state.snd.fire ? 1 : 0; }).catch(e => console.warn('audio', e)));
     this.poll = setInterval(() => { if (this.score && this.score.on && this.world) this.score.update(this.world.getState()); }, 150);
     const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
-    const loadWorld = () => import(base + 'world-v4.js').then(m => {
+    const loadWorld = () => import(base + 'world-v6.js').then(m => {
       if (!this.canvasHost.current) return;
       (window.__ap = this), this.world = m.createWorld(this.canvasHost.current, { lowPower: lp || this.state.lowGfx, mobile: innerWidth < 760, notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
         onNote: (i, x, y) => { this.blip(1180); if (i >= NOTES.length && !(this.state.found || []).includes(i)) { const found = [...(this.state.found || []), i]; this.setState({ found }); try { localStorage.setItem('apSecrets', JSON.stringify(found)); } catch (e) {} } this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
-        holdIntro: true, spotted: this.state.spotted, onSpot: k => this.onSpot(k), onTrick: tr => this.onTrick(tr),
+        holdIntro: true, spotted: this.state.spotted, onSpot: k => this.onSpot(k), stamps: this.state.stamps, onStamp: k => this.onStamp(k), onTrick: tr => this.onTrick(tr),
         onFree: (ft, fs) => this.setState({ freeT: ft, freeSpd: fs }),
         onDino: () => this.blip && this.blip(720, 0.06),
         onSplash: () => this.blip && this.blip(240 + Math.random() * 90),
@@ -787,6 +810,8 @@ class Component extends DCLogic {
   jumpDown(e) { e.preventDefault(); this.world && this.world.setTouch('jump', true); }
   jumpUp() { this.world && this.world.setTouch('jump', false); }
   toggleFree() { const on = !this.state.free; this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false, photo: false, journal: false }); if (!on) this.onScroll(); }
+  onStamp(k) { const st = this.state.stamps || []; if (st.includes(k)) return; const stamps = [...st, k]; this.setState({ stamps }); try { localStorage.setItem('apStamps', JSON.stringify(stamps)); } catch (e) {} window.apTrack && window.apTrack('stamp', { k }); this.blip && this.blip(1320);
+    this.setState({ note: { stamp: k, x: innerWidth / 2 - 140, y: innerHeight * 0.34 } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); }
   onSpot(k) { const sp = this.state.spotted || []; if (sp.includes(k)) return; const spotted = [...sp, k]; this.setState({ spotted }); try { localStorage.setItem('apSpotted', JSON.stringify(spotted)); } catch (e) {} this.showToast('Spotted', k.charAt(0).toUpperCase() + k.slice(1)); this.blip(1320); window.apTrack && window.apTrack('wildlife_spotted', { kind: k }); }
   onTrick(tr) { const nb = tr.air > (this.state.bestAir || 0); if (nb) { this.setState({ bestAir: tr.air }); try { localStorage.setItem('apBestAir', String(tr.air)); } catch (e) {} } this.showToast(nb ? 'New best air' : 'Airtime', tr.air.toFixed(2) + ' s'); this.blip(nb ? 1560 : 1100); }
   showToast(kind, text) { clearTimeout(this.toastT); this.setState({ toast: { kind, text } }); this.toastT = setTimeout(() => this.setState({ toast: null }), 2600); }
@@ -924,7 +949,7 @@ class Component extends DCLogic {
       crown: () => { if (watchMode !== 'music') this.jump(arrived ? si + 1 : nextI); },
       sideBtn: () => { if (watchMode === 'music') { this.state.scoreOn ? this.stopMusic() : (this.radio && this.score && (this.radio.stop(), this.score.start(), this.setState({ scoreOn: true }))); } else this.jump(arrived ? si - 1 : nextI - 1); },
       hasNote: !!note, closeNote: () => this.setState({ note: null }),
-      note: note ? { num: String(note.i + 1).padStart(2, '0'), label: note.i >= NOTES.length ? 'Secret ' + String(note.i - NOTES.length + 1).padStart(2, '0') + ' of ' + String(SECRETS.length).padStart(2, '0') : 'Field note ' + String(note.i + 1).padStart(2, '0'), text: ALLNOTES[note.i].text, left: clamp(note.x + 16, 12, innerWidth - 300) + 'px', top: clamp(note.y - 30, 70, innerHeight - 200) + 'px' } : { num: '', label: '', text: '', left: '0px', top: '0px' },
+      note: note && note.stamp ? (() => { const si = STAMPS.findIndex(s => s.k === note.stamp), S = STAMPS[si] || { name: '', text: '' }; return { num: '◆', label: 'Stamp ' + String(si + 1).padStart(2, '0') + ' of ' + String(STAMPS.length).padStart(2, '0') + ' · ' + S.name, text: S.text, left: clamp(note.x + 16, 12, innerWidth - 300) + 'px', top: clamp(note.y - 30, 70, innerHeight - 200) + 'px' }; })() : note ? { num: String(note.i + 1).padStart(2, '0'), label: note.i >= NOTES.length ? 'Secret ' + String(note.i - NOTES.length + 1).padStart(2, '0') + ' of ' + String(SECRETS.length).padStart(2, '0') : 'Field note ' + String(note.i + 1).padStart(2, '0'), text: ALLNOTES[note.i].text, left: clamp(note.x + 16, 12, innerWidth - 300) + 'px', top: clamp(note.y - 30, 70, innerHeight - 200) + 'px' } : { num: '', label: '', text: '', left: '0px', top: '0px' },
       ...(() => { const li = this.lifeInfo(), sp = this.state.spotted || [], fnd = this.state.found || [], cap = s => s.charAt(0).toUpperCase() + s.slice(1), nSec = fnd.filter(i => i >= NOTES.length).length, ph = !!this.state.photo;
         const opt = (on, label, click) => ({ label, click, bg: on ? 'rgba(127,243,225,.16)' : 'transparent', fg: on ? '#e9fdff' : '#f3ead9' });
         return { lifeLabel: li.label, freeHudOn: free && !ph, mapOn: false, mapRef: this.mapRef, mapPos: mobile ? { right: '12px', top: '112px', size: '104px' } : { right: '26px', top: '84px', size: '168px' },
@@ -932,7 +957,8 @@ class Component extends DCLogic {
           touring: !!this.state.touring, tourLabel: String(this.state.tourI || 0).padStart(2, '0') + ' / 09', tourReady: ready && !noGL && !free && !this.state.touring && t < 0.004 && boot === 'done',
           startTour: () => this.startTour(), stopTour: () => this.stopTour(),
           journal: !!this.state.journal && !ph, openJournal: () => { this.blip(900); this.setState({ journal: true }); }, closeJournal: () => this.setState({ journal: false }),
-          journalTotal: (nSec + sp.length) + ' / ' + (SECRETS.length + WILD.length), secretsCount: nSec + ' / ' + SECRETS.length, wildCount: sp.length + ' / ' + WILD.length,
+          journalTotal: (nSec + sp.length + (this.state.stamps || []).length) + ' / ' + (SECRETS.length + WILD.length + STAMPS.length),
+          stampsCount: (this.state.stamps || []).length + ' / ' + STAMPS.length, jStamps: STAMPS.map(s2 => { const f = (this.state.stamps || []).includes(s2.k); return { name: f ? s2.name : '???', mark: f ? '◆' : '◇', border: f ? 'rgba(242,181,107,.45)' : 'rgba(255,236,210,.1)', bg: f ? 'rgba(242,181,107,.1)' : 'transparent', fg: f ? '#fff6ea' : '#8f8778' }; }), secretsCount: nSec + ' / ' + SECRETS.length, wildCount: sp.length + ' / ' + WILD.length,
           jSecrets: SECRETS.map((s2, i) => { const f = fnd.includes(NOTES.length + i); return { name: cap(s2.region), mark: f ? '◆' : '◇', border: f ? 'rgba(127,243,225,.4)' : 'rgba(255,236,210,.12)', bg: f ? 'rgba(127,243,225,.08)' : 'transparent', fg: f ? '#e9fdff' : '#9a9284' }; }),
           jWild: WILD.map(w => { const f = sp.includes(w); return { name: f ? cap(w) : '???', border: f ? 'rgba(159,224,110,.45)' : 'rgba(255,236,210,.12)', bg: f ? 'rgba(159,224,110,.1)' : 'transparent', fg: f ? '#e6fbd0' : '#9a9284' }; }),
           bestAirLabel: this.state.bestAir ? this.state.bestAir.toFixed(2) + ' s' : '—',
