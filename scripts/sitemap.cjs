@@ -14,7 +14,7 @@ const P = [
   ['/shopify-developer', 'Shopify-Developer.dc.html'], ['/full-stack-developer', 'Full-Stack-Developer.dc.html'],
   ['/seo-consultant', 'SEO-Consultant.dc.html'], ['/ui-ux-design', 'UI-UX-Design.dc.html'], ['/tech-consultant', 'Tech-Consultant.dc.html'],
   ['/tools', 'Tools-v2.dc.html'], ['/tools/pad', 'Tools-Pad-v2.dc.html'], ['/tools/url-shortener', 'Tools-Shortener.dc.html'],
-  ['/tools/image-resizer', 'Tools-Image.dc.html'], ['/tools/lorem-ipsum-generator', 'Tools-Lorem.dc.html'], ['/tools/qr-code-generator', 'Tools-QR.dc.html', ['/assets/og/og-tool-qr.jpg']], ['/tools/website-launch-checklist', 'Tools-Checklist.dc.html'],
+  ['/tools/image-resizer', 'Tools-Image.dc.html'], ['/tools/lorem-ipsum-generator', 'Tools-Lorem.dc.html'], ['/tools/qr-code-generator', 'Tools-QR.dc.html', ['/assets/og/og-tool-qr.jpg']], ['/tools/qr-code-checker', 'Tools-QR-Check.dc.html', ['/assets/og/og-tool-qr-check.jpg']], ['/tools/website-launch-checklist', 'Tools-Checklist.dc.html'],
   ['/how-this-site-was-built', 'How-This-Site-Was-Built.dc.html', ['/assets/build/intro.jpg']],
 ];
 const args = process.argv.slice(2), i = args.indexOf('--init');

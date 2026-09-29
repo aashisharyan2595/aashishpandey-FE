@@ -21,6 +21,7 @@
     '/tools/image-resizer': 'Tools-Image.dc.html',
     '/tools/lorem-ipsum-generator': 'Tools-Lorem.dc.html',
     '/tools/qr-code-generator': 'Tools-QR.dc.html',
+    '/tools/qr-code-checker': 'Tools-QR-Check.dc.html',
     '/tools/website-launch-checklist': 'Tools-Checklist.dc.html'
   };
   // Set a GA4 measurement ID (e.g. 'G-XXXXXXX') to enable Google Analytics. Vercel Web Analytics loads automatically in production.

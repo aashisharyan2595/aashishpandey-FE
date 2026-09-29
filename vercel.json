@@ -213,6 +213,10 @@
       "destination": "/Tools-QR.dc.html"
     },
     {
+      "source": "/tools/qr-code-checker",
+      "destination": "/Tools-QR-Check.dc.html"
+    },
+    {
       "source": "/tools/website-launch-checklist",
       "destination": "/Tools-Checklist.dc.html"
     },
