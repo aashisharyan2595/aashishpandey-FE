@@ -25,7 +25,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | `support.js` | The page runtime. Don't edit |
 | `world-v6.js`, `audio-v3.js` | Active 3D world and audio. `world-v2/v3/v4.js` and `audio-v2.js` are old copies kept for rollback |
 | `api/` | Shortener backend |
-| `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`) |
+| `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`), `checklist-static.cjs` (regenerates the crawlable list of checks inside the launch checklist page; run it after editing the checks) |
 | `assets/` | Images, résumé PDF, favicons, OG image |
 | `vercel.json` | Build command, redirects, rewrites, headers |
 | `sitemap.xml`, `robots.txt`, `llms.txt` | Search and AI crawler files |
