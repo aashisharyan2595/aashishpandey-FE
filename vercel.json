@@ -209,6 +209,10 @@
       "destination": "/Tools-Lorem.dc.html"
     },
     {
+      "source": "/tools/qr-code-generator",
+      "destination": "/Tools-QR.dc.html"
+    },
+    {
       "source": "/tools/website-launch-checklist",
       "destination": "/Tools-Checklist.dc.html"
     },
