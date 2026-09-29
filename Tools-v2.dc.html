@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Free Online Tools · Notepad, QR Codes, llms.txt &amp; More · Aashish Pandey</title>
+<meta name="description" content="Free browser-based tools by Aashish Pandey: a distraction-free online notepad, URL shortener, image resizer and converter, QR code generator, llms.txt generator, project estimate calculator and website launch checklist.">
+<link rel="canonical" href="https://aashishpandey.com/tools">
+<meta name="theme-color" content="#0b1030">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="site.js"></script>
+<style>
+html,body{margin:0;background:#0b0f24;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+a{color:#f5b867;text-decoration:none}
+a:hover{color:#fff6ea}
+::selection{background:#7ff3e1;color:#0b1030}
+:focus-visible{outline:2px solid #7ff3e1!important;outline-offset:3px!important}
+</style>
+</helmet>
+<div id="top" style="min-height:100vh;background:#0b0f24;background-image:radial-gradient(rgba(255,236,210,.07) 1px,transparent 1px);background-size:28px 28px;color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;overflow-x:clip;display:flex;flex-direction:column;">
+  <nav style="position:sticky;top:0;z-index:5;background:rgba(11,15,36,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,236,210,.08);">
+    <div style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);height:64px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <a href="/case-studies" style="display:flex;align-items:center;gap:10px;color:#fff6ea;min-width:0;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap;">Aashish Pandey</span></a>
+      <div style="display:flex;gap:4px;align-items:center;padding:4px;border-radius:99px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.08);">
+        <a href="/case-studies" style="font-size:13.5px;font-weight:500;color:#cfc6b6;padding:7px 14px;border-radius:99px;" style-hover="color:#fff6ea;">Case studies</a>
+        <a href="/tools" aria-current="page" style="font-size:13.5px;font-weight:500;color:#1a1420;padding:7px 14px;border-radius:99px;background:#f3ead9;">Tools</a>
+      </div>
+      <a href="/case-studies#pf-contact" style="height:38px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:99px;background:#f5b867;color:#1a1420;font-size:13.5px;font-weight:600;white-space:nowrap;flex-shrink:0;" style-hover="background:#ffc880;color:#1a1420;"><span style="width:7px;height:7px;border-radius:50%;background:#1f7a63;box-shadow:0 0 0 3px rgba(31,122,99,.25);"></span>Hire me</a>
+    </div>
+  </nav>
+  <main style="flex:1;">
+    <header style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);padding-top:clamp(48px,8vw,104px);padding-bottom:clamp(32px,5vw,56px);display:flex;flex-direction:column;align-items:flex-start;gap:22px;">
+      <span style="display:flex;align-items:center;gap:8px;padding:7px 13px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.25);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;box-shadow:0 0 8px #7ff3e1;"></span>Free · no sign-up · runs in your browser</span>
+      <h1 style="margin:0;font-weight:600;font-size:clamp(44px,6.6vw,88px);line-height:.96;letter-spacing:-.04em;color:#fff6ea;max-width:900px;text-wrap:balance;">Small tools, <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;letter-spacing:-.02em;color:#f5b867;">built for real work.</span></h1>
+      <p style="margin:0;font-size:clamp(16px,1.6vw,19px);line-height:1.6;max-width:540px;color:#cfc6b6;text-wrap:pretty;">The utilities I use to write, plan and ship client programs. Your text and data never leave your device.</p>
+    </header>
+    <section aria-label="All tools" style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);padding-bottom:clamp(56px,8vw,104px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px;">
+      <a href="/tools/pad" style="grid-column:1/-1;border-radius:28px;background:linear-gradient(180deg,rgba(255,236,210,.06),rgba(255,236,210,.02));border:1px solid rgba(255,236,210,.12);padding:clamp(22px,3.4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(24px,4vw,56px);align-items:center;color:#f3ead9;overflow:hidden;transition:border-color .2s;" style-hover="border-color:rgba(245,184,103,.45);color:#f3ead9;">
+        <div style="display:flex;flex-direction:column;gap:18px;min-width:0;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="width:44px;height:44px;border-radius:13px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg></span>
+            <span style="display:flex;align-items:center;gap:7px;padding:6px 11px;border-radius:99px;background:rgba(127,243,225,.1);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Live</span>
+          </div>
+          <h2 style="margin:0;font-weight:600;font-size:clamp(32px,3.6vw,46px);line-height:1;letter-spacing:-.03em;color:#fff6ea;">Online Notepad</h2>
+          <p style="margin:0;font-size:16px;line-height:1.65;color:#cfc6b6;max-width:440px;text-wrap:pretty;">A quiet place to write. Markdown preview, autosave, focus mode, dark mode, and read-only links you can share without an account.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="padding:6px 11px;border-radius:99px;border:1px solid rgba(255,236,210,.14);font-size:12.5px;color:#d9d1c2;">Markdown</span>
+            <span style="padding:6px 11px;border-radius:99px;border:1px solid rgba(255,236,210,.14);font-size:12.5px;color:#d9d1c2;">Autosave</span>
+            <span style="padding:6px 11px;border-radius:99px;border:1px solid rgba(255,236,210,.14);font-size:12.5px;color:#d9d1c2;">Share links</span>
+            <span style="padding:6px 11px;border-radius:99px;border:1px solid rgba(255,236,210,.14);font-size:12.5px;color:#d9d1c2;">.txt / .md export</span>
+          </div>
+          <span style="align-self:flex-start;height:44px;padding:0 20px;display:flex;align-items:center;gap:10px;border-radius:99px;background:#f3ead9;color:#1a1420;font-size:14px;font-weight:600;">Open the notepad<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+        </div>
+        <div aria-hidden="true" style="border-radius:18px;background:#f2ede3;color:#1c1a22;box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden;display:flex;flex-direction:column;min-width:0;transform:rotate(-1.2deg);">
+          <div style="height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid rgba(28,26,34,.08);">
+            <span style="display:flex;align-items:center;gap:8px;"><span style="width:20px;height:20px;border-radius:6px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:11px;">AP</span><span style="font-size:12.5px;font-weight:600;">Notepad</span></span>
+            <span style="display:flex;padding:2px;border-radius:99px;background:#e8e1d4;gap:2px;"><span style="padding:3px 9px;border-radius:99px;background:#fbf8f2;font-size:10.5px;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08);">Write</span><span style="padding:3px 9px;font-size:10.5px;color:#6a6470;">Split</span><span style="padding:3px 9px;font-size:10.5px;color:#6a6470;">Preview</span></span>
+          </div>
+          <div style="display:flex;min-height:230px;">
+            <div style="width:34%;border-right:1px solid rgba(28,26,34,.08);padding:10px 8px;display:flex;flex-direction:column;gap:4px;">
+              <div style="padding:8px 9px;border-radius:9px;background:#fbf8f2;box-shadow:0 1px 3px rgba(28,26,34,.08);display:flex;flex-direction:column;gap:2px;"><span style="font-size:11.5px;font-weight:600;">Go-live notes</span><span style="font-size:10px;color:#6a6470;">just now</span></div>
+              <div style="padding:8px 9px;display:flex;flex-direction:column;gap:2px;"><span style="font-size:11.5px;font-weight:500;">Sprint 14 retro</span><span style="font-size:10px;color:#6a6470;">2h ago</span></div>
+              <div style="padding:8px 9px;display:flex;flex-direction:column;gap:2px;"><span style="font-size:11.5px;font-weight:500;">Brief: hostel site</span><span style="font-size:10px;color:#6a6470;">12 Sep</span></div>
+            </div>
+            <div style="flex:1;padding:18px 20px;display:flex;flex-direction:column;gap:9px;min-width:0;">
+              <span style="font-size:19px;font-weight:600;letter-spacing:-.02em;">Go-live notes</span>
+              <span style="font-size:12px;line-height:1.6;color:#2c2832;">Redirects mapped, hreflang checked for all EU subdomains. GA4 events firing on checkout.</span>
+              <span style="font-size:12px;line-height:1.6;color:#2c2832;">– Purge CDN after DNS switch<br>– Submit sitemap in Search Console<br>– Smoke test on mobile<span style="display:inline-block;width:2px;height:13px;background:#9a5418;margin-left:2px;vertical-align:-2px;"></span></span>
+            </div>
+          </div>
+          <div style="height:30px;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(28,26,34,.08);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;color:#6a6470;gap:12px;"><span>48 words</span><span>·</span><span style="display:flex;align-items:center;gap:5px;"><span style="width:5px;height:5px;border-radius:50%;background:#1f7a63;"></span>Saved locally</span></div>
+        </div>
+      </a>
+      <a href="/tools/url-shortener" style="border-radius:22px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.14);color:#f3ead9;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:220px;transition:border-color .2s;" style-hover="border-color:rgba(245,184,103,.45);color:#f3ead9;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="width:40px;height:40px;border-radius:12px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span>
+            <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Live</span>
+          </div>
+          <h2 style="margin:0;font-weight:600;font-size:21px;letter-spacing:-.02em;color:#fff6ea;">URL Shortener</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.6;color:#b9b1a2;text-wrap:pretty;">Short links on aashishpandey.com/s/, each with its own QR code.</p>
+          <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a927f;">/tools/url-shortener</span>
+        </a>
+      <a href="/tools/image-resizer" style="border-radius:22px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.14);color:#f3ead9;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:220px;transition:border-color .2s;" style-hover="border-color:rgba(245,184,103,.45);color:#f3ead9;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="width:40px;height:40px;border-radius:12px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg></span>
+            <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Live</span>
+          </div>
+          <h2 style="margin:0;font-weight:600;font-size:21px;letter-spacing:-.02em;color:#fff6ea;">Image Resizer &amp; Converter</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.6;color:#b9b1a2;text-wrap:pretty;">Batch-convert to WebP, JPEG, PNG or AVIF and resize, all in your browser.</p>
+          <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a927f;">/tools/image-resizer</span>
+        </a>
+      <a href="/tools/lorem-ipsum-generator" style="border-radius:22px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.14);color:#f3ead9;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:220px;transition:border-color .2s;" style-hover="border-color:rgba(245,184,103,.45);color:#f3ead9;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="width:40px;height:40px;border-radius:12px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M17 6.1H3"></path><path d="M21 12.1H3"></path><path d="M15.1 18H3"></path></svg></span>
+            <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Live</span>
+          </div>
+          <h2 style="margin:0;font-weight:600;font-size:21px;letter-spacing:-.02em;color:#fff6ea;">Lorem Ipsum Generator</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.6;color:#b9b1a2;text-wrap:pretty;">Placeholder paragraphs, sentences or lists. Copy as text, HTML or Markdown.</p>
+          <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a927f;">/tools/lorem-ipsum-generator</span>
+        </a>
+      <a href="/tools/website-launch-checklist" style="border-radius:22px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.14);color:#f3ead9;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:220px;transition:border-color .2s;" style-hover="border-color:rgba(245,184,103,.45);color:#f3ead9;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="width:40px;height:40px;border-radius:12px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="m3 17 2 2 4-4"></path><path d="m3 7 2 2 4-4"></path><path d="M13 6h8"></path><path d="M13 12h8"></path><path d="M13 18h8"></path></svg></span>
+            <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Live</span>
+          </div>
+          <h2 style="margin:0;font-weight:600;font-size:21px;letter-spacing:-.02em;color:#fff6ea;">Website Launch Checklist</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.6;color:#b9b1a2;text-wrap:pretty;">Editable launch templates for websites, marketing campaigns, product launches, events and handovers.</p>
+          <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a927f;">/tools/website-launch-checklist</span>
+        </a>
+      <sc-if value="{{ showSoon }}" hint-placeholder-val="{{ true }}">
+        
+        <div style="border-radius:22px;background:rgba(255,236,210,.03);border:1px solid rgba(255,236,210,.09);padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:220px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="width:40px;height:40px;border-radius:12px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m10 13-2 2 2 2"></path><path d="m14 17 2-2-2-2"></path></svg></span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9a927f;">Soon</span>
+          </div>
+          <h2 style="margin:0;font-weight:600;font-size:21px;letter-spacing:-.02em;color:#fff6ea;">llms.txt Generator</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.6;color:#b9b1a2;text-wrap:pretty;">Build an llms.txt file that helps AI search engines understand your site.</p>
+          <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a927f;">/tools/llms-txt-generator</span>
+        </div>
+        <div style="border-radius:22px;background:rgba(255,236,210,.03);border:1px solid rgba(255,236,210,.09);padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:220px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="width:40px;height:40px;border-radius:12px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="5" height="5" x="3" y="3" rx="1"></rect><rect width="5" height="5" x="16" y="3" rx="1"></rect><rect width="5" height="5" x="3" y="16" rx="1"></rect><path d="M21 16h-3a2 2 0 0 0-2 2v3"></path><path d="M21 21v.01"></path><path d="M12 7v3a2 2 0 0 1-2 2H7"></path><path d="M3 12h.01"></path><path d="M12 3h.01"></path><path d="M12 16v.01"></path><path d="M16 12h1"></path><path d="M21 12v.01"></path><path d="M12 21v-1"></path></svg></span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9a927f;">Soon</span>
+          </div>
+          <h2 style="margin:0;font-weight:600;font-size:21px;letter-spacing:-.02em;color:#fff6ea;">QR Code Generator</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.6;color:#b9b1a2;text-wrap:pretty;">QR codes for links, Wi-Fi and contact cards, exported as PNG or SVG.</p>
+          <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a927f;">/tools/qr-code-generator</span>
+        </div>
+        <div style="border-radius:22px;background:rgba(255,236,210,.03);border:1px solid rgba(255,236,210,.09);padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:220px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="width:40px;height:40px;border-radius:12px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg></span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9a927f;">Soon</span>
+          </div>
+          <h2 style="margin:0;font-weight:600;font-size:21px;letter-spacing:-.02em;color:#fff6ea;">Project Estimate Calculator</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.6;color:#b9b1a2;text-wrap:pretty;">Estimate effort, team size and timeline for a website or platform build.</p>
+          <span style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a927f;">/tools/project-estimate-calculator</span>
+        </div>
+        
+      </sc-if>
+      <a href="#brief" style="border-radius:22px;background:#f5b867;color:#1a1420;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0;min-height:220px;" style-hover="background:#ffc880;color:#1a1420;">
+        <span style="width:40px;height:40px;border-radius:12px;background:rgba(26,20,32,.1);display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>
+        <h2 style="margin:0;font-weight:600;font-size:21px;letter-spacing:-.02em;">Need a tool for your team?</h2>
+        <p style="margin:0;font-size:14.5px;line-height:1.6;color:#3a2e24;text-wrap:pretty;">I scope, design and ship internal tools, sites and stores. Send a short brief.</p>
+        <span style="margin-top:auto;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;">Send a brief<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span>
+      </a>
+    </section>
+    <section id="brief" aria-label="Send a brief" style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);padding-bottom:clamp(56px,8vw,104px);scroll-margin-top:80px;">
+      <div style="border-radius:28px;background:linear-gradient(180deg,rgba(255,236,210,.06),rgba(255,236,210,.02));border:1px solid rgba(255,236,210,.12);padding:clamp(22px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(28px,5vw,64px);">
+        <div style="display:flex;flex-direction:column;gap:18px;min-width:0;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#f5b867;">Built by Aashish</span>
+          <h2 style="margin:0;font-weight:600;font-size:clamp(34px,4.4vw,54px);line-height:1;letter-spacing:-.04em;color:#fff6ea;text-wrap:balance;">Need a tool <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;letter-spacing:-.02em;color:#f5b867;">for your team?</span></h2>
+          <p style="margin:0;font-size:16px;line-height:1.65;color:#cfc6b6;max-width:420px;text-wrap:pretty;">I scope, design and ship internal tools, sites and stores. Tell me what you need and I’ll come back with scope, timeline and a quote.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+            <a href="https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,236,210,.12);color:#f3ead9;" style-hover="border-color:#f5b867;color:#f5b867;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg><span style="flex:1;font-size:14.5px;font-weight:500;">Rather talk? Book a 20-min call</span>↗</a>
+            <a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,236,210,.12);color:#f3ead9;" style-hover="border-color:#f5b867;color:#f5b867;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg><span style="flex:1;font-size:14.5px;font-weight:500;">Message on WhatsApp</span>↗</a>
+          </div>
+        </div>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display:flex;flex-direction:column;justify-content:center;gap:14px;padding:clamp(20px,3vw,32px);border-radius:20px;background:#f3ead9;color:#1c1a22;min-width:0;">
+            <span style="width:44px;height:44px;border-radius:50%;background:#1f7a63;color:#fff;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M20 6 9 17l-5-5"></path></svg></span>
+            <h3 style="margin:0;font-weight:600;font-size:28px;letter-spacing:-.03em;">Your brief is ready to send.</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:#5a5560;">It opened in your mail app. Press send and I’ll reply within two working days. If nothing opened, email <a href="mailto:hello@aashishpandey.com" style="color:#9a5418;">hello@aashishpandey.com</a>.</p>
+            <button type="button" onClick="{{ resetBrief }}" style="align-self:flex-start;height:40px;padding:0 16px;border-radius:12px;border:1px solid rgba(28,26,34,.16);background:none;color:#1c1a22;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;">Start another brief</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submitBrief }}" style="display:flex;flex-direction:column;gap:18px;min-width:0;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px;">
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#cfc6b6;">Your name<input required="required" value="{{ f.name }}" onChange="{{ on.name }}" autocomplete="name" placeholder="Priya Sharma" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.14);color:#fff6ea;font-family:inherit;font-size:15px;outline:none;"></input></label>
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#cfc6b6;">Work email<input required="required" type="email" value="{{ f.email }}" onChange="{{ on.email }}" autocomplete="email" placeholder="priya@company.com" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.14);color:#fff6ea;font-family:inherit;font-size:15px;outline:none;"></input></label>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#cfc6b6;"><span>What do you need?</span><div style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ kinds }}" as="k" hint-placeholder-count="4"><sc-if value="{{ k.on }}" hint-placeholder-val="{{ false }}"><button type="button" aria-pressed="true" onClick="{{ k.pick }}" style="height:38px;padding:0 14px;border-radius:99px;border:1px solid #f5b867;background:rgba(245,184,103,.14);color:#f5b867;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">{{ k.label }}</button></sc-if><sc-if value="{{ k.off }}" hint-placeholder-val="{{ true }}"><button type="button" aria-pressed="false" onClick="{{ k.pick }}" style="height:38px;padding:0 14px;border-radius:99px;border:1px solid rgba(255,236,210,.14);background:none;color:#cfc6b6;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;" style-hover="border-color:rgba(255,236,210,.3);color:#fff6ea;">{{ k.label }}</button></sc-if></sc-for></div></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px;">
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#cfc6b6;">Budget<select value="{{ f.budget }}" onChange="{{ on.budget }}" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.14);color:#fff6ea;font-family:inherit;font-size:15px;outline:none;cursor:pointer;"><option>Not sure yet</option><option>Under $2K</option><option>$2K – $5K</option><option>$5K – $15K</option><option>$15K+</option></select></label>
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#cfc6b6;">Timeline<select value="{{ f.timeline }}" onChange="{{ on.timeline }}" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.14);color:#fff6ea;font-family:inherit;font-size:15px;outline:none;cursor:pointer;"><option>Flexible</option><option>ASAP</option><option>1–3 months</option><option>3–6 months</option></select></label>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#cfc6b6;">Tell me about it<textarea required="required" value="{{ f.details }}" onChange="{{ on.details }}" rows="5" placeholder="What should it do, who uses it, and what does success look like?" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.14);color:#fff6ea;font-family:inherit;font-size:15px;outline:none;height:auto;padding:12px 14px;line-height:1.6;resize:vertical;"></textarea></label>
+            <sc-if value="{{ hasBriefError }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#ffb4a2;">{{ briefError }}</span></sc-if>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;">
+              <button type="submit" style="height:50px;padding:0 24px;display:flex;align-items:center;gap:9px;border-radius:14px;border:none;background:#f5b867;color:#1a1420;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;" style-hover="background:#ffc880;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>Send brief</button>
+              <span style="font-size:13px;color:#9a927f;">Opens in your mail app. Reply within two working days.</span>
+            </div>
+          </form>
+        </sc-if>
+      </div>
+    </section>
+  </main>
+  <footer style="border-top:1px solid rgba(255,236,210,.08);background:rgba(6,9,24,.6);">
+    <div style="max-width:1160px;margin:0 auto;padding:clamp(40px,6vw,64px) clamp(18px,4vw,40px) 24px;display:flex;flex-direction:column;gap:clamp(32px,5vw,48px);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:32px 24px;">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0;grid-column:span 1;">
+          <a href="/case-studies" style="display:flex;align-items:center;gap:10px;color:#fff6ea;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;">Aashish Pandey</span></a>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#9a927f;max-width:260px;">Project Manager and Creative Technologist in Bangalore. 50+ sites and platforms shipped since 2018.</p>
+          <span style="align-self:flex-start;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.22);font-size:12.5px;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Open to PM roles &amp; freelance</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Tools</span><a href="/tools/pad" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Online Notepad</a><a href="/tools/url-shortener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">URL Shortener</a><a href="/tools/image-resizer" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Image Resizer</a><a href="/tools/lorem-ipsum-generator" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Lorem Ipsum Generator</a><a href="/tools/website-launch-checklist" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Launch Checklist</a><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">QR Code Generator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">llms.txt Generator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">Estimate Calculator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Site</span><a href="/" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">The 3D ride</a><a href="/case-studies" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Case studies</a><a href="/how-this-site-was-built" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">How this site was built</a><a href="/tools" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">All tools</a><a href="assets/Aashish-Pandey-Resume.pdf" download="" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Résumé ↓</a></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Connect</span><a href="mailto:hello@aashishpandey.com" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">hello@aashishpandey.com</a><a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">LinkedIn ↗</a><a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">WhatsApp ↗</a><a href="https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Book a 20-min call ↗</a></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:20px;border-top:1px solid rgba(255,236,210,.08);font-size:13px;color:#8a8372;">
+        <span>© 2026 Aashish Pandey · Bangalore, India</span>
+        <a href="#top" style="color:#8a8372;" style-hover="color:#fff6ea;">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showSoon&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hub&quot;}}">
+const KINDS = ['Internal tool', 'Website', 'Shopify store', 'Automation', 'Something else'];
+const BLANK = { name: '', email: '', budget: 'Not sure yet', timeline: 'Flexible', details: '' };
+class Component extends DCLogic {
+  state = { f: { ...BLANK }, kinds: ['Internal tool'], sent: false, err: '' };
+  set(k) { return e => this.setState(s => ({ f: { ...s.f, [k]: e.target.value }, err: '' })); }
+  submitBrief = e => {
+    e.preventDefault();
+    const { f, kinds } = this.state;
+    if (!f.name.trim()) return this.setState({ err: 'Add your name.' });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())) return this.setState({ err: 'Check your email address.' });
+    if (f.details.trim().length < 20) return this.setState({ err: 'Add a little more detail so I can scope it (20+ characters).' });
+    const subject = `Brief: ${kinds.join(', ') || 'Project'} · ${f.name.trim()}`;
+    const body = [`Name: ${f.name.trim()}`, `Email: ${f.email.trim()}`, `Need: ${kinds.join(', ') || '—'}`, `Budget: ${f.budget}`, `Timeline: ${f.timeline}`, '', f.details.trim(), '', '— Sent from aashishpandey.com/tools'].join('\n');
+    location.href = `mailto:hello@aashishpandey.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    if (window.apTrack) window.apTrack('send_brief', { source: 'tools', kinds: kinds.join('|'), budget: f.budget });
+    this.setState({ sent: true });
+  };
+  renderVals() {
+    const s = this.state;
+    return {
+      showSoon: this.props.showSoon ?? true,
+      f: s.f, on: { name: this.set('name'), email: this.set('email'), budget: this.set('budget'), timeline: this.set('timeline'), details: this.set('details') },
+      kinds: KINDS.map(k => { const on = s.kinds.includes(k); return { label: k, on, off: !on, pick: () => this.setState(x => ({ kinds: on ? x.kinds.filter(y => y !== k) : [...x.kinds, k] })) }; }),
+      submitBrief: this.submitBrief, sent: s.sent, notSent: !s.sent,
+      resetBrief: () => this.setState({ f: { ...BLANK }, kinds: ['Internal tool'], sent: false }),
+      hasBriefError: !!s.err, briefError: s.err
+    };
+  }
+}
+</script>
+</body>
+</html>

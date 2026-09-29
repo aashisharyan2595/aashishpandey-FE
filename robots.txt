@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /s/
 
 Sitemap: https://aashishpandey.com/sitemap.xml

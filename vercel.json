@@ -103,7 +103,7 @@
     },
     {
       "source": "/case-studies",
-      "destination": "/Proof.dc.html"
+      "destination": "/Proof-v2.dc.html"
     },
     {
       "source": "/how-this-site-was-built",
@@ -124,6 +124,34 @@
     {
       "source": "/work-ceat-specialty",
       "destination": "/Work-CEAT-Specialty.dc.html"
+    },
+    {
+      "source": "/tools",
+      "destination": "/Tools-v2.dc.html"
+    },
+    {
+      "source": "/tools/pad",
+      "destination": "/Tools-Pad-v2.dc.html"
+    },
+    {
+      "source": "/tools/url-shortener",
+      "destination": "/Tools-Shortener.dc.html"
+    },
+    {
+      "source": "/tools/image-resizer",
+      "destination": "/Tools-Image.dc.html"
+    },
+    {
+      "source": "/tools/lorem-ipsum-generator",
+      "destination": "/Tools-Lorem.dc.html"
+    },
+    {
+      "source": "/tools/website-launch-checklist",
+      "destination": "/Tools-Checklist.dc.html"
+    },
+    {
+      "source": "/s/:code",
+      "destination": "/api/s/:code"
     }
   ],
   "headers": [
@@ -185,6 +213,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
         }
       ]
     }

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Free Image Resizer &amp; Converter · WebP, JPEG, PNG, AVIF · Aashish Pandey</title>
+<meta name="description" content="Resize and convert images to WebP, JPEG, PNG or AVIF in your browser. Batch process, set quality and size, download as a zip. Files never leave your device.">
+<link rel="canonical" href="https://aashishpandey.com/tools/image-resizer">
+<meta name="theme-color" content="#0b1030">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="site.js"></script>
+<style>
+html,body{margin:0;background:#0b0f24;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+a{color:#f5b867;text-decoration:none}
+a:hover{color:#fff6ea}
+::selection{background:#7ff3e1;color:#0b1030}
+:focus-visible{outline:2px solid #7ff3e1!important;outline-offset:3px!important}
+input[type=range]{accent-color:#f5b867}
+input::placeholder{color:#8a8372}
+</style>
+</helmet>
+<div id="top" style="min-height:100vh;background:#0b0f24;background-image:radial-gradient(rgba(255,236,210,.07) 1px,transparent 1px);background-size:28px 28px;color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;overflow-x:clip;display:flex;flex-direction:column;">
+  <nav style="position:sticky;top:0;z-index:5;background:rgba(11,15,36,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,236,210,.08);">
+    <div style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);height:64px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <a href="/tools" style="display:flex;align-items:center;gap:10px;color:#fff6ea;min-width:0;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-size:14px;color:#9a927f;white-space:nowrap;">Tools /</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap;">Image Resizer</span></a>
+      <div style="display:flex;gap:4px;align-items:center;padding:4px;border-radius:99px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.08);">
+        <a href="/case-studies" style="font-size:13.5px;font-weight:500;color:#cfc6b6;padding:7px 14px;border-radius:99px;" style-hover="color:#fff6ea;">Case studies</a>
+        <a href="/tools" style="font-size:13.5px;font-weight:500;color:#1a1420;padding:7px 14px;border-radius:99px;background:#f3ead9;">Tools</a>
+      </div>
+      <a href="/case-studies#pf-contact" style="height:38px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:99px;background:#f5b867;color:#1a1420;font-size:13.5px;font-weight:600;white-space:nowrap;flex-shrink:0;" style-hover="background:#ffc880;color:#1a1420;"><span style="width:7px;height:7px;border-radius:50%;background:#1f7a63;box-shadow:0 0 0 3px rgba(31,122,99,.25);"></span>Hire me</a>
+    </div>
+  </nav>
+  <main style="flex:1;width:100%;max-width:1160px;margin:0 auto;box-sizing:border-box;padding:clamp(40px,7vw,88px) clamp(18px,4vw,40px) clamp(56px,8vw,96px);display:flex;flex-direction:column;gap:clamp(28px,4vw,40px);">
+    <header style="display:flex;flex-direction:column;gap:16px;">
+      <h1 style="margin:0;font-weight:600;font-size:clamp(40px,6vw,72px);line-height:.98;letter-spacing:-.04em;color:#fff6ea;max-width:900px;text-wrap:balance;">Resize and convert images. <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;letter-spacing:-.02em;color:#f5b867;">Nothing gets uploaded.</span></h1>
+      <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:600px;color:#cfc6b6;text-wrap:pretty;">Batch-convert to WebP, JPEG, PNG or AVIF, set a size and quality, and download everything as a zip. Processing happens on your device.</p>
+    </header>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
+      <div style="flex:2 1 520px;display:flex;flex-direction:column;gap:14px;min-width:0;">
+        <div onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" onClick="{{ pick }}" role="button" tabindex="0" onKeyDown="{{ onZoneKey }}" aria-label="Add images" style="border-radius:28px;border:1.5px dashed {{ zoneBorder }};background:{{ zoneBg }};padding:clamp(28px,5vw,52px) 24px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;">
+          <span style="width:56px;height:56px;border-radius:16px;background:rgba(245,184,103,.12);color:#f5b867;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg></span>
+          <span style="font-weight:600;font-size:clamp(19px,2vw,23px);letter-spacing:-.02em;color:#fff6ea;">Drop images here, or click to choose</span>
+          <span style="font-size:14px;color:#9a927f;">JPEG, PNG, WebP, AVIF, GIF, BMP · paste with Ctrl+V · up to 50 at once</span>
+          <input ref="{{ fileRef }}" type="file" accept="image/*" multiple="multiple" onChange="{{ onFiles }}" style="display:none;"></input>
+        </div>
+        <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-radius:18px;background:rgba(255,236,210,.04);border:1px solid rgba(255,236,210,.1);">
+            <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+              <span style="font-weight:600;font-size:15.5px;color:#fff6ea;">{{ summary.title }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a927f;">{{ summary.sizes }}</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <sc-if value="{{ summary.hasSaved }}" hint-placeholder-val="{{ false }}"><span style="padding:6px 11px;border-radius:99px;background:rgba(127,243,225,.1);color:#7ff3e1;font-family:'JetBrains Mono',monospace;font-size:11.5px;">{{ summary.saved }}</span></sc-if>
+              <button type="button" onClick="{{ clearAll }}" style="height:40px;padding:0 14px;border-radius:12px;border:1px solid rgba(255,236,210,.14);background:none;color:#cfc6b6;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;" style-hover="color:#fff6ea;border-color:rgba(255,236,210,.3);">Clear</button>
+              <button type="button" onClick="{{ downloadAll }}" disabled="{{ busy }}" style="height:40px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:12px;border:none;background:#f5b867;color:#1a1420;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;" style-hover="background:#ffc880;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>{{ dlAllLabel }}</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;border-radius:20px;overflow:hidden;border:1px solid rgba(255,236,210,.1);">
+            <sc-for list="{{ items }}" as="it" hint-placeholder-count="0">
+              <div style="display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 14px;background:rgba(255,236,210,.03);border-bottom:1px solid rgba(255,236,210,.08);">
+                <div style="width:56px;height:56px;border-radius:12px;overflow:hidden;background:#141a38;">{{ it.thumb }}</div>
+                <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+                  <span style="font-size:14.5px;font-weight:600;color:#fff6ea;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ it.outName }}</span>
+                  <span style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9a927f;"><span>{{ it.inMeta }}</span><span style="color:#f5b867;">→</span><span style="color:#d9d1c2;">{{ it.outMeta }}</span></span>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span style="padding:4px 9px;border-radius:99px;background:{{ it.badgeBg }};color:{{ it.badgeFg }};font-family:'JetBrains Mono',monospace;font-size:11px;white-space:nowrap;">{{ it.badge }}</span>
+                  <button type="button" onClick="{{ it.download }}" disabled="{{ it.notReady }}" aria-label="Download" title="Download" style="width:36px;height:36px;border-radius:10px;border:none;background:none;color:#cfc6b6;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);color:#fff6ea;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg></button>
+                  <button type="button" onClick="{{ it.remove }}" aria-label="Remove" title="Remove" style="width:36px;height:36px;border-radius:10px;border:none;background:none;color:#9a927f;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);color:#ffb4a2;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      <aside aria-label="Output settings" style="flex:1 1 300px;position:sticky;top:84px;border-radius:24px;background:linear-gradient(180deg,rgba(255,236,210,.06),rgba(255,236,210,.02));border:1px solid rgba(255,236,210,.12);padding:22px;display:flex;flex-direction:column;gap:22px;min-width:0;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <span style="font-size:13px;font-weight:600;color:#cfc6b6;">Format</span>
+          <div role="radiogroup" aria-label="Output format" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:3px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);gap:2px;">
+            <sc-for list="{{ formats }}" as="x" hint-placeholder-count="4">
+              <sc-if value="{{ x.on }}" hint-placeholder-val="{{ false }}"><button type="button" role="radio" aria-checked="true" onClick="{{ x.pick }}" style="height:36px;border-radius:9px;border:none;background:#f3ead9;color:#1a1420;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">{{ x.label }}</button></sc-if>
+              <sc-if value="{{ x.off }}" hint-placeholder-val="{{ true }}"><button type="button" role="radio" aria-checked="false" disabled="{{ x.disabled }}" title="{{ x.title }}" onClick="{{ x.pick }}" style="height:36px;border-radius:9px;border:none;background:none;color:{{ x.color }};font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;">{{ x.label }}</button></sc-if>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ lossy }}" hint-placeholder-val="{{ true }}">
+          <label style="display:flex;flex-direction:column;gap:10px;">
+            <span style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#cfc6b6;">Quality<span style="font-family:'JetBrains Mono',monospace;color:#fff6ea;">{{ q }}</span></span>
+            <input type="range" min="10" max="100" step="1" value="{{ q }}" onChange="{{ onQ }}" aria-label="Quality"></input>
+            <span style="display:flex;justify-content:space-between;font-size:11.5px;color:#8a8372;"><span>Smaller file</span><span>Better quality</span></span>
+          </label>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <span style="font-size:13px;font-weight:600;color:#cfc6b6;">Size</span>
+          <div role="radiogroup" aria-label="Resize mode" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;">
+            <sc-for list="{{ modes }}" as="m" hint-placeholder-count="4">
+              <sc-if value="{{ m.on }}" hint-placeholder-val="{{ false }}"><button type="button" role="radio" aria-checked="true" onClick="{{ m.pick }}" style="height:40px;border-radius:11px;border:1px solid #f5b867;background:rgba(245,184,103,.12);color:#f5b867;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">{{ m.label }}</button></sc-if>
+              <sc-if value="{{ m.off }}" hint-placeholder-val="{{ true }}"><button type="button" role="radio" aria-checked="false" onClick="{{ m.pick }}" style="height:40px;border-radius:11px;border:1px solid rgba(255,236,210,.12);background:none;color:#cfc6b6;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;" style-hover="color:#fff6ea;border-color:rgba(255,236,210,.28);">{{ m.label }}</button></sc-if>
+            </sc-for>
+          </div>
+          <sc-if value="{{ isMax }}" hint-placeholder-val="{{ true }}">
+            <label style="height:44px;display:flex;align-items:center;gap:8px;padding:0 14px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);">
+              <span style="font-size:13px;color:#9a927f;">Max width</span>
+              <input type="number" min="16" max="10000" value="{{ maxW }}" onChange="{{ onMaxW }}" aria-label="Max width in pixels" style="flex:1;min-width:0;border:none;outline:none;background:none;color:#fff6ea;font-family:'JetBrains Mono',monospace;font-size:14px;text-align:right;"></input>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#9a927f;">px</span>
+            </label>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <sc-for list="{{ presets }}" as="p" hint-placeholder-count="5">
+                <button type="button" onClick="{{ p.pick }}" title="{{ p.hint }}" style="height:30px;padding:0 10px;border-radius:99px;border:1px solid rgba(255,236,210,.12);background:none;color:#cfc6b6;font-family:'JetBrains Mono',monospace;font-size:11.5px;cursor:pointer;" style-hover="border-color:#f5b867;color:#f5b867;">{{ p.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isBox }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;">
+              <label style="height:44px;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);min-width:0;"><span style="font-size:12px;color:#9a927f;">W</span><input type="number" min="16" max="10000" value="{{ boxW }}" onChange="{{ onBoxW }}" aria-label="Box width" style="flex:1;min-width:0;border:none;outline:none;background:none;color:#fff6ea;font-family:'JetBrains Mono',monospace;font-size:14px;text-align:right;"></input></label>
+              <span style="color:#9a927f;">×</span>
+              <label style="height:44px;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);min-width:0;"><span style="font-size:12px;color:#9a927f;">H</span><input type="number" min="16" max="10000" value="{{ boxH }}" onChange="{{ onBoxH }}" aria-label="Box height" style="flex:1;min-width:0;border:none;outline:none;background:none;color:#fff6ea;font-family:'JetBrains Mono',monospace;font-size:14px;text-align:right;"></input></label>
+            </div>
+            <span style="font-size:12.5px;line-height:1.5;color:#8a8372;">Fits inside the box and keeps the aspect ratio.</span>
+          </sc-if>
+          <sc-if value="{{ isPct }}" hint-placeholder-val="{{ false }}">
+            <label style="display:flex;flex-direction:column;gap:10px;">
+              <span style="display:flex;justify-content:space-between;font-size:13px;color:#9a927f;">Scale<span style="font-family:'JetBrains Mono',monospace;color:#fff6ea;">{{ pct }}%</span></span>
+              <input type="range" min="5" max="100" step="5" value="{{ pct }}" onChange="{{ onPct }}" aria-label="Scale percent"></input>
+            </label>
+          </sc-if>
+          <span style="font-size:12.5px;line-height:1.5;color:#8a8372;">Images are never upscaled.</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding-top:16px;border-top:1px solid rgba(255,236,210,.08);font-size:12.5px;line-height:1.55;color:#9a927f;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;margin-top:2px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>Files stay in your browser. Output also drops EXIF data such as GPS location.</span></div>
+      </aside>
+    </div>
+  </main>
+  <footer style="border-top:1px solid rgba(255,236,210,.08);background:rgba(6,9,24,.6);">
+    <div style="max-width:1160px;margin:0 auto;padding:clamp(40px,6vw,64px) clamp(18px,4vw,40px) 24px;display:flex;flex-direction:column;gap:clamp(32px,5vw,48px);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:32px 24px;">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
+          <a href="/case-studies" style="display:flex;align-items:center;gap:10px;color:#fff6ea;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;">Aashish Pandey</span></a>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#9a927f;max-width:260px;">Project Manager and Creative Technologist in Bangalore. 50+ sites and platforms shipped since 2018.</p>
+          <span style="align-self:flex-start;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.22);font-size:12.5px;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Open to PM roles &amp; freelance</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Tools</span><a href="/tools/pad" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Online Notepad</a><a href="/tools/url-shortener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">URL Shortener</a><a href="/tools/image-resizer" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Image Resizer</a><a href="/tools/lorem-ipsum-generator" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Lorem Ipsum Generator</a><a href="/tools/website-launch-checklist" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Launch Checklist</a><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">QR Code Generator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;">Soon</span></span><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">llms.txt Generator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;">Soon</span></span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Site</span><a href="/" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">The 3D ride</a><a href="/case-studies" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Case studies</a><a href="/how-this-site-was-built" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">How this site was built</a><a href="/tools" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">All tools</a><a href="/tools#brief" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Send a brief</a></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Connect</span><a href="mailto:hello@aashishpandey.com" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">hello@aashishpandey.com</a><a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">LinkedIn ↗</a><a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">WhatsApp ↗</a></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:20px;border-top:1px solid rgba(255,236,210,.08);font-size:13px;color:#8a8372;">
+        <span>© 2026 Aashish Pandey · Bangalore, India</span>
+        <a href="#top" style="color:#8a8372;" style-hover="color:#fff6ea;">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;top:78px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:9px;padding:10px 16px;border-radius:12px;background:#f3ead9;color:#1a1420;font-size:13.5px;font-weight:600;box-shadow:0 16px 40px rgba(0,0,0,.4);white-space:nowrap;"><span style="width:7px;height:7px;border-radius:50%;background:#1f7a63;"></span>{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultFormat&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;webp&quot;,&quot;jpeg&quot;,&quot;png&quot;,&quot;avif&quot;],&quot;default&quot;:&quot;webp&quot;,&quot;tsType&quot;:&quot;'webp'|'jpeg'|'png'|'avif'&quot;,&quot;section&quot;:&quot;Image tool&quot;}}">
+const FMTS = [['webp', 'WebP', 'image/webp'], ['jpeg', 'JPEG', 'image/jpeg'], ['png', 'PNG', 'image/png'], ['avif', 'AVIF', 'image/avif']];
+const MODES = [['original', 'Original'], ['max', 'Max width'], ['box', 'Fit in box'], ['pct', 'Percent']];
+const PRESETS = [[2560, '2560', 'Retina hero'], [1920, '1920', 'Full HD'], [1200, '1200', 'Blog / OG'], [1080, '1080', 'Instagram'], [800, '800', 'Email'], [400, '400', 'Thumbnail']];
+const uid = () => Math.random().toString(36).slice(2, 9);
+const kb = b => b < 1024 ? b + ' B' : b < 1048576 ? (b / 1024).toFixed(b < 10240 ? 1 : 0) + ' KB' : (b / 1048576).toFixed(1) + ' MB';
+const base = n => n.replace(/\.[^.]+$/, '') || 'image';
+function supports(mime) { try { const c = document.createElement('canvas'); c.width = c.height = 1; return c.toDataURL(mime).startsWith('data:' + mime); } catch (e) { return false; } }
+function toBlob(canvas, type, q) { return new Promise(r => canvas.toBlob(r, type, q)); }
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = { items: [], fmt: this.props.defaultFormat ?? 'webp', q: 80, mode: 'max', maxW: 1920, boxW: 1200, boxH: 1200, pct: 50, drag: false, zipping: false, toast: '', avif: true };
+    this.fileRef = React.createRef(); this.ver = 0;
+  }
+  componentDidMount() {
+    this.setState({ avif: supports('image/avif') });
+    this.onPaste = e => { const fs = [...(e.clipboardData?.files || [])].filter(f => f.type.startsWith('image/')); if (fs.length) { e.preventDefault(); this.add(fs); } };
+    window.addEventListener('paste', this.onPaste);
+  }
+  componentWillUnmount() { window.removeEventListener('paste', this.onPaste); this.state.items.forEach(i => { URL.revokeObjectURL(i.src); i.out && URL.revokeObjectURL(i.out.url); }); clearTimeout(this.t); clearTimeout(this.toastT); }
+  flash(m) { this.setState({ toast: m }); clearTimeout(this.toastT); this.toastT = setTimeout(() => this.setState({ toast: '' }), 2200); }
+  add(files) {
+    const imgs = [...files].filter(f => f.type.startsWith('image/') || /\.(avif|heic)$/i.test(f.name)).slice(0, 50 - this.state.items.length);
+    if (!imgs.length) return this.flash('Those files aren’t images');
+    const items = imgs.map(f => ({ id: uid(), file: f, name: f.name, size: f.size, src: URL.createObjectURL(f), w: 0, h: 0, status: 'working', out: null }));
+    this.setState(s => ({ items: [...s.items, ...items] }), () => items.forEach(i => this.run(i.id, this.ver)));
+  }
+  target(w, h) {
+    const s = this.state; let k = 1;
+    if (s.mode === 'max') k = Math.min(1, (+s.maxW || w) / w);
+    else if (s.mode === 'box') k = Math.min(1, (+s.boxW || w) / w, (+s.boxH || h) / h);
+    else if (s.mode === 'pct') k = Math.min(1, (+s.pct || 100) / 100);
+    return [Math.max(1, Math.round(w * k)), Math.max(1, Math.round(h * k))];
+  }
+  async run(id, ver) {
+    const it = this.state.items.find(i => i.id === id); if (!it) return;
+    try {
+      const bmp = await createImageBitmap(it.file);
+      const [tw, th] = this.target(bmp.width, bmp.height);
+      let src = bmp, sw = bmp.width, sh = bmp.height;
+      while (sw / 2 >= tw && sh / 2 >= th) {
+        const c = document.createElement('canvas'); c.width = Math.round(sw / 2); c.height = Math.round(sh / 2);
+        const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(src, 0, 0, c.width, c.height);
+        src = c; sw = c.width; sh = c.height;
+      }
+      const c = document.createElement('canvas'); c.width = tw; c.height = th;
+      const x = c.getContext('2d'); x.imageSmoothingQuality = 'high';
+      const f = FMTS.find(z => z[0] === this.state.fmt);
+      if (f[0] === 'jpeg') { x.fillStyle = '#ffffff'; x.fillRect(0, 0, tw, th); }
+      x.drawImage(src, 0, 0, tw, th);
+      const blob = await toBlob(c, f[2], this.state.q / 100);
+      bmp.close && bmp.close();
+      if (ver !== this.ver || !blob) { if (!blob) throw new Error('encode'); return; }
+      this.setState(s => ({ items: s.items.map(i => { if (i.id !== id) return i; i.out && URL.revokeObjectURL(i.out.url); return { ...i, w: bmp.width, h: bmp.height, status: 'done', out: { blob, url: URL.createObjectURL(blob), w: tw, h: th, size: blob.size, ext: f[0] === 'jpeg' ? 'jpg' : f[0] } }; }) }));
+    } catch (e) {
+      if (ver === this.ver) this.setState(s => ({ items: s.items.map(i => i.id === id ? { ...i, status: 'error' } : i) }));
+    }
+  }
+  rerun() {
+    clearTimeout(this.t);
+    this.t = setTimeout(() => { const v = ++this.ver; this.setState(s => ({ items: s.items.map(i => ({ ...i, status: 'working' })) }), () => this.state.items.forEach(i => this.run(i.id, v))); }, 250);
+  }
+  change(patch) { this.setState(patch, () => this.rerun()); }
+  save(it) { const a = document.createElement('a'); a.href = it.out.url; a.download = base(it.name) + '.' + it.out.ext; a.click(); }
+  downloadAll = async () => {
+    const done = this.state.items.filter(i => i.out && i.status === 'done');
+    if (!done.length) return;
+    if (done.length === 1 || !window.JSZip) { done.forEach((i, n) => setTimeout(() => this.save(i), n * 250)); return; }
+    this.setState({ zipping: true });
+    const z = new window.JSZip(), used = {};
+    done.forEach(i => { let n = base(i.name) + '.' + i.out.ext; if (used[n]) n = base(i.name) + '-' + (++used[n]) + '.' + i.out.ext; else used[n] = 1; z.file(n, i.out.blob); });
+    const blob = await z.generateAsync({ type: 'blob' });
+    const a = document.createElement('a'), u = URL.createObjectURL(blob); a.href = u; a.download = 'images-' + this.state.fmt + '.zip'; a.click(); setTimeout(() => URL.revokeObjectURL(u), 2000);
+    this.setState({ zipping: false }); this.flash(done.length + ' images zipped');
+    if (window.apTrack) window.apTrack('image_zip', { n: done.length, fmt: this.state.fmt });
+  };
+  renderVals() {
+    const s = this.state;
+    const done = s.items.filter(i => i.status === 'done' && i.out);
+    const inT = done.reduce((a, i) => a + i.size, 0), outT = done.reduce((a, i) => a + i.out.size, 0);
+    const working = s.items.some(i => i.status === 'working');
+    const savedPct = inT ? Math.round((1 - outT / inT) * 100) : 0;
+    const lossy = s.fmt !== 'png';
+    return {
+      fileRef: this.fileRef, pick: () => this.fileRef.current && this.fileRef.current.click(),
+      onZoneKey: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.fileRef.current && this.fileRef.current.click(); } },
+      onFiles: e => { this.add(e.target.files); e.target.value = ''; },
+      onDragOver: e => { e.preventDefault(); if (!s.drag) this.setState({ drag: true }); },
+      onDragLeave: () => this.setState({ drag: false }),
+      onDrop: e => { e.preventDefault(); this.setState({ drag: false }); this.add(e.dataTransfer.files); },
+      zoneBorder: s.drag ? '#f5b867' : 'rgba(255,236,210,.2)', zoneBg: s.drag ? 'rgba(245,184,103,.08)' : 'rgba(255,236,210,.03)',
+      hasFiles: s.items.length > 0,
+      summary: {
+        title: s.items.length + (s.items.length === 1 ? ' image' : ' images') + (working ? ' · converting…' : ''),
+        sizes: done.length ? kb(inT) + ' → ' + kb(outT) : 'Working…',
+        hasSaved: done.length > 0, saved: savedPct >= 0 ? savedPct + '% smaller' : Math.abs(savedPct) + '% larger'
+      },
+      busy: s.zipping || working || !done.length, dlAllLabel: s.zipping ? 'Zipping…' : done.length > 1 ? 'Download all (.zip)' : 'Download',
+      clearAll: () => { s.items.forEach(i => { URL.revokeObjectURL(i.src); i.out && URL.revokeObjectURL(i.out.url); }); this.ver++; this.setState({ items: [] }); },
+      downloadAll: this.downloadAll,
+      items: s.items.map(i => {
+        const d = i.status === 'done' && i.out, pct = d ? Math.round((1 - i.out.size / i.size) * 100) : 0;
+        return {
+          thumb: React.createElement('img', { src: i.src, alt: '', style: { width: 56, height: 56, objectFit: 'cover', display: 'block' } }),
+          outName: d ? base(i.name) + '.' + i.out.ext : i.name,
+          inMeta: (i.w ? i.w + '×' + i.h + ' · ' : '') + kb(i.size),
+          outMeta: d ? i.out.w + '×' + i.out.h + ' · ' + kb(i.out.size) : i.status === 'error' ? 'Can’t read this file' : 'Converting…',
+          badge: i.status === 'error' ? 'Error' : !d ? '…' : pct >= 0 ? '−' + pct + '%' : '+' + Math.abs(pct) + '%',
+          badgeBg: i.status === 'error' ? 'rgba(231,111,81,.14)' : d && pct >= 0 ? 'rgba(127,243,225,.1)' : 'rgba(255,236,210,.08)',
+          badgeFg: i.status === 'error' ? '#ffb4a2' : d && pct >= 0 ? '#7ff3e1' : '#cfc6b6',
+          notReady: !d, download: () => d && this.save(i),
+          remove: () => { URL.revokeObjectURL(i.src); i.out && URL.revokeObjectURL(i.out.url); this.setState(x => ({ items: x.items.filter(y => y.id !== i.id) })); }
+        };
+      }),
+      formats: FMTS.map(([k, l]) => { const dis = k === 'avif' && !s.avif; return { label: l, on: s.fmt === k, off: s.fmt !== k, disabled: dis, title: dis ? 'Your browser can’t encode AVIF' : l, color: dis ? '#5f5a4f' : '#cfc6b6', pick: () => !dis && this.change({ fmt: k }) }; }),
+      lossy, q: s.q, onQ: e => this.change({ q: +e.target.value }),
+      modes: MODES.map(([k, l]) => ({ label: l, on: s.mode === k, off: s.mode !== k, pick: () => this.change({ mode: k }) })),
+      isMax: s.mode === 'max', isBox: s.mode === 'box', isPct: s.mode === 'pct',
+      maxW: s.maxW, onMaxW: e => this.change({ maxW: e.target.value }),
+      presets: PRESETS.map(([v, l, h]) => ({ label: l, hint: h, pick: () => this.change({ maxW: v }) })),
+      boxW: s.boxW, boxH: s.boxH, onBoxW: e => this.change({ boxW: e.target.value }), onBoxH: e => this.change({ boxH: e.target.value }),
+      pct: s.pct, onPct: e => this.change({ pct: +e.target.value }),
+      hasToast: !!s.toast, toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

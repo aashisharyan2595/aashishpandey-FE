@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Lorem Ipsum Generator · Dummy Text for Designers · Aashish Pandey</title>
+<meta name="description" content="Generate lorem ipsum or readable placeholder text: paragraphs, sentences, words or list items. Copy as plain text, HTML or Markdown. Free, no sign-up.">
+<link rel="canonical" href="https://aashishpandey.com/tools/lorem-ipsum-generator">
+<meta name="theme-color" content="#0b1030">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="site.js"></script>
+<style>
+html,body{margin:0;background:#0b0f24;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+a{color:#f5b867;text-decoration:none}
+a:hover{color:#fff6ea}
+::selection{background:#7ff3e1;color:#0b1030}
+:focus-visible{outline:2px solid #7ff3e1!important;outline-offset:3px!important}
+input[type=range]{accent-color:#f5b867}
+</style>
+</helmet>
+<div id="top" style="min-height:100vh;background:#0b0f24;background-image:radial-gradient(rgba(255,236,210,.07) 1px,transparent 1px);background-size:28px 28px;color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;overflow-x:clip;display:flex;flex-direction:column;">
+  <nav style="position:sticky;top:0;z-index:5;background:rgba(11,15,36,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,236,210,.08);">
+    <div style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);height:64px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <a href="/tools" style="display:flex;align-items:center;gap:10px;color:#fff6ea;min-width:0;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-size:14px;color:#9a927f;white-space:nowrap;">Tools /</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap;">Lorem Ipsum</span></a>
+      <div style="display:flex;gap:4px;align-items:center;padding:4px;border-radius:99px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.08);">
+        <a href="/case-studies" style="font-size:13.5px;font-weight:500;color:#cfc6b6;padding:7px 14px;border-radius:99px;" style-hover="color:#fff6ea;">Case studies</a>
+        <a href="/tools" style="font-size:13.5px;font-weight:500;color:#1a1420;padding:7px 14px;border-radius:99px;background:#f3ead9;">Tools</a>
+      </div>
+      <a href="/case-studies#pf-contact" style="height:38px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:99px;background:#f5b867;color:#1a1420;font-size:13.5px;font-weight:600;white-space:nowrap;flex-shrink:0;" style-hover="background:#ffc880;color:#1a1420;"><span style="width:7px;height:7px;border-radius:50%;background:#1f7a63;box-shadow:0 0 0 3px rgba(31,122,99,.25);"></span>Hire me</a>
+    </div>
+  </nav>
+  <main style="flex:1;width:100%;max-width:1160px;margin:0 auto;box-sizing:border-box;padding:clamp(40px,7vw,88px) clamp(18px,4vw,40px) clamp(56px,8vw,96px);display:flex;flex-direction:column;gap:clamp(28px,4vw,40px);">
+    <header style="display:flex;flex-direction:column;gap:16px;">
+      <h1 style="margin:0;font-weight:600;font-size:clamp(40px,6vw,72px);line-height:.98;letter-spacing:-.04em;color:#fff6ea;max-width:900px;text-wrap:balance;">Placeholder text, <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;letter-spacing:-.02em;color:#f5b867;">shaped to your layout.</span></h1>
+      <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:600px;color:#cfc6b6;text-wrap:pretty;">Paragraphs, sentences, words or list items in Latin, plain English or project-manager speak. Copy as text, HTML or Markdown.</p>
+    </header>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
+      <aside aria-label="Generator settings" style="flex:1 1 300px;border-radius:24px;background:linear-gradient(180deg,rgba(255,236,210,.06),rgba(255,236,210,.02));border:1px solid rgba(255,236,210,.12);padding:22px;display:flex;flex-direction:column;gap:22px;min-width:0;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <span style="font-size:13px;font-weight:600;color:#cfc6b6;">Generate</span>
+          <div role="radiogroup" aria-label="Unit" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;">
+            <sc-for list="{{ units }}" as="u" hint-placeholder-count="4">
+              <sc-if value="{{ u.on }}" hint-placeholder-val="{{ false }}"><button type="button" role="radio" aria-checked="true" onClick="{{ u.pick }}" style="height:40px;border-radius:11px;border:1px solid #f5b867;background:rgba(245,184,103,.12);color:#f5b867;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">{{ u.label }}</button></sc-if>
+              <sc-if value="{{ u.off }}" hint-placeholder-val="{{ true }}"><button type="button" role="radio" aria-checked="false" onClick="{{ u.pick }}" style="height:40px;border-radius:11px;border:1px solid rgba(255,236,210,.12);background:none;color:#cfc6b6;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;" style-hover="color:#fff6ea;border-color:rgba(255,236,210,.28);">{{ u.label }}</button></sc-if>
+            </sc-for>
+          </div>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:10px;">
+          <span style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#cfc6b6;">How many<span style="font-family:'JetBrains Mono',monospace;color:#fff6ea;">{{ count }} {{ unitWord }}</span></span>
+          <input type="range" min="1" max="{{ countMax }}" step="1" value="{{ count }}" onChange="{{ onCount }}" aria-label="Amount"></input>
+        </label>
+        <sc-if value="{{ showLength }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <span style="font-size:13px;font-weight:600;color:#cfc6b6;">Length</span>
+            <div role="radiogroup" aria-label="Length" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:3px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);gap:2px;">
+              <sc-for list="{{ lengths }}" as="l" hint-placeholder-count="3">
+                <sc-if value="{{ l.on }}" hint-placeholder-val="{{ false }}"><button type="button" role="radio" aria-checked="true" onClick="{{ l.pick }}" style="height:34px;border-radius:9px;border:none;background:#f3ead9;color:#1a1420;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;">{{ l.label }}</button></sc-if>
+                <sc-if value="{{ l.off }}" hint-placeholder-val="{{ true }}"><button type="button" role="radio" aria-checked="false" onClick="{{ l.pick }}" style="height:34px;border-radius:9px;border:none;background:none;color:#cfc6b6;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;" style-hover="color:#fff6ea;">{{ l.label }}</button></sc-if>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <span style="font-size:13px;font-weight:600;color:#cfc6b6;">Flavour</span>
+          <div role="radiogroup" aria-label="Flavour" style="display:flex;flex-direction:column;gap:6px;">
+            <sc-for list="{{ flavours }}" as="f" hint-placeholder-count="3">
+              <sc-if value="{{ f.on }}" hint-placeholder-val="{{ false }}"><button type="button" role="radio" aria-checked="true" onClick="{{ f.pick }}" style="display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:12px;border:1px solid #f5b867;background:rgba(245,184,103,.1);color:#fff6ea;text-align:left;font-family:inherit;cursor:pointer;"><span style="font-size:14px;font-weight:600;">{{ f.label }}</span><span style="font-size:12.5px;color:#cfc6b6;">{{ f.hint }}</span></button></sc-if>
+              <sc-if value="{{ f.off }}" hint-placeholder-val="{{ true }}"><button type="button" role="radio" aria-checked="false" onClick="{{ f.pick }}" style="display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,236,210,.12);background:none;color:#f3ead9;text-align:left;font-family:inherit;cursor:pointer;" style-hover="border-color:rgba(255,236,210,.28);"><span style="font-size:14px;font-weight:500;">{{ f.label }}</span><span style="font-size:12.5px;color:#9a927f;">{{ f.hint }}</span></button></sc-if>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ isLatin }}" hint-placeholder-val="{{ true }}">
+          <button type="button" role="switch" aria-checked="{{ classicStart }}" onClick="{{ toggleClassic }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0;border:none;background:none;color:#cfc6b6;font-family:inherit;font-size:13.5px;cursor:pointer;text-align:left;"><span>Start with “Lorem ipsum dolor sit amet…”</span><span style="flex-shrink:0;width:40px;height:24px;border-radius:99px;background:{{ switchBg }};position:relative;transition:background .2s;"><span style="position:absolute;top:3px;left:{{ knobLeft }};width:18px;height:18px;border-radius:50%;background:#fff6ea;transition:left .2s;"></span></span></button>
+        </sc-if>
+      </aside>
+      <section aria-label="Generated text" style="flex:2 1 520px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#f3ead9;color:#1c1a22;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px 12px 18px;border-bottom:1px solid rgba(28,26,34,.1);">
+          <div role="radiogroup" aria-label="Output format" style="display:flex;padding:3px;border-radius:11px;background:#e8e1d4;gap:2px;">
+            <sc-for list="{{ outFormats }}" as="o" hint-placeholder-count="3">
+              <sc-if value="{{ o.on }}" hint-placeholder-val="{{ false }}"><button type="button" role="radio" aria-checked="true" onClick="{{ o.pick }}" style="height:30px;padding:0 12px;border-radius:8px;border:none;background:#fbf8f2;color:#1c1a22;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(28,26,34,.08);">{{ o.label }}</button></sc-if>
+              <sc-if value="{{ o.off }}" hint-placeholder-val="{{ true }}"><button type="button" role="radio" aria-checked="false" onClick="{{ o.pick }}" style="height:30px;padding:0 12px;border-radius:8px;border:none;background:none;color:#6a6470;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;" style-hover="color:#1c1a22;">{{ o.label }}</button></sc-if>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button type="button" onClick="{{ regen }}" title="New text with the same settings" style="height:36px;padding:0 12px;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(28,26,34,.14);background:none;color:#1c1a22;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#9a5418;color:#9a5418;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>Shuffle</button>
+            <button type="button" onClick="{{ download }}" aria-label="Download .txt" title="Download" style="width:36px;height:36px;border-radius:10px;border:1px solid rgba(28,26,34,.14);background:none;color:#1c1a22;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="border-color:#9a5418;color:#9a5418;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg></button>
+            <button type="button" onClick="{{ copy }}" style="height:36px;padding:0 16px;display:flex;align-items:center;gap:7px;border-radius:10px;border:none;background:#1c1a22;color:#f3ead9;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="background:#0b0f24;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>{{ copyLabel }}</button>
+          </div>
+        </div>
+        <div style="padding:clamp(20px,3.4vw,40px);max-height:640px;overflow-y:auto;">
+          <sc-if value="{{ isRendered }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:16px;font-size:17px;line-height:1.75;color:#2c2832;text-wrap:pretty;">
+              <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="3">
+                <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}"><p style="margin:0;">{{ b.text }}</p></sc-if>
+                <sc-if value="{{ b.isLi }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:18px 1fr;gap:6px;margin-top:-10px;"><span style="color:#9a5418;">•</span><span>{{ b.text }}</span></div></sc-if>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isCode }}" hint-placeholder-val="{{ false }}">
+            <pre style="margin:0;white-space:pre-wrap;word-break:break-word;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:#2c2832;">{{ output }}</pre>
+          </sc-if>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;padding:12px 18px;border-top:1px solid rgba(28,26,34,.1);font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#6a6470;"><span>{{ stats.words }} words</span><span>{{ stats.chars }} characters</span><span>{{ stats.paras }}</span></div>
+      </section>
+    </div>
+  </main>
+  <footer style="border-top:1px solid rgba(255,236,210,.08);background:rgba(6,9,24,.6);">
+    <div style="max-width:1160px;margin:0 auto;padding:clamp(40px,6vw,64px) clamp(18px,4vw,40px) 24px;display:flex;flex-direction:column;gap:clamp(32px,5vw,48px);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:32px 24px;">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
+          <a href="/case-studies" style="display:flex;align-items:center;gap:10px;color:#fff6ea;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;">Aashish Pandey</span></a>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#9a927f;max-width:260px;">Project Manager and Creative Technologist in Bangalore. 50+ sites and platforms shipped since 2018.</p>
+          <span style="align-self:flex-start;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.22);font-size:12.5px;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Open to PM roles &amp; freelance</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Tools</span><a href="/tools/pad" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Online Notepad</a><a href="/tools/url-shortener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">URL Shortener</a><a href="/tools/image-resizer" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Image Resizer</a><a href="/tools/lorem-ipsum-generator" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Lorem Ipsum Generator</a><a href="/tools/website-launch-checklist" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Launch Checklist</a></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Site</span><a href="/" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">The 3D ride</a><a href="/case-studies" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Case studies</a><a href="/how-this-site-was-built" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">How this site was built</a><a href="/tools" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">All tools</a><a href="/tools#brief" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Send a brief</a></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Connect</span><a href="mailto:hello@aashishpandey.com" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">hello@aashishpandey.com</a><a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">LinkedIn ↗</a><a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">WhatsApp ↗</a></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:20px;border-top:1px solid rgba(255,236,210,.08);font-size:13px;color:#8a8372;">
+        <span>© 2026 Aashish Pandey · Bangalore, India</span>
+        <a href="#top" style="color:#8a8372;" style-hover="color:#fff6ea;">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultFlavour&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;latin&quot;,&quot;english&quot;,&quot;pm&quot;],&quot;default&quot;:&quot;latin&quot;,&quot;tsType&quot;:&quot;'latin'|'english'|'pm'&quot;,&quot;section&quot;:&quot;Generator&quot;}}">
+const LATIN = 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure in reprehenderit voluptate velit esse cillum fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum curabitur pretium tincidunt lacus nulla gravida orci a odio nullam varius turpis et commodo pharetra est eros bibendum elit nec luctus magna felis sollicitudin mauris integer semper vulputate'.split(' ');
+const ENGLISH = 'the quiet morning light settled over the harbour while a few boats drifted past the old stone pier. a small cafe on the corner opened its shutters and the smell of fresh bread reached the street. people walked slowly along the water with coffee in hand and nowhere in particular to be. somewhere a radio played a song nobody could name but everyone seemed to know. the market stalls filled with bright fruit, folded linen and baskets of wild herbs. a cyclist rang her bell twice and disappeared around the bend. by noon the square was busy with voices, footsteps and the clatter of plates. an old man fed the pigeons and told them about the weather. the afternoon stretched out, warm and unhurried, until the shadows grew long. lamps came on one by one along the promenade as the tide turned. a dog chased the last of the gulls and then lay down, satisfied. the evening air carried salt, woodsmoke and the promise of rain'.split('. ');
+const PM = { a: ['Let’s', 'We should', 'The team will', 'Going forward we’ll', 'Before the next sprint we need to', 'Stakeholders want us to', 'Once UAT signs off we can', 'Per the steering committee we’ll'], b: ['align on', 'de-risk', 'timebox', 'socialise', 'fast-track', 'baseline', 'unblock', 'reprioritise', 'sanity-check', 'parking-lot'], c: ['the go-live plan', 'the Q3 roadmap', 'the hreflang rollout', 'the EU market cluster', 'the RAID log', 'the vendor handover', 'the content freeze', 'the dependency map', 'the release train', 'the BAU backlog'], d: ['before the steerco', 'by end of week', 'in the next stand-up', 'without scope creep', 'across all twelve markets', 'ahead of the code freeze', 'so we stay green on the RAG', 'offline after this call'] };
+const CLASSIC = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+function rng(seed) { let s = seed >>> 0 || 1; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const pick = (r, a) => a[Math.floor(r() * a.length)];
+function sentence(r, flav) {
+  if (flav === 'pm') return `${pick(r, PM.a)} ${pick(r, PM.b)} ${pick(r, PM.c)} ${pick(r, PM.d)}.`;
+  if (flav === 'english') return cap(pick(r, ENGLISH).trim().replace(/\.$/, '')) + '.';
+  const n = 7 + Math.floor(r() * 9), w = [];
+  for (let i = 0; i < n; i++) w.push(pick(r, LATIN));
+  if (n > 9 && r() > .5) w[Math.floor(n / 2)] += ',';
+  return cap(w.join(' ')) + '.';
+}
+function words(r, flav, n) {
+  const pool = flav === 'latin' ? LATIN : flav === 'english' ? ENGLISH.join(' ').replace(/[.,]/g, '').split(' ') : [...PM.b, ...PM.c.join(' ').split(' ')].map(x => x.replace(/^the$/, 'synergy'));
+  const w = []; for (let i = 0; i < n; i++) w.push(pick(r, pool)); return cap(w.join(' ')) + '.';
+}
+const LEN = { short: [2, 3], medium: [4, 6], long: [7, 10] };
+const UNITS = [['paras', 'Paragraphs', 'paragraphs', 20], ['sentences', 'Sentences', 'sentences', 50], ['words', 'Words', 'words', 500], ['list', 'List items', 'items', 30]];
+const FLAVS = [['latin', 'Classic Latin', 'The lorem ipsum everyone recognises'], ['english', 'Readable English', 'Real sentences, for realistic line breaks'], ['pm', 'Project-manager speak', 'Stand-up jargon, for a laugh']];
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+class Component extends DCLogic {
+  state = { unit: 'paras', count: 3, len: 'medium', flav: this.props.defaultFlavour ?? 'latin', classic: true, out: 'text', seed: 7, copied: false };
+  gen() {
+    const s = this.state, r = rng(s.seed * 7919 + s.count * 31 + s.len.length), items = [];
+    if (s.unit === 'words') items.push({ t: 'p', text: words(r, s.flav, s.count) });
+    else if (s.unit === 'sentences') { const a = []; for (let i = 0; i < s.count; i++) a.push(sentence(r, s.flav)); items.push({ t: 'p', text: a.join(' ') }); }
+    else {
+      const [lo, hi] = s.unit === 'list' ? [1, 1] : LEN[s.len];
+      for (let i = 0; i < s.count; i++) { const n = lo + Math.floor(r() * (hi - lo + 1)), a = []; for (let j = 0; j < n; j++) a.push(sentence(r, s.flav)); items.push({ t: s.unit === 'list' ? 'li' : 'p', text: a.join(' ') }); }
+    }
+    if (s.flav === 'latin' && s.classic && items[0] && s.unit !== 'words') items[0].text = CLASSIC + (s.unit === 'list' ? '' : ' ' + items[0].text.split('. ').slice(1).join('. ')).replace(/\s+$/, '');
+    if (s.flav === 'latin' && s.classic && s.unit === 'words') items[0].text = cap(('lorem ipsum dolor sit amet ' + items[0].text.toLowerCase()).split(' ').slice(0, s.count).join(' ').replace(/\.$/, '')) + '.';
+    return items;
+  }
+  format(items) {
+    const o = this.state.out, li = items[0] && items[0].t === 'li';
+    if (o === 'html') return li ? '<ul>\n' + items.map(i => `  <li>${esc(i.text)}</li>`).join('\n') + '\n</ul>' : items.map(i => `<p>${esc(i.text)}</p>`).join('\n\n');
+    if (o === 'md') return li ? items.map(i => '- ' + i.text).join('\n') : items.map(i => i.text).join('\n\n');
+    return li ? items.map(i => '• ' + i.text).join('\n') : items.map(i => i.text).join('\n\n');
+  }
+  set(p) { this.setState({ ...p, copied: false }); }
+  renderVals() {
+    const s = this.state, items = this.gen(), text = this.format(items);
+    const plain = items.map(i => i.text).join(' '), u = UNITS.find(x => x[0] === s.unit);
+    return {
+      units: UNITS.map(([k, l, , max]) => ({ label: l, on: s.unit === k, off: s.unit !== k, pick: () => this.set({ unit: k, count: Math.min(s.count, max) || 1 }) })),
+      count: s.count, countMax: u[3], unitWord: s.count === 1 ? u[2].replace(/s$/, '') : u[2], onCount: e => this.set({ count: +e.target.value }),
+      showLength: s.unit === 'paras',
+      lengths: [['short', 'Short'], ['medium', 'Medium'], ['long', 'Long']].map(([k, l]) => ({ label: l, on: s.len === k, off: s.len !== k, pick: () => this.set({ len: k }) })),
+      flavours: FLAVS.map(([k, l, h]) => ({ label: l, hint: h, on: s.flav === k, off: s.flav !== k, pick: () => this.set({ flav: k }) })),
+      isLatin: s.flav === 'latin', classicStart: s.classic ? 'true' : 'false', toggleClassic: () => this.set({ classic: !s.classic }),
+      switchBg: s.classic ? '#f5b867' : 'rgba(255,236,210,.18)', knobLeft: s.classic ? '19px' : '3px',
+      outFormats: [['text', 'Text'], ['html', 'HTML'], ['md', 'Markdown']].map(([k, l]) => ({ label: l, on: s.out === k, off: s.out !== k, pick: () => this.set({ out: k }) })),
+      isRendered: s.out === 'text', isCode: s.out !== 'text', output: text,
+      blocks: items.map(i => ({ text: i.text, isP: i.t === 'p', isLi: i.t === 'li' })),
+      regen: () => this.set({ seed: s.seed + 1 }),
+      copyLabel: s.copied ? 'Copied' : 'Copy',
+      copy: async () => { try { await navigator.clipboard.writeText(text); this.setState({ copied: true }); clearTimeout(this.ct); this.ct = setTimeout(() => this.setState({ copied: false }), 1600); } catch (e) { prompt('Copy the text:', text); } if (window.apTrack) window.apTrack('lorem_copy', { unit: s.unit, flav: s.flav, out: s.out }); },
+      download: () => { const ext = s.out === 'html' ? 'html' : s.out === 'md' ? 'md' : 'txt'; const url = URL.createObjectURL(new Blob([text], { type: 'text/plain' })); const a = document.createElement('a'); a.href = url; a.download = 'placeholder.' + ext; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); },
+      stats: { words: (plain.match(/\S+/g) || []).length, chars: plain.length.toLocaleString(), paras: items.length + (items[0] && items[0].t === 'li' ? ' list items' : items.length === 1 ? ' block' : ' paragraphs') }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -2,12 +2,18 @@
 (function () {
   var ROUTES = {
     '/': 'Portfolio.dc.html',
-    '/case-studies': 'Proof.dc.html',
+    '/case-studies': 'Proof-v2.dc.html',
     '/how-this-site-was-built': 'How-This-Site-Was-Built.dc.html',
     '/work-liquid-iv': 'Work-Liquid-IV.dc.html',
     '/work-talenti': 'Work-Talenti.dc.html',
     '/work-storynest': 'Work-StoryNest.dc.html',
-    '/work-ceat-specialty': 'Work-CEAT-Specialty.dc.html'
+    '/work-ceat-specialty': 'Work-CEAT-Specialty.dc.html',
+    '/tools': 'Tools-v2.dc.html',
+    '/tools/pad': 'Tools-Pad-v2.dc.html',
+    '/tools/url-shortener': 'Tools-Shortener.dc.html',
+    '/tools/image-resizer': 'Tools-Image.dc.html',
+    '/tools/lorem-ipsum-generator': 'Tools-Lorem.dc.html',
+    '/tools/website-launch-checklist': 'Tools-Checklist.dc.html'
   };
   // Set a GA4 measurement ID (e.g. 'G-XXXXXXX') to enable Google Analytics. Vercel Web Analytics loads automatically in production.
   var GA_ID = 'G-H9J2D0RHRT';
@@ -50,6 +56,7 @@
     if (/^\/work-/.test(h)) return 'case_study_open';
     if (/^\/case-studies/.test(h)) return 'proof_open';
     if (h === '/how-this-site-was-built') return 'build_guide_open';
+    if (/^\/tools/.test(h)) return 'tool_open';
     return null;
   }
   document.addEventListener('click', function (e) {

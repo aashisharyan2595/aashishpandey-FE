@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Launch Checklist Templates · Websites, Marketing Campaigns, Product Launches &amp; Events · Aashish Pandey</title>
+<meta name="description" content="Free project launch checklists for PMs: website go-live, Shopify, migrations, marketing campaigns, product launches, events, email, social, rebrands and vendor handovers. Edit and export to Markdown.">
+<link rel="canonical" href="https://aashishpandey.com/tools/website-launch-checklist">
+<meta name="theme-color" content="#0b1030">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="site.js"></script>
+<style>
+html,body{margin:0;background:#0b0f24;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+a{color:#f5b867;text-decoration:none}
+a:hover{color:#fff6ea}
+::selection{background:#7ff3e1;color:#0b1030}
+:focus-visible{outline:2px solid #7ff3e1!important;outline-offset:3px!important}
+input::placeholder{color:#8a8372}
+</style>
+</helmet>
+<div id="top" style="min-height:100vh;background:#0b0f24;background-image:radial-gradient(rgba(255,236,210,.07) 1px,transparent 1px);background-size:28px 28px;color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;overflow-x:clip;display:flex;flex-direction:column;">
+  <nav style="position:sticky;top:0;z-index:5;background:rgba(11,15,36,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,236,210,.08);">
+    <div style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);height:64px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <a href="/tools" style="display:flex;align-items:center;gap:10px;color:#fff6ea;min-width:0;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-size:14px;color:#9a927f;white-space:nowrap;">Tools /</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap;">Launch Checklist</span></a>
+      <div style="display:flex;gap:4px;align-items:center;padding:4px;border-radius:99px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.08);">
+        <a href="/case-studies" style="font-size:13.5px;font-weight:500;color:#cfc6b6;padding:7px 14px;border-radius:99px;" style-hover="color:#fff6ea;">Case studies</a>
+        <a href="/tools" style="font-size:13.5px;font-weight:500;color:#1a1420;padding:7px 14px;border-radius:99px;background:#f3ead9;">Tools</a>
+      </div>
+      <a href="/case-studies#pf-contact" style="height:38px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:99px;background:#f5b867;color:#1a1420;font-size:13.5px;font-weight:600;white-space:nowrap;flex-shrink:0;" style-hover="background:#ffc880;color:#1a1420;"><span style="width:7px;height:7px;border-radius:50%;background:#1f7a63;box-shadow:0 0 0 3px rgba(31,122,99,.25);"></span>Hire me</a>
+    </div>
+  </nav>
+  <main style="flex:1;width:100%;max-width:1000px;margin:0 auto;box-sizing:border-box;padding:clamp(40px,7vw,88px) clamp(18px,4vw,40px) clamp(56px,8vw,96px);display:flex;flex-direction:column;gap:clamp(24px,3.4vw,32px);">
+    <header style="display:flex;flex-direction:column;gap:16px;">
+      <h1 style="margin:0;font-weight:600;font-size:clamp(40px,6vw,72px);line-height:.98;letter-spacing:-.04em;color:#fff6ea;text-wrap:balance;">Launch without <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;letter-spacing:-.02em;color:#f5b867;">the 2 a.m. surprises.</span></h1>
+      <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:620px;color:#cfc6b6;text-wrap:pretty;">The checklists I run on client work: websites, stores and migrations, plus marketing campaigns, product launches, events and handovers. Progress saves in your browser; export it to share with the team.</p>
+    </header>
+    <sc-if value="{{ showPicker }}" hint-placeholder-val="{{ true }}">
+    <section aria-label="Project type" style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+        <h2 style="margin:0;font-weight:600;font-size:18px;letter-spacing:-.02em;color:#fff6ea;">{{ pickerTitle }}</h2>
+        <sc-if value="{{ hasTpl }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ closePicker }}" style="height:32px;padding:0 12px;border-radius:9px;border:1px solid rgba(255,236,210,.14);background:none;color:#cfc6b6;font-family:inherit;font-size:13px;cursor:pointer;">Cancel</button></sc-if>
+        <sc-if value="{{ noTpl }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;color:#9a927f;">Pick one to begin. You can edit everything after.</span></sc-if>
+      </div>
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;padding-top:6px;">{{ g.name }}</span>
+      <div role="radiogroup" aria-label="{{ g.name }} templates" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:8px;">
+        <sc-for list="{{ g.templates }}" as="t" hint-placeholder-count="7">
+          <sc-if value="{{ t.on }}" hint-placeholder-val="{{ false }}">
+            <button type="button" role="radio" aria-checked="true" onClick="{{ t.pick }}" style="display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:16px;border:1.5px solid #f5b867;background:rgba(245,184,103,.1);color:#fff6ea;text-align:left;font-family:inherit;cursor:pointer;min-width:0;">
+              <span style="display:flex;justify-content:space-between;align-items:center;gap:8px;"><span style="font-size:14.5px;font-weight:600;">{{ t.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#f5b867;">{{ t.count }}</span></span>
+              <span style="font-size:12.5px;line-height:1.45;color:#cfc6b6;">{{ t.desc }}</span>
+            </button>
+          </sc-if>
+          <sc-if value="{{ t.off }}" hint-placeholder-val="{{ true }}">
+            <button type="button" role="radio" aria-checked="false" onClick="{{ t.pick }}" style="display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:16px;border:1.5px solid rgba(255,236,210,.1);background:rgba(255,236,210,.03);color:#f3ead9;text-align:left;font-family:inherit;cursor:pointer;min-width:0;" style-hover="border-color:rgba(255,236,210,.28);">
+              <span style="display:flex;justify-content:space-between;align-items:center;gap:8px;"><span style="font-size:14.5px;font-weight:600;">{{ t.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a927f;">{{ t.count }}</span></span>
+              <span style="font-size:12.5px;line-height:1.45;color:#9a927f;">{{ t.desc }}</span>
+            </button>
+          </sc-if>
+        </sc-for>
+      </div>
+      </div>
+      </sc-for>
+    </section>
+    </sc-if>
+    <sc-if value="{{ showCompact }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-radius:16px;background:rgba(255,236,210,.04);border:1px solid rgba(255,236,210,.1);">
+        <span style="font-size:14px;color:#cfc6b6;">Template: <b style="color:#fff6ea;font-weight:600;">{{ tplName }}</b></span>
+        <button type="button" onClick="{{ openPicker }}" style="height:34px;padding:0 13px;border-radius:10px;border:1px solid rgba(255,236,210,.14);background:none;color:#f3ead9;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#f5b867;color:#f5b867;">Change template</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ hasTpl }}" hint-placeholder-val="{{ false }}">
+    <section aria-label="Progress" style="position:sticky;top:76px;z-index:3;border-radius:22px;background:rgba(20,26,56,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,236,210,.12);padding:16px 18px;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 50px rgba(0,0,0,.3);">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;">
+        <input value="{{ name }}" onChange="{{ onName }}" placeholder="Project name, e.g. Liquid I.V. EU launch" aria-label="Project name" style="flex:1 1 240px;min-width:0;height:40px;padding:0 12px;border-radius:10px;border:1px solid transparent;background:rgba(255,236,210,.05);color:#fff6ea;font-family:inherit;font-size:16px;font-weight:600;outline:none;"></input>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <button type="button" onClick="{{ copyMd }}" style="height:38px;padding:0 13px;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(255,236,210,.14);background:none;color:#f3ead9;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#f5b867;color:#f5b867;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>{{ copyLabel }}</button>
+          <button type="button" onClick="{{ downloadMd }}" style="height:38px;padding:0 13px;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(255,236,210,.14);background:none;color:#f3ead9;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#f5b867;color:#f5b867;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>.md</button>
+          <sc-if value="{{ hasRemoved }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ restore }}" style="height:38px;padding:0 13px;border-radius:10px;border:none;background:none;color:#7ff3e1;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;">{{ restoreLabel }}</button></sc-if><button type="button" onClick="{{ reset }}" title="Clear everything and start over" style="height:38px;padding:0 13px;border-radius:10px;border:none;background:none;color:#9a927f;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;" style-hover="color:#ffb4a2;">Start over</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="height:8px;border-radius:99px;background:rgba(255,236,210,.08);overflow:hidden;"><div style="height:100%;width:{{ pctWidth }};border-radius:99px;background:linear-gradient(90deg,#f5b867,#7ff3e1);transition:width .35s;"></div></div>
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;align-items:center;">
+          <span style="font-size:14px;color:#cfc6b6;white-space:nowrap;"><b style="color:#fff6ea;font-weight:600;">{{ doneCount }} of {{ total }}</b> done · {{ mustLeftLabel }}</span>
+          <div style="display:flex;gap:14px;">
+            <button type="button" role="switch" aria-checked="{{ mustOnlyAria }}" onClick="{{ toggleMust }}" style="display:flex;align-items:center;gap:8px;padding:0;border:none;background:none;color:#cfc6b6;font-family:inherit;font-size:13px;cursor:pointer;"><span style="width:34px;height:20px;border-radius:99px;background:{{ mustBg }};position:relative;transition:background .2s;"><span style="position:absolute;top:3px;left:{{ mustKnob }};width:14px;height:14px;border-radius:50%;background:#fff6ea;transition:left .2s;"></span></span>Must-haves only</button>
+            <button type="button" role="switch" aria-checked="{{ hideDoneAria }}" onClick="{{ toggleHide }}" style="display:flex;align-items:center;gap:8px;padding:0;border:none;background:none;color:#cfc6b6;font-family:inherit;font-size:13px;cursor:pointer;"><span style="width:34px;height:20px;border-radius:99px;background:{{ hideBg }};position:relative;transition:background .2s;"><span style="position:absolute;top:3px;left:{{ hideKnob }};width:14px;height:14px;border-radius:50%;background:#fff6ea;transition:left .2s;"></span></span>Hide done</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div aria-label="Jump to section" style="display:flex;flex-wrap:wrap;gap:6px;">
+      <sc-for list="{{ cats }}" as="c" hint-placeholder-count="9">
+        <a href="#{{ c.id }}" style="height:34px;padding:0 12px;display:flex;align-items:center;gap:8px;border-radius:99px;border:1px solid rgba(255,236,210,.12);color:#cfc6b6;font-size:13px;" style-hover="border-color:#f5b867;color:#f5b867;">{{ c.name }}<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ c.countColor }};">{{ c.count }}</span></a>
+      </sc-for>
+    </div>
+    <sc-for list="{{ cats }}" as="c" hint-placeholder-count="3">
+      <section id="{{ c.id }}" style="display:flex;flex-direction:column;gap:10px;scroll-margin-top:200px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 4px;">
+          <div style="display:flex;align-items:baseline;gap:12px;min-width:0;">
+            <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;color:#f5b867;line-height:1;">{{ c.num }}</span>
+            <h2 style="margin:0;font-weight:600;font-size:clamp(21px,2.4vw,26px);letter-spacing:-.03em;color:#fff6ea;">{{ c.name }}</h2>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ c.countColor }};white-space:nowrap;">{{ c.count }}</span><button type="button" onClick="{{ c.removeCat }}" aria-label="Delete section {{ c.name }}" title="Delete section" style="width:32px;height:32px;border-radius:9px;border:none;background:none;color:#9a927f;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);color:#ffb4a2;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg></button></div>
+        </div>
+        <sc-if value="{{ c.empty }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:16px 18px;border-radius:16px;border:1px dashed rgba(255,236,210,.14);font-size:14px;color:#9a927f;">{{ c.emptyText }}</div>
+        </sc-if>
+        <div onDragOver="{{ c.onDragOver }}" onDrop="{{ c.onDrop }}" style="display:flex;flex-direction:column;border-radius:20px;overflow:hidden;border:1px solid {{ c.dropBorder }};background:{{ c.dropBg }};transition:border-color .15s,background .15s;">
+          <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="4">
+            <div draggable="true" onDragStart="{{ it.onDragStart }}" onDragEnd="{{ it.onDragEnd }}" onDragOver="{{ it.onDragOver }}" onDrop="{{ it.onDrop }}" style="display:flex;align-items:flex-start;border-bottom:1px solid rgba(255,236,210,.07);box-shadow:{{ it.dropShadow }};opacity:{{ it.opacity }};" style-hover="background:rgba(255,236,210,.04);">
+            <span aria-hidden="true" title="Drag to move" style="flex-shrink:0;width:18px;padding:17px 0 0 8px;color:#6f6a5e;cursor:grab;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg></span>
+            <button type="button" role="checkbox" aria-checked="{{ it.aria }}" onClick="{{ it.toggle }}" style="flex:1;min-width:0;display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:14px;align-items:start;padding:15px 8px 15px 8px;border:none;background:none;color:inherit;text-align:left;font-family:inherit;cursor:pointer;">
+              <span style="width:22px;height:22px;margin-top:1px;border-radius:7px;border:1.5px solid {{ it.boxBorder }};background:{{ it.boxBg }};display:flex;align-items:center;justify-content:center;color:#0b0f24;transition:background .15s,border-color .15s;">
+                <sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+                <span style="font-size:15.5px;font-weight:500;line-height:1.4;color:{{ it.titleColor }};text-decoration:{{ it.deco }};text-decoration-color:rgba(255,236,210,.35);">{{ it.title }}</span>
+                <span style="font-size:13.5px;line-height:1.55;color:#9a927f;text-wrap:pretty;">{{ it.note }}</span>
+              </span>
+              <span style="padding:3px 8px;border-radius:99px;background:{{ it.tagBg }};color:{{ it.tagFg }};font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;">{{ it.tag }}</span>
+            </button>
+            <label title="Move to another section" style="flex-shrink:0;position:relative;width:32px;height:32px;margin:11px 0 0 0;border-radius:9px;color:#9a927f;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);color:#fff6ea;">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="m16 3 4 4-4 4"></path><path d="M20 7H4"></path><path d="m8 21-4-4 4-4"></path><path d="M4 17h16"></path></svg>
+              <select value="" onChange="{{ it.onMove }}" aria-label="Move item to section" style="position:absolute;inset:0;opacity:0;cursor:pointer;font-size:14px;">
+                <option value="" disabled="disabled">Move to…</option>
+                <sc-for list="{{ it.moveTo }}" as="mv" hint-placeholder-count="0"><option value="{{ mv.id }}">{{ mv.name }}</option></sc-for>
+              </select>
+            </label>
+            <sc-if value="{{ it.custom }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ it.remove }}" aria-label="Delete item" title="Delete item" style="flex-shrink:0;width:32px;height:32px;margin:11px 10px 0 0;border-radius:9px;border:none;background:none;color:#9a927f;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);color:#ffb4a2;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+            </sc-if>
+            
+            </div>
+          </sc-for>
+          <form onSubmit="{{ c.add }}" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px 10px 18px;">
+            <span style="width:22px;height:22px;border-radius:7px;border:1.5px dashed rgba(255,236,210,.22);display:flex;align-items:center;justify-content:center;color:#9a927f;flex-shrink:0;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>
+            <input value="{{ c.draft }}" onChange="{{ c.onDraft }}" placeholder="Add your own item to {{ c.name }}" aria-label="New item for {{ c.name }}" maxlength="140" style="flex:1 1 200px;min-width:0;height:40px;padding:0 8px;border:none;outline:none;background:none;color:#fff6ea;font-family:inherit;font-size:15px;"></input>
+            <button type="button" onClick="{{ c.togglePri }}" title="Priority" style="height:30px;padding:0 10px;border-radius:99px;border:1px solid {{ c.priBorder }};background:none;color:{{ c.priColor }};font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;">{{ c.priLabel }}</button>
+            <button type="submit" disabled="{{ c.noDraft }}" style="height:34px;padding:0 14px;border-radius:10px;border:none;background:{{ c.addBg }};color:{{ c.addFg }};font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">Add</button>
+          </form>
+        </div>
+      </section>
+    </sc-for>
+    <sc-if value="{{ noCats }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:22px 20px;border-radius:20px;border:1px dashed rgba(255,236,210,.16);font-size:14.5px;line-height:1.6;color:#9a927f;text-align:center;">No sections left. Add one below, or restore what you deleted.</div>
+    </sc-if>
+    <form onSubmit="{{ addCat }}" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:14px 16px;border-radius:20px;border:1.5px dashed rgba(255,236,210,.18);">
+      <span style="width:32px;height:32px;border-radius:10px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>
+      <input value="{{ catDraft }}" onChange="{{ onCatDraft }}" placeholder="Add a section, e.g. Client sign-off" aria-label="New section name" maxlength="60" style="flex:1 1 220px;min-width:0;height:40px;border:none;outline:none;background:none;color:#fff6ea;font-family:inherit;font-size:16px;font-weight:600;"></input>
+      <button type="submit" disabled="{{ noCatDraft }}" style="height:38px;padding:0 16px;border-radius:11px;border:none;background:{{ catAddBg }};color:{{ catAddFg }};font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;">Add section</button>
+    </form>
+    </sc-if>
+    <div style="border-radius:24px;background:#f5b867;color:#1a1420;padding:clamp(22px,3vw,32px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:6px;max-width:560px;">
+        <span style="font-weight:600;font-size:clamp(22px,2.4vw,28px);letter-spacing:-.03em;">Want someone to run the launch for you?</span>
+        <span style="font-size:15px;line-height:1.55;color:#3a2e24;">I’ve taken 50+ sites live across Shopify, AEM, WordPress and Webflow, including 12 markets for Liquid I.V.</span>
+      </div>
+      <a href="/tools#brief" style="height:46px;padding:0 20px;display:flex;align-items:center;gap:9px;border-radius:14px;background:#1a1420;color:#f3ead9;font-size:14.5px;font-weight:600;white-space:nowrap;" style-hover="background:#0b0f24;color:#fff6ea;">Send a brief →</a>
+    </div>
+  </main>
+  <footer style="border-top:1px solid rgba(255,236,210,.08);background:rgba(6,9,24,.6);">
+    <div style="max-width:1160px;margin:0 auto;padding:clamp(40px,6vw,64px) clamp(18px,4vw,40px) 24px;display:flex;flex-direction:column;gap:clamp(32px,5vw,48px);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:32px 24px;">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
+          <a href="/case-studies" style="display:flex;align-items:center;gap:10px;color:#fff6ea;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;">Aashish Pandey</span></a>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#9a927f;max-width:260px;">Project Manager and Creative Technologist in Bangalore. 50+ sites and platforms shipped since 2018.</p>
+          <span style="align-self:flex-start;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.22);font-size:12.5px;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Open to PM roles &amp; freelance</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Tools</span><a href="/tools/pad" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Online Notepad</a><a href="/tools/url-shortener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">URL Shortener</a><a href="/tools/image-resizer" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Image Resizer</a><a href="/tools/lorem-ipsum-generator" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Lorem Ipsum Generator</a><a href="/tools/website-launch-checklist" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Launch Checklist</a></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Site</span><a href="/" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">The 3D ride</a><a href="/case-studies" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Case studies</a><a href="/how-this-site-was-built" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">How this site was built</a><a href="/tools" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">All tools</a><a href="/tools#brief" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Send a brief</a></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Connect</span><a href="mailto:hello@aashishpandey.com" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">hello@aashishpandey.com</a><a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">LinkedIn ↗</a><a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">WhatsApp ↗</a></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:20px;border-top:1px solid rgba(255,236,210,.08);font-size:13px;color:#8a8372;">
+        <span>© 2026 Aashish Pandey · Bangalore, India</span>
+        <a href="#top" style="color:#8a8372;" style-hover="color:#fff6ea;">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const KEY = 'ap-launch:v2';
+const M = 'must', S = 'should';
+const DATA = [
+  ['Content & QA', [
+    [M, 'Remove placeholder copy', 'Search the CMS and codebase for “lorem”, “TBD” and “TODO”.'],
+    [M, 'Test every form end to end', 'Submit each one on production and confirm the notification and autoresponder emails arrive.'],
+    [M, 'Check all links', 'No 404s, no links pointing at staging, and external links open where intended.'],
+    [M, 'Swap staging keys for production', 'API keys, payment gateways out of sandbox, SMTP, maps and reCAPTCHA.'],
+    [M, 'Cross-browser test', 'Latest Chrome, Safari, Firefox and Edge on desktop.'],
+    [M, 'Test on real phones', 'iOS Safari and Android Chrome, portrait and landscape.'],
+    [S, 'Favicon, app icons and 404 page', 'A branded 404 with a way back home and a search or key links.']
+  ]],
+  ['SEO', [
+    [M, 'Remove noindex from production', 'Check meta robots, X-Robots-Tag headers and CMS “discourage search engines” settings.'],
+    [M, 'robots.txt allows crawling', 'And points to the sitemap.'],
+    [M, '301 redirects mapped from old URLs', 'Every indexed old URL goes to its closest new page. No redirect chains.'],
+    [M, 'Unique title and meta description per page', 'Titles under ~60 characters, descriptions under ~155.'],
+    [M, 'Canonical tags point to the live URL', 'Not staging, not a parameterised version.'],
+    [M, 'XML sitemap generated', 'Only indexable, 200-status URLs.'],
+    [S, 'One H1 per page, logical heading order', 'H2s and H3s follow the content structure.'],
+    [S, 'hreflang set for every market', 'Reciprocal tags plus x-default for multi-language or multi-market sites.'],
+    [S, 'Open Graph and social images', '1200×630 images and titles for link previews.'],
+    [S, 'Structured data validates', 'Organization, Product, Article or FAQ schema passes the Rich Results Test.'],
+    [S, 'llms.txt published', 'A short guide to the site for AI search engines.']
+  ]],
+  ['Analytics & tracking', [
+    [M, 'GA4 on every page', 'One property, correct measurement ID, no duplicate tags.'],
+    [M, 'Key events tested in DebugView', 'Form submits, purchases, sign-ups and outbound clicks fire once each.'],
+    [M, 'Consent banner blocks tags until consent', 'Consent Mode v2 where GDPR or similar applies.'],
+    [M, 'Search Console and Bing Webmaster verified', 'For the canonical host and protocol.'],
+    [S, 'Tag Manager container published', 'With a version note for the launch.'],
+    [S, 'Internal and staging traffic filtered', 'So the baseline isn’t polluted by the team.']
+  ]],
+  ['Performance', [
+    [M, 'Core Web Vitals pass', 'LCP under 2.5s, INP under 200ms, CLS under 0.1 on mobile.'],
+    [M, 'Images compressed and sized', 'WebP or AVIF, correct dimensions, width and height attributes set.'],
+    [S, 'Lazy-load below-the-fold media', 'Images, iframes and video embeds.'],
+    [S, 'CSS and JS minified', 'Unused plugins and scripts removed.'],
+    [S, 'CDN and cache headers configured', 'Long cache for hashed assets, short for HTML.'],
+    [S, 'Fonts optimised', 'Subset, preloaded, font-display: swap.']
+  ]],
+  ['Security & infrastructure', [
+    [M, 'SSL valid, HTTP redirects to HTTPS', 'Add HSTS once you’re confident.'],
+    [M, 'One canonical host', 'www and non-www resolve to one version with a 301.'],
+    [M, 'Backups scheduled and a restore tested', 'Database and media, stored off the server.'],
+    [M, 'Admin access reviewed', 'Remove agency test users and default passwords. Turn on 2FA.'],
+    [M, 'Uptime monitoring and alerts on', 'Someone named receives the alert.'],
+    [S, 'DNS TTL lowered before cutover', 'Drop to 300 seconds 24 to 48 hours ahead.'],
+    [S, 'Security headers set', 'CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy.'],
+    [S, 'Error logging in place', 'Sentry or similar for front-end and server errors.']
+  ]],
+  ['Accessibility', [
+    [M, 'Keyboard navigation works', 'Every control reachable with Tab, with a visible focus state.'],
+    [M, 'Alt text on meaningful images', 'Decorative images get empty alt.'],
+    [M, 'Colour contrast meets WCAG AA', '4.5:1 for body text, 3:1 for large text.'],
+    [M, 'Form fields have labels and clear errors', 'Errors say what went wrong and how to fix it.'],
+    [S, 'Automated scan clean', 'No critical issues in axe or Lighthouse.']
+  ]],
+  ['Legal & compliance', [
+    [M, 'Privacy and cookie policy published', 'Linked from the footer and the consent banner.'],
+    [S, 'Terms, shipping and returns pages', 'For ecommerce and anything with accounts.'],
+    [S, 'Accessibility statement', 'Required for public sector and some markets.'],
+    [S, 'Company details and copyright year', 'Registered name, address and tax IDs where required.']
+  ]],
+  ['Launch day', [
+    [M, 'Go / no-go call with sign-offs', 'Record who approved and when.'],
+    [M, 'Deploy, then purge the CDN', 'Clear application caches too.'],
+    [M, 'Smoke test critical journeys on production', 'Home, key landing pages, forms, checkout and login.'],
+    [S, 'Content freeze in place', 'No CMS edits during the window.'],
+    [S, 'Submit the sitemap and request indexing', 'For the homepage and top landing pages.'],
+    [S, 'Hand over support contacts', 'Client knows who to call and the hypercare hours.']
+  ]],
+  ['First two weeks', [
+    [M, 'Watch Search Console daily', 'Crawl errors, coverage drops and manual actions.'],
+    [M, 'Compare traffic and conversions to baseline', 'Flag any market or page that drops more than 20%.'],
+    [M, 'Check the 404 log', 'Add redirects for anything real that’s missing.'],
+    [S, 'Daily hypercare stand-up for week one', 'Triage issues by severity with the client.'],
+    [S, 'Retro and handover to BAU', 'Document what changed, open issues and owners.']
+  ]]
+];
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const EXTRA = {
+  ecommerce: ['Store & checkout', [
+    [M, 'Real test orders on every payment method', 'Cards, wallets, COD or BNPL. Then refund them and check the refund emails.'],
+    [M, 'Taxes and duties configured per region', 'Tax-inclusive vs exclusive pricing matches each market.'],
+    [M, 'Shipping zones and rates checked', 'Including free-shipping thresholds and remote postcodes.'],
+    [M, 'Order, shipping and refund emails branded', 'Sent from your domain, with correct links and support contacts.'],
+    [M, 'Inventory sync verified', 'ERP or 3PL connected; overselling rules set.'],
+    [S, 'Product feed approved in Merchant Center', 'Titles, GTINs, prices and availability match the site.'],
+    [S, 'Abandoned-cart flow live', 'Tested with a real address and a discount if you use one.'],
+    [S, 'Discount codes tested', 'Test codes deleted before launch.'],
+    [S, 'Ecommerce events in GA4', 'view_item, add_to_cart, begin_checkout and purchase with value and currency.']
+  ]],
+  multimarket: ['Markets & localisation', [
+    [M, 'hreflang and x-default validated', 'Every market page references all its alternates, and they reference back.'],
+    [M, 'Translations reviewed by native speakers', 'UI strings, emails, meta titles and alt text too.'],
+    [M, 'Currency, number and date formats per market', '1.234,56 € vs €1,234.56; DD/MM vs MM/DD.'],
+    [M, 'Local legal pages in place', 'Impressum for Germany, local cookie rules, consumer rights.'],
+    [S, 'No forced geo-redirects', 'Suggest a market with a banner; never block crawlers from other markets.'],
+    [S, 'Market-level reporting', 'GA4 filters or comparisons per market or subdomain.'],
+    [S, 'Search Console property per market', 'For each subdomain or subfolder.'],
+    [S, 'Local payment methods', 'iDEAL, Bancontact, Klarna, UPI or PIX where they matter.']
+  ]],
+  migration: ['Migration safety', [
+    [M, 'Full crawl of the old site saved', 'URLs, titles, status codes, canonicals and word counts.'],
+    [M, 'Redirect map tested with a crawler', 'Every old URL returns one 301 to a 200 page.'],
+    [M, 'Content parity check', 'No pages, FAQs, reviews or structured data lost in the move.'],
+    [M, 'Traffic and rankings benchmark captured', 'Top pages, keywords and conversions from the last three months.'],
+    [S, 'Top backlinks land on live pages', 'Pull them from Search Console or Ahrefs and test each.'],
+    [S, 'Internal links updated', 'Point straight at new URLs instead of relying on redirects.'],
+    [S, 'Old site kept reachable for the team', 'Password-protected for 30 days, for reference.'],
+    [S, 'Change of Address filed', 'In Search Console, only if the domain changes.']
+  ]],
+  cms: ['CMS hardening', [
+    [M, 'Core, theme and plugins updated', 'On staging first, then production.'],
+    [M, 'Unused plugins and themes deleted', 'Deactivated isn’t enough.'],
+    [M, 'Debug mode and error display off', 'WP_DEBUG false; no PHP notices on the front end.'],
+    [M, 'User roles are least-privilege', 'Clients get Editor, not Administrator.'],
+    [S, 'Login protected', 'Rate limiting, 2FA and a non-default admin path.'],
+    [S, 'XML-RPC disabled if unused', 'A common brute-force target.'],
+    [S, 'Caching tested with logged-in users', 'Carts, forms and account pages aren’t cached.'],
+    [S, 'Update policy agreed', 'Who updates what, how often, and who tests.']
+  ]],
+  campaign: ['Campaign tracking', [
+    [M, 'UTM conventions agreed and links built', 'Lower-case source, medium and campaign, shared in one sheet.'],
+    [M, 'Ad pixels fire on the right events', 'Meta, Google Ads and LinkedIn, checked with each pixel helper.'],
+    [M, 'Leads reach the CRM', 'With source and campaign fields filled in.'],
+    [M, 'Conversion recorded on the thank-you step', 'As a GA4 key event and in each ad platform.'],
+    [S, 'Page matches the ad', 'Same offer, headline and visuals as the creative.'],
+    [S, 'A/B test set up with one success metric', 'Decide the sample size before you start.'],
+    [S, 'Loads in under 2 seconds on 4G', 'Paid traffic is mostly mobile.'],
+    [S, 'End date and takedown plan', 'Redirect or update the page when the offer ends.']
+  ]],
+  webapp: ['App readiness', [
+    [M, 'Sign-up, login and password reset tested', 'Including expired links, wrong passwords and locked accounts.'],
+    [M, 'Transactional email passes SPF, DKIM and DMARC', 'Check with a real Gmail and Outlook inbox.'],
+    [M, 'Rollback plan rehearsed', 'Exact steps written down, and more than one person can run them.'],
+    [M, 'Rate limiting on auth and public APIs', 'Plus bot protection on sign-up.'],
+    [M, 'Empty, loading and error states designed', 'For every main screen, not just the happy path.'],
+    [S, 'Load test at 2–3× expected peak', 'Watch database connections and queue depth.'],
+    [S, 'Status page and incident contacts', 'Users know where to look when something breaks.'],
+    [S, 'Data export and account deletion work', 'For GDPR and similar requests.'],
+    [S, 'Risky features behind flags', 'So you can turn them off without a deploy.']
+  ]]
+};
+
+const PACKS = {
+  mktcampaign: [
+    ['Strategy & brief', [
+      [M, 'One-page brief signed off', 'Objective, audience, key message, offer, budget and dates.'],
+      [M, 'Success metrics and targets agreed', 'Primary KPI, baseline and target. One number the team is judged on.'],
+      [M, 'Budget split by channel approved', 'With a reserve of 10–15% for what works.'],
+      [S, 'Audience segments and personas defined', 'Who we target and who we exclude.'],
+      [S, 'Competitor activity reviewed', 'What they’re saying in the same window.']
+    ]],
+    ['Creative & assets', [
+      [M, 'Key visual and copy approved', 'By brand and, where needed, legal.'],
+      [M, 'All sizes and formats exported', 'Per channel spec: feed, stories, display, video lengths.'],
+      [M, 'Claims and disclaimers checked', 'Pricing, “free”, health or environmental claims.'],
+      [S, 'Accessibility: captions and alt text', 'Subtitles on every video.'],
+      [S, 'Asset library shared with naming convention', 'So agencies pull the right version.']
+    ]],
+    ['Channels & media', [
+      [M, 'Media plan and flighting confirmed', 'Dates, budgets and bid strategy per channel.'],
+      [M, 'Ad accounts, billing and access ready', 'Payment method tested; agency has the right roles.'],
+      [M, 'Landing page live and tested', 'Matches the ad and loads fast on mobile.'],
+      [S, 'Organic, PR and partner posts scheduled', 'Aligned to the paid launch date.'],
+      [S, 'Sales and support briefed', 'They know the offer and the FAQs.']
+    ]],
+    ['Tracking & reporting', [
+      [M, 'UTMs built for every link', 'One naming convention, shared sheet.'],
+      [M, 'Conversions tracked in each platform', 'Pixels and GA4 key events tested.'],
+      [S, 'Dashboard ready before launch', 'Looker Studio or similar, refreshed daily.'],
+      [S, 'Reporting cadence agreed', 'Who gets what, how often.']
+    ]],
+    ['Launch & optimise', [
+      [M, 'Go-live check on day one', 'Ads approved, spending, and landing correctly.'],
+      [S, 'First read after 72 hours', 'Pause losers, shift budget to winners.'],
+      [S, 'Creative refresh planned', 'Before frequency fatigue sets in.'],
+      [S, 'Wrap report and learnings', 'Results vs target and what to repeat.']
+    ]]
+  ],
+  productlaunch: [
+    ['Positioning', [
+      [M, 'Positioning statement agreed', 'For whom, what it is, why it’s different.'],
+      [M, 'Pricing and packaging final', 'Including discounts and grandfathering rules.'],
+      [S, 'Messaging house and FAQs', 'Headline, three pillars, proof points.'],
+      [S, 'Competitive one-pager', 'How we win and how we answer objections.']
+    ]],
+    ['Enablement', [
+      [M, 'Sales deck and demo script ready', 'Rehearsed with at least one rep.'],
+      [M, 'Support trained with help articles live', 'Macros ready for the top five questions.'],
+      [S, 'Internal launch brief sent', 'Everyone knows the date and what to say.'],
+      [S, 'Partner and reseller materials', 'If channel partners sell it.']
+    ]],
+    ['Launch comms', [
+      [M, 'Launch page and announcement copy approved', 'Plus the in-product announcement.'],
+      [S, 'Press release and media list', 'Embargo agreed with any early press.'],
+      [S, 'Customer email and social posts scheduled', 'Segmented for existing vs new customers.'],
+      [S, 'Customer quotes or case study', 'Signed-off quotes from beta users.']
+    ]],
+    ['Launch day', [
+      [M, 'Go / no-go with product, marketing and sales', 'Record sign-offs.'],
+      [M, 'War room and owners for issues', 'One channel, named people, escalation path.'],
+      [S, 'Monitor mentions and support queue', 'Hourly on the day.']
+    ]],
+    ['After launch', [
+      [M, 'Adoption metrics reviewed at 7 and 30 days', 'Against the targets you set.'],
+      [S, 'Feedback loop to product', 'Top requests and bugs logged.'],
+      [S, 'Launch retro', 'What to keep, what to change.']
+    ]]
+  ],
+  event: [
+    ['Planning', [
+      [M, 'Goal, audience and format agreed', 'In-person, virtual or hybrid; target attendance.'],
+      [M, 'Budget approved', 'Venue, AV, catering, travel, swag, contingency.'],
+      [M, 'Venue or platform booked', 'Capacity, accessibility and backup date.'],
+      [S, 'Speakers confirmed with briefs', 'Topic, length, deadline for slides.'],
+      [S, 'Run-of-show drafted', 'Minute-by-minute with owners.']
+    ]],
+    ['Promotion', [
+      [M, 'Registration page live and tested', 'Confirmation email and calendar invite work.'],
+      [S, 'Promotion calendar', 'Email, social, partners, paid, with dates.'],
+      [S, 'Reminder emails scheduled', '1 week, 1 day and 1 hour before.']
+    ]],
+    ['Logistics & tech', [
+      [M, 'AV and streaming tested end to end', 'Mics, slides, recording and backup internet.'],
+      [M, 'Tech rehearsal with speakers', 'Same setup as the day.'],
+      [S, 'Signage, badges and swag delivered', 'Plus dietary needs for catering.'],
+      [S, 'Health, safety and insurance covered', 'Emergency contacts and first aid.']
+    ]],
+    ['On the day', [
+      [M, 'Crew briefing and roles', 'Registration, speakers, AV, social.'],
+      [S, 'Capture photos, quotes and the recording', 'For follow-up content.']
+    ]],
+    ['Follow-up', [
+      [M, 'Thank-you email with recording or slides', 'Within 48 hours.'],
+      [M, 'Leads handed to sales', 'With context on what they attended.'],
+      [S, 'Feedback survey sent', 'Five questions max.'],
+      [S, 'Results vs goal reported', 'Registrations, attendance rate, pipeline.']
+    ]]
+  ],
+  email: [
+    ['Setup', [
+      [M, 'Audience and segment defined', 'Suppression list applied (unsubscribes, bounces, competitors).'],
+      [M, 'Goal and single call to action', 'One primary action per email.'],
+      [S, 'Send time and time zones chosen', 'Stagger by region if needed.']
+    ]],
+    ['Content', [
+      [M, 'Subject line and preheader written', 'Test two subject lines if the list is big enough.'],
+      [M, 'Copy proofread and approved', 'Names, dates, prices and offer terms.'],
+      [S, 'Personalisation fallbacks set', '“Hi there” when first name is missing.'],
+      [S, 'Plain-text version', 'For clients that block HTML.']
+    ]],
+    ['Deliverability & compliance', [
+      [M, 'SPF, DKIM and DMARC pass', 'On the sending domain.'],
+      [M, 'Unsubscribe link and postal address present', 'CAN-SPAM, GDPR and local rules.'],
+      [S, 'Spam score checked', 'Mail-tester or the platform’s own check.']
+    ]],
+    ['QA', [
+      [M, 'Test sends to real inboxes', 'Gmail, Outlook, Apple Mail, mobile and dark mode.'],
+      [M, 'Every link clicked and UTM-tagged', 'No links to staging.'],
+      [S, 'Images have alt text', 'The email still makes sense with images off.']
+    ]],
+    ['Send & measure', [
+      [M, 'Final approval and scheduled send', 'Double-check the segment count.'],
+      [S, 'Opens, clicks and conversions reviewed at 24 and 72 hours', 'Against past sends.'],
+      [S, 'Automation follow-ups triggered', 'Clicked, not clicked, converted.']
+    ]]
+  ],
+  social: [
+    ['Plan', [
+      [M, 'Objective and platforms chosen', 'Where the audience actually is.'],
+      [M, 'Content calendar approved', 'Posts, dates, formats and owners.'],
+      [S, 'Hashtags and handles researched', 'Campaign hashtag checked for other meanings.']
+    ]],
+    ['Content', [
+      [M, 'Creative in every platform size', 'Feed, stories, reels, carousel.'],
+      [M, 'Copy approved with brand and legal', 'Especially giveaways and influencer posts.'],
+      [S, 'Captions and alt text', 'On every video and image.'],
+      [S, 'Influencer briefs and disclosure rules', '#ad or paid-partnership labels.']
+    ]],
+    ['Publishing', [
+      [M, 'Posts scheduled and previewed', 'Check crops and link previews.'],
+      [S, 'Bio links and pinned posts updated', 'Point to the campaign.']
+    ]],
+    ['Community', [
+      [M, 'Response guidelines and escalation path', 'Who answers, how fast, what goes to legal or support.'],
+      [S, 'Saved replies for common questions', 'Offer terms, shipping, dates.']
+    ]],
+    ['Reporting', [
+      [S, 'Weekly performance read', 'Reach, engagement rate, clicks, conversions.'],
+      [S, 'Wrap report with top posts', 'And what to change next time.']
+    ]]
+  ],
+  rebrand: [
+    ['Brand assets', [
+      [M, 'Logo, colour and type files final', 'All formats, with a usage guide.'],
+      [M, 'Brand guidelines published', 'Somewhere everyone can find them.'],
+      [S, 'Templates updated', 'Slides, documents, email signatures, social.']
+    ]],
+    ['Digital', [
+      [M, 'Website, favicon and social profiles updated', 'Profile images, banners and bios.'],
+      [M, 'App store listings and email templates updated', 'Transactional emails too.'],
+      [S, 'Search listings refreshed', 'Google Business Profile, directories, reviews sites.']
+    ]],
+    ['Physical & print', [
+      [S, 'Signage, packaging and print ordered', 'With a date the old stock runs out.'],
+      [S, 'Uniforms, vehicles and office', 'If the brand shows up there.']
+    ]],
+    ['Internal', [
+      [M, 'Staff briefed before the public', 'The why, what changes, and what to say.'],
+      [S, 'Old assets retired', 'Remove old logos from shared drives.']
+    ]],
+    ['External comms', [
+      [M, 'Announcement to customers and partners', 'Email, blog post, social.'],
+      [S, 'Press and media kit', 'New logos and a short story.'],
+      [S, 'Monitor reaction for two weeks', 'Respond to confusion quickly.']
+    ]]
+  ],
+  handover: [
+    ['Knowledge transfer', [
+      [M, 'KT plan and schedule agreed', 'Sessions, topics, owners and exit criteria.'],
+      [M, 'Documentation collected', 'Architecture, runbooks, credentials list, known issues.'],
+      [S, 'Recorded KT sessions', 'Stored where the whole team can find them.']
+    ]],
+    ['Access', [
+      [M, 'Access register created', 'Every system, who owns it, who has access.'],
+      [M, 'Accounts and keys transferred', 'Repos, hosting, DNS, CDN, analytics, ad accounts.'],
+      [M, 'Outgoing vendor access revoked on the date', 'And shared passwords rotated.']
+    ]],
+    ['Risks & governance', [
+      [M, 'Risk register and queries log', 'Reviewed weekly until handover.'],
+      [M, 'SLAs and escalation path agreed', 'P1 to P4 definitions and response times.'],
+      [S, 'Weekly status to the client', 'RAG status, risks, decisions needed.']
+    ]],
+    ['Move to BAU', [
+      [M, 'Shadow period complete', 'New team handles tickets with the old team on call.'],
+      [S, 'Backlog triaged and prioritised', 'In your own tool (Jira, Zoho Sprints).'],
+      [S, 'Sprint cadence and ceremonies set', 'Stand-ups, planning, reviews.']
+    ]]
+  ]
+};
+const TEMPLATES = [
+  ['general', 'Marketing website', 'Brochure, corporate or portfolio site'],
+  ['ecommerce', 'Shopify / ecommerce', 'Adds payments, tax, shipping and feeds'],
+  ['multimarket', 'Multi-market', 'Adds hreflang, translation and local legal'],
+  ['migration', 'Migration / replatform', 'Adds crawls, redirect testing and parity'],
+  ['cms', 'WordPress / CMS', 'Adds plugin, role and login hardening'],
+  ['campaign', 'Campaign landing page', 'Adds UTMs, pixels and CRM checks'],
+  ['webapp', 'Web app / SaaS', 'Adds auth, email, rollback and load'],
+  ['mktcampaign', 'Marketing campaign', 'Brief, creative, media, tracking, optimise'],
+  ['productlaunch', 'Product launch', 'Positioning, enablement, comms, launch day'],
+  ['event', 'Event or webinar', 'Planning, promotion, AV, follow-up'],
+  ['email', 'Email campaign', 'Content, deliverability, QA, send'],
+  ['social', 'Social media campaign', 'Calendar, creative, community, reporting'],
+  ['rebrand', 'Rebrand rollout', 'Assets, digital, print, internal, comms'],
+  ['handover', 'Vendor handover', 'KT, access, risks, move to BAU'],
+  ['blank', 'Blank checklist', 'Start empty and add your own items'],
+];
+const GROUPS = [['Websites & digital', ['general', 'ecommerce', 'multimarket', 'migration', 'cms', 'campaign', 'webapp']], ['Marketing & business', ['mktcampaign', 'productlaunch', 'event', 'email', 'social', 'rebrand', 'handover']], ['Your own', ['blank']]];
+const mk = ([name, items]) => ({ name, id: 'c-' + slug(name), items: items.map(([p, t, n]) => ({ id: slug(name) + '/' + slug(t), p, t, n })) });
+const CORE = DATA.map(mk);
+function catsFor(tpl) { if (!tpl) return []; if (PACKS[tpl]) return PACKS[tpl].map(mk); if (tpl === 'blank') return [{ name: 'Checklist', id: 'c-checklist', items: [] }]; const c = CORE.slice(); if (EXTRA[tpl]) c.splice(1, 0, mk(EXTRA[tpl])); return c; }
+const uid = () => Math.random().toString(36).slice(2, 8);
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    let s = {}; try { s = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+    this.state = { name: s.name || '', tpl: s.tpl || null, picking: false, removed: s.removed || {}, customCats: s.customCats || [], removedCats: s.removedCats || {}, layout: s.layout || {}, dragId: null, over: null, catDraft: '', done: s.done || {}, custom: s.custom || {}, mustOnly: !!s.mustOnly, hideDone: !!s.hideDone, drafts: {}, pri: {}, copied: false };
+  }
+  persist() { const { name, tpl, done, custom, removed, customCats, removedCats, layout, mustOnly, hideDone } = this.state; try { localStorage.setItem(KEY, JSON.stringify({ name, tpl, done, custom, removed, customCats, removedCats, layout, mustOnly, hideDone })); } catch (e) {} }
+  up(p) { this.setState(p, () => this.persist()); }
+  cats() {
+    const s = this.state;
+    const all = [...catsFor(s.tpl), ...s.customCats.map(c => ({ ...c, items: [], mine: true }))];
+    const pool = {}, home = {};
+    all.forEach(c => [...c.items.filter(i => !s.removed[i.id]), ...(s.custom[c.id] || []).map(x => ({ ...x, custom: true, n: '' }))].forEach(i => { pool[i.id] = i; home[i.id] = c.id; }));
+    const placed = new Set(); Object.values(s.layout).forEach(l => l.forEach(id => placed.add(id)));
+    return all.filter(c => !s.removedCats[c.id]).map(c => {
+      const list = (s.layout[c.id] || []).filter(id => pool[id]).map(id => ({ ...pool[id], home: home[id] }));
+      Object.keys(pool).forEach(id => { if (home[id] === c.id && !placed.has(id)) list.push({ ...pool[id], home: c.id }); });
+      return { ...c, items: list };
+    });
+  }
+  move(id, toCat, visIdx, vis) {
+    const cats = this.cats(), from = cats.find(c => c.items.some(i => i.id === id)), to = cats.find(c => c.id === toCat);
+    if (!from || !to) return;
+    const src = from.items.map(i => i.id).filter(x => x !== id);
+    const dstBase = from.id === to.id ? src : to.items.map(i => i.id);
+    const v = vis.filter(x => x !== id);
+    let pos = visIdx == null || visIdx >= v.length ? dstBase.length : dstBase.indexOf(v[visIdx]);
+    if (pos < 0) pos = dstBase.length;
+    const dst = dstBase.slice(); dst.splice(pos, 0, id);
+    const layout = { ...this.state.layout, [from.id]: from.id === to.id ? dst : src, [to.id]: dst };
+    this.up({ layout, dragId: null, over: null });
+    if (from.id !== to.id && window.apTrack) window.apTrack('checklist_move', {});
+  }
+  md() {
+    const s = this.state, cats = this.cats(), all = cats.flatMap(c => c.items), n = all.filter(i => s.done[i.id]).length;
+    const tn = (TEMPLATES.find(t => t[0] === s.tpl) || [0, 'Custom'])[1];
+    let out = `# ${s.name || 'Website'} · launch checklist\n\nTemplate: ${tn} · ${n} of ${all.length} done\n`;
+    cats.forEach(c => { out += `\n## ${c.name}\n\n` + c.items.map(i => `- [${s.done[i.id] ? 'x' : ' '}] ${i.t}${i.p === M ? ' **(must)**' : ''}`).join('\n') + '\n'; });
+    return out + '\n— aashishpandey.com/tools/website-launch-checklist\n';
+  }
+  renderVals() {
+    const s = this.state, cats = this.cats(), ALL = cats.flatMap(c => c.items);
+    const done = ALL.filter(i => s.done[i.id]).length, mustLeft = ALL.filter(i => i.p === M && !s.done[i.id]).length;
+    const sw = on => ({ bg: on ? '#f5b867' : 'rgba(255,236,210,.18)', knob: on ? '17px' : '3px' });
+    const m = sw(s.mustOnly), h = sw(s.hideDone);
+    const customCount = Object.values(s.custom).reduce((a, l) => a + l.length, 0);
+    return {
+      groups: GROUPS.map(([g, keys]) => ({ name: g, templates: keys.map(key => TEMPLATES.find(t => t[0] === key)).map(([k, n, d]) => { const cnt = catsFor(k).reduce((a, c) => a + c.items.length, 0); return { name: n, desc: d, count: cnt ? cnt + ' checks' : 'Empty', on: s.tpl === k, off: s.tpl !== k, pick: () => { this.up({ tpl: k, picking: false }); if (window.apTrack) window.apTrack('checklist_template', { tpl: k }); } }; }) })),
+      templates: TEMPLATES.map(([k, n, d]) => { const cnt = catsFor(k).reduce((a, c) => a + c.items.length, 0); return { name: n, desc: d, count: cnt ? cnt + ' checks' : 'Empty', on: s.tpl === k, off: s.tpl !== k, pick: () => { this.up({ tpl: k, picking: false }); if (window.apTrack) window.apTrack('checklist_template', { tpl: k }); } }; }),
+      hasTpl: !!s.tpl, noTpl: !s.tpl, showPicker: !s.tpl || s.picking, showCompact: !!s.tpl && !s.picking,
+      pickerTitle: s.tpl ? 'Switch template · ticks and your items carry over' : 'Choose a template to start',
+      tplName: (TEMPLATES.find(t => t[0] === s.tpl) || [0, ''])[1], openPicker: () => this.setState({ picking: true }), closePicker: () => this.setState({ picking: false }),
+      hasRemoved: Object.keys(s.removed).length + Object.keys(s.removedCats).length > 0,
+      restoreLabel: 'Restore ' + [Object.keys(s.removedCats).length && Object.keys(s.removedCats).length + ' section' + (Object.keys(s.removedCats).length === 1 ? '' : 's'), Object.keys(s.removed).length && Object.keys(s.removed).length + ' item' + (Object.keys(s.removed).length === 1 ? '' : 's')].filter(Boolean).join(' + '),
+      restore: () => this.up({ removed: {}, removedCats: {} }),
+      moveOptions: cats.map(c => ({ id: c.id, name: c.name })),
+      noCats: !!s.tpl && !cats.length,
+      catDraft: s.catDraft, onCatDraft: e => this.setState({ catDraft: e.target.value }), noCatDraft: !s.catDraft.trim(),
+      catAddBg: s.catDraft.trim() ? '#f5b867' : 'rgba(255,236,210,.08)', catAddFg: s.catDraft.trim() ? '#1a1420' : '#8a8372',
+      addCat: e => { e.preventDefault(); const n = s.catDraft.trim(); if (!n) return; const id = 'c-u-' + uid(); this.up({ customCats: [...s.customCats, { id, name: n }], catDraft: '' }); setTimeout(() => { const el = document.querySelector('[aria-label="New item for ' + n.replace(/"/g, '') + '"]'); el && el.focus(); }, 60); },
+      name: s.name, onName: e => this.up({ name: e.target.value }),
+      doneCount: done, total: ALL.length, pctWidth: (ALL.length ? Math.round(done / ALL.length * 100) : 0) + '%',
+      mustLeftLabel: mustLeft ? mustLeft + ' must-have' + (mustLeft === 1 ? '' : 's') + ' left' : 'all must-haves done. Ship it.',
+      mustOnlyAria: s.mustOnly ? 'true' : 'false', mustBg: m.bg, mustKnob: m.knob, toggleMust: () => this.up({ mustOnly: !s.mustOnly }),
+      hideDoneAria: s.hideDone ? 'true' : 'false', hideBg: h.bg, hideKnob: h.knob, toggleHide: () => this.up({ hideDone: !s.hideDone }),
+      reset: () => {
+        const msg = customCount ? 'Untick everything and delete your ' + customCount + ' custom item' + (customCount === 1 ? '' : 's') + '?' : 'Untick all ' + done + ' items?';
+        if (!confirm('Start over? This clears ticks, your items and sections, and takes you back to the templates.')) return; this.up({ done: {}, custom: {}, removed: {}, customCats: [], removedCats: {}, layout: {}, tpl: null, name: '' });
+      },
+      copyLabel: s.copied ? 'Copied' : 'Copy as Markdown',
+      copyMd: async () => { const t = this.md(); try { await navigator.clipboard.writeText(t); this.setState({ copied: true }); clearTimeout(this.ct); this.ct = setTimeout(() => this.setState({ copied: false }), 1600); } catch (e) { prompt('Copy:', t); } },
+      downloadMd: () => { const u = URL.createObjectURL(new Blob([this.md()], { type: 'text/markdown' })); const a = document.createElement('a'); a.href = u; a.download = (slug(s.name) || 'website') + '-launch-checklist.md'; a.click(); setTimeout(() => URL.revokeObjectURL(u), 1000); },
+      cats: cats.map((c, ci) => {
+        const d = c.items.filter(i => s.done[i.id]).length, full = c.items.length && d === c.items.length;
+        const vis = c.items.filter(i => (!s.mustOnly || i.p === M) && (!s.hideDone || !s.done[i.id]));
+        const draft = s.drafts[c.id] || '', pri = s.pri[c.id] || S;
+        const visIds = vis.map(i => i.id), isOver = s.dragId && s.over && s.over.cat === c.id;
+        const setOver = (idx) => { if (!s.over || s.over.cat !== c.id || s.over.idx !== idx) this.setState({ over: { cat: c.id, idx } }); };
+        return {
+          id: c.id, name: c.name, num: String(ci + 1).padStart(2, '0'), count: d + '/' + c.items.length, countColor: full ? '#7ff3e1' : '#9a927f',
+          empty: !vis.length, emptyText: !c.items.length ? 'No items yet. Add your own below.' : full ? 'All done in this section.' : 'Nothing to show with the current filters.',
+          draft, noDraft: !draft.trim(),
+          dropBorder: isOver ? 'rgba(245,184,103,.6)' : 'rgba(255,236,210,.1)', dropBg: isOver ? 'rgba(245,184,103,.05)' : 'rgba(255,236,210,.03)',
+          onDragOver: e => { if (!s.dragId) return; e.preventDefault(); e.dataTransfer.dropEffect = 'move'; setOver(vis.length); },
+          onDrop: e => { if (!s.dragId) return; e.preventDefault(); this.move(s.dragId, c.id, s.over && s.over.cat === c.id ? s.over.idx : vis.length, visIds); },
+          removeCat: () => {
+            const n = c.items.length; if (n && !confirm('Delete “' + c.name + '” and its ' + n + ' item' + (n === 1 ? '' : 's') + '?')) return;
+            const d2 = { ...s.done }; c.items.forEach(i => delete d2[i.id]);
+            if (c.mine) { const cu = { ...s.custom }; delete cu[c.id]; this.up({ customCats: s.customCats.filter(x => x.id !== c.id), custom: cu, done: d2 }); }
+            else this.up({ removedCats: { ...s.removedCats, [c.id]: true }, done: d2 });
+          }, onDraft: e => this.setState({ drafts: { ...s.drafts, [c.id]: e.target.value } }),
+          priLabel: pri === M ? 'Must' : 'Should', priColor: pri === M ? '#f5b867' : '#9a927f', priBorder: pri === M ? 'rgba(245,184,103,.5)' : 'rgba(255,236,210,.16)',
+          togglePri: () => this.setState({ pri: { ...s.pri, [c.id]: pri === M ? S : M } }),
+          addBg: draft.trim() ? '#f3ead9' : 'rgba(255,236,210,.08)', addFg: draft.trim() ? '#1a1420' : '#8a8372',
+          add: e => { e.preventDefault(); const t = draft.trim(); if (!t) return; const item = { id: 'u/' + uid(), p: pri, t }; this.up({ custom: { ...s.custom, [c.id]: [...(s.custom[c.id] || []), item] }, drafts: { ...s.drafts, [c.id]: '' } }); if (window.apTrack) window.apTrack('checklist_custom_item', { tpl: s.tpl }); },
+          items: vis.map((i, idx) => {
+            const on = !!s.done[i.id];
+            const lineTop = isOver && s.over.idx === idx && s.dragId !== i.id, lineBot = isOver && idx === vis.length - 1 && s.over.idx === vis.length;
+            return {
+              title: i.t, note: i.custom ? 'Your item' : i.n, done: on, aria: on ? 'true' : 'false', tag: i.p === M ? 'Must' : 'Should',
+              custom: true,
+              tagBg: i.p === M ? 'rgba(245,184,103,.12)' : 'rgba(255,236,210,.06)', tagFg: i.p === M ? '#f5b867' : '#9a927f',
+              boxBorder: on ? '#7ff3e1' : 'rgba(255,236,210,.3)', boxBg: on ? '#7ff3e1' : 'transparent',
+              titleColor: on ? '#8a8372' : '#fff6ea', deco: on ? 'line-through' : 'none',
+              toggle: () => this.up({ done: { ...s.done, [i.id]: !on } }),
+              dropShadow: lineTop ? 'inset 0 2px 0 #f5b867' : lineBot ? 'inset 0 -2px 0 #f5b867' : 'none',
+              opacity: s.dragId === i.id ? 0.4 : 1,
+              onDragStart: e => { e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', i.t); } catch (x) {} this.setState({ dragId: i.id }); },
+              onDragEnd: () => this.setState({ dragId: null, over: null }),
+              onDragOver: e => { if (!s.dragId) return; e.preventDefault(); e.stopPropagation(); const r = e.currentTarget.getBoundingClientRect(); setOver(idx + (e.clientY > r.top + r.height / 2 ? 1 : 0)); },
+              onDrop: e => { if (!s.dragId) return; e.preventDefault(); e.stopPropagation(); this.move(s.dragId, c.id, s.over && s.over.cat === c.id ? s.over.idx : idx, visIds); },
+              moveTo: cats.filter(x => x.id !== c.id).map(x => ({ id: x.id, name: x.name })),
+              onMove: e => { const t = e.target.value; e.target.value = ''; if (t) { this.move(i.id, t, null, []); const n = cats.find(x => x.id === t); this.setState({}); } },
+              remove: () => { const d2 = { ...s.done }; delete d2[i.id]; if (i.custom) this.up({ custom: { ...s.custom, [c.id]: (s.custom[c.id] || []).filter(x => x.id !== i.id) }, done: d2 }); else this.up({ removed: { ...s.removed, [i.id]: true }, done: d2 }); }
+            };
+          })
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

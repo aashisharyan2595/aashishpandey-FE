@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Free URL Shortener with QR Code &amp; Custom Alias · Aashish Pandey</title>
+<meta name="description" content="Shorten any link to aashishpandey.com/s/…, pick a custom alias and expiry, and download a QR code. Free, no sign-up.">
+<link rel="canonical" href="https://aashishpandey.com/tools/url-shortener">
+<meta name="theme-color" content="#0b1030">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="site.js"></script>
+<style>
+html,body{margin:0;background:#0b0f24;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+a{color:#f5b867;text-decoration:none}
+a:hover{color:#fff6ea}
+::selection{background:#7ff3e1;color:#0b1030}
+:focus-visible{outline:2px solid #7ff3e1!important;outline-offset:3px!important}
+input::placeholder{color:#8a8372}
+</style>
+</helmet>
+<div id="top" style="min-height:100vh;background:#0b0f24;background-image:radial-gradient(rgba(255,236,210,.07) 1px,transparent 1px);background-size:28px 28px;color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;overflow-x:clip;display:flex;flex-direction:column;">
+  <nav style="position:sticky;top:0;z-index:5;background:rgba(11,15,36,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,236,210,.08);">
+    <div style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);height:64px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <a href="/tools" style="display:flex;align-items:center;gap:10px;color:#fff6ea;min-width:0;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-size:14px;color:#9a927f;white-space:nowrap;">Tools /</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap;">URL Shortener</span></a>
+      <div style="display:flex;gap:4px;align-items:center;padding:4px;border-radius:99px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.08);">
+        <a href="/case-studies" style="font-size:13.5px;font-weight:500;color:#cfc6b6;padding:7px 14px;border-radius:99px;" style-hover="color:#fff6ea;">Case studies</a>
+        <a href="/tools" style="font-size:13.5px;font-weight:500;color:#1a1420;padding:7px 14px;border-radius:99px;background:#f3ead9;">Tools</a>
+      </div>
+      <a href="/case-studies#pf-contact" style="height:38px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:99px;background:#f5b867;color:#1a1420;font-size:13.5px;font-weight:600;white-space:nowrap;flex-shrink:0;" style-hover="background:#ffc880;color:#1a1420;"><span style="width:7px;height:7px;border-radius:50%;background:#1f7a63;box-shadow:0 0 0 3px rgba(31,122,99,.25);"></span>Hire me</a>
+    </div>
+  </nav>
+  <main style="flex:1;width:100%;max-width:920px;margin:0 auto;box-sizing:border-box;padding:clamp(40px,7vw,88px) clamp(18px,4vw,40px) clamp(56px,8vw,96px);display:flex;flex-direction:column;gap:clamp(28px,4vw,40px);">
+    <header style="display:flex;flex-direction:column;gap:16px;">
+      <h1 style="margin:0;font-weight:600;font-size:clamp(40px,6vw,72px);line-height:.98;letter-spacing:-.04em;color:#fff6ea;text-wrap:balance;">Shorten a link. <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;letter-spacing:-.02em;color:#f5b867;">Share it anywhere.</span></h1>
+      <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:560px;color:#cfc6b6;text-wrap:pretty;">Short links on aashishpandey.com/s/, with a custom alias, an expiry date and a QR code. No sign-up.</p>
+    </header>
+    <form onSubmit="{{ submit }}" style="border-radius:28px;background:linear-gradient(180deg,rgba(255,236,210,.06),rgba(255,236,210,.02));border:1px solid rgba(255,236,210,.12);padding:clamp(16px,2.6vw,24px);display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <label style="flex:1 1 320px;min-width:0;height:58px;display:flex;align-items:center;gap:12px;padding:0 18px;border-radius:16px;background:#0e1330;border:1px solid rgba(255,236,210,.14);color:#9a927f;">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          <input type="url" required="required" value="{{ url }}" onChange="{{ onUrl }}" placeholder="Paste a long link, e.g. https://…" aria-label="Link to shorten" style="flex:1;min-width:0;height:100%;border:none;outline:none;background:none;color:#fff6ea;font-family:inherit;font-size:16.5px;"></input>
+        </label>
+        <button type="submit" disabled="{{ loading }}" style="height:58px;padding:0 26px;display:flex;align-items:center;justify-content:center;gap:9px;border-radius:16px;border:none;background:#f5b867;color:#1a1420;font-family:inherit;font-size:15.5px;font-weight:600;cursor:pointer;flex:0 0 auto;" style-hover="background:#ffc880;">{{ submitLabel }}<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;">
+        <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:8px;">
+          <span style="font-size:12.5px;font-weight:600;color:#9a927f;">Custom alias <span style="font-weight:400;">(optional)</span></span>
+          <label style="height:44px;display:flex;align-items:center;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);overflow:hidden;">
+            <span style="padding:0 4px 0 14px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9a927f;white-space:nowrap;">aashishpandey.com/s/</span>
+            <input value="{{ alias }}" onChange="{{ onAlias }}" placeholder="my-link" maxlength="32" aria-label="Custom alias" style="flex:1;min-width:0;height:100%;border:none;outline:none;background:none;color:#fff6ea;font-family:'JetBrains Mono',monospace;font-size:13.5px;padding-right:14px;"></input>
+          </label>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-size:12.5px;font-weight:600;color:#9a927f;">Expires after</span>
+          <div role="radiogroup" aria-label="Expiry" style="display:flex;padding:3px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);gap:2px;">
+            <sc-for list="{{ expiries }}" as="x" hint-placeholder-count="4">
+              <sc-if value="{{ x.on }}" hint-placeholder-val="{{ false }}">
+                <button type="button" role="radio" aria-checked="true" onClick="{{ x.pick }}" style="height:36px;padding:0 13px;border-radius:9px;border:none;background:#f3ead9;color:#1a1420;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">{{ x.label }}</button>
+              </sc-if>
+              <sc-if value="{{ x.off }}" hint-placeholder-val="{{ true }}">
+                <button type="button" role="radio" aria-checked="false" onClick="{{ x.pick }}" style="height:36px;padding:0 13px;border-radius:9px;border:none;background:none;color:#cfc6b6;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;" style-hover="color:#fff6ea;">{{ x.label }}</button>
+              </sc-if>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+        <div role="alert" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:rgba(231,111,81,.12);border:1px solid rgba(231,111,81,.3);color:#ffb4a2;font-size:14.5px;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>{{ error }}</div>
+      </sc-if>
+    </form>
+    <sc-if value="{{ hasResult }}" hint-placeholder-val="{{ false }}">
+      <section aria-label="Your short link" style="border-radius:28px;background:#f3ead9;color:#1c1a22;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(20px,3vw,36px);align-items:center;box-shadow:0 30px 80px rgba(0,0,0,.35);">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+            <span style="display:flex;align-items:center;gap:7px;padding:5px 10px;border-radius:99px;background:rgba(31,122,99,.12);color:#1f7a63;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;"><span style="width:6px;height:6px;border-radius:50%;background:#1f7a63;"></span>Link ready</span>
+            <sc-if value="{{ result.preview }}" hint-placeholder-val="{{ false }}"><span title="The API isn’t reachable here, so this link was generated locally and won’t redirect yet." style="padding:5px 10px;border-radius:99px;background:#e8e1d4;color:#5a5560;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;">Preview mode</span></sc-if>
+          </div>
+          <a href="{{ result.short }}" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:clamp(20px,2.6vw,28px);font-weight:500;line-height:1.2;color:#1c1a22;word-break:break-all;" style-hover="color:#9a5418;">{{ result.display }}</a>
+          <span style="font-size:14px;line-height:1.5;color:#5a5560;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">→ {{ result.url }}</span>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <button type="button" onClick="{{ copyResult }}" style="height:42px;padding:0 18px;display:flex;align-items:center;gap:8px;border-radius:12px;border:none;background:#1c1a22;color:#f3ead9;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;" style-hover="background:#0b0f24;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>{{ copyLabel }}</button>
+            <button type="button" onClick="{{ shareResult }}" style="height:42px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:12px;border:1px solid rgba(28,26,34,.16);background:none;color:#1c1a22;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;" style-hover="border-color:#9a5418;color:#9a5418;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" x2="12" y1="2" y2="15"></line></svg>Share</button>
+            <a href="{{ result.short }}" target="_blank" rel="noopener" style="height:42px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:12px;border:1px solid rgba(28,26,34,.16);color:#1c1a22;font-size:14px;font-weight:600;" style-hover="border-color:#9a5418;color:#9a5418;">Open<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;color:#6a6470;">Expires {{ result.expiresLabel }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;justify-self:center;">
+          <div style="width:196px;height:196px;padding:14px;border-radius:20px;background:#ffffff;box-shadow:0 1px 3px rgba(28,26,34,.1);box-sizing:content-box;">
+            {{ qrImg }}
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button type="button" onClick="{{ dlPng }}" style="height:34px;padding:0 13px;border-radius:10px;border:1px solid rgba(28,26,34,.16);background:none;color:#1c1a22;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;" style-hover="border-color:#9a5418;color:#9a5418;">QR · PNG</button>
+            <button type="button" onClick="{{ dlSvg }}" style="height:34px;padding:0 13px;border-radius:10px;border:1px solid rgba(28,26,34,.16);background:none;color:#1c1a22;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;" style-hover="border-color:#9a5418;color:#9a5418;">QR · SVG</button>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+    <section aria-label="Your recent links" style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+        <h2 style="margin:0;font-weight:600;font-size:22px;letter-spacing:-.025em;color:#fff6ea;">Your links</h2>
+        <span style="font-size:13px;color:#9a927f;">Saved in this browser only</span>
+      </div>
+      <sc-if value="{{ noHistory }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:28px 20px;border-radius:20px;border:1px dashed rgba(255,236,210,.16);text-align:center;font-size:14.5px;line-height:1.6;color:#9a927f;">Links you shorten here show up in this list.</div>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;border-radius:20px;overflow:hidden;border:1px solid rgba(255,236,210,.1);">
+        <sc-for list="{{ history }}" as="h" hint-placeholder-count="0">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 16px;background:rgba(255,236,210,.03);border-bottom:1px solid rgba(255,236,210,.08);">
+            <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+              <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+                <a href="{{ h.short }}" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:14.5px;color:#fff6ea;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" style-hover="color:#f5b867;">{{ h.display }}</a>
+                <span style="flex-shrink:0;padding:3px 8px;border-radius:99px;background:{{ h.badgeBg }};color:{{ h.badgeFg }};font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;">{{ h.status }}</span>
+              </div>
+              <span style="font-size:13px;color:#9a927f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ h.url }}</span>
+            </div>
+            <div style="display:flex;gap:4px;">
+              <button type="button" onClick="{{ h.copy }}" aria-label="Copy short link" title="Copy" style="width:36px;height:36px;border-radius:10px;border:none;background:none;color:#cfc6b6;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);color:#fff6ea;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+              <button type="button" onClick="{{ h.show }}" aria-label="Show QR code" title="QR code" style="width:36px;height:36px;border-radius:10px;border:none;background:none;color:#cfc6b6;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);color:#fff6ea;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="5" height="5" x="3" y="3" rx="1"></rect><rect width="5" height="5" x="16" y="3" rx="1"></rect><rect width="5" height="5" x="3" y="16" rx="1"></rect><path d="M21 16h-3a2 2 0 0 0-2 2v3"></path><path d="M21 21v.01"></path><path d="M12 7v3a2 2 0 0 1-2 2H7"></path><path d="M3 12h.01"></path><path d="M12 3h.01"></path><path d="M12 16v.01"></path><path d="M16 12h1"></path><path d="M21 12v.01"></path><path d="M12 21v-1"></path></svg></button>
+              <button type="button" onClick="{{ h.remove }}" aria-label="Remove from history" title="Remove from this list" style="width:36px;height:36px;border-radius:10px;border:none;background:none;color:#9a927f;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,236,210,.08);color:#ffb4a2;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+    <p style="margin:0;display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.6;color:#9a927f;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;margin-top:3px;"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span>Up to 5 links an hour. Links to other shorteners, IP addresses and known phishing patterns are blocked. Expired links stop redirecting.</span></p>
+  </main>
+<footer style="border-top:1px solid rgba(255,236,210,.08);background:rgba(6,9,24,.6);">
+    <div style="max-width:1160px;margin:0 auto;padding:clamp(40px,6vw,64px) clamp(18px,4vw,40px) 24px;display:flex;flex-direction:column;gap:clamp(32px,5vw,48px);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:32px 24px;">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0;grid-column:span 1;">
+          <a href="/case-studies" style="display:flex;align-items:center;gap:10px;color:#fff6ea;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;">Aashish Pandey</span></a>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#9a927f;max-width:260px;">Project Manager and Creative Technologist in Bangalore. 50+ sites and platforms shipped since 2018.</p>
+          <span style="align-self:flex-start;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.22);font-size:12.5px;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Open to PM roles &amp; freelance</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Tools</span><a href="/tools/pad" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Online Notepad</a><a href="/tools/url-shortener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">URL Shortener</a><a href="/tools/image-resizer" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Image Resizer</a><a href="/tools/lorem-ipsum-generator" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Lorem Ipsum Generator</a><a href="/tools/website-launch-checklist" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Launch Checklist</a><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">QR Code Generator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">llms.txt Generator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">Estimate Calculator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Site</span><a href="/" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">The 3D ride</a><a href="/case-studies" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Case studies</a><a href="/how-this-site-was-built" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">How this site was built</a><a href="/tools" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">All tools</a><a href="assets/Aashish-Pandey-Resume.pdf" download="" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Résumé ↓</a></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Connect</span><a href="mailto:hello@aashishpandey.com" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">hello@aashishpandey.com</a><a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">LinkedIn ↗</a><a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">WhatsApp ↗</a><a href="https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;" style-hover="color:#fff6ea;">Book a 20-min call ↗</a></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:20px;border-top:1px solid rgba(255,236,210,.08);font-size:13px;color:#8a8372;">
+        <span>© 2026 Aashish Pandey · Bangalore, India</span>
+        <a href="#top" style="color:#8a8372;" style-hover="color:#fff6ea;">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;top:78px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:9px;padding:10px 16px;border-radius:12px;background:#f3ead9;color:#1a1420;font-size:13.5px;font-weight:600;box-shadow:0 16px 40px rgba(0,0,0,.4);white-space:nowrap;"><span style="width:7px;height:7px;border-radius:50%;background:#1f7a63;"></span>{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultExpiry&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;1d&quot;,&quot;7d&quot;,&quot;30d&quot;,&quot;90d&quot;,&quot;1y&quot;],&quot;default&quot;:&quot;30d&quot;,&quot;tsType&quot;:&quot;'1d'|'7d'|'30d'|'90d'|'1y'&quot;,&quot;section&quot;:&quot;Shortener&quot;}}">
+const HKEY = 'ap-short:v1';
+const EXP = [['1d', '1 day', 864e5], ['7d', '7 days', 6048e5], ['30d', '30 days', 2592e6], ['90d', '90 days', 7776e6], ['1y', '1 year', 31536e6]];
+const ALPHA = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const rnd = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => ALPHA[b % ALPHA.length]).join('');
+const fmtDate = ts => new Date(ts).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+function qrMatrix(text) {
+  if (!window.qrcode) return null;
+  const q = window.qrcode(0, 'M'); q.addData(text); q.make();
+  const n = q.getModuleCount(), m = [];
+  for (let r = 0; r < n; r++) { m.push([]); for (let c = 0; c < n; c++) m[r].push(q.isDark(r, c)); }
+  return m;
+}
+function qrSvg(text, fg = '#0b0f24') {
+  const m = qrMatrix(text); if (!m) return '';
+  const n = m.length, pad = 2; let d = '';
+  m.forEach((row, r) => row.forEach((on, c) => { if (on) d += `M${c + pad} ${r + pad}h1v1h-1z`; }));
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n + pad * 2} ${n + pad * 2}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="${fg}"/></svg>`;
+}
+const svgUri = s => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+function save(name, blob) { const u = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = u; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(u), 1000); }
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    let h = []; try { h = JSON.parse(localStorage.getItem(HKEY)) || []; } catch (e) {}
+    this.state = { url: '', alias: '', expires: this.props.defaultExpiry ?? '30d', loading: false, error: '', result: null, history: h, copied: false, toast: '', qrReady: !!window.qrcode };
+  }
+  componentDidMount() {
+    if (!window.qrcode) this.qrT = setInterval(() => { if (window.qrcode) { clearInterval(this.qrT); this.setState({ qrReady: true }); } }, 150);
+  }
+  componentWillUnmount() { clearInterval(this.qrT); clearTimeout(this.toastT); clearTimeout(this.copyT); }
+  flash(msg) { this.setState({ toast: msg }); clearTimeout(this.toastT); this.toastT = setTimeout(() => this.setState({ toast: '' }), 2000); }
+  saveHistory(history) { this.setState({ history }); try { localStorage.setItem(HKEY, JSON.stringify(history.slice(0, 50))); } catch (e) {} }
+  localCheck(raw, alias) {
+    let u; try { u = new URL(raw.trim()); } catch (e) { return 'That doesn’t look like a full link. Include https://'; }
+    if (!/^https?:$/.test(u.protocol)) return 'Only http and https links can be shortened.';
+    if (/(^|\.)aashishpandey\.com$/.test(u.hostname)) return 'That link is already on aashishpandey.com.';
+    if (alias && !/^[A-Za-z0-9_-]{3,32}$/.test(alias)) return 'Aliases use 3–32 letters, numbers, - or _.';
+    return null;
+  }
+  submit = async (e) => {
+    e && e.preventDefault();
+    const { url, alias, expires } = this.state;
+    const err = this.localCheck(url, alias.trim());
+    if (err) return this.setState({ error: err });
+    this.setState({ loading: true, error: '' });
+    let rec = null;
+    try {
+      const r = await fetch('/api/shorten', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: url.trim(), alias: alias.trim() || undefined, expires }) });
+      const ct = r.headers.get('content-type') || '';
+      if (!ct.includes('json')) throw new Error('no-api');
+      const j = await r.json();
+      if (!r.ok) { this.setState({ loading: false, error: j.error || 'Something went wrong.' }); return; }
+      rec = { ...j, created: Date.now() };
+    } catch (e2) {
+      const code = alias.trim() || rnd(6), ms = EXP.find(x => x[0] === expires)[2];
+      rec = { code, short: 'https://aashishpandey.com/s/' + code, url: new URL(url.trim()).href, expiresAt: Date.now() + ms, created: Date.now(), preview: true };
+    }
+    this.saveHistory([rec, ...this.state.history.filter(h => h.code !== rec.code)]);
+    this.setState({ loading: false, result: rec, url: '', alias: '', copied: false });
+    if (window.apTrack) window.apTrack('short_link_created', { alias: !!alias, expires });
+  };
+  async copy(text, isResult) {
+    try { await navigator.clipboard.writeText(text); } catch (e) { prompt('Copy this link:', text); return; }
+    if (isResult) { this.setState({ copied: true }); clearTimeout(this.copyT); this.copyT = setTimeout(() => this.setState({ copied: false }), 1800); }
+    else this.flash('Copied');
+  }
+  async share(rec) {
+    if (navigator.share) { try { await navigator.share({ url: rec.short }); } catch (e) {} } else this.copy(rec.short, true);
+  }
+  dl(kind) {
+    const r = this.state.result; if (!r) return;
+    const svg = qrSvg(r.short), name = 'qr-' + r.code;
+    if (kind === 'svg') return save(name + '.svg', new Blob([svg], { type: 'image/svg+xml' }));
+    const img = new Image(); img.onload = () => { const c = document.createElement('canvas'); c.width = c.height = 1024; const x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(img, 0, 0, 1024, 1024); c.toBlob(b => save(name + '.png', b)); };
+    img.src = svgUri(svg);
+  }
+  renderVals() {
+    const s = this.state, now = Date.now(), r = s.result;
+    const disp = u => u.replace(/^https?:\/\//, '');
+    return {
+      submit: this.submit, loading: s.loading, submitLabel: s.loading ? 'Shortening…' : 'Shorten',
+      url: s.url, onUrl: e => this.setState({ url: e.target.value, error: '' }),
+      alias: s.alias, onAlias: e => this.setState({ alias: e.target.value.replace(/[^A-Za-z0-9_-]/g, ''), error: '' }),
+      expiries: EXP.map(([k, l]) => ({ label: l, on: s.expires === k, off: s.expires !== k, pick: () => this.setState({ expires: k }) })),
+      hasError: !!s.error, error: s.error,
+      hasResult: !!r,
+      result: r ? { ...r, display: disp(r.short), expiresLabel: fmtDate(r.expiresAt), preview: !!r.preview, qr: s.qrReady ? svgUri(qrSvg(r.short)) : '' } : { preview: false },
+      qrImg: r && s.qrReady ? React.createElement('img', { src: svgUri(qrSvg(r.short)), alt: 'QR code for ' + disp(r.short), width: 196, height: 196, style: { display: 'block', width: 196, height: 196 } }) : null,
+      copyLabel: s.copied ? 'Copied' : 'Copy', copyResult: () => r && this.copy(r.short, true), shareResult: () => r && this.share(r),
+      dlPng: () => this.dl('png'), dlSvg: () => this.dl('svg'),
+      noHistory: !s.history.length,
+      history: s.history.map(h => {
+        const left = h.expiresAt - now, days = Math.ceil(left / 864e5), exp = left <= 0;
+        return {
+          short: h.short, display: disp(h.short), url: h.url,
+          status: exp ? 'Expired' : days <= 1 ? 'Expires today' : days + ' days left',
+          badgeBg: exp ? 'rgba(231,111,81,.14)' : 'rgba(127,243,225,.1)', badgeFg: exp ? '#ffb4a2' : '#7ff3e1',
+          copy: () => this.copy(h.short), show: () => { this.setState({ result: h, copied: false }); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+          remove: () => this.saveHistory(s.history.filter(x => x.code !== h.code))
+        };
+      }),
+      hasToast: !!s.toast, toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
