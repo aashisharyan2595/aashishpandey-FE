@@ -15,6 +15,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | `Portfolio.dc.html` | Home page, the 3D ride |
 | `Proof-v2.dc.html` | `/portfolio` (client sites, career, toolkit, contact) |
 | `Case-Studies.dc.html` | `/case-studies` (listing of the four case studies) |
+| `Shopify-Developer`, `Full-Stack-Developer`, `SEO-Consultant`, `UI-UX-Design`, `Tech-Consultant` (`.dc.html`) | The five service pages, each with a visible FAQ and matching `FAQPage` markup |
 | `Work-*.dc.html` | The four case-study pages |
 | `How-This-Site-Was-Built.dc.html` | Build write-up |
 | `Tools-*.dc.html` | `/tools` hub and five tools |
@@ -23,7 +24,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | `support.js` | The page runtime. Don't edit |
 | `world-v6.js`, `audio-v3.js` | Active 3D world and audio. `world-v2/v3/v4.js` and `audio-v2.js` are old copies kept for rollback |
 | `api/` | Shortener backend |
-| `scripts/` | Prerender build step |
+| `scripts/` | `prerender.cjs` (build step), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`) |
 | `assets/` | Images, résumé PDF, favicons, OG image |
 | `vercel.json` | Build command, redirects, rewrites, headers |
 | `sitemap.xml`, `robots.txt`, `llms.txt` | Search and AI crawler files |
@@ -125,10 +126,11 @@ Pushing to `main` deploys to production. There are also `staging`, `redesign` an
 1. Create `Something.dc.html`. Copy the `<head>` from a similar page (title, description, canonical, OG tags).
 2. Add a rewrite in `vercel.json`, for example `/something` → `/Something.dc.html`.
 3. Add the same route to `ROUTES` in `site.js` so local preview works.
-4. Add the URL to `sitemap.xml` and `llms.txt`.
+4. Add the page to the list in `scripts/sitemap.cjs` and to `llms.txt`, then run `node scripts/sitemap.cjs`. Dates in the sitemap only move when a page's content really changes, so run it before every commit that edits a page.
 5. **Use absolute paths** for scripts and assets: `/site.js`, `/support.js`, `/assets/...`. A page served from a nested URL like `/tools/pad` breaks with relative paths, because `support.js` would be requested from `/tools/support.js`.
 6. Prerender is opt-in. Only add `<div id="ap-pre"></div><!-- /ap-pre -->` if the page also has code that removes `#ap-pre` on load (see `Proof-v2.dc.html`). Otherwise the static copy stays on the page and everything shows twice.
-7. Test the real URL, not just the file, then push.
+7. Add a share image: add a card to `ITEMS` in `scripts/make-og.py`, run it, and point `og:image` at the new file in `assets/og/`.
+8. Test the real URL, not just the file, then push.
 
 ## 10. Checks after any deploy or move
 

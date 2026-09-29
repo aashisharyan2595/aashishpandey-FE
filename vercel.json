@@ -145,6 +145,22 @@
       "destination": "/Case-Studies.dc.html"
     },
     {
+      "source": "/tech-consultant",
+      "destination": "/Tech-Consultant.dc.html"
+    },
+    {
+      "source": "/ui-ux-design",
+      "destination": "/UI-UX-Design.dc.html"
+    },
+    {
+      "source": "/seo-consultant",
+      "destination": "/SEO-Consultant.dc.html"
+    },
+    {
+      "source": "/full-stack-developer",
+      "destination": "/Full-Stack-Developer.dc.html"
+    },
+    {
       "source": "/shopify-developer",
       "destination": "/Shopify-Developer.dc.html"
     },

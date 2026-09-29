@@ -8,7 +8,11 @@
 - [Case Studies](https://aashishpandey.com/case-studies): the four programs I delivered, with results.
 - [How this site was built](https://aashishpandey.com/how-this-site-was-built): build guide for the 3D motorcycle-ride portfolio (Three.js, WebGL, Web Audio).
 - [Home](https://aashishpandey.com/): the interactive 3D ride.
-- [Shopify developer](https://aashishpandey.com/shopify-developer): Shopify development and project management, with the 15-market Liquid I.V. rollout as the main example.
+- [Shopify developer](https://aashishpandey.com/shopify-developer): Shopify developer and project manager in Bangalore. A 15-market Shopify rollout for Liquid I.V. (Unilever), custom stores, SEO and launch support.
+- [Full-stack developer](https://aashishpandey.com/full-stack-developer): Full-stack developer in Bangalore: custom CMS and eCommerce, WordPress, Shopify and Webflow builds, and CI/CD with Docker and GitHub Actions. Open to freelance briefs.
+- [SEO consultant](https://aashishpandey.com/seo-consultant): SEO consultant in Bangalore: technical SEO, hreflang for multi-market sites, GEO for AI search and Search Console reporting, from StoryNest to Liquid I.V.
+- [UI and UX design](https://aashishpandey.com/ui-ux-design): UI and UX design that ships inside a launch, from a 20-day Talenti Canada site to NSKT Global. Project manager and developer who designs when a project needs it.
+- [Tech consultant](https://aashishpandey.com/tech-consultant): Technology consultant in Bangalore: solution architecture, vendor handovers with zero downtime, managed-support models and digital transformation consulting.
 - [Free tools](https://aashishpandey.com/tools): small browser tools I built: online notepad, URL shortener with QR codes, image resizer, lorem ipsum generator and launch checklists.
 
 ## Selected work

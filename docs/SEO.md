@@ -1,5 +1,7 @@
 # SEO checklist
 
+The full item-by-item status against the SEO & Keyword Plan is in `SEO-CHECKLIST.md`.
+
 What the repo already does, and what only you can do outside it. Nobody can guarantee a #1 ranking. These steps make it more likely and faster.
 
 ## In the repo (done)
