@@ -161,6 +161,10 @@
       "destination": "/SEO-Consultant.dc.html"
     },
     {
+      "source": "/wordpress-webflow-developer",
+      "destination": "/Wordpress-Webflow-Developer.dc.html"
+    },
+    {
       "source": "/full-stack-developer",
       "destination": "/Full-Stack-Developer.dc.html"
     },

@@ -16,17 +16,17 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | `Proof-v2.dc.html` | `/portfolio` (client sites, career, toolkit, contact) |
 | `Services.dc.html` | `/services` hub linking to every service page |
 | `Case-Studies.dc.html` | `/case-studies` (listing of the four case studies) |
-| `Shopify-Developer`, `Full-Stack-Developer`, `SEO-Consultant`, `UI-UX-Design`, `Tech-Consultant` (`.dc.html`) | The five service pages, each with a visible FAQ and matching `FAQPage` markup |
+| `Shopify-Developer`, `Full-Stack-Developer`, `Wordpress-Webflow-Developer`, `SEO-Consultant`, `UI-UX-Design`, `Tech-Consultant` (`.dc.html`) | The six service pages, each with a visible FAQ and matching `FAQPage` markup |
 | `Work-*.dc.html` | The four case-study pages |
 | `How-This-Site-Was-Built.dc.html` | Build write-up |
-| `Tools-*.dc.html` | `/tools` hub and five tools |
+| `Tools-*.dc.html` | `/tools` hub and seven tools (notepad, URL shortener, image resizer, lorem ipsum, launch checklist, QR code generator `Tools-QR`, QR code checker `Tools-QR-Check`) |
 | `404.html` | Not-found page |
 | `site.js` | Analytics, click tracking, dev-preview routing |
 | `support.js` | The page runtime. Don't edit |
 | `world-v6.js`, `audio-v3.js` | Active 3D world and audio. `world-v2/v3/v4.js` and `audio-v2.js` are old copies kept for rollback |
 | `api/` | Shortener backend |
 | `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`), `nav.cjs` (writes the shared header into every static page; the styles are in `assets/nav.css`, bump `?v=` in the pages when you change it), `checklist-static.cjs` (regenerates the crawlable list of checks inside the launch checklist page; run it after editing the checks) |
-| `assets/` | Images, résumé PDF, favicons, OG image |
+| `assets/` | Images, résumé PDF, favicons, OG image. `assets/vendor/` holds two third-party libraries used by the QR tools: `qrcode.js` (qrcode-generator 1.4.4, MIT) and `jsQR.min.js` (jsQR 1.4.0, Apache-2.0). Both are copied in so the tools do not depend on a CDN |
 | `vercel.json` | Build command, redirects, rewrites, headers |
 | `sitemap.xml`, `robots.txt`, `llms.txt` | Search and AI crawler files |
 
@@ -127,10 +127,10 @@ Pushing to `main` deploys to production. There are also `staging`, `redesign` an
 1. Create `Something.dc.html`. Copy the `<head>` from a similar page (title, description, canonical, OG tags), then add the page to `PAGES` in `scripts/nav.cjs` and run it so the header matches the rest of the site.
 2. Add a rewrite in `vercel.json`, for example `/something` → `/Something.dc.html`.
 3. Add the same route to `ROUTES` in `site.js` so local preview works.
-4. Add the page to the list in `scripts/sitemap.cjs` and to `llms.txt`, then run `node scripts/sitemap.cjs`. Dates in the sitemap only move when a page's content really changes, so run it before every commit that edits a page.
+4. Add the page to the list in `scripts/sitemap.cjs` and to `llms.txt`, then run `node scripts/sitemap.cjs`. Dates in the sitemap only move when a page's content really changes, so run it before every commit that edits a page. The visible "Updated" date on each case study is typed by hand: change it, and `dateModified` in that page's JSON-LD, whenever you edit the case study.
 5. **Use absolute paths** for scripts and assets: `/site.js`, `/support.js`, `/assets/...`. A page served from a nested URL like `/tools/pad` breaks with relative paths, because `support.js` would be requested from `/tools/support.js`.
 6. Any page with `{{ }}` bindings needs the `#ap-pre` placeholder (`<div id="ap-pre"></div><!-- /ap-pre -->`) **and** the line `const pre = document.getElementById('ap-pre'); pre && pre.remove();` in its component's `componentDidMount`. The build refuses to strip a bound template from a page without the placeholder. Prerender is opt-in. Only add `<div id="ap-pre"></div><!-- /ap-pre -->` if the page also has code that removes `#ap-pre` on load (see `Proof-v2.dc.html`). Otherwise the static copy stays on the page and everything shows twice.
-7. Add a share image: add a card to `ITEMS` in `scripts/make-og.py`, run it, and point `og:image` at the new file in `assets/og/`.
+7. Add a share image: add a card to `ITEMS` in `scripts/make-og.py`, run it, and point `og:image` at the new file in `assets/og/`. Add matching `og:image:alt` and `twitter:image:alt` tags. Keep the title under about 60 characters and the description under about 155.
 8. Test the real URL, not just the file, then push.
 
 ## 10. Checks after any deploy or move

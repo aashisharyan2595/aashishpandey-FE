@@ -9,6 +9,7 @@
     '/ui-ux-design': 'UI-UX-Design.dc.html',
     '/seo-consultant': 'SEO-Consultant.dc.html',
     '/full-stack-developer': 'Full-Stack-Developer.dc.html',
+    '/wordpress-webflow-developer': 'Wordpress-Webflow-Developer.dc.html',
     '/shopify-developer': 'Shopify-Developer.dc.html',
     '/how-this-site-was-built': 'How-This-Site-Was-Built.dc.html',
     '/work-liquid-iv': 'Work-Liquid-IV.dc.html',

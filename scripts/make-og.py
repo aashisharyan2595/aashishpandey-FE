@@ -69,6 +69,7 @@ ITEMS = [
     ('services', SVC, 'Services', 'Development, UI, SEO and tech consulting', None, ('PM', 'DEV', 'UI', 'SEO'), 170),
     ('svc-shopify', SVC, 'Shopify developer', 'And the project manager who ships it. Bangalore.', None, ('PM', 'DEV', 'SEO'), 110),
     ('svc-full-stack', SVC, 'Full-stack developer', 'CMS, eCommerce and CI/CD, with delivery built in.', None, ('PM', 'DEV'), 110),
+    ('svc-wordpress-webflow', SVC, 'WordPress & Webflow', 'Sites, plugins and the project around them.', None, ('DEV', 'PM', 'SEO'), 110),
     ('svc-seo', SVC, 'SEO consultant', 'Technical, multi-market and AI-search SEO.', None, ('SEO', 'PM'), 120),
     ('svc-ui-ux', SVC, 'UI and UX design', 'Design that ships inside a launch.', None, ('UI', 'PM'), 120),
     ('svc-tech', SVC, 'Tech consultant', 'Solution architecture and vendor handovers.', None, ('DEV', 'PM'), 120),

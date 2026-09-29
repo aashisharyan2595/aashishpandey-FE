@@ -9,7 +9,7 @@ The plan assumes a Vue setup ("v-cloak", "Nuxt/Vite SSG"). This site uses a smal
 ## Top 5 priorities
 
 - [x] **1. Make the homepage and tool pages readable without JavaScript.** Done. Every page's title, description, canonical, robots, Open Graph and structured data are in the raw HTML, and a new build step (`scripts/externalize.cjs`) moves each dynamic page's template out of the served HTML. The raw source of all 16 pages now has zero `{{ }}`. The homepage ships a plain intro naming the four roles, three proof points and links to the main pages. Caveat: the tool pages' static copy is just their interface labels, so they still need real explanatory text (see "Tool pages have almost no explanatory text").
-- [~] **2. `/services` hub with one page per offer.** The `/services` hub exists and links to `/shopify-developer`, `/full-stack-developer`, `/seo-consultant`, `/ui-ux-design`, `/tech-consultant` and `/portfolio`, with a "How I work" section. Missing: `/wordpress-webflow-developer`, and the pricing ranges the plan suggests (no figures on the site to base them on).
+- [~] **2. `/services` hub with one page per offer.** The `/services` hub links to `/shopify-developer`, `/full-stack-developer`, `/wordpress-webflow-developer`, `/seo-consultant`, `/ui-ux-design`, `/tech-consultant` and `/portfolio`, with a "How I work" section. Missing: the pricing ranges the plan suggests (no figures on the site to base them on).
 - [ ] **3. Turn `/portfolio` into the full-time hiring page.** Title is still "Portfolio · Aashish Pandey, Project Manager in Bangalore". Needs the H1 "Project and program manager for digital and e-commerce teams", a "Roles I'm open to" section (job titles, team sizes, budgets, Jira, Zoho Sprints, GA4), and a clear split between "Hire me full-time" and "Work with me freelance".
 - [x] **4. Retitle case studies with keywords and tag the roles they prove.** All four done. Each has a keyword title, the old line kept as a subtitle, and role tags on the case study page, the listing and the `/portfolio` cards.
 - [~] **5. `Person` and `ProfessionalService` schema, plus directory listings.** Schema done (see technical fix 3). Directory listings are YOU: Clutch, the Shopify Partner directory, Upwork and similar.
@@ -28,7 +28,7 @@ The plan assumes a Vue setup ("v-cloak", "Nuxt/Vite SSG"). This site uses a smal
 ## Keyword map: target pages
 
 - [~] Brand and name terms → homepage and `/portfolio`. Pages exist and carry the name. See titles below.
-- [ ] `/wordpress-webflow-developer` (new).
+- [x] `/wordpress-webflow-developer` (new). Built only from what the site already states: the Bytzsoft, ACCESS Health International and Royal Arc WordPress sites (including the 50,000-PDF plugin) and the Knowledge Units Webflow site, where the recorded role is project management, SEO and support, not the build. Add Webflow build work here if you have it.
 - [x] `/full-stack-developer` (new).
 - [x] `/shopify-developer`. Not yet covered: articles, and the India terms the plan suggests (Razorpay, UPI, COD, Shiprocket, D2C) "where true". Only add them if you have really worked with them.
 - [x] `/seo-consultant` (new).
@@ -36,8 +36,9 @@ The plan assumes a Vue setup ("v-cloak", "Nuxt/Vite SSG"). This site uses a smal
 - [x] `/tech-consultant` (new).
 - [x] Each `/work-*` page has a keyword title.
 - [ ] New case studies for JW Marriott, Westin Pune, Panchshil Realty and Zebronics. Needs your facts and permission to name the clients.
+- [x] Two tools from the ideas list are built: `/tools/qr-code-generator` (static codes that never expire) and `/tools/qr-code-checker` (shows whether a code is a dynamic redirect).
 - [x] `/tools/website-launch-checklist`: H1, intro, crawlable checklist items and the Shopify / ecommerce variant (it was already a template in the tool) are all in place.
-- [ ] `/tools/project-estimate-calculator` and `/tools/llms-txt-generator` (both "planned").
+- [ ] `/tools/project-estimate-calculator` and `/tools/llms-txt-generator` (both "planned"; the hub now shows only these two as "Soon").
 - [ ] Articles for the case-study proof and DevOps clusters (see content plan).
 
 ## On-page titles: plan versus current
@@ -65,10 +66,10 @@ The plan's titles put the buyer's search phrase first and mine put the role and 
 ## On every page
 
 - [x] One H1 with the main keyword on every page.
-- [~] A unique meta description written as a pitch with a number. Present on every page. Several are still long or lack a number, so review them.
-- [ ] Descriptive image alt text, and `og:image:alt` (currently missing on the case studies).
-- [~] Two or three contextual keyword links between related case studies and service pages. The service pages link to their case studies, but the case studies don't link back to the service pages yet.
-- [ ] A visible "Last updated" date on articles and case studies. (The dates are in the structured data, not shown on the page.)
+- [x] A unique meta description on every page, reviewed on 2026-09-29: none is cut off with "…" any more, and all are 157 characters or fewer. Titles over 60 characters remain only on pages in the DECIDE table (homepage, Shopify, tech consultant) and two case studies at 61–62.
+- [x] `og:image:alt` and `twitter:image:alt` on every indexable page. Content images already have descriptive alt text; the 182 empty `alt=""` are decorative logos and icons.
+- [x] Two contextual keyword links between related case studies and service pages, both ways. Each case study now has a "Related services" line above "More case studies".
+- [x] A visible "Updated 29 Sep 2026" date on the four case studies, matching `dateModified` in their structured data. It is typed by hand, so change both when you edit a case study.
 
 ## Technical fixes
 
@@ -78,9 +79,9 @@ The plan's titles put the buyer's search phrase first and mine put the role and 
 4. [x] **Sitemap dates.** `scripts/sitemap.cjs` (see `SETUP.md`). Run it before committing.
 5. [x] **Per-page OG images.** Generated by `scripts/make-og.py`.
 6. [x] **Canonicals on every tool page, shared notepad links `noindex`.** Notepad share links use a `#` fragment that search engines never see as a separate page. The page also switches on `noindex` when a shared note is open, as a safety net.
-7. [ ] **Core Web Vitals.** Not measured. The 3D homepage is heavy. Run PageSpeed Insights on mobile for `/` and record LCP and INP. Lazy-loading the 3D scene after the intro paints is not done.
+7. [~] **Core Web Vitals.** Measured on 2026-09-29 with Lighthouse (mobile, simulated slow 4G, lab data, not field data) on the live site: `/` performance 28 (LCP 9.3 s, blocking time 16.6 s, the 3D scene); `/portfolio` 62 (LCP 8.9 s, 2.3 MB of images); `/services` 68 (first paint 4.0 s); `/tools/qr-code-generator` 70 (first paint 3.6 s); `/work-liquid-iv` 89 (LCP 3.6 s). Layout shift is 0 on every page. Two causes on the static pages: the Google Fonts stylesheet blocks first paint (about 0.9 s), and the page runtime needs its script and React before anything shows. Lazy-loading the 3D scene after the intro paints is not done.
 8. [ ] **Search Console.** YOU: verify the domain, submit the sitemap, inspect the homepage and one tool page, and check the rendered HTML.
-9. [x] **Planned tools.** The three "Soon" cards on the tools hub are plain cards, not links, so no empty pages exist. Build them (or hide the cards) when ready.
+9. [x] **Planned tools.** The two remaining "Soon" cards on the tools hub are plain cards, not links, so no empty pages exist. Build them (or hide the cards) when ready.
 
 ## Content plan (a `/writing` or `/notes` section)
 
