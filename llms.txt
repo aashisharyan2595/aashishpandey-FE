@@ -8,6 +8,7 @@
 - [Case Studies](https://aashishpandey.com/case-studies): the four programs I delivered, with results.
 - [How this site was built](https://aashishpandey.com/how-this-site-was-built): build guide for the 3D motorcycle-ride portfolio (Three.js, WebGL, Web Audio).
 - [Home](https://aashishpandey.com/): the interactive 3D ride.
+- [Shopify developer](https://aashishpandey.com/shopify-developer): Shopify development and project management, with the 15-market Liquid I.V. rollout as the main example.
 - [Free tools](https://aashishpandey.com/tools): small browser tools I built: online notepad, URL shortener with QR codes, image resizer, lorem ipsum generator and launch checklists.
 
 ## Selected work

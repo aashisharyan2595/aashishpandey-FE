@@ -2,8 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://aashishpandey.com/</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-09-29</lastmod>
     <image:image><image:loc>https://aashishpandey.com/assets/og-image.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/me-portrait.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/portfolio</loc>
@@ -13,6 +14,10 @@
   </url>
   <url>
     <loc>https://aashishpandey.com/case-studies</loc>
+    <lastmod>2026-09-29</lastmod>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/shopify-developer</loc>
     <lastmod>2026-09-29</lastmod>
   </url>
   <url>

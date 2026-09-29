@@ -94,6 +94,41 @@
       "source": "/scripts/:path*",
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/about",
+      "destination": "/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/ride",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/field-notes",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/field-notes/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/work",
+      "destination": "/case-studies",
+      "permanent": true
+    },
+    {
+      "source": "/work/:slug",
+      "destination": "/case-studies",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -108,6 +143,10 @@
     {
       "source": "/case-studies",
       "destination": "/Case-Studies.dc.html"
+    },
+    {
+      "source": "/shopify-developer",
+      "destination": "/Shopify-Developer.dc.html"
     },
     {
       "source": "/how-this-site-was-built",

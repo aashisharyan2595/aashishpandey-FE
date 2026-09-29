@@ -4,6 +4,7 @@
     '/': 'Portfolio.dc.html',
     '/portfolio': 'Proof-v2.dc.html',
     '/case-studies': 'Case-Studies.dc.html',
+    '/shopify-developer': 'Shopify-Developer.dc.html',
     '/how-this-site-was-built': 'How-This-Site-Was-Built.dc.html',
     '/work-liquid-iv': 'Work-Liquid-IV.dc.html',
     '/work-talenti': 'Work-Talenti.dc.html',
