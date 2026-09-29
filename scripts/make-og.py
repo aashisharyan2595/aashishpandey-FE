@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generates the per-page Open Graph images (1200x630) into assets/og/.
-Run locally (needs Pillow and macOS system fonts): python3 scripts/make-og.py
+Uses scripts/logo-mark.png for the corner mark. Run locally (needs Pillow and macOS system fonts): python3 scripts/make-og.py
 Edit the ITEMS list to add or change a card. Not part of the Vercel build."""
 import os
 from PIL import Image, ImageDraw, ImageFont
@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 W, H = 1200, 630
 BG, CREAM, AMBER, MUTED = (11, 15, 36), (255, 246, 234), (245, 184, 103), (154, 146, 127)
 HN, MENLO, GEO_B, GEO_I = '/System/Library/Fonts/HelveticaNeue.ttc', '/System/Library/Fonts/Menlo.ttc', '/System/Library/Fonts/Supplemental/Georgia Bold.ttf', '/System/Library/Fonts/Supplemental/Georgia Italic.ttf'
+LOGO = Image.open(os.path.join(os.path.dirname(__file__), 'logo-mark.png')).convert('RGBA').resize((64, 64), Image.LANCZOS)
 out = os.path.join(os.path.dirname(__file__), '..', 'assets', 'og')
 os.makedirs(out, exist_ok=True)
 
@@ -28,8 +29,7 @@ def card(name, kind, big, sub, foot=None, roles=(), big_size=150):
     d = ImageDraw.Draw(im)
     for x in range(14, W, 28):
         for y in range(14, H, 28): d.point((x, y), fill=(34, 36, 56))
-    d.rounded_rectangle((64, 56, 128, 120), 18, fill=AMBER)
-    d.text((96, 88), 'AP', font=ImageFont.truetype(GEO_B, 34), fill=(26, 20, 32), anchor='mm')
+    im.paste(LOGO, (64, 56), LOGO)
     d.text((148, 88), 'Aashish Pandey', font=hn(30, 10), fill=CREAM, anchor='lm')
     d.text((W - 64, 88), kind.upper(), font=mono(20), fill=AMBER, anchor='rm')
     size = big_size
@@ -76,4 +76,20 @@ ITEMS = [
 ]
 for name, kind, big, sub, foot, roles, size in ITEMS:
     card('og-' + name, kind, big, sub, foot, roles, size)
+
+def default_card():
+    """The site-wide share image, built from the clean (blank-plate) ride artwork. Never use an older photo here."""
+    from PIL import ImageOps
+    src = Image.open(os.path.join(os.path.dirname(__file__), '..', 'assets', 'me-ride.webp')).convert('RGB')
+    im = ImageOps.fit(src, (W, H), Image.LANCZOS, centering=(0.5, 0.42))
+    shade = Image.new('RGBA', (W, H), (0, 0, 0, 0)); sd = ImageDraw.Draw(shade)
+    for y in range(H // 2, H):
+        sd.line((0, y, W, y), fill=(6, 9, 24, int(200 * ((y - H // 2) / (H / 2)) ** 1.6)))
+    im = Image.alpha_composite(im.convert('RGBA'), shade).convert('RGB')
+    d = ImageDraw.Draw(im)
+    d.text((64, H - 118), 'Aashish Pandey', font=ImageFont.truetype('/System/Library/Fonts/Supplemental/Georgia.ttf', 66), fill=CREAM, anchor='ls')
+    d.text((66, H - 62), 'PROJECT MANAGER · CREATIVE TECHNOLOGIST · BANGALORE', font=mono(21), fill=AMBER, anchor='ls')
+    im.save(os.path.join(out, '..', 'og-image.jpg'), quality=88, optimize=True)
+
+default_card()
 print('wrote', len(ITEMS), 'images to', os.path.normpath(out))

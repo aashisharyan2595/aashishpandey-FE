@@ -20,13 +20,13 @@ function header(o) {
   const crumb = o.crumb ? `<span class="ap-nav__crumb"><a href="/tools">Tools</a> / ${o.crumb}</span>` : '';
   const sub = o.sub ? `<div class="ap-nav__sub"><div class="ap-nav__subin">${SUB.map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</div></div>` : '';
   return `<!-- ap-nav:start -->\n<nav class="ap-nav" aria-label="Main"><div class="ap-nav__in">` +
-    `<a class="ap-nav__logo" href="/"><span class="ap-nav__badge">AP</span><span class="ap-nav__name">Aashish Pandey</span></a>${crumb}` +
+    `<a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a>${crumb}` +
     `<div class="ap-nav__pill">${LINKS.map(([h, t]) => a(h, t, o.current)).join('')}</div>` +
     `<div class="ap-nav__right"><a class="ap-nav__cta" href="/portfolio#pf-contact"><span class="ap-nav__dot"></span>Hire me</a>` +
     `<details class="ap-nav__menu"><summary>Menu</summary><div class="ap-nav__sheet">${LINKS.map(([h, t]) => a(h, t, o.current)).join('')}<hr>${MORE.map(([h, t]) => a(h, t)).join('')}</div></details></div>` +
     `</div>${sub}</nav>\n<!-- ap-nav:end -->`;
 }
-const CSS = '<link rel="stylesheet" href="/assets/nav.css?v=1">';
+const CSS = '<link rel="stylesheet" href="/assets/nav.css?v=2">';
 for (const [f, o] of Object.entries(PAGES)) {
   const p = path.join(root, f); let s = fs.readFileSync(p, 'utf8');
   const html = header(o);

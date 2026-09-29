@@ -3,15 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/assets/nav.css?v=1">
+<link rel="stylesheet" href="/assets/nav.css?v=2">
 <title>How This Site Was Built · Aashish Pandey</title>
 <meta name="description" content="A step-by-step guide to how Aashish Pandey built his portfolio: a live 3D motorcycle ride in the browser with Three.js, WebGL and Web Audio.">
 <link rel="canonical" href="https://aashishpandey.com/how-this-site-was-built">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="author" content="Aashish Pandey">
 <meta name="theme-color" content="#0b1030">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Aashish Pandey">
 <meta property="og:locale" content="en_IN">
@@ -42,7 +44,9 @@
 <body>
 <div id="ap-pre">
 <div style="min-height:100vh;background:#f2ede3;color:#1c1a22;font-family:'Instrument Sans',system-ui,sans-serif;">
-<nav class="ap-nav" aria-label="Main"><div class="ap-nav__in"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge">AP</span><span class="ap-nav__name">Aashish Pandey</span></a><div class="ap-nav__pill"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/services">Services</a><a href="/tools">Tools</a></div><div class="ap-nav__right"><a class="ap-nav__cta" href="/portfolio#pf-contact"><span class="ap-nav__dot"></span>Hire me</a><details class="ap-nav__menu"><summary>Menu</summary><div class="ap-nav__sheet"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/services">Services</a><a href="/tools">Tools</a><hr><a href="/">The 3D ride</a><a href="/how-this-site-was-built">How this site was built</a><a href="/assets/Aashish-Pandey-Resume.pdf">Résumé (PDF)</a></div></details></div></div></nav>
+<!-- ap-nav:start -->
+<nav class="ap-nav" aria-label="Main"><div class="ap-nav__in"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><div class="ap-nav__pill"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/services">Services</a><a href="/tools">Tools</a></div><div class="ap-nav__right"><a class="ap-nav__cta" href="/portfolio#pf-contact"><span class="ap-nav__dot"></span>Hire me</a><details class="ap-nav__menu"><summary>Menu</summary><div class="ap-nav__sheet"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/services">Services</a><a href="/tools">Tools</a><hr><a href="/">The 3D ride</a><a href="/how-this-site-was-built">How this site was built</a><a href="/assets/Aashish-Pandey-Resume.pdf">Résumé (PDF)</a></div></details></div></div></nav>
+<!-- ap-nav:end -->
   <header style="background:#0b0f24;color:#f3ead9;">
     <div style="max-width:1080px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);padding-top:clamp(40px,7vw,88px);padding-bottom:clamp(40px,6vw,72px);display:flex;flex-direction:column;gap:28px;">
       <span style="display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#7ff3e1;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;color:#7ff3e1;"><path d="M12 7v14"></path> <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Build guide · 10 steps</span>
@@ -212,7 +216,7 @@ a:hover{color:#1c1a22}
 </helmet>
 <div style="min-height:100vh;background:#f2ede3;color:#1c1a22;font-family:'Instrument Sans',system-ui,sans-serif;">
   <!-- ap-nav:start -->
-<nav class="ap-nav" aria-label="Main"><div class="ap-nav__in"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge">AP</span><span class="ap-nav__name">Aashish Pandey</span></a><div class="ap-nav__pill"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/services">Services</a><a href="/tools">Tools</a></div><div class="ap-nav__right"><a class="ap-nav__cta" href="/portfolio#pf-contact"><span class="ap-nav__dot"></span>Hire me</a><details class="ap-nav__menu"><summary>Menu</summary><div class="ap-nav__sheet"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/services">Services</a><a href="/tools">Tools</a><hr><a href="/">The 3D ride</a><a href="/how-this-site-was-built">How this site was built</a><a href="/assets/Aashish-Pandey-Resume.pdf">Résumé (PDF)</a></div></details></div></div></nav>
+<nav class="ap-nav" aria-label="Main"><div class="ap-nav__in"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><div class="ap-nav__pill"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/services">Services</a><a href="/tools">Tools</a></div><div class="ap-nav__right"><a class="ap-nav__cta" href="/portfolio#pf-contact"><span class="ap-nav__dot"></span>Hire me</a><details class="ap-nav__menu"><summary>Menu</summary><div class="ap-nav__sheet"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/services">Services</a><a href="/tools">Tools</a><hr><a href="/">The 3D ride</a><a href="/how-this-site-was-built">How this site was built</a><a href="/assets/Aashish-Pandey-Resume.pdf">Résumé (PDF)</a></div></details></div></div></nav>
 <!-- ap-nav:end -->
 
   <header style="background:#0b0f24;color:#f3ead9;">
