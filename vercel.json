@@ -17,22 +17,22 @@
     },
     {
       "source": "/Proof.dc.html",
-      "destination": "/case-studies",
+      "destination": "/portfolio",
       "permanent": true
     },
     {
       "source": "/proof",
-      "destination": "/case-studies",
+      "destination": "/portfolio",
       "permanent": true
     },
     {
       "source": "/proof.html",
-      "destination": "/case-studies",
+      "destination": "/portfolio",
       "permanent": true
     },
     {
       "source": "/proof/",
-      "destination": "/case-studies",
+      "destination": "/portfolio",
       "permanent": true
     },
     {
@@ -102,8 +102,12 @@
       "destination": "/Portfolio.dc.html"
     },
     {
-      "source": "/case-studies",
+      "source": "/portfolio",
       "destination": "/Proof-v2.dc.html"
+    },
+    {
+      "source": "/case-studies",
+      "destination": "/Case-Studies.dc.html"
     },
     {
       "source": "/how-this-site-was-built",

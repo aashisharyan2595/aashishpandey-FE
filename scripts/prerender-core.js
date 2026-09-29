@@ -9,7 +9,7 @@
       open: '<div id="ap-pre" style="position:fixed;inset:0;z-index:30;background:radial-gradient(120% 90% at 50% 100%,#e29a72 0%,#7a5a8e 45%,#2a3a7c 100%);color:#f3ead9;font-family:\'Instrument Sans\',system-ui,sans-serif;">'
         + '<nav style="position:absolute;top:20px;left:24px;right:24px;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:12px;">'
         + '<a href="/" style="color:#fff6ea;font-family:\'Cormorant Garamond\',serif;font-size:26px;text-decoration:none;">Aashish Pandey</a>'
-        + '<a href="/case-studies" style="height:36px;padding:0 14px;display:flex;align-items:center;border-radius:999px;background:#f5b867;color:#1a1420;font-family:\'JetBrains Mono\',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">Portfolio</a></nav>',
+        + '<a href="/portfolio" style="height:36px;padding:0 14px;display:flex;align-items:center;border-radius:999px;background:#f5b867;color:#1a1420;font-family:\'JetBrains Mono\',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">Portfolio</a></nav>',
       close: '</div>'
     }
   };

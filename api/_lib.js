@@ -16,7 +16,7 @@ async function redis(...cmd) {
 
 const SITE = 'aashishpandey.com';
 const EXPIRY = { '1d': 86400, '7d': 604800, '30d': 2592000, '90d': 7776000, '1y': 31536000 };
-const RESERVED = new Set(['api', 'admin', 'tools', 's', 'www', 'login', 'case-studies', 'assets', 'static', 'null', 'undefined']);
+const RESERVED = new Set(['api', 'admin', 'tools', 's', 'www', 'login', 'case-studies', 'portfolio', 'assets', 'static', 'null', 'undefined']);
 // Other shorteners (no chaining) and hosts commonly abused for phishing / malware drops.
 const BLOCKED_HOSTS = [
   'bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'ow.ly', 'is.gd', 'buff.ly', 'rebrand.ly', 'cutt.ly', 'shorturl.at', 'tiny.cc', 'rb.gy', 'bl.ink', 'v.gd', 's.id',

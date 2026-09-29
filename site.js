@@ -2,7 +2,8 @@
 (function () {
   var ROUTES = {
     '/': 'Portfolio.dc.html',
-    '/case-studies': 'Proof-v2.dc.html',
+    '/portfolio': 'Proof-v2.dc.html',
+    '/case-studies': 'Case-Studies.dc.html',
     '/how-this-site-was-built': 'How-This-Site-Was-Built.dc.html',
     '/work-liquid-iv': 'Work-Liquid-IV.dc.html',
     '/work-talenti': 'Work-Talenti.dc.html',
@@ -54,7 +55,8 @@
     if (/linkedin\.com/.test(h)) return 'linkedin_click';
     if (h === '#pf-contact' || /^hire me$/i.test(t)) return 'hire_me';
     if (/^\/work-/.test(h)) return 'case_study_open';
-    if (/^\/case-studies/.test(h)) return 'proof_open';
+    if (/^\/portfolio/.test(h)) return 'proof_open';
+    if (/^\/case-studies/.test(h)) return 'case_studies_open';
     if (h === '/how-this-site-was-built') return 'build_guide_open';
     if (/^\/tools/.test(h)) return 'tool_open';
     return null;

@@ -4,7 +4,8 @@
 
 ## Pages
 
-- [Case Studies](https://aashishpandey.com/case-studies): case studies, client sites, career, toolkit and contact.
+- [Portfolio](https://aashishpandey.com/portfolio): client sites, career, toolkit and contact.
+- [Case Studies](https://aashishpandey.com/case-studies): the four programs I delivered, with results.
 - [How this site was built](https://aashishpandey.com/how-this-site-was-built): build guide for the 3D motorcycle-ride portfolio (Three.js, WebGL, Web Audio).
 - [Home](https://aashishpandey.com/): the interactive 3D ride.
 - [Free tools](https://aashishpandey.com/tools): small browser tools I built: online notepad, URL shortener with QR codes, image resizer, lorem ipsum generator and launch checklists.

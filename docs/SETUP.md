@@ -13,7 +13,8 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | Path | Purpose |
 |---|---|
 | `Portfolio.dc.html` | Home page, the 3D ride |
-| `Proof-v2.dc.html` | `/case-studies` (client sites, career, contact) |
+| `Proof-v2.dc.html` | `/portfolio` (client sites, career, toolkit, contact) |
+| `Case-Studies.dc.html` | `/case-studies` (listing of the four case studies) |
 | `Work-*.dc.html` | The four case-study pages |
 | `How-This-Site-Was-Built.dc.html` | Build write-up |
 | `Tools-*.dc.html` | `/tools` hub and five tools |
@@ -96,7 +97,7 @@ Limits in code: 5 new links an hour and 20 a day per visitor, `http(s)` links on
 Any host works if it can do four things. Vercel-specific bits are marked.
 
 1. **Serve the repo root as static files** and run `node scripts/prerender.cjs` before publishing (optional but it improves SEO).
-2. **Rewrite clean URLs to files.** The table is in `vercel.json` under `rewrites`. Examples: `/` → `/Portfolio.dc.html`, `/case-studies` → `/Proof-v2.dc.html`, `/tools/pad` → `/Tools-Pad-v2.dc.html`. Redirects for old URLs are under `redirects`.
+2. **Rewrite clean URLs to files.** The table is in `vercel.json` under `rewrites`. Examples: `/` → `/Portfolio.dc.html`, `/portfolio` → `/Proof-v2.dc.html`, `/case-studies` → `/Case-Studies.dc.html`, `/tools/pad` → `/Tools-Pad-v2.dc.html`. Redirects for old URLs are under `redirects`.
 3. **Run the two Node functions.** `POST /api/shorten` and `GET /s/:code` (which `vercel.json` rewrites to `/api/s/:code`). They use `fetch` and `crypto`, so Node 18 or newer. The rate limit reads the `x-forwarded-for` header, so the host must set it to the real visitor IP.
 4. **Send the headers** in `vercel.json` (HSTS, cache rules for `/assets/*` and `*.js`, `no-store` for `/api/*`).
 
@@ -132,7 +133,7 @@ Pushing to `main` deploys to production. There are also `staging`, `redesign` an
 ## 10. Checks after any deploy or move
 
 ```bash
-for p in / /case-studies /tools /tools/pad /tools/url-shortener /work-liquid-iv /robots.txt /sitemap.xml; do
+for p in / /portfolio /case-studies /tools /tools/pad /tools/url-shortener /work-liquid-iv /robots.txt /sitemap.xml; do
   printf "%-28s" $p; curl -s -o /dev/null -w "%{http_code}\n" https://aashishpandey.com$p
 done
 curl -sI https://www.aashishpandey.com/ | head -3        # should redirect to the bare domain
