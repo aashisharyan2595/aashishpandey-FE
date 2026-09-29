@@ -31,7 +31,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://aashishpandey.com/#person","name":"Aashish Pandey","url":"https://aashishpandey.com/","image":"https://aashishpandey.com/assets/me-portrait.webp","jobTitle":"Project Manager · Creative Technologist","worksFor":{"@type":"Organization","name":"Langoor (an LS Digital company)"},"address":{"@type":"PostalAddress","addressLocality":"Bangalore","addressCountry":"IN"},"email":"mailto:hello@aashishpandey.com","telephone":"+917558415031","sameAs":["https://www.linkedin.com/in/aashish-kumar-pandey"],"knowsAbout":["Program management","Project delivery","Shopify","WordPress","Adobe Experience Manager","CI/CD","SEO","Creative technology"]},{"@type":"WebSite","@id":"https://aashishpandey.com/#website","url":"https://aashishpandey.com/","name":"Aashish Pandey","publisher":{"@id":"https://aashishpandey.com/#person"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://aashishpandey.com/#webpage","url":"https://aashishpandey.com/","name":"Aashish Pandey · Project Manager & Creative Technologist, Bangalore","inLanguage":"en","isPartOf":{"@id":"https://aashishpandey.com/#website"},"about":{"@id":"https://aashishpandey.com/#person"}}]}</script>
 <link rel="preconnect" href="https://unpkg.com" crossorigin="">
 <link rel="dns-prefetch" href="https://cdn.simpleicons.org">
-<style>html,body{margin:0}</style>
+<style>html,body{margin:0}x-dc{display:none}</style>
 <script src="site.js"></script>
 <script src="./support.js"></script>
 </head>
@@ -148,7 +148,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
           <button onClick="{{ toggleFree }}" style="flex:1;height:36px;padding:0 10px;border-radius:999px;border:1px solid {{ freeBtn.border }};background:transparent;color:{{ freeBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;animation:{{ freeGlowAnim }};">{{ freeBtn.label }}</button>
           <button onClick="{{ toggleRadio }}" style="flex:1;justify-content:center;height:36px;padding:0 10px;border-radius:999px;border:1px solid {{ settingsBtn.border }};background:transparent;color:{{ settingsBtn.fg }};font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;"><span style="width:6px;height:6px;border-radius:50%;background:{{ soundDot }};"></span>Settings</button>
           <sc-if value="{{ showCallDino }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ callDino }}" style="flex:1;height:36px;padding:0 10px;border-radius:999px;border:1px solid #9fe06e;background:transparent;color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;">♪ Dino</button>
+            <button onClick="{{ callDino }}" style="flex:1;height:36px;padding:0 10px;border-radius:999px;border:1px solid #9fe06e;background:transparent;color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;">♪ MujaSauros</button>
           </sc-if>
         </div>
       </div>
@@ -455,7 +455,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
             </form>
           </sc-if>
           <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
-            <div style="border-top:1px solid rgba(255,236,210,.14);padding-top:14px;font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#fff6ea;">Your brief is in your mail app, ready to send. I reply within [TBD] hours.</div>
+            <div style="border-top:1px solid rgba(255,236,210,.14);padding-top:14px;font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#fff6ea;">Your brief is in your mail app, ready to send. I reply within 48 hours.</div>
           </sc-if>
         </div>
       </sc-if>
