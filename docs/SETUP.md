@@ -25,7 +25,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | `support.js` | The page runtime. Don't edit |
 | `world-v6.js`, `audio-v3.js` | Active 3D world and audio. `world-v2/v3/v4.js` and `audio-v2.js` are old copies kept for rollback |
 | `api/` | Shortener backend |
-| `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`), `checklist-static.cjs` (regenerates the crawlable list of checks inside the launch checklist page; run it after editing the checks) |
+| `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`), `nav.cjs` (writes the shared header into every static page; the styles are in `assets/nav.css`, bump `?v=` in the pages when you change it), `checklist-static.cjs` (regenerates the crawlable list of checks inside the launch checklist page; run it after editing the checks) |
 | `assets/` | Images, résumé PDF, favicons, OG image |
 | `vercel.json` | Build command, redirects, rewrites, headers |
 | `sitemap.xml`, `robots.txt`, `llms.txt` | Search and AI crawler files |
@@ -124,7 +124,7 @@ Pushing to `main` deploys to production. There are also `staging`, `redesign` an
 
 ## 9. Adding a new page
 
-1. Create `Something.dc.html`. Copy the `<head>` from a similar page (title, description, canonical, OG tags).
+1. Create `Something.dc.html`. Copy the `<head>` from a similar page (title, description, canonical, OG tags), then add the page to `PAGES` in `scripts/nav.cjs` and run it so the header matches the rest of the site.
 2. Add a rewrite in `vercel.json`, for example `/something` → `/Something.dc.html`.
 3. Add the same route to `ROUTES` in `site.js` so local preview works.
 4. Add the page to the list in `scripts/sitemap.cjs` and to `llms.txt`, then run `node scripts/sitemap.cjs`. Dates in the sitemap only move when a page's content really changes, so run it before every commit that edits a page.

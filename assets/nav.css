@@ -1,0 +1,35 @@
+/* Shared site header. Markup is generated into every page by scripts/nav.cjs. Bump ?v= in the pages' <link> after editing. */
+html{scroll-padding-top:112px}
+.ap-nav{position:sticky;top:0;z-index:10;background:rgba(11,15,36,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,236,210,.08);font-family:'Instrument Sans',system-ui,sans-serif}
+.ap-nav *{box-sizing:border-box}
+.ap-nav a{color:#cfc6b6;text-decoration:none}
+.ap-nav__in{max-width:1160px;margin:0 auto;padding:0 clamp(16px,4vw,40px);height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ap-nav__logo{display:flex;align-items:center;gap:10px;color:#fff6ea!important;min-width:0;flex-shrink:0}
+.ap-nav__badge{width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0}
+.ap-nav__name{font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+.ap-nav__crumb{font-size:13px;color:#8f8778;white-space:nowrap;margin-left:-2px}
+.ap-nav__crumb a{color:#b9b1a2}
+.ap-nav__crumb a:hover{color:#fff6ea}
+.ap-nav__pill{display:flex;gap:2px;align-items:center;padding:4px;border-radius:99px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.08)}
+.ap-nav__pill a{font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:99px;white-space:nowrap}
+.ap-nav__pill a:hover{color:#fff6ea;background:rgba(255,236,210,.06)}
+.ap-nav__pill a[aria-current=page],.ap-nav__pill a[aria-current=page]:hover{background:#f3ead9;color:#1a1420}
+.ap-nav__right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ap-nav__cta{height:38px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:99px;background:#f5b867;color:#1a1420!important;font-size:13.5px;font-weight:600;white-space:nowrap}
+.ap-nav__cta:hover{background:#ffc880}
+.ap-nav__dot{width:7px;height:7px;border-radius:50%;background:#1f7a63;box-shadow:0 0 0 3px rgba(31,122,99,.25)}
+.ap-nav__menu{display:none;position:relative}
+.ap-nav__menu>summary{list-style:none;cursor:pointer;height:38px;padding:0 14px;display:flex;align-items:center;border-radius:99px;border:1px solid rgba(255,236,210,.25);color:#f3ead9;font-size:13.5px;font-weight:500}
+.ap-nav__menu>summary::-webkit-details-marker{display:none}
+.ap-nav__menu[open]>summary{border-color:#f5b867;color:#f5b867}
+.ap-nav__sheet{position:absolute;right:0;top:46px;width:min(300px,calc(100vw - 32px));padding:8px;border-radius:16px;background:#111633;border:1px solid rgba(255,236,210,.14);box-shadow:0 16px 40px rgba(0,0,0,.45);display:flex;flex-direction:column}
+.ap-nav__sheet a{padding:12px 14px;border-radius:10px;font-size:15px;color:#f3ead9}
+.ap-nav__sheet a:hover,.ap-nav__sheet a[aria-current=page]{background:rgba(255,236,210,.08)}
+.ap-nav__sheet hr{border:0;border-top:1px solid rgba(255,236,210,.1);margin:6px 8px;width:auto}
+.ap-nav__sub{border-top:1px solid rgba(255,236,210,.06)}
+.ap-nav__subin{max-width:1160px;margin:0 auto;padding:0 clamp(16px,4vw,40px);height:42px;display:flex;align-items:center;gap:4px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.ap-nav__subin::-webkit-scrollbar{display:none}
+.ap-nav__subin a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:8px}
+.ap-nav__subin a:hover{color:#f5b867;background:rgba(255,236,210,.06)}
+@media (max-width:880px){.ap-nav__pill,.ap-nav__crumb{display:none}.ap-nav__menu{display:block}.ap-nav__in{height:58px}.ap-float{display:none!important}}
+@media (max-width:460px){.ap-nav__name{display:none}}
