@@ -21,6 +21,77 @@
 <script src="/support.js"></script>
 </head>
 <body>
+<div id="ap-pre">
+<div data-pre-id="top" style="min-height:100vh;background:#0b0f24;background-image:radial-gradient(rgba(255,236,210,.07) 1px,transparent 1px);background-size:28px 28px;color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;overflow-x:clip;display:flex;flex-direction:column;">
+  <nav style="position:sticky;top:0;z-index:5;background:rgba(11,15,36,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,236,210,.08);">
+    <div style="max-width:1160px;margin:0 auto;padding-left:clamp(18px,4vw,40px);padding-right:clamp(18px,4vw,40px);height:64px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <a href="/tools" style="display:flex;align-items:center;gap:10px;color:#fff6ea;min-width:0;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-size:14px;color:#9a927f;white-space:nowrap;">Tools /</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap;">URL Shortener</span></a>
+      <div style="display:flex;gap:4px;align-items:center;padding:4px;border-radius:99px;background:rgba(255,236,210,.05);border:1px solid rgba(255,236,210,.08);">
+        <a href="/portfolio" style="font-size:13.5px;font-weight:500;color:#cfc6b6;padding:7px 14px;border-radius:99px;">Portfolio</a><a href="/case-studies" style="font-size:13.5px;font-weight:500;color:#cfc6b6;padding:7px 14px;border-radius:99px;">Case studies</a>
+        <a href="/tools" style="font-size:13.5px;font-weight:500;color:#1a1420;padding:7px 14px;border-radius:99px;background:#f3ead9;">Tools</a>
+      </div>
+      <a href="/portfolio#pf-contact" style="height:38px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:99px;background:#f5b867;color:#1a1420;font-size:13.5px;font-weight:600;white-space:nowrap;flex-shrink:0;"><span style="width:7px;height:7px;border-radius:50%;background:#1f7a63;box-shadow:0 0 0 3px rgba(31,122,99,.25);"></span>Hire me</a>
+    </div>
+  </nav>
+  <main style="flex:1;width:100%;max-width:920px;margin:0 auto;box-sizing:border-box;padding:clamp(40px,7vw,88px) clamp(18px,4vw,40px) clamp(56px,8vw,96px);display:flex;flex-direction:column;gap:clamp(28px,4vw,40px);">
+    <header style="display:flex;flex-direction:column;gap:16px;">
+      <h1 style="margin:0;font-weight:600;font-size:clamp(40px,6vw,72px);line-height:.98;letter-spacing:-.04em;color:#fff6ea;text-wrap:balance;">Shorten a link. <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;letter-spacing:-.02em;color:#f5b867;">Share it anywhere.</span></h1>
+      <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:560px;color:#cfc6b6;text-wrap:pretty;">Short links on aashishpandey.com/s/, with a custom alias, an expiry date and a QR code. No sign-up.</p>
+    </header>
+    <form style="border-radius:28px;background:linear-gradient(180deg,rgba(255,236,210,.06),rgba(255,236,210,.02));border:1px solid rgba(255,236,210,.12);padding:clamp(16px,2.6vw,24px);display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <label style="flex:1 1 320px;min-width:0;height:58px;display:flex;align-items:center;gap:12px;padding:0 18px;border-radius:16px;background:#0e1330;border:1px solid rgba(255,236,210,.14);color:#9a927f;">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          <input type="url" required="required" placeholder="Paste a long link, e.g. https://…" aria-label="Link to shorten" style="flex:1;min-width:0;height:100%;border:none;outline:none;background:none;color:#fff6ea;font-family:inherit;font-size:16.5px;"></input>
+        </label>
+        <button type="submit" style="height:58px;padding:0 26px;display:flex;align-items:center;justify-content:center;gap:9px;border-radius:16px;border:none;background:#f5b867;color:#1a1420;font-family:inherit;font-size:15.5px;font-weight:600;cursor:pointer;flex:0 0 auto;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;">
+        <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:8px;">
+          <span style="font-size:12.5px;font-weight:600;color:#9a927f;">Custom alias <span style="font-weight:400;">(optional)</span></span>
+          <label style="height:44px;display:flex;align-items:center;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);overflow:hidden;">
+            <span style="padding:0 4px 0 14px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#9a927f;white-space:nowrap;">aashishpandey.com/s/</span>
+            <input placeholder="my-link" maxlength="32" aria-label="Custom alias" style="flex:1;min-width:0;height:100%;border:none;outline:none;background:none;color:#fff6ea;font-family:'JetBrains Mono',monospace;font-size:13.5px;padding-right:14px;"></input>
+          </label>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-size:12.5px;font-weight:600;color:#9a927f;">Expires after</span>
+          <div role="radiogroup" aria-label="Expiry" style="display:flex;padding:3px;border-radius:12px;background:#0e1330;border:1px solid rgba(255,236,210,.12);gap:2px;">
+          </div>
+        </div>
+      </div>
+    </form>
+    <section aria-label="Your recent links" style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+        <h2 style="margin:0;font-weight:600;font-size:22px;letter-spacing:-.025em;color:#fff6ea;">Your links</h2>
+        <span style="font-size:13px;color:#9a927f;">Saved in this browser only</span>
+      </div>
+        <div style="padding:28px 20px;border-radius:20px;border:1px dashed rgba(255,236,210,.16);text-align:center;font-size:14.5px;line-height:1.6;color:#9a927f;">Links you shorten here show up in this list.</div>
+      <div style="display:flex;flex-direction:column;border-radius:20px;overflow:hidden;border:1px solid rgba(255,236,210,.1);">
+      </div>
+    </section>
+    <p style="margin:0;display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.6;color:#9a927f;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;margin-top:3px;"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg><span>Up to 5 links an hour. Links to other shorteners, IP addresses and known phishing patterns are blocked. Expired links stop redirecting.</span></p>
+  </main>
+<footer style="border-top:1px solid rgba(255,236,210,.08);background:rgba(6,9,24,.6);">
+    <div style="max-width:1160px;margin:0 auto;padding:clamp(40px,6vw,64px) clamp(18px,4vw,40px) 24px;display:flex;flex-direction:column;gap:clamp(32px,5vw,48px);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:32px 24px;">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0;grid-column:span 1;">
+          <a href="/portfolio" style="display:flex;align-items:center;gap:10px;color:#fff6ea;"><span style="width:30px;height:30px;border-radius:9px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;flex-shrink:0;">AP</span><span style="font-weight:600;font-size:15px;letter-spacing:-.01em;">Aashish Pandey</span></a>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#9a927f;max-width:260px;">Project Manager and Creative Technologist in Bangalore. 50+ sites and platforms shipped since 2018.</p>
+          <span style="align-self:flex-start;display:flex;align-items:center;gap:8px;padding:6px 11px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.22);font-size:12.5px;color:#7ff3e1;"><span style="width:6px;height:6px;border-radius:50%;background:#7ff3e1;"></span>Open to PM roles &amp; freelance</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Tools</span><a href="/tools/pad" style="font-size:14px;color:#cfc6b6;">Online Notepad</a><a href="/tools/url-shortener" style="font-size:14px;color:#cfc6b6;">URL Shortener</a><a href="/tools/image-resizer" style="font-size:14px;color:#cfc6b6;">Image Resizer</a><a href="/tools/lorem-ipsum-generator" style="font-size:14px;color:#cfc6b6;">Lorem Ipsum Generator</a><a href="/tools/website-launch-checklist" style="font-size:14px;color:#cfc6b6;">Launch Checklist</a><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">QR Code Generator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">llms.txt Generator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span><span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#8a8372;">Estimate Calculator<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a8372;">Soon</span></span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Site</span><a href="/" style="font-size:14px;color:#cfc6b6;">The 3D ride</a><a href="/portfolio" style="font-size:14px;color:#cfc6b6;">Portfolio</a><a href="/case-studies" style="font-size:14px;color:#cfc6b6;">Case studies</a><a href="/how-this-site-was-built" style="font-size:14px;color:#cfc6b6;">How this site was built</a><a href="/tools" style="font-size:14px;color:#cfc6b6;">All tools</a><a href="/assets/Aashish-Pandey-Resume.pdf" download="" style="font-size:14px;color:#cfc6b6;">Résumé ↓</a></div>
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Services</span><a href="/shopify-developer" style="font-size:14px;color:#cfc6b6;">Shopify developer</a><a href="/full-stack-developer" style="font-size:14px;color:#cfc6b6;">Full-stack developer</a><a href="/seo-consultant" style="font-size:14px;color:#cfc6b6;">SEO consultant</a><a href="/ui-ux-design" style="font-size:14px;color:#cfc6b6;">UI and UX design</a><a href="/tech-consultant" style="font-size:14px;color:#cfc6b6;">Tech consultant</a></div><div style="display:flex;flex-direction:column;gap:12px;min-width:0;"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a927f;">Connect</span><a href="mailto:hello@aashishpandey.com" style="font-size:14px;color:#cfc6b6;">hello@aashishpandey.com</a><a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;">LinkedIn ↗</a><a href="https://wa.me/917558415031" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;">WhatsApp ↗</a><a href="https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener" style="font-size:14px;color:#cfc6b6;">Book a 20-min call ↗</a></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:20px;border-top:1px solid rgba(255,236,210,.08);font-size:13px;color:#8a8372;">
+        <span>© 2026 Aashish Pandey · Bangalore, India</span>
+        <a href="#top" style="color:#8a8372;">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+</div>
+</div><!-- /ap-pre -->
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1030">
@@ -197,6 +268,7 @@ class Component extends DCLogic {
     this.state = { url: '', alias: '', expires: this.props.defaultExpiry ?? '30d', loading: false, error: '', result: null, history: h, copied: false, toast: '', qrReady: !!window.qrcode };
   }
   componentDidMount() {
+    const pre = document.getElementById('ap-pre'); pre && pre.remove();
     if (!window.qrcode) this.qrT = setInterval(() => { if (window.qrcode) { clearInterval(this.qrT); this.setState({ qrReady: true }); } }, 150);
   }
   componentWillUnmount() { clearInterval(this.qrT); clearTimeout(this.toastT); clearTimeout(this.copyT); }

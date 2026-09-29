@@ -10,7 +10,11 @@
         + '<nav style="position:absolute;top:20px;left:24px;right:24px;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:12px;">'
         + '<a href="/" style="color:#fff6ea;font-family:\'Cormorant Garamond\',serif;font-size:26px;text-decoration:none;">Aashish Pandey</a>'
         + '<a href="/portfolio" style="height:36px;padding:0 14px;display:flex;align-items:center;border-radius:999px;background:#f5b867;color:#1a1420;font-family:\'JetBrains Mono\',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">Portfolio</a></nav>',
-      close: '</div>'
+      close: '<div style="position:absolute;left:0;right:0;bottom:22px;padding:0 24px;text-align:center;font-size:14px;line-height:1.7;color:#fff1dd;">'
+        + '<p style="margin:0 0 6px;">Full-stack developer, project manager, UI and SEO consultant, tech consultant.</p>'
+        + '<p style="margin:0 0 8px;">50+ sites since 2018 · Liquid I.V. across 15 markets · Talenti Canada in 20 days</p>'
+        + '<p style="margin:0;"><a href="/portfolio" style="color:#ffd9a3;">Portfolio</a> · <a href="/case-studies" style="color:#ffd9a3;">Case studies</a> · <a href="/services" style="color:#ffd9a3;">Services</a> · <a href="/tools" style="color:#ffd9a3;">Tools</a> · <a href="/how-this-site-was-built" style="color:#ffd9a3;">How this site was built</a></p></div>'
+        + '<nav aria-label="All pages" style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;"><a href="/services">Services</a> <a href="/shopify-developer">Shopify developer</a> <a href="/full-stack-developer">Full-stack developer</a> <a href="/seo-consultant">SEO consultant</a> <a href="/ui-ux-design">UI and UX design</a> <a href="/tech-consultant">Tech consultant</a> <a href="/work-liquid-iv">Liquid I.V. case study</a> <a href="/work-talenti">Talenti case study</a> <a href="/work-storynest">StoryNest case study</a> <a href="/work-ceat-specialty">CEAT Specialty case study</a> <a href="/tools/pad">Online notepad</a> <a href="/tools/url-shortener">URL shortener</a> <a href="/tools/image-resizer">Image resizer</a> <a href="/tools/lorem-ipsum-generator">Lorem ipsum generator</a> <a href="/tools/website-launch-checklist">Website launch checklist</a> <a href="/assets/Aashish-Pandey-Resume.pdf">Résumé (PDF)</a> </nav></div>'
     }
   };
   var NESTLESS = '((?:(?!<sc-(?:if|for)\\b)[\\s\\S])*?)';

@@ -8,12 +8,13 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 - **The ride.** `Portfolio.dc.html` loads a 3D world (`world-v6.js`, three.js from unpkg) and generated audio (`audio-v3.js`).
 - **Clean URLs.** `vercel.json` maps paths like `/tools/pad` to the real file (`Tools-Pad-v2.dc.html`).
 - **One tiny backend.** `api/shorten.js` and `api/s/[code].js` power the URL shortener. They are Node functions and need a Redis database.
-- **Build step.** `node scripts/prerender.cjs` writes a static copy of some pages into the HTML so they show content before JavaScript runs.
+- **Build step.** `node scripts/prerender.cjs && node scripts/externalize.cjs`. The first writes a static copy of each page's content into the HTML. The second moves each dynamic page's template into a hashed file under `tpl/`, so the served HTML has real content and no `{{ }}` template code. `tpl/` is generated at deploy and is git-ignored. Source files keep their inline templates, so the design tool and local previews still work.
 
 | Path | Purpose |
 |---|---|
 | `Portfolio.dc.html` | Home page, the 3D ride |
 | `Proof-v2.dc.html` | `/portfolio` (client sites, career, toolkit, contact) |
+| `Services.dc.html` | `/services` hub linking to every service page |
 | `Case-Studies.dc.html` | `/case-studies` (listing of the four case studies) |
 | `Shopify-Developer`, `Full-Stack-Developer`, `SEO-Consultant`, `UI-UX-Design`, `Tech-Consultant` (`.dc.html`) | The five service pages, each with a visible FAQ and matching `FAQPage` markup |
 | `Work-*.dc.html` | The four case-study pages |
@@ -24,7 +25,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | `support.js` | The page runtime. Don't edit |
 | `world-v6.js`, `audio-v3.js` | Active 3D world and audio. `world-v2/v3/v4.js` and `audio-v2.js` are old copies kept for rollback |
 | `api/` | Shortener backend |
-| `scripts/` | `prerender.cjs` (build step), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`) |
+| `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`) |
 | `assets/` | Images, résumé PDF, favicons, OG image |
 | `vercel.json` | Build command, redirects, rewrites, headers |
 | `sitemap.xml`, `robots.txt`, `llms.txt` | Search and AI crawler files |
@@ -47,7 +48,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 2. In Vercel, click **Add New → Project** and import the repo.
 3. Settings on the import screen:
    - Framework Preset: **Other**
-   - Build Command: `node scripts/prerender.cjs` (already in `vercel.json`)
+   - Build Command: `node scripts/prerender.cjs && node scripts/externalize.cjs` (already in `vercel.json`)
    - Output Directory: `.` (already in `vercel.json`)
    - Install Command: leave empty. There is no `package.json`
 4. Add the environment variables from section 4.
@@ -128,7 +129,7 @@ Pushing to `main` deploys to production. There are also `staging`, `redesign` an
 3. Add the same route to `ROUTES` in `site.js` so local preview works.
 4. Add the page to the list in `scripts/sitemap.cjs` and to `llms.txt`, then run `node scripts/sitemap.cjs`. Dates in the sitemap only move when a page's content really changes, so run it before every commit that edits a page.
 5. **Use absolute paths** for scripts and assets: `/site.js`, `/support.js`, `/assets/...`. A page served from a nested URL like `/tools/pad` breaks with relative paths, because `support.js` would be requested from `/tools/support.js`.
-6. Prerender is opt-in. Only add `<div id="ap-pre"></div><!-- /ap-pre -->` if the page also has code that removes `#ap-pre` on load (see `Proof-v2.dc.html`). Otherwise the static copy stays on the page and everything shows twice.
+6. Any page with `{{ }}` bindings needs the `#ap-pre` placeholder (`<div id="ap-pre"></div><!-- /ap-pre -->`) **and** the line `const pre = document.getElementById('ap-pre'); pre && pre.remove();` in its component's `componentDidMount`. The build refuses to strip a bound template from a page without the placeholder. Prerender is opt-in. Only add `<div id="ap-pre"></div><!-- /ap-pre -->` if the page also has code that removes `#ap-pre` on load (see `Proof-v2.dc.html`). Otherwise the static copy stays on the page and everything shows twice.
 7. Add a share image: add a card to `ITEMS` in `scripts/make-og.py`, run it, and point `og:image` at the new file in `assets/og/`.
 8. Test the real URL, not just the file, then push.
 

@@ -10,6 +10,7 @@ const P = [
   ['/case-studies', 'Case-Studies.dc.html'],
   ['/work-liquid-iv', 'Work-Liquid-IV.dc.html'], ['/work-talenti', 'Work-Talenti.dc.html'],
   ['/work-storynest', 'Work-StoryNest.dc.html'], ['/work-ceat-specialty', 'Work-CEAT-Specialty.dc.html'],
+  ['/services', 'Services.dc.html', ['/assets/og/og-services.jpg']],
   ['/shopify-developer', 'Shopify-Developer.dc.html'], ['/full-stack-developer', 'Full-Stack-Developer.dc.html'],
   ['/seo-consultant', 'SEO-Consultant.dc.html'], ['/ui-ux-design', 'UI-UX-Design.dc.html'], ['/tech-consultant', 'Tech-Consultant.dc.html'],
   ['/tools', 'Tools-v2.dc.html'], ['/tools/pad', 'Tools-Pad-v2.dc.html'], ['/tools/url-shortener', 'Tools-Shortener.dc.html'],

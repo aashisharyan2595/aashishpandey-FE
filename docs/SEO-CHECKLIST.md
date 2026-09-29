@@ -8,16 +8,16 @@ The plan assumes a Vue setup ("v-cloak", "Nuxt/Vite SSG"). This site uses a smal
 
 ## Top 5 priorities
 
-- [~] **1. Make the homepage and tool pages readable without JavaScript.** Title, description, canonical, robots, Open Graph and structured data are now in the raw HTML of every page, including the tool pages (they used to be injected by script). The homepage also ships a plain H1 and links. Still open: the raw source still contains the unrendered template (`{{ }}` appears about 360 times on the homepage, 75 on `/tools/pad`). Browsers and Google's renderer never show it, but crawlers that don't run JavaScript still read it. The full fix is to prerender each page's visible content into static HTML.
-- [~] **2. `/services` hub with one page per offer.** Five offer pages exist: `/full-stack-developer`, `/shopify-developer`, `/seo-consultant`, `/ui-ux-design`, `/tech-consultant`. Missing: the `/services` hub page and `/wordpress-webflow-developer`.
+- [x] **1. Make the homepage and tool pages readable without JavaScript.** Done. Every page's title, description, canonical, robots, Open Graph and structured data are in the raw HTML, and a new build step (`scripts/externalize.cjs`) moves each dynamic page's template out of the served HTML. The raw source of all 16 pages now has zero `{{ }}`. The homepage ships a plain intro naming the four roles, three proof points and links to the main pages. Caveat: the tool pages' static copy is just their interface labels, so they still need real explanatory text (see "Tool pages have almost no explanatory text").
+- [~] **2. `/services` hub with one page per offer.** The `/services` hub exists and links to `/shopify-developer`, `/full-stack-developer`, `/seo-consultant`, `/ui-ux-design`, `/tech-consultant` and `/portfolio`, with a "How I work" section. Missing: `/wordpress-webflow-developer`, and the pricing ranges the plan suggests (no figures on the site to base them on).
 - [ ] **3. Turn `/portfolio` into the full-time hiring page.** Title is still "Portfolio · Aashish Pandey, Project Manager in Bangalore". Needs the H1 "Project and program manager for digital and e-commerce teams", a "Roles I'm open to" section (job titles, team sizes, budgets, Jira, Zoho Sprints, GA4), and a clear split between "Hire me full-time" and "Work with me freelance".
 - [x] **4. Retitle case studies with keywords and tag the roles they prove.** All four done. Each has a keyword title, the old line kept as a subtitle, and role tags on the case study page, the listing and the `/portfolio` cards.
 - [~] **5. `Person` and `ProfessionalService` schema, plus directory listings.** Schema done (see technical fix 3). Directory listings are YOU: Clutch, the Shopify Partner directory, Upwork and similar.
 
 ## Audit findings ("Holding it back")
 
-- [~] Raw `{{ }}` in served HTML. Hidden from visitors and no longer in the head, still in the body source. See priority 1.
-- [ ] Homepage text is mostly game UI. Needs a plain HTML intro that names the four roles in one line, gives three proof points and links to `/portfolio` and `/services`. (A hidden list of links to all pages is there, but no visible intro.)
+- [x] Raw `{{ }}` in served HTML. Gone from all 16 pages (see priority 1).
+- [x] Homepage text is mostly game UI. The served HTML now opens with a plain intro that names the four roles, gives three proof points and links to `/portfolio`, `/case-studies`, `/services` and `/tools`, with the full page list behind it.
 - [x] No visible meta description, canonical or H1 on tool pages. Fixed in the raw head. `/tools/pad` is an app screen with no H1, which the plan also asks for (see below).
 - [ ] Tool pages have almost no explanatory text. Add 150–300 words, features, privacy and a 4-question FAQ under each tool.
 - [x] Case study titles are poetic. Retitled.
@@ -48,7 +48,7 @@ Keep titles under about 60 characters and descriptions under about 155.
 |---|---|---|---|
 | Homepage | Aashish Pandey · Full-Stack Developer, PM & Tech Consultant | Aashish Pandey · Project Manager & Shopify Developer, Bangalore | **DECIDE** |
 | `/portfolio` | Aashish Pandey · Project & Program Manager, Bangalore | Portfolio · Aashish Pandey, Project Manager in Bangalore | **DECIDE** |
-| `/services` | Services · Development, UI, SEO & Tech Consulting | page does not exist | [ ] |
+| `/services` | Services · Development, UI, SEO & Tech Consulting | Services · Development, UI, SEO & Tech Consulting | [x] |
 | `/full-stack-developer` | Freelance Full-Stack Developer · Web Apps & Websites | Full-Stack Developer in Bangalore · Aashish Pandey | **DECIDE** |
 | `/shopify-developer` | Shopify Developer in Bangalore · Multi-Market Rollouts | Shopify Developer & Project Manager in Bangalore · Aashish Pandey | **DECIDE** |
 | `/seo-consultant` | Technical & E-commerce SEO Consultant · Aashish Pandey | SEO Consultant in Bangalore · Aashish Pandey | **DECIDE** |
@@ -72,8 +72,8 @@ The plan's titles put the buyer's search phrase first and mine put the role and 
 
 ## Technical fixes
 
-1. [ ] **Pre-render content into static HTML.** Not done. The site's runtime only prerenders the homepage hero. A build step that writes each page's visible content into the first response is the real fix.
-2. [~] **Hide template syntax.** The runtime hides the raw template after load and each page's head now carries the hiding rule, but the text is still in the source. Same fix as 1.
+1. [x] **Pre-render content into static HTML.** Done with `scripts/prerender.cjs` plus `scripts/externalize.cjs`. Limits: the static copy of interactive pages (tools, the ride's panels) is only what their templates show without data, so it does not replace real written copy.
+2. [x] **Hide template syntax.** The template no longer appears in the served HTML at all.
 3. [x] **Structured data.** `Person` (name, job title, image, Bengaluru, LinkedIn `sameAs`) on every page. `ProfessionalService` on the homepage, `/portfolio` and all five service pages, with `areaServed` India and worldwide. `FAQPage` on the service pages, matching a visible FAQ. `Article` with author, `datePublished`, `dateModified` and `BreadcrumbList` on case studies. `WebApplication` with a price of 0 on each tool. Google shows FAQ rich results only for a few site types now, so treat FAQ markup as good hygiene, not a ranking boost.
 4. [x] **Sitemap dates.** `scripts/sitemap.cjs` (see `SETUP.md`). Run it before committing.
 5. [x] **Per-page OG images.** Generated by `scripts/make-og.py`.

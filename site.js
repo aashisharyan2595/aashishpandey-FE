@@ -4,6 +4,7 @@
     '/': 'Portfolio.dc.html',
     '/portfolio': 'Proof-v2.dc.html',
     '/case-studies': 'Case-Studies.dc.html',
+    '/services': 'Services.dc.html',
     '/tech-consultant': 'Tech-Consultant.dc.html',
     '/ui-ux-design': 'UI-UX-Design.dc.html',
     '/seo-consultant': 'SEO-Consultant.dc.html',

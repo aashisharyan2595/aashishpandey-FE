@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "node scripts/prerender.cjs",
+  "buildCommand": "node scripts/prerender.cjs && node scripts/externalize.cjs",
   "outputDirectory": ".",
   "cleanUrls": false,
   "trailingSlash": false,
@@ -143,6 +143,10 @@
     {
       "source": "/case-studies",
       "destination": "/Case-Studies.dc.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/Services.dc.html"
     },
     {
       "source": "/tech-consultant",

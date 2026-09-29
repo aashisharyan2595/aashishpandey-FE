@@ -64,6 +64,7 @@ ITEMS = [
     ('tool-image-resizer', TOOL, 'Image Resizer', 'Resize and convert to WebP, JPEG, PNG or AVIF', None, (), 120),
     ('tool-lorem', TOOL, 'Lorem Ipsum', 'Placeholder text as plain text, HTML or Markdown', None, (), 120),
     ('tool-checklist', TOOL, 'Launch Checklists', 'Websites, campaigns, products and events', None, (), 110),
+    ('services', SVC, 'Services', 'Development, UI, SEO and tech consulting', None, ('PM', 'DEV', 'UI', 'SEO'), 170),
     ('svc-shopify', SVC, 'Shopify developer', 'And the project manager who ships it. Bangalore.', None, ('PM', 'DEV', 'SEO'), 110),
     ('svc-full-stack', SVC, 'Full-stack developer', 'CMS, eCommerce and CI/CD, with delivery built in.', None, ('PM', 'DEV'), 110),
     ('svc-seo', SVC, 'SEO consultant', 'Technical, multi-market and AI-search SEO.', None, ('SEO', 'PM'), 120),

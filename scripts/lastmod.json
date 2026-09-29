@@ -1,6 +1,6 @@
 {
   "Portfolio.dc.html": {
-    "hash": "95c72666ab268e6ba2191d805d047c37da029ab1",
+    "hash": "70243dbdf8b1684211d617814fa76c05951bf1da",
     "lastmod": "2026-09-29"
   },
   "Proof-v2.dc.html": {
@@ -8,7 +8,7 @@
     "lastmod": "2026-09-29"
   },
   "Case-Studies.dc.html": {
-    "hash": "6b2d03a33fe25d36222130c72aa8843443eae1ca",
+    "hash": "4adac73d3c3357bb842666af1140102dad909272",
     "lastmod": "2026-09-29"
   },
   "Work-Liquid-IV.dc.html": {
@@ -28,51 +28,55 @@
     "lastmod": "2026-09-29"
   },
   "Shopify-Developer.dc.html": {
-    "hash": "cbfb8ba592d6e4015cf36482f33718582e28d065",
+    "hash": "570664afda92cc80a9e9db03a33cac15f258325d",
     "lastmod": "2026-09-29"
   },
   "Full-Stack-Developer.dc.html": {
-    "hash": "4f6ee2dfc00b5523c723bdfc15bc5abcd68c2b2a",
+    "hash": "f6a09bb208bd5a671abd9f28e8bfe9d00745ba52",
     "lastmod": "2026-09-29"
   },
   "SEO-Consultant.dc.html": {
-    "hash": "50617d630b1d2c52ed060c5f504d805751a7775b",
+    "hash": "8aa1324ab2a1dbb57391e02f3fbd654552d160b1",
     "lastmod": "2026-09-29"
   },
   "UI-UX-Design.dc.html": {
-    "hash": "1c2082e9badd804eb3dd27d71ace9de27281e849",
+    "hash": "26f50a837ebebb6a8eb4fd10fcdf4cd2c250854f",
     "lastmod": "2026-09-29"
   },
   "Tech-Consultant.dc.html": {
-    "hash": "26e52ae765f478f52a7155d1cf1a16cba0ea83fb",
+    "hash": "227f87998b4596b7950b525d219061dfca50b884",
     "lastmod": "2026-09-29"
   },
   "Tools-v2.dc.html": {
-    "hash": "08c5bca4f294ec0aedb7325949404b0a338efb2c",
+    "hash": "cb5a5d4e0c6d9475bac1b9f6edbeacb7c5d5f51e",
     "lastmod": "2026-09-29"
   },
   "Tools-Pad-v2.dc.html": {
-    "hash": "b4139851006a04c214364b6937b5e5521b54cc78",
+    "hash": "1df646429e534bb8e074207ac4f213ba4539d6c1",
     "lastmod": "2026-09-29"
   },
   "Tools-Shortener.dc.html": {
-    "hash": "798b4fe19a9352506455ef90982b4df13e0f57cf",
+    "hash": "f81359e14da0b64fbe7a6099892ab3b4ad76c16e",
     "lastmod": "2026-09-29"
   },
   "Tools-Image.dc.html": {
-    "hash": "b6a30b26783b85c32d103d2a815deeedadf1fa4a",
+    "hash": "8a732911862f84a4175d6c43cdd4279d06db74dd",
     "lastmod": "2026-09-29"
   },
   "Tools-Lorem.dc.html": {
-    "hash": "9ad9ac4d20a285b9520ba621325f27f1003987a7",
+    "hash": "8b85054233b5428c6de4a4304308d15a792e8815",
     "lastmod": "2026-09-29"
   },
   "Tools-Checklist.dc.html": {
-    "hash": "66cf623c68befbc6a7392a0c057a59c5c3ae0421",
+    "hash": "384e3c32d828b25642bb1ff60a6cd1c348b41460",
     "lastmod": "2026-09-29"
   },
   "How-This-Site-Was-Built.dc.html": {
     "hash": "da6d6e8d9ee8fcd270ecc78d3aa3fdb0ca387707",
+    "lastmod": "2026-09-29"
+  },
+  "Services.dc.html": {
+    "hash": "7f190f6bd7e6d03eb564fc5494c0d4d85cb1e367",
     "lastmod": "2026-09-29"
   }
 }

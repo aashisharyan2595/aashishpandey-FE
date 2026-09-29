@@ -21,6 +21,53 @@
 <script src="/support.js"></script>
 </head>
 <body>
+<div id="ap-pre">
+<div style="height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;overflow:hidden;transition:background .25s,color .25s;">
+    <header style="flex-shrink:0;height:60px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:0 clamp(10px,2vw,18px);">
+      <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+        <button aria-label="Toggle notes list" title="Notes" style="width:36px;height:36px;border-radius:11px;border:none;background:none;color:var(--soft);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18"></path></svg></button>
+        <a href="/tools" style="display:flex;align-items:center;gap:9px;color:var(--ink);min-width:0;"><span style="width:28px;height:28px;border-radius:8px;background:#f5b867;color:#1a1420;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:15px;flex-shrink:0;">AP</span><span style="font-size:15px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;">Notepad</span></a>
+      </div>
+      <div role="tablist" aria-label="View" style="display:flex;padding:3px;border-radius:12px;background:var(--chip);gap:2px;">
+      </div>
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0;">
+        <div style="display:flex;align-items:center;gap:2px;position:relative;">
+          <button aria-label="Toggle dark mode" title="Light / dark" style="width:36px;height:36px;border-radius:11px;border:none;background:none;color:var(--soft);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+          </button>
+          <button aria-label="Export note" title="Export" style="width:36px;height:36px;border-radius:11px;border:none;background:none;color:var(--soft);display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg></button>
+          <button aria-label="Focus mode" title="Focus mode · Ctrl+Shift+F" style="width:36px;height:36px;border-radius:11px;border:none;background:none;color:var(--soft);display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
+        </div>
+        <button style="height:36px;padding:0 15px;display:flex;align-items:center;gap:7px;border-radius:11px;border:none;background:var(--ink);color:var(--inv);font-family:inherit;font-size:13.5px;font-weight:600;white-space:nowrap;cursor:pointer;flex-shrink:0;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>Share</button>
+      </div>
+    </header>
+  <div style="flex:1;display:flex;min-height:0;position:relative;gap:0;padding:0 clamp(0px,1vw,10px) clamp(0px,1vw,10px);">
+      <aside aria-label="Notes" style="width:280px;flex-shrink:0;display:flex;flex-direction:column;min-height:0;padding:4px 10px 0 4px;">
+        <div style="display:flex;flex-direction:column;gap:8px;padding-bottom:10px;">
+          <label style="height:38px;display:flex;align-items:center;gap:8px;padding:0 12px;border-radius:11px;background:var(--chip);color:var(--soft);">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input placeholder="Search notes" aria-label="Search notes" style="flex:1;min-width:0;border:none;outline:none;background:none;color:var(--ink);font-family:inherit;font-size:14px;"></input>
+          </label>
+          <button style="height:38px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:11px;border:1px dashed var(--line);background:none;color:var(--ink);font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>New note</button>
+        </div>
+        <span style="padding:6px 8px;font-size:11.5px;font-weight:600;color:var(--soft);"></span>
+        <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:2px;padding-bottom:12px;">
+        </div>
+        <div style="padding:12px 8px;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;font-size:12.5px;line-height:1.45;color:var(--soft);"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>Saved in this browser only. <a href="/tools">More tools</a></span></div>
+      </aside>
+    <main style="flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;position:relative;background:var(--raise);border-radius:clamp(0px,1.4vw,18px);box-shadow:var(--shadow);overflow:hidden;">
+        <div style="flex:1;display:flex;min-height:0;">
+          <div style="flex:1;min-width:0;display:flex;min-height:0;">
+            <textarea placeholder="Start writing…" spellcheck="true" aria-label="Note text" style="flex:1;width:100%;max-width:780px;margin:0 auto;box-sizing:border-box;padding:clamp(32px,6vw,80px) clamp(20px,4vw,40px) 120px;border:none;outline:none;resize:none;background:transparent;color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;font-size:18px;line-height:1.8;caret-color:var(--acc);"></textarea>
+          </div>
+        </div>
+      <div>
+        <span> words</span><span style="opacity:.4;">/</span><span> chars</span><span style="opacity:.4;">/</span><span></span><span style="opacity:.4;">/</span><span style="display:flex;align-items:center;gap:6px;color:var(--ink);"><span style="width:6px;height:6px;border-radius:50%;background:#1f7a63;"></span></span>
+      </div>
+    </main>
+  </div>
+</div>
+</div><!-- /ap-pre -->
 <x-dc>
 <helmet>
 <meta name="theme-color" content="#0b1030">
@@ -233,6 +280,7 @@ class Component extends DCLogic {
     this.taRef = React.createRef();
   }
   componentDidMount() {
+    const pre = document.getElementById('ap-pre'); pre && pre.remove();
     if (window.innerWidth < 760) this.setState({ sidebar: false });
     this.readHash();
     this.onHash = () => this.readHash();
