@@ -375,6 +375,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
                 <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
                   <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#fff6ea;line-height:1.1;">{{ pr.name }}</span>
                   <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#7ff3e1;line-height:1.4;">{{ pr.kind }}</span>
+                  <span style="font-size:12px;line-height:1.45;color:#dcd2bf;margin-top:2px;"><span style="color:#f5b867;">What I did.</span> {{ pr.did }}</span>
                 </div>
               </button>
             </sc-for>
@@ -385,6 +386,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
               <div style="display:flex;flex-direction:column;gap:4px;padding:10px 0;border-bottom:1px solid rgba(255,236,210,.08);">
                 <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;"><span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#fff6ea;line-height:1.1;">{{ pr.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#7ff3e1;">{{ pr.kind }}</span></div>
                 <span style="font-size:12.5px;line-height:1.5;color:#dcd2bf;">{{ pr.summary }}</span>
+                <span style="font-size:12.5px;line-height:1.5;color:#dcd2bf;"><span style="color:#f5b867;">What I did.</span> {{ pr.did }}</span>
               </div>
             </sc-for>
           </div>
@@ -677,7 +679,7 @@ const PROJECTS = [
   ['Royal Arc', 'Project Management · Development · Solution Architecture · SEO · BAU', 'WordPress product catalogue for electrodes, flux-cored and MIG/TIG wires, strip cladding and SAW flux. What I did: I managed the project and built the WordPress site. As solution architect I designed a plugin that makes more than 50,000 PDFs searchable and usable across the whole site, connected to WordPress. I also ran the SEO, the launch and BAU support.', 'assets/work/royal-arc.webp'],
   ['Bohiyaanam Talent', 'Project Management · Development · SEO · BAU', 'Staffing and HR consulting site covering recruitment, RPO and core HR services, with live job vacancies and an FAQ. What I did: I managed the project, built the site, ran the SEO, launched it and handled BAU support afterwards.', 'assets/work/bohiyaanam-talent.webp'],
   ['Tekgeminus', 'Project Management · Development · SEO · BAU', 'Digital solutions corporate site spanning Oracle utilities, cloud and integration services, Salesforce and the FinHub product. What I did: I managed the project, built the site, ran the SEO, launched it and handled BAU support afterwards.', 'assets/work/tekgeminus.webp']
-].map(([name, kind, summary, img]) => ({ name, kind, summary, img }));
+].map(([name, kind, full, img]) => { const [summary, did] = full.split(' What I did: '); return { name, kind, summary, did, img }; });
 const WORKSHOP = [
   { name: 'Pixel Watch → handlebar nav', text: 'An old Pixel Watch, flashed with a custom ROM and mounted on my handlebar as a turn-by-turn navigation module. Its cousin is in the bottom-right corner.' },
   { name: 'Pi-hole & homelab', text: 'A homelab I keep tearing down and rebuilding. Pi-hole guards the network.' },
@@ -931,7 +933,7 @@ class Component extends DCLogic {
       timeline: TIMELINE, projects: PROJECTS, workshop: WORKSHOP, ...(() => { const shots = PROJECTS.filter(p => p.img), texts = PROJECTS.filter(p => !p.img); const open = i => () => { this.blip && this.blip(880); this.setState({ lbI: i }); };
         const shotProjects = shots.map((p, i) => ({ ...p, open: open(i) })); const li = this.state.lbI, cur = li != null ? shots[li] : null, go = d => e => { e && e.stopPropagation(); this.setState(st => ({ lbI: (st.lbI + d + shots.length) % shots.length })); };
         return { shotProjects, textProjects: texts, proofProjects: [...shotProjects.map(p => ({ ...p, hasImg: true })), ...texts.map(p => ({ ...p, hasImg: false }))],
-          lb: { on: !!cur, name: cur ? cur.name : '', kind: cur ? cur.kind : '', summary: cur ? cur.summary : '', img: cur ? cur.img : '', count: cur ? String(li + 1).padStart(2, '0') + ' / ' + String(shots.length).padStart(2, '0') : '',
+          lb: { on: !!cur, name: cur ? cur.name : '', kind: cur ? cur.kind : '', summary: cur ? cur.summary + (cur.did ? ' What I did: ' + cur.did : '') : '', img: cur ? cur.img : '', count: cur ? String(li + 1).padStart(2, '0') + ' / ' + String(shots.length).padStart(2, '0') : '',
             close: () => this.setState({ lbI: null }), stop: e => e.stopPropagation(), prev: go(-1), next: go(1) } }; })(), proofBackLabel: mobile ? 'Ride ✕' : 'Back to the ride ✕',
       caseList: [CASES[1], CASES[2], CASES[3], CASES[4]].map((c, i) => ({ ...c, idx: String(i + 1).padStart(2, '0'), hasMarkets: c.markets.length > 0, marketCount: c.marketLabel || (c.markets.length + ' live sites'), results: c.results || [], hasResults: !!(c.results && c.results.length), logos: (c.logos || []).map(([slug, n]) => ({ src: 'https://cdn.simpleicons.org/' + slug, n })), hasLogos: !!(c.logos && c.logos.length), hasNote: !!c.note })),
       stack: [['Three.js', '#9a5418', 'threedotjs/ffffff'], ['WebGL', '#7ff3e1', 'webgl'], ['JavaScript', '#f7df1e', 'javascript'], ['React', '#61dafb', 'react'], ['GLSL shaders', '#6dff9a', 'opengl/ffffff'], ['Web Audio API', '#f2b56b', ''], ['HTML & CSS', '#e34f26', 'html5'], ['Google Fonts', '#5a5560', 'google/ffffff']].map(([n, c, l]) => ({ n, c, logo: l ? 'https://cdn.simpleicons.org/' + l : '', hasLogo: !!l, noLogo: !l })),
