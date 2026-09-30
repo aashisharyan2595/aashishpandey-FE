@@ -6,7 +6,7 @@ const root = path.join(__dirname, '..'), stateFile = path.join(__dirname, 'lastm
 const SITE = 'https://aashishpandey.com';
 const P = [
   ['/', 'Portfolio.dc.html', ['/assets/og-image.jpg', '/assets/me-portrait.webp']],
-  ['/portfolio', 'Proof-v2.dc.html', ['/assets/me-portrait.webp', '/assets/me-ride.webp']],
+  ['/portfolio', 'Proof-v3.dc.html', ['/assets/me-portrait.webp', '/assets/me-ride.webp']],
   ['/case-studies', 'Case-Studies.dc.html'],
   ['/work-liquid-iv', 'Work-Liquid-IV.dc.html'], ['/work-talenti', 'Work-Talenti.dc.html'],
   ['/work-storynest', 'Work-StoryNest.dc.html'], ['/work-ceat-specialty', 'Work-CEAT-Specialty.dc.html'],
