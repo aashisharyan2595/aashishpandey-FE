@@ -5,7 +5,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 ## 1. What the site is made of
 
 - **Static pages.** Every page is a `.dc.html` file in the repo root. There is no framework and no bundler. A small runtime (`support.js`) turns each file into the page in the browser.
-- **The ride.** `Portfolio.dc.html` loads a 3D world (`world-v6.js`, three.js from unpkg) and generated audio (`audio-v3.js`).
+- **The ride.** `Portfolio.dc.html` loads a 3D world (`world-v7.js`, three.js from unpkg) and generated audio (`audio-v3.js`).
 - **Clean URLs.** `vercel.json` maps paths like `/tools/pad` to the real file (`Tools-Pad-v2.dc.html`).
 - **One tiny backend.** `api/shorten.js` and `api/s/[code].js` power the URL shortener. They are Node functions and need a Redis database.
 - **Build step.** `node scripts/prerender.cjs && node scripts/externalize.cjs`. The first writes a static copy of each page's content into the HTML. The second moves each dynamic page's template into a hashed file under `tpl/`, so the served HTML has real content and no `{{ }}` template code. `tpl/` is generated at deploy and is git-ignored. Source files keep their inline templates, so the design tool and local previews still work.
@@ -23,7 +23,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | `404.html` | Not-found page |
 | `site.js` | Analytics, click tracking, dev-preview routing |
 | `support.js` | The page runtime. Don't edit |
-| `world-v6.js`, `audio-v3.js` | Active 3D world and audio. `world-v2/v3/v4.js` and `audio-v2.js` are old copies kept for rollback |
+| `world-v7.js`, `audio-v3.js` | Active 3D world and audio. `world-v7.js` is generated from `world-v6.js` (see `docs/PERFORMANCE.md`). `world-v6.js`, `world-v2/v3/v4.js` and `audio-v2.js` are old copies kept for rollback |
 | `api/` | Shortener backend |
 | `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`, and the site-wide `assets/og-image.jpg`, which it builds from `assets/me-ride.webp`. Never point it at an older photo: the earlier artwork showed a readable bike plate), `nav.cjs` (writes the shared header into every static page; the styles are in `assets/nav.css`, bump `?v=` in the pages when you change it), `checklist-static.cjs` (regenerates the crawlable list of checks inside the launch checklist page; run it after editing the checks) |
 | `assets/` | Images, résumé PDF, OG image. The logo is `logo-mark.svg`; `favicon.svg`, `favicon-32.png`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (square, no rounded corners, because iOS rounds it) and the root `favicon.ico` are all made from it, and `scripts/logo-mark.png` feeds the share images. Browsers cache icons hard, so the page heads link them as `?v=2` and `nav.css?v=2`: bump those numbers when you change them. `assets/vendor/` holds two third-party libraries used by the QR tools: `qrcode.js` (qrcode-generator 1.4.4, MIT) and `jsQR.min.js` (jsQR 1.4.0, Apache-2.0). Both are copied in so the tools do not depend on a CDN |
@@ -150,7 +150,7 @@ A 200 only means the file was found. Open each page in a browser too and look fo
 ## 11. Rolling back
 
 - **A bad deploy:** in Vercel, open Deployments and promote the last good one, or `git revert <commit>` and push.
-- **The 3D world:** in `Portfolio.dc.html`, change `world-v6.js` in the `import()` line back to `world-v4.js`.
+- **The 3D world:** in `Portfolio.dc.html`, change `world-v7.js` in the `import()` line back to `world-v6.js` (or `world-v4.js`).
 - **Old commits that show your bike plate:** the artwork was replaced in the current files, but earlier commits still contain the old image. Rewriting history is a separate, deliberate step.
 
 ## 12. Known limits
