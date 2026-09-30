@@ -11,7 +11,6 @@ const PAGES = {
   'Shopify-Developer.dc.html': svc, 'Full-Stack-Developer.dc.html': svc, 'Wordpress-Webflow-Developer.dc.html': svc, 'SEO-Consultant.dc.html': svc, 'UI-UX-Design.dc.html': svc, 'Tech-Consultant.dc.html': svc,
   'Tools-v2.dc.html': { current: '/tools' }, 'Tools-Shortener.dc.html': tool('URL Shortener'), 'Tools-Image.dc.html': tool('Image Resizer'),
   'Tools-Lorem.dc.html': tool('Lorem Ipsum'), 'Tools-QR.dc.html': tool('QR Codes'), 'Tools-QR-Check.dc.html': tool('QR Autopsy'), 'Tools-Checklist.dc.html': tool('Launch Checklist'),
-  'Proof-v2.dc.html': { current: '/portfolio', sub: true },
   'Work-Liquid-IV.dc.html': work, 'Work-Talenti.dc.html': work, 'Work-StoryNest.dc.html': work, 'Work-CEAT-Specialty.dc.html': work,
   'How-This-Site-Was-Built.dc.html': {},
 };
