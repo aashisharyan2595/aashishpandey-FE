@@ -45,5 +45,50 @@
     // card spotlight: any link-card or article with a border radius gets a soft cursor glow
     document.addEventListener('pointermove', function (e) { var c = e.target.closest && e.target.closest('main article, main a[href^="/work-"]'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); }, { passive: true });
   }
+  /* Brand motion: the site is a ride at dusk, so motion borrows from the road.
+     Odometer = scroll progress, headlight = card glow, road markings = eyebrow rules,
+     lanterns = step numbers lighting up, and FAQ answers slide open like a panel. */
+  function brand() {
+    // odometer: distance travelled down the page
+    if (!document.querySelector('.ap-odo')) {
+      var odo = document.createElement('div'); odo.className = 'ap-odo'; odo.setAttribute('aria-hidden', 'true'); document.body.appendChild(odo);
+      var tick = function () { var h = document.documentElement.scrollHeight - innerHeight; odo.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };
+      addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick); tick();
+    }
+    if (rm || !Element.prototype.animate) return;
+    var vis = new IntersectionObserver(function (es) { es.forEach(function (en) { if (!en.isIntersecting) return; var f = en.target.__apIn; if (f) f(); vis.unobserve(en.target); }); }, { rootMargin: '0px 0px -10% 0px' });
+    function onView(el, fn) { if (el.__apInSet) return; el.__apInSet = 1; el.__apIn = fn; vis.observe(el); }
+    var main = document.querySelector('main'); if (!main) return;
+    // road markings: eyebrow rules draw in from the left
+    main.querySelectorAll('span').forEach(function (s) {
+      var st = s.getAttribute('style') || ''; if (!/width:\s*24px;\s*height:\s*1px/.test(st)) return;
+      var a = s.animate([{ transform: 'scaleX(0)', transformOrigin: 'left' }, { transform: 'scaleX(1)', transformOrigin: 'left' }], { duration: 900, delay: 250, easing: EASE, fill: 'both' }); a.pause();
+      onView(s, function () { a.play(); });
+    });
+    // lanterns: step labels light up one after another
+    main.querySelectorAll('ol > li > span:first-child').forEach(function (s, i) {
+      if (!/^Step \d/.test(s.textContent.trim())) return;
+      var a = s.animate([{ opacity: .25, textShadow: '0 0 0 rgba(245,184,103,0)' }, { opacity: 1, textShadow: '0 0 14px rgba(245,184,103,.9)', offset: .55 }, { opacity: 1, textShadow: '0 0 0 rgba(245,184,103,0)' }], { duration: 1400, delay: (i % 3) * 220, easing: 'ease-out', fill: 'both' }); a.pause();
+      onView(s, function () { a.play(); });
+    });
+    // headlight: cards pick up a warm glow that follows the cursor
+    main.querySelectorAll('a, li, article, aside, form').forEach(function (c) {
+      if (c.hasAttribute('data-ap-glow') || c.closest('[data-ap-glow]')) return;
+      var cs = getComputedStyle(c), r = parseFloat(cs.borderTopLeftRadius); if (!(r >= 16 && r < 60) || parseFloat(cs.borderTopWidth) < 1 || c.offsetWidth < 200) return;
+      c.setAttribute('data-ap-glow', ''); if (cs.position === 'static') c.style.position = 'relative';
+    });
+  }
+  // FAQ: answers slide open and closed instead of snapping
+  document.addEventListener('click', function (e) {
+    var sm = e.target.closest && e.target.closest('details > summary'); if (!sm || rm || !Element.prototype.animate) return;
+    var d = sm.parentElement, body = sm.nextElementSibling; if (!body || d.__apBusy) return;
+    e.preventDefault(); d.__apBusy = 1;
+    if (!d.open) { d.open = true; var h = body.scrollHeight; body.animate([{ height: '0px', opacity: 0, overflow: 'hidden' }, { height: h + 'px', opacity: 1, overflow: 'hidden' }], { duration: 380, easing: EASE }).onfinish = function () { d.__apBusy = 0; }; }
+    else { var h2 = body.scrollHeight; body.animate([{ height: h2 + 'px', opacity: 1, overflow: 'hidden' }, { height: '0px', opacity: 0, overflow: 'hidden' }], { duration: 260, easing: 'ease-in' }).onfinish = function () { d.open = false; d.__apBusy = 0; }; }
+  });
+  document.addEventListener('pointermove', function (e) { var c = e.target.closest && e.target.closest('[data-ap-glow]'); if (!c) return; var r = c.getBoundingClientRect(); c.style.setProperty('--gx', (e.clientX - r.left) + 'px'); c.style.setProperty('--gy', (e.clientY - r.top) + 'px'); }, { passive: true });
+  var bt; function brandSoon() { clearTimeout(bt); bt = setTimeout(function () { if (document.getElementById('ap-pre')) return brandSoon(); brand(); }, 300); }
+  new MutationObserver(brandSoon).observe(document.documentElement, { childList: true, subtree: true });
+  brandSoon();
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

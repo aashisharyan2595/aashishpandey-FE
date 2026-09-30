@@ -129,9 +129,137 @@
       "source": "/work/:slug",
       "destination": "/case-studies",
       "permanent": true
+    },
+    {
+      "source": "/assets/build/intro.jpg",
+      "destination": "/assets/build/aashish-pandey-3d-portfolio-bangalore-highway-intro.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/turnoff.jpg",
+      "destination": "/assets/build/aashish-pandey-3d-portfolio-forest-trail.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/free-ride.jpg",
+      "destination": "/assets/build/aashish-pandey-3d-portfolio-explore-mode.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/proof-page.jpg",
+      "destination": "/assets/build/aashish-pandey-project-manager-portfolio-page.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/settings.jpg",
+      "destination": "/assets/build/aashish-pandey-3d-portfolio-adaptive-music-settings.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/stop-campfire.jpg",
+      "destination": "/assets/build/hire-aashish-pandey-project-manager-contact.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/stop-ceat.jpg",
+      "destination": "/assets/build/ceat-specialty-aem-vendor-transition-case-study-aashish-pandey.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/stop-liquid-iv.jpg",
+      "destination": "/assets/build/liquid-iv-shopify-multi-market-rollout-case-study-aashish-pandey.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/stop-talenti.jpg",
+      "destination": "/assets/build/talenti-canada-website-launch-case-study-aashish-pandey.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/stop-storynest.jpg",
+      "destination": "/assets/build/storynest-seo-growth-case-study-aashish-pandey.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/stop-projects.jpg",
+      "destination": "/assets/build/aashish-pandey-client-website-projects.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/stop-vantage.jpg",
+      "destination": "/assets/build/aashish-pandey-3d-portfolio-lake-viewpoint.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/stop-workshop.jpg",
+      "destination": "/assets/build/aashish-pandey-homelab-side-projects.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/build/watch-egg.jpg",
+      "destination": "/assets/build/aashish-pandey-3d-portfolio-smartwatch-easter-egg.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/me-portrait.webp",
+      "destination": "/assets/aashish-pandey-project-manager-bangalore.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/me-ride.webp",
+      "destination": "/assets/aashish-pandey-honda-hness-350-ride.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/work/bytzsoft.webp",
+      "destination": "/assets/work/bytzsoft-wordpress-website-aashish-pandey.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/work/jungle-sturmfrei.webp",
+      "destination": "/assets/work/jungle-by-sturmfrei-hostel-website-aashish-pandey.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/work/nskt-global.webp",
+      "destination": "/assets/work/nskt-global-website-seo-aashish-pandey.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/work/copper-chocs.webp",
+      "destination": "/assets/work/copper-chocs-shopify-store-aashish-pandey.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/work/access-health.webp",
+      "destination": "/assets/work/access-health-international-wordpress-website-aashish-pandey.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/work/royal-arc.webp",
+      "destination": "/assets/work/royal-arc-wordpress-product-catalogue-aashish-pandey.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/work/bohiyaanam-talent.webp",
+      "destination": "/assets/work/bohiyaanam-talent-staffing-website-aashish-pandey.webp",
+      "permanent": true
+    },
+    {
+      "source": "/assets/work/tekgeminus.webp",
+      "destination": "/assets/work/tekgeminus-corporate-website-aashish-pandey.webp",
+      "permanent": true
     }
   ],
   "rewrites": [
+    {
+      "source": "/tools/:file(support.js|site.js)",
+      "destination": "/:file"
+    },
+    {
+      "source": "/tools/assets/:path*",
+      "destination": "/assets/:path*"
+    },
     {
       "source": "/",
       "destination": "/Portfolio.dc.html"
