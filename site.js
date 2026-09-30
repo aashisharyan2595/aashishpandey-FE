@@ -2,7 +2,7 @@
 (function () {
   var ROUTES = {
     '/': 'Portfolio.dc.html',
-    '/portfolio': 'Proof-v2.dc.html',
+    '/portfolio': 'Proof-v3.dc.html',
     '/case-studies': 'Case-Studies.dc.html',
     '/services': 'Services.dc.html',
     '/tech-consultant': 'Tech-Consultant.dc.html',
