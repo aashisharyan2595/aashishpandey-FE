@@ -96,6 +96,20 @@ a:hover{color:var(--ink)}
 ::selection{background:#7ff3e1;color:#0b1030}
 :focus-visible{outline:2px solid #7ff3e1!important;outline-offset:2px!important}
 textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
+@media (max-width:560px){
+  header{gap:4px!important;padding-left:6px!important;padding-right:6px!important}
+  header a[href="/tools"] span{display:none!important}
+  header [role="tablist"]{gap:1px!important;padding:2px!important}
+  header [role="tablist"] button{padding:0 6px!important;font-size:11px!important}
+  header button[aria-label="Focus mode"]{display:none!important}
+  header button[aria-label="Toggle dark mode"],
+  header button[aria-label="Export note"]{width:32px!important;height:32px!important}
+  header div[style*="position: relative"]{gap:1px!important}
+  header button[class*="scp3"]{width:36px!important;height:36px!important;padding:0!important;font-size:0!important;gap:0!important;justify-content:center!important}
+}
+@media (max-width:360px){
+  header button[aria-label="Export note"]{display:none!important}
+}
 </style>
 </helmet>
 <div style="height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;overflow:hidden;transition:background .25s,color .25s;">
