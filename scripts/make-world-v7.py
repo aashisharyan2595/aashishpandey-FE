@@ -165,6 +165,16 @@ src = patch(src, "seed = saved; chunkify(); hookAll(); renderer.shadowMap.needsU
             "seed = saved; chunkify(); hookAll(); warmMore(); renderer.shadowMap.needsUpdate = true;",
             label='warm-more')
 
+
+# ---------------------------------------------------------------- 7. phone start-up
+# Phones started at tier 2 (pixel ratio 1.75) with 4x MSAA on the post target, and the adaptive quality needed ~60 slow frames
+# plus a cool-down per step to react, so the first seconds were choppy. Start at the lowest tier without MSAA and climb.
+src = patch(src, "samples: lp && !opts.mobile ? 0 : 4", "samples: lp || opts.mobile ? 0 : 4", label='msaa')
+src = patch(src, "let tier = opts.mobile ? (lp ? 1 : 2) : (lp ? 1 : 3)", "let tier = opts.mobile ? 0 : (lp ? 1 : 3)", label='phone tier')
+src = patch(src, "if (++perf.good >= 5 &&", "if (++perf.good >= (opts.mobile ? 3 : 5) &&", label='phone climb')
+# phones run the low-power path (Portfolio.dc.html passes lowPower on narrow screens) but may still climb tiers, unlike a low-end desktop
+src = patch(src, "paused = false, forceLow = lp;", "paused = false, forceLow = lp && !opts.mobile;", label='phone force-low')
+
 out = os.path.join(ROOT, 'world-v7.js')
 open(out, 'w', encoding='utf8').write(src)
 import subprocess

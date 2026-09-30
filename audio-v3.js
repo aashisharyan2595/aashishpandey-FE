@@ -3,9 +3,12 @@
 export class Radio {
   constructor() { this.ctx = null; this.cur = null; }
   init() {
-    if (this.ctx) { if (this.ctx.state === 'suspended') this.ctx.resume(); return; }
+    if (this.ctx) { if (!document.hidden && this.ctx.state !== 'running') this.ctx.resume(); return; }
     const C = window.AudioContext || window.webkitAudioContext; const ctx = this.ctx = new C();
     this.master = ctx.createGain(); this.master.gain.value = 0.85;
+    // Phone locked or tab in the background: stop the audio clock so nothing keeps playing, pick up again when the page is back.
+    const away = () => { if (document.hidden) { try { ctx.suspend(); } catch (e) {} } else if (ctx.state !== 'running') { try { ctx.resume(); } catch (e) {} } };
+    document.addEventListener('visibilitychange', away); addEventListener('pagehide', () => { try { ctx.suspend(); } catch (e) {} }); addEventListener('pageshow', away);
     const comp = ctx.createDynamicsCompressor(); this.master.connect(comp); comp.connect(ctx.destination);
     this.rev = ctx.createConvolver(); this.rev.buffer = this.impulse(4.5, 2.4); this.rev.connect(this.master);
     this.uiBus = ctx.createGain(); this.uiBus.gain.value = 0.22; this.uiBus.connect(this.master);

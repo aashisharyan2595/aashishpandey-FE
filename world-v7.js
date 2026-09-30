@@ -334,7 +334,7 @@ export async function createWorld(host, opts = {}) {
   await __y(); host.appendChild(canvas);
 
   // Post-process: vignette + grain + subtle color grade (cinematic still-frame look)
-  await __y(); const postRT = new THREE.WebGLRenderTarget(1, 1, { colorSpace: THREE.SRGBColorSpace, samples: lp && !opts.mobile ? 0 : 4 });
+  await __y(); const postRT = new THREE.WebGLRenderTarget(1, 1, { colorSpace: THREE.SRGBColorSpace, samples: lp || opts.mobile ? 0 : 4 });
   await __y(); const BL = { a: new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthBuffer: false }), b: new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, depthBuffer: false }) };
   await __y(); const FSVS = 'varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.0,1.0); }';
   await __y(); const brightMat = new THREE.ShaderMaterial({ uniforms: { map: { value: postRT.texture }, texel: { value: new THREE.Vector2() }, thresh: { value: 0.6 } }, depthWrite: false, depthTest: false, vertexShader: FSVS,
@@ -2751,7 +2751,7 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
       if (batOn && batH.some(b => near(b.x, b.z, 16))) hit('bat'); } }
 
   // Adaptive quality tiers
-  await __y(); const maxTier = lp ? 2 : 3; await __y(); let tier = opts.mobile ? (lp ? 1 : 2) : (lp ? 1 : 3), frameNo = 0, drawDist = 1, paused = false, forceLow = lp; await __y(); const perf = { acc: 0, n: 0, prev: 0, cool: 0, good: 0 };
+  await __y(); const maxTier = lp ? 2 : 3; await __y(); let tier = opts.mobile ? 0 : (lp ? 1 : 3), frameNo = 0, drawDist = 1, paused = false, forceLow = lp && !opts.mobile; await __y(); const perf = { acc: 0, n: 0, prev: 0, cool: 0, good: 0 };
   // Phones: keep the pixel ratio at or above 1 (below that the low-poly world goes soft); pay for it with shadows + draw distance instead.
   await __y(); const TIERS = opts.mobile ? [{ pr: 1.25, sh: false, dd: 0.55 }, { pr: 1.5, sh: false, dd: 0.7 }, { pr: 1.75, sh: false, dd: 0.85 }, { pr: 2, sh: true, dd: 1 }] : [{ pr: 0.6, sh: false, dd: 0.6 }, { pr: 0.85, sh: false, dd: 0.8 }, { pr: 1.25, sh: true, dd: 1 }, { pr: 1.75, sh: true, dd: 1 }];
   await __y(); const PERF_DOWN = opts.mobile ? 30 : 21, PERF_UP = opts.mobile ? 19 : 17.5;
@@ -2852,7 +2852,7 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
     frameNo++; const fi = perf.prev ? now - perf.prev : 16; perf.prev = now;
     if (fi < 200) { perf.acc += fi; perf.n++; }
     if (perf.n >= 60) { const ms = perf.acc / perf.n; perf.acc = 0; perf.n = 0;
-      if (now - perf.cool > 2500) { if (ms > PERF_DOWN && tier > 0) { setTier(tier - 1); perf.cool = now; perf.good = 0; } else if (ms < PERF_UP) { if (++perf.good >= 5 && tier < (forceLow ? 0 : maxTier)) { setTier(tier + 1); perf.cool = now; perf.good = 0; } } else perf.good = 0; } }
+      if (now - perf.cool > 2500) { if (ms > PERF_DOWN && tier > 0) { setTier(tier - 1); perf.cool = now; perf.good = 0; } else if (ms < PERF_UP) { if (++perf.good >= (opts.mobile ? 3 : 5) && tier < (forceLow ? 0 : maxTier)) { setTier(tier + 1); perf.cool = now; perf.good = 0; } } else perf.good = 0; } }
     if (introStart === null && introArmed) introStart = now;
     const intro = introStart === null ? 0 : sstep(0, 1, (now - introStart) / 6500);
     { const gap = (target - t) * L, vmax = 34 + Math.max(0, Math.abs(gap) - 60) * 0.6, want = clamp(gap * 1.4, -vmax, vmax); vel += (want - vel) * (1 - Math.exp(-dt * 2.2)); t = clamp(t + vel * dt / L, 0, 1); if (Math.abs(gap) < 0.05 && Math.abs(vel) < 0.5) { t = target; vel = 0; } }

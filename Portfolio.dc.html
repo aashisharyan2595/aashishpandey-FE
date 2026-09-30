@@ -776,7 +776,7 @@ class Component extends DCLogic {
     const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
     const loadWorld = () => import(base + 'world-v7.js').then(async m => {
       if (!this.canvasHost.current) return;
-      (window.__ap = this), this.world = await m.createWorld(this.canvasHost.current, { lowPower: lp || this.state.lowGfx, mobile: innerWidth < 760, notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
+      (window.__ap = this), this.world = await m.createWorld(this.canvasHost.current, { lowPower: lp || this.state.lowGfx || innerWidth < 760, mobile: innerWidth < 760, notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
         onNote: (i, x, y) => { this.blip(1180); if (i >= NOTES.length && !(this.state.found || []).includes(i)) { const found = [...(this.state.found || []), i]; this.setState({ found }); try { localStorage.setItem('apSecrets', JSON.stringify(found)); } catch (e) {} } this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
         holdIntro: true, spotted: this.state.spotted, onSpot: k => this.onSpot(k), stamps: this.state.stamps, onStamp: k => this.onStamp(k), onTrick: tr => this.onTrick(tr),
         onFree: (ft, fs) => this.setState({ freeT: ft, freeSpd: fs }),
