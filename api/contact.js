@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
 
   try {
     const a = T.adminBrief(d);
-    await sendMail({ to: env().admin, replyTo: d.email, subject: a.subject, html: a.html, text: a.text });
+    await sendMail({ to: env().admins, replyTo: d.email, subject: a.subject, html: a.html, text: a.text });
   } catch (e) {
     if (e.code === 'NOCONFIG') return res.status(503).json({ error: 'The form is not connected yet. Please email hello@aashishpandey.com.' });
     console.error('contact: admin mail failed', e.message);
@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
   }
   try {   // the confirmation is a courtesy: the brief already arrived, so a failure here is not an error for the visitor
     const u = T.userBriefConfirmation(d);
-    await sendMail({ to: d.email, subject: u.subject, html: u.html, text: u.text, replyTo: env().admin });
+    await sendMail({ to: d.email, subject: u.subject, html: u.html, text: u.text, replyTo: env().admins });
   } catch (e) { console.error('contact: confirmation mail failed', e.message); }
   return res.status(200).json({ ok: true });
 };

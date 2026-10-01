@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
   if (!env().audience) return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
   try {
     const m = T.subscribeConfirm(link('confirm', email));
-    await sendMail({ to: email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admin });
+    await sendMail({ to: email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins });
   } catch (e) {
     if (e.code === 'NOCONFIG') return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
     console.error('subscribe: mail failed', e.message);

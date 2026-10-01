@@ -8,8 +8,10 @@ const env = () => ({
   key: process.env.RESEND_API_KEY,
   // mail is sent from the Resend domain aashishpandey.online; replies are routed to ADMIN_EMAIL (the real inbox) with reply-to
   from: process.env.RESEND_FROM || 'Aashish Pandey <hello@aashishpandey.online>',
-  admin: process.env.ADMIN_EMAIL || 'hello@aashishpandey.com',
+  // ADMIN_EMAIL can hold several addresses, separated by commas. All of them get the alerts; replies go to all of them too.
+  admins: String(process.env.ADMIN_EMAIL || 'hello@aashishpandey.com').split(/[,;\s]+/).map((x) => x.trim()).filter((x) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x)).slice(0, 5),
   audience: process.env.RESEND_AUDIENCE_ID,
+  get admin() { return this.admins[0]; },
   secret: process.env.NEWSLETTER_SECRET || process.env.RESEND_API_KEY || '',
 });
 
