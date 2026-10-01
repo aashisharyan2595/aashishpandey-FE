@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://aashishpandey.com/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og-image.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/me-portrait.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/portfolio</loc>
+    <lastmod>2026-09-30</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/me-portrait.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/me-ride.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/how-this-site-was-built</loc>
+    <lastmod>2026-09-30</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/aashish-pandey-3d-portfolio-bangalore-highway-intro.jpg</image:loc></image:image>
+  </url>
+</urlset>

@@ -418,7 +418,7 @@
       ]
     },
     {
-      "source": "/(sitemap.xml|robots.txt|llms.txt)",
+      "source": "/(sitemap.xml|sitemap-pages.xml|sitemap-case-studies.xml|sitemap-services.xml|sitemap-tools.xml|robots.txt|llms.txt)",
       "headers": [
         {
           "key": "Cache-Control",

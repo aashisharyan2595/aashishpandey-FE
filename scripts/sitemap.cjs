@@ -1,4 +1,4 @@
-// Regenerates sitemap.xml. A page's <lastmod> only moves when its content really changes:
+// Regenerates sitemap.xml (an index) and the per-type sitemaps sitemap-pages/case-studies/services/tools.xml. A page's <lastmod> only moves when its content really changes:
 // we hash each source file (minus the prerendered #ap-pre block, which is derived) and compare with scripts/lastmod.json.
 // Run by hand before committing:  node scripts/sitemap.cjs      (first run: node scripts/sitemap.cjs --init YYYY-MM-DD)
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
@@ -30,6 +30,23 @@ for (const [, file] of P) {
   else if (s.hash !== h) { state[file] = { hash: h, lastmod: today }; changed.push(file); }
 }
 fs.writeFileSync(stateFile, JSON.stringify(state, null, 2) + '\n');
-const urls = P.map(([loc, file, imgs = []]) => `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${state[file].lastmod}</lastmod>\n${imgs.map(x => `    <image:image><image:loc>${SITE}${x}</image:loc></image:image>\n`).join('')}  </url>\n`).join('');
-fs.writeFileSync(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls}</urlset>\n`);
+// One sitemap per kind of page, tied together by an index at /sitemap.xml (the only one robots.txt names).
+const GROUPS = [
+  ['sitemap-pages.xml', loc => loc === '/' || loc === '/portfolio' || loc === '/how-this-site-was-built'],
+  ['sitemap-case-studies.xml', loc => loc === '/case-studies' || loc.startsWith('/work-')],
+  ['sitemap-services.xml', loc => loc === '/services' || ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/tech-consultant'].includes(loc)],
+  ['sitemap-tools.xml', loc => loc === '/tools' || loc.startsWith('/tools/')],
+];
+const entry = ([loc, file, imgs = []]) => `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${state[file].lastmod}</lastmod>\n${imgs.map(x => `    <image:image><image:loc>${SITE}${x}</image:loc></image:image>\n`).join('')}  </url>\n`;
+const used = new Set(), index = [];
+for (const [name, test] of GROUPS) {
+  const rows = P.filter(r => test(r[0]));
+  rows.forEach(r => used.add(r[0]));
+  fs.writeFileSync(path.join(root, name), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${rows.map(entry).join('')}</urlset>\n`);
+  index.push(`  <sitemap>\n    <loc>${SITE}/${name}</loc>\n    <lastmod>${rows.map(r => state[r[1]].lastmod).sort().pop()}</lastmod>\n  </sitemap>\n`);
+  console.log(name, rows.length + ' urls');
+}
+const missed = P.filter(r => !used.has(r[0])).map(r => r[0]);
+if (missed.length) throw new Error('not in any sitemap group: ' + missed.join(', '));
+fs.writeFileSync(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${index.join('')}</sitemapindex>\n`);
 console.log(changed.length ? 'lastmod moved for: ' + changed.join(', ') : 'no content changes, dates untouched');
