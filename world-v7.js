@@ -381,7 +381,7 @@ export async function createWorld(host, opts = {}) {
   await __y(); v6Prep();
   await __y(); const scene = new THREE.Scene();
   await __y(); scene.matrixWorldAutoUpdate = false; // v7: world matrices are updated by updateRoots() in the frame loop, skipping hidden and static roots
-  await __y(); if (/[?&]perf\b/.test(location.search)) window.__apW = { renderer, scene, get lowPower() { return lp; } };
+  await __y(); if (/[?&]perf\b/.test(location.search)) window.__apW = { renderer, scene, get lowPower() { return lp; }, get probe() { return { fs, fh, fx, fz, lean, grounded, airY, bike: bikeRoot, PH: typeof PH === 'undefined' ? null : PH, steerIn: typeof steerIn === 'undefined' ? 0 : steerIn, roadX, roadW, roadDist }; } };
   await __y(); scene.fog = new THREE.Fog(0xe0976f, 50, 560);
   await __y(); const camera = new THREE.PerspectiveCamera(52, host.clientWidth / host.clientHeight, 0.1, 4000);
   await __y(); const GT = glowTex();
@@ -1229,6 +1229,10 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
       for (const Lg of RIGL) { ik(Lg.hp, Lg.ank, 0.427 + Lg.ext * 0.06, 0.418 + Lg.ext * 0.08, Lg.pole, Lg.E, Lg.W); Lg.kn.position.copy(Lg.E); setLimb(Lg.th, Lg.hp, Lg.E); setLimb(Lg.tr, Lg.E, Lg.W); Lg.sho.position.set(Lg.W.x, Lg.W.y - 0.06, Lg.W.z - 0.05); Lg.sole.position.set(Lg.W.x, Lg.W.y - 0.1, Lg.W.z - 0.06); } };
     apply(); const kst = mk(new THREE.CylinderGeometry(0.014, 0.018, 0.34, 6).translate(0, -0.17, 0), M.chrome, 'side-stand'); kst.position.set(-0.13, 0.34, 0.12); kst.rotation.set(-1.4, 0, 0); bike.add(kst);
     bike.userData.rig = { rider, spine, headG, A: RIGA, L: RIGL, hit: rHit, apply, kst }; }
+  await __y(); { const FRONT = new Set(['front-wheel', 'front-fender', 'fork', 'fork-cover', 'triple-clamp', 'headlight-bucket', 'headlight-ring', 'headlight-lens', 'headlight-beam', 'speedo', 'indicator', 'indicator-stem', 'handlebar', 'grip', 'lever', 'mirror-stem', 'mirror', 'mirror-glass', 'pixel-watch', 'watch-screen', 'brake-caliper']);
+    const sg = new THREE.Group(); sg.name = 'steer-assembly'; sg.position.set(0, 1, -0.49); bike.add(sg); bike.updateMatrixWorld(true);
+    bike.children.filter(c => c !== sg && (FRONT.has(c.name) || (c.type === 'Sprite' && c.position.z < -0.3) || (c.type === 'Object3D' && c.position.z < -5) || (c.isLight && c.position.z < -0.3))).forEach(c => sg.attach(c));
+    bike.userData.steerG = sg; bike.userData.steerAx = new THREE.Vector3(0, 0.64, 0.23).normalize(); }
   await __y(); bike.traverse(o => { if (o.isMesh) o.castShadow = !lp; });
   await __y(); const bikeRoot = new THREE.Group(); await __y(); bikeRoot.add(bike); await __y(); scene.add(bikeRoot);
   await __y(); const head = new THREE.SpotLight('#eaf2ff', 0, 70, 0.5, 0.55, 1); await __y(); head.position.set(0, 0.95, -0.75); await __y(); const headT = new THREE.Object3D(); await __y(); headT.position.set(0, 0, -14); await __y(); bike.add(head, headT); await __y(); head.target = headT;
@@ -2871,6 +2875,7 @@ Object.assign(DL, {
   window.addEventListener('ap:thunder', e => { DB.thunderQ = (e.detail && e.detail.power) || 0.7; }); window.addEventListener('ap:gust', () => { DB.gustQ = 1; });
   const RIG = bike.userData.rig, RT = new THREE.Vector3(), RT2 = new THREE.Vector3();
   const RG = { act: null, actT: 0, q: null, idleT: 0, nextIdle: 3.5, windCd: 10, cruise: 0, gT: 0, grassK: 0, footK: 0, footSide: -1, sx: 0, sy: 0, sz: 0, hx: 0, hy: 0, hz: 0, prevYaw: 0, yawRate: 0, pointP: new THREE.Vector3(), animal: null, animalD: 1e9, snack: null, hoverR: false, prevSurf: 0, wasG: true, wasNight: false, camF: 0 };
+  const PH = { lon: 0, roll: 0, landK: 0, steerVis: 0 }; // bike dynamics the rider and front end read: longitudinal accel, terrain roll, landing kick, bar angle
   const ACTS = {
     stretch: { d: 3.4, still: true, L: u => [-0.22, 2.2 + Math.sin(u * 9) * 0.03, 0.12], R: u => [0.22, 2.2 + Math.sin(u * 9 + 1) * 0.03, 0.12], open: 'B', sp: [0.2, 0, 0], hd: [0.45, 0, 0] },
     shift: { d: 4, still: true, sp: u => [0, Math.sin(u * 6.283) * 0.08, Math.sin(u * 6.283) * 0.15], hd: u => [0, Math.sin(u * 6.283) * 0.25, Math.sin(u * 6.283) * -0.08] },
@@ -2903,11 +2908,12 @@ Object.assign(DL, {
     if (RG.grassK > 0.8 && cd('grassR', 240)) say(PL(DL.grassRider));
     RG.footK += ((stopped && RG.idleT > 0.35 ? 1 : 0) - RG.footK) * Math.min(1, dt * 5);
     let sx = -0.05 * Math.min(1, curSpeed / 14) - boostAmt * 0.22, sy = 0, sz = RG.yawRate * 0.06 - RG.footK * 0.05 * RG.footSide;
+    if (on) { sx += -0.1 * sstep(11, 27, curSpeed) - clamp(-PH.lon, 0, 28) / 28 * 0.2 + clamp(PH.lon, 0, 14) / 14 * 0.09 - PH.landK * 0.22; sz += -lean * 0.3 + PH.roll * 0.5; }
     if (DB.lurch > 0) sx -= Math.sin((0.4 - Math.max(0, DB.lurch)) / 0.4 * Math.PI) * 0.18;
     if (on && !grounded) sx += 0.08; if (!A0 && WX.rain > 0.4) sx -= 0.08; if (!A0 && (REG.id === 'snow' || WX.snow > 0.3)) sz += Math.sin(T * 50) * 0.01;
     if (A0 && A0.sp) { const v = aval(A0.sp, u, T); sx += v[0] * k; sy += v[1] * k; sz += v[2] * k; }
     sz += RG.grassK * 0.55; sx -= RG.grassK * 0.32;
-    let hx = -sx * 0.5, hy = clamp(RG.yawRate * 0.3, -0.5, 0.5), hz = 0, lp = null, lw = 0;
+    let hx = -sx * 0.5, hy = clamp(RG.yawRate * 0.3, -0.5, 0.5), hz = on ? lean * 0.85 + PH.roll * 0.35 : 0, lp = null, lw = 0;
     if (A0 && A0.cam) { lp = camera.position; lw = k; } else if (RG.act === 'point') { lp = RG.pointP; lw = k; } else if (RG.hoverR) { lp = camera.position; lw = 0.9; }
     else if (dinoState === 'roam' || dinoState === 'run') { const dd = Math.hypot(dino.position.x - bp.x, dino.position.z - bp.z); if (dd < 30 && dd > 1.2) { lp = dino.position; lw = 0.7; } }
     else if (FETCH.st === 'fly') { lp = FETCH.m.position; lw = 0.8; } else if (RG.animal && RG.animalD < 25 && curSpeed < 8) { lp = RG.animal; lw = 0.6; }
@@ -2918,7 +2924,7 @@ Object.assign(DL, {
     hx -= RG.grassK * 0.3; hy += RG.grassK * 0.45;
     RG.sx += (sx - RG.sx) * f; RG.sy += (sy - RG.sy) * f; RG.sz += (sz - RG.sz) * f; RG.hx += (hx - RG.hx) * f; RG.hy += (hy - RG.hy) * f; RG.hz += (hz - RG.hz) * f;
     if (on) { RIG.spine.rotation.set(RG.sx, RG.sy, RG.sz); RIG.headG.rotation.set(RG.hx, RG.hy, RG.hz); } else { RIG.spine.rotation.set(0, 0, 0); RIG.headG.rotation.set(0, 0, 0); }
-    for (const A of RIG.A) { const isL = A.s < 0; RT.set(A.s * 0.335, 1.13, -0.37); let op = 0, rz = 0; const hv = A0 && on ? (isL ? A0.L : A0.R) : null;
+    for (const A of RIG.A) { const isL = A.s < 0; RT.set(A.s * 0.335, 1.13, -0.37); if (on && PH.steerVis) { const c = Math.cos(PH.steerVis), s2 = Math.sin(PH.steerVis), zz = RT.z + 0.44, hxr = RT.x * c + zz * s2, hzr = -RT.x * s2 + zz * c - 0.44; RT.x = hxr; RT.z = hzr; } let op = 0, rz = 0; const hv = A0 && on ? (isL ? A0.L : A0.R) : null;
       if (hv) { if (hv === 'point') { const v = RIG.rider.worldToLocal(RT2.copy(RG.pointP)).sub(A.shP).normalize(); RT2.copy(A.shP).addScaledVector(v, 0.7); } else { const v = aval(hv, u, T); RT2.set(v[0], v[1], v[2]); } RT.lerp(RT2, k); if (A0.open === (isL ? 'L' : 'R') || A0.open === 'B') op = k; if (RG.act === 'wind' && isL) rz = Math.sin(T * 1.7 + 0.8) * 0.5 * k; }
       if (isL && on && RG.grassK > 0.01) { RT.lerp(RT2.set(-0.68, 0.42 + Math.sin(T * 9) * 0.04, -0.18), RG.grassK); op = Math.max(op, RG.grassK); if (RG.grassK > 0.75 && Math.random() < dt * 10) { A.gl.getWorldPosition(RT2); burst(RT2.x, RT2.y, RT2.z, 1, '#8fd16a', 0.5, 0.6); } }
       A.hand.lerp(RT, fh); A.op += (op - A.op) * fh; A.rz = rz; }
@@ -3257,6 +3263,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   await __y(); const CAM = [[0, 0, 0], [0.6, 1, 0], [0.6, 1, 0], [0.6, 1, 0], [0.6, 1, 0], [0.15, 0, 1.8], [0.6, 1, 0], [0.6, 1, 0], [1.25, 1, 1.4], [0.5, 0.15, -0.5]];
   await __y(); const camPos = new THREE.Vector3(), camLook = new THREE.Vector3(), tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3();
   await __y(); let lastArrive = -1, fireBoost = 0, starT = -1, camRoll = 0, slip = 0, jumpHeld = false, lastGY = null, vyPrev = 0, boostAmt = 0, wheelie = 0, surf = 0, freePitch = 0, jBuf = 0, coyote = 0, jHoldT = 0;
+  let steerIn = 0, leanV = 0, lonAcc = 0, fsPrev = 0, rollS = 0, csN = 0;
   await __y(); let introArmed = !opts.holdIntro, introStart = null, prevZ = zAt(0), last = performance.now(), running = true, raf = 0, readySent = false, lean = 0;
   await __y(); const clock0 = performance.now();
 
@@ -3333,7 +3340,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     const intro = introStart === null ? 0 : sstep(0, 1, (now - introStart) / 6500);
     { const gap = (target - t) * L, vmax = 34 + Math.max(0, Math.abs(gap) - 60) * 0.6, want = clamp(gap * 1.4, -vmax, vmax); vel += (want - vel) * (1 - Math.exp(-dt * 2.2)); t = clamp(t + vel * dt / L, 0, 1); if (Math.abs(gap) < 0.05 && Math.abs(vel) < 0.5) { t = target; vel = 0; } if (!free && CAMP.st !== 'ride') { t = 1; vel = 0; } }
     if (!down && now - lastPan > 2500) { yawOff *= Math.exp(-dt * 1.2); pitchOff *= Math.exp(-dt * 1.2); }
-    keyDir = clamp((keys.r || touch.r ? 1 : 0) - (keys.l || touch.l ? 1 : 0) + stickX, -1, 1);
+    keyDir = clamp((keys.r || touch.r ? 1 : 0) - (keys.l || touch.l ? 1 : 0) + stickX, -1, 1); steerIn += (keyDir - steerIn) * (1 - Math.exp(-dt * (Math.abs(keyDir) >= Math.abs(steerIn) ? 7 : 11)));
     let bp, yaw, z, fr, spd, pitch;
     if (!free) {
       if (keyDir) steerT = clamp(steerT + keyDir * dt * 1.8, -1, 1); else steerT *= Math.exp(-dt * 0.35);
@@ -3353,15 +3360,19 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       surf = onRoad ? 0 : sandy ? 2 : 1;
       const onIce = FLAKE.y !== null && Math.hypot(fx - FLAKE.x, fz - FLAKE.z) < FLAKE.r - 0.4; iceOn = onIce;
       const grip = onIce ? 0.5 : onRoad ? 9 : sandy ? 2.4 : 4.2, drag = onIce ? 0.12 : onRoad ? 0.5 : sandy ? 1.5 : 0.9, topS = (onRoad ? 27 : sandy ? 17 : 22) + boostAmt * 10;
+      const gk = clamp(1 - clamp(WX.rain || 0, 0, 1) * (onRoad ? 0.24 : 0.12) - clamp(WX.snowCover || 0, 0, 1) * (onIce ? 0 : 0.28), 0.55, 1), aLat = (onIce ? 2.4 : onRoad ? 15 : sandy ? 6.5 : 9) * gk, brakeMax = (onIce ? 2.5 : onRoad ? 15 : sandy ? 7 : 10) * gk;
       if (grounded) {
-        const accel = thr > 0 ? (fs < 0 ? 22 : 13 + boostAmt * 10) * (1 - Math.min(0.8, Math.max(0, fs) / topS)) : thr < 0 ? (fs > 0 ? 26 : 7) : 0;
-        fs += thr * dt * accel; fs -= fs * dt * drag * (thr ? 0.22 : 1);
+        const accel = thr > 0 ? (fs < 0 ? 22 : 13 + boostAmt * 10) * (1 - Math.min(0.8, Math.max(0, fs) / topS)) : thr < 0 ? (fs > 0 ? brakeMax : 7) : 0;
+        fs += thr * dt * accel;
+        if (thr) fs -= fs * dt * drag * 0.22; else { const c0 = onIce ? 0.35 : onRoad ? 1 : sandy ? 4 : 2.4, c1 = onIce ? 0.0008 : sandy ? 0.004 : 0.0045, rr = Math.min(Math.abs(fs), (c0 + c1 * fs * fs) * dt); fs -= Math.sign(fs) * rr; }
         const sa = groundY(fx - Math.sin(fh) * 1.2, fz - Math.cos(fh) * 1.2) - groundY(fx + Math.sin(fh) * 1.2, fz + Math.cos(fh) * 1.2); fs -= clamp(sa / 2.4, -0.8, 0.8) * 6.5 * dt;
       }
       fs = clamp(fs, -6, topS + 5);
-      const turnRate = 2.4 * clamp(1 - Math.abs(fs) / 46, 0.55, 1) * (grounded ? 1 : 0.4);
-      const yawRate = -keyDir * turnRate * clamp(Math.abs(fs) / 2.2, 0.18, 1) * (fs < 0 ? -1 : 1); fh += yawRate * dt; iceSpin = onIce && grounded ? iceSpin + yawRate * dt : 0;
-      slip += -yawRate * Math.abs(fs) * 0.1 * (grounded ? (onIce ? 3 : onRoad ? 0.5 : 1.3) : 0.2) * dt; slip *= Math.exp(-dt * (grounded ? grip : 0.4)); slip = clamp(slip, -7, 7);
+      lonAcc += (clamp((fs - fsPrev) / Math.max(dt, 1e-3), -30, 16) - lonAcc) * (1 - Math.exp(-dt * 9)); fsPrev = fs;
+      const turnRate = Math.min(2.5, aLat / Math.max(Math.abs(fs), 1)) * (grounded ? 1 : 0.3);
+      const yawRate = -steerIn * turnRate * clamp(Math.abs(fs) / 2.2, 0.18, 1) * (fs < 0 ? -1 : 1); fh += yawRate * dt; iceSpin = onIce && grounded ? iceSpin + yawRate * dt : 0;
+      slip += -yawRate * Math.abs(fs) * 0.1 * (grounded ? (onIce ? 3 : onRoad ? 0.5 : 1.3) : 0.2) * dt;
+      if (grounded) { if (thr < 0 && fs > 6) slip += -yawRate * Math.abs(fs) * 0.1 * (onIce ? 2 : onRoad ? 0.5 : 1.3) * dt; csN = (groundY(fx - Math.cos(fh) * 0.6, fz + Math.sin(fh) * 0.6) - groundY(fx + Math.cos(fh) * 0.6, fz - Math.sin(fh) * 0.6)) / 1.2; if (Math.abs(csN) > 0.32 && !onRoad) slip += clamp(csN, -1, 1) * 2.4 * dt; } else csN = 0; slip *= Math.exp(-dt * (grounded ? grip : 0.4)); slip = clamp(slip, -7, 7);
       const fwx = -Math.sin(fh), fwz = -Math.cos(fh), rtx = Math.cos(fh), rtz = -Math.sin(fh);
       { const inS = collideAt(fx, fz, 0.25, airY + 0.1); if (inS) { const pdx = fx - inS.x, pdz = fz - inS.z, pl = Math.hypot(pdx, pdz) || 1, need = inS.r + 0.27; fx = inS.x + pdx / pl * need; fz = inS.z + pdz / pl * need; } }
       let nx = fx + (fwx * fs + rtx * slip) * dt, nz = fz + (fwz * fs + rtz * slip) * dt;
@@ -3385,13 +3396,13 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
         if ((Math.abs(fs) > 7 && gyS < pred - 0.07 && vyPrev > -1) || gyS < lastGY - 0.35) { grounded = false; airVel = vyPrev; airY = lastGY + vyPrev * dt; }
         else { airY = gyS; vyPrev = clamp(gv, -30, 30); } }
       if (!grounded) { const hold = jumpDown && jHoldT > 0 && airVel > 0; jHoldT -= dt; airVel -= (hold ? 12 : airVel < 0 ? 26 : 22) * dt; airY += airVel * dt;
-        if (airY <= gyS) { const impact = -airVel; airY = gyS; grounded = true; vyPrev = 0; airVel = 0; shake = Math.max(shake, clamp(impact / 12, 0.25, 1)); if (impact > 9) fs *= 0.92; spawnDust(Math.round(clamp(impact * 1.5, 6, 26)), fx, fz, surf); opts.onBrake && impact > 10 && opts.onBrake(); } }
+        if (airY <= gyS) { const impact = -airVel; airY = gyS; grounded = true; vyPrev = 0; airVel = 0; shake = Math.max(shake, clamp(impact / 12, 0.25, 1)); susVel -= clamp(impact * 0.3, 0, 5); PH.landK = Math.max(PH.landK, clamp(impact / 14, 0, 1)); if (impact > 9) fs *= 0.92; spawnDust(Math.round(clamp(impact * 1.5, 6, 26)), fx, fz, surf); opts.onBrake && impact > 10 && opts.onBrake(); } }
       lastGY = gyS; airY = Math.max(airY, gyS);
       bp = tmp.set(fx, airY, fz); yaw = fh;
       const ga = groundY(fx - Math.sin(fh) * 0.8, fz - Math.cos(fh) * 0.8), gb = groundY(fx + Math.sin(fh) * 0.8, fz + Math.cos(fh) * 0.8);
       wheelie += ((grounded && thr > 0 && fs > 1 && fs < 9 ? 0.16 + boostAmt * 0.12 : 0) - wheelie) * (1 - Math.exp(-dt * 5));
-      const pT = grounded ? Math.atan2(ga - gb, 1.6) + wheelie : clamp(Math.atan2(airVel, Math.max(4, Math.abs(fs))) * 0.6, -0.5, 0.45); freePitch += (pT - freePitch) * (1 - Math.exp(-dt * (grounded ? 14 : 4))); if (!isFinite(freePitch)) freePitch = 0; pitch = freePitch;
-      lean += (clamp(keyDir * fs * 0.04 + slip * 0.06, -0.6, 0.6) - lean) * (1 - Math.exp(-dt * 6));
+      const pT = grounded ? Math.atan2(ga - gb, 1.6) + wheelie + lonAcc * 0.003 : clamp(Math.atan2(airVel, Math.max(4, Math.abs(fs))) * 0.6, -0.5, 0.45); freePitch += (pT - freePitch) * (1 - Math.exp(-dt * (grounded ? 14 : 4))); if (!isFinite(freePitch)) freePitch = 0; pitch = freePitch;
+      { const lT = clamp(Math.atan(-yawRate * fs / 9.81) * 0.68 + slip * 0.05, -0.6, 0.6); leanV += ((lT - lean) * 70 - leanV * 11) * dt; lean += leanV * dt; rollS += ((grounded ? Math.atan(clamp(csN, -1, 1)) * 0.35 : 0) - rollS) * (1 - Math.exp(-dt * 6)); }
       if (grounded && (surf > 0 && Math.abs(fs) > 5 || Math.abs(slip) > 1.6) && Math.random() < dt * (Math.abs(fs) * 1.6 + Math.abs(slip) * 10)) spawnDust(1, fx - fwx * 0.75, fz - fwz * 0.75, Math.abs(slip) > 1.6 && surf === 0 ? 3 : surf);
       { const wS = waterAt(fx, fz), wet = wS !== null && airY <= wS + 0.08, as = Math.abs(fs);
         if (wet) { const depth = clamp(wS - (hFast || H)(fx, fz), 0, 2.5); fs *= Math.exp(-dt * (0.5 + depth * 0.8));
@@ -3405,16 +3416,19 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       fr = { f: new THREE.Vector3(-Math.sin(fh), 0, -Math.cos(fh)), r: new THREE.Vector3(Math.cos(fh), 0, -Math.sin(fh)) };
       if (opts.onFree && T - lastFreeCb > 0.25) { lastFreeCb = T; opts.onFree(clamp((Z0 - fz) / L, 0, 1), fs); }
     }
+    if (!free) { rollS *= Math.exp(-dt * 5); lonAcc *= Math.exp(-dt * 5); steerIn *= Math.exp(-dt * 8); leanV = 0; }
     prevZ = z; lastYaw = yaw;
     if (susY === null) susY = bp.y;
-    susVel += (bp.y - susY) * 300 * dt; susVel *= Math.max(0, 1 - dt * 12.5); susY += susVel * dt;
+    susVel += (bp.y - susY) * 300 * dt; susVel *= Math.max(0, 1 - dt * 16); if (PH.landK > 0.001) PH.landK *= Math.exp(-dt * 4); susY += susVel * dt;
     const susTravel = clamp(bp.y - susY, -0.19, 0.25); susY = bp.y - susTravel;
     const groundYAhead = groundY(bp.x - Math.sin(yaw) * 0.75, bp.z - Math.cos(yaw) * 0.75), groundYBack = groundY(bp.x + Math.sin(yaw) * 0.65, bp.z + Math.cos(yaw) * 0.65);
-    susFrontV += ((groundYAhead - bp.y) - susFront) * 250 * dt; susFrontV *= Math.max(0, 1 - dt * 14); susFront += susFrontV * dt; susFront = clamp(susFront, -0.16, 0.12);
-    susRearV += ((groundYBack - bp.y) - susRear) * 250 * dt; susRearV *= Math.max(0, 1 - dt * 14); susRear += susRearV * dt; susRear = clamp(susRear, -0.16, 0.12);
+    susFrontV += ((groundYAhead - bp.y) - susFront) * 250 * dt; susFrontV *= Math.max(0, 1 - dt * 16); susFront += susFrontV * dt; susFront = clamp(susFront, -0.16, 0.12);
+    susRearV += ((groundYBack - bp.y) - susRear) * 250 * dt; susRearV *= Math.max(0, 1 - dt * 16); susRear += susRearV * dt; susRear = clamp(susRear, -0.16, 0.12);
     bp.y = susY;
     if (Math.abs(susTravel) > 0.04) shake = Math.max(shake, Math.min(1, Math.abs(susTravel) * 3.5));
-    bikeRoot.position.copy(bp); bikeRoot.rotation.set(pitch + (susRear - susFront) * 0.4, yaw, 0, 'YXZ'); bike.rotation.z = -lean; bike.position.y = (Math.sin(T * 21) * 0.6 + Math.sin(T * 34 + 1.7) * 0.4) * (0.004 + 0.011 * trailMix(bp.z)) * clamp(curSpeed / 18, 0, 1);
+    PH.lon = lonAcc; PH.roll = rollS;
+    { const svT = free ? -steerIn * lerp(0.46, 0.1, clamp(Math.abs(fs) / 20, 0, 1)) : -lean * 0.4; PH.steerVis += (svT - PH.steerVis) * (1 - Math.exp(-dt * 14)); const sg = bike.userData.steerG; if (sg) sg.quaternion.setFromAxisAngle(bike.userData.steerAx, PH.steerVis); }
+    bikeRoot.position.copy(bp); bikeRoot.rotation.set(pitch + (susRear - susFront) * 0.4, yaw, 0, 'YXZ'); bike.rotation.z = -lean - rollS; bike.position.y = (Math.sin(T * 21) * 0.6 + Math.sin(T * 34 + 1.7) * 0.4) * (0.004 + 0.011 * trailMix(bp.z)) * clamp(curSpeed / 18, 0, 1);
     lastBX = bp.x; lastBZ = bp.z;
     curSpeed += (Math.min(spd, 30) - curSpeed) * (1 - Math.exp(-dt * 3));
     const brakeAmt = clamp(Math.max(0, brakeSpd - curSpeed) * 6, 0, 1); brakeSpd = curSpeed;
