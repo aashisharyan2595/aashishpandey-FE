@@ -365,6 +365,10 @@
       "destination": "/Tools-Password.dc.html"
     },
     {
+      "source": "/tools/time-zone-meeting-planner",
+      "destination": "/Tools-Timezone.dc.html"
+    },
+    {
       "source": "/s/:code",
       "destination": "/api/s/:code"
     }
