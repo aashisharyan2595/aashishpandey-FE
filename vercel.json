@@ -289,6 +289,18 @@
       "destination": "/SEO-Consultant.dc.html"
     },
     {
+      "source": "/terms",
+      "destination": "/Legal-Terms.dc.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/Legal-Privacy.dc.html"
+    },
+    {
+      "source": "/cookies",
+      "destination": "/Legal-Cookies.dc.html"
+    },
+    {
       "source": "/image-license",
       "destination": "/Image-License.dc.html"
     },

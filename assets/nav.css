@@ -204,3 +204,9 @@ html:has(.ap-ms[open]){overflow:hidden}
 .ap-ms__feat{display:flex;align-items:center;gap:12px;min-height:60px;margin:2px 0 6px;padding:10px 14px;border-radius:14px;border:1px solid rgba(245,184,103,.45);background:linear-gradient(135deg,rgba(245,184,103,.22),rgba(245,184,103,.07));color:#f4efe6!important}
 .ap-ms__feat .ap-mega__ic{background:#f5b867;color:#1a1420}
 .ap-ms__ftx{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+
+/* v13: legal links in the footer */
+.ap-foot__legal{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;font:400 11.5px/1.4 'Geist Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+.ap-foot__legal a,.ap-foot__legal button{color:#a9a3b8;background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;min-height:32px;display:inline-flex;align-items:center}
+.ap-foot__legal a:hover,.ap-foot__legal button:hover{color:#f5b867}
+@media(max-width:760px),(pointer:coarse){.ap-foot__legal a,.ap-foot__legal button{min-height:44px}}

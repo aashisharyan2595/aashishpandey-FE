@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 12; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 13; // bump when assets/nav.css changes: assets are cached for 30 days
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
 const WA = 'https://wa.me/917558415031';
@@ -137,7 +137,7 @@ const FOOT = {
     { href: WA, label: 'WhatsApp', ic: 'chat', x: true },
   ],
   work: [['/case-studies', 'Case studies'], ['/work-liquid-iv', 'Liquid I.V.'], ['/work-talenti', 'Talenti'], ['/work-storynest', 'StoryNest'], ['/work-ceat-specialty', 'CEAT Specialty'], ['/portfolio', 'Portfolio']],
-  more: [['/', 'The 3D ride'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)'], ['/portfolio#pf-contact', 'Send a brief'], ['/image-license', 'Image licence']],
+  more: [['/', 'The 3D ride'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)'], ['/portfolio#pf-contact', 'Send a brief']],
 };
 
 /* ---------- helpers ---------- */
@@ -189,7 +189,7 @@ function footer() {
   const soc = FOOT.soc.map((s) => `<a href="${e(s.href)}"${ext(s)} aria-label="${e(s.label)}">${svg(ICONS.extra[s.ic], 18, 1.8)}</a>`).join('');
   return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/portfolio#pf-contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><div class="ap-foot__soc">${soc}</div></div>`
     + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', FOOT.work)}${col('Services', svc)}<div class="ap-foot__col ap-foot__col--2"><p class="ap-foot__h">Free tools</p><div class="ap-foot__list"><a href="/tools">All ${toolCount} tools</a>${tools.map((t) => `<a href="${e(t.href)}">${e(t.f || t.t)}</a>`).join('')}</div></div>${col('More', FOOT.more)}</nav></div>`
-    + `<div class="ap-foot__base"><span>© ${YEAR} Aashish Pandey · Bangalore, India</span><span class="ap-foot__note">Tools run in your browser</span><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">↑</span></a></div></div></footer>`;
+    + `<div class="ap-foot__base"><span>© ${YEAR} Aashish Pandey · Bangalore, India</span><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><span class="ap-foot__note">Tools run in your browser</span><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">↑</span></a></div></div></footer>`;
 }
 
 /* ---------- active state ---------- */

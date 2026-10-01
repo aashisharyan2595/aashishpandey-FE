@@ -10,6 +10,9 @@
     '/seo-consultant': 'SEO-Consultant.dc.html',
     '/freelance-project-manager': 'Freelance-Project-Manager.dc.html',
     '/image-license': 'Image-License.dc.html',
+    '/terms': 'Legal-Terms.dc.html',
+    '/privacy': 'Legal-Privacy.dc.html',
+    '/cookies': 'Legal-Cookies.dc.html',
     '/full-stack-developer': 'Full-Stack-Developer.dc.html',
     '/wordpress-webflow-developer': 'Wordpress-Webflow-Developer.dc.html',
     '/shopify-developer': 'Shopify-Developer.dc.html',
@@ -70,26 +73,77 @@
     if (window.va) window.va('event', { name: name, data: props });
     if (dev && window.console) console.info('[track]', name, props);
   };
-  if (!dev) {
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    var v = document.createElement('script'); v.defer = true; v.src = '/_vercel/insights/script.js'; document.head.appendChild(v);
+  /* ---- consent: Google Analytics and Clarity only run after the visitor accepts ---- */
+  var CONSENT_KEY = 'apConsent';
+  function getConsent() { try { var c = JSON.parse(localStorage.getItem(CONSENT_KEY) || 'null'); return c && typeof c.a === 'boolean' ? c : null; } catch (e) { return null; } }
+  function setConsent(a) { try { localStorage.setItem(CONSENT_KEY, JSON.stringify({ v: 1, a: a, t: Date.now() })); } catch (e) {} }
+  var gpc = navigator.globalPrivacyControl === true;   // a Global Privacy Control signal counts as "reject"
+  function analyticsAllowed() { var c = getConsent(); return !gpc && !!(c && c.a); }
+  function whenIdle(fn, ms) {
+    var done = false, run = function () { if (done) return; done = true; fn(); };
+    ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { addEventListener(ev, run, { once: true, passive: true }); });
+    if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: ms }); else setTimeout(run, ms - 1000);
+  }
+  var started = false;
+  function startAnalytics() {
+    if (dev || started || !analyticsAllowed()) return; started = true;
+    window['ga-disable-' + GA_ID] = false;
     if (GA_ID) {
-      // GA is queued now and its script loads when the page is idle (or on first touch), so it never competes with first paint
+      // GA is queued now and its script loads when the page is idle, so it never competes with first paint
       window.gtag = function () { window.dataLayer.push(arguments); };
       window.gtag('js', new Date()); window.gtag('config', GA_ID);
-      var loadGA = function () { if (loadGA.done) return; loadGA.done = true; var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(g); };
-      ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { addEventListener(ev, loadGA, { once: true, passive: true }); });
-      if ('requestIdleCallback' in window) requestIdleCallback(loadGA, { timeout: 4000 }); else setTimeout(loadGA, 3000);
+      whenIdle(function () { if (!analyticsAllowed()) return; var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(g); }, 4000);
     }
     if (CLARITY_ID && !NO_CLARITY.test(location.pathname)) {
-      var loadClarity = function () {
-        if (loadClarity.done) return; loadClarity.done = true;
+      whenIdle(function () {
+        if (!analyticsAllowed()) return;
         (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', CLARITY_ID);
-      };
-      ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { addEventListener(ev, loadClarity, { once: true, passive: true }); });
-      if ('requestIdleCallback' in window) requestIdleCallback(loadClarity, { timeout: 9000 }); else setTimeout(loadClarity, 8000);
+      }, 9000);
     }
   }
+  function stopAnalytics() {
+    window['ga-disable-' + GA_ID] = true;
+    if (window.clarity) { try { window.clarity('consent', false); } catch (e) {} }
+    var host = location.hostname.split('.').slice(-2).join('.');
+    document.cookie.split(';').forEach(function (c) {
+      var n = c.split('=')[0].trim();
+      if (/^(_ga|_gid|_gat|_clck|_clsk|MUID|CLID|ANONCHK|SM|_uetsid|_uetvid)/.test(n)) ['', '; domain=' + host, '; domain=.' + host].forEach(function (d) { document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d; });
+    });
+  }
+  if (!dev) {
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    var v = document.createElement('script'); v.defer = true; v.src = '/_vercel/insights/script.js'; document.head.appendChild(v);   // cookieless
+    startAnalytics();
+  }
+
+  /* ---- cookie notice ---- */
+  function showNotice(fromFooter) {
+    var old = document.getElementById('ap-cc'); if (old) old.remove();
+    if (!document.getElementById('ap-cc-css')) {
+      var st = document.createElement('style'); st.id = 'ap-cc-css';
+      st.textContent = '#ap-cc{position:fixed;z-index:95;left:16px;bottom:16px;width:min(440px,calc(100vw - 32px));box-sizing:border-box;padding:18px 18px 16px;border-radius:20px;background:rgba(15,20,51,.97);border:1px solid rgba(244,239,230,.18);box-shadow:0 24px 70px rgba(0,0,0,.55);color:#f4efe6;font:400 14px/1.55 Geist,system-ui,sans-serif;animation:apccIn .5s cubic-bezier(.16,1,.3,1) both}'
+        + '#ap-cc *{box-sizing:border-box}#ap-cc h2{margin:0 0 6px;font:600 16px/1.2 Geist,system-ui,sans-serif;letter-spacing:-.02em}#ap-cc p{margin:0 0 14px;color:#cfc9d8}#ap-cc a{color:#f5b867;text-decoration:underline;text-underline-offset:3px}'
+        + '#ap-cc .apcc-row{display:flex;gap:10px;flex-wrap:wrap}#ap-cc button{flex:1 1 140px;min-height:44px;padding:0 16px;border-radius:999px;font:600 14px Geist,system-ui,sans-serif;cursor:pointer;border:1px solid rgba(244,239,230,.35);background:rgba(244,239,230,.08);color:#f4efe6;transition:background .2s,border-color .2s}'
+        + '#ap-cc button:hover{background:rgba(244,239,230,.16);border-color:#f4efe6}#ap-cc button[data-a="1"]{background:#f5b867;border-color:#f5b867;color:#1a1420}#ap-cc button[data-a="1"]:hover{background:#ffc880}'
+        + '#ap-cc :focus-visible{outline:2px solid #7ff3e1;outline-offset:2px}@keyframes apccIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){#ap-cc{animation:none}}';
+      document.head.appendChild(st);
+    }
+    var cur = getConsent(), box = document.createElement('div');
+    box.id = 'ap-cc'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Cookie notice');
+    box.innerHTML = '<h2>Cookies and analytics</h2><p>I use Google Analytics and Microsoft Clarity to see how the site is used. They only start if you accept. The tools and the rest of the site work without them. '
+      + (cur ? 'Right now you have <strong>' + (cur.a ? 'accepted' : 'rejected') + '</strong> analytics. ' : '') + 'See the <a href="/cookies">cookie policy</a> and the <a href="/privacy">privacy policy</a>.</p>'
+      + '<div class="apcc-row"><button type="button" data-a="0">Reject</button><button type="button" data-a="1">Accept analytics</button></div>';
+    box.addEventListener('click', function (ev) {
+      var b = ev.target.closest && ev.target.closest('button[data-a]'); if (!b) return;
+      var yes = b.getAttribute('data-a') === '1'; setConsent(yes); box.remove();
+      if (yes) startAnalytics(); else { started = false; stopAnalytics(); }
+    });
+    document.body.appendChild(box);
+    if (fromFooter) { var f = box.querySelector('button'); if (f) f.focus(); }
+  }
+  function initNotice() { if (!getConsent() && !gpc) showNotice(false); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotice); else initNotice();
+  document.addEventListener('click', function (ev) { var t = ev.target.closest && ev.target.closest('[data-cookie-settings]'); if (t) { ev.preventDefault(); showNotice(true); } });
   function classify(a) {
     var h = a.getAttribute('href') || '', t = (a.textContent || '').trim();
     if (a.getAttribute('data-track')) return a.getAttribute('data-track');
