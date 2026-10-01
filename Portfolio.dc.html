@@ -131,7 +131,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
           <sc-if value="{{ freeTip }}" hint-placeholder-val="{{ false }}">
             <div style="position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#0b0f24;color:#e9fdff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;padding:8px 12px;border-radius:10px;border:1px solid rgba(127,243,225,.4);pointer-events:none;opacity:{{ freeTipOp }};transition:opacity .5s;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:5;">
               <div style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:5px solid rgba(127,243,225,.4);"></div>
-              Try Explore mode — drive anywhere on the map
+              Try Explore mode: drive anywhere on the map
             </div>
           </sc-if>
         </div>
@@ -788,7 +788,7 @@ const STOPS = [
 const KIND = ['start', 'case', 'case', 'case', 'case', 'turnoff', 'projects', 'workshop', 'vantage', 'fire'];
 const CASES = {
   1: { slug: 'work-liquid-iv', client: 'Liquid I.V. · Unilever', title: 'Liquid I.V. Shopify rollout across 15 markets', meta: 'via Langoor (an LS Digital company) · Dec 2025 – present · Shopify multi-store',
-    lede: 'A global Shopify rollout across 15 markets: standalone stores for Canada, Australia, Mexico and Brazil, plus a shared-backend EU cluster. Nine new EU markets went live in H1 2026 while BAU ran on the markets already in production.',
+    lede: 'A Shopify rollout across 15 markets. Canada, Australia, Mexico and Brazil got their own stores. The EU markets share one backend. Nine new EU markets went live in H1 2026 while BAU ran on the markets already in production.',
     stats: [{ v: '15', l: 'markets in scope' }, { v: '12+', l: 'live on platform' }, { v: '9', l: 'new EU markets, H1 2026' }],
     facts: [{ k: 'Timeline', v: 'Handed over Dec 2025 · EU expansion H1 2026 · BAU ongoing' }, { k: 'Team', v: '20 people: developers, SEO & analytics, UI designers, server architect, webmaster, account leadership' }, { k: 'Model', v: 'Standalone stores + a shared-backend EU cluster on liquid-iv.eu subdomains' }, { k: 'Tools', v: 'Shopify multi-store, Zoho Sprints, GA4, GSC' }],
     results: [{ v: '+154%', l: 'Australia sessions' }, { v: '+69%', l: 'Canada sessions, H1 on H2' }, { v: '4×', l: 'Mexico new-user audience' }, { v: '+1,490%', l: 'AI-driven mentions, MoM' }],
@@ -796,7 +796,7 @@ const CASES = {
     markets: [{ n: 'Canada', d: 'Standalone · EN / FR' }, { n: 'Australia', d: 'Standalone store' }, { n: 'Mexico', d: 'Standalone store' }, { n: 'Brazil', d: 'Standalone store' }, { n: 'EU homepage', d: 'liquid-iv.eu' }, { n: 'Netherlands', d: 'nl.liquid-iv.eu' }, { n: 'Spain', d: 'es.liquid-iv.eu' }, { n: 'Germany', d: 'de.liquid-iv.eu' }, { n: 'France', d: 'fr.liquid-iv.eu' }, { n: 'Italy', d: 'it.liquid-iv.eu' }, { n: 'Iceland', d: 'is.liquid-iv.eu' }, { n: 'Sweden', d: 'se.liquid-iv.eu' }, { n: 'Ireland', d: 'ie.liquid-iv.eu' }],
     role: 'Project Manager, Langoor', did: ['Split the rollout into two models: standalone regional stores and a shared-backend EU cluster', 'Took nine new EU markets live in H1 2026 while support carried on for the live ones', 'Led a distributed team and worked with Unilever’s stakeholders from discovery to go-live', 'Moved the account into structured BAU on Zoho Sprints', 'Added analytics, hreflang for the UK, India and USA, and GEO work for AI search'], note: 'Publicly shareable highlights; commercial details omitted.' },
   2: { slug: 'work-talenti', client: 'Talenti · The Magnum Ice Cream Company', title: 'Talenti Canada website launched in 20 days', meta: 'via Langoor (an LS Digital company) · from 15 Dec 2025 · Magnum CA platform',
-    lede: 'A new Talenti website for the Canadian market, live before the physical launch hit the shelves, built and maintained inside the existing Magnum CA platform.',
+    lede: 'A new Talenti website for Canada, live before the product reached the shelves. I built it, and I maintain it, inside the existing Magnum CA platform.',
     stats: [{ v: '20 days', l: 'brief to live' }, { v: '5', l: 'person team' }, { v: 'Canada', l: 'new market' }],
     facts: [{ k: 'Timeline', v: '20 days, starting 15 December 2025' }, { k: 'Team', v: '5 people' }, { k: 'Platform', v: 'Existing Magnum CA platform' }, { k: 'Scope', v: 'New Talenti CA site ahead of the physical market launch' }],
     markets: [],
@@ -808,7 +808,7 @@ const CASES = {
     markets: [],
     role: 'PM · Solution Architect · SEO Strategist', did: ['Set the SEO strategy and owned its roadmap', 'Architected the solution and ran delivery as PM', 'Produced performance marketing assets alongside the SEO work'], note: '' },
   4: { slug: 'work-ceat-specialty', client: 'CEAT Specialty · CEAT Ltd', title: 'CEAT Specialty AEM vendor transition, zero downtime', meta: 'via Langoor (an LS Digital company) · May 2026 – present · Adobe Experience Manager 6.5',
-    lede: 'Took over a live, multi-market enterprise AEM platform from an outgoing vendor with zero downtime, then designed and ran the managed-support model behind it across eight workstreams.',
+    lede: 'I took over a live AEM platform that serves several markets, from the vendor who was leaving. The site never went down. Then I designed the support model and ran it across eight workstreams.',
     stats: [{ v: 'Zero', l: 'downtime at handover' }, { v: '47', l: 'items in ~4 months' }, { v: '8', l: 'workstreams' }],
     facts: [{ k: 'Timeline', v: 'May 2026 – present' }, { k: 'Role', v: 'Project Manager (Delivery Lead)' }, { k: 'Engagement', v: 'Vendor transition → maintenance, enhancement & technical support' }, { k: 'Stack', v: 'AEM 6.5, Adobe Cloud Manager, Adobe Commerce, AWS, CDN, GSC, Zoho Sprints, Jira / Confluence' }],
     logos: [['zoho', 'Zoho Sprints'], ['jira', 'Jira'], ['confluence', 'Confluence'], ['googlesearchconsole', 'Search Console']], results: [{ v: '26', l: 'KT sessions' }, { v: '35', l: 'risks tracked' }, { v: '28', l: 'access items' }, { v: '~107', l: 'governance touchpoints' }],
