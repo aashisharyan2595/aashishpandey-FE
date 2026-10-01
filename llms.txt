@@ -15,7 +15,7 @@
 - [SEO consultant](https://aashishpandey.com/seo-consultant): SEO consultant in Bangalore: technical SEO, hreflang for multi-market sites, GEO for AI search and Search Console reporting, from StoryNest to Liquid I.V.
 - [UI and UX design](https://aashishpandey.com/ui-ux-design): UI and UX design that ships inside a launch, from a 20-day Talenti Canada site to NSKT Global. Project manager and developer who designs when a project needs it.
 - [Tech consultant](https://aashishpandey.com/tech-consultant): Technology consultant in Bangalore: solution architecture, vendor handovers with zero downtime, managed-support models and digital transformation consulting.
-- [Free tools](https://aashishpandey.com/tools): small browser tools I built: online notepad, URL shortener with QR codes, image resizer, lorem ipsum generator, a QR code generator (static codes that never expire), a QR code checker that shows whether a code is dynamic, and launch checklists.
+- [Free tools](https://aashishpandey.com/tools): small browser tools I built: online notepad, URL shortener with QR codes, image resizer, lorem ipsum generator, a QR code generator (static codes that never expire), a QR code checker that shows whether a code is dynamic, launch checklists, a photo metadata remover, a file hash checker and a password generator. All of them run in the browser.
 
 ## Selected work
 

@@ -353,6 +353,18 @@
       "destination": "/Tools-Checklist.dc.html"
     },
     {
+      "source": "/tools/exif-remover",
+      "destination": "/Tools-Exif.dc.html"
+    },
+    {
+      "source": "/tools/file-hash-checker",
+      "destination": "/Tools-Hash.dc.html"
+    },
+    {
+      "source": "/tools/password-generator",
+      "destination": "/Tools-Password.dc.html"
+    },
+    {
       "source": "/s/:code",
       "destination": "/api/s/:code"
     }
