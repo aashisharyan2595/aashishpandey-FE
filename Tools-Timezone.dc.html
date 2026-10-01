@@ -100,17 +100,40 @@ details[data-faq][open] [data-faq-icon]{transform:rotate(45deg)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 input[type=range]{accent-color:#f5b867}
 
+.tz-app{gap:0;padding:0}
+.tz-step{padding:clamp(18px,2.6vw,28px);display:flex;flex-direction:column;gap:16px;border-top:1px solid rgba(244,239,230,.08);min-width:0}
+.tz-step:first-child{border-top:0}
+.tz-h{margin:0;display:flex;align-items:center;gap:12px;font:600 clamp(18px,2vw,21px)/1.2 'Geist',system-ui,sans-serif;letter-spacing:-.025em;color:#f4efe6}
+.tz-n{width:28px;height:28px;flex:none;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(245,184,103,.16);color:#f5b867;font:500 13px 'Geist Mono',ui-monospace,monospace}
+.tz-h3{margin:0;font:600 15px/1.2 'Geist',system-ui,sans-serif;color:#f4efe6}
+.tz-chips{display:flex;flex-wrap:wrap;gap:8px}
+.tz-chip{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 6px 0 14px;border-radius:99px;border:1px solid rgba(244,239,230,.16);background:rgba(244,239,230,.04);font:500 14.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
+.tz-chip small{font:500 10.5px 'Geist Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:#7ff3e1;padding:3px 8px;border-radius:99px;background:rgba(127,243,225,.1)}
+.tz-chip button{width:28px;height:28px;border-radius:50%;border:0;background:none;color:#aaa4b8;font-size:17px;line-height:1;cursor:pointer;padding:0}
+.tz-chip button:hover{background:rgba(255,138,107,.16);color:#ffb39e}
+.tz-chip:not(.is-home){padding-right:6px}
+.tz-opts{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end}
+.tz-hrs{display:inline-flex;align-items:center;gap:8px}
+.tz-sugg{display:flex;flex-direction:column;gap:8px}
+.tz-hero{border-radius:20px;border:1px solid rgba(244,239,230,.12);background:rgba(7,9,22,.5);padding:clamp(14px,2.2vw,22px);display:flex;flex-direction:column;gap:14px}
+.tz-hero__top{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+.tz-hero__t{display:flex;flex-direction:column;gap:4px;min-width:0}
+.tz-kicker{font:500 11px 'Geist Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#f5b867}
+.tz-time{font:600 clamp(26px,4.2vw,40px)/1.05 'Geist',system-ui,sans-serif;letter-spacing:-.035em;color:#f4efe6}
+.tz-stepper{display:flex;flex-wrap:wrap;gap:8px}
+.tz-stepper .tl-btn:disabled{opacity:.35;cursor:default}
+.tz-tlhead{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;margin-top:6px}
 .tz-wrap{overflow-x:auto;border-radius:16px;border:1px solid rgba(244,239,230,.1);background:rgba(7,9,22,.5)}
-.tz-grid{min-width:1438px;display:flex;flex-direction:column}
-.tz-row{display:grid;grid-template-columns:190px repeat(48,26px);border-bottom:1px solid rgba(244,239,230,.06)}
+.tz-grid{display:flex;flex-direction:column;min-width:0}
+.tz-row{display:grid;grid-template-columns:150px repeat(48,minmax(0,1fr));border-bottom:1px solid rgba(244,239,230,.06)}
 .tz-row:last-child{border-bottom:0}
-.tz-name{position:sticky;left:0;z-index:3;background:#0c1030;padding:10px 12px;display:flex;flex-direction:column;gap:2px;border-right:1px solid rgba(244,239,230,.1);min-width:0}
-.tz-name strong{font-size:14.5px;font-weight:600;overflow-wrap:anywhere}
-.tz-name span{font-size:12px}
-.tz-ctl{display:flex;gap:6px;margin-top:4px}
-.tz-mini{width:26px;height:26px;border-radius:8px;border:1px solid rgba(244,239,230,.16);background:none;color:#aaa4b8;cursor:pointer;font:500 14px/1 'Geist',system-ui,sans-serif;padding:0}
-.tz-mini:hover{border-color:#f5b867;color:#f5b867}
-.tz-c{min-height:60px;display:flex;align-items:center;justify-content:center;font:500 10.5px 'Geist Mono',ui-monospace,monospace;color:rgba(244,239,230,.6);cursor:pointer;user-select:none;position:relative}
+.tz-name{position:sticky;left:0;z-index:3;background:#0c1030;padding:9px 12px;display:flex;flex-direction:column;gap:2px;border-right:1px solid rgba(244,239,230,.1);min-width:0}
+.tz-name strong{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.tz-name span{font-size:11.5px}
+.tz-ctl{display:flex;gap:10px;margin-top:3px;flex-wrap:wrap}
+.tz-link{border:0;background:none;padding:0;color:#aaa4b8;font:500 11.5px 'Geist',system-ui,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.tz-link:hover{color:#f5b867}
+.tz-c{min-height:52px;display:flex;align-items:center;justify-content:center;font:500 10px 'Geist Mono',ui-monospace,monospace;color:rgba(244,239,230,.6);cursor:pointer;user-select:none;position:relative}
 .tz-c.c-w{background:rgba(127,243,225,.2)}
 .tz-c.c-e{background:rgba(245,184,103,.14)}
 .tz-c.c-n{background:rgba(244,239,230,.025);color:rgba(244,239,230,.35)}
@@ -119,26 +142,28 @@ input[type=range]{accent-color:#f5b867}
 .tz-c.is-sel::after{content:'';position:absolute;inset:0;background:rgba(245,184,103,.3);border-top:2px solid #f5b867;border-bottom:2px solid #f5b867;pointer-events:none}
 .tz-c.sel-s::after{border-left:2px solid #f5b867;border-radius:6px 0 0 6px}
 .tz-c.sel-e::after{border-right:2px solid #f5b867;border-radius:0 6px 6px 0}
-.tz-all .tz-c{min-height:22px}
-.tz-all .tz-name{padding:8px 12px}
-.tz-key{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#aaa4b8}
+.tz-ruler .tz-c{min-height:28px;cursor:default;color:#aaa4b8;background:rgba(244,239,230,.03)}
+.tz-ruler .tz-name{padding:6px 12px;justify-content:center}
+.tz-all .tz-c{min-height:20px}
+.tz-all .tz-name{padding:7px 12px}
+.tz-key{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12.5px;color:#aaa4b8}
 .tz-key i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .tz-sum{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.tz-sum li{display:grid;grid-template-columns:minmax(120px,200px) 1fr auto;gap:6px 16px;align-items:center;padding:12px 14px;border-radius:12px;border:1px solid rgba(244,239,230,.08)}
+.tz-sum li{display:grid;grid-template-columns:minmax(120px,200px) 1fr auto;gap:6px 16px;align-items:center;padding:12px 14px;border-radius:12px;border:1px solid rgba(244,239,230,.08);background:rgba(244,239,230,.02)}
 .tz-sn{display:flex;flex-direction:column}.tz-sn small{font-size:12px}
-.tz-st{font-size:14.5px;color:#f4efe6}
+.tz-st{font-size:15px;color:#f4efe6;display:flex;flex-direction:column;gap:2px}.tz-st small{font-size:12.5px;color:#8e89a0}
 @media(max-width:640px){.tz-sum li{grid-template-columns:1fr}}
 .tz-tag{font:500 12px 'Geist',system-ui,sans-serif;padding:4px 10px;border-radius:99px;border:1px solid rgba(244,239,230,.16);color:#d8d2e2;white-space:nowrap;justify-self:start}
 .tz-tag--w{border-color:rgba(127,243,225,.4);color:#7ff3e1;background:rgba(127,243,225,.06)}
 .tz-tag--e{border-color:rgba(245,184,103,.5);color:#f5b867;background:rgba(245,184,103,.07)}
 .tz-tag--n{border-color:#ff8a6b;color:#ffb39e;background:rgba(255,138,107,.08)}
 #sugg-list .tl-btn{height:auto;min-height:44px;padding:8px 16px;flex-wrap:wrap}
-#sugg-list small{font-size:11.5px;opacity:.85}
-.tz-add{position:relative;flex:1 1 260px;min-width:0}
+#sugg-list small{font-size:11.5px;opacity:.9}
+@media(max-width:900px){.tz-row{grid-template-columns:112px repeat(48,30px)}.tz-grid{min-width:1552px}.tz-name{padding:8px}.tz-name strong{font-size:13.5px}.tz-c{font-size:10.5px}}
+.tz-add{position:relative;flex:none;min-width:0}
 .tz-pop{position:absolute;z-index:10;left:0;right:0;top:calc(100% + 4px);margin:0;padding:6px;list-style:none;border-radius:12px;border:1px solid rgba(244,239,230,.16);background:#0f1433;box-shadow:0 14px 40px rgba(0,0,0,.5)}
 .tz-pop li{padding:9px 10px;border-radius:8px;cursor:pointer;font-size:14px}
 .tz-pop li[aria-selected=true],.tz-pop li:hover{background:rgba(245,184,103,.14)}
-@media(max-width:640px){.tz-row{grid-template-columns:116px repeat(48,26px)}.tz-grid{min-width:1364px}.tz-name{padding:8px}.tz-name strong{font-size:13.5px}}
 .tl-select{height:44px;border-radius:12px;border:1px solid rgba(244,239,230,.16);background:rgba(7,9,22,.6);color:#f4efe6;font:400 14px 'Geist',system-ui,sans-serif;padding:0 12px}
 </style>
 
@@ -160,24 +185,43 @@ input[type=range]{accent-color:#f5b867}
       <h1 style="margin:0;font-weight:600;font-size:clamp(30px,4.2vw,48px);line-height:1.02;letter-spacing:-.04em;color:#f4efe6;max-width:900px;text-wrap:balance;">Find a meeting time that works <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#f5b867;">in every time zone.</span></h1>
       <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:640px;color:#aaa4b8;text-wrap:pretty;">Add the cities, see everyone’s working hours on one timeline, and click a time. The green strip shows when all of them are at work. It handles daylight saving and half-hour zones like India.</p>
     </header>
-    <section class="tl-panel" aria-label="Time zone meeting planner">
-      <div class="tl-row" style="align-items:flex-end;">
-        <div class="tz-add"><label class="tl-label" for="add">Add a city</label><input id="add" class="tl-input" style="font-family:'Geist',system-ui,sans-serif" type="text" role="combobox" aria-expanded="false" aria-controls="addlist" autocomplete="off" spellcheck="false" placeholder="Try Tokyo, Austin or Brazil"><ul id="addlist" class="tz-pop" role="listbox" hidden></ul></div>
-        <div class="tl-field"><label for="date">Day</label><input id="date" class="tl-input" style="font-family:'Geist',system-ui,sans-serif;width:auto" type="date"></div>
-        <div class="tl-field"><label for="ws">Work starts</label><select id="ws" class="tl-select"></select></div>
-        <div class="tl-field"><label for="we">Work ends</label><select id="we" class="tl-select"></select></div>
-        <div class="tl-field"><label for="dur">Length</label><select id="dur" class="tl-select"><option value="30">30 minutes</option><option value="60" selected>1 hour</option><option value="90">90 minutes</option><option value="120">2 hours</option><option value="180">3 hours</option></select></div>
-        <div class="tl-field"><span class="tl-label">Clock</span><span class="tl-seg" role="group" aria-label="Clock format"><button id="f12" type="button" aria-pressed="true">12-hour</button><button id="f24" type="button" aria-pressed="false">24-hour</button></span></div>
+    <section class="tl-panel tz-app" aria-label="Time zone meeting planner">
+      <div class="tz-step">
+        <h2 class="tz-h"><span class="tz-n">1</span>Who is meeting?</h2>
+        <div id="chips" class="tz-chips" aria-label="Cities in this plan"></div>
+        <div class="tz-add"><label class="sr" for="add">Add a city</label><input id="add" class="tl-input" style="font-family:'Geist',system-ui,sans-serif" type="text" role="combobox" aria-expanded="false" aria-controls="addlist" autocomplete="off" spellcheck="false" placeholder="Add a city or country, e.g. Tokyo or Brazil"><ul id="addlist" class="tz-pop" role="listbox" hidden></ul></div>
+        <p id="addmsg" class="tl-muted tl-small" role="status"></p>
       </div>
-      <p id="addmsg" class="tl-muted tl-small" role="status"></p>
-      <div class="tz-key" aria-hidden="true"><span><i style="background:rgba(127,243,225,.35)"></i>Working hours</span><span><i style="background:rgba(245,184,103,.3)"></i>Early or late</span><span><i style="background:rgba(244,239,230,.08)"></i>Night</span><span><i style="background:#7ff3e1"></i>Everyone at work</span><span><i style="background:#f5b867"></i>Your pick</span></div>
-      <div id="wrap" class="tz-wrap"><div id="grid" class="tz-grid"></div></div>
-      <div class="tl-field"><label for="slot">Meeting start, in <span class="tl-muted">your first city</span>: <strong id="slotLabel"></strong></label><input id="slot" class="tl-range" type="range" min="0" max="47" step="1" value="18"></div>
-      <div class="tl-field"><span class="tl-label">Best times</span><div id="sugg-list" class="tl-actions"></div></div>
-      <div id="verdict" class="tl-verdict" role="status"></div>
-      <ul id="summary" class="tz-sum"></ul>
-      <div class="tl-row"><div class="tl-field" style="flex:1 1 220px"><label for="mtitle">Calendar title</label><input id="mtitle" class="tl-input" style="font-family:'Geist',system-ui,sans-serif" type="text" value="Meeting" maxlength="80"></div>
-        <div class="tl-actions" style="align-self:flex-end"><button id="copy" class="tl-btn tl-btn--p" type="button">Copy times</button><button id="ics" class="tl-btn" type="button">Download invite (.ics)</button><button id="share" class="tl-btn" type="button">Copy link</button></div></div>
+      <div class="tz-step">
+        <h2 class="tz-h"><span class="tz-n">2</span>When?</h2>
+        <div class="tz-opts">
+          <div class="tl-field"><label for="date">Day</label><input id="date" class="tl-input" style="font-family:'Geist',system-ui,sans-serif;width:auto" type="date"></div>
+          <div class="tl-field"><label for="dur">Meeting length</label><select id="dur" class="tl-select"><option value="30">30 minutes</option><option value="60" selected>1 hour</option><option value="90">90 minutes</option><option value="120">2 hours</option><option value="180">3 hours</option></select></div>
+          <div class="tl-field"><span class="tl-label" id="whl">Working hours</span><span class="tz-hrs" role="group" aria-labelledby="whl"><select id="ws" class="tl-select" aria-label="Work starts"></select><span class="tl-muted">to</span><select id="we" class="tl-select" aria-label="Work ends"></select></span></div>
+          <div class="tl-field"><span class="tl-label">Clock</span><span class="tl-seg" role="group" aria-label="Clock format"><button id="f12" type="button" aria-pressed="true">12-hour</button><button id="f24" type="button" aria-pressed="false">24-hour</button></span></div>
+        </div>
+        <p class="tl-muted tl-small">Working hours are when people are normally at work. They decide which times count as good.</p>
+      </div>
+      <div class="tz-step">
+        <h2 class="tz-h"><span class="tz-n">3</span>Pick a time</h2>
+        <div class="tz-sugg"><span class="tl-label">Suggested</span><div id="sugg-list" class="tl-actions"></div></div>
+        <div id="hero" class="tz-hero">
+          <div class="tz-hero__top">
+            <div class="tz-hero__t"><span id="heroKind" class="tz-kicker"></span><strong id="heroTime" class="tz-time"></strong><span id="heroDay" class="tl-muted"></span></div>
+            <div class="tz-stepper" role="group" aria-label="Move the meeting"><button id="earlier" type="button" class="tl-btn" aria-label="Move 30 minutes earlier">&#8592; Earlier</button><button id="later" type="button" class="tl-btn" aria-label="Move 30 minutes later">Later &#8594;</button></div>
+          </div>
+          <div id="verdict" class="tl-verdict" role="status"></div>
+          <ul id="summary" class="tz-sum"></ul>
+        </div>
+        <div class="tz-tlhead"><h3 class="tz-h3">Timeline</h3><p class="tl-muted tl-small">Each row is one city. Click or drag to move the meeting.</p></div>
+        <div class="tz-key" aria-hidden="true"><span><i style="background:rgba(127,243,225,.35)"></i>Working hours</span><span><i style="background:rgba(245,184,103,.3)"></i>Early or late</span><span><i style="background:rgba(244,239,230,.08)"></i>Night</span><span><i style="background:#7ff3e1"></i>Everyone at work</span><span><i style="background:#f5b867"></i>The meeting</span></div>
+        <div id="wrap" class="tz-wrap"><div id="grid" class="tz-grid"></div></div>
+      </div>
+      <div class="tz-step">
+        <h2 class="tz-h"><span class="tz-n">4</span>Share it</h2>
+        <div class="tl-row"><div class="tl-field" style="flex:1 1 220px"><label for="mtitle">Event name for the invite</label><input id="mtitle" class="tl-input" style="font-family:'Geist',system-ui,sans-serif" type="text" value="Meeting" maxlength="80"></div>
+          <div class="tl-actions" style="align-self:flex-end"><button id="copy" class="tl-btn tl-btn--p" type="button">Copy times</button><button id="ics" class="tl-btn" type="button">Download invite (.ics)</button><button id="share" class="tl-btn" type="button">Copy link</button></div></div>
+      </div>
       <p id="live" class="sr" aria-live="polite"></p>
     </section>
   <section aria-label="About this tool" style="font-family:Geist,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:clamp(72px,9vw,128px) 0 0;display:flex;flex-direction:column;gap:clamp(72px,9vw,128px);border-top:1px solid rgba(244,239,230,.1);">
@@ -239,6 +283,8 @@ function midnight(z, y, m, d) {
   var guess = Date.UTC(y, m - 1, d), t = guess - offsetMs(z, guess);
   t = guess - offsetMs(z, t); return t;
 }
+var ALIAS = { 'Asia/Calcutta': 'Asia/Kolkata', 'Asia/Saigon': 'Asia/Ho_Chi_Minh', 'Asia/Katmandu': 'Asia/Kathmandu', 'Asia/Rangoon': 'Asia/Yangon', 'Europe/Kiev': 'Europe/Kyiv', 'America/Buenos_Aires': 'America/Argentina/Buenos_Aires', 'US/Eastern': 'America/New_York', 'US/Pacific': 'America/Los_Angeles' };
+function canon(z) { return ALIAS[z] || z; }
 function okZone(z) { try { new Intl.DateTimeFormat('en-US', { timeZone: z }); return true; } catch (e) { return false; } }
 function utcLabel(ms) { var m = Math.round(ms / 60000), s = m < 0 ? '-' : '+'; m = Math.abs(m); return 'UTC' + s + Math.floor(m / 60) + (m % 60 ? ':' + pad(m % 60) : ''); }
 function niceName(z) { var c = CITIES.filter(function (x) { return x[1] === z; })[0]; return c ? c[0] : z.split('/').pop().replace(/_/g, ' '); }
@@ -247,7 +293,7 @@ function niceName(z) { var c = CITIES.filter(function (x) { return x[1] === z; }
 var st = { zones: [], date: '', ws: 9, we: 18, dur: 60, f24: false, sel: null, title: 'Meeting' };
 function todayIn(z) { var p = parts(z, Date.now()); return p.y + '-' + pad(p.mo) + '-' + pad(p.d); }
 function load() {
-  var local = 'UTC'; try { local = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'; } catch (e) {}
+  var local = 'UTC'; try { local = canon(Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'); } catch (e) {}
   var z = null, hs = location.hash.replace(/^#/, ''), q = {};
   hs.split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) q[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); });
   if (q.z) z = q.z.split(',').map(function (s) { var a = s.split('~'); return { z: a[0], n: a[1] || niceName(a[0]) }; }).filter(function (x) { return okZone(x.z); });
@@ -258,6 +304,7 @@ function load() {
     [['Asia/Kolkata', 'Bangalore'], ['Europe/London', 'London'], ['America/New_York', 'New York']].forEach(function (c) { if (!z.some(function (x) { return x.z === c[0]; })) z.push({ z: c[0], n: c[1] }); });
     z = z.slice(0, 4);
   }
+  var seenZ = {}; z = z.filter(function (x) { x.z = canon(x.z); if (/^(Calcutta|Saigon|Katmandu|Rangoon|Kiev)$/.test(x.n)) x.n = niceName(x.z); if (seenZ[x.z]) return false; seenZ[x.z] = 1; return true; });
   st.zones = z.slice(0, 8);
   if (saved) { st.ws = saved.ws || 9; st.we = saved.we || 18; st.f24 = !!saved.f24; }
   if (q.s) st.ws = +q.s || st.ws; if (q.e) st.we = +q.e || st.we; if (q.f === '24') st.f24 = true; if (q.u) st.dur = +q.u || 60;
@@ -301,27 +348,36 @@ function suggestions(data, k) {
 /* ---- rendering ---- */
 var gridEl = $('#grid'), sumEl = $('#summary'), sugEl = $('#sugg-list'), live = $('#live'), data;
 function selStart() { return st.sel === null ? (data.best ? data.best.s : 0) : st.sel; }
+var chipsEl = $('#chips');
+function dayOf(p) { return p.wd + ' ' + p.d + ' ' + MON[p.mo - 1]; }
 function render(scroll) {
   data = compute();
   var k = st.dur / 30, sugg = suggestions(data, k); data.best = sugg[0];
-  var s = Math.min(selStart(), 48 - k), e = s + k - 1;
+  var s = Math.min(selStart(), 48 - k), e = s + k - 1, home = data.rows[0];
   persist();
-  // grid
+  // cities
+  chipsEl.textContent = '';
+  st.zones.forEach(function (z, i) {
+    chipsEl.appendChild(h('span', { class: 'tz-chip' + (i === 0 ? ' is-home' : '') }, h('span', { text: z.n }), i === 0 ? h('small', { text: 'You' }) : null,
+      st.zones.length > 1 ? h('button', { type: 'button', 'aria-label': 'Remove ' + z.n, title: 'Remove ' + z.n, onclick: function () { st.zones.splice(i, 1); st.sel = null; render(true); } }, '\u00d7') : null));
+  });
+  // timeline
   gridEl.textContent = '';
-  var all = h('div', { class: 'tz-row tz-all' }, h('div', { class: 'tz-name' }, h('strong', { text: 'Everyone at work' }), h('span', { class: 'tl-muted', text: 'Green when all are in hours' })));
+  var ruler = h('div', { class: 'tz-row tz-ruler' }, h('div', { class: 'tz-name' }, h('span', { class: 'tl-muted', text: 'Hours in ' + home.zn.n })));
+  home.cells.forEach(function (c, i) { ruler.appendChild(h('div', { class: 'tz-c', 'aria-hidden': 'true', text: c.mi === 0 && c.h % 2 === 0 ? (st.f24 ? pad(c.h) : String((c.h + 11) % 12 + 1)) : '' })); });
+  gridEl.appendChild(ruler);
+  var all = h('div', { class: 'tz-row tz-all' }, h('div', { class: 'tz-name' }, h('strong', { text: 'Everyone at work' })));
+  var anyAll = false;
   for (var i = 0; i < 48; i++) {
-    var ok = data.rows.every(function (r) { return r.cells[i].c === 0; });
+    var ok = data.rows.every(function (r) { return r.cells[i].c === 0; }); if (ok) anyAll = true;
     all.appendChild(h('div', { class: 'tz-c' + (ok ? ' c-all' : '') + (i >= s && i <= e ? ' is-sel' + (i === s ? ' sel-s' : '') + (i === e ? ' sel-e' : '') : ''), 'data-s': i }));
   }
   gridEl.appendChild(all);
   data.rows.forEach(function (r, ri) {
     var off = utcLabel(offsetMs(r.zn.z, data.base0 + s * 1800000));
-    var name = h('div', { class: 'tz-name' },
-      h('strong', { text: r.zn.n }),
-      h('span', { class: 'tl-muted', text: off + (ri === 0 ? ' · your first city' : '') }),
+    var name = h('div', { class: 'tz-name' }, h('strong', { text: r.zn.n }), h('span', { class: 'tl-muted', text: off + (ri === 0 ? ' \u00b7 you' : '') }),
       h('span', { class: 'tz-ctl' },
-        ri > 0 ? h('button', { type: 'button', class: 'tz-mini', 'aria-label': 'Make ' + r.zn.n + ' the first city', title: 'Make first', onclick: function () { var z = st.zones.splice(ri, 1)[0]; st.zones.unshift(z); st.sel = null; render(true); } }, '↑') : null,
-        st.zones.length > 1 ? h('button', { type: 'button', class: 'tz-mini', 'aria-label': 'Remove ' + r.zn.n, title: 'Remove', onclick: function () { st.zones.splice(ri, 1); st.sel = null; render(true); } }, '×') : null));
+        ri > 0 ? h('button', { type: 'button', class: 'tz-link', title: 'Show the timeline in ' + r.zn.n + ' time', onclick: function () { var z = st.zones.splice(ri, 1)[0]; st.zones.unshift(z); st.sel = null; render(true); } }, 'Set as home') : null));
     var row = h('div', { class: 'tz-row' }, name);
     r.cells.forEach(function (c, i) {
       var cls = 'tz-c c-' + CN[c.c];
@@ -332,33 +388,41 @@ function render(scroll) {
     });
     gridEl.appendChild(row);
   });
-  // slider
-  var slot = $('#slot'); slot.max = 48 - k; slot.value = s;
-  var hp = data.rows[0].cells[s];
-  $('#slotLabel').textContent = fmtD(hp) + ', ' + fmtT(hp.h, hp.mi) + ' in ' + data.rows[0].zn.n;
   // suggestions
   sugEl.textContent = '';
+  var TAGTXT = ['Everyone in hours', 'Someone early or late', 'Someone at night'];
   sugg.forEach(function (g) {
-    var c = data.rows[0].cells[g.s], worst = 0;
+    var c = home.cells[g.s], worst = 0;
     data.rows.forEach(function (r) { for (var i = g.s; i < g.s + k; i++) worst = Math.max(worst, r.cells[i].c); });
-    sugEl.appendChild(h('button', { type: 'button', class: 'tl-btn' + (g.s === s ? ' tl-btn--p' : ''), onclick: function () { st.sel = g.s; render(true); } }, fmtT(c.h, c.mi) + ' ' + data.rows[0].zn.n, h('small', { class: 'tz-tag tz-tag--' + CN[worst], text: worst === 0 ? 'works for all' : worst === 1 ? 'some early or late' : 'someone at night' })));
+    sugEl.appendChild(h('button', { type: 'button', class: 'tl-btn' + (g.s === s ? ' tl-btn--p' : ''), 'aria-pressed': g.s === s ? 'true' : 'false', onclick: function () { st.sel = g.s; render(true); } }, fmtT(c.h, c.mi), h('small', { class: 'tz-tag tz-tag--' + CN[worst], text: TAGTXT[worst] })));
   });
-  // summary
+  // the answer
+  var a0 = home.cells[s], ep = parts(home.zn.z, data.base0 + (e + 1) * 1800000);
+  $('#heroTime').textContent = fmtT(a0.h, a0.mi) + ' to ' + fmtT(ep.h, ep.mi);
+  $('#heroDay').textContent = dayOf(a0) + ' in ' + home.zn.n + (anyAll ? '' : ' \u00b7 no overlap in working hours today, best compromise shown');
+  $('#heroKind').textContent = (st.sel === null || st.sel === data.best.s) ? 'Best time found' : 'Your pick';
+  $('#earlier').disabled = s <= 0; $('#later').disabled = s + k >= 48;
   sumEl.textContent = '';
-  var bad = [];
+  var bad = [], good = 0;
   data.rows.forEach(function (r) {
     var worst = 0; for (var i = s; i <= e; i++) worst = Math.max(worst, r.cells[i].c);
-    if (worst > 0) bad.push(r.zn.n + (worst === 2 ? ' (night)' : ' (early or late)'));
+    if (worst > 0) bad.push(r.zn.n + (worst === 2 ? ' (night)' : ' (early or late)')); else good++;
     var a = r.cells[s], endp = parts(r.zn.z, data.base0 + (e + 1) * 1800000);
     sumEl.appendChild(h('li', {}, h('span', { class: 'tz-sn' }, h('strong', { text: r.zn.n }), h('small', { class: 'tl-muted', text: utcLabel(offsetMs(r.zn.z, data.base0 + s * 1800000)) })),
-      h('span', { class: 'tz-st', text: fmtD(a) + ', ' + fmtT(a.h, a.mi) + ' to ' + fmtT(endp.h, endp.mi) + (endp.d !== a.d ? ' (' + fmtD(endp) + ')' : '') }),
+      h('span', { class: 'tz-st' }, fmtT(a.h, a.mi) + ' to ' + fmtT(endp.h, endp.mi), h('small', { text: fmtD(a) + (endp.d !== a.d ? ' to ' + fmtD(endp) : '') })),
       h('span', { class: 'tz-tag tz-tag--' + CN[worst], text: CLABEL[worst] })));
   });
-  var v = $('#verdict');
+  var v = $('#verdict'), n = data.rows.length;
   v.className = 'tl-verdict ' + (bad.length ? 'is-bad' : 'is-ok');
-  v.textContent = bad.length ? 'Outside working hours for: ' + bad.join(', ') + '.' : 'This time falls inside working hours for everyone.';
+  v.textContent = bad.length ? (n > 1 ? 'Works for ' + good + ' of ' + n + '. Outside working hours for ' : 'Outside working hours for ') + bad.join(', ') + '. Try another suggestion, or change the day.' : (n > 1 ? 'This time works for everyone.' : 'This time is inside working hours. Add more cities to compare.');
   $('#f12').setAttribute('aria-pressed', st.f24 ? 'false' : 'true'); $('#f24').setAttribute('aria-pressed', st.f24 ? 'true' : 'false');
-  if (scroll) { var w = $('#wrap'); w.scrollTo ? w.scrollTo({ left: Math.max(0, 190 + s * 26 - w.clientWidth / 2), behavior: 'smooth' }) : (w.scrollLeft = Math.max(0, 190 + s * 26 - w.clientWidth / 2)); }
+  if (scroll) {
+    var w = $('#wrap'), cell = gridEl.querySelector('.tz-all [data-s="' + s + '"]');
+    if (cell && w.scrollWidth > w.clientWidth) {
+      var left = cell.getBoundingClientRect().left - w.getBoundingClientRect().left + w.scrollLeft - w.clientWidth / 2;
+      w.scrollTo ? w.scrollTo({ left: Math.max(0, left), behavior: 'smooth' }) : (w.scrollLeft = Math.max(0, left));
+    }
+  }
 }
 function textSummary() {
   var k = st.dur / 30, s = Math.min(selStart(), 48 - k), e = s + k - 1, out = [st.title || 'Meeting', ''];
@@ -421,7 +485,8 @@ durEl.addEventListener('change', function () { st.dur = +durEl.value; st.sel = n
 titleEl.addEventListener('input', function () { st.title = titleEl.value; });
 $('#f12').addEventListener('click', function () { st.f24 = false; fillHours(); render(); });
 $('#f24').addEventListener('click', function () { st.f24 = true; fillHours(); render(); });
-$('#slot').addEventListener('input', function (e) { st.sel = +e.target.value; render(true); });
+$('#earlier').addEventListener('click', function () { st.sel = Math.max(0, selStart() - 1); render(true); });
+$('#later').addEventListener('click', function () { st.sel = Math.min(48 - st.dur / 30, selStart() + 1); render(true); });
 var down = false;
 function cellOf(ev) { var t = ev.target; while (t && t !== gridEl && !(t.getAttribute && t.getAttribute('data-s') !== null)) t = t.parentNode; return t && t !== gridEl ? +t.getAttribute('data-s') : null; }
 gridEl.addEventListener('click', function (ev) { var i = cellOf(ev); if (i === null) return; st.sel = Math.min(i, 48 - st.dur / 30); render(); });
