@@ -103,10 +103,10 @@ input[type=range]{accent-color:#f5b867}
 .tz-app{gap:20px}
 .tz-h{margin:6px 0 0;font:600 clamp(17px,1.9vw,20px)/1.2 'Geist',system-ui,sans-serif;letter-spacing:-.025em;color:#f4efe6}
 .tz-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.4fr);gap:14px 16px;align-items:end}
-.tz-city{position:relative}
+.tz-main .tl-field{min-width:0}.tz-city{position:relative}
 .tz-date{display:flex;gap:6px;align-items:stretch}.tz-date input{flex:1;min-width:0;color-scheme:dark;cursor:pointer}
 .tz-date input::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.85;filter:invert(.85)}
-.tz-dstep{width:44px;flex:none;border-radius:12px;border:1px solid rgba(244,239,230,.16);background:rgba(7,9,22,.6);color:#f4efe6;font-size:24px;line-height:1;cursor:pointer;padding:0 0 3px}.tz-dstep:hover{border-color:#f5b867;color:#f5b867}
+.tz-dstep{width:40px;flex:none;border-radius:12px;border:1px solid rgba(244,239,230,.16);background:rgba(7,9,22,.6);color:#f4efe6;font-size:24px;line-height:1;cursor:pointer;padding:0 0 3px}.tz-dstep:hover{border-color:#f5b867;color:#f5b867}
 .tz-big{height:54px;font-size:17px;padding:0 14px;width:100%;box-sizing:border-box}
 .tl-select.tz-big{height:54px;font-size:17px;padding:0 10px;width:100%}
 .tz-sub{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between}
@@ -142,8 +142,39 @@ input[type=range]{accent-color:#f5b867}
 .tz-tag--n{border-color:rgba(245,184,103,.5);color:#f5b867;background:rgba(245,184,103,.07)}
 .tz-tag--p{border-color:rgba(127,243,225,.4);color:#7ff3e1;background:rgba(127,243,225,.06)}
 @media(max-width:820px){.tz-bar i:not(.h3):not(.is-mid){border-left-color:transparent}.tz-bar i:not(.h3):not(.is-mid) b{display:none}}
-@media(max-width:820px){.tz-main{grid-template-columns:1fr 1fr}.tz-city{grid-column:1/-1}}
-@media(max-width:560px){.tz-axis{margin:0 13px}.tz-main{grid-template-columns:1fr}.tz-row1{grid-template-columns:1fr auto;grid-template-areas:"n x" "t t" "d d"}.tz-row1 .tz-cn{grid-area:n}.tz-row1 .tz-t{grid-area:t}.tz-row1 .tz-d{grid-area:d;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px}.tz-row1 .tz-x{grid-area:x}.tz-res li{padding:12px 12px 14px}}
+@media(max-width:820px){.tz-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.tz-city{grid-column:1/-1}}
+@media(max-width:560px){.tz-axis{margin:0 13px}.tz-main{grid-template-columns:minmax(0,1fr)}.tz-row1{grid-template-columns:1fr auto;grid-template-areas:"n x" "t t" "d d"}.tz-row1 .tz-cn{grid-area:n}.tz-row1 .tz-t{grid-area:t}.tz-row1 .tz-d{grid-area:d;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px}.tz-row1 .tz-x{grid-area:x}.tz-res li{padding:12px 12px 14px}}
+.tz-row1{grid-template-columns:28px minmax(120px,1fr) auto minmax(110px,auto) 32px!important}
+.tz-grip{width:28px;height:36px;border:0;background:none;color:#6f6a82;cursor:grab;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0;touch-action:none}
+.tz-grip:hover,.tz-grip:focus-visible{color:#f5b867;background:rgba(245,184,103,.1)}
+.tz-grip:active{cursor:grabbing}
+.tz-res li{transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .2s,opacity .2s}
+.tz-res li.is-drag{transition:box-shadow .2s;z-index:6;position:relative;box-shadow:0 18px 50px rgba(0,0,0,.55);border-color:#f5b867;background:#141a40}
+.tz-res li.is-drag .tz-grip{cursor:grabbing;color:#f5b867}
+.tz-bar .tz-now{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:#7ff3e1;opacity:.95}
+.tz-cn small em{font-style:normal;color:#7ff3e1}
+.tz-dlg{border:1px solid rgba(244,239,230,.16);border-radius:24px;background:#0f1433;color:#f4efe6;padding:0;width:min(860px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto}
+.tz-dlg::backdrop{background:rgba(3,4,12,.74);backdrop-filter:blur(4px)}
+.tz-dlg__in{padding:clamp(16px,2.6vw,26px);display:flex;flex-direction:column;gap:16px}
+.tz-dlg__head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tz-dlg__head .tz-h{margin:0}
+.tz-dlg canvas{width:100%;height:auto;border-radius:14px;display:block;border:1px solid rgba(244,239,230,.1)}
+@media(max-width:560px){.tz-row1{grid-template-columns:28px 1fr 32px!important;grid-template-areas:"g n x" "t t t" "d d d"!important}.tz-row1 .tz-grip{grid-area:g}}
+.tz-act{display:flex;flex-wrap:wrap;gap:10px}
+@media(max-width:560px){
+.tl-panel{padding:14px;border-radius:20px}
+.tz-act{display:grid;grid-template-columns:1fr 1fr}.tz-act .tl-btn--p{grid-column:1/-1}.tz-act .tl-btn{width:100%;padding:0 10px}
+.tz-sub{justify-content:space-between}
+.tz-sentence{font-size:15.5px}
+.tz-axiscap span:last-child{display:none}
+.tz-t{font-size:30px}
+.tz-key{gap:6px 12px;font-size:12px}
+.tz-dlg{width:calc(100vw - 16px);border-radius:18px}
+.tz-chipnote{display:none}
+}
+@media(max-width:380px){.tz-pin{font-size:11.5px;padding:0 9px}.tz-axis{margin:0 11px}.tz-tk{font-size:10px}}
+@media(pointer:coarse){.tz-grip{height:44px;width:32px}.tz-x{width:44px;height:44px}.tz-dstep{width:48px}}
+@media(max-width:820px) and (min-width:561px){.tz-row1{grid-template-columns:28px minmax(110px,1fr) auto minmax(100px,auto) 32px!important;gap:6px 14px}.tz-t{font-size:26px}}
 .tz-add{position:relative;min-width:0}
 .tz-pop{position:absolute;z-index:10;left:0;right:0;top:calc(100% + 4px);margin:0;padding:6px;list-style:none;border-radius:12px;border:1px solid rgba(244,239,230,.16);background:#0f1433;box-shadow:0 14px 40px rgba(0,0,0,.5)}
 .tz-pop li{padding:9px 10px;border-radius:8px;cursor:pointer;font-size:14px}
@@ -182,17 +213,19 @@ input[type=range]{accent-color:#f5b867}
         <div class="tz-axiscap"><span id="axisCap" class="tl-muted"></span><span class="tl-muted">Drag the amber pin, or click any bar, to change the time.</span></div>
         <div id="axis" class="tz-axis"><div id="axisTicks"></div><button id="pin" type="button" class="tz-pin" role="slider" aria-label="Meeting time" aria-valuemin="0" aria-valuemax="1425" aria-valuenow="0"></button></div>
         <ul id="results" class="tz-res"></ul>
-        <div class="tz-key" aria-hidden="true"><span><i style="background:rgba(127,243,225,.34)"></i>Daytime, 9 AM to 6 PM</span><span><i style="background:rgba(245,184,103,.28)"></i>Morning or evening</span><span><i style="background:rgba(244,239,230,.07)"></i>Night, 10 PM to 6 AM</span><span><i style="background:#f5b867;width:3px;border-radius:2px"></i>The chosen moment</span></div>
+        <div class="tz-key" aria-hidden="true"><span><i style="background:rgba(127,243,225,.34)"></i>Daytime, 9 AM to 6 PM</span><span><i style="background:rgba(245,184,103,.28)"></i>Morning or evening</span><span><i style="background:rgba(244,239,230,.07)"></i>Night, 10 PM to 6 AM</span><span><i style="background:#f5b867;width:3px;border-radius:2px"></i>The chosen moment</span><span id="keyNow" hidden><i style="background:#7ff3e1;width:3px;border-radius:2px"></i>Now</span></div>
       </div>
       <div class="tz-add"><label class="sr" for="add">Add another city</label><input id="add" class="tl-input" style="font-family:'Geist',system-ui,sans-serif" type="text" role="combobox" aria-expanded="false" aria-controls="addlist" autocomplete="off" spellcheck="false" placeholder="Add another city or country"><ul id="addlist" class="tz-pop" role="listbox" hidden></ul></div>
       <p id="addmsg" class="tl-muted tl-small" role="status"></p>
-      <div class="tl-actions"><button id="copy" class="tl-btn tl-btn--p" type="button">Copy times</button><button id="ics" class="tl-btn" type="button">Download invite (.ics)</button><button id="share" class="tl-btn" type="button">Copy link</button></div>
+      <div class="tl-field"><label for="note">Your own text <span class="tl-muted">(optional)</span></label><input id="note" class="tl-input" style="font-family:'Geist',system-ui,sans-serif" type="text" maxlength="140" autocomplete="off" placeholder="For example: Weekly sync, link to follow"><span class="tl-muted tl-small">Added to the top of the copied times, used as the invite title, and shown on the share card.</span></div>
+      <div class="tl-actions tz-act"><button id="copy" class="tl-btn tl-btn--p" type="button">Copy times</button><button id="ics" class="tl-btn" type="button">Download invite (.ics)</button><button id="share" class="tl-btn" type="button">Share</button></div>
       <p id="live" class="sr" aria-live="polite"></p>
+      <dialog id="shareDlg" class="tz-dlg" aria-labelledby="shTitle"><div class="tz-dlg__in"><div class="tz-dlg__head"><h2 id="shTitle" class="tz-h">Share this time</h2><button id="shClose" type="button" class="tz-x" aria-label="Close">&times;</button></div><canvas id="card" width="1200" height="630" role="img" aria-label="Card with an analog clock showing the chosen time in each city"></canvas><div class="tl-actions tz-act"><button id="shDl" type="button" class="tl-btn tl-btn--p">Download image</button><button id="shCopyImg" type="button" class="tl-btn">Copy image</button><button id="shCopyLink" type="button" class="tl-btn">Copy link</button><button id="shNative" type="button" class="tl-btn" hidden>Share&hellip;</button></div><p class="tl-muted tl-small">The image is drawn in your browser and goes nowhere until you send it. The link brings back the same cities, date and time.</p></div></dialog>
     </section>
   <section aria-label="About this tool" style="font-family:Geist,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:clamp(72px,9vw,128px) 0 0;display:flex;flex-direction:column;gap:clamp(72px,9vw,128px);border-top:1px solid rgba(244,239,230,.1);">
     <div style="display:flex;flex-direction:column;gap:clamp(20px,3vw,32px);"><div style="display:flex;flex-direction:column;gap:16px;"><span style="display:inline-flex;align-items:center;gap:10px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#f5b867;"><span style="opacity:.6;">01</span><span style="width:24px;height:1px;background:currentColor;opacity:.5;"></span>How to use</span><h2 style="margin:0;font-family:'Geist',system-ui,sans-serif;font-weight:600;font-size:clamp(28px,3.6vw,44px);line-height:1.02;letter-spacing:-.045em;color:#f4efe6;max-width:22ch;text-wrap:balance;">How to find a meeting time across time zones</h2></div>
       <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;"><li style="display:flex;flex-direction:column;gap:10px;padding:clamp(20px,2.4vw,26px);border-radius:22px;border:1px solid rgba(244,239,230,.1);background:linear-gradient(180deg,rgba(244,239,230,.045),rgba(244,239,230,.015));min-width:0;"><span style="font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.1em;color:#f5b867;">Step 1</span><h3 style="margin:0;font-family:'Geist',system-ui,sans-serif;font-weight:600;font-size:19px;letter-spacing:-.025em;line-height:1.2;color:#f4efe6;">Pick the time and date</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#aaa4b8;text-wrap:pretty;">Choose any time from the list, from 12:00 AM to 11:45 PM, and the date. Daylight saving is handled for that date.</p></li><li style="display:flex;flex-direction:column;gap:10px;padding:clamp(20px,2.4vw,26px);border-radius:22px;border:1px solid rgba(244,239,230,.1);background:linear-gradient(180deg,rgba(244,239,230,.045),rgba(244,239,230,.015));min-width:0;"><span style="font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.1em;color:#f5b867;">Step 2</span><h3 style="margin:0;font-family:'Geist',system-ui,sans-serif;font-weight:600;font-size:19px;letter-spacing:-.025em;line-height:1.2;color:#f4efe6;">Say which city it is in</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#aaa4b8;text-wrap:pretty;">Type the city the time belongs to. It starts with the place your device is in.</p></li><li style="display:flex;flex-direction:column;gap:10px;padding:clamp(20px,2.4vw,26px);border-radius:22px;border:1px solid rgba(244,239,230,.1);background:linear-gradient(180deg,rgba(244,239,230,.045),rgba(244,239,230,.015));min-width:0;"><span style="font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.1em;color:#f5b867;">Step 3</span><h3 style="margin:0;font-family:'Geist',system-ui,sans-serif;font-weight:600;font-size:19px;letter-spacing:-.025em;line-height:1.2;color:#f4efe6;">Add the other cities</h3><p style="margin:0;font-size:15px;line-height:1.6;color:#aaa4b8;text-wrap:pretty;">Add up to seven more. Each one shows its local time and day at once. Then copy the times, share the link or download an invite.</p></li></ol></div>
-    <div style="max-width:780px;display:flex;flex-direction:column;gap:16px;"><p style="margin:0;font-size:15.5px;line-height:1.7;color:#aaa4b8;text-wrap:pretty;">Booking a call across three or four time zones usually means opening a few clocks and doing sums. Here you give one time, one date and one city, and every other city is worked out for you, including whether it lands on the next or the previous day. Nothing is looked up online: it uses the time zone data already built into your browser.</p><h2 style="margin:0;font-weight:600;font-size:clamp(20px,2.4vw,26px);letter-spacing:-.03em;line-height:1.15;color:#f4efe6;">What it does</h2><ul style="margin:0;padding-left:20px;font-size:15.5px;line-height:1.65;color:#aaa4b8;"><li style="margin:0 0 6px;">Eight cities at once, found by city, country or time zone name.</li><li style="margin:0 0 6px;">Any time of day can be chosen, in 15-minute steps, including night and early morning.</li><li style="margin:0 0 6px;">Shows the day shift for each city, so a late call that lands tomorrow is easy to spot.</li><li style="margin:0 0 6px;">Works for the date you pick, so daylight saving changes are right.</li><li style="margin:0 0 6px;">Copy the times for each city, copy a link that restores the same plan, or download an .ics calendar file.</li><li style="margin:0 0 6px;">A 24-hour bar for each city shows day and night, with the date change marked. Drag along it to move the time.</li><li style="margin:0 0 6px;">Works offline once the page has loaded.</li></ul></div>
+    <div style="max-width:780px;display:flex;flex-direction:column;gap:16px;"><p style="margin:0;font-size:15.5px;line-height:1.7;color:#aaa4b8;text-wrap:pretty;">Booking a call across three or four time zones usually means opening a few clocks and doing sums. Here you give one time, one date and one city, and every other city is worked out for you, including whether it lands on the next or the previous day. Nothing is looked up online: it uses the time zone data already built into your browser.</p><h2 style="margin:0;font-weight:600;font-size:clamp(20px,2.4vw,26px);letter-spacing:-.03em;line-height:1.15;color:#f4efe6;">What it does</h2><ul style="margin:0;padding-left:20px;font-size:15.5px;line-height:1.65;color:#aaa4b8;"><li style="margin:0 0 6px;">Eight cities at once, found by city, country or time zone name.</li><li style="margin:0 0 6px;">Any time of day can be chosen, in 15-minute steps, including night and early morning.</li><li style="margin:0 0 6px;">Shows the day shift for each city, so a late call that lands tomorrow is easy to spot.</li><li style="margin:0 0 6px;">Works for the date you pick, so daylight saving changes are right.</li><li style="margin:0 0 6px;">Copy the times for each city, copy a link that restores the same plan, or download an .ics calendar file.</li><li style="margin:0 0 6px;">A 24-hour bar for each city shows day and night, with the date change marked. Drag along it to move the time.</li><li style="margin:0 0 6px;">Drag cities up or down, remove any of them, and add your own text to the copied times and the invite.</li><li style="margin:0 0 6px;">Share as an image card with an analog clock for each city, or as a link.</li><li style="margin:0 0 6px;">Works offline once the page has loaded.</li></ul></div>
     
     <div style="display:flex;flex-direction:column;gap:clamp(20px,3vw,32px);"><div style="display:flex;flex-direction:column;gap:16px;"><span style="display:inline-flex;align-items:center;gap:10px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#f5b867;"><span style="opacity:.6;">02</span><span style="width:24px;height:1px;background:currentColor;opacity:.5;"></span>FAQ</span><h2 id="faq" style="margin:0;font-family:'Geist',system-ui,sans-serif;font-weight:600;font-size:clamp(28px,3.6vw,44px);line-height:1.02;letter-spacing:-.045em;color:#f4efe6;max-width:22ch;text-wrap:balance;">Time Zone Meeting Planner: questions and answers</h2></div>
       <div style="max-width:860px;border-top:1px solid rgba(244,239,230,.1);"><details data-faq="1" style="border-bottom:1px solid rgba(244,239,230,.1);"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:14px 0;font-family:'Geist',system-ui,sans-serif;font-size:clamp(16px,1.6vw,18px);font-weight:600;letter-spacing:-.02em;line-height:1.35;color:#f4efe6;"><h3 style="margin:0;font:inherit;letter-spacing:inherit;color:inherit;">Does it handle daylight saving time?</h3><span data-faq-icon="1" aria-hidden="true" style="flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid rgba(244,239,230,.1);display:flex;align-items:center;justify-content:center;color:#f5b867;transition:transform .25s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary><div style="padding:0 48px 20px 0;font-size:15.5px;line-height:1.7;color:#aaa4b8;text-wrap:pretty;">Yes. Times are worked out for the date you pick using your browser’s built-in time zone data, so a meeting after the clocks change shows the right offsets. Change the date to see how the gap between two cities moves.</div></details><details data-faq="1" style="border-bottom:1px solid rgba(244,239,230,.1);"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:14px 0;font-family:'Geist',system-ui,sans-serif;font-size:clamp(16px,1.6vw,18px);font-weight:600;letter-spacing:-.02em;line-height:1.35;color:#f4efe6;"><h3 style="margin:0;font:inherit;letter-spacing:inherit;color:inherit;">Why does India show a half-hour offset?</h3><span data-faq-icon="1" aria-hidden="true" style="flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid rgba(244,239,230,.1);display:flex;align-items:center;justify-content:center;color:#f5b867;transition:transform .25s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary><div style="padding:0 48px 20px 0;font-size:15.5px;line-height:1.7;color:#aaa4b8;text-wrap:pretty;">India is UTC+5:30, and a few other places such as Nepal, parts of Australia and Iran also sit on 30 or 45 minute offsets. Times are worked out to the minute, so these line up correctly.</div></details><details data-faq="1" style="border-bottom:1px solid rgba(244,239,230,.1);"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:14px 0;font-family:'Geist',system-ui,sans-serif;font-size:clamp(16px,1.6vw,18px);font-weight:600;letter-spacing:-.02em;line-height:1.35;color:#f4efe6;"><h3 style="margin:0;font:inherit;letter-spacing:inherit;color:inherit;">Can I pick any time, not just office hours?</h3><span data-faq-icon="1" aria-hidden="true" style="flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid rgba(244,239,230,.1);display:flex;align-items:center;justify-content:center;color:#f5b867;transition:transform .25s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary><div style="padding:0 48px 20px 0;font-size:15.5px;line-height:1.7;color:#aaa4b8;text-wrap:pretty;">Yes. The time list runs from 12:00 AM to 11:45 PM in 15-minute steps, so night and early-morning times work as well.</div></details><details data-faq="1" style="border-bottom:1px solid rgba(244,239,230,.1);"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:14px 0;font-family:'Geist',system-ui,sans-serif;font-size:clamp(16px,1.6vw,18px);font-weight:600;letter-spacing:-.02em;line-height:1.35;color:#f4efe6;"><h3 style="margin:0;font:inherit;letter-spacing:inherit;color:inherit;">Are my cities sent anywhere?</h3><span data-faq-icon="1" aria-hidden="true" style="flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid rgba(244,239,230,.1);display:flex;align-items:center;justify-content:center;color:#f5b867;transition:transform .25s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary><div style="padding:0 48px 20px 0;font-size:15.5px;line-height:1.7;color:#aaa4b8;text-wrap:pretty;">No. Your choices are saved in your own browser and in the link you copy, which carries them in the part after the # sign, so they are not sent to a server when someone opens it.</div></details><details data-faq="1" style="border-bottom:1px solid rgba(244,239,230,.1);"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:14px 0;font-family:'Geist',system-ui,sans-serif;font-size:clamp(16px,1.6vw,18px);font-weight:600;letter-spacing:-.02em;line-height:1.35;color:#f4efe6;"><h3 style="margin:0;font:inherit;letter-spacing:inherit;color:inherit;">How do I send the plan to someone?</h3><span data-faq-icon="1" aria-hidden="true" style="flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid rgba(244,239,230,.1);display:flex;align-items:center;justify-content:center;color:#f5b867;transition:transform .25s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary><div style="padding:0 48px 20px 0;font-size:15.5px;line-height:1.7;color:#aaa4b8;text-wrap:pretty;">Press Copy link. Whoever opens it sees the same cities, date and time. You can also copy the times as text or download a calendar file that opens in Google Calendar, Outlook or Apple Calendar.</div></details><details data-faq="1" style="border-bottom:1px solid rgba(244,239,230,.1);"><summary style="list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:14px 0;font-family:'Geist',system-ui,sans-serif;font-size:clamp(16px,1.6vw,18px);font-weight:600;letter-spacing:-.02em;line-height:1.35;color:#f4efe6;"><h3 style="margin:0;font:inherit;letter-spacing:inherit;color:inherit;">Does it need an internet connection?</h3><span data-faq-icon="1" aria-hidden="true" style="flex-shrink:0;width:32px;height:32px;border-radius:50%;border:1px solid rgba(244,239,230,.1);display:flex;align-items:center;justify-content:center;color:#f5b867;transition:transform .25s;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary><div style="padding:0 48px 20px 0;font-size:15.5px;line-height:1.7;color:#aaa4b8;text-wrap:pretty;">Only to load the page. After that it works offline, because the time zone data is part of the browser.</div></details></div></div>
@@ -255,7 +288,7 @@ function utcLabel(ms) { var m = Math.round(ms / 60000), s = m < 0 ? '-' : '+'; m
 function niceName(z) { var c = CITIES.filter(function (x) { return x[1] === z; })[0]; return c ? c[0] : z.split('/').pop().replace(/_/g, ' '); }
 
 /* ---- state ---- */
-var st = { zones: [], date: '', time: 540, f24: false };
+var st = { zones: [], date: '', time: 540, f24: false, note: '' };
 function todayIn(z) { var p = parts(z, Date.now()); return p.y + '-' + pad(p.mo) + '-' + pad(p.d); }
 function nowMin(z) { var p = parts(z, Date.now()); return Math.floor((p.h * 60 + p.mi) / 15) * 15; }
 function load() {
@@ -274,13 +307,14 @@ function load() {
   st.zones = z.slice(0, 8);
   if (saved) st.f24 = !!saved.f24;
   if (q.f === '24') st.f24 = true;
+  if (q.n) st.note = q.n.slice(0, 140);
   st.date = /^\d{4}-\d{2}-\d{2}$/.test(q.d || '') ? q.d : todayIn(st.zones[0].z);
   st.time = q.m !== undefined && q.m !== '' ? +q.m : (q.t !== undefined && q.t !== '' ? +q.t * 30 : nowMin(st.zones[0].z));
   if (!(st.time >= 0 && st.time < 1440)) st.time = 540;
 }
 function persist() {
   try { localStorage.setItem('apTz', JSON.stringify({ zones: st.zones, f24: st.f24 })); } catch (e) {}
-  var hs = 'z=' + st.zones.map(function (x) { return x.z + '~' + encodeURIComponent(x.n); }).join(',') + '&d=' + st.date + '&m=' + st.time + (st.f24 ? '&f=24' : '');
+  var hs = 'z=' + st.zones.map(function (x) { return x.z + '~' + encodeURIComponent(x.n); }).join(',') + '&d=' + st.date + '&m=' + st.time + (st.f24 ? '&f=24' : '') + (st.note ? '&n=' + encodeURIComponent(st.note) : '');
   try { history.replaceState(null, '', '#' + hs); } catch (e) {}
 }
 
@@ -305,7 +339,7 @@ function fillTimes() {
 }
 var TICK = { 0: '12a', 3: '3a', 6: '6a', 9: '9a', 12: '12p', 15: '3p', 18: '6p', 21: '9p' };
 function tickTxt(hh) { return st.f24 ? pad(hh) : TICK[hh]; }
-function bar(r, base, pct) {
+function bar(r, base, pct, nowPct) {
   var stops = [], last = null, el = h('div', { class: 'tz-bar', 'aria-hidden': 'true' });
   for (var k = 0; k < 96; k++) {
     var p = parts(r.zn.z, base + k * 900000), mins = p.h * 60 + p.mi, c = (mins >= 540 && mins < 1080) ? 'rgba(127,243,225,.30)' : (mins >= 360 && mins < 1320) ? 'rgba(245,184,103,.22)' : 'rgba(244,239,230,.06)';
@@ -314,6 +348,7 @@ function bar(r, base, pct) {
     else if (k === 0 && p.mi === 0) el.appendChild(h('i', { class: p.h % 3 === 0 ? 'h3' : '', style: 'left:0;border-left:0' }, h('b', { text: p.h % 3 === 0 ? tickTxt(p.h) : (st.f24 ? pad(p.h) : String((p.h + 11) % 12 + 1)) })));
   }
   el.style.background = 'linear-gradient(90deg,' + stops.map(function (x, j) { return x[0] + ' ' + (x[1] / 96 * 100) + '% ' + ((j + 1 < stops.length ? stops[j + 1][1] : 96) / 96 * 100) + '%'; }).join(',') + ')';
+  if (nowPct !== null) el.appendChild(h('span', { class: 'tz-now', style: 'left:' + nowPct + '%', title: 'Now' }));
   el.appendChild(h('span', { class: 'tz-cur', style: 'left:' + pct + '%' }));
   return el;
 }
@@ -324,20 +359,39 @@ function placePin(pct) {
 var narrow = window.matchMedia ? window.matchMedia('(max-width:700px)') : { matches: false };
 if (narrow.addEventListener) narrow.addEventListener('change', function () { if (V) render(); });
 window.addEventListener('resize', function () { if (V) placePin(st.time / 14.4); });
+function gripSvg() {
+  var n = 'http://www.w3.org/2000/svg', svg = document.createElementNS(n, 'svg');
+  svg.setAttribute('width', '14'); svg.setAttribute('height', '18'); svg.setAttribute('viewBox', '0 0 14 18'); svg.setAttribute('aria-hidden', 'true');
+  [[3, 3], [11, 3], [3, 9], [11, 9], [3, 15], [11, 15]].forEach(function (c) { var d = document.createElementNS(n, 'circle'); d.setAttribute('cx', c[0]); d.setAttribute('cy', c[1]); d.setAttribute('r', '1.7'); d.setAttribute('fill', 'currentColor'); svg.appendChild(d); });
+  return svg;
+}
+var busy = false;
+/* change the list but keep the same moment, shown in whichever city is now on top */
+function keepMoment(mutate) {
+  var ms = instant(); mutate();
+  var d = parts(st.zones[0].z, ms);
+  st.date = d.y + '-' + pad(d.mo) + '-' + pad(d.d); st.time = Math.min(1425, Math.floor((d.h * 60 + d.mi) / 15) * 15);
+}
 function render() {
   V = view(); persist();
   fromEl.value = st.zones[0].n; timeEl.value = st.time; dateEl.value = st.date;
   resEl.textContent = '';
-  var base = V.ms - st.time * 60000, pct = st.time / 14.4;
+  var base = V.ms - st.time * 60000, pct = st.time / 14.4, nowT = Date.now();
+  var today = st.date === todayIn(st.zones[0].z), nowPct = today ? (nowT - base) / 864000 : null;
+  if (nowPct !== null && (nowPct < 0 || nowPct > 100)) nowPct = null;
+  $('#keyNow').hidden = nowPct === null;
+  var many = V.rows.length > 1;
   V.rows.forEach(function (r, i) {
     var tagTxt = r.diff === 0 ? 'Same day' : r.diff > 0 ? (r.diff === 1 ? 'Next day' : r.diff + ' days later') : (r.diff === -1 ? 'Previous day' : -r.diff + ' days earlier');
-    resEl.appendChild(h('li', { class: i === 0 ? 'is-src' : '' },
+    var np = parts(r.zn.z, nowT);
+    resEl.appendChild(h('li', { class: i === 0 ? 'is-src' : '', 'data-i': i },
       h('div', { class: 'tz-row1' },
-        h('span', { class: 'tz-cn' }, h('strong', { text: r.zn.n }), h('small', { text: r.off + (i === 0 ? ' \u00b7 the city you chose' : '') })),
+        many ? h('button', { type: 'button', class: 'tz-grip', 'aria-label': 'Move ' + r.zn.n + '. Drag, or use the up and down arrow keys.', title: 'Drag to reorder' }, gripSvg()) : h('span'),
+        h('span', { class: 'tz-cn' }, h('strong', { text: r.zn.n }), h('small', {}, r.off + (i === 0 ? ' · the city you chose' : ''), today ? h('em', { text: ' · now ' + fmtT(np.h, np.mi) }) : null)),
         h('span', { class: 'tz-t', text: fmtT(r.p.h, r.p.mi) }),
         h('span', { class: 'tz-d' }, h('span', { text: fmtD(r.p) }), r.diff === 0 ? null : h('span', { class: 'tz-tag tz-tag--' + (r.diff > 0 ? 'n' : 'p'), text: tagTxt })),
-        i > 0 ? h('button', { type: 'button', class: 'tz-x', 'aria-label': 'Remove ' + r.zn.n, title: 'Remove ' + r.zn.n, onclick: function (ev) { ev.stopPropagation(); st.zones.splice(i, 1); render(); } }, '\u00d7') : h('span')),
-      bar(r, base, pct)));
+        many ? h('button', { type: 'button', class: 'tz-x', 'aria-label': 'Remove ' + r.zn.n, title: 'Remove ' + r.zn.n, onclick: function (ev) { ev.stopPropagation(); keepMoment(function () { st.zones.splice(i, 1); }); render(); } }, '×') : h('span')),
+      bar(r, base, pct, nowPct)));
   });
   var se = $('#sentence'); se.textContent = '';
   se.appendChild(h('strong', { text: fmtT(V.rows[0].p.h, V.rows[0].p.mi) + ' ' + fmtD(V.rows[0].p) + ' in ' + V.rows[0].zn.n }));
@@ -351,7 +405,7 @@ function render() {
   $('#f12').setAttribute('aria-pressed', st.f24 ? 'false' : 'true'); $('#f24').setAttribute('aria-pressed', st.f24 ? 'true' : 'false');
 }
 function textSummary() {
-  var out = ['Meeting', ''];
+  var out = [st.note || 'Meeting', ''];
   V.rows.forEach(function (r) { out.push(r.zn.n + ': ' + fmtD(r.p) + ', ' + fmtT(r.p.h, r.p.mi) + ' (' + r.off + ')'); });
   return out.join('\n');
 }
@@ -359,7 +413,7 @@ function icsDate(ms) { var d = new Date(ms); return d.getUTCFullYear() + pad(d.g
 function ics() {
   var esc = function (x) { return String(x).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n'); };
   var uid = Date.now().toString(36) + Math.random().toString(36).slice(2, 8) + '@aashishpandey.com';
-  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//aashishpandey.com//Meeting planner//EN', 'BEGIN:VEVENT', 'UID:' + uid, 'DTSTAMP:' + icsDate(Date.now()), 'DTSTART:' + icsDate(V.ms), 'DTEND:' + icsDate(V.ms + 3600000), 'SUMMARY:' + esc('Meeting'), 'DESCRIPTION:' + esc(textSummary()), 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//aashishpandey.com//Meeting planner//EN', 'BEGIN:VEVENT', 'UID:' + uid, 'DTSTAMP:' + icsDate(Date.now()), 'DTSTART:' + icsDate(V.ms), 'DTEND:' + icsDate(V.ms + 3600000), 'SUMMARY:' + esc(st.note || 'Meeting'), 'DESCRIPTION:' + esc(textSummary()), 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
 }
 function flash(btn, txt, idle) { btn.textContent = txt; setTimeout(function () { btn.textContent = idle; }, 1500); }
 function copy(text, btn, idle) { (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { flash(btn, 'Copied', idle); }, function () { window.prompt('Copy this:', text); }); }
@@ -405,6 +459,42 @@ combo(fromEl, $('#fromlist'), function (x) {
   render();
 });
 
+/* ---- reorder the cities ---- */
+(function () {
+  var drag = null;
+  function layout(ev) {
+    var dy = ev.clientY - drag.y0, lis = drag.lis, center = drag.rects[drag.i].top + drag.rects[drag.i].height / 2 + dy, t = drag.i, best = 1e9;
+    lis.forEach(function (li, j) { var rc = drag.rects[j], c = rc.top + rc.height / 2, dd = Math.abs(center - c); if (dd < best) { best = dd; t = j; } });
+    drag.t = t;
+    lis[drag.i].style.transform = 'translateY(' + dy + 'px)';
+    lis.forEach(function (li, j) {
+      if (j === drag.i) return;
+      li.style.transform = (drag.i < t && j > drag.i && j <= t) ? 'translateY(-' + drag.h + 'px)' : (drag.i > t && j < drag.i && j >= t) ? 'translateY(' + drag.h + 'px)' : '';
+    });
+  }
+  resEl.addEventListener('pointerdown', function (ev) {
+    var g = ev.target.closest && ev.target.closest('.tz-grip'); if (!g || ev.button !== 0) return;
+    var li = g.closest('li'), lis = Array.prototype.slice.call(resEl.children), i = lis.indexOf(li);
+    ev.stopPropagation(); ev.preventDefault();
+    var rects = lis.map(function (l) { return l.getBoundingClientRect(); });
+    drag = { i: i, t: i, lis: lis, rects: rects, y0: ev.clientY, h: rects[i].height + 10, g: g };
+    li.classList.add('is-drag'); busy = true; try { g.setPointerCapture(ev.pointerId); } catch (e) {}
+  });
+  resEl.addEventListener('pointermove', function (ev) { if (drag) { ev.stopPropagation(); layout(ev); } });
+  function end(ev) {
+    if (!drag) return; var d = drag; drag = null; busy = false;
+    d.lis.forEach(function (l) { l.style.transform = ''; l.classList.remove('is-drag'); });
+    if (d.t !== d.i) { keepMoment(function () { var z = st.zones.splice(d.i, 1)[0]; st.zones.splice(d.t, 0, z); }); render(); resEl.children[d.t].querySelector('.tz-grip').focus(); }
+  }
+  resEl.addEventListener('pointerup', end); resEl.addEventListener('pointercancel', end);
+  resEl.addEventListener('keydown', function (ev) {
+    var g = ev.target.closest && ev.target.closest('.tz-grip'); if (!g) return;
+    var i = Array.prototype.indexOf.call(resEl.children, g.closest('li')), d = ev.key === 'ArrowUp' ? -1 : ev.key === 'ArrowDown' ? 1 : 0, t = i + d;
+    if (!d || t < 0 || t >= st.zones.length) return; ev.preventDefault();
+    keepMoment(function () { var z = st.zones.splice(i, 1)[0]; st.zones.splice(t, 0, z); }); render(); resEl.children[t].querySelector('.tz-grip').focus();
+  });
+})();
+
 /* ---- drag the time ---- */
 (function () {
   var tl = $('#tl'), dragging = false;
@@ -414,7 +504,7 @@ combo(fromEl, $('#fromlist'), function (x) {
     if (m !== st.time) { st.time = m; render(); }
   }
   tl.addEventListener('pointerdown', function (ev) {
-    if (ev.button !== 0 || (ev.target.closest && ev.target.closest('.tz-x'))) return;
+    if (ev.button !== 0 || (ev.target.closest && ev.target.closest('.tz-x, .tz-grip'))) return;
     dragging = true; try { tl.setPointerCapture(ev.pointerId); } catch (e) {}
     if (ev.target.closest && ev.target.closest('.tz-pin')) return;
     setFrom(ev);
@@ -431,7 +521,7 @@ combo(fromEl, $('#fromlist'), function (x) {
 
 /* ---- controls ---- */
 timeEl.addEventListener('change', function () { st.time = +timeEl.value; render(); });
-function setDate(v) { if (/^(19[7-9]\d|20\d\d|21\d\d)-\d{2}-\d{2}$/.test(v) && v !== st.date) { st.date = v; render(); } }
+function setDate(v) { if (/^(19[7-9]\d|20\d\d|21\d\d)-\d{2}-\d{2}$/.test(v) && v !== st.date) { st.date = v; if (v === todayIn(st.zones[0].z)) st.time = nowMin(st.zones[0].z); render(); } }
 dateEl.addEventListener('change', function () { setDate(dateEl.value); });
 dateEl.addEventListener('input', function () { setDate(dateEl.value); });
 dateEl.addEventListener('click', function () { try { dateEl.showPicker(); } catch (e) {} });
@@ -442,14 +532,98 @@ $('#now').addEventListener('click', function () { st.date = todayIn(st.zones[0].
 $('#f12').addEventListener('click', function () { st.f24 = false; fillTimes(); render(); });
 $('#f24').addEventListener('click', function () { st.f24 = true; fillTimes(); render(); });
 $('#copy').addEventListener('click', function (ev) { copy(textSummary(), ev.currentTarget, 'Copy times'); if (window.apTrack) window.apTrack('tz_copy', {}); });
-$('#share').addEventListener('click', function (ev) { persist(); copy(location.href, ev.currentTarget, 'Copy link'); });
+/* ---- share card with analog clocks ---- */
+function clock(ctx, cx, cy, R, hh, mm, night, big) {
+  var ink = night ? '#f4efe6' : '#1a1420';
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fillStyle = night ? '#0c1030' : '#f4efe6'; ctx.fill();
+  ctx.lineWidth = Math.max(2, R * 0.045); ctx.strokeStyle = '#f5b867'; ctx.stroke();
+  for (var k = 0; k < 60; k++) {
+    var a = k * Math.PI / 30, major = k % 5 === 0, r1 = R * (major ? 0.82 : 0.9), r2 = R * 0.95;
+    if (!big && !major) continue;
+    ctx.beginPath(); ctx.moveTo(cx + Math.sin(a) * r1, cy - Math.cos(a) * r1); ctx.lineTo(cx + Math.sin(a) * r2, cy - Math.cos(a) * r2);
+    ctx.lineWidth = major ? Math.max(2, R * 0.03) : 1.5; ctx.strokeStyle = night ? 'rgba(244,239,230,' + (major ? .8 : .35) + ')' : 'rgba(26,20,32,' + (major ? .8 : .3) + ')'; ctx.stroke();
+  }
+  if (big) {
+    ctx.fillStyle = ink; ctx.font = '600 ' + Math.round(R * 0.17) + 'px Geist, system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (var n = 1; n <= 12; n++) { var an = n * Math.PI / 6; ctx.fillText(String(n), cx + Math.sin(an) * R * 0.68, cy - Math.cos(an) * R * 0.68); }
+    ctx.font = '500 ' + Math.round(R * 0.095) + 'px Geist, system-ui, sans-serif'; ctx.fillStyle = night ? 'rgba(244,239,230,.6)' : 'rgba(26,20,32,.55)';
+    ctx.fillText(hh < 12 ? 'AM' : 'PM', cx, cy + R * 0.34);
+  }
+  function hand(angle, len, w, col) { ctx.beginPath(); ctx.moveTo(cx - Math.sin(angle) * R * 0.1, cy + Math.cos(angle) * R * 0.1); ctx.lineTo(cx + Math.sin(angle) * R * len, cy - Math.cos(angle) * R * len); ctx.lineWidth = w; ctx.lineCap = 'round'; ctx.strokeStyle = col; ctx.stroke(); }
+  hand(((hh % 12) + mm / 60) * Math.PI / 6, 0.5, Math.max(3, R * 0.065), ink);
+  hand(mm * Math.PI / 30, 0.78, Math.max(2, R * 0.04), ink);
+  ctx.beginPath(); ctx.arc(cx, cy, Math.max(3, R * 0.06), 0, 7); ctx.fillStyle = '#f5b867'; ctx.fill();
+  ctx.restore();
+}
+function drawCard() {
+  var cv = $('#card'), ctx = cv.getContext('2d'), W = cv.width, H = cv.height, F = 'Geist, system-ui, sans-serif', M = 'Geist Mono, ui-monospace, monospace';
+  var g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#0e1438'); g.addColorStop(1, '#070916'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  var rg = ctx.createRadialGradient(150, 60, 0, 150, 60, 520); rg.addColorStop(0, 'rgba(245,184,103,.18)'); rg.addColorStop(1, 'rgba(245,184,103,0)'); ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+  ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left'; ctx.fillStyle = '#f5b867'; ctx.font = '500 20px ' + M; ctx.fillText('MEETING TIME', 60, 70);
+  ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(244,239,230,.55)'; ctx.fillText('aashishpandey.com/tools', W - 60, 70);
+  if (st.note) {
+    ctx.textAlign = 'left'; ctx.fillStyle = '#f4efe6'; ctx.font = '600 30px ' + F;
+    var nt = st.note; while (ctx.measureText(nt).width > 760 && nt.length > 4) nt = nt.slice(0, -2);
+    ctx.fillText(nt === st.note ? nt : nt.replace(/\s+$/, '') + '\u2026', 60, 114);
+  }
+  var r0 = V.rows[0], night0 = r0.p.h < 6 || r0.p.h >= 19;
+  var many = V.rows.length > 1, cx = many ? 300 : W / 2, cy = 330, R = 175;
+  clock(ctx, cx, cy, R, r0.p.h, r0.p.mi, night0, true);
+  ctx.textAlign = 'center'; ctx.fillStyle = '#f4efe6'; ctx.font = '600 34px ' + F; ctx.fillText(r0.zn.n, cx, 566);
+  ctx.fillStyle = 'rgba(244,239,230,.65)'; ctx.font = '400 22px ' + F; ctx.fillText(fmtD(r0.p) + ', ' + r0.p.y + ' · ' + fmtT(r0.p.h, r0.p.mi), cx, 600);
+  if (many) {
+    var n = V.rows.length, rh = Math.min(68, 470 / n), y0 = 120 + (470 - rh * n) / 2;
+    V.rows.forEach(function (r, i) {
+      var y = y0 + i * rh, cyr = y + rh / 2, rr = Math.min(27, rh / 2 - 6);
+      ctx.fillStyle = i === 0 ? 'rgba(245,184,103,.12)' : 'rgba(244,239,230,.04)'; ctx.strokeStyle = i === 0 ? 'rgba(245,184,103,.6)' : 'rgba(244,239,230,.1)'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(580, y + 3, W - 580 - 60, rh - 6, 14) : ctx.rect(580, y + 3, W - 580 - 60, rh - 6); ctx.fill(); ctx.stroke();
+      clock(ctx, 580 + 14 + rr + 4, cyr, rr, r.p.h, r.p.mi, r.p.h < 6 || r.p.h >= 19, false);
+      var tx = 580 + 14 + rr * 2 + 24;
+      ctx.textAlign = 'left'; ctx.fillStyle = '#f4efe6'; ctx.font = '600 ' + (rh > 56 ? 27 : 23) + 'px ' + F; ctx.fillText(r.zn.n, tx, cyr - 2);
+      ctx.fillStyle = 'rgba(244,239,230,.6)'; ctx.font = '400 ' + (rh > 56 ? 18 : 16) + 'px ' + F; ctx.fillText(fmtD(r.p) + (r.diff ? (r.diff > 0 ? ' · next day' : ' · previous day') : ''), tx, cyr + 22);
+      ctx.textAlign = 'right'; ctx.fillStyle = '#f4efe6'; ctx.font = '600 ' + (rh > 56 ? 34 : 28) + 'px ' + F; ctx.fillText(fmtT(r.p.h, r.p.mi), W - 60 - 20, cyr + 10);
+    });
+  }
+}
+var dlg = $('#shareDlg');
+function cardBlob(cb) { $('#card').toBlob(cb, 'image/png'); }
+$('#share').addEventListener('click', function () {
+  persist();
+  var go = function () { drawCard(); if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', ''); };
+  (document.fonts && document.fonts.load ? Promise.all([document.fonts.load('600 30px Geist'), document.fonts.load('400 20px Geist')]).catch(function () {}) : Promise.resolve()).then(go);
+  $('#shNative').hidden = !navigator.share;
+  if (window.apTrack) window.apTrack('tz_share', {});
+});
+$('#shClose').addEventListener('click', function () { dlg.close ? dlg.close() : dlg.removeAttribute('open'); });
+dlg.addEventListener('click', function (ev) { if (ev.target === dlg && dlg.close) dlg.close(); });
+$('#shDl').addEventListener('click', function () {
+  cardBlob(function (b) { if (!b) return; var u = URL.createObjectURL(b), a = h('a', { href: u, download: 'meeting-time.png' }); document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 3000); });
+});
+$('#shCopyImg').addEventListener('click', function (ev) {
+  var btn = ev.currentTarget;
+  cardBlob(function (b) {
+    if (!b || !navigator.clipboard || !window.ClipboardItem) { flash(btn, 'Not supported here', 'Copy image'); return; }
+    navigator.clipboard.write([new ClipboardItem({ 'image/png': b })]).then(function () { flash(btn, 'Copied', 'Copy image'); }, function () { flash(btn, 'Not allowed', 'Copy image'); });
+  });
+});
+$('#shCopyLink').addEventListener('click', function (ev) { persist(); copy(location.href, ev.currentTarget, 'Copy link'); });
+$('#shNative').addEventListener('click', function () {
+  cardBlob(function (b) {
+    var data = { title: 'Meeting time', text: textSummary(), url: location.href };
+    try { var f = new File([b], 'meeting-time.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [f] })) data.files = [f]; } catch (e) {}
+    navigator.share(data).catch(function () {});
+  });
+});
 $('#ics').addEventListener('click', function () {
   var u = URL.createObjectURL(new Blob([ics()], { type: 'text/calendar' })), a = h('a', { href: u, download: 'meeting.ics' });
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 3000);
   if (window.apTrack) window.apTrack('tz_ics', {});
 });
 
-load(); fillTimes(); render();
+load(); fillTimes(); $('#note').value = st.note; render();
+$('#note').addEventListener('input', function (e) { st.note = e.target.value.slice(0, 140); persist(); });
+setInterval(function () { if (!busy && V && st.date === todayIn(st.zones[0].z) && !(document.activeElement && $('#tl').contains(document.activeElement))) render(); }, 30000);
 window.__tz = { parts: parts, offsetMs: offsetMs, midnight: midnight, st: function () { return st; }, view: function () { return V; }, textSummary: textSummary, ics: ics };
 })();
 </script>
