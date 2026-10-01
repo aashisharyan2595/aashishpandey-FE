@@ -53,7 +53,10 @@ const MENUS = {
     cta: { href: '/services', label: 'All services' },
     cols: [
       [{ h: 'Overview', items: [{ href: '/services', t: 'All services', d: 'How I can help', ic: 'grid' }] },
-       { h: 'Advise', items: [{ href: '/tech-consultant', t: 'Tech consultant', d: 'Architecture and delivery', ic: 'compass' }] }],
+       { h: 'Advise and deliver', items: [
+        { href: '/freelance-project-manager', t: 'Freelance project manager', d: 'Launches, rollouts, handovers', ic: 'kanban', f: 'Freelance project manager' },
+        { href: '/tech-consultant', t: 'Tech consultant', d: 'Architecture and delivery', ic: 'compass' },
+      ] }],
       [{ h: 'Build', items: [
         { href: '/shopify-developer', t: 'Shopify developer', d: 'Stores, themes, multi-market', ic: 'store' },
         { href: '/full-stack-developer', t: 'Full-stack developer', d: 'Custom builds end to end', ic: 'code' },
@@ -134,7 +137,7 @@ const FOOT = {
     { href: WA, label: 'WhatsApp', ic: 'chat', x: true },
   ],
   work: [['/case-studies', 'Case studies'], ['/work-liquid-iv', 'Liquid I.V.'], ['/work-talenti', 'Talenti'], ['/work-storynest', 'StoryNest'], ['/work-ceat-specialty', 'CEAT Specialty'], ['/portfolio', 'Portfolio']],
-  more: [['/', 'The 3D ride'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)'], ['/portfolio#pf-contact', 'Send a brief']],
+  more: [['/', 'The 3D ride'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)'], ['/portfolio#pf-contact', 'Send a brief'], ['/image-license', 'Image licence']],
 };
 
 /* ---------- helpers ---------- */
@@ -181,7 +184,7 @@ function header() {
 function footer() {
   const link = ([h, t, x]) => `<a href="${e(h)}"${x ? ' target="_blank" rel="noopener"' : ''}>${e(t)}</a>`;
   const col = (h, items) => `<div class="ap-foot__col"><p class="ap-foot__h">${h}</p>${items.map(link).join('')}</div>`;
-  const svc = [['/services', 'All services'], ...flat(MENUS.services).filter((i) => i.href !== '/services').sort((a, b) => ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/tech-consultant'].indexOf(a.href) - ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/tech-consultant'].indexOf(b.href)).map((i) => [i.href, i.f || i.t])];
+  const svc = [['/services', 'All services'], ...flat(MENUS.services).filter((i) => i.href !== '/services').sort((a, b) => ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/freelance-project-manager', '/tech-consultant'].indexOf(a.href) - ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/freelance-project-manager', '/tech-consultant'].indexOf(b.href)).map((i) => [i.href, i.f || i.t])];
   const tools = flat(MENUS.tools);
   const soc = FOOT.soc.map((s) => `<a href="${e(s.href)}"${ext(s)} aria-label="${e(s.label)}">${svg(ICONS.extra[s.ic], 18, 1.8)}</a>`).join('');
   return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/portfolio#pf-contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><div class="ap-foot__soc">${soc}</div></div>`

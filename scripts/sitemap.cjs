@@ -12,7 +12,7 @@ const P = [
   ['/work-storynest', 'Work-StoryNest.dc.html'], ['/work-ceat-specialty', 'Work-CEAT-Specialty.dc.html'],
   ['/services', 'Services.dc.html', ['/assets/og/og-services.jpg']],
   ['/shopify-developer', 'Shopify-Developer.dc.html'], ['/full-stack-developer', 'Full-Stack-Developer.dc.html'], ['/wordpress-webflow-developer', 'Wordpress-Webflow-Developer.dc.html', ['/assets/og/og-svc-wordpress-webflow.jpg']],
-  ['/seo-consultant', 'SEO-Consultant.dc.html'], ['/ui-ux-design', 'UI-UX-Design.dc.html'], ['/tech-consultant', 'Tech-Consultant.dc.html'],
+  ['/seo-consultant', 'SEO-Consultant.dc.html'], ['/freelance-project-manager', 'Freelance-Project-Manager.dc.html'], ['/image-license', 'Image-License.dc.html'], ['/ui-ux-design', 'UI-UX-Design.dc.html'], ['/tech-consultant', 'Tech-Consultant.dc.html'],
   ['/tools', 'Tools-v3.dc.html'], ['/tools/pad', 'Tools-Pad-v2.dc.html'], ['/tools/url-shortener', 'Tools-Shortener.dc.html'],
   ['/tools/image-resizer', 'Tools-Image.dc.html'], ['/tools/lorem-ipsum-generator', 'Tools-Lorem.dc.html'], ['/tools/qr-code-generator', 'Tools-QR.dc.html', ['/assets/og/og-tool-qr.jpg']], ['/tools/qr-code-checker', 'Tools-QR-Check.dc.html', ['/assets/og/og-tool-qr-check.jpg']], ['/tools/website-launch-checklist', 'Tools-Checklist.dc.html'],
   ['/tools/exif-remover', 'Tools-Exif.dc.html', ['/assets/og/og-tool-exif.jpg']], ['/tools/file-hash-checker', 'Tools-Hash.dc.html', ['/assets/og/og-tool-hash.jpg']], ['/tools/password-generator', 'Tools-Password.dc.html', ['/assets/og/og-tool-password.jpg']], ['/tools/time-zone-meeting-planner', 'Tools-Timezone.dc.html', ['/assets/og/og-tool-timezone.jpg']], ['/tools/project-estimate-calculator', 'Tools-Estimate.dc.html', ['/assets/og/og-tool-estimate.jpg']], ['/tools/invoice-generator', 'Tools-Invoice.dc.html', ['/assets/og/og-tool-invoice.jpg']], ['/tools/resume-maker', 'Tools-Resume.dc.html', ['/assets/og/og-tool-resume.jpg']], ['/tools/resume-maker/templates', 'Tools-Resume-Templates.dc.html'], ['/tools/resume-maker/examples', 'Tools-Resume-Examples.dc.html'], ['/tools/resume-maker/guide', 'Tools-Resume-Guide.dc.html'], ['/tools/resume-maker/examples/software-engineer', 'Tools-Resume-Ex-SoftwareEngineer.dc.html'], ['/tools/resume-maker/examples/ux-ui-designer', 'Tools-Resume-Ex-UxUiDesigner.dc.html'], ['/tools/resume-maker/examples/project-manager', 'Tools-Resume-Ex-ProjectManager.dc.html'], ['/tools/resume-maker/examples/data-analyst', 'Tools-Resume-Ex-DataAnalyst.dc.html'], ['/tools/resume-maker/examples/marketing-manager', 'Tools-Resume-Ex-MarketingManager.dc.html'], ['/tools/resume-maker/examples/sales-manager', 'Tools-Resume-Ex-SalesManager.dc.html'], ['/tools/resume-maker/examples/mechanical-engineer', 'Tools-Resume-Ex-MechanicalEngineer.dc.html'], ['/tools/resume-maker/examples/graduate', 'Tools-Resume-Ex-Graduate.dc.html'],
@@ -32,9 +32,9 @@ for (const [, file] of P) {
 fs.writeFileSync(stateFile, JSON.stringify(state, null, 2) + '\n');
 // One sitemap per kind of page, tied together by an index at /sitemap.xml (the only one robots.txt names).
 const GROUPS = [
-  ['sitemap-pages.xml', loc => loc === '/' || loc === '/portfolio' || loc === '/how-this-site-was-built'],
+  ['sitemap-pages.xml', loc => loc === '/' || loc === '/portfolio' || loc === '/how-this-site-was-built' || loc === '/image-license'],
   ['sitemap-case-studies.xml', loc => loc === '/case-studies' || loc.startsWith('/work-')],
-  ['sitemap-services.xml', loc => loc === '/services' || ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/tech-consultant'].includes(loc)],
+  ['sitemap-services.xml', loc => loc === '/services' || ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/freelance-project-manager', '/ui-ux-design', '/tech-consultant'].includes(loc)],
   ['sitemap-resume.xml', loc => loc.startsWith('/tools/resume-maker')],
   ['sitemap-tools.xml', loc => loc === '/tools' || (loc.startsWith('/tools/') && !loc.startsWith('/tools/resume-maker'))],
 ];

@@ -289,6 +289,14 @@
       "destination": "/SEO-Consultant.dc.html"
     },
     {
+      "source": "/image-license",
+      "destination": "/Image-License.dc.html"
+    },
+    {
+      "source": "/freelance-project-manager",
+      "destination": "/Freelance-Project-Manager.dc.html"
+    },
+    {
       "source": "/wordpress-webflow-developer",
       "destination": "/Wordpress-Webflow-Developer.dc.html"
     },

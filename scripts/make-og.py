@@ -79,6 +79,7 @@ ITEMS = [
     ('svc-wordpress-webflow', SVC, 'WordPress & Webflow', 'Sites, plugins and the project around them.', None, ('DEV', 'PM', 'SEO'), 110),
     ('svc-seo', SVC, 'SEO consultant', 'Technical, multi-market and AI-search SEO.', None, ('SEO', 'PM'), 120),
     ('svc-ui-ux', SVC, 'UI and UX design', 'Design that ships inside a launch.', None, ('UI', 'PM'), 120),
+    ('svc-pm', SVC, 'Freelance project manager', 'Shopify, WordPress and platform launches, brief to handover.', None, ('PM', 'DEV'), 120),
     ('svc-tech', SVC, 'Tech consultant', 'Solution architecture and vendor handovers.', None, ('DEV', 'PM'), 120),
 ]
 for name, kind, big, sub, foot, roles, size in ITEMS:

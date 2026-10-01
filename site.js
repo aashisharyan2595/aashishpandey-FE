@@ -8,6 +8,8 @@
     '/tech-consultant': 'Tech-Consultant.dc.html',
     '/ui-ux-design': 'UI-UX-Design.dc.html',
     '/seo-consultant': 'SEO-Consultant.dc.html',
+    '/freelance-project-manager': 'Freelance-Project-Manager.dc.html',
+    '/image-license': 'Image-License.dc.html',
     '/full-stack-developer': 'Full-Stack-Developer.dc.html',
     '/wordpress-webflow-developer': 'Wordpress-Webflow-Developer.dc.html',
     '/shopify-developer': 'Shopify-Developer.dc.html',
