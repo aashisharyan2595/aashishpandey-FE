@@ -69,6 +69,7 @@ ITEMS = [
     ('tool-hash', TOOL, 'File Hash Checker', 'MD5, SHA-1, SHA-256 and SHA-512, verified on your device', None, (), 110),
     ('tool-password', TOOL, 'Password Generator', 'Random passwords made in your browser, never sent anywhere', None, (), 110),
     ('tool-timezone', TOOL, 'Meeting Planner', 'Find a time that works across time zones', None, (), 120),
+    ('tool-estimate', TOOL, 'Estimate Calculator', 'Project cost and timeline from best, likely and worst hours', None, (), 110),
     ('tool-checklist', TOOL, 'Launch Checklists', 'Websites, campaigns, products and events', None, (), 110),
     ('services', SVC, 'Services', 'Development, UI, SEO and tech consulting', None, ('PM', 'DEV', 'UI', 'SEO'), 170),
     ('svc-shopify', SVC, 'Shopify developer', 'And the project manager who ships it. Bangalore.', None, ('PM', 'DEV', 'SEO'), 110),

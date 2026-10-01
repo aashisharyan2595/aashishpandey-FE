@@ -369,6 +369,10 @@
       "destination": "/Tools-Timezone.dc.html"
     },
     {
+      "source": "/tools/project-estimate-calculator",
+      "destination": "/Tools-Estimate.dc.html"
+    },
+    {
       "source": "/s/:code",
       "destination": "/api/s/:code"
     }
