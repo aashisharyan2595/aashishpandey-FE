@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "node scripts/chrome.cjs && node scripts/prerender.cjs && node scripts/externalize.cjs",
+  "buildCommand": "node scripts/chrome.cjs && node scripts/prerender.cjs && node scripts/externalize.cjs && node scripts/inline-css.cjs",
   "outputDirectory": ".",
   "cleanUrls": false,
   "trailingSlash": false,
