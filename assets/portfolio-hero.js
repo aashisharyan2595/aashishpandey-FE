@@ -33,22 +33,5 @@
     }
   }
 
-  // count the chip numbers up once, when they are first seen
-  function count(el) {
-    if (el.__done) return; el.__done = true;
-    var to = +el.getAttribute('data-pfc'), suf = el.getAttribute('data-sfx') || '';
-    if (rm) { el.textContent = to + suf; return; }
-    var t0 = performance.now(), D = 1500;
-    (function step(now) { var p = Math.min(1, (now - t0) / D); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))) + suf; if (p < 1) requestAnimationFrame(step); })(t0 + 1);
-  }
-  var armedOnce = new WeakSet();
-  function arm() {
-    document.querySelectorAll('.pfh [data-pfc]').forEach(function (el) {
-      if (armedOnce.has(el)) return; armedOnce.add(el);
-      if (!rm) el.textContent = '0' + (el.getAttribute('data-sfx') || '');
-      setTimeout(function () { count(el); }, 1100);
-    });
-  }
-  arm();
-  new MutationObserver(arm).observe(document.documentElement, { childList: true, subtree: true });
+  // the chip numbers are plain text now: counting them up repainted three blurred cards every frame and cost more than it was worth
 })();
