@@ -48,6 +48,10 @@
   };
   // Set a GA4 measurement ID (e.g. 'G-XXXXXXX') to enable Google Analytics. Vercel Web Analytics loads automatically in production.
   var GA_ID = 'G-H9J2D0RHRT';
+  // Microsoft Clarity (session replay and heatmaps). Production only, loaded when idle, and not on the pages where visitors type their own
+  // text or personal details (notepad, resume builder, invoice), because those pages promise the data stays on the device.
+  var CLARITY_ID = 'yr4j64clj0';
+  var NO_CLARITY = /^\/tools\/(pad|invoice-generator|resume-maker\/build|password-generator|exif-remover|file-hash-checker|estimate|project-estimate-calculator)/;
 
   var dev = /\.dc\.html$/.test(location.pathname);
   window.__apRoute = function (p) {
@@ -76,6 +80,14 @@
       var loadGA = function () { if (loadGA.done) return; loadGA.done = true; var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(g); };
       ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { addEventListener(ev, loadGA, { once: true, passive: true }); });
       if ('requestIdleCallback' in window) requestIdleCallback(loadGA, { timeout: 4000 }); else setTimeout(loadGA, 3000);
+    }
+    if (CLARITY_ID && !NO_CLARITY.test(location.pathname)) {
+      var loadClarity = function () {
+        if (loadClarity.done) return; loadClarity.done = true;
+        (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', CLARITY_ID);
+      };
+      ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { addEventListener(ev, loadClarity, { once: true, passive: true }); });
+      if ('requestIdleCallback' in window) requestIdleCallback(loadClarity, { timeout: 5000 }); else setTimeout(loadClarity, 4000);
     }
   }
   function classify(a) {
