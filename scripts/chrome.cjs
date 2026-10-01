@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 10; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 11; // bump when assets/nav.css changes: assets are cached for 30 days
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
 const WA = 'https://wa.me/917558415031';
@@ -98,9 +98,10 @@ const MENUS = {
     label: 'More',
     note: 'I reply within 48 hours',
     cta: { href: BOOK, label: 'Book a call', x: true },
+    // the first thing in this menu: a large button for the ride
+    feat: { href: '/', t: 'Ride the 3D site', d: 'Scroll a motorcycle through my career, then take it off-road.', ic: 'bike', cta: 'Start the ride', b: 'Interactive' },
     cols: [
       [{ h: 'Explore', items: [
-        { href: '/', t: 'The 3D ride', d: 'Scroll a motorcycle through my career', ic: 'bike' },
         { href: '/how-this-site-was-built', t: 'How this site was built', d: 'The build guide, step by step', ic: 'wrench' },
       ] }, { h: 'About me', items: [
         { href: CV, t: 'Résumé (PDF)', d: 'One page, up to date', ic: 'file', dl: true },
@@ -155,7 +156,8 @@ function mega(key) {
   const m = MENUS[key], n = m.cols.length;
   const cols = m.cols.map((col) => `<div class="ap-mega__col">${col.map((g) => `<div class="ap-mega__g"><p class="ap-mega__h">${e(g.h)}</p>${g.items.map(megaItem).join('')}</div>`).join('')}</div>`).join('');
   const cta = m.cta.label === null ? `All ${toolCount} tools` : m.cta.label;
-  return `<div class="ap-dd ap-dd--mega"><button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button><div class="ap-mega ap-mega--${n}" role="menu"><div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div><div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all" role="menuitem" href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div></div></div>`;
+  const feat = m.feat ? `<a class="ap-mega__feat" role="menuitem" href="${e(m.feat.href)}"><span class="ap-mega__fic">${icon(m.feat)}</span><span class="ap-mega__ftx"><span class="ap-mega__ft">${e(m.feat.t)}<span class="ap-mega__b">${e(m.feat.b)}</span></span><span class="ap-mega__fd">${e(m.feat.d)}</span></span><span class="ap-mega__fgo">${e(m.feat.cta)}${ARROW}</span></a>` : '';
+  return `<div class="ap-dd ap-dd--mega"><button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button><div class="ap-mega ap-mega--${n}" role="menu">${feat}<div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div><div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all" role="menuitem" href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div></div></div>`;
 }
 function sheetGroup(key) {
   const m = MENUS[key];
@@ -163,7 +165,8 @@ function sheetGroup(key) {
     const tiles = flat(m).map((it) => `<a class="ap-ms__tile" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span>${e(it.t)}</span></a>`).join('');
     return `<details class="ap-ms__grp"><summary>Tools<span class="ap-ms__count">${toolCount}</span>${CHEV}</summary><div class="ap-ms__body"><a class="ap-ms__all" href="/tools">All tools<span>Free, no sign-up</span></a><div class="ap-ms__tiles">${tiles}</div></div></details>`;
   }
-  const rows = flat(m).map((it) => `<a class="ap-ms__row" href="${e(it.href)}"${ext(it)}><span class="ap-ms__rt">${e(it.t)}</span><span class="ap-ms__rd">${e(it.d)}</span></a>`).join('');
+  const feat = m.feat ? `<a class="ap-ms__feat" href="${e(m.feat.href)}"><span class="ap-mega__ic">${icon(m.feat)}</span><span class="ap-ms__ftx"><span class="ap-ms__rt">${e(m.feat.t)}</span><span class="ap-ms__rd">${e(m.feat.d)}</span></span>${ARROW}</a>` : '';
+  const rows = feat + flat(m).map((it) => `<a class="ap-ms__row" href="${e(it.href)}"${ext(it)}><span class="ap-ms__rt">${e(it.t)}</span><span class="ap-ms__rd">${e(it.d)}</span></a>`).join('');
   return `<details class="ap-ms__grp"><summary>${e(m.label)}${CHEV}</summary><div class="ap-ms__body">${rows}</div></details>`;
 }
 function header() {
