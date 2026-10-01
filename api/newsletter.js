@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
       await upsert(email, false);
       try {
         const w = T.subscribeWelcome(link('unsubscribe', email)), u = link('unsubscribe', email);
-        await sendMail({ to: email, subject: w.subject, html: w.html, text: w.text, headers: { 'List-Unsubscribe': `<${u}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
+        await sendMail({ to: email, subject: w.subject, html: w.html, text: w.text, replyTo: env().admin, headers: { 'List-Unsubscribe': `<${u}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
         const n = T.adminSubscriber(email, 'subscribed'); await sendMail({ to: env().admin, subject: n.subject, html: n.html, text: n.text });
       } catch (e) { console.error('newsletter: follow-up mail failed', e.message); }
       return res.status(200).send(page('You are subscribed', 'Thanks. A short welcome email is on its way.'));

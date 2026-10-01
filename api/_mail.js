@@ -6,7 +6,8 @@ const SITE = 'https://aashishpandey.com';
 
 const env = () => ({
   key: process.env.RESEND_API_KEY,
-  from: process.env.RESEND_FROM || 'Aashish Pandey <hello@aashishpandey.com>',
+  // mail is sent from the Resend domain aashishpandey.online; replies are routed to ADMIN_EMAIL (the real inbox) with reply-to
+  from: process.env.RESEND_FROM || 'Aashish Pandey <hello@aashishpandey.online>',
   admin: process.env.ADMIN_EMAIL || 'hello@aashishpandey.com',
   audience: process.env.RESEND_AUDIENCE_ID,
   secret: process.env.NEWSLETTER_SECRET || process.env.RESEND_API_KEY || '',
