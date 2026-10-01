@@ -16,7 +16,7 @@
     '/work-talenti': 'Work-Talenti.dc.html',
     '/work-storynest': 'Work-StoryNest.dc.html',
     '/work-ceat-specialty': 'Work-CEAT-Specialty.dc.html',
-    '/tools': 'Tools-v2.dc.html',
+    '/tools': 'Tools-v3.dc.html',
     '/tools/pad': 'Tools-Pad-v2.dc.html',
     '/tools/url-shortener': 'Tools-Shortener.dc.html',
     '/tools/image-resizer': 'Tools-Image.dc.html',
