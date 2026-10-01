@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/assets/nav.css?v=11">
+<link rel="stylesheet" href="/assets/nav.css?v=12">
 <title>QR Code Checker: Is My QR Code Dynamic, Static or Safe?</title>
 <meta name="description" content="Check a QR code from an image or screenshot: see what is inside, whether it runs through a redirect that can expire, and if the link or UPI payment looks safe. Runs in your browser.">
 <link rel="canonical" href="https://aashishpandey.com/tools/qr-code-checker">
@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://unpkg.com" crossorigin="">
 <link rel="preload" as="script" crossorigin="anonymous" href="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z">
 <link rel="preload" as="script" crossorigin="anonymous" href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1">
-<script src="/support.js"></script>
+<script src="/support.js" defer></script>
 </head>
 <body>
 <div id="ap-pre">
@@ -53,8 +53,8 @@
 <link rel="manifest" href="/assets/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<script src="/site.js"></script>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap"></noscript>
+<script src="/site.js" defer></script>
 <script src="/assets/motion.js" defer></script>
 <script src="/assets/vendor/jsQR.min.js"></script>
 <style>

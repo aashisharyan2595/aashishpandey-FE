@@ -68,9 +68,12 @@
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     var v = document.createElement('script'); v.defer = true; v.src = '/_vercel/insights/script.js'; document.head.appendChild(v);
     if (GA_ID) {
-      var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(g);
+      // GA is queued now and its script loads when the page is idle (or on first touch), so it never competes with first paint
       window.gtag = function () { window.dataLayer.push(arguments); };
       window.gtag('js', new Date()); window.gtag('config', GA_ID);
+      var loadGA = function () { if (loadGA.done) return; loadGA.done = true; var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(g); };
+      ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { addEventListener(ev, loadGA, { once: true, passive: true }); });
+      if ('requestIdleCallback' in window) requestIdleCallback(loadGA, { timeout: 4000 }); else setTimeout(loadGA, 3000);
     }
   }
   function classify(a) {

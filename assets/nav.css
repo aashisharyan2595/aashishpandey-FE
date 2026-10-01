@@ -1,5 +1,4 @@
 /* Shared site header + footer. Markup is identical on every static page. Bump ?v= in the pages' <link> after editing. */
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap');
 html{scroll-padding-top:96px}
 .ap-nav{position:sticky;top:0;z-index:20;background:none;border-bottom:1px solid rgba(244,239,230,.07);font-family:'Geist',system-ui,sans-serif;transition:box-shadow .3s,border-color .3s}
 /* the bar's own blur lives on a pseudo-element: an ancestor with backdrop-filter would stop the menu panels from blurring the page behind them */
