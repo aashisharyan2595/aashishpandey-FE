@@ -1201,11 +1201,20 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
     const hem = put(new THREE.CylinderGeometry(0.19, 0.235, 0.2, 24, 1, true), suit, 'jacket-hem', V(0, 1.1, 0.24), -0.35); hem.scale.z = 0.8;
     const hemIn = put(new THREE.CylinderGeometry(0.187, 0.232, 0.2, 24, 1, true), lining, 'jacket-lining', V(0, 1.1, 0.24), -0.35); hemIn.scale.z = 0.8;
     put(new THREE.CylinderGeometry(0.06, 0.068, 0.07, 16), shirt, 'collar', V(0, 1.535, 0.02), -0.3);
-    const hel = ball(0.155, chrome, 'helmet', V(0, 1.665, -0.02)); hel.scale.set(0.98, 1.02, 1.14);
-    const vis = put(new THREE.SphereGeometry(0.158, 28, 12, Math.PI * 1.5 - 0.95, 1.9, 1.02, 0.62), mirror, 'visor', V(0, 1.665, -0.02)); vis.scale.set(0.98, 1.02, 1.14);
-    const chin = put(new THREE.SphereGeometry(0.157, 24, 10, Math.PI * 1.5 - 1.05, 2.1, 1.66, 0.72), gloss, 'chin-bar', V(0, 1.665, -0.02)); chin.scale.set(0.98, 1.02, 1.14);
-    put(new THREE.BoxGeometry(0.12, 0.022, 0.07), gloss, 'helmet-spoiler', V(0, 1.79, 0.13), -0.35);
-    [-1, 1].forEach(sd => { const pod = put(new THREE.CylinderGeometry(0.03, 0.03, 0.02, 14), gloss, 'visor-pivot', V(sd * 0.152, 1.66, -0.06)); pod.rotation.z = Math.PI / 2; });
+    const oliveM = new THREE.MeshPhysicalMaterial({ color: '#76874f', roughness: 0.72, metalness: 0.04 }), blackM = new THREE.MeshPhysicalMaterial({ color: '#17191a', roughness: 0.68, metalness: 0.08 }),
+      gunM = new THREE.MeshPhysicalMaterial({ color: '#3d4243', roughness: 0.4, metalness: 0.55 }), whiteM = new THREE.MeshPhysicalMaterial({ color: '#ece9e0', roughness: 0.6, side: THREE.DoubleSide }), ventM = new THREE.MeshPhysicalMaterial({ color: '#7d8283', roughness: 0.4, metalness: 0.5 }),
+      glassM = new THREE.MeshPhysicalMaterial({ color: '#0e1112', metalness: 0.6, roughness: 0.04, clearcoat: 1, clearcoatRoughness: 0.03 });
+    const HC = V(0, 1.665, -0.02), hsc = o => { o.scale.set(0.98, 1.02, 1.14); return o; }, sec = (r, ws, hs, ps, pl, ts, tl, mat, name) => hsc(put(new THREE.SphereGeometry(r, ws, hs, ps, pl, ts, tl), mat, name, HC)), FR = Math.PI * 1.5; // helmet: forward is -z, phi 1.5 pi
+    hsc(ball(0.155, oliveM, 'helmet', HC));
+    sec(0.1575, 32, 10, FR - 1.7, 3.4, 0, 0.78, blackM, 'helmet-top'); sec(0.159, 40, 2, FR - 1.7, 3.4, 0.78, 0.04, whiteM, 'helmet-trim');
+    sec(0.1605, 32, 4, FR - 1.3, 2.6, 0.84, 0.12, gunM, 'visor-frame'); sec(0.1615, 32, 12, FR - 1.18, 2.36, 0.95, 0.8, glassM, 'visor'); sec(0.1605, 32, 3, FR - 1.25, 2.5, 1.75, 0.06, gunM, 'visor-frame');
+    sec(0.1575, 24, 10, FR - 0.95, 1.9, 1.81, 0.55, blackM, 'helmet-chin'); sec(0.158, 32, 3, 0, Math.PI * 2, 2.38, 0.14, blackM, 'neck-roll');
+    [-1, 1].forEach(sd => { for (let k = 0; k < 3; k++) { const vent = put(new THREE.BoxGeometry(0.05, 0.008, 0.012), ventM, 'chin-vent', V(sd * 0.064, 1.595 - k * 0.012, -0.164)); vent.rotation.y = sd * 0.5; }
+      const hub = put(new THREE.CylinderGeometry(0.042, 0.044, 0.012, 18), gunM, 'pivot-hub', V(sd * 0.1505, 1.655, -0.05)); hub.rotation.z = Math.PI / 2;
+      const dial = put(new THREE.CylinderGeometry(0.026, 0.026, 0.008, 14), ventM, 'pivot-dial', V(sd * 0.1565, 1.655, -0.05)); dial.rotation.z = Math.PI / 2;
+      const ring = put(new THREE.RingGeometry(0.036, 0.05, 28), whiteM, 'helmet-roundel', V(sd * 0.1345, 1.62, 0.065)); ring.rotation.y = sd * Math.PI / 2; ring.material = whiteM;
+      const ring2 = put(new THREE.RingGeometry(0.012, 0.024, 20), whiteM, 'helmet-roundel', V(sd * 0.1345, 1.62, 0.065)); ring2.rotation.y = sd * Math.PI / 2; });
+    put(new THREE.BoxGeometry(0.045, 0.008, 0.034), gunM, 'top-vent', V(0, 1.827, 0.07), -0.35);
     const ulimb = (r, r2, mat, name) => { const m = mk(new THREE.CylinderGeometry(r2, r, 1, 20), mat, name); rider.add(m); return m; };
     const RIGA = [], RIGL = [];
     [-1, 1].forEach(s => { const sh = ball(0.068, suit, 'shoulder', V(s * 0.2, 1.47, 0.06)), ua = ulimb(0.062, 0.056, suit, 'upper-arm'), el = ball(0.056, suit, 'elbow', V()), fa = ulimb(0.056, 0.05, suit, 'forearm'), cf = ulimb(0.047, 0.04, shirt, 'shirt-cuff'), gl = ball(0.048, glove, 'glove', V()), knk = ball(0.03, glove, 'knuckles', V()); knk.scale.set(1.4, 0.7, 1);
@@ -1214,9 +1223,8 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
       const sho = put(new THREE.CapsuleGeometry(0.05, 0.13, 6, 14), shoe, 'shoe', V(s * 0.19, 0.44, -0.05), Math.PI / 2); sho.scale.set(0.95, 1, 0.72); const sole = put(new THREE.BoxGeometry(0.1, 0.025, 0.25), gloss, 'boot-sole', V(s * 0.19, 0.4, -0.06));
       const peg = mk(new THREE.CylinderGeometry(0.018, 0.018, 0.12, 6), M.chrome, 'footpeg'); peg.rotation.z = Math.PI / 2; peg.position.set(s * 0.17, 0.38, -0.02); bike.add(peg);
       RIGL.push({ s, hp: V(s * 0.11, 1.02, 0.28), th, kn, tr, sho, sole, ank: V(s * 0.19, 0.5, 0.0) }); });
-    const hs2 = put(new THREE.TorusGeometry(0.153, 0.009, 6, 40, Math.PI), gloss, 'helmet-stripe', V(0, 1.665, -0.02)); hs2.rotation.y = Math.PI / 2; hs2.scale.set(1.14, 1.02, 0.98);
     bike.updateMatrixWorld(true); const spine = new THREE.Group(); spine.name = 'rider-spine'; spine.position.set(0, 1.06, 0.28); rider.add(spine); const headG = new THREE.Group(); headG.name = 'rider-head'; headG.position.set(0, 0.49, -0.26); spine.add(headG); spine.updateMatrixWorld(true);
-    const byN = n => rider.children.filter(o => o.name === n); ['torso', 'collar'].forEach(n => byN(n).forEach(o => spine.attach(o))); ['helmet', 'visor', 'chin-bar', 'helmet-spoiler', 'visor-pivot', 'helmet-stripe'].forEach(n => byN(n).forEach(o => headG.attach(o))); RIGA.forEach(A => spine.attach(A.sh));
+    const byN = n => rider.children.filter(o => o.name === n); ['torso', 'collar'].forEach(n => byN(n).forEach(o => spine.attach(o))); ['helmet', 'helmet-top', 'helmet-trim', 'visor', 'visor-frame', 'helmet-chin', 'neck-roll', 'chin-vent', 'pivot-hub', 'pivot-dial', 'helmet-roundel', 'top-vent'].forEach(n => byN(n).forEach(o => headG.attach(o))); RIGA.forEach(A => spine.attach(A.sh));
     const rHit = mk(new THREE.SphereGeometry(0.42, 10, 8), new THREE.MeshBasicMaterial(), 'rider-hit'); rHit.position.set(0, 1.3, 0.1); rHit.visible = false; rider.add(rHit);
     const rv = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()], UPV = new THREE.Vector3(0, 1, 0), FWDV = new THREE.Vector3(0, 0, -1);
     const setLimb = (m, a, b) => { const d = rv[4].subVectors(b, a), L = d.length() || 1e-4; m.position.copy(a).addScaledVector(d, 0.5); m.quaternion.setFromUnitVectors(UPV, d.multiplyScalar(1 / L)); m.scale.set(1, L, 1); };
@@ -3686,6 +3694,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     camera.position.lerp(chase, intro < 1 ? 1 : 1 - Math.exp(-dt * lerp(7, 3.2, dwell))); camLook.lerp(look, intro < 1 ? 1 : 1 - Math.exp(-dt * lerp(8, 3.6, dwell)));
     camRoll += ((reduceMotion ? 0 : lean * 0.55) - camRoll) * (1 - Math.exp(-dt * 3)); camera.up.set(0, Math.cos(camRoll), 0).addScaledVector(fr.r, Math.sin(camRoll)); camera.lookAt(camLook);
     { const fk = camera.aspect < 1 ? 0.7 : 1, fT = (camera.aspect < 1 ? 64 : 52) + (free && !reduceMotion ? (sstep(5, 26, curSpeed) * 9 + boostAmt * 3 + punch * 3.5) * fk : clamp((curSpeed - 12) / 18, 0, 1) * 6 + boostAmt * 5); if (Math.abs(camera.fov - fT) > 0.03) { camera.fov += (fT - camera.fov) * (1 - Math.exp(-dt * (punch > 0.15 ? 5 : 3))); camera.updateProjectionMatrix(); } }
+    if (window.__apW && window.__apW.camHack) { const h = window.__apW.camHack; camera.position.set(h[0], h[1], h[2]); camera.lookAt(h[3], h[4], h[5]); camera.fov = h[6] || 30; camera.updateProjectionMatrix(); } // debug only (?perf): lets tests take close-ups
     sky.position.copy(camera.position);
 
     // flares
