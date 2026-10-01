@@ -373,6 +373,10 @@
       "destination": "/Tools-Estimate.dc.html"
     },
     {
+      "source": "/tools/invoice-generator",
+      "destination": "/Tools-Invoice.dc.html"
+    },
+    {
       "source": "/s/:code",
       "destination": "/api/s/:code"
     }

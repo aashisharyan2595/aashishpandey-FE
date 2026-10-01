@@ -10,7 +10,7 @@ const PAGES = {
   'Case-Studies.dc.html': { current: '/case-studies' }, 'Services.dc.html': svc,
   'Shopify-Developer.dc.html': svc, 'Full-Stack-Developer.dc.html': svc, 'Wordpress-Webflow-Developer.dc.html': svc, 'SEO-Consultant.dc.html': svc, 'UI-UX-Design.dc.html': svc, 'Tech-Consultant.dc.html': svc,
   'Tools-v2.dc.html': { current: '/tools' }, 'Tools-Shortener.dc.html': tool('URL Shortener'), 'Tools-Image.dc.html': tool('Image Resizer'),
-  'Tools-Lorem.dc.html': tool('Lorem Ipsum'), 'Tools-QR.dc.html': tool('QR Codes'), 'Tools-QR-Check.dc.html': tool('QR Autopsy'), 'Tools-Checklist.dc.html': tool('Launch Checklist'), 'Tools-Exif.dc.html': tool('Photo Metadata'), 'Tools-Hash.dc.html': tool('File Hash Checker'), 'Tools-Password.dc.html': tool('Password Generator'), 'Tools-Timezone.dc.html': tool('Meeting Planner'), 'Tools-Estimate.dc.html': tool('Estimate Calculator'),
+  'Tools-Lorem.dc.html': tool('Lorem Ipsum'), 'Tools-QR.dc.html': tool('QR Codes'), 'Tools-QR-Check.dc.html': tool('QR Autopsy'), 'Tools-Checklist.dc.html': tool('Launch Checklist'), 'Tools-Exif.dc.html': tool('Photo Metadata'), 'Tools-Hash.dc.html': tool('File Hash Checker'), 'Tools-Password.dc.html': tool('Password Generator'), 'Tools-Timezone.dc.html': tool('Meeting Planner'), 'Tools-Estimate.dc.html': tool('Estimate Calculator'), 'Tools-Invoice.dc.html': tool('Invoice'),
   'Work-Liquid-IV.dc.html': work, 'Work-Talenti.dc.html': work, 'Work-StoryNest.dc.html': work, 'Work-CEAT-Specialty.dc.html': work,
   'How-This-Site-Was-Built.dc.html': {},
 };
