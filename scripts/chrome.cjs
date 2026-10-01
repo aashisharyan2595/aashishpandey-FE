@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 8; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 10; // bump when assets/nav.css changes: assets are cached for 30 days
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
 const WA = 'https://wa.me/917558415031';
@@ -201,7 +201,8 @@ function activate(html, p) {
   const re = () => new RegExp(`<a ([^>]*?)href="${target.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&')}"([^>]*)>`, 'g');
   // 1. open the menu group that holds the page (positions taken from the untouched string, applied last to first)
   const marks = new Set();
-  for (const m of html.matchAll(re())) {
+  // /portfolio has its own top-level link; do not light the Work menu as well
+  for (const m of (target === '/portfolio' ? [] : html.matchAll(re()))) {
     const cls = (m[0].match(/class="([^"]*)"/) || [, ''])[1];
     if (cls === '' || cls === 'ap-ms__top' || cls.includes('ap-nav__logo')) continue;
     const before = html.slice(0, m.index);
