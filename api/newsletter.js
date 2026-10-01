@@ -1,0 +1,43 @@
+// GET  /api/newsletter?a=confirm|unsubscribe&e=<email>&x=<time>&t=<token>   (links in the emails)
+// POST the same URL = one-click unsubscribe (List-Unsubscribe-Post). Shows a small page; adds or updates the contact in the Resend audience.
+const { env, resend, sendMail, clean, validEmail, verify, link, SITE, esc } = require('./_mail');
+const T = require('./_templates');
+
+const page = (title, msg) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${esc(title)} · Aashish Pandey</title></head>
+<body style="margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#070916;color:#f4efe6;font-family:Geist,system-ui,Arial,sans-serif;padding:24px;box-sizing:border-box;">
+<div style="max-width:460px;text-align:center;"><h1 style="margin:0 0 12px;font-size:30px;letter-spacing:-.03em;">${esc(title)}</h1><p style="margin:0 0 26px;font-size:17px;line-height:1.6;color:#cfc9d8;">${msg}</p>
+<a href="${SITE}" style="display:inline-block;padding:13px 24px;border-radius:999px;background:#f5b867;color:#1a1420;font-weight:700;text-decoration:none;">Back to the site</a></div></body></html>`;
+
+async function upsert(email, unsubscribed) {
+  const id = env().audience, enc = encodeURIComponent(email);
+  try { await resend(`/audiences/${id}/contacts`, 'POST', { email, unsubscribed }); }
+  catch (e) { await resend(`/audiences/${id}/contacts/${enc}`, 'PATCH', { unsubscribed }); }   // already in the audience
+}
+
+module.exports = async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  const q = req.query || {}, a = clean(q.a, 20), email = clean(q.e, 254).toLowerCase(), ts = clean(q.x, 20), tok = clean(q.t, 64);
+  if (!['confirm', 'unsubscribe'].includes(a) || !validEmail(email)) return res.status(400).send(page('Link not valid', 'This link is not valid. If you wanted to subscribe, use the form on the site again.'));
+  if (!verify(a, email, ts, tok, a === 'confirm' ? 48 * 3600e3 : 0)) {
+    return res.status(400).send(page(a === 'confirm' ? 'Link expired' : 'Link not valid', a === 'confirm' ? 'This confirmation link has expired or was changed. Please subscribe again from the site.' : 'This link is not valid. Reply to any of my emails and I will remove you by hand.'));
+  }
+  if (!env().audience) return res.status(503).send(page('Not connected', 'The newsletter is not connected yet. Please try again later.'));
+  try {
+    if (a === 'confirm') {
+      await upsert(email, false);
+      try {
+        const w = T.subscribeWelcome(link('unsubscribe', email)), u = link('unsubscribe', email);
+        await sendMail({ to: email, subject: w.subject, html: w.html, text: w.text, headers: { 'List-Unsubscribe': `<${u}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
+        const n = T.adminSubscriber(email, 'subscribed'); await sendMail({ to: env().admin, subject: n.subject, html: n.html, text: n.text });
+      } catch (e) { console.error('newsletter: follow-up mail failed', e.message); }
+      return res.status(200).send(page('You are subscribed', 'Thanks. A short welcome email is on its way.'));
+    }
+    await upsert(email, true);
+    try { const n = T.adminSubscriber(email, 'unsubscribed'); await sendMail({ to: env().admin, subject: n.subject, html: n.html, text: n.text }); } catch (e) { /* the unsubscribe itself worked */ }
+    return res.status(200).send(page('You are unsubscribed', 'Done. I will not email you again. If this was a mistake, you can subscribe again from the site.'));
+  } catch (e) {
+    console.error('newsletter failed', e.message);
+    return res.status(502).send(page('Something went wrong', 'Please try again in a minute, or reply to any of my emails and I will sort it out.'));
+  }
+};

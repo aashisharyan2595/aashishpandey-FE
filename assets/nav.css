@@ -210,3 +210,14 @@ html:has(.ap-ms[open]){overflow:hidden}
 .ap-foot__legal a,.ap-foot__legal button{color:#a9a3b8;background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;min-height:32px;display:inline-flex;align-items:center}
 .ap-foot__legal a:hover,.ap-foot__legal button:hover{color:#f5b867}
 @media(max-width:760px),(pointer:coarse){.ap-foot__legal a,.ap-foot__legal button{min-height:44px}}
+
+/* v14: newsletter form in the footer */
+.ap-foot__news{display:flex;flex-direction:column;gap:8px;max-width:340px;margin-top:6px}
+.ap-foot__news label{font:500 12.5px/1.4 'Geist',system-ui,sans-serif;color:#e5e0ea}
+.ap-foot__nrow{display:flex;gap:8px}
+.ap-foot__news input[type=email]{flex:1;min-width:0;height:44px;padding:0 14px;border-radius:12px;border:1px solid rgba(244,239,230,.2);background:rgba(244,239,230,.05);color:#f4efe6;font:400 15px 'Geist',system-ui,sans-serif}
+.ap-foot__news input[type=email]:focus{outline:none;border-color:#f5b867;box-shadow:0 0 0 3px rgba(245,184,103,.15)}
+.ap-foot__news button{height:44px;padding:0 18px;border-radius:12px;border:0;background:#f5b867;color:#1a1420;font:700 14px 'Geist',system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+.ap-foot__news button:hover{background:#ffc880}.ap-foot__news button[disabled]{opacity:.6;cursor:wait}
+.ap-foot__news p{margin:0;font-size:12px;line-height:1.5;color:#8f8aa0}.ap-foot__news p.is-err{color:#ffb39e}.ap-foot__news p.is-ok{color:#7ff3e1}
+.ap-foot__news .ap-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}

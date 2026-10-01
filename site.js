@@ -10,6 +10,7 @@
     '/seo-consultant': 'SEO-Consultant.dc.html',
     '/freelance-project-manager': 'Freelance-Project-Manager.dc.html',
     '/image-license': 'Image-License.dc.html',
+    '/contact': 'Contact.dc.html',
     '/terms': 'Legal-Terms.dc.html',
     '/privacy': 'Legal-Privacy.dc.html',
     '/cookies': 'Legal-Cookies.dc.html',
@@ -144,6 +145,21 @@
   function initNotice() { if (!getConsent() && !gpc) showNotice(false); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotice); else initNotice();
   document.addEventListener('click', function (ev) { var t = ev.target.closest && ev.target.closest('[data-cookie-settings]'); if (t) { ev.preventDefault(); showNotice(true); } });
+
+  /* ---- newsletter form in the footer ---- */
+  var T0 = Date.now();
+  document.addEventListener('submit', function (ev) {
+    var f = ev.target; if (!f || !f.matches || !f.matches('form[data-news]')) return;
+    ev.preventDefault();
+    var msg = f.querySelector('[data-news-msg]'), btn = f.querySelector('button'), email = (f.email.value || '').trim();
+    var say = function (t, cls) { msg.textContent = t; msg.className = cls || ''; };
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say('That email address does not look right.', 'is-err'); f.email.focus(); return; }
+    btn.disabled = true; say('Sending…');
+    fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0 }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (x) { btn.disabled = false; if (x.ok) { f.email.value = ''; say(x.j.message || 'Check your inbox to confirm.', 'is-ok'); if (window.apTrack) window.apTrack('newsletter_signup', {}); } else say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err'); })
+      .catch(function () { btn.disabled = false; say('Could not reach the server. Please try again later.', 'is-err'); });
+  });
   function classify(a) {
     var h = a.getAttribute('href') || '', t = (a.textContent || '').trim();
     if (a.getAttribute('data-track')) return a.getAttribute('data-track');
