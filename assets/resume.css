@@ -1,0 +1,38 @@
+/* Resume paper and templates. Used by the builder and by the static previews on the resume pages. */
+.rsx{background:#fff;color:#111;font:400 var(--fs,10.5pt)/var(--lh,1.35) var(--ff,Arial);box-sizing:border-box;position:relative;overflow-wrap:anywhere;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rsx *{color:inherit;box-sizing:border-box}
+.rsx .rs-head{margin-bottom:var(--gap)}
+.rsx .rs-name{margin:0;font-size:calc(var(--fs)*var(--ns,2.4));line-height:1.1;font-weight:700;letter-spacing:-.01em}
+.rsx .rs-title{font-size:calc(var(--fs)*1.2);margin-top:2px}
+.rsx .rs-contact{margin-top:4px;font-size:calc(var(--fs)*.95)}
+.rsx.al-center .rs-head{text-align:center}
+.rsx .rs-sec{margin-top:var(--gap)}
+.rsx .rs-h{margin:0 0 5px;font-size:calc(var(--fs)*1.05);font-weight:700;break-after:avoid}
+.rsx.hd-rule .rs-h{text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--ac);padding-bottom:2px;color:var(--ac)}
+.rsx.hd-caps .rs-h{text-transform:uppercase;letter-spacing:.09em;color:var(--ac)}
+.rsx.hd-plain .rs-h{color:var(--ac)}
+.rsx.hd-box .rs-h{background:var(--ac);color:#fff;padding:2px 8px;text-transform:uppercase;letter-spacing:.06em}
+.rsx.hd-box .rs-h{color:#fff}
+.rsx.hd-bar .rs-h{border-left:4px solid var(--ac);padding-left:8px;text-transform:uppercase;letter-spacing:.06em}
+.rsx .rs-row{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.rsx .rs-dt{white-space:nowrap;font-size:calc(var(--fs)*.95)}
+.rsx .rs-sub{font-style:italic}
+.rsx .rs-note{font-size:calc(var(--fs)*.95)}
+.rsx .rs-p{margin:0 0 3px}
+.rsx .rs-ul{margin:3px 0 0;padding:0;list-style:none}
+.rsx .rs-ul li{position:relative;padding-left:14px;margin:1px 0}
+.rsx .rs-ul li::before{content:var(--bl,'•');position:absolute;left:2px}
+.rsx .rs-e{margin-top:7px;break-inside:avoid}
+.rsx .rs-e.rs-row{margin-top:3px}
+.rsx .rs-sk{margin:2px 0}
+.rsx.rt-modern .rs-name{color:var(--ac)}
+.rsx.rt-executive .rs-name{letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+.rsx.rt-executive .rs-h{text-align:center}
+.rsx.rt-minimal .rs-h{letter-spacing:.14em}
+.rsx.rt-compact .rs-e{margin-top:4px}
+.rsx.rt-sidebar .rs-grid{display:grid;grid-template-columns:30% minmax(0,1fr);gap:22px;align-items:start}
+.rsx.rt-sidebar .rs-side{background:color-mix(in srgb,var(--ac) 8%,#fff);padding:12px 14px;border-radius:6px}
+.rsx.rt-sidebar .rs-side .rs-sec:first-child{margin-top:0}
+.rsx .rs-pb{position:absolute;left:0;right:0;border-top:1px dashed #c4c4cc;font:10px Arial;color:#999!important;text-align:right;padding-right:8px;pointer-events:none}
+.rsx-frame{position:relative;overflow:hidden;background:#fff;aspect-ratio:210/297;width:100%}
+.rsx-frame>.rsx{position:absolute;left:0;top:0;transform-origin:top left;transform:scale(.3);overflow:hidden;pointer-events:none;user-select:none}

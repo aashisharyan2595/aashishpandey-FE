@@ -92,31 +92,75 @@
     "lastmod": "2026-09-30"
   },
   "Tools-Exif.dc.html": {
-    "hash": "003b1c4f1071bb43bb0cfadc6fecceb7300ce002",
+    "hash": "513ee620a54a9ca0e56a1358cef4eac731049669",
     "lastmod": "2026-10-01"
   },
   "Tools-Hash.dc.html": {
-    "hash": "c16892265a69e5d8420d56ce7b77063e860f266f",
+    "hash": "2aef9397bc601a03b35486a6d47b84af7d5b8196",
     "lastmod": "2026-10-01"
   },
   "Tools-Password.dc.html": {
-    "hash": "27d4336f3d57ead446962b0473520ef5d6f6e548",
+    "hash": "302bd2fa6632a4a618a23ceb06724c2f12141470",
     "lastmod": "2026-10-01"
   },
   "Tools-Timezone.dc.html": {
-    "hash": "d4f2ad8adb8e4f70c101767620a09867180035d3",
+    "hash": "df86f9bce747fcdf2724c17cfcc36f5c26e1a58a",
     "lastmod": "2026-10-01"
   },
   "Tools-Estimate.dc.html": {
-    "hash": "d5df44cbaaa7ec3c6e16339b8ce999035d3a7e76",
+    "hash": "e9d7273f109a6863aa3b2fb90450051738c4785e",
     "lastmod": "2026-10-01"
   },
   "Tools-Invoice.dc.html": {
-    "hash": "adddac38e66ec05f92ad68d9ec40aa8601a789e6",
+    "hash": "9b567cd092ca074f4112a1f4ff1d8b66d8a9f5a1",
     "lastmod": "2026-10-01"
   },
   "Tools-Resume.dc.html": {
-    "hash": "422fd9a13cd6f53569c82ef9729bde8c56e43138",
+    "hash": "58d2a80cb2e6282b7c012c82e069e7f658b18738",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Templates.dc.html": {
+    "hash": "5f7ca865235c093702c5ba1ea4ddfbd323d41ddb",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Examples.dc.html": {
+    "hash": "70d4fd42d76a097cccb5494d909b78d3665d8111",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Guide.dc.html": {
+    "hash": "ed3b9e89d49cd5fd68bef750b36096981b752349",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Ex-SoftwareEngineer.dc.html": {
+    "hash": "d27de4152f14e3461b9e53f45f70fe6592504731",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Ex-UxUiDesigner.dc.html": {
+    "hash": "278fd3ee229f3fdb9eb9fccdb5b1020b5a439475",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Ex-ProjectManager.dc.html": {
+    "hash": "a9e4cda93d874c0f7645f7e81b59a0b7a6812f8f",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Ex-DataAnalyst.dc.html": {
+    "hash": "7031813590abda4815dd92443fe3f8fdaba7d95d",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Ex-MarketingManager.dc.html": {
+    "hash": "fc1258ececb8be71e5e955c961c1defffdb1ec49",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Ex-SalesManager.dc.html": {
+    "hash": "b3760cf2d6f74743a401f29c22278b7890ba29b0",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Ex-MechanicalEngineer.dc.html": {
+    "hash": "3a8b0ce8056eea34a09d6c73aa6123aae07d804f",
+    "lastmod": "2026-10-01"
+  },
+  "Tools-Resume-Ex-Graduate.dc.html": {
+    "hash": "d87c8cf4ae39fd381b74ce8c9d979cf8279c162c",
     "lastmod": "2026-10-01"
   }
 }

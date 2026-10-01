@@ -381,6 +381,54 @@
       "destination": "/Tools-Resume.dc.html"
     },
     {
+      "source": "/tools/resume-maker/build",
+      "destination": "/Tools-Resume-Build.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/templates",
+      "destination": "/Tools-Resume-Templates.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples",
+      "destination": "/Tools-Resume-Examples.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/guide",
+      "destination": "/Tools-Resume-Guide.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples/software-engineer",
+      "destination": "/Tools-Resume-Ex-SoftwareEngineer.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples/ux-ui-designer",
+      "destination": "/Tools-Resume-Ex-UxUiDesigner.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples/project-manager",
+      "destination": "/Tools-Resume-Ex-ProjectManager.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples/data-analyst",
+      "destination": "/Tools-Resume-Ex-DataAnalyst.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples/marketing-manager",
+      "destination": "/Tools-Resume-Ex-MarketingManager.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples/sales-manager",
+      "destination": "/Tools-Resume-Ex-SalesManager.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples/mechanical-engineer",
+      "destination": "/Tools-Resume-Ex-MechanicalEngineer.dc.html"
+    },
+    {
+      "source": "/tools/resume-maker/examples/graduate",
+      "destination": "/Tools-Resume-Ex-Graduate.dc.html"
+    },
+    {
       "source": "/s/:code",
       "destination": "/api/s/:code"
     }
@@ -430,7 +478,7 @@
       ]
     },
     {
-      "source": "/(sitemap.xml|sitemap-pages.xml|sitemap-case-studies.xml|sitemap-services.xml|sitemap-tools.xml|robots.txt|llms.txt)",
+      "source": "/(sitemap.xml|sitemap-pages.xml|sitemap-case-studies.xml|sitemap-services.xml|sitemap-tools.xml|sitemap-resume.xml|robots.txt|llms.txt)",
       "headers": [
         {
           "key": "Cache-Control",

@@ -30,7 +30,19 @@
     '/tools/time-zone-meeting-planner': 'Tools-Timezone.dc.html',
     '/tools/project-estimate-calculator': 'Tools-Estimate.dc.html',
     '/tools/invoice-generator': 'Tools-Invoice.dc.html',
-    '/tools/resume-maker': 'Tools-Resume.dc.html'
+    '/tools/resume-maker': 'Tools-Resume.dc.html',
+    '/tools/resume-maker/build': 'Tools-Resume-Build.dc.html',
+    '/tools/resume-maker/templates': 'Tools-Resume-Templates.dc.html',
+    '/tools/resume-maker/examples': 'Tools-Resume-Examples.dc.html',
+    '/tools/resume-maker/guide': 'Tools-Resume-Guide.dc.html',
+    '/tools/resume-maker/examples/software-engineer': 'Tools-Resume-Ex-SoftwareEngineer.dc.html',
+    '/tools/resume-maker/examples/ux-ui-designer': 'Tools-Resume-Ex-UxUiDesigner.dc.html',
+    '/tools/resume-maker/examples/project-manager': 'Tools-Resume-Ex-ProjectManager.dc.html',
+    '/tools/resume-maker/examples/data-analyst': 'Tools-Resume-Ex-DataAnalyst.dc.html',
+    '/tools/resume-maker/examples/marketing-manager': 'Tools-Resume-Ex-MarketingManager.dc.html',
+    '/tools/resume-maker/examples/sales-manager': 'Tools-Resume-Ex-SalesManager.dc.html',
+    '/tools/resume-maker/examples/mechanical-engineer': 'Tools-Resume-Ex-MechanicalEngineer.dc.html',
+    '/tools/resume-maker/examples/graduate': 'Tools-Resume-Ex-Graduate.dc.html'
   };
   // Set a GA4 measurement ID (e.g. 'G-XXXXXXX') to enable Google Analytics. Vercel Web Analytics loads automatically in production.
   var GA_ID = 'G-H9J2D0RHRT';
