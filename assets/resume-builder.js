@@ -17,13 +17,38 @@ function h(tag, attrs) {
 var uid = 0, nid = function () { return ++uid; };
 var FONTS = { sans: ['Arial', "Arial, Helvetica, sans-serif"], serif: ['Georgia', "Georgia, 'Times New Roman', serif"], times: ['Times New Roman', "'Times New Roman', Times, serif"], verdana: ['Verdana', "Verdana, Geneva, sans-serif"], calibri: ['Calibri', "Calibri, Carlito, Arial, sans-serif"] };
 var TPLS = [
-  ['classic', 'Classic', 'One column, ruled headings. The safest choice for ATS.', 'Highest', { font: 'sans', size: 10.5, lh: 1.35, gap: 12, head: 'rule', align: 'left', accent: '#111111' }],
-  ['modern', 'Modern', 'One column with colour headings. Still plain text to a parser.', 'High', { font: 'sans', size: 10.5, lh: 1.4, gap: 13, head: 'rule', align: 'left', accent: '#1f4fd8' }],
-  ['compact', 'Compact', 'Dense, for long careers that must fit one page.', 'High', { font: 'sans', size: 9.5, lh: 1.28, gap: 8, head: 'caps', align: 'left', accent: '#111111' }],
-  ['executive', 'Executive', 'Serif and centred, for senior and management roles.', 'High', { font: 'serif', size: 10.5, lh: 1.4, gap: 14, head: 'rule', align: 'center', accent: '#222222' }],
-  ['minimal', 'Minimal', 'Quiet and airy, with no rules or boxes.', 'Highest', { font: 'calibri', size: 11, lh: 1.45, gap: 15, head: 'plain', align: 'left', accent: '#333333' }],
-  ['sidebar', 'Sidebar', 'Two columns with skills on the side. Looks sharp, but some parsers read columns in the wrong order.', 'Lower', { font: 'sans', size: 10, lh: 1.38, gap: 12, head: 'caps', align: 'left', accent: '#0f766e' }]
+  ["classic", "Classic", "One column, ruled headings. The safest choice for ATS.", "Highest", {"font": "sans", "size": 10.5, "lh": 1.35, "gap": 12, "head": "rule", "align": "left", "accent": "#111111"}, "single", "", "classic ats"],
+  ["modern", "Modern", "One column with colour headings.", "High", {"font": "sans", "size": 10.5, "lh": 1.4, "gap": 13, "head": "rule", "align": "left", "accent": "#1f4fd8"}, "single", "nm-ac", "modern"],
+  ["compact", "Compact", "Dense, to fit a long career on one page.", "High", {"font": "sans", "size": 9.5, "lh": 1.28, "gap": 8, "head": "caps", "align": "left", "accent": "#111111"}, "single", "", "classic"],
+  ["executive", "Executive", "Serif and centred, for senior roles.", "High", {"font": "serif", "size": 10.5, "lh": 1.4, "gap": 14, "head": "rule", "align": "center", "accent": "#222222"}, "single", "nm-caps", "classic"],
+  ["minimal", "Minimal", "Quiet and airy, with no rules.", "Highest", {"font": "calibri", "size": 11, "lh": 1.45, "gap": 15, "head": "plain", "align": "left", "accent": "#333333"}, "single", "", "minimal ats"],
+  ["sidebar", "Sidebar", "Skills in a narrow side column.", "Lower", {"font": "sans", "size": 10, "lh": 1.38, "gap": 12, "head": "caps", "align": "left", "accent": "#0f766e"}, "side", "", "twocol"],
+  ["professional", "Professional", "Navy name and clean rules.", "Highest", {"font": "calibri", "size": 10.5, "lh": 1.38, "gap": 12, "head": "rule", "align": "left", "accent": "#1e3a8a"}, "single", "nm-ac", "classic ats"],
+  ["corporate", "Corporate", "A dark header band over a one-column page.", "High", {"font": "sans", "size": 10.5, "lh": 1.38, "gap": 13, "head": "caps", "align": "left", "accent": "#0f172a"}, "single", "hb", "modern"],
+  ["clean", "Clean", "Light name, plain headings, soft grey.", "Highest", {"font": "calibri", "size": 10.5, "lh": 1.42, "gap": 14, "head": "plain", "align": "left", "accent": "#374151"}, "single", "nm-light", "minimal ats"],
+  ["simple", "Simple", "Plain text look with almost no styling.", "Highest", {"font": "sans", "size": 11, "lh": 1.4, "gap": 12, "head": "plain", "align": "left", "accent": "#111111"}, "single", "", "minimal ats"],
+  ["traditional", "Traditional", "Times type, centred header, capital headings.", "Highest", {"font": "times", "size": 11, "lh": 1.35, "gap": 12, "head": "rule", "align": "center", "accent": "#111111"}, "single", "nm-caps", "classic ats"],
+  ["academic", "Academic", "Serif and plain headings, suited to CV-style resumes.", "Highest", {"font": "serif", "size": 10.5, "lh": 1.4, "gap": 13, "head": "plain", "align": "left", "accent": "#7f1d1d"}, "single", "", "classic ats"],
+  ["bold", "Bold", "A big name and heavy side-bar headings.", "High", {"font": "sans", "size": 10.5, "lh": 1.38, "gap": 13, "head": "bar", "align": "left", "accent": "#be123c"}, "single", "nm-big", "modern"],
+  ["elegant", "Elegant", "Light serif name with short accent underlines.", "High", {"font": "serif", "size": 10.5, "lh": 1.42, "gap": 14, "head": "short", "align": "center", "accent": "#92400e"}, "single", "nm-light", "classic"],
+  ["creative", "Creative", "Coloured side column with skills and contact.", "Lower", {"font": "sans", "size": 10, "lh": 1.38, "gap": 12, "head": "caps", "align": "left", "accent": "#6d28d9"}, "side", "sd-fill", "creative twocol"],
+  ["tech", "Tech", "Monospace headings and arrow bullets.", "High", {"font": "sans", "size": 10, "lh": 1.38, "gap": 12, "head": "plain", "align": "left", "accent": "#0f766e", "bullet": "›"}, "single", "hm nm-ac", "modern"],
+  ["startup", "Startup", "Soft tinted heading bars in blue.", "High", {"font": "calibri", "size": 10.5, "lh": 1.4, "gap": 13, "head": "tint", "align": "left", "accent": "#2563eb"}, "single", "nm-ac", "modern"],
+  ["banner", "Banner", "A colour band behind the name.", "High", {"font": "sans", "size": 10.5, "lh": 1.38, "gap": 13, "head": "rule", "align": "left", "accent": "#1f4fd8"}, "single", "hb", "modern creative"],
+  ["noir", "Noir", "Black header band and side-bar headings.", "High", {"font": "sans", "size": 10.5, "lh": 1.38, "gap": 13, "head": "bar", "align": "left", "accent": "#111827"}, "single", "hb", "modern"],
+  ["split", "Split", "Name on the left, contact details on the right.", "High", {"font": "sans", "size": 10.5, "lh": 1.36, "gap": 12, "head": "rule", "align": "left", "accent": "#111111"}, "split", "", "classic"],
+  ["sideright", "Sidebar Right", "Skills in a side column on the right.", "Lower", {"font": "calibri", "size": 10, "lh": 1.38, "gap": 12, "head": "caps", "align": "left", "accent": "#0f766e"}, "sideR", "", "twocol"],
+  ["timeline", "Timeline", "A vertical line and dots along each job.", "High", {"font": "sans", "size": 10.5, "lh": 1.4, "gap": 13, "head": "caps", "align": "left", "accent": "#1f4fd8"}, "single", "tl nm-ac", "modern creative"],
+  ["boxed", "Boxed", "Headings in solid boxes.", "High", {"font": "sans", "size": 10.5, "lh": 1.36, "gap": 12, "head": "box", "align": "left", "accent": "#334155"}, "single", "", "classic"],
+  ["dotted", "Dotted", "Dotted rules under amber headings.", "Highest", {"font": "calibri", "size": 10.5, "lh": 1.4, "gap": 13, "head": "dotted", "align": "left", "accent": "#b45309"}, "single", "", "classic ats"],
+  ["doublerule", "Double Rule", "Double rules and a centred serif header.", "High", {"font": "serif", "size": 10.5, "lh": 1.4, "gap": 14, "head": "double", "align": "center", "accent": "#111111"}, "single", "nm-caps", "classic"],
+  ["monochrome", "Monochrome", "Greys only, capital name and headings.", "Highest", {"font": "sans", "size": 10.5, "lh": 1.4, "gap": 14, "head": "caps", "align": "left", "accent": "#444444"}, "single", "nm-caps nm-light", "minimal ats"],
+  ["pastel", "Pastel", "Rose tinted headings with a friendly feel.", "High", {"font": "calibri", "size": 10.5, "lh": 1.4, "gap": 13, "head": "tint", "align": "left", "accent": "#db2777"}, "single", "nm-ac", "creative"],
+  ["headline", "Headline", "An oversized name with an accent underline.", "High", {"font": "sans", "size": 10.5, "lh": 1.38, "gap": 13, "head": "plain", "align": "left", "accent": "#1f4fd8"}, "single", "nm-big nm-ul", "modern"],
+  ["balanced", "Balanced", "Centred header with short teal underlines.", "High", {"font": "calibri", "size": 10.5, "lh": 1.4, "gap": 14, "head": "short", "align": "center", "accent": "#0f766e"}, "single", "nm-ac", "modern"],
+  ["leftbar", "Left Bar", "Serif body with a bar beside each heading.", "High", {"font": "serif", "size": 10.5, "lh": 1.4, "gap": 13, "head": "bar", "align": "left", "accent": "#334155"}, "single", "nm-ac", "classic"]
 ];
+function tplOf(k) { for (var i = 0; i < TPLS.length; i++) if (TPLS[i][0] === k) return TPLS[i]; return TPLS[0]; }
 var ADD = [
   ['summary', 'Summary'], ['experience', 'Work experience'], ['education', 'Education'], ['skills', 'Skills'], ['projects', 'Projects'], ['certs', 'Certifications'],
   ['experience', 'Internships'], ['experience', 'Volunteering'], ['bullets', 'Awards and achievements'], ['bullets', 'Publications'], ['inline', 'Languages'], ['inline', 'Interests'],
@@ -134,7 +159,7 @@ function blankItem(type) { var o = { id: nid() }; ITEM_FIELDS[type].forEach(func
 function blankData(type) { return ITEM_TYPES.indexOf(type) >= 0 ? { items: [blankItem(type)] } : { text: '' }; }
 
 var st, jdText = '';
-function designFor(tplKey) { var t = TPLS.filter(function (x) { return x[0] === tplKey; })[0], d = {}; for (var k in t[4]) d[k] = t[4][k]; d.margin = 'normal'; d.bullet = '•'; d.datePos = 'right'; d.paper = 'A4'; d.nameScale = 2.4; return d; }
+function designFor(tplKey) { var t = tplOf(tplKey), d = {}; for (var k in t[4]) d[k] = t[4][k]; d.margin = 'normal'; d.bullet = t[4].bullet || '•'; d.datePos = 'right'; d.paper = 'A4'; d.nameScale = 2.4; return d; }
 function fresh(roleKey) { var r = ROLES[roleKey], b = r.build(); return { role: roleKey, tpl: r.tpl, p: b.p, sections: b.sections, d: designFor(r.tpl), open: {}, dirty: false }; }
 var str = function (v, n) { return String(v == null ? '' : v).slice(0, n || 600); };
 function cleanState(raw) {
@@ -155,7 +180,7 @@ function cleanState(raw) {
   var d = designFor(s.tpl), rd = raw.d || {};
   if (FONTS[rd.font]) d.font = rd.font; var n = function (v, lo, hi, def) { v = parseFloat(v); return isFinite(v) ? Math.max(lo, Math.min(hi, v)) : def; };
   d.size = n(rd.size, 8, 13, d.size); d.lh = n(rd.lh, 1.1, 1.8, d.lh); d.gap = n(rd.gap, 4, 30, d.gap); d.nameScale = n(rd.nameScale, 1.6, 3.4, 2.4);
-  if (['rule', 'caps', 'plain', 'box', 'bar'].indexOf(rd.head) >= 0) d.head = rd.head; if (rd.align === 'center') d.align = 'center'; else if (rd.align === 'left') d.align = 'left';
+  if (['rule', 'caps', 'plain', 'box', 'bar', 'dotted', 'double', 'tint', 'short'].indexOf(rd.head) >= 0) d.head = rd.head; if (rd.align === 'center') d.align = 'center'; else if (rd.align === 'left') d.align = 'left';
   if (/^#[0-9a-f]{6}$/i.test(rd.accent || '')) d.accent = rd.accent; if (['narrow', 'normal', 'wide'].indexOf(rd.margin) >= 0) d.margin = rd.margin;
   if (['•', '–', '▪', '›'].indexOf(rd.bullet) >= 0) d.bullet = rd.bullet; if (rd.datePos === 'inline') d.datePos = 'inline'; if (rd.paper === 'Letter') d.paper = 'Letter';
   s.d = d; s.open = {}; s.dirty = !!raw.dirty; return s;
@@ -201,13 +226,14 @@ function secBody(sec) {
 var SIDE = { skills: 1, certs: 1, inline: 1 };
 function paint(el) {
   var d = st.d, p = st.p, W = PW[d.paper], mpx = Math.round(MARG[d.margin] * 3.7795), f = FONTS[d.font][1];
-  el.className = 'rsx rt-' + st.tpl + ' hd-' + d.head + ' al-' + d.align;
+  var T = tplOf(st.tpl), lay = T[5];
+  el.className = 'rsx rt-' + st.tpl + ' ly-' + lay + ' ' + T[6] + ' hd-' + d.head + ' al-' + d.align;
   el.style.cssText = 'width:' + W[0] + 'px;min-height:' + W[1] + 'px;padding:' + mpx + 'px;--ac:' + d.accent + ';--fs:' + d.size + 'pt;--lh:' + d.lh + ';--gap:' + d.gap + 'px;--ff:' + f + ';--bl:"' + d.bullet + '";--ns:' + d.nameScale;
   el.textContent = '';
   var cp = contactParts();
-  el.appendChild(h('header', { class: 'rs-head' }, p.name.trim() ? h('h1', { class: 'rs-name', text: p.name.trim() }) : null, p.title.trim() ? h('div', { class: 'rs-title', text: p.title.trim() }) : null, cp.length ? h('div', { class: 'rs-contact', text: cp.join(' | ') }) : null));
+  el.appendChild(h('header', { class: 'rs-head' }, p.name.trim() ? h('h1', { class: 'rs-name', text: p.name.trim() }) : null, p.title.trim() ? h('div', { class: 'rs-title', text: p.title.trim() }) : null, cp.length ? (lay === 'split' ? h('div', { class: 'rs-contact' }, cp.map(function (x) { return h('span', { class: 'rs-cl', text: x }); })) : h('div', { class: 'rs-contact', text: cp.join(' | ') })) : null));
   var secs = visible(), mk = function (sec) { return h('section', { class: 'rs-sec' }, h('h2', { class: 'rs-h', text: sec.title.trim() || 'Section' }), h('div', { class: 'rs-b' }, secBody(sec))); };
-  if (st.tpl === 'sidebar') el.appendChild(h('div', { class: 'rs-grid' }, h('aside', { class: 'rs-side' }, secs.filter(function (s) { return SIDE[s.type]; }).map(mk)), h('div', { class: 'rs-main' }, secs.filter(function (s) { return !SIDE[s.type]; }).map(mk))));
+  if (lay === 'side' || lay === 'sideR') { var sd = h('aside', { class: 'rs-side' }, secs.filter(function (s) { return SIDE[s.type]; }).map(mk)), mn = h('div', { class: 'rs-main' }, secs.filter(function (s) { return !SIDE[s.type]; }).map(mk)); el.appendChild(h('div', { class: 'rs-grid' }, lay === 'side' ? [sd, mn] : [mn, sd])); }
   else secs.forEach(function (s) { el.appendChild(mk(s)); });
 }
 function paintState(el, s) { var keep = st; st = s; try { paint(el); } finally { st = keep; } }
@@ -245,6 +271,7 @@ function applyRole(k, keepTpl) {
   var t = keepTpl ? st.tpl : null; st = fresh(k); if (t) { var keep = st.d; st.tpl = t; st.d = designFor(t); st.d.paper = keep.paper; }
   afterReplace();
 }
+var tplFilter = 'all';
 function drawStart() {
   var g = $('#roleGrid'); g.textContent = '';
   Object.keys(ROLES).forEach(function (k) {
@@ -252,8 +279,10 @@ function drawStart() {
     b.insertAdjacentHTML('afterbegin', '<span class="rb-ico">' + svgIcon(k) + '</span>'); b.appendChild(h('strong', { text: ROLES[k].name })); g.appendChild(b);
   });
   $('#roleTip').textContent = ROLES[st.role] ? ROLES[st.role].tip : '';
+  var fb = $('#tplFilter'); fb.textContent = '';
+  [['all', 'All ' + TPLS.length], ['ats', 'Safest for ATS'], ['classic', 'Classic'], ['modern', 'Modern'], ['minimal', 'Minimal'], ['creative', 'Creative'], ['twocol', 'Two column']].forEach(function (f) { fb.appendChild(h('button', { type: 'button', 'aria-pressed': tplFilter === f[0] ? 'true' : 'false', onclick: function () { tplFilter = f[0]; drawStart(); } }, f[1])); });
   var tg = $('#tplGrid'); tg.textContent = '';
-  TPLS.forEach(function (t) {
+  TPLS.filter(function (t) { return tplFilter === 'all' || (' ' + t[7] + ' ').indexOf(' ' + tplFilter + ' ') >= 0 || t[0] === st.tpl; }).forEach(function (t) {
     var clone = JSON.parse(JSON.stringify({ role: st.role, tpl: t[0], p: st.p, sections: st.sections, d: designFor(t[0]) })); clone.d.paper = st.d.paper; clone.d.margin = st.d.margin;
     var frame = h('div', { class: 'rsx-frame' }, h('div', { class: 'rsx' })); paintState(frame.firstChild, clone);
     var btn = h('button', { type: 'button', class: 'rb-tpl', role: 'radio', 'aria-checked': st.tpl === t[0] ? 'true' : 'false', 'aria-label': t[1] + ' template, ATS ' + t[3], onclick: function () { st.tpl = t[0]; var keep = { margin: st.d.margin, bullet: st.d.bullet, datePos: st.d.datePos, paper: st.d.paper, nameScale: st.d.nameScale }; st.d = designFor(t[0]); for (var k in keep) st.d[k] = keep[k]; drawStart(); drawDesign(); bump(); if (window.apTrack) window.apTrack('resume_template', { t: t[0] }); } },
@@ -315,7 +344,7 @@ function drawDesign() {
     sel('Font', 'font', Object.keys(FONTS).map(function (k) { return [k, FONTS[k][0]]; })),
     rg('Text size', 'size', 8, 13, 0.5, function (v) { return v + ' pt'; }), rg('Line spacing', 'lh', 1.1, 1.8, 0.05, function (v) { return v.toFixed(2); }), rg('Space between sections', 'gap', 4, 30, 1, function (v) { return v + ' px'; }), rg('Name size', 'nameScale', 1.6, 3.4, 0.1, function (v) { return Math.round(v * 100) + '%'; }),
     sel('Margins', 'margin', [['narrow', 'Narrow (12 mm)'], ['normal', 'Normal (18 mm)'], ['wide', 'Wide (24 mm)']]),
-    sel('Section headings', 'head', [['rule', 'Underlined'], ['caps', 'Capitals'], ['plain', 'Plain bold'], ['box', 'Coloured band'], ['bar', 'Side bar']]),
+    sel('Section headings', 'head', [['rule', 'Underlined'], ['caps', 'Capitals'], ['plain', 'Plain bold'], ['box', 'Coloured band'], ['bar', 'Side bar'], ['dotted', 'Dotted line'], ['double', 'Double line'], ['tint', 'Tinted bar'], ['short', 'Short underline']]),
     sel('Header alignment', 'align', [['left', 'Left'], ['center', 'Centred']]), sel('Dates', 'datePos', [['right', 'On the right'], ['inline', 'After the company']]), sel('Bullet', 'bullet', [['•', '•  Dot'], ['–', '–  Dash'], ['▪', '▪  Square'], ['›', '›  Arrow']]), sel('Paper', 'paper', [['A4', 'A4'], ['Letter', 'US Letter']])));
   var ac = h('div', { class: 'tl-field' }, h('span', { class: 'tl-label', text: 'Accent colour' }));
   var row = h('div', { class: 'tl-row', style: 'gap:8px' }); ['#111111', '#1f4fd8', '#0f766e', '#b45309', '#be123c', '#6d28d9', '#334155'].forEach(function (c) { row.appendChild(h('button', { type: 'button', class: 'inv-sw', style: 'background:' + c, 'aria-label': 'Accent ' + c, 'aria-pressed': d.accent.toLowerCase() === c ? 'true' : 'false', onclick: function () { d.accent = c; drawDesign(); bump(); } })); });
@@ -332,7 +361,7 @@ function checks() {
   add(!!p.name.trim(), 'Your name is at the top', 'Add your full name.');
   add(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.email.trim()), 'A working email address is in the header', 'Add an email address.');
   add(!!p.phone.trim(), 'A phone number is in the header', 'Add a phone number.');
-  add(st.tpl !== 'sidebar', 'Single-column layout', 'Two columns can be read in the wrong order by some parsers. Switch to Classic or Minimal for important applications.');
+  add(tplOf(st.tpl)[5] !== 'side' && tplOf(st.tpl)[5] !== 'sideR', 'Single-column layout', 'Two columns can be read in the wrong order by some parsers. Switch to Classic or Minimal for important applications.');
   var heads = secs.map(function (s) { return s.title.trim(); }), odd = heads.filter(function (t) { return !STD_HEADS.test(t); });
   add(!odd.length, 'Section headings are the standard ones parsers look for', 'Rename "' + odd.slice(0, 3).join('", "') + '" to a common heading such as Experience, Education, Skills or Projects.');
   add(secs.some(function (s) { return s.type === 'experience'; }) || secs.some(function (s) { return s.type === 'education'; }), 'There is an Experience or Education section', 'Add one of them.');
@@ -409,7 +438,7 @@ function zip(entries) {
   return new Blob(local.concat(central, [new Uint8Array(E.buffer)]), { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
 }
 function docx() {
-  var d = st.d, fn = FONTS[d.font][0], sz = Math.round(d.size * 2), W = d.paper === 'Letter' ? [12240, 15840] : [11906, 16838], m = Math.round(MARG[d.margin] * 56.7), tw = W[0] - 2 * m, tint = (st.tpl === 'modern' || st.tpl === 'sidebar') ? d.accent.replace('#', '') : '000000', center = d.align === 'center', body = [];
+  var d = st.d, fn = FONTS[d.font][0], sz = Math.round(d.size * 2), W = d.paper === 'Letter' ? [12240, 15840] : [11906, 16838], m = Math.round(MARG[d.margin] * 56.7), tw = W[0] - 2 * m, tint = /nm-ac|hb|sd-fill/.test(tplOf(st.tpl)[6]) ? d.accent.replace('#', '') : '000000', center = d.align === 'center', body = [];
   var run = function (t, o) { o = o || {}; return '<w:r><w:rPr><w:rFonts w:ascii="' + fn + '" w:hAnsi="' + fn + '" w:cs="' + fn + '"/>' + (o.b ? '<w:b/>' : '') + (o.i ? '<w:i/>' : '') + (o.c ? '<w:color w:val="' + o.c + '"/>' : '') + '<w:sz w:val="' + (o.sz || sz) + '"/></w:rPr><w:t xml:space="preserve">' + X(t) + '</w:t></w:r>'; };
   var tab = '<w:r><w:tab/></w:r>';
   var para = function (inner, o) { o = o || {}; return '<w:p><w:pPr>' + (o.keep ? '<w:keepNext/>' : '') + (o.tabs ? '<w:tabs>' + o.tabs + '</w:tabs>' : '') + (o.border ? '<w:pBdr><w:bottom w:val="single" w:sz="6" w:space="1" w:color="' + o.border + '"/></w:pBdr>' : '') + '<w:spacing w:before="' + (o.before || 0) + '" w:after="' + (o.after == null ? 40 : o.after) + '" w:line="' + Math.round(d.lh * 240) + '" w:lineRule="auto"/>' + (o.ind ? '<w:ind w:left="' + o.ind[0] + '" w:hanging="' + o.ind[1] + '"/>' : '') + (o.jc ? '<w:jc w:val="' + o.jc + '"/>' : '') + '</w:pPr>' + inner + '</w:p>'; };
