@@ -29,7 +29,8 @@
     '/tools/password-generator': 'Tools-Password.dc.html',
     '/tools/time-zone-meeting-planner': 'Tools-Timezone.dc.html',
     '/tools/project-estimate-calculator': 'Tools-Estimate.dc.html',
-    '/tools/invoice-generator': 'Tools-Invoice.dc.html'
+    '/tools/invoice-generator': 'Tools-Invoice.dc.html',
+    '/tools/resume-maker': 'Tools-Resume.dc.html'
   };
   // Set a GA4 measurement ID (e.g. 'G-XXXXXXX') to enable Google Analytics. Vercel Web Analytics loads automatically in production.
   var GA_ID = 'G-H9J2D0RHRT';

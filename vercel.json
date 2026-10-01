@@ -377,6 +377,10 @@
       "destination": "/Tools-Invoice.dc.html"
     },
     {
+      "source": "/tools/resume-maker",
+      "destination": "/Tools-Resume.dc.html"
+    },
+    {
       "source": "/s/:code",
       "destination": "/api/s/:code"
     }
