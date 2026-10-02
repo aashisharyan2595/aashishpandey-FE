@@ -101,11 +101,6 @@
       "permanent": true
     },
     {
-      "source": "/contact",
-      "destination": "/portfolio",
-      "permanent": true
-    },
-    {
       "source": "/ride",
       "destination": "/",
       "permanent": true
