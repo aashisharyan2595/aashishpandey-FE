@@ -1,5 +1,5 @@
 // Shared helpers for the contact form and the newsletter. Resend over REST, no npm deps.
-// Env (set in Vercel): RESEND_API_KEY, RESEND_FROM, ADMIN_EMAIL, RESEND_AUDIENCE_ID, NEWSLETTER_SECRET
+// Env (set in Vercel): RESEND_API_KEY, RESEND_FROM, ADMIN_EMAIL, NEWSLETTER_SECRET. RESEND_AUDIENCE_ID is optional (older Resend accounts only).
 // Rate limits use Upstash Redis when it is configured (same as the URL shortener), otherwise a per-instance memory counter.
 const crypto = require('crypto');
 const SITE = 'https://aashishpandey.com';

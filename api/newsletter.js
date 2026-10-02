@@ -8,10 +8,11 @@ const page = (title, msg) => `<!doctype html><html lang="en"><head><meta charset
 <div style="max-width:460px;text-align:center;"><h1 style="margin:0 0 12px;font-size:30px;letter-spacing:-.03em;">${esc(title)}</h1><p style="margin:0 0 26px;font-size:17px;line-height:1.6;color:#cfc9d8;">${msg}</p>
 <a href="${SITE}" style="display:inline-block;padding:13px 24px;border-radius:999px;background:#f5b867;color:#1a1420;font-weight:700;text-decoration:none;">Back to the site</a></div></body></html>`;
 
+// Resend now keeps one global contact list (the Audience page). If RESEND_AUDIENCE_ID is set we use the older per-audience endpoints instead.
 async function upsert(email, unsubscribed) {
-  const id = env().audience, enc = encodeURIComponent(email);
-  try { await resend(`/audiences/${id}/contacts`, 'POST', { email, unsubscribed }); }
-  catch (e) { await resend(`/audiences/${id}/contacts/${enc}`, 'PATCH', { unsubscribed }); }   // already in the audience
+  const id = env().audience, base = id ? `/audiences/${id}/contacts` : '/contacts', enc = encodeURIComponent(email);
+  try { await resend(base, 'POST', { email, unsubscribed }); }
+  catch (e) { await resend(`${base}/${enc}`, 'PATCH', { unsubscribed }); }   // already in the list
 }
 
 module.exports = async (req, res) => {
@@ -22,7 +23,7 @@ module.exports = async (req, res) => {
   if (!verify(a, email, ts, tok, a === 'confirm' ? 48 * 3600e3 : 0)) {
     return res.status(400).send(page(a === 'confirm' ? 'Link expired' : 'Link not valid', a === 'confirm' ? 'This confirmation link has expired or was changed. Please subscribe again from the site.' : 'This link is not valid. Reply to any of my emails and I will remove you by hand.'));
   }
-  if (!env().audience) return res.status(503).send(page('Not connected', 'The newsletter is not connected yet. Please try again later.'));
+  if (!env().key) return res.status(503).send(page('Not connected', 'The newsletter is not connected yet. Please try again later.'));
   try {
     if (a === 'confirm') {
       await upsert(email, false);
