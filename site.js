@@ -155,13 +155,18 @@
     var say = function (t, cls) { msg.textContent = t; msg.className = cls || ''; };
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say('That email address does not look right.', 'is-err'); f.email.focus(); return; }
     btn.disabled = true; say('Sending…');
-    window.apToken().then(function (tk) { return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, name: ((f.elements['name'] && f.elements['name'].value) || '').trim().slice(0, 60), cf: tk }) }); })
-      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+    window.apToken().then(function (tk) {
+      if (!tk && window.apTokenStuck) return { ok: false, j: { error: VERIFY_MSG } };
+      return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, name: ((f.elements['name'] && f.elements['name'].value) || '').trim().slice(0, 60), cf: tk }) }).then(asResult);
+    })
       .then(function (x) { btn.disabled = false; if (x.ok) { f.email.value = ''; if (f.elements['name']) f.elements['name'].value = ''; say(x.j.message || 'Check your inbox to confirm.', 'is-ok'); if (window.apTrack) window.apTrack('newsletter_signup', {}); } else say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err'); })
       .catch(function () { btn.disabled = false; say('Could not reach the server. Please try again later.', 'is-err'); });
   });
   /* ---- Cloudflare Turnstile (optional): runs only when TURNSTILE_SITEKEY is set in Vercel; stays invisible unless Cloudflare needs a click ---- */
-  var tsLoading = null, tsWidget = null, tsKey = '', tsResolve = null;
+  var tsLoading = null, tsWidget = null, tsKey = '', tsResolve = null, tsCache = null;
+  window.apVerifyMsg = 'Please tick the small "Verify you are human" box at the bottom right, then press send again.';
+  window.apTokenStuck = false;   // true when the check is still waiting for a tick after the wait: forms must not send without a token then
+  var VERIFY_MSG = 'Please tick the small "Verify you are human" box at the bottom right, then press send again.';
   function tsLoad() {
     if (tsLoading) return tsLoading;
     tsLoading = fetch('/api/config').then(function (r) { return r.json(); }).then(function (c) {
@@ -175,26 +180,32 @@
   }
   document.addEventListener('focusin', function f(e) { if (e.target && e.target.closest && e.target.closest('form')) { document.removeEventListener('focusin', f); tsLoad(); } });
   window.apToken = function () {
+    window.apTokenStuck = false;
+    if (tsCache && Date.now() - tsCache.t < 240000) { var c = tsCache.tok; tsCache = null; return Promise.resolve(c); }   // the visitor ticked after we stopped waiting: tokens last 5 minutes and work once
     return tsLoad().then(function (t) {
-      if (!t) return '';
+      if (!t) return '';   // Turnstile is not set up or could not load: the server scores a missing token as a warning sign
       return new Promise(function (resolve) {
-        var done = false, fin = function (v) { if (!done) { done = true; tsResolve = null; resolve(v || ''); } };
+        var done = false, fin = function (v, timedOut) { if (!done) { done = true; tsResolve = null; window.apTokenStuck = !!timedOut && !v; resolve(v || ''); } };
         tsResolve = fin;
         var box = document.getElementById('ap-ts');
         if (!box) { box = document.createElement('div'); box.id = 'ap-ts'; box.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:96'; document.body.appendChild(box); }
-        if (tsWidget === null) tsWidget = t.render(box, { sitekey: tsKey, execution: 'execute', appearance: 'interaction-only', callback: function (tok) { if (tsResolve) tsResolve(tok); }, 'error-callback': function () { if (tsResolve) tsResolve(''); } });
+        var onTok = function (tok) { if (tsResolve) tsResolve(tok); else tsCache = { tok: tok, t: Date.now() }; };
+        if (tsWidget === null) tsWidget = t.render(box, { sitekey: tsKey, execution: 'execute', appearance: 'interaction-only', callback: onTok, 'error-callback': function () { if (tsResolve) tsResolve(''); } });
         else t.reset(tsWidget);
         t.execute(tsWidget);
-        setTimeout(function () { fin(''); }, 20000);
+        setTimeout(function () { fin('', true); }, 8000);
       });
     });
   };
+  function asResult(r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); }
   // shared by every brief form: same rules as the newsletter (honeypot, time check, JSON POST, inline result)
   window.apSend = function (d) {
     d.hp = ''; d.ts = T0; d.page = location.pathname;
     try { var rf = new URL(document.referrer); d.ref = rf.origin === location.origin ? rf.pathname : rf.hostname; } catch (e) { /* no referrer */ }
-    return window.apToken().then(function (tk) { d.cf = tk; return fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) }); })
-      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+    return window.apToken().then(function (tk) {
+      if (!tk && window.apTokenStuck) return { ok: false, j: { error: VERIFY_MSG } };   // never send without a token while the check is waiting for a tick
+      d.cf = tk; return fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) }).then(asResult);
+    })
       .catch(function () { return { ok: false, j: { error: 'Could not reach the server. Please try again, or email hello@aashishpandey.com.' } }; });
   };
   function classify(a) {
