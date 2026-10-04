@@ -1,8 +1,12 @@
-// Admin backend. Path is deliberately unlisted; never link to it. Password from ADMIN_PASSWORD (Vercel env), signed cookie session, optional 2FA.
-// Everything is /api/<this file>?a=<action>. Public: login, logout, cron (needs CRON_SECRET). The rest needs a signed-in session.
-//   Submissions: list, export, update, delete, resend, bulk, reply_get, reply_send, thread_note, tpl_get, tpl_save
+// Admin backend. Path is deliberately unlisted; never link to it. The owner signs in with ADMIN_PASSWORD (Vercel env); team members have their own accounts.
+// Everything is /api/<this file>?a=<action>. Public: login, logout, cron and digest (need CRON_SECRET). The rest needs a session, and the role decides what it may do.
+//   Inbox:       list, export, update, delete, resend, bulk, reply_get, reply_send, thread_note, tpl_get, tpl_save
+//   Pipeline:    update (stage, value, follow-up), digest_get, digest_save, digest_now
+//   Quotes:      quote_preview, quote_send, quote_list, quote_status
 //   Newsletter:  news_overview, news_preview, news_test, news_start, news_send, news_retry, news_import
-//   Spam:        spam_get, spam_save          Alerts: alerts_get, alerts_save, alerts_test
+//   Spam/alerts: spam_get, spam_save, alerts_get, alerts_save, alerts_test
+//   Phone:       push_key, push_subscribe, push_unsubscribe, push_test
+//   Team:        users_list, users_add, users_update, users_delete, audit_list, pw_change
 //   Security:    sec_get, totp_setup, totp_enable, totp_disable, signout_all, backup_now
 //   Short links: links_list, links_act
 const crypto = require('crypto');
@@ -17,30 +21,45 @@ const replies = require('./_adm/replies');
 const news = require('./_adm/news');
 const links = require('./_adm/links');
 const notify = require('./_adm/notify');
+const users = require('./_adm/users');
+const audit = require('./_adm/audit');
+const quotes = require('./_adm/quotes');
+const push = require('./_adm/webpush');
+const pipeline = require('./_adm/pipeline');
 const spam = require('./_spam');
 
 const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
+const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
+// what goes in the activity log (reads are not recorded; a refused attempt always is)
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
-const issue = (e) => { const p = b64(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + TTL, e })); return p + '.' + sig(p); };
-async function authed(req) {
+const issue = (e, u) => { const p = b64(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + TTL, e, u })); return p + '.' + sig(p); };
+// → { id, name, role } or null. The role is read fresh each time, so a change or a deactivation applies at once.
+async function session(req) {
   const m = String(req.headers.cookie || '').match(new RegExp('(?:^|; )' + COOKIE + '=([^;]+)'));
-  if (!m) return false;
-  const [p, s] = m[1].split('.'); if (!p || !s) return false;
+  if (!m) return null;
+  const [p, s] = m[1].split('.'); if (!p || !s) return null;
   const a = Buffer.from(sig(p)), b = Buffer.from(s);
-  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return false;
-  try { const j = JSON.parse(Buffer.from(p, 'base64url').toString()); return j.exp > Date.now() / 1000 && String(j.e) === await sec.epoch(); } catch (e) { return false; }
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
+  let j; try { j = JSON.parse(Buffer.from(p, 'base64url').toString()); } catch (e) { return null; }
+  if (!(j.exp > Date.now() / 1000) || String(j.e) !== await sec.epoch()) return null;
+  const uid = j.u || 'owner';
+  if (uid === 'owner') return { id: 'owner', name: 'Owner', role: 'owner' };
+  const u = await users.get(uid);
+  return u && u.active ? { id: u.id, name: u.name, role: u.role, mustChange: !!u.mustChange } : null;
 }
 const setCookie = (res, v, age) => res.setHeader('Set-Cookie', `${COOKIE}=${v}; Path=/; Max-Age=${age}; HttpOnly; Secure; SameSite=Strict`);
 const sameOrigin = (req) => { const o = req.headers.origin; if (!o) return true; try { return new URL(o).host === req.headers.host; } catch (e) { return false; } };
 const eq = (a, b) => { const x = crypto.createHash('sha256').update(String(a)).digest(), y = crypto.createHash('sha256').update(String(b)).digest(); return crypto.timingSafeEqual(x, y); };
 const cap = (a, n, len) => (Array.isArray(a) ? a : []).map((x) => String(x).trim().toLowerCase().slice(0, len)).filter(Boolean).slice(0, n);
+const DUMMY = users.hash('not a real password', '00000000000000000000000000000000');   // so a wrong email takes as long as a wrong password
 
 /* ---------- filtering ---------- */
 function filter(rows, q) {
-  const ids = q.ids ? new Set(String(q.ids).split(',')) : null;
+  const ids = q.ids ? new Set(String(q.ids).split(',')) : null, now = Date.now();
   const text = String(q.q || '').toLowerCase().trim();
   const from = q.from ? Date.parse(q.from + 'T00:00:00+05:30') : 0, to = q.to ? Date.parse(q.to + 'T23:59:59+05:30') : Infinity;
   return rows.filter((r) => {
@@ -50,17 +69,26 @@ function filter(rows, q) {
       if (q.status === 'mailfail') { if (!(r.mail && (r.mail.admin === 'failed' || r.mail.user === 'failed'))) return false; }
       else if (r.status !== q.status) return false;
     }
+    if (q.stage && q.stage !== 'all') {
+      if (r.type !== 'brief' || r.status === 'spam') return false;
+      if (q.stage === 'overdue') { if (!pipeline.overdue(r, now)) return false; }
+      else if (q.stage === 'soon') { if (!pipeline.dueSoon(r, now)) return false; }
+      else if (q.stage === 'followup') { if (!pipeline.followDue(r, now)) return false; }
+      else if (pipeline.stageOf(r) !== q.stage) return false;
+    }
     if (r.created < from || r.created > to) return false;
     if (text && !['name', 'email', 'company', 'website_url', 'service', 'message', 'page', 'source', 'note'].some((k) => String(r[k] || '').toLowerCase().includes(text))) return false;
     return true;
   });
 }
+const flag = (r, now) => (r.type === 'brief' ? { ...r, stageNow: pipeline.stageOf(r), overdue: pipeline.overdue(r, now), dueSoon: pipeline.dueSoon(r, now), followDue: pipeline.followDue(r, now) } : r);
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('X-Robots-Tag', 'noindex, nofollow');
   const q = req.query || {}, a = String(q.a || '');
-  const out = (code, j) => res.status(code).json(j);
+  let status = 200, user = null, body = null;
+  const out = (code, j) => { status = code; return res.status(code).json(j); };
   if (!process.env.ADMIN_PASSWORD) return out(503, { error: 'The admin is not set up yet. Add ADMIN_PASSWORD in the Vercel project settings.' });
   if (!store.enabled()) return out(503, { error: 'The database is not connected. UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are missing.' });
   const post = req.method === 'POST';
@@ -71,35 +99,57 @@ module.exports = async (req, res) => {
     if (a === 'login' && post) {
       if (await limited('adminlogin', clientIp(req), 8, 900)) return out(429, { error: 'Too many tries. Wait 15 minutes.' });
       const b = parseBody(req);
-      if (!b.password || !eq(b.password, process.env.ADMIN_PASSWORD)) { await sec.logLogin(req, false, 'wrong password'); return out(401, { error: 'Wrong password.' }); }
-      const st = await sec.totpState();
+      if (b.email) {   // a team member
+        const email = String(b.email).trim().toLowerCase();
+        if (await limited('adminloginu', email, 8, 900)) return out(429, { error: 'Too many tries. Wait 15 minutes.' });
+        const u = await users.byEmail(email), good = users.verify(b.password, u ? u.pwHash : DUMMY) && u && u.active;
+        const who = { id: u ? u.id : '', name: u ? u.name : email, role: u ? u.role : '' };
+        if (!good) { await sec.logLogin(req, false, 'wrong email or password', email); await audit.log(req, who, 'login', { ok: false }, 401); return out(401, { error: 'Wrong email or password.' }); }
+        if ((await sec.totpState(u.id)).enabled) {
+          if (!b.code) return out(401, { error: 'Enter the 6-digit code from your authenticator app.', need2fa: true });
+          if (!(await sec.verifySecondStep(b.code, u.id))) { await sec.logLogin(req, false, 'wrong 2FA code', email); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); return out(401, { error: 'That code is not right.', need2fa: true }); }
+        }
+        setCookie(res, issue(await sec.epoch(), u.id), TTL); await users.update(u.id, { lastLogin: Date.now() });
+        await sec.logLogin(req, true, '', email); await audit.log(req, who, 'login', { ok: true }, 200);
+        await notify.send(`${u.name} (${u.role}) signed in to the admin from ${clientIp(req)}.`, { title: 'Team sign-in', tag: 'login' });
+        return out(200, { ok: true, user: users.pub(u) });
+      }
+      const who = { id: 'owner', name: 'Owner', role: 'owner' };
+      if (!b.password || !eq(b.password, process.env.ADMIN_PASSWORD)) { await sec.logLogin(req, false, 'wrong password'); await audit.log(req, who, 'login', { ok: false }, 401); return out(401, { error: 'Wrong password.' }); }
+      const st = await sec.totpState('owner');
       if (st.enabled) {
         if (!b.code) return out(401, { error: 'Enter the 6-digit code from your authenticator app.', need2fa: true });
-        if (!(await sec.verifySecondStep(b.code))) { await sec.logLogin(req, false, 'wrong 2FA code'); return out(401, { error: 'That code is not right.', need2fa: true }); }
+        if (!(await sec.verifySecondStep(b.code, 'owner'))) { await sec.logLogin(req, false, 'wrong 2FA code'); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); return out(401, { error: 'That code is not right.', need2fa: true }); }
       }
-      setCookie(res, issue(await sec.epoch()), TTL);
-      await sec.logLogin(req, true, st.enabled ? '2FA' : '');
-      await notify.send(`Admin sign-in on aashishpandey.com from ${clientIp(req)}. If this was not you, open Settings and choose Sign out everywhere.`);
+      setCookie(res, issue(await sec.epoch(), 'owner'), TTL);
+      await sec.logLogin(req, true, st.enabled ? '2FA' : ''); await audit.log(req, who, 'login', { ok: true }, 200);
+      await notify.send(`Admin sign-in on aashishpandey.com from ${clientIp(req)}. If this was not you, open Settings and choose Sign out everywhere.`, { title: 'Admin sign-in', tag: 'login' });
       return out(200, { ok: true });
     }
     if (a === 'logout') { setCookie(res, '', 0); return out(200, { ok: true }); }
-    if (a === 'cron') {   // Vercel Cron: the nightly backup
-      if (!process.env.CRON_SECRET) return out(503, { error: 'Set CRON_SECRET in Vercel to enable the nightly backup.' });
+    if (a === 'cron' || a === 'digest') {   // Vercel Cron: the nightly backup and the morning digest
+      if (!process.env.CRON_SECRET) return out(503, { error: 'Set CRON_SECRET in Vercel to enable scheduled jobs.' });
       if (req.headers.authorization !== 'Bearer ' + process.env.CRON_SECRET) return out(401, { error: 'Not allowed.' });
-      return out(200, await sec.backup());
+      if (a === 'cron') return out(200, await sec.backup());
+      if ((await cfg.get('digest', { on: true })).on === false) return out(200, { sent: false, off: true });
+      return out(200, await pipeline.sendDigest(await store.all()));
     }
 
     /* ----- signed in from here ----- */
-    if (!(await authed(req))) return out(401, { error: 'Sign in required.' });
-    if (a === 'me') return out(200, { ok: true });
+    user = await session(req);
+    if (!user) return out(401, { error: 'Sign in required.' });
+    body = post ? parseBody(req) : {};
+    if (!users.can(user.role, a, body)) { await audit.log(req, user, 'denied:' + a, audit.detailOf(a, body, q), 403); user = null; return out(403, { error: 'Your role does not allow that.' }); }
+    const b = body, now = Date.now();
+    if (a === 'me') return out(200, { ok: true, user });
 
     if (a === 'list') {
       const rows = await store.all();
       const hit = filter(rows, q), off = Math.max(0, Number(q.offset) || 0), lim = Math.min(500, Number(q.limit) || 200);
-      const count = (f) => rows.filter(f).length;
+      const count = (f) => rows.filter(f).length, pl = pipeline.stats(rows);
       return out(200, {
-        total: hit.length, items: hit.slice(off, off + lim),
-        counts: { all: rows.length, brief: count((r) => r.type === 'brief'), newBriefs: count((r) => r.type === 'brief' && r.status === 'new'), subscriber: count((r) => r.type === 'subscriber'), mailfail: count((r) => r.mail && (r.mail.admin === 'failed' || r.mail.user === 'failed')), spam: count((r) => r.status === 'spam') },
+        total: hit.length, items: hit.slice(off, off + lim).map((r) => flag(r, now)), pipeline: pl, role: user.role,
+        counts: { all: rows.length, brief: count((r) => r.type === 'brief'), newBriefs: count((r) => r.type === 'brief' && r.status === 'new'), subscriber: count((r) => r.type === 'subscriber'), mailfail: count((r) => r.mail && (r.mail.admin === 'failed' || r.mail.user === 'failed')), spam: count((r) => r.status === 'spam'), overdue: pl.overdue },
       });
     }
     if (a === 'export') {
@@ -110,26 +160,40 @@ module.exports = async (req, res) => {
     }
     if (a === 'links_list') return out(200, await links.list());
     if (a === 'sec_get') {
-      const st = await sec.totpState();
-      return out(200, { totp: { enabled: !!st.enabled, recoveryLeft: (st.recovery || []).length }, history: await sec.history(50), backup: await sec.lastBackup(), cronReady: !!process.env.CRON_SECRET });
+      const st = await sec.totpState(user.id), owner = user.role === 'owner';
+      return out(200, { totp: { enabled: !!st.enabled, recoveryLeft: (st.recovery || []).length }, history: owner ? await sec.history(50) : [], backup: owner ? await sec.lastBackup() : null, cronReady: !!process.env.CRON_SECRET });
     }
     if (a === 'spam_get') {
       const c = await cfg.get('spam', spam.DEFAULTS), rows = await store.all(), since = Date.now() - 30 * 864e5;
       return out(200, { cfg: c, defaults: { phrases: spam.PHRASES, threshold: spam.SPAM_AT }, caught30: rows.filter((r) => r.status === 'spam' && r.created > since).length });
     }
-    if (a === 'alerts_get') return out(200, { cfg: await cfg.get('alerts', { min: 'high' }), channels: notify.channels() });
+    if (a === 'alerts_get') return out(200, { cfg: await cfg.get('alerts', { min: 'high' }), channels: { ...notify.channels(), push: (await push.count()) > 0 } });
+    if (a === 'digest_get') return out(200, { cfg: await cfg.get('digest', { on: true }), cronReady: !!process.env.CRON_SECRET });
     if (a === 'news_overview') { const rows = await store.all(); return out(200, { growth: news.growth(rows), campaigns: await news.list() }); }
     if (a === 'tpl_get') return out(200, { templates: await replies.templates(), defaults: replies.defaults() });
+    if (a === 'push_key') return out(200, { key: await push.publicKey() });
+    if (a === 'users_list') { const m = await users.all(); return out(200, { users: Object.values(m).map(users.pub).sort((x, y) => x.createdAt - y.createdAt) }); }
+    if (a === 'audit_list') { const m = await users.all(); return out(200, { items: await audit.list({ user: q.user, action: q.action, q: q.q, limit: 300 }), users: [{ id: 'owner', name: 'Owner' }, ...Object.values(m).map((u) => ({ id: u.id, name: u.name }))] }); }
     if (!post) return out(405, { error: 'Use POST.' });
-    const b = parseBody(req);
 
-    /* ----- submissions ----- */
+    /* ----- inbox ----- */
     if (a === 'update') {
+      const cur = await store.get(clean(b.id, 40)); if (!cur) return out(404, { error: 'Not found.' });
       const patch = {};
       if (b.status !== undefined) { if (!STATUSES.includes(b.status)) return out(400, { error: 'Unknown status.' }); patch.status = b.status; }
       if (b.note !== undefined) patch.note = clean(b.note, 2000);
-      const r = await store.update(clean(b.id, 40), patch);
-      return r ? out(200, { ok: true, item: r }) : out(404, { error: 'Not found.' });
+      if (b.stage !== undefined) {
+        if (!pipeline.STAGES.includes(b.stage)) return out(400, { error: 'Unknown stage.' });
+        patch.stage = b.stage;
+        if (pipeline.stageOf(cur) === 'new' && b.stage !== 'new' && (patch.status || cur.status) === 'new') patch.status = 'replied';   // moved on, so it is no longer waiting for a first answer
+        if (b.stage !== 'lost') patch.lostReason = '';
+      }
+      if (b.value !== undefined) { const v = b.value === '' || b.value === null ? 0 : Number(b.value); if (!(v >= 0 && v <= 1e9)) return out(400, { error: 'Check the deal value.' }); patch.value = v; }
+      if (b.currency !== undefined) { if (!CURRENCIES.includes(b.currency)) return out(400, { error: 'Unknown currency.' }); patch.currency = b.currency; }
+      if (b.lostReason !== undefined) patch.lostReason = clean(b.lostReason, 300);
+      if (b.followUp !== undefined) { if (b.followUp && !/^\d{4}-\d{2}-\d{2}$/.test(b.followUp)) return out(400, { error: 'Use a date.' }); patch.followUp = b.followUp || ''; }
+      const r = await store.update(cur.id, patch);
+      return out(200, { ok: true, item: flag(r, now) });
     }
     if (a === 'delete') {
       const ids = (Array.isArray(b.ids) ? b.ids : [b.id]).map((x) => clean(x, 40)).filter(Boolean).slice(0, 500);
@@ -179,18 +243,18 @@ module.exports = async (req, res) => {
     }
     if (a === 'reply_send') {
       const r = await store.get(clean(b.id, 40)); if (!r || !r.email) return out(404, { error: 'Not found.' });
-      const subject = clean(b.subject, 200), body = String(b.body || '').slice(0, 10000).trim();
-      if (!subject || body.length < 2) return out(400, { error: 'Add a subject and a message.' });
-      const entry = { dir: 'out', at: Date.now(), subject, body };
-      try { await replies.send(r, subject, body); } catch (e) { await store.update(r.id, { thread: [...(r.thread || []), { ...entry, error: String(e.message).slice(0, 200) }] }); return out(502, { error: 'Email failed: ' + e.message }); }
-      const u = await store.update(r.id, { thread: [...(r.thread || []), entry], status: r.status === 'new' || r.status === 'spam' ? 'replied' : r.status });
-      return out(200, { ok: true, item: u });
+      const subject = clean(b.subject, 200), text = String(b.body || '').slice(0, 10000).trim();
+      if (!subject || text.length < 2) return out(400, { error: 'Add a subject and a message.' });
+      const entry = { dir: 'out', at: Date.now(), subject, body: text, by: user.name };
+      try { await replies.send(r, subject, text); } catch (e) { await store.update(r.id, { thread: [...(r.thread || []), { ...entry, error: String(e.message).slice(0, 200) }] }); return out(502, { error: 'Email failed: ' + e.message }); }
+      const patch = { thread: [...(r.thread || []), entry], status: r.status === 'new' || r.status === 'spam' ? 'replied' : r.status };
+      if (pipeline.stageOf(r) === 'new') patch.stage = 'contacted';
+      return out(200, { ok: true, item: flag(await store.update(r.id, patch), now) });
     }
     if (a === 'thread_note') {   // log what they wrote back (replies arrive in your own inbox, not here)
       const r = await store.get(clean(b.id, 40)); if (!r) return out(404, { error: 'Not found.' });
       const text = String(b.text || '').slice(0, 10000).trim(); if (!text) return out(400, { error: 'Write something to log.' });
-      const u = await store.update(r.id, { thread: [...(r.thread || []), { dir: b.dir === 'in' ? 'in' : 'note', at: Date.now(), body: text }] });
-      return out(200, { ok: true, item: u });
+      return out(200, { ok: true, item: flag(await store.update(r.id, { thread: [...(r.thread || []), { dir: b.dir === 'in' ? 'in' : 'note', at: Date.now(), body: text, by: user.name }] }), now) });
     }
     if (a === 'tpl_save') {
       const key = clean(b.key, 30), d = replies.defaults(); if (!d[key]) return out(400, { error: 'Unknown template.' });
@@ -198,6 +262,17 @@ module.exports = async (req, res) => {
       if (b.reset) delete saved[key]; else saved[key] = { subject: clean(b.subject, 200), body: String(b.body || '').slice(0, 10000) };
       await cfg.set('templates', saved); return out(200, { ok: true });
     }
+
+    /* ----- quotes (owner only) ----- */
+    if (a === 'quote_list') { const r = await store.get(clean(b.id, 40)); return r ? out(200, { quotes: await quotes.listFor(r) }) : out(404, { error: 'Not found.' }); }
+    if (a === 'quote_preview' || a === 'quote_send') {
+      const r = await store.get(clean(b.id, 40)); if (!r || r.type !== 'brief') return out(404, { error: 'Brief not found.' });
+      try {
+        if (a === 'quote_preview') return out(200, await quotes.preview(r, b.draft || {}));
+        const qt = await quotes.send(r, user, b.draft || {}); return out(200, { ok: true, quote: { id: qt.id, number: qt.number, total: quotes.money(qt.total, qt.currency) } });
+      } catch (e) { return out(400, { error: e.message }); }
+    }
+    if (a === 'quote_status') { try { const qt = await quotes.setStatus(clean(b.qid, 20), String(b.status || '')); return out(200, { ok: true, status: qt.status }); } catch (e) { return out(400, { error: e.message }); } }
 
     /* ----- newsletter ----- */
     if (a === 'news_preview') { const c = news.clean(b); return out(200, { html: news.render(c, SITE_UNSUB, 'Priya').html }); }
@@ -216,31 +291,53 @@ module.exports = async (req, res) => {
     if (a === 'news_retry') { try { return out(200, await news.retryFailed(clean(b.id, 20))); } catch (e) { return out(404, { error: e.message }); } }
     if (a === 'news_import') { try { return out(200, { ok: true, imported: await news.importFromResend() }); } catch (e) { return out(502, { error: 'Could not read the Resend audience: ' + e.message }); } }
 
-    /* ----- spam rules and alerts ----- */
+    /* ----- spam rules, alerts, digest, phone notifications ----- */
     if (a === 'spam_save') {
       const c = { threshold: Math.min(20, Math.max(2, parseInt(b.threshold, 10) || spam.SPAM_AT)), block: cap(b.block, 500, 100), allow: cap(b.allow, 500, 100), phrasesOff: cap(b.phrasesOff, 100, 60), phrasesExtra: cap(b.phrasesExtra, 200, 60) };
       await cfg.set('spam', c); return out(200, { ok: true, cfg: c });
     }
     if (a === 'alerts_save') { const min = ['off', 'high', 'medium', 'all'].includes(b.min) ? b.min : 'high'; await cfg.set('alerts', { min }); return out(200, { ok: true }); }
-    if (a === 'alerts_test') { const r = await notify.send('Test alert from your aashishpandey.com admin. If you can read this, push alerts work.'); return r.none ? out(400, { error: 'No alert channel is set up yet. Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID, or SLACK_WEBHOOK_URL, in Vercel.' }) : out(200, r); }
+    if (a === 'alerts_test') { const r = await notify.send('Test alert from your aashishpandey.com admin. If you can read this, push alerts work.', { title: 'Test alert', tag: 'test' }); return r.none ? out(400, { error: 'No alert channel is set up yet. Turn on notifications on a device in Settings, or add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID, or SLACK_WEBHOOK_URL, in Vercel.' }) : out(200, r); }
+    if (a === 'digest_save') { await cfg.set('digest', { on: b.on !== false }); return out(200, { ok: true }); }
+    if (a === 'digest_now') { const r = await pipeline.sendDigest(await store.all()); return out(200, r); }
+    if (a === 'push_subscribe') { try { await push.subscribe(user.id, b.subscription, req.headers['user-agent']); return out(200, { ok: true }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'push_unsubscribe') { await push.unsubscribe(String(b.endpoint || '')); return out(200, { ok: true }); }
+    if (a === 'push_test') { const r = await push.sendAll({ title: 'Notifications work', body: 'This device will get alerts for new briefs and quotes.', tag: 'test' }, (s) => s.uid === user.id); return r.sent ? out(200, r) : out(400, { error: r.failed ? 'The browser rejected the notification. Turn notifications off and on again.' : 'This device is not subscribed yet.' }); }
+
+    /* ----- team ----- */
+    if (a === 'users_add') { try { return out(200, { ok: true, ...(await users.add(b)) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'users_update') {
+      try {
+        const r = await users.update(clean(b.id, 20), { role: b.role, active: b.active, resetPassword: !!b.resetPassword });
+        return out(200, { ok: true, ...r });
+      } catch (e) { return out(400, { error: e.message }); }
+    }
+    if (a === 'users_delete') { await users.remove(clean(b.id, 20)); return out(200, { ok: true }); }
+    if (a === 'pw_change') {
+      if (user.id === 'owner') return out(400, { error: 'The owner password is set in Vercel (ADMIN_PASSWORD).' });
+      const u = await users.get(user.id), np = String(b.newPassword || '');
+      if (!u || !users.verify(b.current, u.pwHash)) return out(400, { error: 'Your current password is not right.' });
+      if (np.length < 10) return out(400, { error: 'Use at least 10 characters.' });
+      await users.update(user.id, { newPassword: np }); return out(200, { ok: true });
+    }
 
     /* ----- security ----- */
     if (a === 'totp_setup') {
-      const st = await sec.totpState(); if (st.enabled) return out(400, { error: 'Two-factor sign-in is already on.' });
-      const pending = totp.secret(); await sec.saveTotp({ ...st, enabled: false, pending });
+      const st = await sec.totpState(user.id); if (st.enabled) return out(400, { error: 'Two-factor sign-in is already on.' });
+      const pending = totp.secret(); await sec.saveTotp({ ...st, enabled: false, pending }, user.id);
       return out(200, { secret: pending, uri: totp.uri(pending) });
     }
     if (a === 'totp_enable') {
-      const st = await sec.totpState(); if (!st.pending) return out(400, { error: 'Start the setup first.' });
+      const st = await sec.totpState(user.id); if (!st.pending) return out(400, { error: 'Start the setup first.' });
       const step = totp.check(st.pending, b.code); if (step < 0) return out(400, { error: 'That code is not right. Check the time on your phone and try again.' });
       const rec = totp.recoveryCodes();
-      await sec.saveTotp({ enabled: true, secret: st.pending, last: step, recovery: rec.map(totp.hash) });
+      await sec.saveTotp({ enabled: true, secret: st.pending, last: step, recovery: rec.map(totp.hash) }, user.id);
       return out(200, { ok: true, recovery: rec });
     }
     if (a === 'totp_disable') {
-      const st = await sec.totpState(); if (!st.enabled) return out(200, { ok: true });
-      if (!(await sec.verifySecondStep(b.code))) return out(400, { error: 'Enter a current code (or a recovery code) to turn it off.' });
-      await sec.saveTotp({ enabled: false }); return out(200, { ok: true });
+      const st = await sec.totpState(user.id); if (!st.enabled) return out(200, { ok: true });
+      if (!(await sec.verifySecondStep(b.code, user.id))) return out(400, { error: 'Enter a current code (or a recovery code) to turn it off.' });
+      await sec.saveTotp({ enabled: false }, user.id); return out(200, { ok: true });
     }
     if (a === 'signout_all') { await sec.bumpEpoch(); setCookie(res, '', 0); return out(200, { ok: true }); }
     if (a === 'backup_now') { const r = await sec.backup(); return r.ok ? out(200, r) : out(502, { error: 'Backup email failed: ' + r.error }); }
@@ -252,6 +349,8 @@ module.exports = async (req, res) => {
   } catch (e) {
     console.error('admin:', e.message);
     return out(500, { error: 'Something went wrong. Try again.' });
+  } finally {
+    if (user && AUDITED.has(a)) await audit.log(req, user, a, audit.detailOf(a, body, q), status);
   }
 };
 const SITE_UNSUB = 'https://aashishpandey.com/api/newsletter?a=unsubscribe';

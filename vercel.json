@@ -4,7 +4,7 @@
   "outputDirectory": ".",
   "cleanUrls": false,
   "trailingSlash": false,
-  "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "30 21 * * *" } ],
+  "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "30 21 * * *" }, { "path": "/api/kd2ozfuew9n4uaciyl1j?a=digest", "schedule": "0 3 * * *" } ],
   "redirects": [
     {
       "source": "/index.html",
@@ -525,6 +525,7 @@
           "value": "no-store"
         }
       ]
-    }
+    },
+    { "source": "/kd2ozfuew9n4uaciyl1j-sw.js", "headers": [ { "key": "Cache-Control", "value": "no-cache" }, { "key": "Service-Worker-Allowed", "value": "/kd2ozfuew9n4uaciyl1j" } ] }
   ]
 }

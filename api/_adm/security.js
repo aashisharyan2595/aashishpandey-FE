@@ -8,8 +8,8 @@ const { env, sendMail, clientIp } = require('../_mail');
 const epoch = async () => String((await redis('GET', 'admin:epoch')) || '0');
 const bumpEpoch = () => redis('INCR', 'admin:epoch');
 
-async function logLogin(req, ok, why) {
-  const e = { t: Date.now(), ip: clientIp(req), ua: String((req.headers && req.headers['user-agent']) || '').slice(0, 120), ok, why: why || '' };
+async function logLogin(req, ok, why, who) {
+  const e = { t: Date.now(), who: who || 'owner', ip: clientIp(req), ua: String((req.headers && req.headers['user-agent']) || '').slice(0, 120), ok, why: why || '' };
   try { await redis('LPUSH', 'admin:log', JSON.stringify(e)); await redis('LTRIM', 'admin:log', 0, 199); } catch (err) { console.error('login log failed', err.message); }
 }
 async function history(n = 50) {
@@ -17,15 +17,17 @@ async function history(n = 50) {
   return (rows || []).map((r) => { try { return JSON.parse(r); } catch (e) { return null; } }).filter(Boolean);
 }
 
-async function totpState() { const raw = await redis('GET', 'admin:totp'); return raw ? JSON.parse(raw) : { enabled: false }; }
-const saveTotp = (s) => redis('SET', 'admin:totp', JSON.stringify(s));
+// 2FA is per person: the owner keeps the original key, everyone else gets their own
+const tkey = (uid) => (!uid || uid === 'owner' ? 'admin:totp' : 'admin:totp:' + uid);
+async function totpState(uid) { const raw = await redis('GET', tkey(uid)); return raw ? JSON.parse(raw) : { enabled: false }; }
+const saveTotp = (s, uid) => redis('SET', tkey(uid), JSON.stringify(s));
 // the second step at sign-in: an authenticator code (each one only once), or one of the saved recovery codes
-async function verifySecondStep(input) {
-  const st = await totpState(); if (!st.enabled) return true;
+async function verifySecondStep(input, uid) {
+  const st = await totpState(uid); if (!st.enabled) return true;
   const step = totp.check(st.secret, input);
-  if (step >= 0 && step > (st.last || 0)) { st.last = step; await saveTotp(st); return true; }
+  if (step >= 0 && step > (st.last || 0)) { st.last = step; await saveTotp(st, uid); return true; }
   const h = totp.hash(input);
-  if (input && (st.recovery || []).includes(h)) { st.recovery = st.recovery.filter((x) => x !== h); await saveTotp(st); return true; }
+  if (input && (st.recovery || []).includes(h)) { st.recovery = st.recovery.filter((x) => x !== h); await saveTotp(st, uid); return true; }
   return false;
 }
 
