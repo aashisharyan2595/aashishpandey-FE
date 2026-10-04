@@ -27,6 +27,6 @@ const linkify = (html) => html.replace(/(https?:\/\/[^\s<]+)/g, (u) => `<a href=
 // a reply from a person looks like one: plain paragraphs, no banner, replies go to the real inbox
 async function send(rec, subject, body) {
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#222222;">${linkify(nl2br(body))}</div>`;
-  return sendMail({ to: rec.email, subject, html, text: body, replyTo: env().admins });
+  return sendMail({ to: rec.email, subject, html, text: body, replyTo: env().admins, kind: 'reply', ref: rec.id });
 }
 module.exports = { defaults, templates, fill, keyOf, send };

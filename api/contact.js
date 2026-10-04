@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
   } catch (e) { console.error('contact: alert failed', e.message); }
   try {
     const a = T.adminBrief(d);
-    await sendMail({ to: env().admins, replyTo: d.email, subject: a.subject, html: a.html, text: a.text });
+    await sendMail({ to: env().admins, replyTo: d.email, subject: a.subject, html: a.html, text: a.text, kind: 'admin-alert', ref: rec && rec.id });
     await mark({ admin: 'sent' });
   } catch (e) {
     console.error('contact: admin mail failed', e.message);
@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
   }
   try {   // the confirmation is a courtesy: the brief already arrived, so a failure here is not an error for the visitor
     const un = link('unsubscribe', d.email), u = T.userBriefConfirmation(d, un);
-    await sendMail({ to: d.email, subject: u.subject, html: u.html, text: u.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
+    await sendMail({ to: d.email, subject: u.subject, html: u.html, text: u.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' }, kind: 'visitor-confirmation', ref: rec && rec.id });
     await mark({ user: 'sent' });
   } catch (e) { console.error('contact: confirmation mail failed', e.message); await mark({ user: 'failed', userError: String(e.message).slice(0, 200) }); }
   return res.status(200).json({ ok: true });

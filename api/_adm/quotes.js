@@ -60,7 +60,7 @@ function email(q) {
 async function preview(brief, draft) { const c = clean(draft), q = mk(brief, null, c, 'Q-PREVIEW'); return { html: email(q).html, total: money(q.total, q.currency), page: pageHtml(q) }; }
 async function send(brief, user, draft) {
   const c = clean(draft), q = mk(brief, user, c, await nextNumber()), m = email(q);
-  await sendMail({ to: brief.email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins });   // throws if it fails, so nothing is recorded as sent
+  await sendMail({ to: brief.email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins, kind: 'quote', ref: brief.id });   // throws if it fails, so nothing is recorded as sent
   await redis('SET', `quote:${q.id}`, JSON.stringify(q)); await redis('ZADD', 'quotes', q.created, q.id);
   const open = ['new', 'contacted', 'call'].includes(brief.stage || 'new');
   await store.update(brief.id, { quotes: [...(brief.quotes || []), q.id], value: q.total / 100, currency: q.currency, ...(open ? { stage: 'quoted' } : {}), status: brief.status === 'new' ? 'replied' : brief.status,
@@ -90,7 +90,7 @@ async function respond(id, token, action, reason) {
   if (b) await store.update(b.id, action === 'accept' ? { stage: 'won', value: q.total / 100, currency: q.currency, status: b.status === 'new' ? 'replied' : b.status, thread: [...(b.thread || []), { dir: 'in', at: Date.now(), body: `Accepted quote ${q.number} (${money(q.total, q.currency)}).` }] }
     : { stage: 'lost', lostReason: q.reason ? `Declined quote: ${q.reason}` : 'Declined the quote', thread: [...(b.thread || []), { dir: 'in', at: Date.now(), body: `Declined quote ${q.number}.${q.reason ? ' ' + q.reason : ''}` }] });
   const word = action === 'accept' ? 'accepted' : 'declined', head = `Quote ${q.number} ${word} by ${q.name}`;
-  try { const m = T.shell({ title: head, eyebrow: 'Quote answered', headline: `${esc(q.name)} ${T.accent(word + '.')}`, body: `<p style="margin:0 0 12px;">${esc(q.number)}: <strong>${money(q.total, q.currency)}</strong> for ${esc(q.service || 'a project')}.</p>${q.reason ? `<p style="margin:0 0 12px;">Their note: ${esc(q.reason)}</p>` : ''}<p style="margin:0;">Reply to this email to write to ${esc(firstName(q.name))}.</p>`, footer: 'Automatic note from the site.' }); await sendMail({ to: env().admins, replyTo: q.email, subject: head, html: m, text: `${head}. ${money(q.total, q.currency)}.` }); } catch (e) { console.error('quote: admin note failed', e.message); }
+  try { const m = T.shell({ title: head, eyebrow: 'Quote answered', headline: `${esc(q.name)} ${T.accent(word + '.')}`, body: `<p style="margin:0 0 12px;">${esc(q.number)}: <strong>${money(q.total, q.currency)}</strong> for ${esc(q.service || 'a project')}.</p>${q.reason ? `<p style="margin:0 0 12px;">Their note: ${esc(q.reason)}</p>` : ''}<p style="margin:0;">Reply to this email to write to ${esc(firstName(q.name))}.</p>`, footer: 'Automatic note from the site.' }); await sendMail({ to: env().admins, replyTo: q.email, subject: head, html: m, text: `${head}. ${money(q.total, q.currency)}.`, kind: 'admin-note', ref: q.briefId }); } catch (e) { console.error('quote: admin note failed', e.message); }
   await notify.send(`${head}\n${money(q.total, q.currency)}`, { title: action === 'accept' ? 'Quote accepted' : 'Quote declined', tag: 'quote' });
   return { code: 200, ok: true, status: q.status };
 }

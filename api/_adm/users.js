@@ -4,8 +4,8 @@ const crypto = require('crypto');
 const { redis } = require('../_lib');
 
 const ROLES = ['owner', 'assistant', 'viewer'];
-const READ = new Set(['me', 'list', 'links_list', 'spam_get', 'alerts_get', 'news_overview', 'tpl_get', 'sec_get', 'push_key', 'push_subscribe', 'push_unsubscribe', 'push_test', 'pw_change', 'totp_setup', 'totp_enable', 'totp_disable', 'digest_get']);
-const ASSIST = new Set([...READ, 'update', 'reply_get', 'reply_send', 'thread_note', 'resend', 'bulk']);
+const READ = new Set(['me', 'list', 'links_list', 'spam_get', 'alerts_get', 'news_overview', 'tpl_get', 'sec_get', 'push_key', 'push_subscribe', 'push_unsubscribe', 'push_test', 'pw_change', 'sessions_list', 'sessions_revoke', 'totp_setup', 'totp_enable', 'totp_disable', 'digest_get']);
+const ASSIST = new Set([...READ, 'mail_for', 'update', 'reply_get', 'reply_send', 'thread_note', 'resend', 'bulk']);
 // owner-only: export, delete, templates, spam rules, alerts, newsletter, short links, backups, team, activity log, quotes, sign out everywhere
 function can(role, action, body) {
   if (role === 'owner') return true;

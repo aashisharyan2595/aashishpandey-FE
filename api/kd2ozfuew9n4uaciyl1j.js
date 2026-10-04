@@ -26,17 +26,21 @@ const audit = require('./_adm/audit');
 const quotes = require('./_adm/quotes');
 const push = require('./_adm/webpush');
 const pipeline = require('./_adm/pipeline');
+const device = require('./_adm/device');
+const sessions = require('./_adm/sessions');
+const maillog = require('./_adm/maillog');
 const spam = require('./_spam');
 
 const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
 const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
 // what goes in the activity log (reads are not recorded; a refused attempt always is)
-const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe']);
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
-const issue = (e, u) => { const p = b64(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + TTL, e, u })); return p + '.' + sig(p); };
+const issue = (e, u, sid) => { const p = b64(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + TTL, e, u, s: sid })); return p + '.' + sig(p); };
+const cookieSid = (req) => { try { const m = String(req.headers.cookie || '').match(new RegExp('(?:^|; )' + COOKIE + '=([^;]+)')); return m ? JSON.parse(Buffer.from(m[1].split('.')[0], 'base64url').toString()).s : null; } catch (e) { return null; } };
 // → { id, name, role } or null. The role is read fresh each time, so a change or a deactivation applies at once.
 async function session(req) {
   const m = String(req.headers.cookie || '').match(new RegExp('(?:^|; )' + COOKIE + '=([^;]+)'));
@@ -46,10 +50,12 @@ async function session(req) {
   if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
   let j; try { j = JSON.parse(Buffer.from(p, 'base64url').toString()); } catch (e) { return null; }
   if (!(j.exp > Date.now() / 1000) || String(j.e) !== await sec.epoch()) return null;
-  const uid = j.u || 'owner';
-  if (uid === 'owner') return { id: 'owner', name: 'Owner', role: 'owner' };
+  const uid = j.u || 'owner', rec = await sessions.get(j.s);   // ended from the admin, or expired: no longer valid even though the cookie is
+  if (!rec || rec.uid !== uid) return null;
+  sessions.touch(rec).catch(() => {});
+  if (uid === 'owner') return { id: 'owner', name: 'Owner', role: 'owner', sid: rec.id };
   const u = await users.get(uid);
-  return u && u.active ? { id: u.id, name: u.name, role: u.role, mustChange: !!u.mustChange } : null;
+  return u && u.active ? { id: u.id, name: u.name, role: u.role, mustChange: !!u.mustChange, sid: rec.id } : null;
 }
 const setCookie = (res, v, age) => res.setHeader('Set-Cookie', `${COOKIE}=${v}; Path=/; Max-Age=${age}; HttpOnly; Secure; SameSite=Strict`);
 const sameOrigin = (req) => { const o = req.headers.origin; if (!o) return true; try { return new URL(o).host === req.headers.host; } catch (e) { return false; } };
@@ -96,37 +102,46 @@ module.exports = async (req, res) => {
 
   try {
     /* ----- no session needed ----- */
+    if (a === 'policy') return out(200, { requireLocation: await sec.requireLocation() });
     if (a === 'login' && post) {
       if (await limited('adminlogin', clientIp(req), 8, 900)) return out(429, { error: 'Too many tries. Wait 15 minutes.' });
-      const b = parseBody(req);
+      const b = parseBody(req), info = device.collect(req, b.client);
+      const label = b.email ? String(b.email).trim().toLowerCase() : 'owner', place = device.place(info.geo);
+      if (!info.loc && await sec.requireLocation()) {   // signing in needs the browser's location; without it nothing else is even checked
+        await sec.logLogin(req, false, 'location not shared', label, info); await audit.log(req, { id: '', name: label, role: '' }, 'login', { ok: false, why: 'location not shared' }, 403);
+        return out(403, { error: 'Location is required to sign in. Allow location for this site in your browser settings, then try again.', needLocation: true });
+      }
+      const alertText = (who) => `${who} signed in from ${clientIp(req)}${place ? ' (' + place + ')' : ''} on ${info.device.browser} / ${info.device.os}.${info.mismatch ? ' The browser location is ' + info.distanceKm + ' km from where the IP address is.' : ''}`;
       if (b.email) {   // a team member
         const email = String(b.email).trim().toLowerCase();
         if (await limited('adminloginu', email, 8, 900)) return out(429, { error: 'Too many tries. Wait 15 minutes.' });
         const u = await users.byEmail(email), good = users.verify(b.password, u ? u.pwHash : DUMMY) && u && u.active;
         const who = { id: u ? u.id : '', name: u ? u.name : email, role: u ? u.role : '' };
-        if (!good) { await sec.logLogin(req, false, 'wrong email or password', email); await audit.log(req, who, 'login', { ok: false }, 401); return out(401, { error: 'Wrong email or password.' }); }
+        if (!good) { await sec.logLogin(req, false, 'wrong email or password', email, info); await audit.log(req, who, 'login', { ok: false }, 401); return out(401, { error: 'Wrong email or password.' }); }
         if ((await sec.totpState(u.id)).enabled) {
           if (!b.code) return out(401, { error: 'Enter the 6-digit code from your authenticator app.', need2fa: true });
-          if (!(await sec.verifySecondStep(b.code, u.id))) { await sec.logLogin(req, false, 'wrong 2FA code', email); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); return out(401, { error: 'That code is not right.', need2fa: true }); }
+          if (!(await sec.verifySecondStep(b.code, u.id))) { await sec.logLogin(req, false, 'wrong 2FA code', email, info); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); return out(401, { error: 'That code is not right.', need2fa: true }); }
         }
-        setCookie(res, issue(await sec.epoch(), u.id), TTL); await users.update(u.id, { lastLogin: Date.now() });
-        await sec.logLogin(req, true, '', email); await audit.log(req, who, 'login', { ok: true }, 200);
-        await notify.send(`${u.name} (${u.role}) signed in to the admin from ${clientIp(req)}.`, { title: 'Team sign-in', tag: 'login' });
+        const sess = await sessions.create({ id: u.id, name: u.name, role: u.role }, info, clientIp(req));
+        setCookie(res, issue(await sec.epoch(), u.id, sess.id), TTL); await users.update(u.id, { lastLogin: Date.now() });
+        await sec.logLogin(req, true, '', email, { ...info, sid: sess.id }); await audit.log(req, who, 'login', { ok: true, place, mismatchKm: info.mismatch ? info.distanceKm : undefined }, 200);
+        await notify.send(alertText(`${u.name} (${u.role})`), { title: info.mismatch ? 'Sign-in: location does not match' : 'Team sign-in', tag: 'login' });
         return out(200, { ok: true, user: users.pub(u) });
       }
       const who = { id: 'owner', name: 'Owner', role: 'owner' };
-      if (!b.password || !eq(b.password, process.env.ADMIN_PASSWORD)) { await sec.logLogin(req, false, 'wrong password'); await audit.log(req, who, 'login', { ok: false }, 401); return out(401, { error: 'Wrong password.' }); }
+      if (!b.password || !eq(b.password, process.env.ADMIN_PASSWORD)) { await sec.logLogin(req, false, 'wrong password', 'owner', info); await audit.log(req, who, 'login', { ok: false }, 401); return out(401, { error: 'Wrong password.' }); }
       const st = await sec.totpState('owner');
       if (st.enabled) {
         if (!b.code) return out(401, { error: 'Enter the 6-digit code from your authenticator app.', need2fa: true });
-        if (!(await sec.verifySecondStep(b.code, 'owner'))) { await sec.logLogin(req, false, 'wrong 2FA code'); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); return out(401, { error: 'That code is not right.', need2fa: true }); }
+        if (!(await sec.verifySecondStep(b.code, 'owner'))) { await sec.logLogin(req, false, 'wrong 2FA code', 'owner', info); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); return out(401, { error: 'That code is not right.', need2fa: true }); }
       }
-      setCookie(res, issue(await sec.epoch(), 'owner'), TTL);
-      await sec.logLogin(req, true, st.enabled ? '2FA' : ''); await audit.log(req, who, 'login', { ok: true }, 200);
-      await notify.send(`Admin sign-in on aashishpandey.com from ${clientIp(req)}. If this was not you, open Settings and choose Sign out everywhere.`, { title: 'Admin sign-in', tag: 'login' });
+      const sess = await sessions.create(who, info, clientIp(req));
+      setCookie(res, issue(await sec.epoch(), 'owner', sess.id), TTL);
+      await sec.logLogin(req, true, st.enabled ? '2FA' : '', 'owner', { ...info, sid: sess.id }); await audit.log(req, who, 'login', { ok: true, place, mismatchKm: info.mismatch ? info.distanceKm : undefined }, 200);
+      await notify.send(alertText('Owner') + ' If this was not you, open Settings and sign that session out.', { title: info.mismatch ? 'Sign-in: location does not match' : 'Admin sign-in', tag: 'login' });
       return out(200, { ok: true });
     }
-    if (a === 'logout') { setCookie(res, '', 0); return out(200, { ok: true }); }
+    if (a === 'logout') { const sid = cookieSid(req); if (sid) await sessions.revoke(String(sid)).catch(() => {}); setCookie(res, '', 0); return out(200, { ok: true }); }
     if (a === 'cron' || a === 'digest') {   // Vercel Cron: the nightly backup and the morning digest
       if (!process.env.CRON_SECRET) return out(503, { error: 'Set CRON_SECRET in Vercel to enable scheduled jobs.' });
       if (req.headers.authorization !== 'Bearer ' + process.env.CRON_SECRET) return out(401, { error: 'Not allowed.' });
@@ -172,6 +187,14 @@ module.exports = async (req, res) => {
     if (a === 'news_overview') { const rows = await store.all(); return out(200, { growth: news.growth(rows), campaigns: await news.list() }); }
     if (a === 'tpl_get') return out(200, { templates: await replies.templates(), defaults: replies.defaults() });
     if (a === 'push_key') return out(200, { key: await push.publicKey() });
+    if (a === 'sessions_list') { const all = await sessions.list(), mine = user.role === 'owner' ? all : all.filter((x) => x.uid === user.id); return out(200, { sessions: mine.map((x) => ({ ...x, current: x.id === user.sid })), you: user.sid }); }
+    if (a === 'security_get') return out(200, { requireLocation: (await cfg.get('security', { requireLocation: true })).requireLocation !== false, envOff: String(process.env.ADMIN_REQUIRE_LOCATION || '').toLowerCase() === 'off' });
+    if (a === 'mail_list') {
+      const rows = await maillog.all(), sup = await maillog.suppressed(), kind = String(q.kind || ''), st = String(q.status || ''), text = String(q.q || '').toLowerCase();
+      const hit = rows.filter((r) => (!kind || kind === 'all' || r.kind === kind) && (!st || st === 'all' || (st === 'problems' ? ['bounced', 'complained', 'failed', 'delayed'].includes(r.status) : r.status === st)) && (!text || (r.to + ' ' + r.subject).toLowerCase().includes(text)));
+      return out(200, { items: hit.slice(0, 200), stats: maillog.stats(rows), suppressed: Object.entries(sup).map(([email, v]) => ({ email, ...v })), webhook: !!process.env.RESEND_WEBHOOK_SECRET, url: 'https://aashishpandey.com/api/resend-webhook' });
+    }
+    if (a === 'mail_for') { const rows = (await maillog.all()).filter((r) => r.ref === String(q.ref || '')); return out(200, { items: rows, webhook: !!process.env.RESEND_WEBHOOK_SECRET }); }
     if (a === 'users_list') { const m = await users.all(); return out(200, { users: Object.values(m).map(users.pub).sort((x, y) => x.createdAt - y.createdAt) }); }
     if (a === 'audit_list') { const m = await users.all(); return out(200, { items: await audit.list({ user: q.user, action: q.action, q: q.q, limit: 300 }), users: [{ id: 'owner', name: 'Owner' }, ...Object.values(m).map((u) => ({ id: u.id, name: u.name }))] }); }
     if (!post) return out(405, { error: 'Use POST.' });
@@ -204,8 +227,8 @@ module.exports = async (req, res) => {
       if (!r || r.type !== 'brief') return out(404, { error: 'Brief not found.' });
       const d = { ...r, when: new Date(r.created).toUTCString() };
       try {
-        if (b.which === 'user') { const un = link('unsubscribe', r.email), m = T.userBriefConfirmation(d, un); await sendMail({ to: r.email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } }); await store.update(r.id, { mail: { user: 'sent', userError: '' } }); }
-        else { const m = T.adminBrief(d); await sendMail({ to: env().admins, replyTo: r.email, subject: m.subject, html: m.html, text: m.text }); await store.update(r.id, { mail: { admin: 'sent', adminError: '' } }); }
+        if (b.which === 'user') { const un = link('unsubscribe', r.email), m = T.userBriefConfirmation(d, un); await sendMail({ to: r.email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' }, kind: 'visitor-confirmation', ref: r.id }); await store.update(r.id, { mail: { user: 'sent', userError: '' } }); }
+        else { const m = T.adminBrief(d); await sendMail({ to: env().admins, replyTo: r.email, subject: m.subject, html: m.html, text: m.text, kind: 'admin-alert', ref: r.id }); await store.update(r.id, { mail: { admin: 'sent', adminError: '' } }); }
       } catch (e) { return out(502, { error: 'Email failed: ' + e.message }); }
       return out(200, { ok: true });
     }
@@ -221,7 +244,7 @@ module.exports = async (req, res) => {
           if (b.allow) allow.add(String(r.email).toLowerCase());
           await store.update(r.id, { status: 'new', flags: [], spamScore: 0 });
           if (r.type === 'brief' && r.mail && r.mail.admin === 'skipped') {
-            try { const m = T.adminBrief({ ...r, when: new Date(r.created).toUTCString() }); await sendMail({ to: env().admins, replyTo: r.email, subject: m.subject, html: m.html, text: m.text }); await store.update(r.id, { mail: { admin: 'sent' } }); }
+            try { const m = T.adminBrief({ ...r, when: new Date(r.created).toUTCString() }); await sendMail({ to: env().admins, replyTo: r.email, subject: m.subject, html: m.html, text: m.text, kind: 'admin-alert', ref: r.id }); await store.update(r.id, { mail: { admin: 'sent' } }); }
             catch (e) { await store.update(r.id, { mail: { admin: 'failed', adminError: String(e.message).slice(0, 200) } }); }
           }
         }
@@ -279,7 +302,7 @@ module.exports = async (req, res) => {
     if (a === 'news_test') {
       const c = news.clean(b); if (!c.subject || !c.body.trim()) return out(400, { error: 'Add a subject and a body first.' });
       const to = env().admins[0], un = link('unsubscribe', to), r = news.render(c, un);
-      try { await sendMail({ to, subject: '[Test] ' + c.subject, html: r.html, text: r.text, replyTo: env().admins }); } catch (e) { return out(502, { error: 'Email failed: ' + e.message }); }
+      try { await sendMail({ to, subject: '[Test] ' + c.subject, html: r.html, text: r.text, replyTo: env().admins, kind: 'newsletter-test' }); } catch (e) { return out(502, { error: 'Email failed: ' + e.message }); }
       return out(200, { ok: true, to });
     }
     if (a === 'news_start') {
@@ -304,15 +327,27 @@ module.exports = async (req, res) => {
     if (a === 'push_unsubscribe') { await push.unsubscribe(String(b.endpoint || '')); return out(200, { ok: true }); }
     if (a === 'push_test') { const r = await push.sendAll({ title: 'Notifications work', body: 'This device will get alerts for new briefs and quotes.', tag: 'test' }, (s) => s.uid === user.id); return r.sent ? out(200, r) : out(400, { error: r.failed ? 'The browser rejected the notification. Turn notifications off and on again.' : 'This device is not subscribed yet.' }); }
 
+    /* ----- sign-ins and mail ----- */
+    if (a === 'sessions_revoke') {
+      const rec = await sessions.get(String(b.sid || '')); if (!rec) return out(404, { error: 'That sign-in has already ended.' });
+      if (user.role !== 'owner' && rec.uid !== user.id) return out(403, { error: 'You can only end your own sign-ins.' });
+      await sessions.revoke(rec.id); if (rec.id === user.sid) setCookie(res, '', 0); return out(200, { ok: true, self: rec.id === user.sid });
+    }
+    if (a === 'sessions_revoke_user') { await sessions.revokeUser(clean(b.uid, 20)); return out(200, { ok: true }); }
+    if (a === 'security_save') { await cfg.set('security', { requireLocation: b.requireLocation !== false }); return out(200, { ok: true }); }
+    if (a === 'mail_unsuppress') { await maillog.unsuppress(clean(b.email, 254)); return out(200, { ok: true }); }
+    if (a === 'mail_suppress') { await maillog.suppress(clean(b.email, 254), 'manual'); return out(200, { ok: true }); }
+
     /* ----- team ----- */
     if (a === 'users_add') { try { return out(200, { ok: true, ...(await users.add(b)) }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'users_update') {
       try {
         const r = await users.update(clean(b.id, 20), { role: b.role, active: b.active, resetPassword: !!b.resetPassword });
+        if (b.active === false) await sessions.revokeUser(clean(b.id, 20));   // deactivating also ends their sign-ins
         return out(200, { ok: true, ...r });
       } catch (e) { return out(400, { error: e.message }); }
     }
-    if (a === 'users_delete') { await users.remove(clean(b.id, 20)); return out(200, { ok: true }); }
+    if (a === 'users_delete') { await sessions.revokeUser(clean(b.id, 20)); await users.remove(clean(b.id, 20)); return out(200, { ok: true }); }
     if (a === 'pw_change') {
       if (user.id === 'owner') return out(400, { error: 'The owner password is set in Vercel (ADMIN_PASSWORD).' });
       const u = await users.get(user.id), np = String(b.newPassword || '');
@@ -339,7 +374,7 @@ module.exports = async (req, res) => {
       if (!(await sec.verifySecondStep(b.code, user.id))) return out(400, { error: 'Enter a current code (or a recovery code) to turn it off.' });
       await sec.saveTotp({ enabled: false }, user.id); return out(200, { ok: true });
     }
-    if (a === 'signout_all') { await sec.bumpEpoch(); setCookie(res, '', 0); return out(200, { ok: true }); }
+    if (a === 'signout_all') { await sec.bumpEpoch(); await sessions.revokeAll(); setCookie(res, '', 0); return out(200, { ok: true }); }
     if (a === 'backup_now') { const r = await sec.backup(); return r.ok ? out(200, r) : out(502, { error: 'Backup email failed: ' + r.error }); }
 
     /* ----- short links ----- */

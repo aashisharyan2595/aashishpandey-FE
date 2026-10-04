@@ -28,13 +28,23 @@ async function resend(path, method, body) {
   return j;
 }
 
-function sendMail({ to, subject, html, text, replyTo, headers, attachments }) {
-  const { from } = env();
-  const body = { from, to: Array.isArray(to) ? to : [to], subject, html, text };
+// kind says what the email is (shown in the delivery log); ref is the brief it belongs to.
+// A visitor address that bounced or reported spam before is not written to again: automated mail is skipped, an explicit reply or quote is refused with a reason.
+const AUTOMATED = new Set(['visitor-confirmation', 'welcome', 'subscribe-confirm']), EXPLICIT = new Set(['reply', 'quote']);
+async function sendMail({ to, subject, html, text, replyTo, headers, attachments, kind, ref }) {
+  const { from } = env(), list = Array.isArray(to) ? to : [to];
+  let log = null; try { log = require('./_adm/maillog'); } catch (e) { /* the log is optional */ }
+  if (log && (AUTOMATED.has(kind) || EXPLICIT.has(kind)) && process.env.UPSTASH_REDIS_REST_URL) {
+    let blocked = false; try { blocked = await log.isSuppressed(list[0]); } catch (e) { /* if the lookup fails, send */ }
+    if (blocked) { if (EXPLICIT.has(kind)) throw Object.assign(new Error('That address bounced or reported spam before, so it is blocked. Remove it under Mail, Blocked addresses, to try again.'), { code: 'SUPPRESSED' }); return { id: null, skipped: true }; }
+  }
+  const body = { from, to: list, subject, html, text };
   if (replyTo) body.reply_to = replyTo;
   if (headers) body.headers = headers;
   if (attachments) body.attachments = attachments;   // [{ filename, content: base64 }]
-  return resend('/emails', 'POST', body);
+  const j = await resend('/emails', 'POST', body);
+  if (log && process.env.UPSTASH_REDIS_REST_URL) { try { await log.record({ id: j.id, to: list, subject, kind, ref }); } catch (e) { console.error('maillog:', e.message); } }
+  return j;
 }
 
 /* ---------- input checks ---------- */

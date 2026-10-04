@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
   try { await store.subscriber(email, { status: 'pending', page: pg, source: src, ...(name ? { name } : {}) }); } catch (e) { console.error('subscribe: could not save', e.message); }
   try {
     const un = link('unsubscribe', email), m = T.subscribeConfirm(link('confirm', email, src ? '&s=' + src : ''), src, un, name);
-    await sendMail({ to: email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
+    await sendMail({ to: email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' }, kind: 'subscribe-confirm' });
   } catch (e) {
     if (e.code === 'NOCONFIG') return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
     console.error('subscribe: mail failed', e.message);

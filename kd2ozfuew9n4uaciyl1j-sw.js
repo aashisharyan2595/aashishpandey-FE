@@ -1,12 +1,12 @@
 /* Service worker for the admin app: installable shell, offline reading of the last inbox you saw, and push notifications.
    It only ever sees the admin page (its scope), and only caches a few read-only API answers. Signing out clears them. */
-var V = 'v2', SHELL = 'ap-admin-shell-' + V, DATA = 'ap-admin-data-' + V;
-var PATH = '/kd2ozfuew9n4uaciyl1j', API = '/api/kd2ozfuew9n4uaciyl1j';
+var V = 'v3', SHELL = 'ap-admin-shell-' + V, DATA = 'ap-admin-data-' + V;
+var PATH = '/kd2ozfuew9n4uaciyl1j', API = '/api/kd2ozfuew9n4uaciyl1j', ORIGIN = self.location.origin;
 var CACHEABLE = { me: 1, list: 1, links_list: 1, news_overview: 1, spam_get: 1, alerts_get: 1, tpl_get: 1, digest_get: 1 };
 var MAX_DATA = 24;
 
 self.addEventListener('install', function (e) {
-  e.waitUntil(caches.open(SHELL).then(function (c) { return c.addAll([PATH, PATH + '.webmanifest', '/assets/icon-192.png', '/assets/icon-512.png', '/assets/favicon.svg']); }).then(function () { return self.skipWaiting(); }));
+  e.waitUntil(caches.open(SHELL).then(function (c) { return c.addAll([PATH, PATH + '.webmanifest', '/assets/icon-192.png', '/assets/icon-512.png', '/assets/badge-96.png', '/assets/favicon.svg']); }).then(function () { return self.skipWaiting(); }));
 });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (ks) { return Promise.all(ks.filter(function (k) { return k.indexOf('ap-admin-') === 0 && k !== SHELL && k !== DATA; }).map(function (k) { return caches.delete(k); })); }).then(function () { return self.clients.claim(); }));
@@ -40,7 +40,7 @@ self.addEventListener('message', function (e) { if (e.data && e.data.type === 'c
 
 self.addEventListener('push', function (e) {
   var d = {}; try { d = e.data.json(); } catch (x) { d = { title: 'aashishpandey.com', body: e.data ? e.data.text() : '' }; }
-  e.waitUntil(self.registration.showNotification(d.title || 'aashishpandey.com', { body: d.body || '', icon: '/assets/icon-192.png', badge: '/assets/favicon-32.png', tag: d.tag || 'alert', renotify: true, data: { url: d.url || PATH } }));
+  e.waitUntil(self.registration.showNotification(d.title || 'aashishpandey.com', { body: d.body || '', icon: ORIGIN + '/assets/icon-192.png', badge: ORIGIN + '/assets/badge-96.png', tag: d.tag || 'alert', renotify: true, data: { url: d.url || PATH } }));
 });
 self.addEventListener('notificationclick', function (e) {
   e.notification.close(); var url = (e.notification.data && e.notification.data.url) || PATH;

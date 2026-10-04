@@ -47,7 +47,7 @@ async function sendDigest(rows) {
     footer: 'Sent each morning when there is something to do. Turn it off in Settings.',
   });
   const text = `Morning digest\n\nOverdue: ${d.overdue.length}\nDue soon: ${d.soon.length}\nFollow-ups due: ${d.follow.length}\nQuotes with no answer for a week: ${d.quoteWait.length}\n\n${d.overdue.concat(d.soon).slice(0, 8).map((r) => `- ${r.name || r.email} (${r.service || 'brief'}), waiting ${age(r.created)}`).join('\n')}\n\n${SITE}${ADMIN_PATH}`;
-  await sendMail({ to: env().admins, subject, html, text });
+  await sendMail({ to: env().admins, subject, html, text, kind: 'digest' });
   await notify.send(`${d.overdue.length} overdue · ${d.soon.length} due soon · ${d.follow.length} follow-ups${d.quoteWait.length ? ' · ' + d.quoteWait.length + ' quotes waiting' : ''}`, { title: 'Morning digest', tag: 'digest' });
   return { sent: true, overdue: d.overdue.length, soon: d.soon.length, follow: d.follow.length, quoteWait: d.quoteWait.length };
 }

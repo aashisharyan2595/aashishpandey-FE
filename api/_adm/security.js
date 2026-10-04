@@ -8,8 +8,9 @@ const { env, sendMail, clientIp } = require('../_mail');
 const epoch = async () => String((await redis('GET', 'admin:epoch')) || '0');
 const bumpEpoch = () => redis('INCR', 'admin:epoch');
 
-async function logLogin(req, ok, why, who) {
-  const e = { t: Date.now(), who: who || 'owner', ip: clientIp(req), ua: String((req.headers && req.headers['user-agent']) || '').slice(0, 120), ok, why: why || '' };
+async function logLogin(req, ok, why, who, info) {
+  info = info || {};
+  const e = { t: Date.now(), who: who || 'owner', ip: clientIp(req), ua: String((req.headers && req.headers['user-agent']) || '').slice(0, 120), ok, why: why || '', geo: info.geo, device: info.device, client: info.client, loc: info.loc, distanceKm: info.distanceKm, mismatch: info.mismatch, tzMismatch: info.tzMismatch, sid: info.sid };
   try { await redis('LPUSH', 'admin:log', JSON.stringify(e)); await redis('LTRIM', 'admin:log', 0, 199); } catch (err) { console.error('login log failed', err.message); }
 }
 async function history(n = 50) {
@@ -39,7 +40,7 @@ async function backup() {
       to: env().admins, subject: `Backup ${day}: ${rows.length} records`,
       text: `Nightly backup of the submissions database. ${rows.length} records attached as a spreadsheet and as JSON. Keep or delete this email as you like.`,
       html: `<p style="font-family:Arial,sans-serif;font-size:15px;">Nightly backup of the submissions database. ${rows.length} records attached as a spreadsheet and as JSON.</p>`,
-      attachments: [{ filename: `submissions-${day}.xlsx`, content: X.xlsx(rows).toString('base64') }, { filename: `submissions-${day}.json`, content: Buffer.from(JSON.stringify(rows, null, 2)).toString('base64') }],
+      kind: 'backup', attachments: [{ filename: `submissions-${day}.xlsx`, content: X.xlsx(rows).toString('base64') }, { filename: `submissions-${day}.json`, content: Buffer.from(JSON.stringify(rows, null, 2)).toString('base64') }],
     });
     await redis('SET', 'admin:backup', JSON.stringify({ at: Date.now(), count: rows.length, ok: true }));
     return { ok: true, count: rows.length };
@@ -50,4 +51,7 @@ async function backup() {
 }
 async function lastBackup() { const raw = await redis('GET', 'admin:backup'); return raw ? JSON.parse(raw) : null; }
 
-module.exports = { epoch, bumpEpoch, logLogin, history, totpState, saveTotp, verifySecondStep, backup, lastBackup };
+// should signing in need the browser's location? On unless switched off here or by ADMIN_REQUIRE_LOCATION=off in Vercel (the way back in if a device cannot share it)
+async function requireLocation() { if (String(process.env.ADMIN_REQUIRE_LOCATION || '').toLowerCase() === 'off') return false; return (await require('./cfg').get('security', { requireLocation: true })).requireLocation !== false; }
+
+module.exports = { requireLocation, epoch, bumpEpoch, logLogin, history, totpState, saveTotp, verifySecondStep, backup, lastBackup };

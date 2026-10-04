@@ -4,6 +4,7 @@ const T = require('../_templates');
 const store = require('../_store');
 const { redis } = require('../_lib');
 const { env, resend, esc, link, SITE } = require('../_mail');
+const maillog = require('./maillog');
 
 const CHUNK = 40;   // one Resend batch call per chunk, so a request stays well inside the function time limit
 const inline = (s) => esc(s)
@@ -45,13 +46,18 @@ async function sendChunk(id) {
   const c = await getCamp(id); if (!c) throw new Error('Campaign not found.');
   const batch = c.queue.slice(0, CHUNK);
   if (batch.length) {
+    const blocked = await maillog.suppressed();   // addresses that bounced or reported spam are skipped
+    c.skipped = c.skipped || 0;
     const names = new Map((await store.all()).filter((x) => x.type === 'subscriber' && x.name).map((x) => [x.email, String(x.name).split(/\s+/)[0]]));
-    const msgs = batch.map((email) => {
+    const sendTo = batch.filter((e) => !blocked[String(e).toLowerCase()]); c.skipped += batch.length - sendTo.length;
+    const msgs = sendTo.map((email) => {
       const un = link('unsubscribe', email), r = render(c, un, names.get(email));
       return { from: env().from, to: [email], subject: String(c.subject).replace(/\{first\}/g, names.get(email) || 'there'), html: r.html, text: r.text, reply_to: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } };
     });
-    try { await resend('/emails/batch', 'POST', msgs); c.sent += batch.length; }
-    catch (e) { batch.forEach((email) => c.failed.push({ email, err: String(e.message).slice(0, 120) })); }
+    try {
+      const j = msgs.length ? await resend('/emails/batch', 'POST', msgs) : { data: [] }; c.sent += sendTo.length;
+      for (let i = 0; i < msgs.length; i++) { const id = j && j.data && j.data[i] && j.data[i].id; if (id) await maillog.record({ id, to: msgs[i].to, subject: msgs[i].subject, kind: 'newsletter', ref: 'camp:' + c.id }).catch(() => {}); }
+    } catch (e) { sendTo.forEach((email) => c.failed.push({ email, err: String(e.message).slice(0, 120) })); }
     c.queue = c.queue.slice(CHUNK);
   }
   if (!c.queue.length) { c.status = 'sent'; c.sentAt = Date.now(); }
