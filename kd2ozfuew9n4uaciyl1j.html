@@ -219,7 +219,7 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
     <div class="scrim" id="profScrim"></div>
     <aside>
       <div class="ph"><div class="av" id="profAv">A</div><div class="pn"><b id="profName">Owner</b><span id="profRole"></span></div><button class="btn sm" id="profClose" aria-label="Close">Close</button></div>
-      <p class="sub" style="margin:4px 0 10px">Pick up to <b>4</b> sections for the bottom bar. The rest stay here.</p>
+      <p class="sub" style="margin:4px 0 10px">Pick up to <b>5</b> sections for the bottom bar. The rest stay here.</p>
       <div class="plist" id="plist"></div>
       <div class="pfoot"><button class="btn" id="profReset">Reset bar</button><button class="btn danger" id="out2">Sign out</button></div>
     </aside>
@@ -383,7 +383,7 @@ function applyRole(u){
 $('bnGo').onclick=function(){openTab('set')};
 
 /* ---------- phone bottom bar: the person chooses which sections sit on it ---------- */
-var ALLTABS=['sub','news','mail','spam','links','team','set'],LABELS={sub:'Inbox',news:'News',mail:'Mail',spam:'Spam',links:'Links',team:'Team',set:'Settings'},MAXPIN=4,DEFPIN=['sub','mail','news','set'],curTab='sub';
+var ALLTABS=['sub','news','mail','spam','links','team','set'],LABELS={sub:'Inbox',news:'News',mail:'Mail',spam:'Spam',links:'Links',team:'Team',set:'Settings'},MAXPIN=5,DEFPIN=['sub','mail','news','set'],curTab='sub';
 function pinKey(){return 'adm.pins.'+((me&&(me.id||me.email))||'owner')}
 function avail(){return ALLTABS.filter(function(t){return t==='sub'||t==='set'||isOwner()})}
 function getPins(){var p;try{p=JSON.parse(localStorage.getItem(pinKey())||'null')}catch(e){}
