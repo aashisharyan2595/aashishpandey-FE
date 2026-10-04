@@ -102,15 +102,10 @@ module.exports = async (req, res) => {
 
   try {
     /* ----- no session needed ----- */
-    if (a === 'policy') return out(200, { requireLocation: await sec.requireLocation() });
     if (a === 'login' && post) {
       if (await limited('adminlogin', clientIp(req), 8, 900)) return out(429, { error: 'Too many tries. Wait 15 minutes.' });
       const b = parseBody(req), info = device.collect(req, b.client);
       const label = b.email ? String(b.email).trim().toLowerCase() : 'owner', place = device.place(info.geo);
-      if (!info.loc && await sec.requireLocation()) {   // signing in needs the browser's location; without it nothing else is even checked
-        await sec.logLogin(req, false, 'location not shared', label, info); await audit.log(req, { id: '', name: label, role: '' }, 'login', { ok: false, why: 'location not shared' }, 403);
-        return out(403, { error: 'Location is required to sign in. Allow location for this site in your browser settings, then try again.', needLocation: true });
-      }
       const alertText = (who) => `${who} signed in from ${clientIp(req)}${place ? ' (' + place + ')' : ''} on ${info.device.browser} / ${info.device.os}.${info.mismatch ? ' The browser location is ' + info.distanceKm + ' km from where the IP address is.' : ''}`;
       if (b.email) {   // a team member
         const email = String(b.email).trim().toLowerCase();
@@ -188,7 +183,6 @@ module.exports = async (req, res) => {
     if (a === 'tpl_get') return out(200, { templates: await replies.templates(), defaults: replies.defaults() });
     if (a === 'push_key') return out(200, { key: await push.publicKey() });
     if (a === 'sessions_list') { const all = await sessions.list(), mine = user.role === 'owner' ? all : all.filter((x) => x.uid === user.id); return out(200, { sessions: mine.map((x) => ({ ...x, current: x.id === user.sid })), you: user.sid }); }
-    if (a === 'security_get') return out(200, { requireLocation: (await cfg.get('security', { requireLocation: false })).requireLocation === true, envOff: String(process.env.ADMIN_REQUIRE_LOCATION || '').toLowerCase() === 'off' });
     if (a === 'mail_list') {
       const rows = await maillog.all(), sup = await maillog.suppressed(), kind = String(q.kind || ''), st = String(q.status || ''), text = String(q.q || '').toLowerCase();
       const hit = rows.filter((r) => (!kind || kind === 'all' || r.kind === kind) && (!st || st === 'all' || (st === 'problems' ? ['bounced', 'complained', 'failed', 'delayed'].includes(r.status) : r.status === st)) && (!text || (r.to + ' ' + r.subject).toLowerCase().includes(text)));
@@ -334,7 +328,6 @@ module.exports = async (req, res) => {
       await sessions.revoke(rec.id); if (rec.id === user.sid) setCookie(res, '', 0); return out(200, { ok: true, self: rec.id === user.sid });
     }
     if (a === 'sessions_revoke_user') { await sessions.revokeUser(clean(b.uid, 20)); return out(200, { ok: true }); }
-    if (a === 'security_save') { await cfg.set('security', { requireLocation: b.requireLocation !== false }); return out(200, { ok: true }); }
     if (a === 'mail_unsuppress') { await maillog.unsuppress(clean(b.email, 254)); return out(200, { ok: true }); }
     if (a === 'mail_suppress') { await maillog.suppress(clean(b.email, 254), 'manual'); return out(200, { ok: true }); }
 

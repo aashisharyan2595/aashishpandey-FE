@@ -38,7 +38,7 @@ function cleanClient(c) {
   const lat = num(g.lat, -90, 90), lon = num(g.lon, -180, 180);
   return {
     client: { tz: String(c.tz || '').slice(0, 60), lang: String(c.lang || '').slice(0, 40), screen: /^\d{2,5}x\d{2,5}$/.test(c.screen || '') ? c.screen : '', platform: String(c.platform || '').slice(0, 40), standalone: !!c.standalone },
-    loc: lat !== null && lon !== null ? { lat, lon, acc: Math.round(num(g.acc, 0, 1e7) || 0) } : null,
+    loc: null,   // the browser's own location is not used
   };
 }
 // everything about one request, ready to store

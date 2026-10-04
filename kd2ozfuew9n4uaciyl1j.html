@@ -195,10 +195,10 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
 </head>
 <body>
 <section id="login" class="hide">
-  <form id="lf">
+  <form id="lf" novalidate>
     <h1>Admin <i>login</i></h1>
     <p class="sub">Submissions from aashishpandey.com. Everything is saved here before any email is sent.</p>
-    <input id="em" class="hide" type="email" placeholder="Your email" autocomplete="username" inputmode="email">
+    <input id="em" class="hide" type="email" placeholder="Your email" autocomplete="off" inputmode="email" disabled>
     <div class="pwwrap"><input id="pw" type="password" placeholder="Password" autocomplete="current-password" required autofocus style="padding-right:52px"><button type="button" class="eye" id="eye" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" class="e-on"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" class="e-off"><path d="M3 3l18 18"/><path d="M10.6 6.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.7C3.9 8.5 2 12 2 12s3.6 7 10 7c1.7 0 3.2-.4 4.5-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></div>
     <input id="code" class="hide" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code (or a recovery code)">
     <button class="btn pri" type="submit" style="width:100%">Sign in</button>
@@ -341,7 +341,7 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
         <label class="lbl" for="tSub">Subject</label><input id="tSub"><label class="lbl" for="tBody">Message</label><textarea id="tBody" rows="9"></textarea>
         <div class="row" style="margin-top:14px"><button class="btn pri" id="tSave">Save</button><button class="btn" id="tReset">Reset to default</button><span id="tMsg" class="sub"></span></div></div>
       <div class="card"><h2>Two-factor sign-in</h2><div id="tfa" class="sub" style="margin-top:8px">Loading…</div></div>
-      <div class="card own"><h2>Sign-in security</h2><p class="sub">Every sign-in records where it came from and on what. You can also require the browser to share its location before anyone can sign in.</p><div class="row" style="margin-top:12px"><label class="row" style="gap:10px;cursor:pointer"><input type="checkbox" id="locReq"> Require location to sign in</label></div><div id="locNote" class="sub" style="margin-top:8px"></div></div>
+      <div class="card own"><h2>Sign-in security</h2><p class="sub">Every sign-in records its IP address, the place that address belongs to, and the device and browser used. See it under Sign-in history and Signed in now.</p></div>
       <div class="card own"><h2>Backup and sessions</h2><div id="bk" class="sub" style="margin-top:8px">Loading…</div>
         <div class="row" style="margin-top:14px"><button class="btn" id="bkNow">Email me a backup</button><button class="btn danger" id="soAll">Sign out everywhere</button></div><div id="bkMsg" class="sub" style="margin-top:8px"></div></div>
     </div>
@@ -599,7 +599,6 @@ var lt;$('aUser').onchange=loadLog;$('aQ').oninput=function(){clearTimeout(lt);l
 function loadSettings(){
   renderDevice();loadSessions();
   if(isOwner()){
-    api('security_get').then(function(x){if(!x.ok)return;$('locReq').checked=x.j.requireLocation&&!x.j.envOff;$('locReq').disabled=!!x.j.envOff;$('locNote').innerHTML=x.j.envOff?'Switched off in Vercel (ADMIN_REQUIRE_LOCATION=off).':'Off by default: where a sign-in came from is worked out from its IP address. Turn this on to also refuse anyone whose browser will not share its exact location. If that ever locks you out, set <code>ADMIN_REQUIRE_LOCATION=off</code> in Vercel to get back in.'});
     api('alerts_get').then(function(x){if(!x.ok)return;var c=x.j.channels;$('aMin').value=x.j.cfg.min;$('chan').innerHTML=['push','telegram','slack','webhook'].map(function(k){return '<span class="pill '+(c[k]?'s-active':'')+'" style="margin-right:6px">'+(k==='push'?'phone push':k)+(c[k]?' on':' not set')+'</span>'}).join('')});
     api('digest_get').then(function(x){if(!x.ok)return;$('dgOn').checked=x.j.cfg.on!==false;$('dgNote').textContent=x.j.cronReady?'':'Scheduled sending needs CRON_SECRET in Vercel.'});
     api('tpl_get').then(function(x){if(!x.ok)return;tplData=x.j;$('tKey').innerHTML=Object.keys(x.j.templates).map(function(k){return '<option value="'+esc(k)+'">'+esc(x.j.templates[k].label)+'</option>'}).join('');fillTpl()});
@@ -616,7 +615,6 @@ $('tSave').onclick=function(){post('tpl_save',{key:$('tKey').value,subject:$('tS
 $('tReset').onclick=function(){post('tpl_save',{key:$('tKey').value,reset:true}).then(function(x){say('tMsg',x.ok?'Back to the default.':x.j.error,x.ok);loadSettings()})};
 $('aSave').onclick=function(){post('alerts_save',{min:$('aMin').value}).then(function(x){say('aMsg',x.ok?'Saved.':x.j.error,x.ok);if(x.ok)toast('Alert level saved')})};
 $('aTest').onclick=function(){post('alerts_test').then(function(x){say('aMsg',x.ok?'Sent to '+x.j.sent+' channel(s).'+(x.j.failed?' '+x.j.failed+' failed.':''):x.j.error,x.ok&&!x.j.failed)})};
-$('locReq').onchange=function(){var on=$('locReq').checked;if(!on&&!confirm('Let people sign in without sharing their location?')){$('locReq').checked=true;return}post('security_save',{requireLocation:on}).then(function(x){toast(x.ok?(on?'Location is required to sign in':'Location is no longer required'):x.j.error)})};
 $('dgOn').onchange=function(){post('digest_save',{on:$('dgOn').checked}).then(function(x){toast(x.ok?($('dgOn').checked?'Digest on':'Digest off'):x.j.error)})};
 $('dgNow').onclick=function(){var b=this;b.disabled=true;post('digest_now').then(function(x){b.disabled=false;say('dgMsg',x.ok?(x.j.sent?'Digest sent.':'Nothing to report right now.'):x.j.error,x.ok)})};
 $('pwSave').onclick=function(){post('pw_change',{current:$('pwCur').value,newPassword:$('pwNew').value}).then(function(x){say('pwMsg',x.ok?'Password changed.':x.j.error,x.ok);if(x.ok){$('pwCur').value='';$('pwNew').value='';me.mustChange=false;$('bnPw').classList.add('hide')}})};
@@ -663,8 +661,6 @@ function detailLines(x){
   var L=[],g=x.geo||{},c=x.client||{},d=x.device;
   L.push('IP address: <b>'+esc(x.ip||'')+'</b>');
   L.push('Where the network says: <b>'+esc(fmtGeo(g)||'unknown')+'</b>'+(g.lat!=null?' <span class="sub">(approximate)</span>':'')+(g.tz?' · '+esc(g.tz):''));
-  if(x.loc)L.push('Where the browser says: <b>'+x.loc.lat.toFixed(4)+', '+x.loc.lon.toFixed(4)+'</b> within '+x.loc.acc+' m · <a href="'+esc(mapUrl(x.loc))+'" target="_blank" rel="noopener">open map</a>'+(x.distanceKm!=null?(x.mismatch?' · <span class="err">'+x.distanceKm+' km from the IP location, does not match</span>':' · <span class="ok">matches the IP location ('+x.distanceKm+' km)</span>'):''));
-  else L.push('Browser location: <span class="err">not shared</span>');
   if(d)L.push('Device: '+esc(devText(d)));
   if(c.screen||c.platform)L.push('Screen '+esc(c.screen||'?')+(c.standalone?' · installed app':' · in the browser')+(c.platform?' · '+esc(c.platform):''));
   if(c.lang||c.tz)L.push('Language '+esc(c.lang||c.acceptLang||'?')+' · time zone '+esc(c.tz||'?')+(x.tzMismatch?' <span class="err">(the IP says '+esc(g.tz)+')</span>':''));
@@ -712,23 +708,15 @@ function loadDelivery(r){
 /* ---------- login, filters, export ---------- */
 $('eye').onclick=function(){var p=$('pw'),show=p.type==='password';p.type=show?'text':'password';this.setAttribute('aria-pressed',show?'true':'false');this.setAttribute('aria-label',show?'Hide password':'Show password');p.focus()};
 $('eye').onclick=function(){var p=$('pw'),show=p.type==='password';p.type=show?'text':'password';this.setAttribute('aria-pressed',show?'true':'false');this.setAttribute('aria-label',show?'Hide password':'Show password');p.focus()};
-$('teamLink').onclick=function(){var on=$('em').classList.toggle('hide');$('teamLink').textContent=on?'Team member? Sign in with your email':'I am the owner (password only)';if(!on)$('em').focus()};
-function clientInfo(geo){return{tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||''),lang:navigator.language||'',screen:screen.width+'x'+screen.height,platform:navigator.platform||'',standalone:!!standalone,geo:geo}}
-// the browser's location. When the rule is on, no location means no sign-in.
-function locate(required,cb){
-  if(!navigator.geolocation){cb(required?'This browser cannot share its location, so it cannot be used to sign in.':null,clientInfo(null));return}
-  navigator.geolocation.getCurrentPosition(function(p){cb(null,clientInfo({lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy}))},function(e){
-    var m=e.code===1?'Location is blocked for this site. Allow Location for it in your browser or phone settings, then press Sign in again.':e.code===3?'Finding your location took too long. Check that location is switched on, then try again.':'Your location could not be found. Switch location on and try again.';
-    cb(required?m:null,clientInfo(null))},{enableHighAccuracy:false,timeout:15000,maximumAge:60000})}
+$('teamLink').onclick=function(){var on=$('em').classList.toggle('hide');$('em').disabled=on;$('teamLink').textContent=on?'Team member? Sign in with your email':'I am the owner (password only)';if(!on)$('em').focus()};
+function clientInfo(){return{tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||''),lang:navigator.language||'',screen:screen.width+'x'+screen.height,platform:navigator.platform||'',standalone:!!standalone}}
 $('lf').onsubmit=function(e){e.preventDefault();var lerr=$('lerr');lerr.className='sub';lerr.textContent='Signing in…';var btn=$('lf').querySelector('button[type=submit]');btn.disabled=true;
    var body={password:$('pw').value,code:$('code').value};if(!$('em').classList.contains('hide'))body.email=$('em').value;
    function go(client){body.client=client;post('login',body).then(function(x){btn.disabled=false;
      if(x.ok){$('pw').value='';$('code').value='';$('code').classList.add('hide');lerr.textContent='';start(true)}
      else{if(x.j.need2fa){$('code').classList.remove('hide');$('code').focus()}lerr.className='err';lerr.textContent=x.j.error||('Could not sign in (server answered '+x.status+').')}})}
-   // The place is worked out from the IP address on the server. The browser's own location is only asked for when the strict option in Settings is switched on.
-   api('policy').then(function(p){
-     if(p.ok&&p.j.requireLocation===true){lerr.textContent='Checking your location…';locate(true,function(err,c){if(err){btn.disabled=false;lerr.className='err';lerr.textContent=err;return}go(c)})}
-     else go(clientInfo(null))})};
+   // The place is worked out from the IP address on the server; the browser is never asked for its location.
+   go(clientInfo())};
 $('out').onclick=function(){post('logout').then(function(){show(false)})};
 $('more').onclick=function(){load(true)};
 $('exp').onclick=function(e){e.stopPropagation();$('expPop').classList.toggle('hide')};
