@@ -723,8 +723,8 @@ function locate(required,cb){
 $('lf').onsubmit=function(e){e.preventDefault();var lerr=$('lerr');lerr.className='sub';lerr.textContent='Signing in…';var btn=$('lf').querySelector('button[type=submit]');btn.disabled=true;
    var body={password:$('pw').value,code:$('code').value};if(!$('em').classList.contains('hide'))body.email=$('em').value;
    function go(client){body.client=client;post('login',body).then(function(x){btn.disabled=false;
-     if(x.ok){$('pw').value='';$('code').value='';$('code').classList.add('hide');lerr.textContent='';start()}
-     else{if(x.j.need2fa){$('code').classList.remove('hide');$('code').focus()}lerr.className='err';lerr.textContent=x.j.error||'Could not sign in.'}})}
+     if(x.ok){$('pw').value='';$('code').value='';$('code').classList.add('hide');lerr.textContent='';start(true)}
+     else{if(x.j.need2fa){$('code').classList.remove('hide');$('code').focus()}lerr.className='err';lerr.textContent=x.j.error||('Could not sign in (server answered '+x.status+').')}})}
    // The place is worked out from the IP address on the server. The browser's own location is only asked for when the strict option in Settings is switched on.
    api('policy').then(function(p){
      if(p.ok&&p.j.requireLocation===true){lerr.textContent='Checking your location…';locate(true,function(err,c){if(err){btn.disabled=false;lerr.className='err';lerr.textContent=err;return}go(c)})}
@@ -737,7 +737,7 @@ $('expPop').onclick=function(e){var f=e.target.getAttribute&&e.target.getAttribu
 var t;['q','type','status','stage','from','to'].forEach(function(id){$(id).addEventListener(id==='q'?'input':'change',function(){clearTimeout(t);t=setTimeout(function(){sel={};load()},id==='q'?250:0)})});
 $('drawer').onclick=function(e){if(e.target===$('drawer'))close()};
 document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
-function start(){api('me').then(function(x){if(!x.ok){show(false);if(x.status===503||x.status===0)$('lerr').textContent=x.j.error;return}applyRole(x.j.user);show(true);loaded={};openTab('sub')})}
+function start(fresh){api('me').then(function(x){if(!x.ok){show(false);var le=$('lerr');if(x.status===503||x.status===0){le.className='err';le.textContent=x.j.error||'Cannot reach the server.'}else if(fresh){le.className='err';le.textContent='The password was right, but this browser did not keep the sign-in (server answered '+x.status+'). Check that cookies are allowed for this site, then try again.'}return}applyRole(x.j.user);show(true);loaded={};openTab('sub')})}
 start();
 })();
 </script>
