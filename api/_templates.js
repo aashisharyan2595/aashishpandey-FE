@@ -123,38 +123,39 @@ function read(d) {
 }
 const PRIORITY_COLOR = { High: '#b4421c', Medium: '#9a5418', Standard: '#5c566a' };
 
-/* ---------- building blocks ---------- */
-function layout({ preheader, title, body, footer, tag }) {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>${esc(title)}</title></head>
-<body style="margin:0;padding:0;background:#f3eee4;font-family:Arial,Helvetica,sans-serif;color:${INK};">
-<span style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${esc(preheader)}</span>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3eee4;"><tr><td align="center" style="padding:28px 14px;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid ${LINE};">
-<tr><td style="background:${NAVY};padding:22px 28px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td><span style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:#f4efe6;">Aashish Pandey</span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${AMBER};margin-left:8px;"></span><br><span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#aaa4b8;">Project manager and creative technologist</span></td>${tag ? `<td align="right" style="vertical-align:top;">${tag}</td>` : ''}</tr></table></td></tr>
-<tr><td style="padding:30px 28px 8px;font-size:16px;line-height:1.6;color:${INK};">${body}</td></tr>
-<tr><td style="padding:18px 28px 28px;border-top:1px solid ${LINE};font-size:12.5px;line-height:1.6;color:${MUTED};">${footer}</td></tr>
-</table>
-<p style="margin:14px 0 0;font-size:12px;color:#8a8398;">Aashish Pandey · Bangalore, India · <a href="${SITE}" style="color:#8a8398;">aashishpandey.com</a></p>
-</td></tr></table></body></html>`;
-}
-const p = (t) => `<p style="margin:0 0 16px;">${t}</p>`;
-const h = (t) => `<p style="margin:22px 0 8px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:${MUTED};">${esc(t)}</p>`;
-const button = (href, label, ghost) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 10px 14px 0;display:inline-table;"><tr><td style="${ghost ? `border:1.5px solid ${INK};` : `background:${AMBER};`}border-radius:999px;"><a href="${esc(href)}" style="display:inline-block;padding:${ghost ? '11px 22px' : '13px 24px'};font-size:15px;font-weight:700;color:${INK};text-decoration:none;">${esc(label)}</a></td></tr></table>`;
-const row = (k, v, raw) => v ? `<tr><td style="padding:9px 14px 9px 0;font-size:13px;color:${MUTED};vertical-align:top;white-space:nowrap;border-bottom:1px solid ${LINE};">${esc(k)}</td><td style="padding:9px 0;font-size:15px;color:${INK};border-bottom:1px solid ${LINE};">${raw ? v : esc(v)}</td></tr>` : '';
-const quote = (t) => `<div style="margin:6px 0 22px;padding:14px 16px;background:${PAPER};border-left:3px solid ${AMBER};border-radius:6px;font-size:15px;line-height:1.65;">${nl2br(t)}</div>`;
-const list = (items, ordered) => { const tag = ordered ? 'ol' : 'ul'; return `<${tag} style="margin:0 0 18px;padding-left:20px;line-height:1.7;">${items.map((i) => `<li style="margin:0 0 4px;">${esc(i)}</li>`).join('')}</${tag}>`; };
-const links = (pairs) => `<ul style="margin:0 0 18px;padding-left:20px;line-height:1.7;">${pairs.map(([l, u]) => `<li style="margin:0 0 4px;"><a href="${SITE}${u}" style="color:#9a5418;font-weight:600;">${esc(l)}</a></li>`).join('')}</ul>`;
-const pill = (text, color) => `<span style="display:inline-block;padding:4px 10px;border-radius:999px;background:${color};color:#ffffff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">${esc(text)}</span>`;
+/* ---------- building blocks: one look for every email (the site's dark navy, a cream card, amber accents) ----------
+   Kept light on purpose: text-led, one button, no images, few links. Heavier designs get filed under Promotions and spam. */
+const FONT = "Arial,Helvetica,sans-serif", SERIF = "Georgia,'Times New Roman',serif", MONO = "'Courier New',Courier,monospace";
+const CREAM = '#f4efe6', DARK = '#070916', AMBER_D = '#9a5418', FOOTLINK = '#aaa4b8';
+const accent = (t) => `<span style="font-family:${SERIF};font-style:italic;font-weight:400;letter-spacing:-.01em;color:${AMBER_D};">${esc(t)}</span>`;
 
-/* ---------- light layout: emails to visitors ----------
-   Gmail files heavy HTML (banners, buttons, many links, hidden preheaders) under Promotions and Outlook scores it as spam.
-   Mail that people receive from me reads like a note from a person: plain paragraphs, one or two links, no images. */
-const lp = (t) => `<p style="margin:0 0 14px;">${t}</p>`;
-const lh = (t) => `<p style="margin:18px 0 6px;"><b>${esc(t)}</b></p>`;
-const lul = (items, ordered) => { const tag = ordered ? 'ol' : 'ul'; return `<${tag} style="margin:0 0 14px;padding-left:22px;">${items.map((i) => `<li style="margin:0 0 3px;">${i}</li>`).join('')}</${tag}>`; };
-const lightLayout = ({ title, body, footer }) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title></head>
-<body style="margin:0;padding:16px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#222222;background:#ffffff;"><div style="max-width:560px;">${body}<p style="margin:22px 0 0;font-size:12.5px;line-height:1.6;color:#6b6b6b;">${footer}</p></div></body></html>`;
-const alink = (href, label) => `<a href="${esc(href)}">${esc(label)}</a>`;
+function shell({ preheader, title, eyebrow, headline, body, footer, tag }) {
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark"><title>${esc(title)}</title></head>
+<body bgcolor="${DARK}" style="margin:0;padding:0;background:${DARK};font-family:${FONT};color:${INK};">
+${preheader ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${esc(preheader)}</div>` : ''}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="${DARK}" style="background:${DARK};"><tr><td align="center" style="padding:28px 14px 36px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;">
+<tr><td style="padding:0 6px 16px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="font-size:16px;font-weight:700;letter-spacing:-.01em;color:${CREAM};">Aashish Pandey<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${AMBER};margin-left:7px;"></span></td>${tag ? `<td align="right">${tag}</td>` : ''}</tr></table></td></tr>
+<tr><td bgcolor="${CREAM}" style="background:${CREAM};border-radius:22px;padding:34px 32px 30px;font-size:16px;line-height:1.6;color:${INK};">
+${eyebrow ? `<p style="margin:0 0 12px;font-family:${MONO};font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${AMBER_D};">${esc(eyebrow)}</p>` : ''}
+${headline ? `<h1 style="margin:0 0 18px;font-size:30px;line-height:1.12;letter-spacing:-.03em;font-weight:700;color:${INK};">${headline}</h1>` : ''}
+${body}</td></tr>
+<tr><td style="padding:18px 8px 0;font-size:12px;line-height:1.7;color:#8e89a0;">${footer}</td></tr>
+</table></td></tr></table></body></html>`;
+}
+const layout = shell;   // the admin emails use the same shell
+const flink = (href, label) => `<a href="${esc(href)}" style="color:${FOOTLINK};text-decoration:underline;">${esc(label)}</a>`;
+const alink = (href, label) => `<a href="${esc(href)}" style="color:${AMBER_D};font-weight:600;">${esc(label)}</a>`;
+const p = (t) => `<p style="margin:0 0 16px;">${t}</p>`;
+const h = (t) => `<p style="margin:22px 0 8px;font-family:${MONO};font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:${MUTED};">${esc(t)}</p>`;
+const button = (href, label, ghost) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 10px 14px 0;display:inline-table;"><tr><td bgcolor="${ghost ? CREAM : AMBER}" style="${ghost ? `border:1.5px solid ${INK};` : `background:${AMBER};`}border-radius:999px;"><a href="${esc(href)}" style="display:inline-block;padding:${ghost ? '11px 22px' : '14px 26px'};font-size:15px;font-weight:700;color:${INK};text-decoration:none;">${esc(label)}</a></td></tr></table>`;
+const row = (k, v, raw) => v ? `<tr><td style="padding:9px 14px 9px 0;font-size:13px;color:${MUTED};vertical-align:top;white-space:nowrap;border-bottom:1px solid #e2dacb;">${esc(k)}</td><td style="padding:9px 0;font-size:15px;color:${INK};border-bottom:1px solid #e2dacb;">${raw ? v : esc(v)}</td></tr>` : '';
+const quote = (t) => `<div style="margin:6px 0 20px;padding:14px 16px;background:#faf6ec;border-left:3px solid ${AMBER};border-radius:6px;font-size:15px;line-height:1.65;color:${INK};">${nl2br(t)}</div>`;
+const list = (items, ordered) => { const tag = ordered ? 'ol' : 'ul'; return `<${tag} style="margin:0 0 18px;padding-left:20px;line-height:1.7;">${items.map((i) => `<li style="margin:0 0 4px;">${esc(i)}</li>`).join('')}</${tag}>`; };
+const pill = (text, color) => `<span style="display:inline-block;padding:4px 10px;border-radius:999px;background:${color};color:#ffffff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">${esc(text)}</span>`;
+const chip = (t) => t ? `<span style="display:inline-block;margin:0 6px 6px 0;padding:5px 12px;border:1px solid #d9d0bd;border-radius:999px;background:#faf6ec;font-size:13px;color:#3a3446;">${esc(t)}</span>` : '';
+const card = (href, title) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 10px;border:1px solid #d9d0bd;border-radius:14px;background:#faf6ec;"><tr><td style="padding:13px 16px;font-size:15px;"><a href="${esc(href)}" style="color:${INK};font-weight:600;text-decoration:none;">${esc(title)}</a></td><td align="right" style="padding:13px 16px;width:24px;font-size:16px;color:${AMBER_D};">&rarr;</td></tr></table>`;
+const small = (t) => `<p style="margin:0 0 16px;font-size:13.5px;line-height:1.6;color:${MUTED};">${t}</p>`;
 
 /* ---------- 1. admin: a new brief arrived ---------- */
 function adminBrief(d) {
@@ -169,6 +170,7 @@ function adminBrief(d) {
   const why = [r.rank >= 3 ? 'budget is ' + d.budget : '', r.urgent ? 'they want it as soon as possible' : '', d.company ? 'it came with a company name' : ''].filter(Boolean).join(', ');
   const html = layout({
     tag: pill(r.priority + ' priority', PRIORITY_COLOR[r.priority]),
+    eyebrow: 'New brief', headline: `${esc(r.first)} wants ${accent(r.t.short + '.')}`,
     preheader: `${d.name}${d.company ? ' from ' + d.company : ''} wants ${r.t.label}${d.budget ? ', ' + d.budget : ''}.`, title: subject,
     body: p(`<strong>${esc(d.name)}</strong>${d.company ? ' from <strong>' + esc(d.company) + '</strong>' : ''} sent a brief from <strong>${esc(r.src.label)}</strong>. Reply to this email and it goes straight to ${esc(r.first)}.`)
       + `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">${row('Name', d.name)}${row('Email', `<a href="mailto:${esc(d.email)}" style="color:#9a5418;">${esc(d.email)}</a>`, true)}${row('Company', d.company)}${r.siteUrl ? row('Website', `<a href="${esc(r.siteUrl)}" style="color:#9a5418;">${esc(r.host)}</a>`, true) : row('Website', d.website_url)}${row('Looking for', r.t.label)}${row('Budget', d.budget)}${row('Timeline', d.timeline)}${row('Came from', r.src.label)}</table>`
@@ -195,15 +197,18 @@ function userBriefConfirmation(d, unsubUrl) {
   const quoted = String(d.message).replace(/\s+/g, ' ').trim();
   const snippet = quoted.length > 160 ? quoted.slice(0, 157) + '...' : quoted;
   const open = r.src.key === 'ride' ? 'Thanks for riding all the way to the campfire.' : `Thanks for your ${r.t.short} brief.`;
-  const html = lightLayout({
-    title: subject,
-    body: lp(`Hi ${esc(r.first)},`)
-      + lp(`${esc(open)} It reached me and I read every one myself. ${esc(note)}`.trim())
-      + lp(`I will reply within 48 hours with questions, or with a scope and a quote. If you can, reply with ${esc(want)}.`)
-      + lp(`Closest work to yours: ${alink(SITE + best[1], best[0])}. Prefer to talk? ${alink(BOOK, 'Book 20 minutes')} or just reply.`)
-      + `<p style="margin:0 0 14px;color:#6b6b6b;">You wrote: &ldquo;${esc(snippet)}&rdquo;</p>`
-      + lp('Aashish'),
-    footer: `Sent because you used the form on ${esc(r.src.label)}. No mailing list. ${unsubUrl ? alink(unsubUrl, 'Unsubscribe') + ' · ' : ''}${alink(SITE + '/privacy', 'Privacy')}`,
+  const html = shell({
+    title: subject, preheader: `Thanks ${r.first}. I will reply within 48 hours.`,
+    eyebrow: 'Brief received',
+    headline: `${r.urgent ? 'Got it' : 'Got your brief'}, ${accent(r.first + '.')}`,
+    body: p(`${esc(open)} It reached me and I read every one myself. ${esc(note)}`.trim())
+      + `<p style="margin:0 0 14px;">${chip(r.t.label)}${chip(d.budget && d.budget !== 'Not sure yet' ? d.budget : '')}${chip(d.timeline)}</p>`
+      + p(`I will reply <strong>within 48 hours</strong> with questions, or with a scope and a quote. If you can, reply with ${esc(want)}.`)
+      + h('Closest work to yours') + card(SITE + best[1], best[0])
+      + `<p style="margin:18px 0 0;">${button(BOOK, 'Book 20 minutes')}<span style="font-size:14px;color:${MUTED};">or just reply to this email</span></p>`
+      + h('You wrote') + quote(snippet)
+      + p('Aashish'),
+    footer: `Sent because you used the form on ${esc(r.src.label)}. No mailing list.<br>${unsubUrl ? flink(unsubUrl, 'Unsubscribe') + ' &middot; ' : ''}${flink(SITE + '/privacy', 'Privacy')}`,
   });
   const text = `Hi ${r.first},\n\n${open} It reached me and I read every one myself.${note ? ' ' + note : ''}\n\nI will reply within 48 hours with questions, or with a scope and a quote. If you can, reply with ${want}.\n\nClosest work to yours: ${best[0]}: ${SITE}${best[1]}\nPrefer to talk? Book 20 minutes: ${BOOK}\n\nYou wrote: "${snippet}"\n\nAashish\n\nSent because you used the form on ${r.src.label}. No mailing list.${unsubUrl ? '\nUnsubscribe: ' + unsubUrl : ''}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };
@@ -213,13 +218,15 @@ function userBriefConfirmation(d, unsubUrl) {
 function subscribeConfirm(url, src, unsubUrl) {
   const where = { tools: 'the Tools page', portfolio: 'the portfolio page' }[src] || 'aashishpandey.com';
   const subject = 'Please confirm your subscription';
-  const html = lightLayout({
-    title: subject,
-    body: lp('Hi,') + lp(`Please confirm you want emails from aashishpandey.com: ${alink(url, 'confirm my subscription')}.`)
-      + lp('The link works for 48 hours. If it was not you, ignore this email and nothing happens.') + lp('Aashish'),
-    footer: `You get this because this address was typed into the subscribe form on ${esc(where)}. ${unsubUrl ? alink(unsubUrl, 'Unsubscribe') + ' · ' : ''}${alink(SITE + '/privacy', 'Privacy policy')}`,
+  const html = shell({
+    title: subject, preheader: 'One click and you are subscribed.',
+    eyebrow: 'One click', headline: `Confirm your ${accent('subscription.')}`,
+    body: p('Please confirm you want emails from aashishpandey.com. Nothing is saved until you do.')
+      + `<p style="margin:0;">${button(url, 'Yes, subscribe me')}</p>`
+      + small('The link works for 48 hours. If it was not you, ignore this email and nothing happens.'),
+    footer: `You get this because this address was typed into the subscribe form on ${esc(where)}.<br>${unsubUrl ? flink(unsubUrl, 'Unsubscribe') + ' &middot; ' : ''}${flink(SITE + '/privacy', 'Privacy')}`,
   });
-  const text = `Hi,\n\nSomeone, hopefully you, asked to get emails from aashishpandey.com. Open this link to say yes:\n${url}\n\nThe link works for 48 hours. If it was not you, ignore this email. Nothing happens.\n\n${unsubUrl ? 'Unsubscribe: ' + unsubUrl + '\n' : ''}Privacy: ${SITE}/privacy`;
+  const text = `Hi,\n\nPlease confirm you want emails from aashishpandey.com:\n${url}\n\nThe link works for 48 hours. If it was not you, ignore this email. Nothing happens.\n\n${unsubUrl ? 'Unsubscribe: ' + unsubUrl + '\n' : ''}Privacy: ${SITE}/privacy`;
   return { subject, html, text };
 }
 
@@ -232,12 +239,13 @@ const WELCOME = {
 function subscribeWelcome(unsubUrl, src) {
   const w = WELCOME[src] || WELCOME._;
   const subject = 'You are subscribed';
-  const html = lightLayout({
-    title: subject,
-    body: lp('Hi,') + lp('You are on the list. I only write when I have published something worth reading, never to fill space.')
-      + lp(esc(w.hello)) + lul(w.pairs.slice(0, 3).map(([l, u]) => alink(SITE + u, l)))
-      + lp('Reply any time. It comes to me.') + lp('Aashish'),
-    footer: `${alink(unsubUrl, 'Unsubscribe')} · ${alink(SITE + '/privacy', 'Privacy')}`,
+  const html = shell({
+    title: subject, preheader: 'Thanks for subscribing.',
+    eyebrow: 'You are in', headline: `Welcome ${accent('aboard.')}`,
+    body: p('I only write when I have published something worth reading, never to fill space.')
+      + h(w.hello.replace(/:$/, '')) + w.pairs.slice(0, 3).map(([l, u]) => card(SITE + u, l)).join('')
+      + `<p style="margin:16px 0 16px;">Reply any time. It comes to me.</p>` + p('Aashish'),
+    footer: `${flink(unsubUrl, 'Unsubscribe')} &middot; ${flink(SITE + '/privacy', 'Privacy')}`,
   });
   const text = `Hi,\n\nYou are on the list. I only write when I have published something worth reading, never to fill space.\n\n${w.hello}\n${w.pairs.slice(0, 3).map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nReply any time. It comes to me.\n\nAashish\n\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };
@@ -248,6 +256,7 @@ function adminSubscriber(email, kind = 'subscribed', src) {
   const subject = kind === 'subscribed' ? `New subscriber: ${email}` : `Unsubscribed: ${email}`;
   const html = layout({
     preheader: subject, title: subject,
+    eyebrow: 'Newsletter', headline: kind === 'subscribed' ? `New ${accent('subscriber.')}` : `Someone ${accent('unsubscribed.')}`,
     body: p(kind === 'subscribed' ? `<strong>${esc(email)}</strong> confirmed their subscription${src && src !== '_' ? ' (signed up from the <strong>' + esc(src) + '</strong> page)' : ''} and is now in your Resend audience.` : `<strong>${esc(email)}</strong> unsubscribed. They are marked as unsubscribed in your Resend audience.`),
     footer: 'This is an automatic note from the site.',
   });
