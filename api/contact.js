@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
   // save first: the admin page keeps every brief even if the emails below fail
   let rec = null;
   try { rec = await store.add({ type: 'brief', status: 'new', ...d, ...(sp.score ? { spamScore: sp.score, flags: sp.flags } : {}), mail: {} }); } catch (e) { console.error('contact: could not save', e.message); }
-  try { await store.autoSubscribe(d.email, (d.name.split(/\s+/)[0] || '').slice(0, 60), 'brief'); } catch (e) { console.error('contact: could not add to the list', e.message); }
+  if (b.news === true) try { await store.autoSubscribe(d.email, (d.name.split(/\s+/)[0] || '').slice(0, 60), 'brief'); } catch (e) { console.error('contact: could not add to the list', e.message); }
   const mark = (mail) => (rec ? store.update(rec.id, { mail }).catch((e) => console.error('contact: status not saved', e.message)) : null);
   try {   // push alert (Telegram, Slack or a webhook) for briefs at or above the priority you chose in the admin
     const pri = T.priorityOf(d), al = store.enabled() ? await cfg.get('alerts', { min: 'high' }) : { min: 'high' };

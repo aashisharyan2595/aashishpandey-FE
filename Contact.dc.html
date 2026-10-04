@@ -55,7 +55,8 @@
 <label>When do you need it? <small>optional</small><select name="timeline"><option value="">Choose one</option><option>As soon as possible</option><option>Within a month</option><option>In 1 to 3 months</option><option>No fixed date</option></select></label>
 <label class="full">About the project<textarea name="message" required minlength="10" maxlength="4000" placeholder="What is it, who is it for, and what is stuck or broken today? A few lines is enough."></textarea></label>
 <label class="hp" aria-hidden="true">Leave this empty<input name="hp" tabindex="-1" autocomplete="off"></label>
-<label class="chk full"><input type="checkbox" name="consent" required><span>I agree that Aashish may use these details to reply to me, as described in the <a href="/privacy">privacy policy</a>. I will also add you to my occasional newsletter; every email has an unsubscribe link.</span></label>
+<label class="chk full"><input type="checkbox" name="consent" required><span>I agree that Aashish may use these details to reply to me, as described in the <a href="/privacy">privacy policy</a>.</span></label>
+<label class="chk full"><input type="checkbox" name="news" checked><span>Also send me Aashish's occasional newsletter. Every email has an unsubscribe link, and you can untick this.</span></label>
 <div class="full" style="display:flex;flex-direction:column;gap:12px;"><button type="submit">Send the brief</button><p id="cfmsg" role="status" aria-live="polite"></p></div>
 </form>
 <p style="margin:0;font-size:15px;line-height:1.65;color:#aaa4b8;">Prefer email? Write to <a href="mailto:hello@aashishpandey.com">hello@aashishpandey.com</a>. Or <a href="https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener">book a 20-minute call</a>.</p>
@@ -65,7 +66,7 @@
 var qs=new URLSearchParams(location.search),sv=qs.get('service'),from=(qs.get('from')||'').replace(/[^a-z0-9-]/gi,'').slice(0,40);
 if(sv){for(var i=0;i<f.service.options.length;i++){if(f.service.options[i].text===sv){f.service.selectedIndex=i;break}}}
 f.addEventListener('submit',function(e){e.preventDefault();msg.className='';msg.textContent='';
-var d=Object.fromEntries(new FormData(f).entries());d.consent=f.consent.checked;d.ts=t0;d.page=location.pathname;if(from)d.source=from;try{var rf=new URL(document.referrer);d.ref=rf.origin===location.origin?rf.pathname:rf.hostname}catch(e){}
+var d=Object.fromEntries(new FormData(f).entries());d.consent=f.consent.checked;d.news=f.news.checked;d.ts=t0;d.page=location.pathname;if(from)d.source=from;try{var rf=new URL(document.referrer);d.ref=rf.origin===location.origin?rf.pathname:rf.hostname}catch(e){}
 if(!d.name||d.name.trim().length<2){return fail('Please add your name.',f.name)}
 if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email||'')){return fail('That email address does not look right.',f.email)}
 if(!d.message||d.message.trim().length<10){return fail('Please write a few words about the project.',f.message)}

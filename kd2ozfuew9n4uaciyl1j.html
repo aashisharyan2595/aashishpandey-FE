@@ -346,7 +346,7 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
         <div class="row" style="margin-top:14px"><button class="btn" id="bkNow">Email me a backup</button><button class="btn danger" id="soAll">Sign out everywhere</button></div><div id="bkMsg" class="sub" style="margin-top:8px"></div></div>
     </div>
     <div class="card"><h2>Signed in now</h2><p class="sub">Every device that is signed in. End one and it is signed out at once.</p><div class="list" id="sessList" style="margin-top:10px"></div></div>
-    <div class="card own"><h2>Sign-in history</h2><p class="sub">Every attempt, successful or not, with where it came from. Tap one to open it.</p><div class="list" id="hist" style="margin-top:10px"></div></div>
+    <div class="card own"><h2>Sign-in history</h2><p class="sub">Every attempt, successful or not, with where it came from. Tap one to open it.</p><div id="onNow" style="margin-top:12px"></div><div class="list" id="hist" style="margin-top:10px"></div></div>
   </section>
   </main>
 </div>
@@ -582,8 +582,8 @@ $('lq').oninput=drawLinks;$('lst').onchange=drawLinks;
 var teamUsers=[];
 function loadTeam(){
   api('users_list').then(function(x){if(!x.ok)return;teamUsers=x.j.users;
-    $('uList').innerHTML=teamUsers.length?teamUsers.map(function(u){return '<div class="item plain" style="cursor:default"><div><div class="nm">'+esc(u.name)+'</div><small>'+esc(u.email)+' · '+(u.lastLogin?'last sign-in '+esc(ago(u.lastLogin)):'never signed in')+'</small><div class="row" style="margin-top:8px"><select data-ur="'+esc(u.id)+'" style="width:auto;min-height:38px"><option value="assistant"'+(u.role==='assistant'?' selected':'')+'>Assistant</option><option value="viewer"'+(u.role==='viewer'?' selected':'')+'>Viewer</option></select><button class="btn sm" data-ua="'+esc(u.id)+'" data-v="'+(u.active?'0':'1')+'">'+(u.active?'Deactivate':'Activate')+'</button><button class="btn sm" data-up="'+esc(u.id)+'">Reset password</button><button class="btn sm danger" data-ud="'+esc(u.id)+'">Remove</button></div></div><span class="pill '+(u.active?'s-active':'s-off')+'">'+(u.active?'active':'off')+'</span></div>'}).join(''):'<p class="sub">Just you for now.</p>'});
-  loadLog();
+    $('uList').innerHTML=teamUsers.length?teamUsers.map(function(u){return '<div class="item plain" style="cursor:default"><div><div class="nm">'+esc(u.name)+' <span data-tonline="'+esc(u.id)+'"></span></div><small>'+esc(u.email)+' · '+(u.lastLogin?'last sign-in '+esc(ago(u.lastLogin)):'never signed in')+'</small><div class="row" style="margin-top:8px"><select data-ur="'+esc(u.id)+'" style="width:auto;min-height:38px"><option value="assistant"'+(u.role==='assistant'?' selected':'')+'>Assistant</option><option value="viewer"'+(u.role==='viewer'?' selected':'')+'>Viewer</option></select><button class="btn sm" data-ua="'+esc(u.id)+'" data-v="'+(u.active?'0':'1')+'">'+(u.active?'Deactivate':'Activate')+'</button><button class="btn sm" data-up="'+esc(u.id)+'">Reset password</button><button class="btn sm danger" data-ud="'+esc(u.id)+'">Remove</button></div></div><span class="pill '+(u.active?'s-active':'s-off')+'">'+(u.active?'active':'off')+'</span></div>'}).join(''):'<p class="sub">Just you for now.</p>'});
+  loadLog();loadSessions();
 }
 $('uList').onchange=function(e){var id=e.target.dataset&&e.target.dataset.ur;if(id)post('users_update',{id:id,role:e.target.value}).then(function(x){toast(x.ok?'Role changed':x.j.error);loadLog()})};
 $('uList').onclick=function(e){var d=e.target.dataset||{};
@@ -608,7 +608,7 @@ function loadSettings(){
     $('tfa').innerHTML=t.enabled?'<p class="ok">Two-factor sign-in is on. '+t.recoveryLeft+' recovery codes left.</p><div class="row"><input id="offCode" placeholder="Current code" inputmode="numeric" style="width:170px"><button class="btn danger sm" id="tOff">Turn off</button></div><div id="tMsg2" class="err"></div>':'<p>Add a second step to signing in: a 6-digit code from an authenticator app (Google Authenticator, Authy, 1Password).</p><button class="btn pri" id="tOn" style="margin-top:8px">Set up</button><div id="tSetup"></div>';
     if($('tOn'))$('tOn').onclick=setup2fa;if($('tOff'))$('tOff').onclick=function(){post('totp_disable',{code:$('offCode').value}).then(function(y){if(y.ok)loadSettings();else say('tMsg2',y.j.error)})};
     if(isOwner()){var b=j.backup;$('bk').innerHTML=(b?'Last backup: '+esc(ist(b.at))+', '+b.count+' records, '+(b.ok?'<span class="ok">emailed</span>':'<span class="err">failed: '+esc(b.error||'')+'</span>'):'No backup has run yet.')+'<br>'+(j.cronReady?'Nightly backup is on (about 3 AM IST).':'<span class="err">Nightly backup is off. Add <code>CRON_SECRET</code> in Vercel (any long random text) and redeploy.</span>');
-      $('hist').innerHTML=j.history.map(loginCard).join('')||'<p class="sub">No history yet.</p>'}})
+      histData=j.history;drawHist()}})
 }
 function fillTpl(){var k=$('tKey').value,t=tplData.templates[k];$('tSub').value=t.subject;$('tBody').value=t.body}
 $('tKey').onchange=fillTpl;
@@ -668,15 +668,31 @@ function detailLines(x){
   if(x.ua&&!d)L.push('Browser: '+esc(x.ua));
   return L.map(function(l){return '<div style="margin:3px 0">'+l+'</div>'}).join('');
 }
+var activeSess=[],histData=[];
+function paintTeamOnline(){document.querySelectorAll('[data-tonline]').forEach(function(el){var uid=el.dataset.tonline,a=activeSess.filter(function(x){return x.uid===uid});
+  el.innerHTML=a.length?'<span class="pill s-active">online'+(a.length>1?' · '+a.length:'')+'</span> <button class="btn sm danger" data-lou="'+esc(uid)+'" style="min-height:30px;padding:0 10px">Log out</button>':''})}
+function activeIds(){var m={};activeSess.forEach(function(x){m[x.id]=x});return m}
+function drawHist(){var el=$('hist');if(!el)return;el.innerHTML=histData.map(loginCard).join('')||'<p class="sub">No history yet.</p>';drawOnNow()}
+// who is signed in right now, grouped by person, each with a Log out button
+function drawOnNow(){var el=$('onNow');if(!el)return;
+  if(!activeSess.length){el.innerHTML='<div class="item plain" style="cursor:default"><div class="nm">Online now</div><small>Nobody is signed in.</small></div>';return}
+  var by={};activeSess.forEach(function(x){(by[x.uid]=by[x.uid]||[]).push(x)});
+  el.innerHTML='<h2 style="font-size:16px;margin:0 0 8px">Online now</h2><div class="list">'+Object.keys(by).map(function(uid){var a=by[uid],nm=a[0].name,mine=a.some(function(x){return x.current});
+    return '<div class="item plain" style="cursor:default;display:block"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><div class="nm"><span class="pill s-active">online</span> '+esc(nm)+' <span class="sub">('+esc(a[0].role)+')</span>'+(mine?' <span class="pill s-quoted">you</span>':'')+'</div><small>'+a.length+' sign-in'+(a.length>1?'s':'')+'</small></div>'+(a.length>1||!mine?'<button class="btn sm danger" data-lou="'+esc(uid)+'">Log out '+(a.length>1?'all':'')+'</button>':'')+'</div>'
+      +a.map(function(x){return '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center"><small>'+esc(devText(x.device)||'device')+(x.current?' <b>(this device)</b>':'')+'<br>'+esc(x.ip||'')+(fmtGeo(x.geo)?' · '+esc(fmtGeo(x.geo)):'')+' · active '+esc(ago(x.last))+'</small><button class="btn sm danger" data-lo="'+esc(x.id)+'">'+(x.current?'Sign out':'Log out')+'</button></div>'}).join('')+'</div>'}).join('')+'</div>'}
 function loginCard(h){
-  var place=fmtGeo(h.geo),who=(h.who&&h.who!=='owner')?h.who:'Owner',pills=(h.ok?'<span class="pill s-active">signed in'+(h.why?' ('+esc(h.why)+')':'')+'</span>':'<span class="pill s-off">failed: '+esc(h.why)+'</span>')+(h.mismatch?' <span class="pill s-late">location mismatch</span>':'')+(h.tzMismatch?' <span class="pill s-soon">time zone differs</span>':'');
-  return '<details class="item plain" style="display:block;cursor:default"><summary style="cursor:pointer;list-style:none"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><div class="nm">'+esc(who)+'</div><small>'+esc(ist(h.t))+' · '+esc(ago(h.t))+'<br>'+esc(h.ip||'')+(place?' · '+esc(place):'')+(h.device?' · '+esc(h.device.browser+' on '+h.device.os):'')+'</small></div><div style="text-align:right">'+pills+'</div></div></summary><div class="sect" style="margin-top:10px;font-size:14px">'+detailLines(h)+'</div></details>';
+  var live=h.sid&&activeIds()[h.sid],place=fmtGeo(h.geo),who=(h.who&&h.who!=='owner')?h.who:'Owner',pills=(h.ok?'<span class="pill s-active">signed in'+(h.why?' ('+esc(h.why)+')':'')+'</span>':'<span class="pill s-off">failed: '+esc(h.why)+'</span>')+(live?' <span class="pill s-active">online now</span>':'')+(h.mismatch?' <span class="pill s-late">location mismatch</span>':'')+(h.tzMismatch?' <span class="pill s-soon">time zone differs</span>':'');
+  return '<details class="item plain" style="display:block;cursor:default"><summary style="cursor:pointer;list-style:none"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><div class="nm">'+esc(who)+'</div><small>'+esc(ist(h.t))+' · '+esc(ago(h.t))+'<br>'+esc(h.ip||'')+(place?' · '+esc(place):'')+(h.device?' · '+esc(h.device.browser+' on '+h.device.os):'')+'</small></div><div style="text-align:right">'+pills+'</div></div></summary><div class="sect" style="margin-top:10px;font-size:14px">'+detailLines(h)+(live?'<div style="margin-top:8px"><button class="btn sm danger" data-lo="'+esc(h.sid)+'">Log this sign-in out</button></div>':'')+'</div></details>';
 }
 function loadSessions(){
-  api('sessions_list').then(function(x){if(!x.ok)return;var own=isOwner();
+  api('sessions_list').then(function(x){if(!x.ok)return;var own=isOwner();activeSess=x.j.sessions;drawHist();paintTeamOnline();
     $('sessList').innerHTML=x.j.sessions.length?x.j.sessions.map(function(s){
       return '<details class="item plain" style="display:block;cursor:default"><summary style="cursor:pointer;list-style:none"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><div class="nm">'+esc(s.name)+' <span class="sub">('+esc(s.role)+')</span>'+(s.current?' <span class="pill s-active">this device</span>':'')+(s.mismatch?' <span class="pill s-late">location mismatch</span>':'')+'</div><small>Signed in '+esc(ago(s.created))+' · last active '+esc(ago(s.last))+'<br>'+esc(s.ip||'')+(fmtGeo(s.geo)?' · '+esc(fmtGeo(s.geo)):'')+(s.device?' · '+esc(s.device.browser+' on '+s.device.os):'')+'</small></div><button class="btn sm danger" data-so="'+esc(s.id)+'">'+(s.current?'Sign out':'End')+'</button></div></summary><div class="sect" style="margin-top:10px;font-size:14px">'+detailLines(s)+(own&&s.uid!=='owner'?'<div style="margin-top:8px"><button class="btn sm" data-sou="'+esc(s.uid)+'">End all sign-ins of '+esc(s.name)+'</button></div>':'')+'</div></details>'}).join(''):'<p class="sub">Nothing signed in.</p>'});
 }
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-lo],[data-lou]');if(!b)return;e.preventDefault();e.stopPropagation();
+  var sid=b.dataset.lo,uid=b.dataset.lou;
+  if(sid){if(!confirm('Log this sign-in out? That device is signed out straight away.'))return;post('sessions_revoke',{sid:sid}).then(function(x){if(x.ok){toast('Logged out');if(x.j.self)show(false);else loadSessions()}else toast(x.j.error)})}
+  else if(uid){if(!confirm('Log this person out everywhere?'))return;post('sessions_revoke_user',{uid:uid}).then(function(x){toast(x.ok?'Logged out':x.j.error);loadSessions()})}},true);
 $('sessList').onclick=function(e){var d=e.target.dataset||{};
   if(d.so){e.preventDefault();e.stopPropagation();if(confirm('End this sign-in? That device is signed out straight away.'))post('sessions_revoke',{sid:d.so}).then(function(x){if(x.ok){toast('Signed out');if(x.j.self)show(false);else loadSessions()}else toast(x.j.error)})}
   if(d.sou&&confirm('End every sign-in of this person?'))post('sessions_revoke_user',{uid:d.sou}).then(function(){toast('Signed out');loadSessions()})};

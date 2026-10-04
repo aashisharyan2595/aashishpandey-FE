@@ -326,7 +326,8 @@ a:hover{color:#f4efe6}
               <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#aaa4b8;">Timeline<select value="{{ f.timeline }}" onChange="{{ on.timeline }}" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1230;border:1px solid rgba(244,239,230,.14);color:#f4efe6;font-family:inherit;font-size:15px;outline:none;cursor:pointer;"><option>No fixed date</option><option>As soon as possible</option><option>Within a month</option><option>In 1 to 3 months</option></select></label>
             </div>
             <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#aaa4b8;">Tell me about it<textarea required="required" value="{{ f.details }}" onChange="{{ on.details }}" rows="5" placeholder="What should it do, who uses it, and what does success look like?" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1230;border:1px solid rgba(244,239,230,.14);color:#f4efe6;font-family:inherit;font-size:15px;outline:none;height:auto;padding:12px 14px;line-height:1.6;resize:vertical;"></textarea></label>
-            <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;color:#aaa4b8;cursor:pointer;"><input type="checkbox" checked="{{ consent }}" onChange="{{ onConsent }}" style="margin-top:3px;accent-color:#f5b867;flex-shrink:0;"></input><span>I agree that Aashish may use these details to reply to me, as described in the <a href="/privacy" style="color:#f5b867;text-decoration:underline;">privacy policy</a>. I will also add you to my occasional newsletter; every email has an unsubscribe link.</span></label>
+            <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;color:#aaa4b8;cursor:pointer;"><input type="checkbox" checked="{{ consent }}" onChange="{{ onConsent }}" style="margin-top:3px;accent-color:#f5b867;flex-shrink:0;"></input><span>I agree that Aashish may use these details to reply to me, as described in the <a href="/privacy" style="color:#f5b867;text-decoration:underline;">privacy policy</a>.</span></label>
+<label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;color:#aaa4b8;cursor:pointer;"><input type="checkbox" checked="{{ news }}" onChange="{{ onNews }}" style="margin-top:3px;accent-color:#f5b867;flex-shrink:0;"></input><span>Also send me Aashish's occasional newsletter. Every email has an unsubscribe link, and you can untick this.</span></label>
             <sc-if value="{{ hasBriefError }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#ffb4a2;">{{ briefError }}</span></sc-if>
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;">
               <button type="submit" disabled="{{ busy }}" style="height:50px;padding:0 24px;display:flex;align-items:center;gap:9px;border-radius:14px;border:none;background:#f5b867;color:#1a1420;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;" style-hover="background:#ffc880;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>{{ sendLabel }}</button>
@@ -358,7 +359,7 @@ class Component extends DCLogic {
   searchRef = React.createRef();
   componentDidMount() { const pre = document.getElementById('ap-pre'); pre && pre.remove(); this._k = e => { const tg = e.target; if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(tg.tagName) && !tg.isContentEditable) { e.preventDefault(); this.searchRef.current && this.searchRef.current.focus(); } }; document.addEventListener('keydown', this._k); }
   componentWillUnmount() { document.removeEventListener('keydown', this._k); }
-  state = { q: '', cat: 'all', f: { ...BLANK }, kinds: ['Internal tool'], sent: false, err: '', busy: false, consent: false };
+  state = { q: '', cat: 'all', f: { ...BLANK }, kinds: ['Internal tool'], sent: false, err: '', busy: false, consent: false, news: true };
   set(k) { return e => this.setState(s => ({ f: { ...s.f, [k]: e.target.value }, err: '' })); }
   submitBrief = e => {
     e.preventDefault();
@@ -370,7 +371,7 @@ class Component extends DCLogic {
     if (!consent) return this.setState({ err: 'Please tick the box to agree to the privacy policy.' });
     this.setState({ busy: true, err: '' });
     const first = kinds.find(k => SERVICE[k]);
-    window.apSend({ source: 'tools', name: f.name.trim(), email: f.email.trim(), service: first ? SERVICE[first] : '', budget: f.budget, timeline: f.timeline, consent: true,
+    window.apSend({ source: 'tools', name: f.name.trim(), email: f.email.trim(), service: first ? SERVICE[first] : '', budget: f.budget, timeline: f.timeline, consent: true, news: this.state.news,
       message: 'Need: ' + (kinds.join(', ') || 'not said') + '\n\n' + f.details.trim() }).then(x => {
       if (x.ok) { if (window.apTrack) window.apTrack('brief_sent', { source: 'tools', kinds: kinds.join('|'), budget: f.budget }); this.setState({ sent: true, busy: false }); }
       else this.setState({ busy: false, err: x.j.error || 'Could not send. Please email hello@aashishpandey.com.' });
@@ -396,8 +397,8 @@ class Component extends DCLogic {
       f: s.f, on: { name: this.set('name'), email: this.set('email'), budget: this.set('budget'), timeline: this.set('timeline'), details: this.set('details') },
       kinds: KINDS.map(k => { const on = s.kinds.includes(k); return { label: k, on, off: !on, pick: () => this.setState(x => ({ kinds: on ? x.kinds.filter(y => y !== k) : [...x.kinds, k] })) }; }),
       submitBrief: this.submitBrief, sent: s.sent, notSent: !s.sent,
-      resetBrief: () => this.setState({ f: { ...BLANK }, kinds: ['Internal tool'], sent: false, consent: false }),
-      consent: s.consent, onConsent: e => this.setState({ consent: e.target.checked, err: '' }), busy: s.busy, sendLabel: s.busy ? 'Sending' : 'Send the brief',
+      resetBrief: () => this.setState({ f: { ...BLANK }, kinds: ['Internal tool'], sent: false, consent: false, news: true }),
+      consent: s.consent, onConsent: e => this.setState({ consent: e.target.checked, err: '' }), news: s.news, onNews: e => this.setState({ news: e.target.checked }), busy: s.busy, sendLabel: s.busy ? 'Sending' : 'Send the brief',
       hasBriefError: !!s.err, briefError: s.err
     };
   }
