@@ -258,7 +258,7 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
     <div class="grid2">
       <div class="card"><h2>Growth, last 12 weeks</h2><p class="sub">Green: confirmed sign-ups. Red: unsubscribes.</p><svg class="chart" id="chart" viewBox="0 0 360 150" preserveAspectRatio="none"></svg></div>
       <div class="card"><h2>Subscribers</h2><p class="sub">Only people who confirmed get a newsletter.</p>
-        <div class="row" style="margin-top:12px"><button class="btn" id="subView">View list</button><button class="btn" data-exp="xlsx">Excel</button><button class="btn" data-exp="csv">CSV</button><button class="btn" id="imp">Import from Resend</button></div><div id="impMsg" class="sub" style="margin-top:8px"></div></div>
+        <div class="row" style="margin-top:12px"><button class="btn" id="subView">View list</button><button class="btn" data-exp="xlsx">Excel</button><button class="btn" data-exp="csv">CSV</button><button class="btn" id="imp">Import from Resend</button><button class="btn" id="impB">Add past form senders</button></div><div id="impMsg" class="sub" style="margin-top:8px"></div></div>
     </div>
     <div class="card"><h2>Write a newsletter</h2>
       <p class="sub">Blank line = new paragraph. "- " starts a bullet. [text](https://...) is a link. **bold**. {first} becomes each subscriber's first name (or "there"). Resend's free plan allows 100 emails a day.</p>
@@ -557,6 +557,7 @@ $('nSend').onclick=function(){var d=draft();if(!d.subject||!d.body.trim()){say('
   var b=this;b.disabled=true;d.confirm='SEND';post('news_start',d).then(function(x){if(!x.ok){b.disabled=false;say('nMsg',x.j.error);return}if(!x.j.total){b.disabled=false;say('nMsg','There are no confirmed subscribers yet.');return}return runCampaign(x.j.id,'nMsg').then(function(){b.disabled=false;loadNews()})})};
 $('subView').onclick=function(){setFilter({type:'subscriber'});$('q').value='';openTab('sub')};
 document.querySelectorAll('[data-exp]').forEach(function(b){b.onclick=function(){location.href=API+'?a=export&format='+b.dataset.exp+'&type=subscriber'}});
+$('impB').onclick=function(){var b=this;b.disabled=true;say('impMsg','Adding…',1);post('news_import_briefs').then(function(x){b.disabled=false;say('impMsg',x.ok?'Added '+x.j.added+' people who sent a brief. Anyone who had unsubscribed was left out.':x.j.error,x.ok);loadNews()})};
 $('imp').onclick=function(){var b=this;b.disabled=true;say('impMsg','Importing…',1);post('news_import').then(function(x){b.disabled=false;say('impMsg',x.ok?'Imported '+x.j.imported+' contacts from Resend.':x.j.error,x.ok);loadNews()})};
 
 /* ---------- spam ---------- */

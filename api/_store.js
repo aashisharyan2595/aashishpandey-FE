@@ -58,4 +58,15 @@ async function subscriber(email, patch) {
   return rec;
 }
 
-module.exports = { enabled, add, get, update, remove, all, subscriber };
+async function byEmail(email) { if (!enabled() || !email) return null; const id = await redis('GET', `subemail:${email}`); return id ? get(id) : null; }
+// The address is on the list unless the person already unsubscribed (that choice is never undone by filling in a form).
+// Returns the record, or null when nothing was changed.
+async function autoSubscribe(email, name, source) {
+  if (!enabled() || !email) return null;
+  const id = await redis('GET', `subemail:${email}`), cur = id ? await get(id) : null;
+  if (cur && cur.status === 'unsubscribed') return null;
+  if (cur && cur.status === 'subscribed') { if (name && !cur.name) return update(cur.id, { name }); return null; }
+  return subscriber(email, { status: 'subscribed', confirmed: Date.now(), via: source || 'form', ...(name ? { name } : {}) });
+}
+
+module.exports = { enabled, add, get, update, remove, all, subscriber, byEmail, autoSubscribe };

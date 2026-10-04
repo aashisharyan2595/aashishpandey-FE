@@ -208,7 +208,7 @@ function userBriefConfirmation(d, unsubUrl) {
       + `<p style="margin:18px 0 0;">${button(BOOK, 'Book 20 minutes')}<span style="font-size:14px;color:${MUTED};">or just reply to this email</span></p>`
       + h('You wrote') + quote(snippet)
       + p('Aashish'),
-    footer: `Sent because you used the form on ${esc(r.src.label)}. No mailing list.<br>${unsubUrl ? flink(unsubUrl, 'Unsubscribe') + ' &middot; ' : ''}${flink(SITE + '/privacy', 'Privacy')}`,
+    footer: `Sent because you used the form on ${esc(r.src.label)}. You are also on my occasional newsletter: unsubscribe any time with the link below.<br>${unsubUrl ? flink(unsubUrl, 'Unsubscribe') + ' &middot; ' : ''}${flink(SITE + '/privacy', 'Privacy')}`,
   });
   const text = `Hi ${r.first},\n\n${open} It reached me and I read every one myself.${note ? ' ' + note : ''}\n\nI will reply within 48 hours with questions, or with a scope and a quote. If you can, reply with ${want}.\n\nClosest work to yours: ${best[0]}: ${SITE}${best[1]}\nPrefer to talk? Book 20 minutes: ${BOOK}\n\nYou wrote: "${snippet}"\n\nAashish\n\nSent because you used the form on ${r.src.label}. No mailing list.${unsubUrl ? '\nUnsubscribe: ' + unsubUrl : ''}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };

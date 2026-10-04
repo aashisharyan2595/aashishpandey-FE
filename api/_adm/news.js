@@ -25,9 +25,9 @@ function render(c, unsubUrl, first) {
   const html = T.shell({
     title: c.subject, preheader: c.preheader || '', eyebrow: 'Newsletter', headline: esc(c.subject),
     body: body + btn + '<p style="margin:8px 0 0;">Aashish</p>',
-    footer: `You get this because you subscribed at aashishpandey.com.<br>${T.flink(unsubUrl, 'Unsubscribe')} &middot; ${T.flink(SITE + '/privacy', 'Privacy')}`,
+    footer: `You get this because you subscribed or sent me a message at aashishpandey.com.<br>${T.flink(unsubUrl, 'Unsubscribe')} &middot; ${T.flink(SITE + '/privacy', 'Privacy')}`,
   });
-  const text = `${c.subject}\n\n${paras.map(plain).join('\n\n')}${c.button_label && /^https?:\/\//.test(c.button_url || '') ? `\n\n${c.button_label}: ${c.button_url}` : ''}\n\nAashish\n\nYou get this because you subscribed at aashishpandey.com.\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
+  const text = `${c.subject}\n\n${paras.map(plain).join('\n\n')}${c.button_label && /^https?:\/\//.test(c.button_url || '') ? `\n\n${c.button_label}: ${c.button_url}` : ''}\n\nAashish\n\nYou get this because you subscribed or sent me a message at aashishpandey.com.\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
   return { html, text };
 }
 
@@ -104,4 +104,15 @@ async function importFromResend() {
   } while (after && ++guard < 30);
   return n;
 }
-module.exports = { render, clean, start, sendChunk, retryFailed, list, growth, importFromResend, subscribed };
+// everyone who ever sent a brief (not spam) joins the list, unless they already unsubscribed
+async function addPastSenders() {
+  let added = 0, seen = new Set();
+  for (const r of await store.all()) {
+    if (r.type !== 'brief' || r.status === 'spam' || !r.email || seen.has(r.email)) continue;
+    seen.add(r.email);
+    const had = await store.byEmail(r.email); if (had) continue;
+    if (await store.autoSubscribe(r.email, String(r.name || '').split(/\s+/)[0].slice(0, 60), 'brief')) added++;
+  }
+  return added;
+}
+module.exports = { addPastSenders, render, clean, start, sendChunk, retryFailed, list, growth, importFromResend, subscribed };

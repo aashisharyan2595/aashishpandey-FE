@@ -35,7 +35,7 @@ const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
 const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
 // what goes in the activity log (reads are not recorded; a refused attempt always is)
-const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe']);
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
@@ -306,6 +306,7 @@ module.exports = async (req, res) => {
     }
     if (a === 'news_send') { try { return out(200, await news.sendChunk(clean(b.id, 20))); } catch (e) { return out(404, { error: e.message }); } }
     if (a === 'news_retry') { try { return out(200, await news.retryFailed(clean(b.id, 20))); } catch (e) { return out(404, { error: e.message }); } }
+    if (a === 'news_import_briefs' && post) return out(200, { ok: true, added: await news.addPastSenders() });
     if (a === 'news_import') { try { return out(200, { ok: true, imported: await news.importFromResend() }); } catch (e) { return out(502, { error: 'Could not read the Resend audience: ' + e.message }); } }
 
     /* ----- spam rules, alerts, digest, phone notifications ----- */
