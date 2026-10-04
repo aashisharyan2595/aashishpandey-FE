@@ -720,15 +720,21 @@ function locate(required,cb){
   navigator.geolocation.getCurrentPosition(function(p){cb(null,clientInfo({lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy}))},function(e){
     var m=e.code===1?'Location is blocked for this site. Allow Location for it in your browser or phone settings, then press Sign in again.':e.code===3?'Finding your location took too long. Check that location is switched on, then try again.':'Your location could not be found. Switch location on and try again.';
     cb(required?m:null,clientInfo(null))},{enableHighAccuracy:false,timeout:15000,maximumAge:60000})}
-$('lf').onsubmit=function(e){e.preventDefault();$('lerr').textContent='';var btn=$('lf').querySelector('button[type=submit]');btn.disabled=true;
-  var body={password:$('pw').value,code:$('code').value};if(!$('em').classList.contains('hide'))body.email=$('em').value;
-  function go(client){body.client=client;post('login',body).then(function(x){btn.disabled=false;
-    if(x.ok){$('pw').value='';$('code').value='';$('code').classList.add('hide');start()}
-    else{if(x.j.need2fa){$('code').classList.remove('hide');$('code').focus()}$('lerr').className='err';$('lerr').textContent=x.j.error||'Could not sign in.'}})}
-  api('policy').then(function(p){var req=!(p.ok&&p.j.requireLocation===false);
-    if(req){$('lerr').className='sub';$('lerr').textContent='Checking your location…';locate(true,function(err,c){$('lerr').className='err';$('lerr').textContent='';if(err){btn.disabled=false;$('lerr').textContent=err;return}go(c)})}
-    else if(navigator.permissions&&navigator.permissions.query){navigator.permissions.query({name:'geolocation'}).then(function(r){if(r.state==='granted')locate(false,function(err,c){go(c)});else go(clientInfo(null))}).catch(function(){go(clientInfo(null))})}
-    else go(clientInfo(null))})};
+$('lf').onsubmit=function(e){e.preventDefault();var lerr=$('lerr');lerr.className='sub';lerr.textContent='Signing in…';var btn=$('lf').querySelector('button[type=submit]');btn.disabled=true;
+   var body={password:$('pw').value,code:$('code').value};if(!$('em').classList.contains('hide'))body.email=$('em').value;
+   function fail(m){btn.disabled=false;lerr.className='err';lerr.textContent=m}
+   function go(client){body.client=client;post('login',body).then(function(x){btn.disabled=false;
+     if(x.ok){$('pw').value='';$('code').value='';$('code').classList.add('hide');lerr.textContent='';start()}
+     else{if(x.j.need2fa){$('code').classList.remove('hide');$('code').focus()}lerr.className='err';lerr.textContent=x.j.error||'Could not sign in.'}})}
+   // Ask the browser for the location right now, inside the tap: some phones only show the prompt when it is asked from a tap, not after a network call.
+   var loc=null,pol=null,done=false;
+   function decide(){if(done||!loc||!pol)return;done=true;clearTimeout(wd);
+     var req=!(pol.ok&&pol.j.requireLocation===false);
+     if(req&&loc.err)return fail(loc.err);
+     go(loc.c)}
+   var wd=setTimeout(function(){if(!loc){loc={err:'Your browser did not answer the location request. Open the site settings for this page, allow Location, then press Sign in again.',c:clientInfo(null)};decide()}},25000);
+   locate(true,function(err,c){if(!loc){loc={err:err,c:c};if(err)lerr.textContent=err;decide()}});
+   api('policy').then(function(p){pol=p;decide()})};
 $('out').onclick=function(){post('logout').then(function(){show(false)})};
 $('more').onclick=function(){load(true)};
 $('exp').onclick=function(e){e.stopPropagation();$('expPop').classList.toggle('hide')};
