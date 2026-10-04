@@ -247,7 +247,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/kd2ozfuew9n4uaciyl1j", "destination": "/kd2ozfuew9n4uaciyl1j.html" },
     {
       "source": "/tools/:file(support.js|site.js)",
       "destination": "/:file"
@@ -454,7 +454,7 @@
     }
   ],
   "headers": [
-    { "source": "/admin(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" } ] },
+    { "source": "/kd2ozfuew9n4uaciyl1j(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" } ] },
     {
       "source": "/(.*)",
       "headers": [
