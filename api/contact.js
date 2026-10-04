@@ -2,6 +2,7 @@
 // → 200 { ok: true } | 4xx/5xx { error }. Sends the brief to the admin (reply-to the sender) and a confirmation to the sender.
 const { env, sendMail, clean, validEmail, parseBody, clientIp, limited, link } = require('./_mail');
 const T = require('./_templates');
+const store = require('./_store');
 
 const SERVICES = ['Shopify development', 'Full-stack development', 'WordPress or Webflow', 'SEO consulting', 'UI and UX design', 'Tech consulting', 'Project management', 'Something else'];
 const BUDGETS = ['Not sure yet', 'Under $1,000', '$1,000 to $5,000', '$5,000 to $15,000', '$15,000 to $50,000', 'More than $50,000'];
@@ -27,17 +28,25 @@ module.exports = async (req, res) => {
   if (b.consent !== true) return res.status(400).json({ error: 'Please tick the box to agree to the privacy policy.' });
   if (await limited('contact', clientIp(req), 5, 3600)) return res.status(429).json({ error: 'Too many messages from this connection. Please try again in an hour, or email hello@aashishpandey.com.' });
 
+  // save first: the admin page keeps every brief even if the emails below fail
+  let rec = null;
+  try { rec = await store.add({ type: 'brief', status: 'new', ...d, mail: {} }); } catch (e) { console.error('contact: could not save', e.message); }
+  const mark = (mail) => (rec ? store.update(rec.id, { mail }).catch((e) => console.error('contact: status not saved', e.message)) : null);
   try {
     const a = T.adminBrief(d);
     await sendMail({ to: env().admins, replyTo: d.email, subject: a.subject, html: a.html, text: a.text });
+    await mark({ admin: 'sent' });
   } catch (e) {
-    if (e.code === 'NOCONFIG') return res.status(503).json({ error: 'The form is not connected yet. Please email hello@aashishpandey.com.' });
     console.error('contact: admin mail failed', e.message);
+    await mark({ admin: 'failed', adminError: String(e.message).slice(0, 200) });
+    if (rec) return res.status(200).json({ ok: true });   // saved, so the visitor is not told it failed. It shows in the admin with a red flag.
+    if (e.code === 'NOCONFIG') return res.status(503).json({ error: 'The form is not connected yet. Please email hello@aashishpandey.com.' });
     return res.status(502).json({ error: 'Could not send your message. Please email hello@aashishpandey.com.' });
   }
   try {   // the confirmation is a courtesy: the brief already arrived, so a failure here is not an error for the visitor
     const un = link('unsubscribe', d.email), u = T.userBriefConfirmation(d, un);
     await sendMail({ to: d.email, subject: u.subject, html: u.html, text: u.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
-  } catch (e) { console.error('contact: confirmation mail failed', e.message); }
+    await mark({ user: 'sent' });
+  } catch (e) { console.error('contact: confirmation mail failed', e.message); await mark({ user: 'failed', userError: String(e.message).slice(0, 200) }); }
   return res.status(200).json({ ok: true });
 };

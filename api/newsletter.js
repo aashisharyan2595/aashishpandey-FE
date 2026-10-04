@@ -2,6 +2,7 @@
 // POST the same URL = one-click unsubscribe (List-Unsubscribe-Post). Shows a small page; adds or updates the contact in the Resend audience.
 const { env, resend, sendMail, clean, validEmail, verify, link, SITE, esc } = require('./_mail');
 const T = require('./_templates');
+const store = require('./_store');
 
 const page = (title, msg) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${esc(title)} · Aashish Pandey</title></head>
 <body style="margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#070916;color:#f4efe6;font-family:Geist,system-ui,Arial,sans-serif;padding:24px;box-sizing:border-box;">
@@ -27,6 +28,7 @@ module.exports = async (req, res) => {
   try {
     if (a === 'confirm') {
       await upsert(email, false);
+      try { await store.subscriber(email, { status: 'subscribed', confirmed: Date.now(), source: src }); } catch (e) { console.error('newsletter: could not save', e.message); }
       try {
         const w = T.subscribeWelcome(link('unsubscribe', email), src), u = link('unsubscribe', email);
         await sendMail({ to: email, subject: w.subject, html: w.html, text: w.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${u}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
@@ -35,6 +37,7 @@ module.exports = async (req, res) => {
       return res.status(200).send(page('You are subscribed', 'Thanks. A short welcome email is on its way.'));
     }
     await upsert(email, true);
+    try { await store.subscriber(email, { status: 'unsubscribed', unsubscribed: Date.now() }); } catch (e) { console.error('newsletter: could not save', e.message); }
     try { const n = T.adminSubscriber(email, 'unsubscribed'); await sendMail({ to: env().admins, subject: n.subject, html: n.html, text: n.text }); } catch (e) { /* the unsubscribe itself worked */ }
     return res.status(200).send(page('You are unsubscribed', 'Done. I will not email you again. If this was a mistake, you can subscribe again from the site.'));
   } catch (e) {

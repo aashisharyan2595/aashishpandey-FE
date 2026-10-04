@@ -247,6 +247,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" },
     {
       "source": "/tools/:file(support.js|site.js)",
       "destination": "/:file"
@@ -453,6 +454,7 @@
     }
   ],
   "headers": [
+    { "source": "/admin(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" } ] },
     {
       "source": "/(.*)",
       "headers": [

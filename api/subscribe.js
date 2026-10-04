@@ -1,6 +1,7 @@
 // POST /api/subscribe  { email, hp, ts }  → sends a confirmation link (double opt-in). The address joins the audience only after the click.
 const { env, sendMail, clean, validEmail, parseBody, clientIp, limited, link } = require('./_mail');
 const T = require('./_templates');
+const store = require('./_store');
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -13,6 +14,7 @@ module.exports = async (req, res) => {
   if (!validEmail(email)) return res.status(400).json({ error: 'That email address does not look right.' });
   if (await limited('sub', clientIp(req), 5, 3600)) return res.status(429).json({ error: 'Too many tries. Please wait an hour and try again.' });
   if (!env().key) return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
+  try { await store.subscriber(email, { status: 'pending', page: pg, source: src }); } catch (e) { console.error('subscribe: could not save', e.message); }
   try {
     const un = link('unsubscribe', email), m = T.subscribeConfirm(link('confirm', email, src ? '&s=' + src : ''), src, un);
     await sendMail({ to: email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
