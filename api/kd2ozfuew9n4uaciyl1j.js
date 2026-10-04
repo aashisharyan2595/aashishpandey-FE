@@ -1,4 +1,4 @@
-// /api/admin?a=<action>   Admin backend for the submissions page at /admin. Password from ADMIN_PASSWORD (Vercel env), signed cookie session.
+// Admin backend for the submissions page. Path is deliberately unlisted; never link to it. Password from ADMIN_PASSWORD (Vercel env), signed cookie session.
 //   POST login {password} | POST logout | GET me
 //   GET  list   &type=brief|subscriber &status= &q= &from=YYYY-MM-DD &to= &offset= &limit=
 //   GET  export &format=csv|xlsx|json  (same filters, or &ids=a,b,c for a selection)
