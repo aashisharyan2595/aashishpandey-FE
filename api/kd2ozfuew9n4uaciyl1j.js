@@ -200,7 +200,7 @@ module.exports = async (req, res) => {
     }
 
     /* ----- newsletter ----- */
-    if (a === 'news_preview') { const c = news.clean(b); return out(200, { html: news.render(c, SITE_UNSUB).html }); }
+    if (a === 'news_preview') { const c = news.clean(b); return out(200, { html: news.render(c, SITE_UNSUB, 'Priya').html }); }
     if (a === 'news_test') {
       const c = news.clean(b); if (!c.subject || !c.body.trim()) return out(400, { error: 'Add a subject and a body first.' });
       const to = env().admins[0], un = link('unsubscribe', to), r = news.render(c, un);

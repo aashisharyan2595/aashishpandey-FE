@@ -155,9 +155,9 @@
     var say = function (t, cls) { msg.textContent = t; msg.className = cls || ''; };
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say('That email address does not look right.', 'is-err'); f.email.focus(); return; }
     btn.disabled = true; say('Sending…');
-    window.apToken().then(function (tk) { return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, cf: tk }) }); })
+    window.apToken().then(function (tk) { return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, name: ((f.elements['name'] && f.elements['name'].value) || '').trim().slice(0, 60), cf: tk }) }); })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
-      .then(function (x) { btn.disabled = false; if (x.ok) { f.email.value = ''; say(x.j.message || 'Check your inbox to confirm.', 'is-ok'); if (window.apTrack) window.apTrack('newsletter_signup', {}); } else say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err'); })
+      .then(function (x) { btn.disabled = false; if (x.ok) { f.email.value = ''; if (f.elements['name']) f.elements['name'].value = ''; say(x.j.message || 'Check your inbox to confirm.', 'is-ok'); if (window.apTrack) window.apTrack('newsletter_signup', {}); } else say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err'); })
       .catch(function () { btn.disabled = false; say('Could not reach the server. Please try again later.', 'is-err'); });
   });
   /* ---- Cloudflare Turnstile (optional): runs only when TURNSTILE_SITEKEY is set in Vercel; stays invisible unless Cloudflare needs a click ---- */

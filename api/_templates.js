@@ -215,18 +215,19 @@ function userBriefConfirmation(d, unsubUrl) {
 }
 
 /* ---------- 3. subscriber: please confirm ---------- */
-function subscribeConfirm(url, src, unsubUrl) {
+function subscribeConfirm(url, src, unsubUrl, name) {
+  const first = name ? firstName(name) : '';
   const where = { tools: 'the Tools page', portfolio: 'the portfolio page' }[src] || 'aashishpandey.com';
   const subject = 'Please confirm your subscription';
   const html = shell({
     title: subject, preheader: 'One click and you are subscribed.',
     eyebrow: 'One click', headline: `Confirm your ${accent('subscription.')}`,
-    body: p('Please confirm you want emails from aashishpandey.com. Nothing is saved until you do.')
+    body: p(`${first ? 'Hi ' + esc(first) + '. ' : ''}Please confirm you want emails from aashishpandey.com. Nothing is saved until you do.`)
       + `<p style="margin:0;">${button(url, 'Yes, subscribe me')}</p>`
       + small('The link works for 48 hours. If it was not you, ignore this email and nothing happens.'),
     footer: `You get this because this address was typed into the subscribe form on ${esc(where)}.<br>${unsubUrl ? flink(unsubUrl, 'Unsubscribe') + ' &middot; ' : ''}${flink(SITE + '/privacy', 'Privacy')}`,
   });
-  const text = `Hi,\n\nPlease confirm you want emails from aashishpandey.com:\n${url}\n\nThe link works for 48 hours. If it was not you, ignore this email. Nothing happens.\n\n${unsubUrl ? 'Unsubscribe: ' + unsubUrl + '\n' : ''}Privacy: ${SITE}/privacy`;
+  const text = `${first ? 'Hi ' + first : 'Hi'},\n\nPlease confirm you want emails from aashishpandey.com:\n${url}\n\nThe link works for 48 hours. If it was not you, ignore this email. Nothing happens.\n\n${unsubUrl ? 'Unsubscribe: ' + unsubUrl + '\n' : ''}Privacy: ${SITE}/privacy`;
   return { subject, html, text };
 }
 
@@ -236,28 +237,28 @@ const WELCOME = {
   portfolio: { hello: 'Where to start:', pairs: [['Liquid I.V.: Shopify across 15 markets', '/work-liquid-iv'], ['Talenti Canada', '/work-talenti'], ['All case studies', '/case-studies']] },
   _: { hello: 'Where to start:', pairs: [['The interactive ride (best on a laptop)', '/'], ['Case studies', '/case-studies'], ['Free tools', '/tools']] },
 };
-function subscribeWelcome(unsubUrl, src) {
-  const w = WELCOME[src] || WELCOME._;
+function subscribeWelcome(unsubUrl, src, name) {
+  const w = WELCOME[src] || WELCOME._, first = name ? firstName(name) : '';
   const subject = 'You are subscribed';
   const html = shell({
     title: subject, preheader: 'Thanks for subscribing.',
-    eyebrow: 'You are in', headline: `Welcome ${accent('aboard.')}`,
+    eyebrow: 'You are in', headline: first ? `Welcome, ${accent(first + '.')}` : `Welcome ${accent('aboard.')}`,
     body: p('I only write when I have published something worth reading, never to fill space.')
       + h(w.hello.replace(/:$/, '')) + w.pairs.slice(0, 3).map(([l, u]) => card(SITE + u, l)).join('')
       + `<p style="margin:16px 0 16px;">Reply any time. It comes to me.</p>` + p('Aashish'),
     footer: `${flink(unsubUrl, 'Unsubscribe')} &middot; ${flink(SITE + '/privacy', 'Privacy')}`,
   });
-  const text = `Hi,\n\nYou are on the list. I only write when I have published something worth reading, never to fill space.\n\n${w.hello}\n${w.pairs.slice(0, 3).map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nReply any time. It comes to me.\n\nAashish\n\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
+  const text = `${first ? 'Hi ' + first : 'Hi'},\n\nYou are on the list. I only write when I have published something worth reading, never to fill space.\n\n${w.hello}\n${w.pairs.slice(0, 3).map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nReply any time. It comes to me.\n\nAashish\n\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };
 }
 
 /* ---------- 5. admin: new subscriber / unsubscribe ---------- */
-function adminSubscriber(email, kind = 'subscribed', src) {
+function adminSubscriber(email, kind = 'subscribed', src, name) {
   const subject = kind === 'subscribed' ? `New subscriber: ${email}` : `Unsubscribed: ${email}`;
   const html = layout({
     preheader: subject, title: subject,
     eyebrow: 'Newsletter', headline: kind === 'subscribed' ? `New ${accent('subscriber.')}` : `Someone ${accent('unsubscribed.')}`,
-    body: p(kind === 'subscribed' ? `<strong>${esc(email)}</strong> confirmed their subscription${src && src !== '_' ? ' (signed up from the <strong>' + esc(src) + '</strong> page)' : ''} and is now in your Resend audience.` : `<strong>${esc(email)}</strong> unsubscribed. They are marked as unsubscribed in your Resend audience.`),
+    body: p(kind === 'subscribed' ? `<strong>${name ? esc(name) + ' (' + esc(email) + ')' : esc(email)}</strong> confirmed their subscription${src && src !== '_' ? ' (signed up from the <strong>' + esc(src) + '</strong> page)' : ''} and is now in your Resend audience.` : `<strong>${esc(email)}</strong> unsubscribed. They are marked as unsubscribed in your Resend audience.`),
     footer: 'This is an automatic note from the site.',
   });
   return { subject, html, text: subject };

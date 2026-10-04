@@ -10,10 +10,10 @@ const page = (title, msg) => `<!doctype html><html lang="en"><head><meta charset
 <a href="${SITE}" style="display:inline-block;padding:13px 24px;border-radius:999px;background:#f5b867;color:#1a1420;font-weight:700;text-decoration:none;">Back to the site</a></div></body></html>`;
 
 // Resend now keeps one global contact list (the Audience page). If RESEND_AUDIENCE_ID is set we use the older per-audience endpoints instead.
-async function upsert(email, unsubscribed) {
+async function upsert(email, unsubscribed, name) {
   const id = env().audience, base = id ? `/audiences/${id}/contacts` : '/contacts', enc = encodeURIComponent(email);
-  try { await resend(base, 'POST', { email, unsubscribed }); }
-  catch (e) { await resend(`${base}/${enc}`, 'PATCH', { unsubscribed }); }   // already in the list
+  try { await resend(base, 'POST', { email, unsubscribed, ...(name ? { first_name: name } : {}) }); }
+  catch (e) { await resend(`${base}/${enc}`, 'PATCH', { unsubscribed, ...(name ? { first_name: name } : {}) }); }   // already in the list
 }
 
 module.exports = async (req, res) => {
@@ -27,18 +27,20 @@ module.exports = async (req, res) => {
   if (!env().key) return res.status(503).send(page('Not connected', 'The newsletter is not connected yet. Please try again later.'));
   try {
     if (a === 'confirm') {
-      await upsert(email, false);
-      try { await store.subscriber(email, { status: 'subscribed', confirmed: Date.now(), source: src }); } catch (e) { console.error('newsletter: could not save', e.message); }
+      let name = '';
+      try { const rec = await store.subscriber(email, { status: 'subscribed', confirmed: Date.now(), source: src }); name = (rec && rec.name) || ''; } catch (e) { console.error('newsletter: could not save', e.message); }
+      await upsert(email, false, name);
       try {
-        const w = T.subscribeWelcome(link('unsubscribe', email), src), u = link('unsubscribe', email);
+        const w = T.subscribeWelcome(link('unsubscribe', email), src, name), u = link('unsubscribe', email);
         await sendMail({ to: email, subject: w.subject, html: w.html, text: w.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${u}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
-        const n = T.adminSubscriber(email, 'subscribed', src); await sendMail({ to: env().admins, subject: n.subject, html: n.html, text: n.text });
+        const n = T.adminSubscriber(email, 'subscribed', src, name); await sendMail({ to: env().admins, subject: n.subject, html: n.html, text: n.text });
       } catch (e) { console.error('newsletter: follow-up mail failed', e.message); }
       return res.status(200).send(page('You are subscribed', 'Thanks. A short welcome email is on its way.'));
     }
     await upsert(email, true);
-    try { await store.subscriber(email, { status: 'unsubscribed', unsubscribed: Date.now() }); } catch (e) { console.error('newsletter: could not save', e.message); }
-    try { const n = T.adminSubscriber(email, 'unsubscribed'); await sendMail({ to: env().admins, subject: n.subject, html: n.html, text: n.text }); } catch (e) { /* the unsubscribe itself worked */ }
+    let who = '';
+    try { const rec = await store.subscriber(email, { status: 'unsubscribed', unsubscribed: Date.now() }); who = (rec && rec.name) || ''; } catch (e) { console.error('newsletter: could not save', e.message); }
+    try { const n = T.adminSubscriber(email, 'unsubscribed', '', who); await sendMail({ to: env().admins, subject: n.subject, html: n.html, text: n.text }); } catch (e) { /* the unsubscribe itself worked */ }
     return res.status(200).send(page('You are unsubscribed', 'Done. I will not email you again. If this was a mistake, you can subscribe again from the site.'));
   } catch (e) {
     console.error('newsletter failed', e.message);

@@ -11,7 +11,9 @@ const inline = (s) => esc(s)
   .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 const plain = (s) => String(s).replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '$1 ($2)').replace(/\*\*([^*]+)\*\*/g, '$1');
 
-function render(c, unsubUrl) {
+function render(c, unsubUrl, first) {
+  first = first || 'there';
+  c = { ...c, subject: String(c.subject).replace(/\{first\}/g, first), body: String(c.body || '').replace(/\{first\}/g, first) };
   const paras = String(c.body || '').replace(/\r/g, '').split(/\n{2,}/).map((x) => x.trim()).filter(Boolean);
   const body = paras.map((pp) => {
     const lines = pp.split('\n');
@@ -43,9 +45,10 @@ async function sendChunk(id) {
   const c = await getCamp(id); if (!c) throw new Error('Campaign not found.');
   const batch = c.queue.slice(0, CHUNK);
   if (batch.length) {
+    const names = new Map((await store.all()).filter((x) => x.type === 'subscriber' && x.name).map((x) => [x.email, String(x.name).split(/\s+/)[0]]));
     const msgs = batch.map((email) => {
-      const un = link('unsubscribe', email), r = render(c, un);
-      return { from: env().from, to: [email], subject: c.subject, html: r.html, text: r.text, reply_to: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } };
+      const un = link('unsubscribe', email), r = render(c, un, names.get(email));
+      return { from: env().from, to: [email], subject: String(c.subject).replace(/\{first\}/g, names.get(email) || 'there'), html: r.html, text: r.text, reply_to: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } };
     });
     try { await resend('/emails/batch', 'POST', msgs); c.sent += batch.length; }
     catch (e) { batch.forEach((email) => c.failed.push({ email, err: String(e.message).slice(0, 120) })); }

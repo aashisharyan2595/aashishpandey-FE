@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Use POST.' });
   const b = parseBody(req), email = clean(b.email, 254).toLowerCase();
   // where they signed up decides which welcome email they get (only these two are told apart)
+  let name = clean(b.name, 60); if (/https?:|www\.|@|[<>]/i.test(name)) name = '';   // a name is a name: no links or addresses in it
   const pg = clean(b.page, 80), src = /^\/tools/.test(pg) ? 'tools' : /^\/(portfolio|case-studies|work-)/.test(pg) ? 'portfolio' : '';
   const age = Date.now() - Number(b.ts || 0);
   if (clean(b.hp, 200) || !(age >= 2000 && age <= 864e5)) return res.status(200).json({ ok: true, message: 'Check your inbox for a confirmation link.' });
@@ -18,9 +19,9 @@ module.exports = async (req, res) => {
   if (await limited('subaddr', email, 3, 86400)) return res.status(429).json({ error: 'A confirmation was already sent to that address today. Check your inbox and spam folder.' });
   if (await limited('sub', clientIp(req), 5, 3600)) return res.status(429).json({ error: 'Too many tries. Please wait an hour and try again.' });
   if (!env().key) return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
-  try { await store.subscriber(email, { status: 'pending', page: pg, source: src }); } catch (e) { console.error('subscribe: could not save', e.message); }
+  try { await store.subscriber(email, { status: 'pending', page: pg, source: src, ...(name ? { name } : {}) }); } catch (e) { console.error('subscribe: could not save', e.message); }
   try {
-    const un = link('unsubscribe', email), m = T.subscribeConfirm(link('confirm', email, src ? '&s=' + src : ''), src, un);
+    const un = link('unsubscribe', email), m = T.subscribeConfirm(link('confirm', email, src ? '&s=' + src : ''), src, un, name);
     await sendMail({ to: email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
   } catch (e) {
     if (e.code === 'NOCONFIG') return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
