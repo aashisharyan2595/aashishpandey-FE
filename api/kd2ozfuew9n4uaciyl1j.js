@@ -81,7 +81,7 @@ module.exports = async (req, res) => {
       const count = (f) => rows.filter(f).length;
       return out(200, {
         total: hit.length, items: hit.slice(off, off + lim),
-        counts: { all: rows.length, brief: count((r) => r.type === 'brief'), newBriefs: count((r) => r.type === 'brief' && r.status === 'new'), subscriber: count((r) => r.type === 'subscriber'), mailfail: count((r) => r.mail && (r.mail.admin === 'failed' || r.mail.user === 'failed')) },
+        counts: { all: rows.length, brief: count((r) => r.type === 'brief'), newBriefs: count((r) => r.type === 'brief' && r.status === 'new'), subscriber: count((r) => r.type === 'subscriber'), mailfail: count((r) => r.mail && (r.mail.admin === 'failed' || r.mail.user === 'failed')), spam: count((r) => r.status === 'spam') },
       });
     }
     if (a === 'export') {

@@ -155,16 +155,45 @@
     var say = function (t, cls) { msg.textContent = t; msg.className = cls || ''; };
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say('That email address does not look right.', 'is-err'); f.email.focus(); return; }
     btn.disabled = true; say('Sending…');
-    fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname }) })
+    window.apToken().then(function (tk) { return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, cf: tk }) }); })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (x) { btn.disabled = false; if (x.ok) { f.email.value = ''; say(x.j.message || 'Check your inbox to confirm.', 'is-ok'); if (window.apTrack) window.apTrack('newsletter_signup', {}); } else say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err'); })
       .catch(function () { btn.disabled = false; say('Could not reach the server. Please try again later.', 'is-err'); });
   });
+  /* ---- Cloudflare Turnstile (optional): runs only when TURNSTILE_SITEKEY is set in Vercel; stays invisible unless Cloudflare needs a click ---- */
+  var tsLoading = null, tsWidget = null, tsKey = '', tsResolve = null;
+  function tsLoad() {
+    if (tsLoading) return tsLoading;
+    tsLoading = fetch('/api/config').then(function (r) { return r.json(); }).then(function (c) {
+      if (!c.turnstile) return null; tsKey = c.turnstile;
+      return new Promise(function (ok) {
+        var sc = document.createElement('script'); sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'; sc.async = true;
+        sc.onload = function () { ok(window.turnstile || null); }; sc.onerror = function () { ok(null); }; setTimeout(function () { ok(null); }, 8000); document.head.appendChild(sc);
+      });
+    }).catch(function () { return null; });
+    return tsLoading;
+  }
+  document.addEventListener('focusin', function f(e) { if (e.target && e.target.closest && e.target.closest('form')) { document.removeEventListener('focusin', f); tsLoad(); } });
+  window.apToken = function () {
+    return tsLoad().then(function (t) {
+      if (!t) return '';
+      return new Promise(function (resolve) {
+        var done = false, fin = function (v) { if (!done) { done = true; tsResolve = null; resolve(v || ''); } };
+        tsResolve = fin;
+        var box = document.getElementById('ap-ts');
+        if (!box) { box = document.createElement('div'); box.id = 'ap-ts'; box.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:96'; document.body.appendChild(box); }
+        if (tsWidget === null) tsWidget = t.render(box, { sitekey: tsKey, execution: 'execute', appearance: 'interaction-only', callback: function (tok) { if (tsResolve) tsResolve(tok); }, 'error-callback': function () { if (tsResolve) tsResolve(''); } });
+        else t.reset(tsWidget);
+        t.execute(tsWidget);
+        setTimeout(function () { fin(''); }, 20000);
+      });
+    });
+  };
   // shared by every brief form: same rules as the newsletter (honeypot, time check, JSON POST, inline result)
   window.apSend = function (d) {
     d.hp = ''; d.ts = T0; d.page = location.pathname;
     try { var rf = new URL(document.referrer); d.ref = rf.origin === location.origin ? rf.pathname : rf.hostname; } catch (e) { /* no referrer */ }
-    return fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
+    return window.apToken().then(function (tk) { d.cf = tk; return fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) }); })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
       .catch(function () { return { ok: false, j: { error: 'Could not reach the server. Please try again, or email hello@aashishpandey.com.' } }; });
   };

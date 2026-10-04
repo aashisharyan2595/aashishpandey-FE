@@ -76,6 +76,8 @@ const TOPICS = {
     ask: ['What outcome do they want?', 'What exists today?', 'Where do they need me: advice, build or both?', 'Deadline and budget owner?'],
   },
 };
+// one short phrase per service for "reply with ..." in the visitor email
+const WANT = { shopify: 'your store URL and the apps you rely on', fullstack: 'who will use it and what it has to connect to', wp: 'the current site URL and who edits it', seo: 'your site URL, and Search Console access if you have it (view only is fine)', uiux: 'screenshots or a link to what exists today', tech: 'the decision you are trying to make, in a sentence', pm: 'what is late or at risk, and the date that matters', other: 'what you want to achieve and anything that already exists' };
 const SERVICE_TOPIC = { 'Shopify development': 'shopify', 'Full-stack development': 'fullstack', 'WordPress or Webflow': 'wp', 'SEO consulting': 'seo', 'UI and UX design': 'uiux', 'Tech consulting': 'tech', 'Project management': 'pm', 'Something else': 'other' };
 
 /* ---------- where on the site they wrote from ---------- */
@@ -180,33 +182,30 @@ function adminBrief(d) {
   return { subject, html, text };
 }
 
-/* ---------- 2. user: we got your brief ---------- */
+/* ---------- 2. user: we got your brief (kept short on purpose) ---------- */
 function userBriefConfirmation(d, unsubUrl) {
   const r = read(d);
-  const subject = r.urgent ? `Got it, ${r.first}. I will look at your ${r.t.short} brief first` : `Got your ${r.t.short} brief, ${r.first}. I will reply within 48 hours`;
-  const notes = [];   // [html, plain]
-  if (d.company) notes.push([`I noted that this is for <strong>${esc(d.company)}</strong>.`, `I noted that this is for ${d.company}.`]);
-  if (r.host) notes.push([`I will take a look at <strong>${esc(r.host)}</strong> before I reply, so my questions are specific.`, `I will take a look at ${r.host} before I reply, so my questions are specific.`]);
-  const extra = r.urgent ? 'You said it is urgent, so yours goes to the front of the queue. A call is the fastest way to settle the details.'
-    : d.timeline === 'No fixed date' ? 'You have no fixed date, which gives us room to do this properly.'
-    : d.budget === 'Under $1,000' ? 'If the budget is tight, tell me what matters most and I will suggest a smaller first phase.'
-    : d.budget === 'Not sure yet' ? 'Not sure about budget is fine. I will give you a range and the trade-offs.' : '';
-  if (extra) notes.push([esc(extra), extra]);
+  const subject = r.urgent ? `Got it, ${r.first}. I will look at yours first` : `Got your brief, ${r.first}`;
+  // one personal line, the most useful one
+  const note = r.urgent ? 'Since it is urgent, yours goes to the front of the queue.'
+    : r.host ? `I will look at ${r.host} before I reply.`
+    : d.company ? `I noted that it is for ${d.company}.` : '';
+  const want = WANT[SERVICE_TOPIC[d.service]] || WANT.other;
   const best = r.t.proof[0];
+  const quoted = String(d.message).replace(/\s+/g, ' ').trim();
+  const snippet = quoted.length > 160 ? quoted.slice(0, 157) + '...' : quoted;
+  const open = r.src.key === 'ride' ? 'Thanks for riding all the way to the campfire.' : `Thanks for your ${r.t.short} brief.`;
   const html = lightLayout({
     title: subject,
     body: lp(`Hi ${esc(r.first)},`)
-      + lp(`${esc(r.src.hello)} Your brief reached me, and I read every one myself. ${esc(r.t.line)}`)
-      + (notes.length ? lp(notes.map((n) => n[0]).join(' ')) : '')
-      + lh('What happens next') + lul(r.t.steps.map(esc), true)
-      + lh('What would help me most') + lp('If you have them to hand, reply with any of these. None of it is required.') + lul(r.t.prep.map(esc))
-      + lp(`The closest work to yours is ${alink(SITE + best[1], best[0])}.`)
-      + lh('What you sent') + `<div style="margin:0 0 14px;padding:10px 14px;border-left:3px solid #cccccc;">${nl2br(`Looking for: ${r.t.label}\n${d.budget ? 'Budget: ' + d.budget + '\n' : ''}${d.timeline ? 'Timeline: ' + d.timeline + '\n' : ''}${d.company ? 'Company: ' + d.company + '\n' : ''}${d.website_url ? 'Website: ' + d.website_url + '\n' : ''}\n${d.message}`)}</div>`
-      + lp(`${r.urgent ? 'If you want to talk it through now, ' : 'If a call is easier, '}you can ${alink(BOOK, 'book 20 minutes with me')}, or just reply to this email.`)
-      + lp('Aashish<br>Aashish Pandey, Bangalore'),
-    footer: `You are getting this one email because you sent a form on ${esc(r.src.label)}. I do not add you to a mailing list. Reply if something in your brief was wrong. ${unsubUrl ? alink(unsubUrl, 'Unsubscribe') + ' if you do not want any other email from me. ' : ''}${alink(SITE + '/privacy', 'Privacy policy')}`,
+      + lp(`${esc(open)} It reached me and I read every one myself. ${esc(note)}`.trim())
+      + lp(`I will reply within 48 hours with questions, or with a scope and a quote. If you can, reply with ${esc(want)}.`)
+      + lp(`Closest work to yours: ${alink(SITE + best[1], best[0])}. Prefer to talk? ${alink(BOOK, 'Book 20 minutes')} or just reply.`)
+      + `<p style="margin:0 0 14px;color:#6b6b6b;">You wrote: &ldquo;${esc(snippet)}&rdquo;</p>`
+      + lp('Aashish'),
+    footer: `Sent because you used the form on ${esc(r.src.label)}. No mailing list. ${unsubUrl ? alink(unsubUrl, 'Unsubscribe') + ' · ' : ''}${alink(SITE + '/privacy', 'Privacy')}`,
   });
-  const text = `Hi ${r.first},\n\n${r.src.hello} Your brief reached me, and I read every one myself.\n\n${r.t.line}\n${notes.length ? '\n' + notes.map((n) => n[1]).join(' ') + '\n' : ''}\nWhat happens next:\n${r.t.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}\n\nWhat would help me most (optional):\n${r.t.prep.map((s) => '- ' + s).join('\n')}\n\nWork close to yours:\n${r.t.proof.map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nWhat you sent:\nLooking for: ${r.t.label}\n${d.budget ? 'Budget: ' + d.budget + '\n' : ''}${d.timeline ? 'Timeline: ' + d.timeline + '\n' : ''}\n${d.message}\n\nBook a call: ${BOOK}\nWhatsApp: ${WHATSAPP}\n\nAashish\n\nYou get this one email because you sent the form on ${r.src.label}. I do not add you to a mailing list.${unsubUrl ? '\nUnsubscribe from any other email from me: ' + unsubUrl : ''}\nPrivacy: ${SITE}/privacy`;
+  const text = `Hi ${r.first},\n\n${open} It reached me and I read every one myself.${note ? ' ' + note : ''}\n\nI will reply within 48 hours with questions, or with a scope and a quote. If you can, reply with ${want}.\n\nClosest work to yours: ${best[0]}: ${SITE}${best[1]}\nPrefer to talk? Book 20 minutes: ${BOOK}\n\nYou wrote: "${snippet}"\n\nAashish\n\nSent because you used the form on ${r.src.label}. No mailing list.${unsubUrl ? '\nUnsubscribe: ' + unsubUrl : ''}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };
 }
 
@@ -216,8 +215,8 @@ function subscribeConfirm(url, src, unsubUrl) {
   const subject = 'Please confirm your subscription';
   const html = lightLayout({
     title: subject,
-    body: lp('Hi,') + lp('Someone, hopefully you, asked to get emails from aashishpandey.com. To say yes, open this link:')
-      + lp(alink(url, url)) + lp('The link works for 48 hours. If it was not you, ignore this email. Nothing happens and you will not hear from me.') + lp('Aashish'),
+    body: lp('Hi,') + lp(`Please confirm you want emails from aashishpandey.com: ${alink(url, 'confirm my subscription')}.`)
+      + lp('The link works for 48 hours. If it was not you, ignore this email and nothing happens.') + lp('Aashish'),
     footer: `You get this because this address was typed into the subscribe form on ${esc(where)}. ${unsubUrl ? alink(unsubUrl, 'Unsubscribe') + ' · ' : ''}${alink(SITE + '/privacy', 'Privacy policy')}`,
   });
   const text = `Hi,\n\nSomeone, hopefully you, asked to get emails from aashishpandey.com. Open this link to say yes:\n${url}\n\nThe link works for 48 hours. If it was not you, ignore this email. Nothing happens.\n\n${unsubUrl ? 'Unsubscribe: ' + unsubUrl + '\n' : ''}Privacy: ${SITE}/privacy`;
@@ -226,22 +225,21 @@ function subscribeConfirm(url, src, unsubUrl) {
 
 /* ---------- 4. subscriber: welcome (adapts to where they signed up) ---------- */
 const WELCOME = {
-  tools: { hello: 'You signed up from the Tools page, so here are the ones people use most.', pairs: [['QR code generator', '/tools/qr-code-generator'], ['Invoice generator', '/tools/invoice-generator'], ['Password generator', '/tools/password-generator'], ['Image resizer', '/tools/image-resizer']] },
-  portfolio: { hello: 'You signed up from the portfolio page, so here is where to start.', pairs: [['Liquid I.V.: Shopify across 15 markets', '/work-liquid-iv'], ['Talenti Canada', '/work-talenti'], ['All case studies', '/case-studies']] },
-  _: { hello: 'Here is where to start if you want a look around.', pairs: [['The interactive ride (best on a laptop)', '/'], ['Case studies', '/case-studies'], ['Free tools', '/tools']] },
+  tools: { hello: 'Most used tools:', pairs: [['QR code generator', '/tools/qr-code-generator'], ['Invoice generator', '/tools/invoice-generator'], ['Password generator', '/tools/password-generator'], ['Image resizer', '/tools/image-resizer']] },
+  portfolio: { hello: 'Where to start:', pairs: [['Liquid I.V.: Shopify across 15 markets', '/work-liquid-iv'], ['Talenti Canada', '/work-talenti'], ['All case studies', '/case-studies']] },
+  _: { hello: 'Where to start:', pairs: [['The interactive ride (best on a laptop)', '/'], ['Case studies', '/case-studies'], ['Free tools', '/tools']] },
 };
 function subscribeWelcome(unsubUrl, src) {
   const w = WELCOME[src] || WELCOME._;
   const subject = 'You are subscribed';
   const html = lightLayout({
     title: subject,
-    body: lp('Hi,') + lp('You are on the list. Thanks.')
-      + lp('I will email you when I publish something worth reading, such as a new tool, a case study or a write-up. Not on a fixed schedule, and never to fill space.')
-      + lp(esc(w.hello)) + lul(w.pairs.map(([l, u]) => alink(SITE + u, l)))
-      + lp('If you want to talk about a project, just reply to this email. It comes to me.') + lp('Aashish'),
-    footer: `Changed your mind? ${alink(unsubUrl, 'Unsubscribe with one click')}. ${alink(SITE + '/privacy', 'Privacy policy')}`,
+    body: lp('Hi,') + lp('You are on the list. I only write when I have published something worth reading, never to fill space.')
+      + lp(esc(w.hello)) + lul(w.pairs.slice(0, 3).map(([l, u]) => alink(SITE + u, l)))
+      + lp('Reply any time. It comes to me.') + lp('Aashish'),
+    footer: `${alink(unsubUrl, 'Unsubscribe')} · ${alink(SITE + '/privacy', 'Privacy')}`,
   });
-  const text = `Hi,\n\nYou are on the list. Thanks.\n\nI will email you when I publish something worth reading, such as a new tool, a case study or a write-up. Not on a fixed schedule, and never to fill space.\n\n${w.hello}\n${w.pairs.map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nIf you want to talk about a project, just reply to this email.\n\nAashish\n\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
+  const text = `Hi,\n\nYou are on the list. I only write when I have published something worth reading, never to fill space.\n\n${w.hello}\n${w.pairs.slice(0, 3).map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nReply any time. It comes to me.\n\nAashish\n\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };
 }
 

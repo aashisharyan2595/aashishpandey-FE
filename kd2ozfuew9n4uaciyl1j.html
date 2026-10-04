@@ -125,11 +125,11 @@ function load(append){
   });
 }
 function drawChips(c){
-  var defs=[['New briefs',c.newBriefs,function(){$('type').value='brief';$('status').value='new';load()}],['All briefs',c.brief,function(){$('type').value='brief';$('status').value='all';load()}],['Subscribers',c.subscriber,function(){$('type').value='subscriber';$('status').value='all';load()}],['Email failures',c.mailfail,function(){$('type').value='all';$('status').value='mailfail';load()},c.mailfail>0]];
+  var defs=[['New briefs',c.newBriefs,function(){$('type').value='brief';$('status').value='new';load()}],['All briefs',c.brief,function(){$('type').value='brief';$('status').value='all';load()}],['Subscribers',c.subscriber,function(){$('type').value='subscriber';$('status').value='all';load()}],['Email failures',c.mailfail,function(){$('type').value='all';$('status').value='mailfail';load()},c.mailfail>0],['Caught as spam',c.spam,function(){$('type').value='brief';$('status').value='spam';load()}]];
   $('chips').innerHTML='';
   defs.forEach(function(d){var b=document.createElement('button');b.className='chip'+(d[4]?' warn':'');b.innerHTML='<b>'+d[1]+'</b><span>'+esc(d[0])+'</span>';b.onclick=d[2];$('chips').appendChild(b)});
 }
-function mailPill(r){var m=r.mail||{};if(r.type!=='brief')return m.user?'<span class="pill m-'+m.user+'">'+m.user+'</span>':'';var f=m.admin==='failed'||m.user==='failed';return f?'<span class="pill m-failed">failed</span>':(m.admin==='sent'?'<span class="pill m-sent">sent</span>':'<span class="pill">unknown</span>')}
+function mailPill(r){var m=r.mail||{};if(m.admin==='skipped')return '<span class="pill">skipped</span>';if(r.type!=='brief')return m.user?'<span class="pill m-'+m.user+'">'+m.user+'</span>':'';var f=m.admin==='failed'||m.user==='failed';return f?'<span class="pill m-failed">failed</span>':(m.admin==='sent'?'<span class="pill m-sent">sent</span>':'<span class="pill">unknown</span>')}
 function draw(){
   var tb=$('rows');tb.innerHTML='';
   items.forEach(function(r){
@@ -148,7 +148,7 @@ function selUI(){var n=selIds().length;$('delSel').disabled=!n;$('delSel').textC
 
 function open(r){
   var m=r.mail||{}, s=$('sheet');
-  var kv=[['Received',ist(r.created)],['Type',r.type],['Name',r.name],['Email','<a href="mailto:'+esc(r.email)+'">'+esc(r.email)+'</a>'],['Company',r.company],['Website',r.website_url?'<a href="'+esc(/^https?:/i.test(r.website_url)?r.website_url:'https://'+r.website_url)+'" target="_blank" rel="noopener">'+esc(r.website_url)+'</a>':''],['Looking for',r.service],['Budget',r.budget],['Timeline',r.timeline],['Came from',r.source],['Page',r.page],['Referrer',r.ref]].filter(function(x){return x[1]});
+  var kv=[['Received',ist(r.created)],['Type',r.type],['Name',r.name],['Email','<a href="mailto:'+esc(r.email)+'">'+esc(r.email)+'</a>'],['Company',r.company],['Website',r.website_url?'<a href="'+esc(/^https?:/i.test(r.website_url)?r.website_url:'https://'+r.website_url)+'" target="_blank" rel="noopener">'+esc(r.website_url)+'</a>':''],['Looking for',r.service],['Budget',r.budget],['Timeline',r.timeline],['Came from',r.source],['Page',r.page],['Referrer',r.ref],['Spam check',r.flags&&r.flags.length?'Score '+r.spamScore+': '+r.flags.join('; '):'']].filter(function(x){return x[1]});
   s.innerHTML='<div class="row" style="justify-content:space-between"><h1 style="font-size:20px">'+esc(r.name||r.email)+'</h1><button class="btn" id="x">Close</button></div>'
    +'<div class="row"><span class="pill s-'+esc(r.status)+'">'+esc(r.status)+'</span>'+(r.type==='brief'?'<span class="pill m-'+(m.admin==='failed'?'failed':m.admin==='sent'?'sent':'')+'">alert '+esc(m.admin||'unknown')+'</span><span class="pill m-'+(m.user==='failed'?'failed':m.user==='sent'?'sent':'')+'">confirmation '+esc(m.user||'unknown')+'</span>':'')+'</div>'
    +'<dl class="kv">'+kv.map(function(x){return '<dt>'+esc(x[0])+'</dt><dd>'+(x[1].indexOf('<a ')===0?x[1]:esc(x[1]))+'</dd>'}).join('')+'</dl>'

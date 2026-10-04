@@ -71,7 +71,7 @@ if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email||'')){return fail('That email a
 if(!d.message||d.message.trim().length<10){return fail('Please write a few words about the project.',f.message)}
 if(!d.consent){return fail('Please tick the box to agree to the privacy policy.',f.consent)}
 var b=f.querySelector('button');b.disabled=true;b.textContent='Sending';
-fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{ok:r.ok,j:j}})}).then(function(x){
+(window.apToken?window.apToken():Promise.resolve('')).then(function(tk){d.cf=tk;return fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})}).then(function(r){return r.json().catch(function(){return{}}).then(function(j){return{ok:r.ok,j:j}})}).then(function(x){
  if(x.ok){f.style.display='none';done.style.display='block';done.focus();if(window.apTrack)window.apTrack('brief_sent',{});}
  else{b.disabled=false;b.textContent='Send the brief';fail(x.j.error||'Could not send. Please email hello@aashishpandey.com.')}
 }).catch(function(){b.disabled=false;b.textContent='Send the brief';fail('Could not reach the server. Please email hello@aashishpandey.com.')});});

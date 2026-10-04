@@ -3,6 +3,9 @@
 const { env, sendMail, clean, validEmail, parseBody, clientIp, limited, link } = require('./_mail');
 const T = require('./_templates');
 const store = require('./_store');
+const crypto = require('crypto');
+const spam = require('./_spam');
+const turnstile = require('./_turnstile');
 
 const SERVICES = ['Shopify development', 'Full-stack development', 'WordPress or Webflow', 'SEO consulting', 'UI and UX design', 'Tech consulting', 'Project management', 'Something else'];
 const BUDGETS = ['Not sure yet', 'Under $1,000', '$1,000 to $5,000', '$5,000 to $15,000', '$15,000 to $50,000', 'More than $50,000'];
@@ -26,11 +29,24 @@ module.exports = async (req, res) => {
   if (!validEmail(d.email)) return res.status(400).json({ error: 'That email address does not look right.' });
   if (d.message.length < 10) return res.status(400).json({ error: 'Please write a few words about the project.' });
   if (b.consent !== true) return res.status(400).json({ error: 'Please tick the box to agree to the privacy policy.' });
-  if (await limited('contact', clientIp(req), 5, 3600)) return res.status(429).json({ error: 'Too many messages from this connection. Please try again in an hour, or email hello@aashishpandey.com.' });
+  // spam: scored first. A high score is saved as "spam" in the admin (so a false alarm can be rescued) but nothing is emailed,
+  // and the sender sees the normal success message so a bot learns nothing.
+  const ip = clientIp(req), sp = spam.score(d, req), cap = await turnstile.check(b.cf, ip);
+  if (cap === 'bad') { sp.score += 4; sp.flags.push('captcha failed'); } else if (cap === 'missing') { sp.score += 3; sp.flags.push('no captcha token'); }
+  if (sp.score >= spam.SPAM_AT) {
+    try { await store.add({ type: 'brief', status: 'spam', ...d, spamScore: sp.score, flags: sp.flags, mail: { admin: 'skipped', user: 'skipped' } }); } catch (e) { console.error('contact: could not save spam', e.message); }
+    return res.status(200).json({ ok: true });
+  }
+  // the same person may send the same brief up to 3 times a day (people retry, or add a detail); after that it is a repeat
+  const same = crypto.createHash('sha256').update(d.email + '|' + d.message.toLowerCase().replace(/\s+/g, ' ')).digest('hex').slice(0, 24);
+  if (await limited('dup', same, 3, 86400)) return res.status(429).json({ error: 'You have already sent this exact message three times today. I have it and will reply soon. If something changed, edit the message and send again.' });
+  if (await limited('contactmail', d.email, 6, 86400)) return res.status(429).json({ error: 'That is a lot of briefs from one address today. I have them all and will reply soon.' });
+  if (await limited('contactday', ip, 15, 86400)) return res.status(429).json({ error: 'Too many messages from this connection today. Please email hello@aashishpandey.com.' });
+  if (await limited('contact', ip, 5, 3600)) return res.status(429).json({ error: 'Too many messages from this connection. Please try again in an hour, or email hello@aashishpandey.com.' });
 
   // save first: the admin page keeps every brief even if the emails below fail
   let rec = null;
-  try { rec = await store.add({ type: 'brief', status: 'new', ...d, mail: {} }); } catch (e) { console.error('contact: could not save', e.message); }
+  try { rec = await store.add({ type: 'brief', status: 'new', ...d, ...(sp.score ? { spamScore: sp.score, flags: sp.flags } : {}), mail: {} }); } catch (e) { console.error('contact: could not save', e.message); }
   const mark = (mail) => (rec ? store.update(rec.id, { mail }).catch((e) => console.error('contact: status not saved', e.message)) : null);
   try {
     const a = T.adminBrief(d);
