@@ -158,6 +158,34 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
   .toast{bottom:28px}
   .pop button{min-height:40px}
 }
+/* ---- phone: customisable bottom bar + profile drawer ---- */
+.burger{position:relative;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);cursor:pointer;display:grid;place-items:center;padding:0;flex-shrink:0}
+.burger svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round}
+.bdot{position:absolute;top:7px;right:7px;width:10px;height:10px;border-radius:50%;background:var(--red);border:2px solid var(--bg)}
+.cur{font-weight:600;color:var(--amber);font-size:15px}
+.appbar h1{white-space:nowrap}
+.prof{position:fixed;inset:0;z-index:80}
+.prof .scrim{position:absolute;inset:0;background:rgba(3,5,16,.62);animation:fade .2s}
+.prof aside{position:absolute;top:0;bottom:0;left:0;width:min(340px,88vw);background:var(--panel);border-right:1px solid var(--line);padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + var(--safe));display:flex;flex-direction:column;overflow:auto;animation:slide .22s ease-out}
+@keyframes slide{from{transform:translateX(-30px);opacity:0}to{transform:none;opacity:1}}@keyframes fade{from{opacity:0}to{opacity:1}}
+.ph{display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.av{width:46px;height:46px;border-radius:50%;background:var(--amber);color:#1a1420;display:grid;place-items:center;font-weight:700;font-size:20px;flex-shrink:0}
+.pn{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}.pn b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pn span{font-size:13px;color:var(--mute);text-transform:capitalize}
+.plist{display:flex;flex-direction:column;gap:6px;flex:1}
+.prow{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:14px;background:#0a0e26;padding-right:6px}
+.prow.pinned{border-color:rgba(245,184,103,.45)}
+.prow .go{flex:1;min-width:0;display:flex;align-items:center;gap:12px;min-height:52px;padding:0 12px;background:none;border:0;cursor:pointer;text-align:left;font-weight:600}
+.prow .go svg{width:22px;height:22px;stroke:var(--mute);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.prow.cur .go svg,.prow.cur .go{color:var(--amber);stroke:var(--amber)}
+.prow .bg{min-width:18px;height:18px;border-radius:99px;background:var(--red);color:#1a1420;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+.prow .mv{width:34px;height:40px;border:0;background:none;color:var(--mute);cursor:pointer;font-size:14px;padding:0}
+.prow .mv:disabled{opacity:.25}
+.prow .pin{width:44px;height:44px;border:0;background:none;cursor:pointer;display:grid;place-items:center;padding:0}
+.prow .pin svg{width:22px;height:22px;stroke:var(--mute);fill:none;stroke-width:1.8;stroke-linejoin:round}
+.prow.pinned .pin svg{fill:var(--amber);stroke:var(--amber)}
+.pfoot{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}.pfoot .btn{flex:1}
+@media(min-width:900px){.burger,.prof,.cur{display:none!important}}
+@media(max-width:899px){.tab.unp{display:none}}
 #tab-mail .bar{flex-wrap:wrap}#tab-mail .bar .grow{flex:1 1 100%}#tab-mail .bar select{flex:1 1 140px;width:auto}
 .only-d{display:none}@media(min-width:900px){.only-d{display:block}.only-m{display:none!important}}
 </style>
@@ -177,7 +205,7 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
 </section>
 
 <div id="app" class="hide">
-  <header class="appbar"><h1>Admin <i>desk</i></h1><div class="row" style="flex-wrap:nowrap"><div class="who" id="whoami"></div><button class="btn sm" id="out" aria-label="Sign out">Sign out</button></div></header>
+  <header class="appbar"><div class="row" style="flex-wrap:nowrap;gap:10px"><button class="burger" id="burger" aria-label="Open menu and profile" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="bdot hide" id="bdot"></span></button><h1>Admin <i>desk</i></h1></div><span class="cur only-m" id="curTab"></span><div class="row only-d" style="flex-wrap:nowrap"><div class="who" id="whoami"></div><button class="btn sm" id="out" aria-label="Sign out">Sign out</button></div></header>
   <nav class="nav" id="tabs" aria-label="Sections">
     <button class="tab on" data-tab="sub"><svg viewBox="0 0 24 24"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M4 13 6.5 5h11L20 13v6H4z"/></svg>Inbox<span class="dot hide" id="newDot"></span></button>
     <button class="tab own" data-tab="news"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>News</button>
@@ -187,6 +215,15 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
     <button class="tab own" data-tab="team"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5a3 3 0 0 1 0 6"/><path d="M18 14c2 .6 3.5 2.6 3.5 5"/></svg>Team</button>
     <button class="tab" data-tab="set"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
   </nav>
+  <div id="prof" class="prof hide" role="dialog" aria-modal="true" aria-label="Admin profile">
+    <div class="scrim" id="profScrim"></div>
+    <aside>
+      <div class="ph"><div class="av" id="profAv">A</div><div class="pn"><b id="profName">Owner</b><span id="profRole"></span></div><button class="btn sm" id="profClose" aria-label="Close">Close</button></div>
+      <p class="sub" style="margin:4px 0 10px">Pick up to <b>4</b> sections for the bottom bar. The rest stay here.</p>
+      <div class="plist" id="plist"></div>
+      <div class="pfoot"><button class="btn" id="profReset">Reset bar</button><button class="btn danger" id="out2">Sign out</button></div>
+    </aside>
+  </div>
 
   <main class="wrap">
   <div class="banner hide" id="bnPw">Please set your own password: open <b>Settings</b> and use "Change password". <button class="linkbtn" id="bnGo">Go to Settings</button></div>
@@ -341,13 +378,55 @@ function applyRole(u){
   document.querySelectorAll('.own').forEach(function(e){e.classList.toggle('hide',!isOwner())});
   $('pwCard').classList.toggle('hide',isOwner());
   $('bnPw').classList.toggle('hide',!me.mustChange);
+  applyPins();
 }
 $('bnGo').onclick=function(){openTab('set')};
+
+/* ---------- phone bottom bar: the person chooses which sections sit on it ---------- */
+var ALLTABS=['sub','news','mail','spam','links','team','set'],LABELS={sub:'Inbox',news:'News',mail:'Mail',spam:'Spam',links:'Links',team:'Team',set:'Settings'},MAXPIN=4,DEFPIN=['sub','mail','news','set'],curTab='sub';
+function pinKey(){return 'adm.pins.'+((me&&(me.id||me.email))||'owner')}
+function avail(){return ALLTABS.filter(function(t){return t==='sub'||t==='set'||isOwner()})}
+function getPins(){var p;try{p=JSON.parse(localStorage.getItem(pinKey())||'null')}catch(e){}
+  if(!Array.isArray(p))p=DEFPIN;var a=avail();p=p.filter(function(t,i){return a.indexOf(t)>-1&&p.indexOf(t)===i}).slice(0,MAXPIN);
+  if(!p.length)p=['sub'];return p}
+function setPins(p){try{localStorage.setItem(pinKey(),JSON.stringify(p))}catch(e){}}
+function tabBtn(t){return document.querySelector('#tabs .tab[data-tab="'+t+'"]')}
+function applyPins(){var p=getPins(),bar=$('tabs');
+  p.forEach(function(t){var b=tabBtn(t);if(b)bar.appendChild(b)});
+  ALLTABS.forEach(function(t){var b=tabBtn(t);if(b)b.classList.toggle('unp',p.indexOf(t)<0)});
+  refreshBurst()}
+function dotText(t){var d=t==='sub'?$('newDot'):t==='mail'?$('mailDot'):null;return d&&!d.classList.contains('hide')?d.textContent:''}
+function refreshBurst(){var p=getPins(),any=avail().some(function(t){return p.indexOf(t)<0&&dotText(t)});$('bdot').classList.toggle('hide',!any)}
+var PINSVG='<svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></svg>';
+function drawProf(){var p=getPins(),a=avail(),list=$('plist');list.innerHTML='';
+  var order=p.concat(a.filter(function(t){return p.indexOf(t)<0}));
+  order.forEach(function(t){var on=p.indexOf(t)>-1,i=p.indexOf(t),row=document.createElement('div');
+    row.className='prow'+(on?' pinned':'')+(t===curTab?' cur':'');
+    var ic=tabBtn(t).querySelector('svg').outerHTML,bd=dotText(t);
+    row.innerHTML='<button class="go" data-go="'+t+'">'+ic+'<span style="flex:1">'+LABELS[t]+'</span>'+(bd?'<span class="bg">'+esc(bd)+'</span>':'')+'</button>'
+      +(on?'<button class="mv" data-up="'+t+'" aria-label="Move '+LABELS[t]+' left"'+(i===0?' disabled':'')+'>&#9664;</button><button class="mv" data-dn="'+t+'" aria-label="Move '+LABELS[t]+' right"'+(i===p.length-1?' disabled':'')+'>&#9654;</button>':'')
+      +'<button class="pin" data-pin="'+t+'" aria-pressed="'+on+'" aria-label="'+(on?'Remove '+LABELS[t]+' from the bottom bar':'Show '+LABELS[t]+' in the bottom bar')+'">'+PINSVG+'</button>';
+    list.appendChild(row)})}
+function openProf(on){$('prof').classList.toggle('hide',!on);$('burger').setAttribute('aria-expanded',on?'true':'false');if(on){var n=me&&me.role==='owner'?'Owner':(me&&me.name)||'Admin';$('profName').textContent=n;$('profRole').textContent=(me&&me.email?me.email+' \u00b7 ':'')+(me&&me.role||'owner');$('profAv').textContent=String(n).charAt(0).toUpperCase();drawProf()}}
+$('burger').onclick=function(){openProf(true)};$('profClose').onclick=$('profScrim').onclick=function(){openProf(false)};
+$('profReset').onclick=function(){setPins(DEFPIN.slice());applyPins();drawProf()};
+$('out2').onclick=function(){$('out').click()};
+$('plist').onclick=function(e){var el=e.target.closest&&e.target.closest('button');if(!el)return;var p=getPins();
+  if(el.dataset.go){openProf(false);openTab(el.dataset.go);return}
+  if(el.dataset.pin){var t=el.dataset.pin,i=p.indexOf(t);
+    if(i>-1){if(p.length<2){toast('Keep at least one on the bar');return}p.splice(i,1)}
+    else{if(p.length>=MAXPIN){toast('The bar holds '+MAXPIN+'. Remove one first.');return}p.push(t)}}
+  if(el.dataset.up||el.dataset.dn){var t2=el.dataset.up||el.dataset.dn,j=p.indexOf(t2),k=el.dataset.up?j-1:j+1;if(k<0||k>=p.length)return;p.splice(j,1);p.splice(k,0,t2)}
+  setPins(p);applyPins();drawProf()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('prof').classList.contains('hide'))openProf(false)});
+try{var mo=new MutationObserver(refreshBurst);['newDot','mailDot'].forEach(function(i){mo.observe($(i),{attributes:true,childList:true,characterData:true,subtree:true})})}catch(e){}
+
 
 /* ---------- tabs ---------- */
 function openTab(t){
   if(t!=='sub'&&t!=='set'&&!isOwner())t='sub';
   document.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t)});
+  curTab=t;$('curTab').textContent=LABELS[t]||'';
   ['sub','news','mail','spam','links','team','set'].forEach(function(x){$('tab-'+x).classList.toggle('hide',x!==t)});
   window.scrollTo(0,0);
   if(t==='sub'&&!loaded.sub){loaded.sub=1;load()}
