@@ -263,4 +263,5 @@ function adminSubscriber(email, kind = 'subscribed', src) {
   return { subject, html, text: subject };
 }
 
-module.exports = { adminBrief, userBriefConfirmation, subscribeConfirm, subscribeWelcome, adminSubscriber, TOPICS, SERVICE_TOPIC };
+const priorityOf = (d) => read(d).priority;
+module.exports = { adminBrief, userBriefConfirmation, subscribeConfirm, subscribeWelcome, adminSubscriber, TOPICS, SERVICE_TOPIC, priorityOf, shell, accent, button, flink, BOOK };

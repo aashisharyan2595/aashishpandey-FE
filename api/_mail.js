@@ -28,11 +28,12 @@ async function resend(path, method, body) {
   return j;
 }
 
-function sendMail({ to, subject, html, text, replyTo, headers }) {
+function sendMail({ to, subject, html, text, replyTo, headers, attachments }) {
   const { from } = env();
   const body = { from, to: Array.isArray(to) ? to : [to], subject, html, text };
   if (replyTo) body.reply_to = replyTo;
   if (headers) body.headers = headers;
+  if (attachments) body.attachments = attachments;   // [{ filename, content: base64 }]
   return resend('/emails', 'POST', body);
 }
 

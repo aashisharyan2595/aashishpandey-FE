@@ -2,185 +2,428 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Admin · Submissions</title>
+<meta name="theme-color" content="#070916">
+<title>Admin</title>
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#070916;--panel:#0e1230;--panel2:#141a40;--line:rgba(244,239,230,.12);--ink:#f4efe6;--mute:#aaa4b8;--amber:#f5b867;--green:#6fd6a8;--red:#ff8f7a;--blue:#8db4ff}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Geist,system-ui,sans-serif;font-size:15px;line-height:1.5}
+/* Mobile first: the base rules are the phone layout, wider screens add to them. */
+:root{--bg:#070916;--panel:#0e1230;--panel2:#161c46;--line:rgba(244,239,230,.12);--ink:#f4efe6;--mute:#a7a1b6;--amber:#f5b867;--green:#6fd6a8;--red:#ff8f7a;--blue:#8db4ff;--nav:64px;--safe:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Geist,system-ui,sans-serif;font-size:16px;line-height:1.5}
+body{padding-bottom:calc(var(--nav) + var(--safe) + 24px);background:radial-gradient(900px 400px at 85% -120px,rgba(245,184,103,.09),transparent 70%),var(--bg)}
 button,input,select,textarea{font:inherit;color:inherit}
 a{color:var(--amber)}
 .hide{display:none!important}
-.wrap{max-width:1280px;margin:0 auto;padding:20px clamp(14px,3vw,32px) 80px}
-/* login */
-#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-#login form{width:min(380px,100%);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:14px}
-h1{margin:0;font-size:24px;letter-spacing:-.03em}
+h1{margin:0;font-size:22px;letter-spacing:-.03em}
+h1 i{font-family:'Instrument Serif',serif;font-weight:400;color:var(--amber);font-size:1.08em}
+h2{margin:0 0 4px;font-size:18px;letter-spacing:-.02em}
 .sub{margin:0;color:var(--mute);font-size:14px}
-input,select,textarea{background:#0a0e26;border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;min-width:0}
-input:focus,select:focus,textarea:focus{border-color:var(--amber)}
-.btn{height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-weight:600;white-space:nowrap}
-.btn:hover{border-color:var(--amber)}
+.err{color:var(--red);font-size:14px;min-height:20px}.ok{color:var(--green);font-size:14px}
+
+/* controls: 44px tall on phones so they are easy to hit */
+input,select,textarea{width:100%;min-height:46px;background:#0a0e26;border:1px solid var(--line);border-radius:12px;padding:10px 14px;outline:none;font-size:16px}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;width:22px;min-height:22px;height:22px;padding:0;border-radius:7px;border:1.5px solid rgba(244,239,230,.3);background:#0a0e26;flex-shrink:0;cursor:pointer;display:inline-grid;place-content:center}
+input[type=checkbox]:checked{background:var(--amber);border-color:var(--amber)}
+input[type=checkbox]:checked::after{content:'';width:10px;height:6px;border-left:2.5px solid #1a1420;border-bottom:2.5px solid #1a1420;transform:rotate(-45deg) translate(1px,-1px)}
+input:focus,select:focus,textarea:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,184,103,.15)}
+textarea{resize:vertical;line-height:1.5}
+.btn{min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:auto}
+.btn:active{transform:scale(.98)}
 .btn.pri{background:var(--amber);color:#1a1420;border-color:var(--amber)}
 .btn.danger{color:var(--red)}
-.btn:disabled{opacity:.5;cursor:default}
-.err{color:var(--red);font-size:14px;min-height:20px}
-/* header + chips */
-header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
-.chip{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 16px;min-width:130px;cursor:pointer;text-align:left}
-.chip b{display:block;font-size:24px;letter-spacing:-.03em}
+.btn.sm{min-height:38px;padding:0 14px;font-size:14px}
+.btn:disabled{opacity:.5}
+.btn.ico{width:44px;padding:0}
+.lbl{display:block;font-size:13px;color:var(--mute);margin:14px 0 6px}
+
+/* login */
+#login{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px}
+#login form{width:min(400px,100%);background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:14px}
+
+/* app bar */
+.appbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px));background:rgba(7,9,22,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 16px 0}
+
+/* tabs: a bottom bar on phones */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;height:calc(var(--nav) + var(--safe));padding-bottom:var(--safe);background:rgba(10,14,38,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:0;color:var(--mute);font-size:11px;font-weight:600;cursor:pointer;position:relative}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--amber)}
+.tab .dot{position:absolute;top:8px;left:calc(50% + 6px);min-width:16px;height:16px;border-radius:99px;background:var(--red);color:#1a1420;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* chips: a swipeable row on phones */
+.chips{display:flex;gap:10px;overflow-x:auto;margin:0 -16px 14px;padding:2px 16px;scroll-snap-type:x proximity;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;scroll-snap-align:start;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 16px;min-width:116px;text-align:left;cursor:pointer}
+.chip b{display:block;font-size:24px;letter-spacing:-.03em;line-height:1.2}
 .chip span{font-size:12.5px;color:var(--mute)}
-.chip.warn b{color:var(--red)}
+.chip.warn b{color:var(--red)}.chip.static{cursor:default}
+
 /* toolbar */
-.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
-.bar input[type=search]{flex:1 1 220px}
-.bar input[type=date]{width:150px}
+.bar{display:flex;gap:8px;margin-bottom:12px}
+.bar .grow{flex:1}
+.filters{display:none;flex-direction:column;gap:8px;margin-bottom:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px}
+.filters.open{display:flex}
+.filters .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .menu{position:relative}
-.menu .pop{position:absolute;right:0;top:44px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:6px;z-index:5;min-width:190px}
-.menu .pop button{display:block;width:100%;text-align:left;background:none;border:0;padding:9px 12px;border-radius:8px;cursor:pointer}
-.menu .pop button:hover{background:rgba(245,184,103,.12)}
-/* table */
-.tbl{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-table{width:100%;border-collapse:collapse}
-th{font:500 11px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
-tbody tr{cursor:pointer}
-tbody tr:hover{background:rgba(245,184,103,.06)}
-tbody tr:last-child td{border-bottom:0}
-td.n{font-weight:600}
-td small{display:block;color:var(--mute);font-weight:400}
-.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line);white-space:nowrap}
-.s-new{color:var(--amber);border-color:var(--amber)}.s-replied,.s-subscribed{color:var(--green);border-color:var(--green)}
-.s-spam,.m-failed{color:var(--red);border-color:var(--red)}.s-archived,.s-unsubscribed{color:var(--mute)}.s-pending{color:var(--blue);border-color:var(--blue)}
-.m-sent{color:var(--green);border-color:rgba(111,214,168,.4)}
-.empty{padding:48px 20px;text-align:center;color:var(--mute)}
+.pop{position:absolute;right:0;bottom:calc(100% + 6px);background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:6px;z-index:6;min-width:200px;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.pop button{display:block;width:100%;text-align:left;background:none;border:0;padding:12px 14px;border-radius:10px;cursor:pointer;min-height:44px}
+.pop button:hover{background:rgba(245,184,103,.12)}
+
+/* bulk bar floats above the tab bar on phones */
+.bulk{position:fixed;left:10px;right:10px;bottom:calc(var(--nav) + var(--safe) + 10px);z-index:35;background:var(--panel2);border:1px solid var(--amber);border-radius:16px;padding:10px 12px;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.bulk .row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.bulk .row::-webkit-scrollbar{display:none}
+.bulk b{white-space:nowrap}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr;gap:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+/* lists: cards on phones, a table on desktop */
+.list{display:flex;flex-direction:column;gap:10px}
+.item{display:grid;gap:6px 12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;cursor:pointer;position:relative}
+.item:active{background:var(--panel2)}
+.item small{display:block;color:var(--mute);font-size:13px;font-weight:400;overflow-wrap:anywhere}
+.item .nm{font-weight:600;overflow-wrap:anywhere}
+.item.sub-i{grid-template-columns:auto 1fr auto;grid-template-areas:"chk who st" "chk svc svc" "chk src mail"}
+.item .chk{grid-area:chk;align-self:start;padding:2px}.item .who{grid-area:who}.item .st{grid-area:st;justify-self:end}.item .svc{grid-area:svc}.item .src{grid-area:src;color:var(--mute);font-size:13px}.item .mail{grid-area:mail;justify-self:end}.item .tm{display:none}
+.item.link-i{cursor:default;grid-template-columns:1fr auto;grid-template-areas:"code st" "dest dest" "stats stats" "act act"}
+.item.link-i .code{grid-area:code}.item.link-i .dest{grid-area:dest}.item.link-i .stats{grid-area:stats;color:var(--mute);font-size:13px}.item.link-i .act{grid-area:act}
+.item.plain{cursor:default;grid-template-columns:1fr auto}
+.lhead{display:none}
+.empty{padding:36px 16px;text-align:center;color:var(--mute)}
 .more{display:flex;justify-content:center;padding:14px}
-/* detail drawer */
-#drawer{position:fixed;inset:0;background:rgba(3,5,16,.6);z-index:20;display:flex;justify-content:flex-end}
-#drawer .sheet{width:min(560px,100%);height:100%;background:var(--panel);border-left:1px solid var(--line);overflow:auto;padding:22px;display:flex;flex-direction:column;gap:14px}
-.kv{display:grid;grid-template-columns:110px 1fr;gap:8px 14px;font-size:14.5px}
-.kv dt{color:var(--mute)}.kv dd{margin:0;word-break:break-word}
-.msg{white-space:pre-wrap;background:#0a0e26;border-left:3px solid var(--amber);border-radius:8px;padding:12px 14px}
-.row{display:flex;flex-wrap:wrap;gap:8px}
-@media(max-width:760px){th.h-m,td.c-m{display:none}}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line);white-space:nowrap}
+.s-new{color:var(--amber);border-color:var(--amber)}.s-replied,.s-subscribed,.s-active{color:var(--green);border-color:var(--green)}
+.s-spam,.m-failed,.s-off{color:var(--red);border-color:var(--red)}.s-archived,.s-unsubscribed{color:var(--mute)}.s-pending{color:var(--blue);border-color:var(--blue)}
+.m-sent{color:var(--green);border-color:rgba(111,214,168,.4)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tag{font-size:12.5px;padding:2px 9px;border-radius:99px;background:rgba(244,239,230,.06);color:#d8d2c4}
+
+/* detail sheet: full screen on phones */
+#drawer{position:fixed;inset:0;z-index:60;background:rgba(3,5,16,.6);display:flex;justify-content:flex-end;align-items:flex-end}
+.sheet{width:100%;height:100%;background:var(--panel);overflow:auto;-webkit-overflow-scrolling:touch;padding:0 16px calc(24px + var(--safe));display:flex;flex-direction:column;gap:14px;animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.sheet .head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 0 10px;background:var(--panel);border-bottom:1px solid var(--line);margin-bottom:-2px}
+.sheet .head h1{font-size:19px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:8px 12px;font-size:15px}
+.kv dt{color:var(--mute)}.kv dd{margin:0;overflow-wrap:anywhere}
+.msg{white-space:pre-wrap;background:#0a0e26;border-left:3px solid var(--amber);border-radius:10px;padding:12px 14px;overflow-wrap:anywhere}
+.thread .t{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px;white-space:pre-wrap;font-size:14.5px;overflow-wrap:anywhere}
+.thread .out{border-color:rgba(245,184,103,.5)}.thread .in{border-color:rgba(111,214,168,.5)}
+.thread small{display:block;color:var(--mute);margin-bottom:4px}
+.chart{width:100%;height:150px}
+.preview{width:100%;height:440px;border:1px solid var(--line);border-radius:14px;background:#070916;margin-top:12px}
+code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border:1px solid var(--line);border-radius:6px;padding:2px 6px;overflow-wrap:anywhere}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:14px}.checks label{display:flex;gap:8px;align-items:center;min-height:36px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + var(--safe) + 18px);z-index:90;background:#1b2150;border:1px solid var(--amber);color:var(--ink);padding:12px 18px;border-radius:14px;font-size:14px;box-shadow:0 18px 50px rgba(0,0,0,.5);max-width:calc(100% - 32px)}
+
+/* tablet and up */
+@media(min-width:700px){
+  .grid2{grid-template-columns:1fr 1fr}
+  .checks{grid-template-columns:repeat(3,1fr)}
+  #drawer{align-items:stretch}
+  .sheet{width:min(620px,100%);border-left:1px solid var(--line);padding:0 24px 24px;animation:none}
+}
+/* desktop: top tabs, table-style lists, no thumb padding needed */
+@media(min-width:900px){
+  body{padding-bottom:40px}
+  .nav{position:static;height:auto;padding:0;background:none;border:0;backdrop-filter:none;gap:6px;max-width:1180px;margin:0 auto;padding:18px 16px 0}
+  .tab{flex:0 0 auto;flex-direction:row;gap:8px;height:42px;padding:0 18px;border-radius:99px;border:1px solid var(--line);font-size:14px}
+  .tab.on{background:var(--amber);color:#1a1420;border-color:var(--amber)}
+  .tab .dot{position:static;margin-left:2px}
+  .chips{flex-wrap:wrap;overflow:visible;margin:0 0 16px;padding:0}
+  .filters{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;background:none;border:0;padding:0}
+  .filters>*{width:auto}.filters .two{display:contents}
+  .filters input[type=date]{width:160px}.filters select{width:170px}
+  #fbtn{display:none}
+  .pop{bottom:auto;top:calc(100% + 6px)}
+  .bulk{position:sticky;top:64px;left:auto;right:auto;bottom:auto}
+  .list{gap:0;background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .item{border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:14px 18px}
+  .item:last-child{border-bottom:0}
+  .item:hover{background:rgba(245,184,103,.05)}
+  .item.sub-i{grid-template-columns:28px 1.5fr 1.4fr 1fr 96px 84px 130px;grid-template-areas:"chk who svc src st mail tm"}
+  .lhead{display:grid;grid-template-columns:28px 1.5fr 1.4fr 1fr 96px 84px 130px;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);font:500 11px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+  .item .tm{display:block;color:var(--mute);font-size:13px}
+  .item.link-i{grid-template-columns:1.1fr 2fr 70px 90px 110px 150px;grid-template-areas:"code dest clicks created ttl st act"}
+  .item.link-i .stats{display:contents}
+  .item .st,.item .mail{justify-self:start}
+  .toast{bottom:28px}
+  .pop button{min-height:40px}
+  .hide-d{display:none!important}
+}
+@media(min-width:900px){.item.link-i{grid-template-areas:"code dest clicks created ttl st act"}}
+.only-d{display:none}@media(min-width:900px){.only-d{display:block}.only-m{display:none!important}}
 </style>
 </head>
 <body>
 <section id="login" class="hide">
   <form id="lf">
-    <h1>Admin</h1>
+    <h1>Admin <i>login</i></h1>
     <p class="sub">Submissions from aashishpandey.com. Everything is saved here before any email is sent.</p>
     <input id="pw" type="password" placeholder="Password" autocomplete="current-password" required autofocus>
-    <button class="btn pri" type="submit">Sign in</button>
+    <input id="code" class="hide" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code (or a recovery code)">
+    <button class="btn pri" type="submit" style="width:100%">Sign in</button>
     <div class="err" id="lerr" role="alert"></div>
   </form>
 </section>
 
-<main id="app" class="wrap hide">
-  <header class="top">
-    <div><h1>Submissions</h1><p class="sub">Briefs from the forms and newsletter sign-ups. Times are IST.</p></div>
-    <button class="btn" id="out">Sign out</button>
-  </header>
-  <div class="chips" id="chips"></div>
-  <div class="bar">
-    <input type="search" id="q" placeholder="Search name, email, company, message">
-    <select id="type"><option value="brief">Briefs</option><option value="subscriber">Subscribers</option><option value="all">Everything</option></select>
-    <select id="status"><option value="all">Any status</option><option value="new">New</option><option value="replied">Replied</option><option value="spam">Spam</option><option value="archived">Archived</option><option value="pending">Pending</option><option value="subscribed">Subscribed</option><option value="unsubscribed">Unsubscribed</option><option value="mailfail">Email failed</option></select>
-    <input type="date" id="from" aria-label="From date"><input type="date" id="to" aria-label="To date">
-    <div class="menu"><button class="btn pri" id="exp">Export</button><div class="pop hide" id="expPop"><button data-f="xlsx">Excel (.xlsx)</button><button data-f="csv">CSV</button><button data-f="json">JSON</button></div></div>
-    <button class="btn danger" id="delSel" disabled>Delete selected</button>
-  </div>
-  <div class="tbl">
-    <table>
-      <thead><tr><th><input type="checkbox" id="all" aria-label="Select all"></th><th>Received</th><th>Who</th><th class="h-m">Looking for</th><th class="h-m">From</th><th>Status</th><th class="h-m">Email</th></tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
+<div id="app" class="hide">
+  <header class="appbar"><h1>Admin <i>desk</i></h1><button class="btn sm" id="out" aria-label="Sign out">Sign out</button></header>
+  <nav class="nav" id="tabs" aria-label="Sections">
+    <button class="tab on" data-tab="sub"><svg viewBox="0 0 24 24"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M4 13 6.5 5h11L20 13v6H4z"/></svg>Inbox<span class="dot hide" id="newDot"></span></button>
+    <button class="tab" data-tab="news"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>News</button>
+    <button class="tab" data-tab="spam"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z"/></svg>Spam</button>
+    <button class="tab" data-tab="links"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Links</button>
+    <button class="tab" data-tab="set"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
+  </nav>
+
+  <main class="wrap">
+  <!-- INBOX -->
+  <section id="tab-sub">
+    <div class="chips" id="chips"></div>
+    <div class="bar"><input class="grow" type="search" id="q" placeholder="Search name, email, message" aria-label="Search"><button class="btn" id="fbtn">Filters</button>
+      <div class="menu"><button class="btn pri" id="exp">Export</button><div class="pop hide" id="expPop"><button data-f="xlsx">Excel (.xlsx)</button><button data-f="csv">CSV</button><button data-f="json">JSON</button></div></div></div>
+    <div class="filters" id="filt">
+      <select id="type" aria-label="Type"><option value="brief">Briefs</option><option value="subscriber">Subscribers</option><option value="all">Everything</option></select>
+      <select id="status" aria-label="Status"><option value="all">Any status</option><option value="new">New</option><option value="replied">Replied</option><option value="spam">Spam</option><option value="archived">Archived</option><option value="pending">Pending</option><option value="subscribed">Subscribed</option><option value="unsubscribed">Unsubscribed</option><option value="mailfail">Email failed</option></select>
+      <div class="two"><input type="date" id="from" aria-label="From date"><input type="date" id="to" aria-label="To date"></div>
+    </div>
+    <div class="bulk hide" id="bulk"><div class="row"><b id="bulkN"></b>
+      <button class="btn sm" data-b="status:replied">Replied</button><button class="btn sm" data-b="status:new">New</button><button class="btn sm" data-b="status:archived">Archive</button><button class="btn sm" data-b="status:spam">Spam</button>
+      <button class="btn sm pri" data-b="notspam">Not spam</button><button class="btn sm" data-b="block">Block</button><button class="btn sm danger" data-b="delete">Delete</button></div></div>
+    <div class="list" id="rows"></div>
     <div class="empty hide" id="empty">Nothing matches.</div>
-  </div>
-  <div class="more"><button class="btn hide" id="more">Load more</button></div>
-</main>
+    <div class="more"><button class="btn hide" id="more">Load more</button></div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section id="tab-news" class="hide">
+    <div class="chips" id="nchips"></div>
+    <div class="grid2">
+      <div class="card"><h2>Growth, last 12 weeks</h2><p class="sub">Green: confirmed sign-ups. Red: unsubscribes.</p><svg class="chart" id="chart" viewBox="0 0 360 150" preserveAspectRatio="none"></svg></div>
+      <div class="card"><h2>Subscribers</h2><p class="sub">Only people who confirmed get a newsletter.</p>
+        <div class="row" style="margin-top:12px"><button class="btn" id="subView">View list</button><button class="btn" data-exp="xlsx">Excel</button><button class="btn" data-exp="csv">CSV</button><button class="btn" id="imp">Import from Resend</button></div><div id="impMsg" class="sub" style="margin-top:8px"></div></div>
+    </div>
+    <div class="card"><h2>Write a newsletter</h2>
+      <p class="sub">Blank line = new paragraph. "- " starts a bullet. [text](https://...) is a link. **bold**. Resend's free plan allows 100 emails a day.</p>
+      <label class="lbl" for="nSub">Subject</label><input id="nSub" maxlength="140">
+      <label class="lbl" for="nPre">Preview text (optional)</label><input id="nPre" maxlength="140">
+      <label class="lbl" for="nBody">Message</label><textarea id="nBody" rows="9"></textarea>
+      <div class="grid2"><div><label class="lbl" for="nBl">Button label (optional)</label><input id="nBl" maxlength="40"></div><div><label class="lbl" for="nBu">Button link</label><input id="nBu" placeholder="https://" inputmode="url"></div></div>
+      <div class="row" style="margin-top:16px"><button class="btn" id="nPrev">Preview</button><button class="btn" id="nTest">Send test to me</button><button class="btn pri" id="nSend">Send to subscribers</button></div>
+      <div id="nMsg" class="sub" style="margin-top:10px"></div><iframe id="nFrame" class="preview hide" title="Preview"></iframe>
+    </div>
+    <div class="card"><h2>Sent</h2><div id="camps" class="list" style="margin-top:10px"></div></div>
+  </section>
+
+  <!-- SPAM -->
+  <section id="tab-spam" class="hide">
+    <div class="chips" id="schips"></div>
+    <div class="grid2">
+      <div class="card"><h2>Sender lists</h2><p class="sub">One per line: an address (a@b.com) or a whole domain (spam.com).</p>
+        <label class="lbl" for="sBlock">Always block</label><textarea id="sBlock" rows="5"></textarea>
+        <label class="lbl" for="sAllow">Always allow (skips the spam check)</label><textarea id="sAllow" rows="5"></textarea></div>
+      <div class="card"><h2>Spam phrases</h2><p class="sub">A match adds points. Untick one that catches real people.</p>
+        <div class="checks" id="sPh" style="margin-top:8px"></div>
+        <label class="lbl" for="sExtra">Your own phrases, one per line</label><textarea id="sExtra" rows="4"></textarea>
+        <label class="lbl" for="sThr">Threshold (4 is the default; higher is more forgiving)</label><input id="sThr" type="number" min="2" max="20" inputmode="numeric" style="max-width:120px"></div>
+    </div>
+    <div class="row"><button class="btn pri" id="sSave">Save spam rules</button><button class="btn" id="sView">See caught spam</button><span id="sMsg" class="sub"></span></div>
+  </section>
+
+  <!-- SHORT LINKS -->
+  <section id="tab-links" class="hide">
+    <div class="chips" id="lchips"></div>
+    <div class="bar"><input class="grow" type="search" id="lq" placeholder="Search code or destination" aria-label="Search links"><select id="lst" style="width:auto" aria-label="Filter"><option value="all">All</option><option value="active">Active</option><option value="off">Disabled</option></select></div>
+    <div class="list" id="lrows"></div><div class="empty hide" id="lempty">No links.</div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="tab-set" class="hide">
+    <div class="grid2">
+      <div class="card"><h2>Push alerts</h2><p class="sub">A message on your phone when a brief arrives.</p><div id="chan" style="margin:12px 0"></div>
+        <label class="lbl" for="aMin">Alert me for</label><select id="aMin"><option value="high">High priority briefs only</option><option value="medium">Medium and High</option><option value="all">Every brief</option><option value="off">Nothing (off)</option></select>
+        <div class="row" style="margin-top:14px"><button class="btn pri" id="aSave">Save</button><button class="btn" id="aTest">Send a test</button><span id="aMsg" class="sub"></span></div>
+        <p class="sub" style="margin-top:14px">Set up in Vercel: <code>TELEGRAM_BOT_TOKEN</code> + <code>TELEGRAM_CHAT_ID</code>, or <code>SLACK_WEBHOOK_URL</code>, or <code>ALERT_WEBHOOK_URL</code> (WhatsApp through Twilio, Make or Zapier).</p></div>
+      <div class="card"><h2>Reply templates</h2><p class="sub">One per service. Placeholders: {first} {name} {company} {service} {questions} {book} {site}</p>
+        <label class="lbl" for="tKey">Service</label><select id="tKey"></select>
+        <label class="lbl" for="tSub">Subject</label><input id="tSub"><label class="lbl" for="tBody">Message</label><textarea id="tBody" rows="9"></textarea>
+        <div class="row" style="margin-top:14px"><button class="btn pri" id="tSave">Save</button><button class="btn" id="tReset">Reset to default</button><span id="tMsg" class="sub"></span></div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><h2>Two-factor sign-in</h2><div id="tfa" class="sub" style="margin-top:8px">Loading…</div></div>
+      <div class="card"><h2>Backup and sessions</h2><div id="bk" class="sub" style="margin-top:8px">Loading…</div>
+        <div class="row" style="margin-top:14px"><button class="btn" id="bkNow">Email me a backup</button><button class="btn danger" id="soAll">Sign out everywhere</button></div><div id="bkMsg" class="sub" style="margin-top:8px"></div></div>
+    </div>
+    <div class="card"><h2>Sign-in history</h2><div class="list" id="hist" style="margin-top:10px"></div></div>
+  </section>
+  </main>
+</div>
 
 <div id="drawer" class="hide"><div class="sheet" id="sheet"></div></div>
+<div id="toast" class="toast hide" role="status"></div>
 
 <script>
 (function(){
-var $=function(i){return document.getElementById(i)}, items=[], total=0, sel={}, PAGE=200;
+var $=function(i){return document.getElementById(i)}, items=[], total=0, sel={}, PAGE=200, loaded={}, spamCfg=null, tplData=null, toastT;
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function ist(ms){return new Date(ms).toLocaleString('en-GB',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})}
-function api(a,opt,qs){return fetch('/api/kd2ozfuew9n4uaciyl1j?a='+a+(qs||''),opt).then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(r.status===401&&a!=='login'){show(false)}return{ok:r.ok,status:r.status,j:j}})})}
+function ist(ms){return ms?new Date(ms).toLocaleString('en-GB',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}):''}
+function ago(ms){var s=Math.max(0,(Date.now()-ms)/1000);if(s<60)return 'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';if(s<604800)return Math.floor(s/86400)+'d ago';return new Date(ms).toLocaleDateString('en-GB',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short'})}
+function rel(ms){if(ms<0)return 'never';var d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5);return d?d+'d '+h+'h':h+'h'}
+function toast(t){var e=$('toast');e.textContent=t;e.classList.remove('hide');clearTimeout(toastT);toastT=setTimeout(function(){e.classList.add('hide')},2600)}
+function api(a,opt,qs){return fetch('/api/kd2ozfuew9n4uaciyl1j?a='+a+(qs||''),opt).then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(r.status===401&&a!=='login'&&!j.need2fa){show(false)}return{ok:r.ok,status:r.status,j:j}})})}
 function post(a,body){return api(a,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})})}
 function show(on){$('app').classList.toggle('hide',!on);$('login').classList.toggle('hide',on)}
-function qs(extra){var p=new URLSearchParams();[['q','q'],['type','type'],['status','status'],['from','from'],['to','to']].forEach(function(k){var v=$(k[0]).value;if(v&&v!=='all')p.set(k[1],v);else if(k[1]==='type'||k[1]==='status')p.set(k[1],'all')});for(var k in (extra||{}))p.set(k,extra[k]);return '&'+p.toString()}
+function say(id,t,good){var e=$(id);e.textContent=t||'';e.className=good?'ok':'err'}
+function lines(t){return String(t||'').split('\n').map(function(x){return x.trim()}).filter(Boolean)}
 
-function load(append){
-  var off=append?items.length:0;
-  return api('list',null,qs({offset:off,limit:PAGE})).then(function(x){
-    if(!x.ok){if(x.status===503)$('lerr').textContent=x.j.error;return}
-    items=append?items.concat(x.j.items):x.j.items;total=x.j.total;drawChips(x.j.counts);draw();
-  });
+/* ---------- tabs ---------- */
+function openTab(t){
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t)});
+  ['sub','news','spam','links','set'].forEach(function(x){$('tab-'+x).classList.toggle('hide',x!==t)});
+  window.scrollTo(0,0);
+  if(t==='sub'&&!loaded.sub){loaded.sub=1;load()}
+  if(t==='news')loadNews();if(t==='spam')loadSpam();if(t==='links')loadLinks();if(t==='set')loadSettings();
 }
+$('tabs').onclick=function(e){var b=e.target.closest&&e.target.closest('.tab');if(b)openTab(b.dataset.tab)};
+$('fbtn').onclick=function(){$('filt').classList.toggle('open')};
+
+/* ---------- inbox ---------- */
+function qs(extra){var p=new URLSearchParams();[['q','q'],['type','type'],['status','status'],['from','from'],['to','to']].forEach(function(k){var v=$(k[0]).value;if(v&&v!=='all')p.set(k[1],v);else if(k[1]==='type'||k[1]==='status')p.set(k[1],'all')});for(var k in (extra||{}))p.set(k,extra[k]);return '&'+p.toString()}
+function load(append){var off=append?items.length:0;return api('list',null,qs({offset:off,limit:PAGE})).then(function(x){if(!x.ok){if(x.status===503)$('lerr').textContent=x.j.error;return}items=append?items.concat(x.j.items):x.j.items;total=x.j.total;drawChips(x.j.counts);draw()})}
 function drawChips(c){
+  var nd=$('newDot');nd.textContent=c.newBriefs>99?'99+':c.newBriefs;nd.classList.toggle('hide',!c.newBriefs);
   var defs=[['New briefs',c.newBriefs,function(){$('type').value='brief';$('status').value='new';load()}],['All briefs',c.brief,function(){$('type').value='brief';$('status').value='all';load()}],['Subscribers',c.subscriber,function(){$('type').value='subscriber';$('status').value='all';load()}],['Email failures',c.mailfail,function(){$('type').value='all';$('status').value='mailfail';load()},c.mailfail>0],['Caught as spam',c.spam,function(){$('type').value='brief';$('status').value='spam';load()}]];
-  $('chips').innerHTML='';
-  defs.forEach(function(d){var b=document.createElement('button');b.className='chip'+(d[4]?' warn':'');b.innerHTML='<b>'+d[1]+'</b><span>'+esc(d[0])+'</span>';b.onclick=d[2];$('chips').appendChild(b)});
+  $('chips').innerHTML='';defs.forEach(function(d){var b=document.createElement('button');b.className='chip'+(d[3]?' warn':'');b.innerHTML='<b>'+d[1]+'</b><span>'+esc(d[0])+'</span>';b.onclick=d[2];$('chips').appendChild(b)});
 }
-function mailPill(r){var m=r.mail||{};if(m.admin==='skipped')return '<span class="pill">skipped</span>';if(r.type!=='brief')return m.user?'<span class="pill m-'+m.user+'">'+m.user+'</span>':'';var f=m.admin==='failed'||m.user==='failed';return f?'<span class="pill m-failed">failed</span>':(m.admin==='sent'?'<span class="pill m-sent">sent</span>':'<span class="pill">unknown</span>')}
+function mailPill(r){var m=r.mail||{};if(m.admin==='skipped')return '<span class="pill">skipped</span>';if(r.type!=='brief')return m.user?'<span class="pill m-'+m.user+'">'+m.user+'</span>':'';var f=m.admin==='failed'||m.user==='failed';return f?'<span class="pill m-failed">email failed</span>':(m.admin==='sent'?'<span class="pill m-sent">emailed</span>':'<span class="pill">unknown</span>')}
 function draw(){
-  var tb=$('rows');tb.innerHTML='';
-  items.forEach(function(r){
-    var tr=document.createElement('tr');
-    tr.innerHTML='<td><input type="checkbox" '+(sel[r.id]?'checked':'')+' aria-label="Select"></td><td>'+esc(ist(r.created))+'</td><td class="n">'+esc(r.name||r.email)+'<small>'+esc(r.name?r.email:'')+(r.company?' · '+esc(r.company):'')+'</small></td><td class="c-m">'+esc(r.service||'')+'<small>'+esc([r.budget,r.timeline].filter(Boolean).join(' · '))+'</small></td><td class="c-m">'+esc(r.source||r.page||'')+'</td><td><span class="pill s-'+esc(r.status)+'">'+esc(r.status)+'</span></td><td class="c-m">'+mailPill(r)+'</td>';
-    tr.onclick=function(e){if(e.target.type==='checkbox'){sel[r.id]=e.target.checked;selUI();return}open(r)};
-    tb.appendChild(tr);
-  });
-  $('empty').classList.toggle('hide',items.length>0);
-  $('more').classList.toggle('hide',items.length>=total);
-  $('more').textContent='Load more ('+(total-items.length)+' left)';
-  selUI();
+  var tb=$('rows');tb.innerHTML='<div class="lhead"><span></span><span>Who</span><span>Looking for</span><span>From</span><span>Status</span><span>Email</span><span>Received</span></div>';
+  items.forEach(function(r){var el=document.createElement('article');el.className='item sub-i';
+    el.innerHTML='<div class="chk"><input type="checkbox" '+(sel[r.id]?'checked':'')+' aria-label="Select"></div><div class="who"><div class="nm">'+esc(r.name||r.email)+'</div><small>'+esc(r.name?r.email:'')+(r.company?' · '+esc(r.company):'')+'</small></div><div class="st"><span class="pill s-'+esc(r.status)+'">'+esc(r.status)+'</span></div><div class="svc">'+(r.service?'<div>'+esc(r.service)+'</div>':'')+((r.budget||r.timeline)?'<div class="tags">'+[r.budget,r.timeline].filter(Boolean).map(function(t){return '<span class="tag">'+esc(t)+'</span>'}).join('')+'</div>':'')+'</div><div class="src">'+esc(r.source||r.page||'')+'<span class="only-m"> · '+esc(ago(r.created))+'</span></div><div class="mail">'+mailPill(r)+'</div><div class="tm">'+esc(ago(r.created))+'<small>'+esc(ist(r.created))+'</small></div>';
+    el.onclick=function(e){if(e.target.type==='checkbox'){sel[r.id]=e.target.checked;selUI();return}openDetail(r)};tb.appendChild(el)});
+  $('empty').classList.toggle('hide',items.length>0);$('more').classList.toggle('hide',items.length>=total);$('more').textContent='Load more ('+(total-items.length)+' left)';selUI();
 }
 function selIds(){return Object.keys(sel).filter(function(k){return sel[k]})}
-function selUI(){var n=selIds().length;$('delSel').disabled=!n;$('delSel').textContent=n?'Delete '+n+' selected':'Delete selected';$('all').checked=items.length>0&&items.every(function(r){return sel[r.id]})}
+function selUI(){var n=selIds().length;$('bulk').classList.toggle('hide',!n);$('bulkN').textContent=n+' selected'}
+$('bulk').onclick=function(e){var b=e.target.dataset&&e.target.dataset.b;if(!b)return;var ids=selIds();if(b==='delete'&&!confirm('Delete '+ids.length+' record(s) for good?'))return;
+  post('bulk',{ids:ids,action:b,allow:b==='notspam'}).then(function(x){if(x.ok){sel={};toast('Done');load()}else alert(x.j.error||'Could not do that.')})};
 
-function open(r){
+/* ---------- detail sheet with reply composer ---------- */
+function openDetail(r){
   var m=r.mail||{}, s=$('sheet');
   var kv=[['Received',ist(r.created)],['Type',r.type],['Name',r.name],['Email','<a href="mailto:'+esc(r.email)+'">'+esc(r.email)+'</a>'],['Company',r.company],['Website',r.website_url?'<a href="'+esc(/^https?:/i.test(r.website_url)?r.website_url:'https://'+r.website_url)+'" target="_blank" rel="noopener">'+esc(r.website_url)+'</a>':''],['Looking for',r.service],['Budget',r.budget],['Timeline',r.timeline],['Came from',r.source],['Page',r.page],['Referrer',r.ref],['Spam check',r.flags&&r.flags.length?'Score '+r.spamScore+': '+r.flags.join('; '):'']].filter(function(x){return x[1]});
-  s.innerHTML='<div class="row" style="justify-content:space-between"><h1 style="font-size:20px">'+esc(r.name||r.email)+'</h1><button class="btn" id="x">Close</button></div>'
+  s.innerHTML='<div class="head"><h1>'+esc(r.name||r.email)+'</h1><button class="btn sm" id="x">Close</button></div>'
    +'<div class="row"><span class="pill s-'+esc(r.status)+'">'+esc(r.status)+'</span>'+(r.type==='brief'?'<span class="pill m-'+(m.admin==='failed'?'failed':m.admin==='sent'?'sent':'')+'">alert '+esc(m.admin||'unknown')+'</span><span class="pill m-'+(m.user==='failed'?'failed':m.user==='sent'?'sent':'')+'">confirmation '+esc(m.user||'unknown')+'</span>':'')+'</div>'
    +'<dl class="kv">'+kv.map(function(x){return '<dt>'+esc(x[0])+'</dt><dd>'+(x[1].indexOf('<a ')===0?x[1]:esc(x[1]))+'</dd>'}).join('')+'</dl>'
    +(r.message?'<div class="msg">'+esc(r.message)+'</div>':'')
    +((m.adminError||m.userError)?'<div class="err">'+esc(m.adminError||m.userError)+'</div>':'')
-   +'<label class="sub">Private note<textarea id="note" rows="3" style="width:100%;margin-top:6px">'+esc(r.note||'')+'</textarea></label>'
-   +'<div class="row">'+(r.type==='brief'?['new','replied','spam','archived']:['pending','subscribed','unsubscribed']).map(function(st){return '<button class="btn" data-st="'+st+'">Mark '+st+'</button>'}).join('')+'<button class="btn pri" id="sv">Save note</button></div>'
-   +(r.type==='brief'?'<div class="row"><a class="btn" style="display:inline-flex;align-items:center;text-decoration:none" href="mailto:'+esc(r.email)+'?subject='+encodeURIComponent('Re: your brief')+'">Reply</a><button class="btn" id="ra">Resend alert to me</button><button class="btn" id="ru">Resend confirmation to them</button></div>':'')
-   +'<div class="row"><button class="btn danger" id="dl">Delete</button></div><div class="err" id="derr"></div>';
-  $('drawer').classList.remove('hide');
-  $('x').onclick=close;
+   +'<div class="row">'+(r.type==='brief'?['new','replied','spam','archived']:['pending','subscribed','unsubscribed']).map(function(st){return '<button class="btn sm" data-st="'+st+'">'+st+'</button>'}).join('')+'</div>'
+   +'<label class="sub">Private note<textarea id="note" rows="2" style="margin-top:6px">'+esc(r.note||'')+'</textarea></label><div><button class="btn sm pri" id="sv">Save note</button></div>'
+   +(r.type==='brief'?'<div id="rep" class="thread"><h2>Reply</h2><p class="sub">Loading…</p></div>':'')
+   +(r.type==='brief'?'<div class="row"><button class="btn sm" id="ra">Resend alert to me</button><button class="btn sm" id="ru">Resend confirmation</button></div>':'')
+   +'<div><button class="btn sm danger" id="dl">Delete</button></div><div class="err" id="derr"></div>';
+  $('drawer').classList.remove('hide');document.body.style.overflow='hidden';$('x').onclick=close;
   s.querySelectorAll('[data-st]').forEach(function(b){b.onclick=function(){patch(r,{status:b.getAttribute('data-st')})}});
-  $('sv').onclick=function(){patch(r,{note:$('note').value})};
+  $('sv').onclick=function(){patch(r,{note:$('note').value},'Note saved')};
   if($('ra')){$('ra').onclick=function(){resend(r,'admin',this)};$('ru').onclick=function(){resend(r,'user',this)}}
   $('dl').onclick=function(){if(confirm('Delete this record for good?'))post('delete',{ids:[r.id]}).then(function(){close();load()})};
+  if(r.type==='brief')loadReply(r);
 }
-function close(){$('drawer').classList.add('hide')}
-function patch(r,p){post('update',Object.assign({id:r.id},p)).then(function(x){if(x.ok){Object.assign(r,x.j.item);draw();open(r);load()}else $('derr').textContent=x.j.error||'Could not save.'})}
-function resend(r,which,btn){btn.disabled=true;btn.textContent='Sending';post('resend',{id:r.id,which:which}).then(function(x){if(x.ok){load().then(function(){var f=items.find(function(i){return i.id===r.id});if(f)open(f)})}else{btn.disabled=false;btn.textContent='Try again';$('derr').textContent=x.j.error||'Could not send.'}})}
+function threadHtml(t){return (t||[]).map(function(e){return '<div class="t '+esc(e.dir)+'"><small>'+(e.dir==='out'?'You wrote':e.dir==='in'?'They wrote':'Note')+' · '+esc(ist(e.at))+(e.subject?' · '+esc(e.subject):'')+(e.error?' · <span class="err">not sent: '+esc(e.error)+'</span>':'')+'</small>'+esc(e.body)+'</div>'}).join('')}
+function loadReply(r,key){
+  post('reply_get',{id:r.id,key:key}).then(function(x){var box=$('rep');if(!box)return;if(!x.ok){box.innerHTML='<p class="err">'+esc(x.j.error||'')+'</p>';return}
+    var d=x.j;box.innerHTML='<h2>Reply</h2><label class="lbl" for="rKey">Template</label><select id="rKey">'+d.options.map(function(o){return '<option value="'+esc(o.key)+'"'+(o.key===d.key?' selected':'')+'>'+esc(o.label)+'</option>'}).join('')+'</select>'
+     +'<label class="lbl" for="rSub">Subject</label><input id="rSub" value="'+esc(d.draft.subject)+'"><label class="lbl" for="rBody">Message (from your own address, replies reach your inbox)</label><textarea id="rBody" rows="10">'+esc(d.draft.body)+'</textarea>'
+     +'<div class="row" style="margin-top:12px"><button class="btn pri" id="rSend">Send reply</button><button class="btn sm" id="rLog">Log their reply</button></div><div id="rMsg" class="err"></div><div id="thr">'+threadHtml(d.thread)+'</div>';
+    $('rKey').onchange=function(){loadReply(r,$('rKey').value)};
+    $('rSend').onclick=function(){var b=this;b.disabled=true;b.textContent='Sending';post('reply_send',{id:r.id,subject:$('rSub').value,body:$('rBody').value}).then(function(y){b.disabled=false;b.textContent='Send reply';if(y.ok){Object.assign(r,y.j.item);$('thr').innerHTML=threadHtml(y.j.item.thread);toast('Reply sent');load()}else say('rMsg',y.j.error||'Could not send.')})};
+    $('rLog').onclick=function(){var t=prompt('Paste what they wrote back, to keep it with this brief:');if(t)post('thread_note',{id:r.id,dir:'in',text:t}).then(function(y){if(y.ok){$('thr').innerHTML=threadHtml(y.j.item.thread);Object.assign(r,y.j.item)}})};
+  });
+}
+function close(){$('drawer').classList.add('hide');document.body.style.overflow=''}
+function patch(r,p,msg){post('update',Object.assign({id:r.id},p)).then(function(x){if(x.ok){Object.assign(r,x.j.item);toast(msg||'Updated');draw();openDetail(r);load()}else $('derr').textContent=x.j.error||'Could not save.'})}
+function resend(r,which,btn){btn.disabled=true;btn.textContent='Sending';post('resend',{id:r.id,which:which}).then(function(x){if(x.ok){toast('Email sent');load().then(function(){var f=items.find(function(i){return i.id===r.id});if(f)openDetail(f)})}else{btn.disabled=false;btn.textContent='Try again';$('derr').textContent=x.j.error||'Could not send.'}})}
 
-$('lf').onsubmit=function(e){e.preventDefault();$('lerr').textContent='';post('login',{password:$('pw').value}).then(function(x){if(x.ok){$('pw').value='';show(true);load()}else $('lerr').textContent=x.j.error||'Could not sign in.'})};
+/* ---------- newsletter ---------- */
+function loadNews(){
+  api('news_overview').then(function(x){if(!x.ok)return;var g=x.j.growth,net=0,i;for(i=8;i<12;i++)net+=g.gain[i]-g.lost[i];
+    $('nchips').innerHTML=[['Subscribed',g.subscribed],['Waiting to confirm',g.pending],['Unsubscribed',g.unsubscribed],['Net, last 4 weeks',(net>0?'+':'')+net]].map(function(c){return '<div class="chip static"><b>'+c[1]+'</b><span>'+c[0]+'</span></div>'}).join('');
+    var max=Math.max(1,Math.max.apply(null,g.gain.concat(g.lost))),h=[];for(i=0;i<12;i++){var x0=8+i*29,gh=g.gain[i]/max*60,lh=g.lost[i]/max*60;h.push('<rect x="'+x0+'" y="'+(70-gh)+'" width="22" height="'+gh+'" rx="3" fill="#6fd6a8"/><rect x="'+x0+'" y="74" width="22" height="'+lh+'" rx="3" fill="#ff8f7a"/><text x="'+(x0+11)+'" y="146" font-size="9" fill="#a7a1b6" text-anchor="middle">'+(i===11?'now':'-'+(11-i)+'w')+'</text>')}
+    $('chart').innerHTML='<line x1="0" x2="360" y1="72" y2="72" stroke="rgba(244,239,230,.15)"/>'+h.join('');
+    $('camps').innerHTML=x.j.campaigns.length?x.j.campaigns.map(function(c){return '<div class="item plain"><div><div class="nm">'+esc(c.subject)+'</div><small>'+esc(ist(c.created))+' · delivered '+c.sent+' of '+c.total+(c.failed?' · <span class="err">'+c.failed+' failed</span>':'')+'</small></div><div>'+(c.failed||c.remaining?'<button class="btn sm" data-retry="'+esc(c.id)+'">'+(c.remaining?'Finish':'Retry')+'</button>':'<span class="pill s-active">sent</span>')+'</div></div>'}).join(''):'<p class="sub">Nothing sent yet.</p>'});
+}
+$('camps').onclick=function(e){var id=e.target.dataset&&e.target.dataset.retry;if(!id)return;e.target.disabled=true;post('news_retry',{id:id}).then(function(){return runCampaign(id,'nMsg')}).then(loadNews)};
+function draft(){return{subject:$('nSub').value,preheader:$('nPre').value,body:$('nBody').value,button_label:$('nBl').value,button_url:$('nBu').value}}
+$('nPrev').onclick=function(){post('news_preview',draft()).then(function(x){var f=$('nFrame');f.classList.remove('hide');f.srcdoc=x.j.html||''})};
+$('nTest').onclick=function(){var b=this;b.disabled=true;post('news_test',draft()).then(function(x){b.disabled=false;say('nMsg',x.ok?'Test sent to '+x.j.to+'.':x.j.error,x.ok)})};
+function runCampaign(id,msg){return post('news_send',{id:id}).then(function(x){if(!x.ok){say(msg,x.j.error||'Sending stopped.');return}var j=x.j;say(msg,'Sent '+j.sent+' of '+j.total+(j.failed?' ('+j.failed+' failed: '+j.lastError+')':'')+(j.done?'. Done.':'…'),!j.failed);if(!j.done)return runCampaign(id,msg)})}
+$('nSend').onclick=function(){var d=draft();if(!d.subject||!d.body.trim()){say('nMsg','Add a subject and a message first.');return}
+  var c=prompt('This sends to everyone who confirmed their subscription. It cannot be undone.\n\nType SEND to continue.');if(c!=='SEND')return;
+  var b=this;b.disabled=true;d.confirm='SEND';post('news_start',d).then(function(x){if(!x.ok){b.disabled=false;say('nMsg',x.j.error);return}if(!x.j.total){b.disabled=false;say('nMsg','There are no confirmed subscribers yet.');return}return runCampaign(x.j.id,'nMsg').then(function(){b.disabled=false;loadNews()})})};
+$('subView').onclick=function(){$('type').value='subscriber';$('status').value='all';$('q').value='';openTab('sub');load()};
+document.querySelectorAll('[data-exp]').forEach(function(b){b.onclick=function(){location.href='/api/kd2ozfuew9n4uaciyl1j?a=export&format='+b.dataset.exp+'&type=subscriber'}});
+$('imp').onclick=function(){var b=this;b.disabled=true;say('impMsg','Importing…',1);post('news_import').then(function(x){b.disabled=false;say('impMsg',x.ok?'Imported '+x.j.imported+' contacts from Resend.':x.j.error,x.ok);loadNews()})};
+
+/* ---------- spam ---------- */
+function loadSpam(){api('spam_get').then(function(x){if(!x.ok)return;spamCfg=x.j.cfg;var d=x.j.defaults.phrases,off=spamCfg.phrasesOff||[];
+  $('schips').innerHTML='<div class="chip static"><b>'+x.j.caught30+'</b><span>Caught, last 30 days</span></div><div class="chip static"><b>'+(spamCfg.block||[]).length+'</b><span>Blocked senders</span></div><div class="chip static"><b>'+(spamCfg.allow||[]).length+'</b><span>Allowed senders</span></div>';
+  $('sBlock').value=(spamCfg.block||[]).join('\n');$('sAllow').value=(spamCfg.allow||[]).join('\n');$('sExtra').value=(spamCfg.phrasesExtra||[]).join('\n');$('sThr').value=spamCfg.threshold||x.j.defaults.threshold;
+  $('sPh').innerHTML=d.map(function(p){return '<label><input type="checkbox" data-ph="'+esc(p)+'" '+(off.indexOf(p)<0?'checked':'')+'> '+esc(p)+'</label>'}).join('')})}
+$('sSave').onclick=function(){var off=[];document.querySelectorAll('[data-ph]').forEach(function(c){if(!c.checked)off.push(c.dataset.ph)});
+  post('spam_save',{threshold:$('sThr').value,block:lines($('sBlock').value),allow:lines($('sAllow').value),phrasesOff:off,phrasesExtra:lines($('sExtra').value)}).then(function(x){say('sMsg',x.ok?'Saved. Applies within a minute.':x.j.error,x.ok);if(x.ok)toast('Spam rules saved');loadSpam()})};
+$('sView').onclick=function(){$('type').value='brief';$('status').value='spam';openTab('sub');load()};
+
+/* ---------- short links ---------- */
+var linkRows=[];
+function loadLinks(){api('links_list').then(function(x){if(!x.ok)return;linkRows=x.j.items;$('lchips').innerHTML=[['Links',linkRows.length],['Active',linkRows.filter(function(l){return l.active}).length],['Disabled',linkRows.filter(function(l){return !l.active}).length],['Total clicks',x.j.clicks]].map(function(c){return '<div class="chip static"><b>'+c[1]+'</b><span>'+c[0]+'</span></div>'}).join('');drawLinks()})}
+function drawLinks(){var q=$('lq').value.toLowerCase(),st=$('lst').value,rows=linkRows.filter(function(l){return (st==='all'||(st==='active')===l.active)&&(!q||(l.code+' '+l.url).toLowerCase().indexOf(q)>=0)});
+  $('lrows').innerHTML=rows.map(function(l){return '<article class="item link-i"><div class="code nm"><a href="/s/'+esc(l.code)+'" target="_blank" rel="noopener">/s/'+esc(l.code)+'</a></div><div class="st"><span class="pill '+(l.active?'s-active':'s-off')+'">'+(l.active?'active':'disabled')+'</span></div><div class="dest">'+esc(l.host)+'<small>'+esc(l.url.length>80?l.url.slice(0,80)+'…':l.url)+'</small></div><div class="stats"><span class="clicks">'+l.clicks+' clicks</span> · <span class="created">'+esc(ago(l.created))+'</span> · <span class="ttl">expires in '+esc(rel(l.ttlMs))+'</span></div><div class="act row"><button class="btn sm" data-lk="'+(l.active?'disable':'enable')+'" data-c="'+esc(l.code)+'">'+(l.active?'Disable':'Enable')+'</button><button class="btn sm danger" data-lk="delete" data-c="'+esc(l.code)+'">Delete</button></div></article>'}).join('');
+  $('lempty').classList.toggle('hide',rows.length>0)}
+$('lrows').onclick=function(e){var op=e.target.dataset&&e.target.dataset.lk;if(!op)return;if(op==='delete'&&!confirm('Delete this short link for good?'))return;post('links_act',{code:e.target.dataset.c,op:op}).then(function(x){if(x.ok){toast('Done');loadLinks()}else alert(x.j.error)})};
+$('lq').oninput=drawLinks;$('lst').onchange=drawLinks;
+
+/* ---------- settings ---------- */
+function loadSettings(){
+  api('alerts_get').then(function(x){if(!x.ok)return;var c=x.j.channels;$('aMin').value=x.j.cfg.min;$('chan').innerHTML=['telegram','slack','webhook'].map(function(k){return '<span class="pill '+(c[k]?'s-active':'')+'" style="margin-right:6px">'+k+(c[k]?' on':' not set')+'</span>'}).join('')});
+  api('tpl_get').then(function(x){if(!x.ok)return;tplData=x.j;$('tKey').innerHTML=Object.keys(x.j.templates).map(function(k){return '<option value="'+esc(k)+'">'+esc(x.j.templates[k].label)+'</option>'}).join('');fillTpl()});
+  api('sec_get').then(function(x){if(!x.ok)return;var j=x.j,t=j.totp;
+    $('tfa').innerHTML=t.enabled?'<p class="ok">Two-factor sign-in is on. '+t.recoveryLeft+' recovery codes left.</p><div class="row"><input id="offCode" placeholder="Current code" inputmode="numeric" style="width:170px"><button class="btn danger sm" id="tOff">Turn off</button></div><div id="tMsg2" class="err"></div>':'<p>Add a second step to signing in: a 6-digit code from an authenticator app (Google Authenticator, Authy, 1Password).</p><button class="btn pri" id="tOn" style="margin-top:8px">Set up</button><div id="tSetup"></div>';
+    if($('tOn'))$('tOn').onclick=setup2fa;if($('tOff'))$('tOff').onclick=function(){post('totp_disable',{code:$('offCode').value}).then(function(y){if(y.ok)loadSettings();else say('tMsg2',y.j.error)})};
+    var b=j.backup;$('bk').innerHTML=(b?'Last backup: '+esc(ist(b.at))+', '+b.count+' records, '+(b.ok?'<span class="ok">emailed</span>':'<span class="err">failed: '+esc(b.error||'')+'</span>'):'No backup has run yet.')+'<br>'+(j.cronReady?'Nightly backup is on (about 3 AM IST).':'<span class="err">Nightly backup is off. Add <code>CRON_SECRET</code> in Vercel (any long random text) and redeploy.</span>');
+    $('hist').innerHTML=j.history.map(function(h){return '<div class="item plain"><div><div class="nm">'+(h.ok?'Signed in'+(h.why?' ('+esc(h.why)+')':''):'Failed: '+esc(h.why))+'</div><small>'+esc(ist(h.t))+' · '+esc(h.ip)+' · '+esc((h.ua||'').slice(0,60))+'</small></div><span class="pill '+(h.ok?'s-active':'s-off')+'">'+(h.ok?'ok':'failed')+'</span></div>'}).join('')||'<p class="sub">No history yet.</p>'});
+}
+function fillTpl(){var k=$('tKey').value,t=tplData.templates[k];$('tSub').value=t.subject;$('tBody').value=t.body}
+$('tKey').onchange=fillTpl;
+$('tSave').onclick=function(){post('tpl_save',{key:$('tKey').value,subject:$('tSub').value,body:$('tBody').value}).then(function(x){say('tMsg',x.ok?'Saved.':x.j.error,x.ok);if(x.ok)toast('Template saved');loadSettings()})};
+$('tReset').onclick=function(){post('tpl_save',{key:$('tKey').value,reset:true}).then(function(x){say('tMsg',x.ok?'Back to the default.':x.j.error,x.ok);loadSettings()})};
+$('aSave').onclick=function(){post('alerts_save',{min:$('aMin').value}).then(function(x){say('aMsg',x.ok?'Saved.':x.j.error,x.ok);if(x.ok)toast('Alert level saved')})};
+$('aTest').onclick=function(){post('alerts_test').then(function(x){say('aMsg',x.ok?'Sent to '+x.j.sent+' channel(s).'+(x.j.failed?' '+x.j.failed+' failed.':''):x.j.error,x.ok&&!x.j.failed)})};
+function setup2fa(){post('totp_setup').then(function(x){if(!x.ok){say('tMsg2',x.j.error);return}
+  $('tSetup').innerHTML='<p>In your authenticator app, add an account and enter this key (or open the link on your phone):</p><p><code>'+esc(x.j.secret)+'</code></p><p><a href="'+esc(x.j.uri)+'">Open in authenticator app</a></p><div class="row"><input id="onCode" placeholder="6-digit code" inputmode="numeric" style="width:170px"><button class="btn pri sm" id="onGo">Turn on</button></div><div id="tMsg3" class="err"></div>';
+  $('onGo').onclick=function(){post('totp_enable',{code:$('onCode').value}).then(function(y){if(y.ok)$('tfa').innerHTML='<p class="ok">Two-factor sign-in is on.</p><p><b>Save these recovery codes now.</b> Each works once if you lose your phone. They are not shown again.</p><p><code>'+y.j.recovery.map(esc).join('</code> <code>')+'</code></p>';else say('tMsg3',y.j.error)})}})}
+$('bkNow').onclick=function(){var b=this;b.disabled=true;say('bkMsg','Sending…',1);post('backup_now').then(function(x){b.disabled=false;say('bkMsg',x.ok?'Backup emailed ('+x.j.count+' records).':x.j.error,x.ok);loadSettings()})};
+$('soAll').onclick=function(){if(confirm('Sign out on every device, including this one?'))post('signout_all').then(function(){show(false)})};
+
+/* ---------- login, filters, export ---------- */
+$('lf').onsubmit=function(e){e.preventDefault();$('lerr').textContent='';post('login',{password:$('pw').value,code:$('code').value}).then(function(x){
+  if(x.ok){$('pw').value='';$('code').value='';$('code').classList.add('hide');show(true);loaded={};openTab('sub')}
+  else{if(x.j.need2fa){$('code').classList.remove('hide');$('code').focus()}$('lerr').textContent=x.j.error||'Could not sign in.'}})};
 $('out').onclick=function(){post('logout').then(function(){show(false)})};
 $('more').onclick=function(){load(true)};
-$('all').onchange=function(){items.forEach(function(r){sel[r.id]=$('all').checked});draw()};
-$('delSel').onclick=function(){var ids=selIds();if(ids.length&&confirm('Delete '+ids.length+' record(s) for good?'))post('delete',{ids:ids}).then(function(){sel={};load()})};
 $('exp').onclick=function(e){e.stopPropagation();$('expPop').classList.toggle('hide')};
 document.addEventListener('click',function(){$('expPop').classList.add('hide')});
 $('expPop').onclick=function(e){var f=e.target.getAttribute&&e.target.getAttribute('data-f');if(!f)return;var ids=selIds();location.href='/api/kd2ozfuew9n4uaciyl1j?a=export&format='+f+(ids.length?'&ids='+encodeURIComponent(ids.join(',')):qs())};
 var t;['q','type','status','from','to'].forEach(function(id){$(id).addEventListener(id==='q'?'input':'change',function(){clearTimeout(t);t=setTimeout(function(){sel={};load()},id==='q'?250:0)})});
 $('drawer').onclick=function(e){if(e.target===$('drawer'))close()};
 document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
-api('me').then(function(x){if(x.ok){show(true);load()}else{show(false);if(x.status===503)$('lerr').textContent=x.j.error}});
+api('me').then(function(x){if(x.ok){show(true);loaded.sub=1;load()}else{show(false);if(x.status===503)$('lerr').textContent=x.j.error}});
 })();
 </script>
 </body>

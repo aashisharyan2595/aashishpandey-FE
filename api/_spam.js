@@ -2,11 +2,21 @@
 // A score of SPAM_AT or more is saved as "spam" in the admin (not emailed, visitor sees the normal success message).
 // Anything lower goes through normally, with its flags kept on the record so you can see why it was close.
 const SPAM_AT = 4;
+const DEFAULTS = { threshold: SPAM_AT, block: [], allow: [], phrasesOff: [], phrasesExtra: [] };   // editable from the admin (Spam tab)
 
 const DISPOSABLE = new Set(['mailinator.com', 'guerrillamail.com', 'guerrillamail.net', '10minutemail.com', '10minutemail.net', 'tempmail.com', 'temp-mail.org', 'yopmail.com', 'trashmail.com', 'sharklasers.com', 'getnada.com', 'dispostable.com', 'throwawaymail.com', 'maildrop.cc', 'fakeinbox.com', 'mohmal.com', 'emailondeck.com', 'tempail.com', 'mintemail.com', 'spamgourmet.com']);
 const PHRASES = ['seo services', 'guest post', 'backlink', 'link building', 'crypto', 'bitcoin', 'casino', 'forex', 'viagra', 'payday loan', 'telegram', 'whatsapp me', 'click here', 'buy now', 'limited offer', '100% free', 'first page of google', 'rank your website', 'domain authority', 'increase your traffic', 'we offer', 'dear sir', 'earn money', 'make money', 'adult', 'porn', 'escort', 'investment opportunity', 'work from home'];
 
-function score(d, req) {
+// does an address or its domain appear in a list of entries like "a@b.com" or "spam.com"?
+function listed(email, list) {
+  const e = String(email || '').toLowerCase(), dom = e.split('@')[1] || '';
+  return (list || []).some((x) => { x = String(x).toLowerCase().trim(); return x && (x === e || x === dom || (dom && dom.endsWith('.' + x))); });
+}
+
+function score(d, req, cfg) {
+  cfg = { ...DEFAULTS, ...(cfg || {}) };
+  if (listed(d.email, cfg.block)) return { score: 99, flags: ['blocked sender'] };
+  if (listed(d.email, cfg.allow)) return { score: 0, flags: [] };
   const flags = []; let s = 0;
   const add = (n, why) => { s += n; flags.push(why); };
   const msg = String(d.message || ''), low = msg.toLowerCase();
@@ -14,7 +24,8 @@ function score(d, req) {
   const links = (msg.match(/https?:\/\/|www\./gi) || []).length;
   if (links >= 3) add(4, 'many links'); else if (links === 2) add(3, 'two links'); else if (links === 1) add(1, 'a link in the message');
 
-  const hits = PHRASES.filter((p) => low.includes(p));
+  const off = new Set((cfg.phrasesOff || []).map((x) => String(x).toLowerCase()));
+  const hits = PHRASES.concat(cfg.phrasesExtra || []).map((x) => String(x).toLowerCase().trim()).filter((p) => p && !off.has(p) && low.includes(p));
   if (hits.length) add(Math.min(4, hits.length * 2), 'spam phrases: ' + hits.slice(0, 3).join(', '));
 
   const dom = String(d.email || '').split('@')[1] || '';
@@ -39,4 +50,4 @@ function score(d, req) {
   return { score: s, flags };
 }
 
-module.exports = { score, SPAM_AT };
+module.exports = { score, listed, SPAM_AT, DEFAULTS, PHRASES };

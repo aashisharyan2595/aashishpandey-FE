@@ -4,6 +4,7 @@
   "outputDirectory": ".",
   "cleanUrls": false,
   "trailingSlash": false,
+  "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "30 21 * * *" } ],
   "redirects": [
     {
       "source": "/index.html",

@@ -6,6 +6,8 @@ const store = require('./_store');
 const crypto = require('crypto');
 const spam = require('./_spam');
 const turnstile = require('./_turnstile');
+const cfg = require('./_adm/cfg');
+const notify = require('./_adm/notify');
 
 const SERVICES = ['Shopify development', 'Full-stack development', 'WordPress or Webflow', 'SEO consulting', 'UI and UX design', 'Tech consulting', 'Project management', 'Something else'];
 const BUDGETS = ['Not sure yet', 'Under $1,000', '$1,000 to $5,000', '$5,000 to $15,000', '$15,000 to $50,000', 'More than $50,000'];
@@ -31,9 +33,10 @@ module.exports = async (req, res) => {
   if (b.consent !== true) return res.status(400).json({ error: 'Please tick the box to agree to the privacy policy.' });
   // spam: scored first. A high score is saved as "spam" in the admin (so a false alarm can be rescued) but nothing is emailed,
   // and the sender sees the normal success message so a bot learns nothing.
-  const ip = clientIp(req), sp = spam.score(d, req), cap = await turnstile.check(b.cf, ip);
-  if (cap === 'bad') { sp.score += 4; sp.flags.push('captcha failed'); } else if (cap === 'missing') { sp.score += 3; sp.flags.push('no captcha token'); }
-  if (sp.score >= spam.SPAM_AT) {
+  const ip = clientIp(req), rules = store.enabled() ? await cfg.get('spam', spam.DEFAULTS) : spam.DEFAULTS;   // rules you edit in the admin (Spam tab)
+  const sp = spam.score(d, req, rules), cap = await turnstile.check(b.cf, ip), trusted = spam.listed(d.email, rules.allow);
+  if (!trusted) { if (cap === 'bad') { sp.score += 4; sp.flags.push('captcha failed'); } else if (cap === 'missing') { sp.score += 3; sp.flags.push('no captcha token'); } }
+  if (sp.score >= (rules.threshold || spam.SPAM_AT)) {
     try { await store.add({ type: 'brief', status: 'spam', ...d, spamScore: sp.score, flags: sp.flags, mail: { admin: 'skipped', user: 'skipped' } }); } catch (e) { console.error('contact: could not save spam', e.message); }
     return res.status(200).json({ ok: true });
   }
@@ -48,6 +51,11 @@ module.exports = async (req, res) => {
   let rec = null;
   try { rec = await store.add({ type: 'brief', status: 'new', ...d, ...(sp.score ? { spamScore: sp.score, flags: sp.flags } : {}), mail: {} }); } catch (e) { console.error('contact: could not save', e.message); }
   const mark = (mail) => (rec ? store.update(rec.id, { mail }).catch((e) => console.error('contact: status not saved', e.message)) : null);
+  try {   // push alert (Telegram, Slack or a webhook) for briefs at or above the priority you chose in the admin
+    const pri = T.priorityOf(d), al = store.enabled() ? await cfg.get('alerts', { min: 'high' }) : { min: 'high' };
+    const need = { off: 99, high: 3, medium: 2, all: 1 }[al.min] || 3;
+    if ({ Standard: 1, Medium: 2, High: 3 }[pri] >= need) await notify.send(`New ${pri} brief: ${d.name}${d.company ? ' (' + d.company + ')' : ''}\n${d.service || 'Something else'}${d.budget ? ' · ' + d.budget : ''}${d.timeline ? ' · ' + d.timeline : ''}\n${String(d.message).slice(0, 200)}${d.message.length > 200 ? '...' : ''}\n${d.email}`);
+  } catch (e) { console.error('contact: alert failed', e.message); }
   try {
     const a = T.adminBrief(d);
     await sendMail({ to: env().admins, replyTo: d.email, subject: a.subject, html: a.html, text: a.text });
