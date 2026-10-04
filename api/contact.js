@@ -1,6 +1,6 @@
 // POST /api/contact  { name, email, company?, website_url?, service?, budget?, timeline?, message, consent, hp, ts }
 // → 200 { ok: true } | 4xx/5xx { error }. Sends the brief to the admin (reply-to the sender) and a confirmation to the sender.
-const { env, sendMail, clean, validEmail, parseBody, clientIp, limited } = require('./_mail');
+const { env, sendMail, clean, validEmail, parseBody, clientIp, limited, link } = require('./_mail');
 const T = require('./_templates');
 
 const SERVICES = ['Shopify development', 'Full-stack development', 'WordPress or Webflow', 'SEO consulting', 'UI and UX design', 'Tech consulting', 'Project management', 'Something else'];
@@ -36,8 +36,8 @@ module.exports = async (req, res) => {
     return res.status(502).json({ error: 'Could not send your message. Please email hello@aashishpandey.com.' });
   }
   try {   // the confirmation is a courtesy: the brief already arrived, so a failure here is not an error for the visitor
-    const u = T.userBriefConfirmation(d);
-    await sendMail({ to: d.email, subject: u.subject, html: u.html, text: u.text, replyTo: env().admins });
+    const un = link('unsubscribe', d.email), u = T.userBriefConfirmation(d, un);
+    await sendMail({ to: d.email, subject: u.subject, html: u.html, text: u.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
   } catch (e) { console.error('contact: confirmation mail failed', e.message); }
   return res.status(200).json({ ok: true });
 };

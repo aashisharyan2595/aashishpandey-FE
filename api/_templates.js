@@ -144,6 +144,16 @@ const list = (items, ordered) => { const tag = ordered ? 'ol' : 'ul'; return `<$
 const links = (pairs) => `<ul style="margin:0 0 18px;padding-left:20px;line-height:1.7;">${pairs.map(([l, u]) => `<li style="margin:0 0 4px;"><a href="${SITE}${u}" style="color:#9a5418;font-weight:600;">${esc(l)}</a></li>`).join('')}</ul>`;
 const pill = (text, color) => `<span style="display:inline-block;padding:4px 10px;border-radius:999px;background:${color};color:#ffffff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">${esc(text)}</span>`;
 
+/* ---------- light layout: emails to visitors ----------
+   Gmail files heavy HTML (banners, buttons, many links, hidden preheaders) under Promotions and Outlook scores it as spam.
+   Mail that people receive from me reads like a note from a person: plain paragraphs, one or two links, no images. */
+const lp = (t) => `<p style="margin:0 0 14px;">${t}</p>`;
+const lh = (t) => `<p style="margin:18px 0 6px;"><b>${esc(t)}</b></p>`;
+const lul = (items, ordered) => { const tag = ordered ? 'ol' : 'ul'; return `<${tag} style="margin:0 0 14px;padding-left:22px;">${items.map((i) => `<li style="margin:0 0 3px;">${i}</li>`).join('')}</${tag}>`; };
+const lightLayout = ({ title, body, footer }) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title></head>
+<body style="margin:0;padding:16px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#222222;background:#ffffff;"><div style="max-width:560px;">${body}<p style="margin:22px 0 0;font-size:12.5px;line-height:1.6;color:#6b6b6b;">${footer}</p></div></body></html>`;
+const alink = (href, label) => `<a href="${esc(href)}">${esc(label)}</a>`;
+
 /* ---------- 1. admin: a new brief arrived ---------- */
 function adminBrief(d) {
   const r = read(d);
@@ -171,7 +181,7 @@ function adminBrief(d) {
 }
 
 /* ---------- 2. user: we got your brief ---------- */
-function userBriefConfirmation(d) {
+function userBriefConfirmation(d, unsubUrl) {
   const r = read(d);
   const subject = r.urgent ? `Got it, ${r.first}. I will look at your ${r.t.short} brief first` : `Got your ${r.t.short} brief, ${r.first}. I will reply within 48 hours`;
   const notes = [];   // [html, plain]
@@ -182,36 +192,35 @@ function userBriefConfirmation(d) {
     : d.budget === 'Under $1,000' ? 'If the budget is tight, tell me what matters most and I will suggest a smaller first phase.'
     : d.budget === 'Not sure yet' ? 'Not sure about budget is fine. I will give you a range and the trade-offs.' : '';
   if (extra) notes.push([esc(extra), extra]);
-  const html = layout({
-    preheader: `Thanks ${r.first}. Here is what happens next, and what would help me most.`, title: subject,
-    body: p(`Hi ${esc(r.first)},`)
-      + p(`${esc(r.src.hello)} Your brief reached me, and I read every one myself.`)
-      + p(esc(r.t.line))
-      + (notes.length ? p(notes.map((n) => n[0]).join(' ')) : '')
-      + h('What happens next') + list(r.t.steps, true)
-      + h('What would help me most') + p('If you have them to hand, reply with any of these. None of it is required.') + list(r.t.prep)
-      + h('Work that is close to yours') + links(r.t.proof)
-      + h('A copy of what you sent') + quote(`Looking for: ${r.t.label}\n${d.budget ? 'Budget: ' + d.budget + '\n' : ''}${d.timeline ? 'Timeline: ' + d.timeline + '\n' : ''}${d.company ? 'Company: ' + d.company + '\n' : ''}${d.website_url ? 'Website: ' + d.website_url + '\n' : ''}\n${d.message}`)
-      + p(r.urgent ? 'Want to talk it through now?' : 'In a hurry, or easier to talk? You can book a time straight away.')
-      + button(BOOK, 'Book a 20-minute call') + button(WHATSAPP, 'Message on WhatsApp', true)
-      + p('Aashish'),
-    footer: `You get this one email because you sent the form on ${esc(r.src.label)}. I do not add you to a mailing list. Reply to this email if something in your brief was wrong. <a href="${RESUME}" style="color:${MUTED};">My résumé</a> · <a href="${SITE}/privacy" style="color:${MUTED};">Privacy policy</a>.`,
+  const best = r.t.proof[0];
+  const html = lightLayout({
+    title: subject,
+    body: lp(`Hi ${esc(r.first)},`)
+      + lp(`${esc(r.src.hello)} Your brief reached me, and I read every one myself. ${esc(r.t.line)}`)
+      + (notes.length ? lp(notes.map((n) => n[0]).join(' ')) : '')
+      + lh('What happens next') + lul(r.t.steps.map(esc), true)
+      + lh('What would help me most') + lp('If you have them to hand, reply with any of these. None of it is required.') + lul(r.t.prep.map(esc))
+      + lp(`The closest work to yours is ${alink(SITE + best[1], best[0])}.`)
+      + lh('What you sent') + `<div style="margin:0 0 14px;padding:10px 14px;border-left:3px solid #cccccc;">${nl2br(`Looking for: ${r.t.label}\n${d.budget ? 'Budget: ' + d.budget + '\n' : ''}${d.timeline ? 'Timeline: ' + d.timeline + '\n' : ''}${d.company ? 'Company: ' + d.company + '\n' : ''}${d.website_url ? 'Website: ' + d.website_url + '\n' : ''}\n${d.message}`)}</div>`
+      + lp(`${r.urgent ? 'If you want to talk it through now, ' : 'If a call is easier, '}you can ${alink(BOOK, 'book 20 minutes with me')}, or just reply to this email.`)
+      + lp('Aashish<br>Aashish Pandey, Bangalore'),
+    footer: `You are getting this one email because you sent a form on ${esc(r.src.label)}. I do not add you to a mailing list. Reply if something in your brief was wrong. ${unsubUrl ? alink(unsubUrl, 'Unsubscribe') + ' if you do not want any other email from me. ' : ''}${alink(SITE + '/privacy', 'Privacy policy')}`,
   });
-  const text = `Hi ${r.first},\n\n${r.src.hello} Your brief reached me, and I read every one myself.\n\n${r.t.line}\n${notes.length ? '\n' + notes.map((n) => n[1]).join(' ') + '\n' : ''}\nWhat happens next:\n${r.t.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}\n\nWhat would help me most (optional):\n${r.t.prep.map((s) => '- ' + s).join('\n')}\n\nWork close to yours:\n${r.t.proof.map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nWhat you sent:\nLooking for: ${r.t.label}\n${d.budget ? 'Budget: ' + d.budget + '\n' : ''}${d.timeline ? 'Timeline: ' + d.timeline + '\n' : ''}\n${d.message}\n\nBook a call: ${BOOK}\nWhatsApp: ${WHATSAPP}\n\nAashish\n\nYou get this one email because you sent the form on ${r.src.label}. I do not add you to a mailing list. Privacy: ${SITE}/privacy`;
+  const text = `Hi ${r.first},\n\n${r.src.hello} Your brief reached me, and I read every one myself.\n\n${r.t.line}\n${notes.length ? '\n' + notes.map((n) => n[1]).join(' ') + '\n' : ''}\nWhat happens next:\n${r.t.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}\n\nWhat would help me most (optional):\n${r.t.prep.map((s) => '- ' + s).join('\n')}\n\nWork close to yours:\n${r.t.proof.map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nWhat you sent:\nLooking for: ${r.t.label}\n${d.budget ? 'Budget: ' + d.budget + '\n' : ''}${d.timeline ? 'Timeline: ' + d.timeline + '\n' : ''}\n${d.message}\n\nBook a call: ${BOOK}\nWhatsApp: ${WHATSAPP}\n\nAashish\n\nYou get this one email because you sent the form on ${r.src.label}. I do not add you to a mailing list.${unsubUrl ? '\nUnsubscribe from any other email from me: ' + unsubUrl : ''}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };
 }
 
 /* ---------- 3. subscriber: please confirm ---------- */
-function subscribeConfirm(url, src) {
+function subscribeConfirm(url, src, unsubUrl) {
   const where = { tools: 'the Tools page', portfolio: 'the portfolio page' }[src] || 'aashishpandey.com';
   const subject = 'Please confirm your subscription';
-  const html = layout({
-    preheader: 'One click to confirm.', title: subject,
-    body: p('Hi,') + p('Someone, hopefully you, asked to get emails from aashishpandey.com. Click the button to say yes.') + button(url, 'Yes, subscribe me')
-      + p(`The link works for 48 hours. If it was not you, ignore this email. Nothing happens and you will not hear from me.`),
-    footer: `You get this because this address was typed into the subscribe form on ${esc(where)}. <a href="${SITE}/privacy" style="color:${MUTED};">Privacy policy</a>.`,
+  const html = lightLayout({
+    title: subject,
+    body: lp('Hi,') + lp('Someone, hopefully you, asked to get emails from aashishpandey.com. To say yes, open this link:')
+      + lp(alink(url, url)) + lp('The link works for 48 hours. If it was not you, ignore this email. Nothing happens and you will not hear from me.') + lp('Aashish'),
+    footer: `You get this because this address was typed into the subscribe form on ${esc(where)}. ${unsubUrl ? alink(unsubUrl, 'Unsubscribe') + ' · ' : ''}${alink(SITE + '/privacy', 'Privacy policy')}`,
   });
-  const text = `Hi,\n\nSomeone, hopefully you, asked to get emails from aashishpandey.com. Open this link to say yes:\n${url}\n\nThe link works for 48 hours. If it was not you, ignore this email. Nothing happens.\n\nPrivacy: ${SITE}/privacy`;
+  const text = `Hi,\n\nSomeone, hopefully you, asked to get emails from aashishpandey.com. Open this link to say yes:\n${url}\n\nThe link works for 48 hours. If it was not you, ignore this email. Nothing happens.\n\n${unsubUrl ? 'Unsubscribe: ' + unsubUrl + '\n' : ''}Privacy: ${SITE}/privacy`;
   return { subject, html, text };
 }
 
@@ -224,13 +233,13 @@ const WELCOME = {
 function subscribeWelcome(unsubUrl, src) {
   const w = WELCOME[src] || WELCOME._;
   const subject = 'You are subscribed';
-  const html = layout({
-    preheader: 'Thanks for subscribing. Here is what to expect.', title: subject,
-    body: p('Hi,') + p('You are on the list. Thanks.')
-      + p('I will email you when I publish something worth reading, such as a new tool, a case study or a write-up. Not on a fixed schedule, and never to fill space.')
-      + p(esc(w.hello)) + links(w.pairs)
-      + p('If you want to talk about a project, just reply to this email. It comes to me.') + p('Aashish'),
-    footer: `Changed your mind? <a href="${esc(unsubUrl)}" style="color:${MUTED};">Unsubscribe with one click</a>. <a href="${SITE}/privacy" style="color:${MUTED};">Privacy policy</a>.`,
+  const html = lightLayout({
+    title: subject,
+    body: lp('Hi,') + lp('You are on the list. Thanks.')
+      + lp('I will email you when I publish something worth reading, such as a new tool, a case study or a write-up. Not on a fixed schedule, and never to fill space.')
+      + lp(esc(w.hello)) + lul(w.pairs.map(([l, u]) => alink(SITE + u, l)))
+      + lp('If you want to talk about a project, just reply to this email. It comes to me.') + lp('Aashish'),
+    footer: `Changed your mind? ${alink(unsubUrl, 'Unsubscribe with one click')}. ${alink(SITE + '/privacy', 'Privacy policy')}`,
   });
   const text = `Hi,\n\nYou are on the list. Thanks.\n\nI will email you when I publish something worth reading, such as a new tool, a case study or a write-up. Not on a fixed schedule, and never to fill space.\n\n${w.hello}\n${w.pairs.map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nIf you want to talk about a project, just reply to this email.\n\nAashish\n\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };

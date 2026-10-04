@@ -14,8 +14,8 @@ module.exports = async (req, res) => {
   if (await limited('sub', clientIp(req), 5, 3600)) return res.status(429).json({ error: 'Too many tries. Please wait an hour and try again.' });
   if (!env().key) return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
   try {
-    const m = T.subscribeConfirm(link('confirm', email, src ? '&s=' + src : ''), src);
-    await sendMail({ to: email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins });
+    const un = link('unsubscribe', email), m = T.subscribeConfirm(link('confirm', email, src ? '&s=' + src : ''), src, un);
+    await sendMail({ to: email, subject: m.subject, html: m.html, text: m.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
   } catch (e) {
     if (e.code === 'NOCONFIG') return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
     console.error('subscribe: mail failed', e.message);
