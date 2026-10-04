@@ -51,7 +51,7 @@ async function backup() {
 }
 async function lastBackup() { const raw = await redis('GET', 'admin:backup'); return raw ? JSON.parse(raw) : null; }
 
-// should signing in need the browser's location? On unless switched off here or by ADMIN_REQUIRE_LOCATION=off in Vercel (the way back in if a device cannot share it)
-async function requireLocation() { if (String(process.env.ADMIN_REQUIRE_LOCATION || '').toLowerCase() === 'off') return false; return (await require('./cfg').get('security', { requireLocation: true })).requireLocation !== false; }
+// should signing in need the browser's location? Off unless switched off here or by ADMIN_REQUIRE_LOCATION=off in Vercel (the way back in if a device cannot share it)
+async function requireLocation() { if (String(process.env.ADMIN_REQUIRE_LOCATION || '').toLowerCase() === 'off') return false; return (await require('./cfg').get('security', { requireLocation: false })).requireLocation === true; }
 
 module.exports = { requireLocation, epoch, bumpEpoch, logLogin, history, totpState, saveTotp, verifySecondStep, backup, lastBackup };

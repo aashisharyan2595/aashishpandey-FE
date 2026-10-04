@@ -188,7 +188,7 @@ module.exports = async (req, res) => {
     if (a === 'tpl_get') return out(200, { templates: await replies.templates(), defaults: replies.defaults() });
     if (a === 'push_key') return out(200, { key: await push.publicKey() });
     if (a === 'sessions_list') { const all = await sessions.list(), mine = user.role === 'owner' ? all : all.filter((x) => x.uid === user.id); return out(200, { sessions: mine.map((x) => ({ ...x, current: x.id === user.sid })), you: user.sid }); }
-    if (a === 'security_get') return out(200, { requireLocation: (await cfg.get('security', { requireLocation: true })).requireLocation !== false, envOff: String(process.env.ADMIN_REQUIRE_LOCATION || '').toLowerCase() === 'off' });
+    if (a === 'security_get') return out(200, { requireLocation: (await cfg.get('security', { requireLocation: false })).requireLocation === true, envOff: String(process.env.ADMIN_REQUIRE_LOCATION || '').toLowerCase() === 'off' });
     if (a === 'mail_list') {
       const rows = await maillog.all(), sup = await maillog.suppressed(), kind = String(q.kind || ''), st = String(q.status || ''), text = String(q.q || '').toLowerCase();
       const hit = rows.filter((r) => (!kind || kind === 'all' || r.kind === kind) && (!st || st === 'all' || (st === 'problems' ? ['bounced', 'complained', 'failed', 'delayed'].includes(r.status) : r.status === st)) && (!text || (r.to + ' ' + r.subject).toLowerCase().includes(text)));
