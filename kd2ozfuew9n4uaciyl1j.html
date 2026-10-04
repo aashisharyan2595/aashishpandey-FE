@@ -186,6 +186,9 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
 .pfoot{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}.pfoot .btn{flex:1}
 @media(min-width:900px){.burger,.prof,.cur{display:none!important}}
 @media(max-width:899px){.tab.unp{display:none}}
+.pwwrap{position:relative}.eye{position:absolute;right:4px;top:0;bottom:0;width:46px;border:0;background:none;cursor:pointer;display:grid;place-items:center;padding:0;border-radius:12px}
+.eye svg{width:22px;height:22px;stroke:var(--mute);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;grid-area:1/1}
+.eye[aria-pressed=true] svg{stroke:var(--amber)}.eye .e-off{display:none}.eye[aria-pressed=true] .e-on{display:none}.eye[aria-pressed=true] .e-off{display:block}
 #tab-mail .bar{flex-wrap:wrap}#tab-mail .bar .grow{flex:1 1 100%}#tab-mail .bar select{flex:1 1 140px;width:auto}
 .only-d{display:none}@media(min-width:900px){.only-d{display:block}.only-m{display:none!important}}
 </style>
@@ -196,7 +199,7 @@ code{font-family:'Geist Mono',monospace;font-size:13px;background:#0a0e26;border
     <h1>Admin <i>login</i></h1>
     <p class="sub">Submissions from aashishpandey.com. Everything is saved here before any email is sent.</p>
     <input id="em" class="hide" type="email" placeholder="Your email" autocomplete="username" inputmode="email">
-    <input id="pw" type="password" placeholder="Password" autocomplete="current-password" required autofocus>
+    <div class="pwwrap"><input id="pw" type="password" placeholder="Password" autocomplete="current-password" required autofocus style="padding-right:52px"><button type="button" class="eye" id="eye" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" class="e-on"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" class="e-off"><path d="M3 3l18 18"/><path d="M10.6 6.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.7C3.9 8.5 2 12 2 12s3.6 7 10 7c1.7 0 3.2-.4 4.5-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></div>
     <input id="code" class="hide" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code (or a recovery code)">
     <button class="btn pri" type="submit" style="width:100%">Sign in</button>
     <button class="linkbtn" type="button" id="teamLink">Team member? Sign in with your email</button>
@@ -707,6 +710,8 @@ function loadDelivery(r){
 }
 
 /* ---------- login, filters, export ---------- */
+$('eye').onclick=function(){var p=$('pw'),show=p.type==='password';p.type=show?'text':'password';this.setAttribute('aria-pressed',show?'true':'false');this.setAttribute('aria-label',show?'Hide password':'Show password');p.focus()};
+$('eye').onclick=function(){var p=$('pw'),show=p.type==='password';p.type=show?'text':'password';this.setAttribute('aria-pressed',show?'true':'false');this.setAttribute('aria-label',show?'Hide password':'Show password');p.focus()};
 $('teamLink').onclick=function(){var on=$('em').classList.toggle('hide');$('teamLink').textContent=on?'Team member? Sign in with your email':'I am the owner (password only)';if(!on)$('em').focus()};
 function clientInfo(geo){return{tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||''),lang:navigator.language||'',screen:screen.width+'x'+screen.height,platform:navigator.platform||'',standalone:!!standalone,geo:geo}}
 // the browser's location. When the rule is on, no location means no sign-in.
