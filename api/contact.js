@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
   const d = {
     name: clean(b.name, 80), email: clean(b.email, 254).toLowerCase(), company: clean(b.company, 120), website_url: clean(b.website_url, 200),
     service: pick(b.service, SERVICES), budget: pick(b.budget, BUDGETS), timeline: pick(b.timeline, TIMELINES), message: clean(b.message, 4000),
-    page: clean(b.page, 80), when: new Date().toUTCString(),
+    page: clean(b.page, 80), source: clean(b.source, 40), ref: clean(b.ref, 120), when: new Date().toUTCString(),
   };
   if (d.name.length < 2) return res.status(400).json({ error: 'Please add your name.' });
   if (!validEmail(d.email)) return res.status(400).json({ error: 'That email address does not look right.' });

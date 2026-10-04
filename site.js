@@ -155,11 +155,19 @@
     var say = function (t, cls) { msg.textContent = t; msg.className = cls || ''; };
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say('That email address does not look right.', 'is-err'); f.email.focus(); return; }
     btn.disabled = true; say('Sending…');
-    fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0 }) })
+    fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname }) })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (x) { btn.disabled = false; if (x.ok) { f.email.value = ''; say(x.j.message || 'Check your inbox to confirm.', 'is-ok'); if (window.apTrack) window.apTrack('newsletter_signup', {}); } else say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err'); })
       .catch(function () { btn.disabled = false; say('Could not reach the server. Please try again later.', 'is-err'); });
   });
+  // shared by every brief form: same rules as the newsletter (honeypot, time check, JSON POST, inline result)
+  window.apSend = function (d) {
+    d.hp = ''; d.ts = T0; d.page = location.pathname;
+    try { var rf = new URL(document.referrer); d.ref = rf.origin === location.origin ? rf.pathname : rf.hostname; } catch (e) { /* no referrer */ }
+    return fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+      .catch(function () { return { ok: false, j: { error: 'Could not reach the server. Please try again, or email hello@aashishpandey.com.' } }; });
+  };
   function classify(a) {
     var h = a.getAttribute('href') || '', t = (a.textContent || '').trim();
     if (a.getAttribute('data-track')) return a.getAttribute('data-track');

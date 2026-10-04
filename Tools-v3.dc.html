@@ -309,8 +309,8 @@ a:hover{color:#f4efe6}
         <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
           <div role="status" style="display:flex;flex-direction:column;justify-content:center;gap:14px;padding:clamp(20px,3vw,32px);border-radius:20px;background:#f4efe6;color:#15131c;min-width:0;">
             <span style="width:44px;height:44px;border-radius:50%;background:#1f7a63;color:#fff;display:flex;align-items:center;justify-content:center;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M20 6 9 17l-5-5"></path></svg></span>
-            <h3 style="margin:0;font-weight:600;font-size:28px;letter-spacing:-.03em;">Your brief is ready to send.</h3>
-            <p style="margin:0;font-size:15px;line-height:1.6;color:#57525f;">It opened in your mail app. Press send and I’ll reply within 48 hours. If nothing opened, email <a href="mailto:hello@aashishpandey.com" style="color:#9a5418;">hello@aashishpandey.com</a>.</p>
+            <h3 style="margin:0;font-weight:600;font-size:28px;letter-spacing:-.03em;">Your brief is sent.</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:#57525f;">Thanks. It went straight to my inbox, and a confirmation is on its way to you. I’ll reply within 48 hours. If it doesn’t arrive, email <a href="mailto:hello@aashishpandey.com" style="color:#9a5418;">hello@aashishpandey.com</a>.</p>
             <button type="button" onClick="{{ resetBrief }}" style="align-self:flex-start;height:40px;padding:0 16px;border-radius:12px;border:1px solid rgba(21,19,28,.16);background:none;color:#15131c;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;">Start another brief</button>
           </div>
         </sc-if>
@@ -322,14 +322,15 @@ a:hover{color:#f4efe6}
             </div>
             <div style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#aaa4b8;"><span>What do you need?</span><div style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ kinds }}" as="k" hint-placeholder-count="4"><sc-if value="{{ k.on }}" hint-placeholder-val="{{ false }}"><button type="button" aria-pressed="true" onClick="{{ k.pick }}" style="height:38px;padding:0 14px;border-radius:99px;border:1px solid #f5b867;background:rgba(245,184,103,.14);color:#f5b867;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;">{{ k.label }}</button></sc-if><sc-if value="{{ k.off }}" hint-placeholder-val="{{ true }}"><button type="button" aria-pressed="false" onClick="{{ k.pick }}" style="height:38px;padding:0 14px;border-radius:99px;border:1px solid rgba(244,239,230,.14);background:none;color:#aaa4b8;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;" style-hover="border-color:rgba(244,239,230,.3);color:#f4efe6;">{{ k.label }}</button></sc-if></sc-for></div></div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px;">
-              <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#aaa4b8;">Budget<select value="{{ f.budget }}" onChange="{{ on.budget }}" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1230;border:1px solid rgba(244,239,230,.14);color:#f4efe6;font-family:inherit;font-size:15px;outline:none;cursor:pointer;"><option>Not sure yet</option><option>Under $2K</option><option>$2K – $5K</option><option>$5K – $15K</option><option>$15K+</option></select></label>
-              <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#aaa4b8;">Timeline<select value="{{ f.timeline }}" onChange="{{ on.timeline }}" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1230;border:1px solid rgba(244,239,230,.14);color:#f4efe6;font-family:inherit;font-size:15px;outline:none;cursor:pointer;"><option>Flexible</option><option>ASAP</option><option>1–3 months</option><option>3–6 months</option></select></label>
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#aaa4b8;">Budget<select value="{{ f.budget }}" onChange="{{ on.budget }}" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1230;border:1px solid rgba(244,239,230,.14);color:#f4efe6;font-family:inherit;font-size:15px;outline:none;cursor:pointer;"><option>Not sure yet</option><option>Under $1,000</option><option>$1,000 to $5,000</option><option>$5,000 to $15,000</option><option>$15,000 to $50,000</option><option>More than $50,000</option></select></label>
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#aaa4b8;">Timeline<select value="{{ f.timeline }}" onChange="{{ on.timeline }}" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1230;border:1px solid rgba(244,239,230,.14);color:#f4efe6;font-family:inherit;font-size:15px;outline:none;cursor:pointer;"><option>No fixed date</option><option>As soon as possible</option><option>Within a month</option><option>In 1 to 3 months</option></select></label>
             </div>
             <label style="display:flex;flex-direction:column;gap:8px;min-width:0;font-size:13px;font-weight:600;color:#aaa4b8;">Tell me about it<textarea required="required" value="{{ f.details }}" onChange="{{ on.details }}" rows="5" placeholder="What should it do, who uses it, and what does success look like?" style="height:48px;width:100%;box-sizing:border-box;padding:0 14px;border-radius:12px;background:#0e1230;border:1px solid rgba(244,239,230,.14);color:#f4efe6;font-family:inherit;font-size:15px;outline:none;height:auto;padding:12px 14px;line-height:1.6;resize:vertical;"></textarea></label>
+            <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;color:#aaa4b8;cursor:pointer;"><input type="checkbox" checked="{{ consent }}" onChange="{{ onConsent }}" style="margin-top:3px;accent-color:#f5b867;flex-shrink:0;"></input><span>I agree that Aashish may use these details to reply to me, as described in the <a href="/privacy" style="color:#f5b867;text-decoration:underline;">privacy policy</a>.</span></label>
             <sc-if value="{{ hasBriefError }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#ffb4a2;">{{ briefError }}</span></sc-if>
             <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;">
-              <button type="submit" style="height:50px;padding:0 24px;display:flex;align-items:center;gap:9px;border-radius:14px;border:none;background:#f5b867;color:#1a1420;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;" style-hover="background:#ffc880;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>Send brief</button>
-              <span style="font-size:13px;color:#8e89a0;">Opens in your mail app. Reply within 48 hours.</span>
+              <button type="submit" disabled="{{ busy }}" style="height:50px;padding:0 24px;display:flex;align-items:center;gap:9px;border-radius:14px;border:none;background:#f5b867;color:#1a1420;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;" style-hover="background:#ffc880;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>{{ sendLabel }}</button>
+              <span style="font-size:13px;color:#8e89a0;">Goes straight to my inbox. Reply within 48 hours.</span>
             </div>
           </form>
         </sc-if>
@@ -351,24 +352,29 @@ const TOOLS = {
   pad:['plan','online notepad notes markdown write share text'], lorem:['plan','lorem ipsum placeholder dummy text generator'], tz:['plan','time zone meeting planner world clock city schedule'], checklist:['plan','website launch checklist template seo go-live handover campaign']
 };
 const KINDS = ['Internal tool', 'Website', 'Shopify store', 'Automation', 'Something else'];
-const BLANK = { name: '', email: '', budget: 'Not sure yet', timeline: 'Flexible', details: '' };
+const BLANK = { name: '', email: '', budget: 'Not sure yet', timeline: 'No fixed date', details: '' };
+const SERVICE = { 'Internal tool': 'Full-stack development', 'Website': 'Full-stack development', 'Shopify store': 'Shopify development', 'Automation': 'Tech consulting', 'Something else': 'Something else' };
 class Component extends DCLogic {
   searchRef = React.createRef();
   componentDidMount() { const pre = document.getElementById('ap-pre'); pre && pre.remove(); this._k = e => { const tg = e.target; if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(tg.tagName) && !tg.isContentEditable) { e.preventDefault(); this.searchRef.current && this.searchRef.current.focus(); } }; document.addEventListener('keydown', this._k); }
   componentWillUnmount() { document.removeEventListener('keydown', this._k); }
-  state = { q: '', cat: 'all', f: { ...BLANK }, kinds: ['Internal tool'], sent: false, err: '' };
+  state = { q: '', cat: 'all', f: { ...BLANK }, kinds: ['Internal tool'], sent: false, err: '', busy: false, consent: false };
   set(k) { return e => this.setState(s => ({ f: { ...s.f, [k]: e.target.value }, err: '' })); }
   submitBrief = e => {
     e.preventDefault();
-    const { f, kinds } = this.state;
+    const { f, kinds, busy, consent } = this.state;
+    if (busy) return;
     if (!f.name.trim()) return this.setState({ err: 'Add your name.' });
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())) return this.setState({ err: 'Check your email address.' });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) return this.setState({ err: 'Check your email address.' });
     if (f.details.trim().length < 20) return this.setState({ err: 'Add a little more detail so I can scope it (20+ characters).' });
-    const subject = `Brief: ${kinds.join(', ') || 'Project'} · ${f.name.trim()}`;
-    const body = [`Name: ${f.name.trim()}`, `Email: ${f.email.trim()}`, `Need: ${kinds.join(', ') || '—'}`, `Budget: ${f.budget}`, `Timeline: ${f.timeline}`, '', f.details.trim(), '', '— Sent from aashishpandey.com/tools'].join('\n');
-    location.href = `mailto:hello@aashishpandey.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    if (window.apTrack) window.apTrack('send_brief', { source: 'tools', kinds: kinds.join('|'), budget: f.budget });
-    this.setState({ sent: true });
+    if (!consent) return this.setState({ err: 'Please tick the box to agree to the privacy policy.' });
+    this.setState({ busy: true, err: '' });
+    const first = kinds.find(k => SERVICE[k]);
+    window.apSend({ source: 'tools', name: f.name.trim(), email: f.email.trim(), service: first ? SERVICE[first] : '', budget: f.budget, timeline: f.timeline, consent: true,
+      message: 'Need: ' + (kinds.join(', ') || 'not said') + '\n\n' + f.details.trim() }).then(x => {
+      if (x.ok) { if (window.apTrack) window.apTrack('brief_sent', { source: 'tools', kinds: kinds.join('|'), budget: f.budget }); this.setState({ sent: true, busy: false }); }
+      else this.setState({ busy: false, err: x.j.error || 'Could not send. Please email hello@aashishpandey.com.' });
+    });
   };
   renderVals() {
     const s = this.state;
@@ -390,7 +396,8 @@ class Component extends DCLogic {
       f: s.f, on: { name: this.set('name'), email: this.set('email'), budget: this.set('budget'), timeline: this.set('timeline'), details: this.set('details') },
       kinds: KINDS.map(k => { const on = s.kinds.includes(k); return { label: k, on, off: !on, pick: () => this.setState(x => ({ kinds: on ? x.kinds.filter(y => y !== k) : [...x.kinds, k] })) }; }),
       submitBrief: this.submitBrief, sent: s.sent, notSent: !s.sent,
-      resetBrief: () => this.setState({ f: { ...BLANK }, kinds: ['Internal tool'], sent: false }),
+      resetBrief: () => this.setState({ f: { ...BLANK }, kinds: ['Internal tool'], sent: false, consent: false }),
+      consent: s.consent, onConsent: e => this.setState({ consent: e.target.checked, err: '' }), busy: s.busy, sendLabel: s.busy ? 'Sending' : 'Send the brief',
       hasBriefError: !!s.err, briefError: s.err
     };
   }

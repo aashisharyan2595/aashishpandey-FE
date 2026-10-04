@@ -62,8 +62,10 @@
 <p style="height:24px;margin:0"></p></main>
 <script>
 (function(){var f=document.getElementById('cf'),msg=document.getElementById('cfmsg'),done=document.getElementById('cfdone'),t0=Date.now();
+var qs=new URLSearchParams(location.search),sv=qs.get('service'),from=(qs.get('from')||'').replace(/[^a-z0-9-]/gi,'').slice(0,40);
+if(sv){for(var i=0;i<f.service.options.length;i++){if(f.service.options[i].text===sv){f.service.selectedIndex=i;break}}}
 f.addEventListener('submit',function(e){e.preventDefault();msg.className='';msg.textContent='';
-var d=Object.fromEntries(new FormData(f).entries());d.consent=f.consent.checked;d.ts=t0;d.page=location.pathname;
+var d=Object.fromEntries(new FormData(f).entries());d.consent=f.consent.checked;d.ts=t0;d.page=location.pathname;if(from)d.source=from;try{var rf=new URL(document.referrer);d.ref=rf.origin===location.origin?rf.pathname:rf.hostname}catch(e){}
 if(!d.name||d.name.trim().length<2){return fail('Please add your name.',f.name)}
 if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email||'')){return fail('That email address does not look right.',f.email)}
 if(!d.message||d.message.trim().length<10){return fail('Please write a few words about the project.',f.message)}

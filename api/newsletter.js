@@ -18,7 +18,7 @@ async function upsert(email, unsubscribed) {
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  const q = req.query || {}, a = clean(q.a, 20), email = clean(q.e, 254).toLowerCase(), ts = clean(q.x, 20), tok = clean(q.t, 64);
+  const q = req.query || {}, a = clean(q.a, 20), email = clean(q.e, 254).toLowerCase(), ts = clean(q.x, 20), tok = clean(q.t, 64), src = ['tools', 'portfolio'].includes(q.s) ? q.s : '';
   if (!['confirm', 'unsubscribe'].includes(a) || !validEmail(email)) return res.status(400).send(page('Link not valid', 'This link is not valid. If you wanted to subscribe, use the form on the site again.'));
   if (!verify(a, email, ts, tok, a === 'confirm' ? 48 * 3600e3 : 0)) {
     return res.status(400).send(page(a === 'confirm' ? 'Link expired' : 'Link not valid', a === 'confirm' ? 'This confirmation link has expired or was changed. Please subscribe again from the site.' : 'This link is not valid. Reply to any of my emails and I will remove you by hand.'));
@@ -28,9 +28,9 @@ module.exports = async (req, res) => {
     if (a === 'confirm') {
       await upsert(email, false);
       try {
-        const w = T.subscribeWelcome(link('unsubscribe', email)), u = link('unsubscribe', email);
+        const w = T.subscribeWelcome(link('unsubscribe', email), src), u = link('unsubscribe', email);
         await sendMail({ to: email, subject: w.subject, html: w.html, text: w.text, replyTo: env().admins, headers: { 'List-Unsubscribe': `<${u}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } });
-        const n = T.adminSubscriber(email, 'subscribed'); await sendMail({ to: env().admins, subject: n.subject, html: n.html, text: n.text });
+        const n = T.adminSubscriber(email, 'subscribed', src); await sendMail({ to: env().admins, subject: n.subject, html: n.html, text: n.text });
       } catch (e) { console.error('newsletter: follow-up mail failed', e.message); }
       return res.status(200).send(page('You are subscribed', 'Thanks. A short welcome email is on its way.'));
     }

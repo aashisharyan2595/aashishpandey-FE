@@ -50,9 +50,9 @@ const b64 = (buf) => Buffer.from(buf).toString('base64url');
 function sign(purpose, email, ts) {
   return b64(crypto.createHmac('sha256', env().secret).update(`${purpose}|${email.toLowerCase()}|${ts}`).digest()).slice(0, 32);
 }
-function link(purpose, email) {
+function link(purpose, email, extra) {
   const ts = Date.now();
-  return `${SITE}/api/newsletter?a=${purpose}&e=${encodeURIComponent(email)}&x=${ts}&t=${sign(purpose, email, ts)}`;
+  return `${SITE}/api/newsletter?a=${purpose}&e=${encodeURIComponent(email)}&x=${ts}&t=${sign(purpose, email, ts)}${extra || ''}`;
 }
 function verify(purpose, email, ts, tok, maxAgeMs) {
   if (!env().secret || !email || !ts || !tok) return false;
