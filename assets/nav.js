@@ -15,20 +15,29 @@
   };
   ['mouseover', 'focusin', 'touchstart'].forEach(function (ev) { d.addEventListener(ev, loadPics, { passive: true, capture: true }); });
 
-  /* ---------- footer: lists fold up on phones, stay open on larger screens ---------- */
-  var mq = window.matchMedia('(max-width:620px)');
-  var foot = function (all) {
-    d.querySelectorAll('.ap-foot__col').forEach(function (c) { if (all || !c.hasAttribute('data-f')) { c.open = !mq.matches; c.setAttribute('data-f', '1'); } });
-  };
-  foot(true);
+  /* ---------- footer: lists fold up on phones, always open on larger screens ---------- */
+  var mq = window.matchMedia('(max-width:620px)'), applied = null;
+  // Applies the current screen size to the lists. The size is re-read on load, resize, page show, tab focus and shortly after
+  // start, because a page opened in a background tab or a window that is still resizing can report the wrong size at first.
+  // A person's own open or close on a phone is kept: lists are only reset when the screen size class changes.
+  function sync() {
+    var small = window.innerWidth <= 620 || mq.matches, changed = small !== applied;
+    d.querySelectorAll('.ap-foot__col').forEach(function (c) {
+      if (changed || !c.hasAttribute('data-f')) { c.open = !small; c.setAttribute('data-f', '1'); }
+    });
+    applied = small;
+  }
+  sync();
   if (window.MutationObserver) {
-    var mo = new MutationObserver(function () { foot(false); });
+    var mo = new MutationObserver(sync);
     mo.observe(d.documentElement, { childList: true, subtree: true });
     setTimeout(function () { mo.disconnect(); }, 8000);
   }
-  window.addEventListener('load', function () { foot(false); });
-  if (mq.addEventListener) mq.addEventListener('change', function () { foot(true); }); else if (mq.addListener) mq.addListener(function () { foot(true); });
-  d.addEventListener('click', function (e) { var s = e.target.closest && e.target.closest('.ap-foot__col > summary'); if (s && !mq.matches) e.preventDefault(); });
+  ['load', 'resize', 'pageshow', 'orientationchange'].forEach(function (ev) { window.addEventListener(ev, sync); });
+  d.addEventListener('visibilitychange', sync);
+  [300, 1500, 4000].forEach(function (ms) { setTimeout(sync, ms); });
+  if (mq.addEventListener) mq.addEventListener('change', sync); else if (mq.addListener) mq.addListener(sync);
+  d.addEventListener('click', function (e) { var s = e.target.closest && e.target.closest('.ap-foot__col > summary'); if (s && window.innerWidth > 620) e.preventDefault(); });
 
   /* ---------- search ---------- */
   var index = null;

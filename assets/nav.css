@@ -301,3 +301,5 @@ html:has(.ap-ms[open]){overflow:hidden}
 .ap-foot .ap-foot__all{margin-top:2px}
 .ap-foot__news{max-width:none}
 }
+/* on larger screens the footer lists are never hidden, even if a script has not run yet or has misjudged the screen size */
+@media(min-width:621px){@supports selector(::details-content){.ap-foot__col::details-content{content-visibility:visible;display:block}}}
