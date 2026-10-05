@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 19; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 21; // bump when assets/nav.css changes: assets are cached for 30 days
 const NAV_JS = 3;   // same for assets/nav.js (search, menu images, footer on phones)
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
@@ -190,20 +190,21 @@ function header() {
 }
 
 /* ---------- footer ---------- */
-const TOOL_GROUPS = ['Documents', 'Images', 'QR codes & links', 'Security', 'Writing & planning'];
+// Plain text columns, quiet colours, one legal row: the pattern the large sites use (Vercel, Stripe, Linear).
+const TOOL_ORDER = ['/tools/resume-maker', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/password-generator', '/tools/image-resizer', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/qr-code-checker', '/tools/website-launch-checklist'];
 function footer() {
   const link = ([h, t, x]) => `<a href="${e(h)}"${x ? ' target="_blank" rel="noopener"' : ''}>${e(t)}</a>`;
   const col = (h, inner, cls = '') => `<details class="ap-foot__col${cls}" open><summary class="ap-foot__h">${h}</summary><div class="ap-foot__links">${inner}</div></details>`;
   const order = ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/freelance-project-manager', '/tech-consultant'];
   const svc = [['/services', 'All services'], ...flat(MENUS.services).filter((i) => i.href !== '/services').sort((a, b) => order.indexOf(a.href) - order.indexOf(b.href)).map((i) => [i.href, i.f || i.t])];
-  const groups = MENUS.tools.cols.flat();
-  const tools = `<a class="ap-foot__all" href="/tools">All ${toolCount} tools</a><div class="ap-foot__tools">${groups.map((g) => `<div class="ap-foot__grp"><p class="ap-foot__sh">${e(g.h)}</p>${g.items.map((t) => `<a href="${e(t.href)}">${e(t.f || t.t)}</a>`).join('')}</div>`).join('')}</div>`;
-  const contact = [[MAIL, 'hello@aashishpandey.com'], [BOOK, 'Book a 20-minute call', 1], ['/contact', 'Send a brief'], [WA, 'WhatsApp', 1], [LI, 'LinkedIn', 1], [CV, 'Résumé (PDF)']];
-  const more = FOOT.more.filter(([h]) => h !== CV && h !== '/contact');
-  const contactHtml = contact.map(link).join('') + `<p class="ap-foot__sh ap-foot__sh--gap">Explore</p>` + more.map(link).join('');
-  return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><form class="ap-foot__news" data-news novalidate><label for="ap-news-e">Get new tools and write-ups by email</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Subscribed straight away. Unsubscribe any time. <a href="/privacy">Privacy</a></p></form></div>`
-    + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', FOOT.work.map(link).join(''))}${col('Services', svc.map(link).join(''))}${col('Free tools', tools, ' ap-foot__col--tools')}${col('Get in touch', contactHtml)}</nav></div>`
-    + `<div class="ap-foot__base"><span>© ${YEAR} Aashish Pandey · Bangalore, India</span><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><span class="ap-foot__note">Tools run in your browser</span><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">\u2191</span></a></div></div></footer>`;
+  const byHref = Object.fromEntries(flat(MENUS.tools).map((t) => [t.href, t]));
+  const tools = `<div class="ap-foot__tools">${TOOL_ORDER.map((h) => `<a href="${e(h)}">${e(byHref[h].f || byHref[h].t)}</a>`).join('')}</div><a class="ap-foot__all" href="/tools">All ${toolCount} tools</a>`;
+  const work = [['/portfolio', 'Portfolio'], ...FOOT.work.filter(([h]) => h !== '/portfolio')];
+  const contact = [[MAIL, 'hello@aashishpandey.com'], [BOOK, 'Book a 20-minute call', 1], ['/contact', 'Send a brief'], [WA, 'WhatsApp', 1], [LI, 'LinkedIn', 1]];
+  const more = [['/', 'The 3D ride'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)']];
+  return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><form class="ap-foot__news" data-news novalidate><label for="ap-news-e">New tools and write-ups, by email</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Subscribed straight away. Unsubscribe any time. <a href="/privacy">Privacy</a></p></form></div>`
+    + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', work.map(link).join(''))}${col('Services', svc.map(link).join(''))}${col('Free tools', tools, ' ap-foot__col--tools')}<div class="ap-foot__stack">${col('Get in touch', contact.map(link).join(''))}${col('More', more.map(link).join(''))}</div></nav></div>`
+    + `<div class="ap-foot__base"><span class="ap-foot__copy">© ${YEAR} Aashish Pandey</span><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">↑</span></a></div></div></footer>`;
 }
 
 /* ---------- active state ---------- */
