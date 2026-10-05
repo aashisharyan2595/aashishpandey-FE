@@ -19,7 +19,8 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 15; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 18; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_JS = 2;   // same for assets/nav.js (search, menu images, footer on phones)
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
 const WA = 'https://wa.me/917558415031';
@@ -119,6 +120,10 @@ const MENUS = {
     ],
   },
 };
+// a picture and one line in the wide menus (shown from 1180px up; the image loads on first hover)
+MENUS.work.promo = { href: '/work-liquid-iv', t: 'Liquid I.V. rollout', d: '15 markets on Shopify, 9 new EU markets live in H1 2026.', img: '/assets/nav/promo-work.webp', w: 480, h: 281 };
+MENUS.services.promo = { href: '/shopify-developer', t: 'Shopify developer', d: 'Stores I built, like Copper Chocs, and a 15-market rollout I ran.', img: '/assets/nav/promo-services.webp', w: 480, h: 300 };
+MENUS.tools.promo = { href: '/tools/resume-maker', t: 'Resume Maker', d: '30 ATS-friendly templates. PDF and Word, no sign-up.', img: '/assets/nav/promo-tools.webp', w: 480, h: 300 };
 const ORDER = ['work', 'services', 'tools', 'more'];
 const HIRE = [
   { href: BOOK, t: 'Book a 20-min call', d: 'Pick a slot that suits you', x: true },
@@ -160,7 +165,8 @@ function mega(key) {
   const cols = m.cols.map((col) => `<div class="ap-mega__col">${col.map((g) => `<div class="ap-mega__g"><p class="ap-mega__h">${e(g.h)}</p>${g.items.map(megaItem).join('')}</div>`).join('')}</div>`).join('');
   const cta = m.cta.label === null ? `All ${toolCount} tools` : m.cta.label;
   const feat = m.feat ? `<a class="ap-mega__feat" role="menuitem" href="${e(m.feat.href)}"><span class="ap-mega__fic">${icon(m.feat)}</span><span class="ap-mega__ftx"><span class="ap-mega__ft">${e(m.feat.t)}<span class="ap-mega__b">${e(m.feat.b)}</span></span><span class="ap-mega__fd">${e(m.feat.d)}</span></span><span class="ap-mega__fgo">${e(m.feat.cta)}${ARROW}</span></a>` : '';
-  return `<div class="ap-dd ap-dd--mega"><button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button><div class="ap-mega ap-mega--${n}" role="menu">${feat}<div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div><div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all" role="menuitem" href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div></div></div>`;
+  const pr = m.promo ? `<a class="ap-mega__promo" role="menuitem" href="${e(m.promo.href)}"><span class="ap-mega__pimg"><img data-src="${e(m.promo.img)}" alt="" width="${m.promo.w}" height="${m.promo.h}" decoding="async"></span><span class="ap-mega__pt">${e(m.promo.t)}</span><span class="ap-mega__pd">${e(m.promo.d)}</span><span class="ap-mega__pgo">Open${ARROW}</span></a>` : '';
+  return `<div class="ap-dd ap-dd--mega"><button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button><div class="ap-mega ap-mega--${n}${m.promo ? ' ap-mega--promo' : ''}" role="menu">${feat}<div class="ap-mega__main"><div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div>${pr}</div><div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all" role="menuitem" href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div></div></div>`;
 }
 function sheetGroup(key) {
   const m = MENUS[key];
@@ -174,22 +180,30 @@ function sheetGroup(key) {
 }
 function header() {
   const hire = `<div class="ap-dd ap-dd--cta"><button type="button" class="ap-dd__btn" aria-haspopup="true"><span class="ap-nav__dot"></span>Hire me${CARET}</button><div class="ap-dd__panel ap-dd__panel--right" role="menu">${HIRE.map((it) => `<a class="ap-dd__item" role="menuitem" href="${e(it.href)}"${ext(it)}><span class="ap-dd__t">${e(it.t)}</span><span class="ap-dd__d">${e(it.d)}</span></a>`).join('')}</div></div>`;
+  const SEARCH_SVG = svg('<circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>', 17, 2);
+  const search = `<button type="button" class="ap-nav__search" data-ap-search aria-label="Search the site" aria-haspopup="dialog">${SEARCH_SVG}<span class="ap-nav__stxt">Search</span><kbd class="ap-nav__kbd" aria-hidden="true">\u2318K</kbd></button>`;
   const sheet = `<details class="ap-nav__menu ap-ms"><summary aria-label="Open menu"><span class="ap-ms__burger" aria-hidden="true"><span></span><span></span></span><span class="ap-ms__lbl">Menu</span></summary><div class="ap-ms__sheet">`
+    + `<button type="button" class="ap-ms__search" data-ap-search>${SEARCH_SVG}<span>Search the site</span></button>`
     + `<div class="ap-ms__ctas"><a class="ap-ms__cta ap-ms__cta--pri" href="${e(BOOK)}" target="_blank" rel="noopener"><span class="ap-nav__dot"></span>Book a 20-min call</a><a class="ap-ms__cta" href="${e(WA)}" target="_blank" rel="noopener">WhatsApp</a></div>`
     + `<a class="ap-ms__top" href="/portfolio">Portfolio${ARROW}</a>` + ORDER.map(sheetGroup).join('') + '</div></details>';
-  return `<nav class="ap-nav" aria-label="Main"><div class="ap-nav__in"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><div class="ap-nav__pill"><a href="/portfolio">Portfolio</a>${ORDER.map(mega).join('')}</div><div class="ap-nav__right">${hire}${sheet}</div></div></nav>`;
+  return `<nav class="ap-nav" aria-label="Main"><div class="ap-nav__in"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><div class="ap-nav__pill"><a href="/portfolio">Portfolio</a>${ORDER.map(mega).join('')}</div><div class="ap-nav__right">${search}${hire}${sheet}</div></div></nav>`;
 }
 
 /* ---------- footer ---------- */
+const TOOL_GROUPS = ['Documents', 'Images', 'QR codes & links', 'Security', 'Writing & planning'];
 function footer() {
   const link = ([h, t, x]) => `<a href="${e(h)}"${x ? ' target="_blank" rel="noopener"' : ''}>${e(t)}</a>`;
-  const col = (h, items) => `<div class="ap-foot__col"><p class="ap-foot__h">${h}</p>${items.map(link).join('')}</div>`;
-  const svc = [['/services', 'All services'], ...flat(MENUS.services).filter((i) => i.href !== '/services').sort((a, b) => ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/freelance-project-manager', '/tech-consultant'].indexOf(a.href) - ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/freelance-project-manager', '/tech-consultant'].indexOf(b.href)).map((i) => [i.href, i.f || i.t])];
-  const tools = flat(MENUS.tools);
-  const soc = FOOT.soc.map((s) => `<a href="${e(s.href)}"${ext(s)} aria-label="${e(s.label)}">${svg(ICONS.extra[s.ic], 18, 1.8)}</a>`).join('');
-  return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><div class="ap-foot__soc">${soc}</div><form class="ap-foot__news" data-news novalidate><label for="ap-news-e">Get new tools and write-ups by email</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Subscribed straight away. Unsubscribe any time. <a href="/privacy">Privacy</a></p></form></div>`
-    + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', FOOT.work)}${col('Services', svc)}<div class="ap-foot__col ap-foot__col--2"><p class="ap-foot__h">Free tools</p><div class="ap-foot__list"><a href="/tools">All ${toolCount} tools</a>${tools.map((t) => `<a href="${e(t.href)}">${e(t.f || t.t)}</a>`).join('')}</div></div>${col('More', FOOT.more)}</nav></div>`
-    + `<div class="ap-foot__base"><span>© ${YEAR} Aashish Pandey · Bangalore, India</span><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><span class="ap-foot__note">Tools run in your browser</span><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">↑</span></a></div></div></footer>`;
+  const col = (h, inner, cls = '') => `<details class="ap-foot__col${cls}" open><summary class="ap-foot__h">${h}</summary><div class="ap-foot__links">${inner}</div></details>`;
+  const order = ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/freelance-project-manager', '/tech-consultant'];
+  const svc = [['/services', 'All services'], ...flat(MENUS.services).filter((i) => i.href !== '/services').sort((a, b) => order.indexOf(a.href) - order.indexOf(b.href)).map((i) => [i.href, i.f || i.t])];
+  const groups = MENUS.tools.cols.flat();
+  const tools = `<a class="ap-foot__all" href="/tools">All ${toolCount} tools</a><div class="ap-foot__tools">${groups.map((g) => `<div class="ap-foot__grp"><p class="ap-foot__sh">${e(g.h)}</p>${g.items.map((t) => `<a href="${e(t.href)}">${e(t.f || t.t)}</a>`).join('')}</div>`).join('')}</div>`;
+  const contact = [[MAIL, 'hello@aashishpandey.com'], [BOOK, 'Book a 20-minute call', 1], ['/contact', 'Send a brief'], [WA, 'WhatsApp', 1], [LI, 'LinkedIn', 1], [CV, 'Résumé (PDF)']];
+  const more = FOOT.more.filter(([h]) => h !== CV && h !== '/contact');
+  const contactHtml = contact.map(link).join('') + `<p class="ap-foot__sh ap-foot__sh--gap">Explore</p>` + more.map(link).join('');
+  return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><form class="ap-foot__news" data-news novalidate><label for="ap-news-e">Get new tools and write-ups by email</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Subscribed straight away. Unsubscribe any time. <a href="/privacy">Privacy</a></p></form></div>`
+    + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', FOOT.work.map(link).join(''))}${col('Services', svc.map(link).join(''))}${col('Free tools', tools, ' ap-foot__col--tools')}${col('Get in touch', contactHtml)}</nav></div>`
+    + `<div class="ap-foot__base"><span>© ${YEAR} Aashish Pandey · Bangalore, India</span><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><span class="ap-foot__note">Tools run in your browser</span><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">\u2191</span></a></div></div></footer>`;
 }
 
 /* ---------- active state ---------- */
@@ -249,6 +263,9 @@ for (const f of fs.readdirSync(ROOT).filter((x) => x.endsWith('.dc.html')).sort(
   [out, a] = region('nav', header, out, p);
   [out, b] = region('foot', footer, out, p);
   out = out.replace(/nav\.css\?v=\d+/g, `nav.css?v=${NAV_CSS}`);
+  // the script that opens search and loads the menu pictures sits beside the stylesheet, with the same path style
+  if (/nav\.js\?v=\d+/.test(out)) out = out.replace(/nav\.js\?v=\d+/g, `nav.js?v=${NAV_JS}`);
+  else out = out.replace(/(<link rel="stylesheet" href=")((?:\/|\.\/)?)(assets\/nav\.css\?v=\d+)(">)/, (m, a, pre, c, d) => `${m}\n<script src="${pre}assets/nav.js?v=${NAV_JS}" defer></script>`);
   if (out !== src) { changed++; stale.push(f); if (!CHECK) fs.writeFileSync(fp, out); }
 }
 if (CHECK) { if (stale.length) { console.error('Out of date, run: node scripts/chrome.cjs\n  ' + stale.join('\n  ')); process.exit(1); } console.log('chrome: all pages current'); }
