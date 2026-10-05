@@ -290,3 +290,8 @@ html:has(.ap-ms[open]){overflow:hidden}
 }
 /* larger screens: the lists are never hidden, even if a script has not run yet or has misjudged the screen size */
 @media(min-width:621px){@supports selector(::details-content){.ap-foot__col::details-content{content-visibility:visible;display:block}}}
+.ap-foot__credits{margin:-36px 0 0;font-size:12.5px;line-height:1.7;color:#6f6a82;max-width:78ch}
+.ap-foot__credits span{margin-right:6px;color:#8e89a0;font-weight:500}
+.ap-foot__credits a{color:#8e89a0;text-decoration:underline;text-decoration-color:rgba(244,239,230,.2);text-underline-offset:2px}
+.ap-foot__credits a:hover{color:#f4efe6;text-decoration-color:currentColor}
+@media(max-width:620px){.ap-foot__credits{margin-top:-28px}}
