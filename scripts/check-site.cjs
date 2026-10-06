@@ -77,7 +77,9 @@ function toRe(source) {
   });
   return { re: new RegExp('^' + re + '$'), keys };
 }
-const compile = (list) => (list || []).map((r) => ({ ...r, ...toRe(r.source) }));
+// rules with has/missing conditions (e.g. the www host redirect) only apply to some requests; links are checked as
+// requests to the canonical host, so leave them out
+const compile = (list) => (list || []).filter((r) => !r.has && !r.missing).map((r) => ({ ...r, ...toRe(r.source) }));
 const redirects = compile(vercel.redirects);
 const rewrites = compile(vercel.rewrites);
 const fill = (rule, m) => rule.destination.replace(/:(\w+)\*?(\([^)]*\))?/g, (x, k) => m[rule.keys.indexOf(k) + 1] ?? '');
