@@ -289,6 +289,25 @@ function glowTex() {
 // v7: cooperative yielding while the world is built. Only yields if more than ~10 ms of work has passed since the last yield.
 let __yt = 0;
 const __y = () => { const n = performance.now(); if (n - __yt < 10) return null; return (typeof scheduler !== 'undefined' && scheduler.yield ? scheduler.yield() : new Promise(r => setTimeout(r, 0))).then(() => { __yt = performance.now(); }); };
+// Which GPU is this? Read from a throwaway context so the page can pick the light path before the real renderer exists
+// (MSAA, shadows and material type are fixed when the renderer and scene are built). weak: old phone GPUs and software GL,
+// igpu: Intel HD/UHD and old AMD integrated parts (fine at reduced settings, not at full), soft: software rendering.
+const WEAK_GPU_RX = /Mali-(4|T[678])|Mali-G(31|51|52|57|68)|Adreno \(TM\) ?[3-5]\d\d|Adreno [3-5]\d\d|PowerVR|SGX|Vivante|VideoCore|llvmpipe|SwiftShader|Basic Render|softpipe/i;
+const IGPU_RX = /Intel.*(?:UHD|HD) Graphics|Intel.*GMA|Radeon\(TM\) (?:R[2-5]|Vega [3-8]) Graphics|Radeon HD [2-6]\d\d\d/i;
+export function probeGPU() {
+  const r = { name: '', weak: false, igpu: false, soft: false };
+  try {
+    const c = document.createElement('canvas'), gl = c.getContext('webgl') || c.getContext('experimental-webgl');
+    if (!gl) return r;
+    const ext = gl.getExtension('WEBGL_debug_renderer_info'); r.name = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '';
+    r.soft = /llvmpipe|SwiftShader|Basic Render|softpipe/i.test(r.name);
+    r.weak = WEAK_GPU_RX.test(r.name) || gl.getParameter(gl.MAX_TEXTURE_SIZE) < 4096;
+    r.igpu = IGPU_RX.test(r.name);
+    const lose = gl.getExtension('WEBGL_lose_context'); lose && lose.loseContext();
+  } catch (e) { /* unknown GPU: leave everything false */ }
+  return r;
+}
+
 export async function createWorld(host, opts = {}) {
   const lp = !!opts.lowPower; let terrMat = null, roadMat = null;
   // Height fog + sun/moon scattering, injected into every built-in fog-enabled material
@@ -329,7 +348,7 @@ export async function createWorld(host, opts = {}) {
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lp ? 1.5 : 2));
   // Weak-GPU detection: old Mali/Adreno/PowerVR parts, low RAM/cores, or small texture limits start at reduced render scale and a 30fps cap
   const weakGPU = (() => { try { const gl = renderer.getContext(), ext = gl.getExtension('WEBGL_debug_renderer_info'), name = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '';
-    if (/Mali-(4|T[678])|Mali-G(31|51|52|57|68)|Adreno \(TM\) ?[3-5]\d\d|Adreno [3-5]\d\d|PowerVR|SGX|Vivante|VideoCore|llvmpipe|SwiftShader/i.test(name)) return true;
+    if (WEAK_GPU_RX.test(name)) return true;
     if (gl.getParameter(gl.MAX_TEXTURE_SIZE) < 4096) return true;
     return (navigator.deviceMemory || 8) <= 3 || (navigator.hardwareConcurrency || 8) <= 4; } catch (e) { return false; } })();
   const cap30 = !!opts.mobile && (lp || weakGPU);
@@ -3392,7 +3411,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       if (batOn && batH.some(b => near(b.x, b.z, 16))) hit('bat'); } }
 
   // Adaptive quality tiers
-  await __y(); const maxTier = lp ? 2 : 3; await __y(); let tier = opts.mobile ? 0 : (lp ? 1 : 3), rScale = weakGPU ? 0.75 : 1, lastDraw = 0, frameNo = 0, drawDist = 1, paused = false, forceLow = lp && !opts.mobile; await __y(); const perf = { acc: 0, n: 0, prev: 0, cool: 0, good: 0 };
+  await __y(); const maxTier = lp ? 2 : 3; await __y(); let tier = opts.mobile || weakGPU ? 0 : (lp ? 1 : 3), rScale = opts.softGPU ? 0.6 : weakGPU ? 0.75 : 1, lastDraw = 0, frameNo = 0, drawDist = 1, paused = false, forceLow = lp && !opts.mobile; await __y(); const perf = { acc: 0, n: 0, prev: 0, cool: 0, good: 0 };
   // Phones: keep the pixel ratio at or above 1 (below that the low-poly world goes soft); pay for it with shadows + draw distance instead.
   await __y(); const TIERS = opts.mobile ? [{ pr: 1.25, sh: false, dd: 0.55 }, { pr: 1.5, sh: false, dd: 0.7 }, { pr: 1.75, sh: false, dd: 0.85 }, { pr: 2, sh: true, dd: 1 }] : [{ pr: 0.6, sh: false, dd: 0.6 }, { pr: 0.85, sh: false, dd: 0.8 }, { pr: 1.25, sh: true, dd: 1 }, { pr: 1.75, sh: true, dd: 1 }];
   await __y(); const PERF_DOWN = cap30 ? 44 : (opts.mobile ? 30 : 21), PERF_UP = cap30 ? 36 : (opts.mobile ? 19 : 17.5), RS_MIN = 0.5;
@@ -3457,7 +3476,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (!warmProxies.length) Promise.all(warmJobs).then(warmFinish, warmFinish);
   };
   // Without KHR_parallel_shader_compile (software GL, a few old drivers) compiling up front would just block the main thread for longer, so leave it lazy.
-  await __y(); const canWarm = () => { try { return renderer.extensions.has('KHR_parallel_shader_compile'); } catch (err) { return false; } };
+  await __y(); const canWarm = () => { try { return !opts.softGPU && renderer.extensions.has('KHR_parallel_shader_compile'); } catch (err) { return false; } };
   await __y(); const beginWarm = () => { warm = 1; warmT0 = performance.now(); try { mergeStatic(); } catch (err) { console.warn(err); } if (!canWarm()) { warmFinish(); return; } setTimeout(warmFinish, 12000); };
   // After each deferred build step, compile the new materials in the background, a few at a time, without holding the frame.
   await __y(); const warmMore = () => { try { if (!canWarm()) return; const ps = warmCollect(), jobs = []; const step = () => { warmRun(ps, jobs, 4); if (ps.length) setTimeout(step, 24); }; step(); } catch (err) { /* ignore */ } };
