@@ -67,6 +67,7 @@ ITEMS = [
     ('tool-lorem', TOOL, 'Lorem Ipsum', 'Placeholder text as plain text, HTML or Markdown', None, (), 120),
     ('tool-exif', TOOL, 'Photo Metadata', 'See and remove GPS, camera and EXIF data. Nothing uploads.', None, (), 120),
     ('tool-hash', TOOL, 'File Hash Checker', 'MD5, SHA-1, SHA-256 and SHA-512, verified on your device', None, (), 110),
+    ('tool-p2p', TOOL, 'P2P File Sharing', 'Send files device to device. Nothing stored on a server.', None, (), 110),
     ('tool-password', TOOL, 'Password Generator', 'Random passwords made in your browser, never sent anywhere', None, (), 110),
     ('tool-timezone', TOOL, 'Meeting Planner', 'Find a time that works across time zones', None, (), 120),
     ('tool-estimate', TOOL, 'Estimate Calculator', 'Project cost and timeline from best, likely and worst hours', None, (), 110),

@@ -87,7 +87,8 @@ const MENUS = {
         { href: '/tools/qr-code-generator', t: 'QR Code Generator', d: 'Static codes that never expire', b: 'Popular' },
         { href: '/tools/qr-code-checker', t: 'QR Code Checker', d: 'See if a code is dynamic', f: 'QR Code Autopsy' },
         { href: '/tools/url-shortener', t: 'URL Shortener', d: 'Short link with its own QR' },
-      ] }, { h: 'Security', items: [
+      ] }, { h: 'Files & security', items: [
+        { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored', b: 'New' },
         { href: '/tools/password-generator', t: 'Password Generator', d: 'Made on your device' },
         { href: '/tools/file-hash-checker', t: 'File Hash Checker', d: 'MD5, SHA-1, SHA-256' },
       ] }],
@@ -192,7 +193,7 @@ function header() {
 
 /* ---------- footer ---------- */
 // Plain text columns, quiet colours, one legal row: the pattern the large sites use (Vercel, Stripe, Linear).
-const TOOL_ORDER = ['/tools/resume-maker', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/sop-maker', '/tools/password-generator', '/tools/image-resizer', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/qr-code-checker', '/tools/website-launch-checklist'];
+const TOOL_ORDER = ['/tools/resume-maker', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/sop-maker', '/tools/password-generator', '/tools/p2p-file-sharing', '/tools/image-resizer', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/qr-code-checker', '/tools/website-launch-checklist'];
 function footer() {
   const link = ([h, t, x]) => `<a href="${e(h)}"${x ? ' target="_blank" rel="noopener"' : ''}>${e(t)}</a>`;
   const col = (h, inner, cls = '') => `<details class="ap-foot__col${cls}" open><summary class="ap-foot__h">${h}</summary><div class="ap-foot__links">${inner}</div></details>`;
