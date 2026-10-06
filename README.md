@@ -124,6 +124,7 @@ flowchart LR
 - **Physics.** Lateral grip limits turning by surface (road, dirt, sand, ice, reduced by rain and snow), braking is grip-limited, lean follows lateral acceleration through a spring-damper, and the front end steers on its own axis. The speedometer shows true speed x 6 by design.
 - **Rendering.** Real bloom, height fog, depth-of-field blur, adaptive quality tiers that move on frame time, tiled lazy loading (160 m tiles), instancing and distance culling. On phones: no MSAA, a lower starting tier, and a shader warm-up before the first frame.
 - **Audio.** `assets/js/audio-v3.js` is fully generative (no audio files): lydian chords through a convolution reverb, celesta, flute, kalimba and cricket foley, with positional stereo for the lake and campfire. It suspends when the tab is hidden or the phone locks. There is deliberately no speed-reactive engine sound.
+- **MujaSauros (the dino).** A pet with moods, bond, pets, snacks and fetch. Its "mind" (`dinoPath`, `mindTick` in `world-v7.js`): it steers with look-ahead around trees, rocks, water and cliffs, only picks roam targets it can reach, remembers the places you visit and how you ride (counts saved on the device in `apDinoPlaces` and `apDinoStyle`), comments on both, and warns about water, drops and solids ahead of the bike.
 - **Gamification.** XP, a daily challenge, stamps, a wildlife journal and postcards, all in `localStorage` with no network calls.
 - **Performance work.** Profiling scripts are in `scripts/perf/`; results and method are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
 

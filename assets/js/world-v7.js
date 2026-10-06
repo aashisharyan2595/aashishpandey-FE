@@ -382,7 +382,7 @@ export async function createWorld(host, opts = {}) {
   await __y(); v6Prep();
   await __y(); const scene = new THREE.Scene();
   await __y(); scene.matrixWorldAutoUpdate = false; // v7: world matrices are updated by updateRoots() in the frame loop, skipping hidden and static roots
-  await __y(); if (/[?&]perf\b/.test(location.search)) window.__apW = { renderer, scene, get lowPower() { return lp; }, get probe() { return { fs, fh, fx, fz, lean, grounded, airY, bike: bikeRoot, PH: typeof PH === 'undefined' ? null : PH, steerIn: typeof steerIn === 'undefined' ? 0 : steerIn, roadX, roadW, roadDist, punch, boostAmt, curSpeed, fov: camera.fov }; } };
+  await __y(); if (/[?&]perf\b/.test(location.search)) window.__apW = { renderer, scene, get lowPower() { return lp; }, get dino() { return { obj: dino, get state() { return dinoState; }, get target() { return dinoTarget; }, MEM, ok: dinoOK, path: dinoPath, clear: dinoClear, pick: pickRoamTarget }; }, get probe() { return { fs, fh, fx, fz, lean, grounded, airY, bike: bikeRoot, PH: typeof PH === 'undefined' ? null : PH, steerIn: typeof steerIn === 'undefined' ? 0 : steerIn, roadX, roadW, roadDist, punch, boostAmt, curSpeed, fov: camera.fov }; } };
   await __y(); scene.fog = new THREE.Fog(0xe0976f, 50, 560);
   await __y(); const camera = new THREE.PerspectiveCamera(52, host.clientWidth / host.clientHeight, 0.1, 4000);
   await __y(); const GT = glowTex();
@@ -1347,12 +1347,15 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
       for (let i = 0; i < notes.length; i++) { const n = notes[i], dd = Math.hypot(n.w.position.x - originX, n.w.position.z - originZ); if (dd < bestD && (dinoNoteCool[i] || 0) < performance.now()) { bestD = dd; bestI = i; } }
       if (bestI >= 0) { const n = notes[bestI], a2 = Math.random() * Math.PI * 2; dinoTarget.set(n.w.position.x + Math.cos(a2) * 1.3, 0, n.w.position.z + Math.sin(a2) * 1.3); return; }
     }
-    for (let tries = 0; tries < 6; tries++) {
+    // mind: only spots it can actually walk to (no water, no solids, no cliffs), a little drawn to ground it has not seen, and not far from the bike
+    let best = null, bestS = -1e9;
+    for (let tries = 0; tries < 10; tries++) {
       const a = Math.random() * Math.PI * 2, r = 1.5 + Math.random() * 3, x = originX + Math.cos(a) * r, z = originZ + Math.sin(a) * r;
-      if (collideAt(x, z, 0.5)) continue;
-      if (Math.hypot(x - LAKE.x, z - LAKE.z) < LAKE.r + 2) continue;
-      dinoTarget.set(x, 0, z); return;
+      if (!dinoOK(x, z, originX, originZ) || Math.hypot(x - LAKE.x, z - LAKE.z) < LAKE.r + 2 || !dinoClear(originX, originZ, x, z)) continue;
+      const sc = Math.random() * 0.6 - Math.min(MEM.cells[cellKey(x, z)] || 0, 6) * 0.04 - Math.hypot(x - bike.position.x, z - bike.position.z) * 0.06;
+      if (sc > bestS) { bestS = sc; best = [x, z]; }
     }
+    if (best) { dinoTarget.set(best[0], 0, best[1]); return; }
     dinoTarget.set(originX, 0, originZ);
   }
   // Local obstacle avoidance: deflects around a solid ahead instead of walking straight into it
@@ -3156,6 +3159,63 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (DB.sulkT > 0) { if (++DB.sulkPets < 2) { sayM(PL(DL.sulkPet), 'grumpy', true); dinoReactT = 0.25; return; } DB.sulkT = 0; DB.sulkPets = 0; DB.bond++; v8S.set('apDinoBond', DB.bond); dinoWagBoost = 1; sayM(PL(DL.forgive), 'playful', true); opts.onDino && opts.onDino('pet', DB.bond); return; }
     if (DB.petTimes.length >= 6) { DB.petTimes = []; DB.zoomQ = true; dinoWagBoost = 1; dinoReactT = 0.8; sayM(PL(DL.petSpam), 'thrilled', true); return; }
     DB.bond++; v8S.set('apDinoBond', DB.bond); dinoWagBoost = 1; burst(dino.position.x, dino.position.y + 0.5, dino.position.z, 4, '#ff9ad5', 0.4, 1.2); const m = DL.bond[DB.bond]; say(m || PL(DL.pet), true); opts.onDino && opts.onDino('pet', DB.bond); }
+  // ---- dino mind: look-ahead walking, place and riding-style memory (saved on this device), hazard anticipation
+  const MEM = { cells: v8S.get('apDinoPlaces', {}), st: v8S.get('apDinoStyle', { t: 0, fast: 0, calm: 0, off: 0, air: 0 }), key: '', save: 0, acc: 0, side: 0, fresh: 0, trait: '', traitAt: 0 };
+  const MD = {
+    water: ["Water ahead! Water ahead! Please let it be shallow.", "Splash zone! Hold my tail.", "Is that a lake? We are about to be in a lake."],
+    drop: ["Big drop! I did not sign up for flying.", "The ground just ends there. Rude. Hold on."],
+    obstacle: ["Tree! Tree! TREE! Left! Your left!", "Something solid ahead. I would like to keep my nose.", "Rock ahead. I believe in you. A little."],
+    fresh: ["Never been here before. Taking notes. Mental notes.", "New ground! I like the smell of unexplored.", "My nose has not smelled this exact spot yet. Big day."],
+    again: ["We have been here {n} times. This is our spot, isn't it?", "{n} visits. I think we live here now.", "Back again. I could find this place with my eyes closed. I tried."],
+    fast: ["You ride fast. I checked: my ears are still on.", "Speed again. I stopped holding on. Okay, I'm still holding on."],
+    off: ["You keep leaving the road. I've noticed. I love it.", "Roads are suggestions to you. Good. Same."],
+    calm: ["You ride so smoothly. I almost fell asleep. Almost.", "Easy riding. This is how I like it."],
+    air: ["You jump a lot. My tummy has filed a complaint.", "Wheels off the ground again. Of course."] };
+  const MC = 30, cellKey = (x, z) => Math.floor(x / MC) + ',' + Math.floor(z / MC);
+  // can a dino stand here? (from: optional previous spot, to reject cliffs and very steep ground)
+  function dinoOK(x, z, fx, fz) {
+    if (collideAt(x, z, 0.35) || waterAt(x, z) !== null) return false;
+    if (fx !== undefined) { const d = Math.hypot(x - fx, z - fz) || 1; if (Math.abs(groundY(x, z) - groundY(fx, fz)) / d > 1) return false; }
+    return true;
+  }
+  const dinoClear = (x0, z0, x1, z1) => { const n = Math.ceil(Math.hypot(x1 - x0, z1 - z0) / 0.7); for (let i = 1; i <= n; i++) { const k = i / n; if (!dinoOK(x0 + (x1 - x0) * k, z0 + (z1 - z0) * k)) return false; } return true; };
+  // steering with look-ahead: straight if clear, else the smallest turn that is clear, and keeps going round the same side so it does not dither
+  function dinoPath(px, pz, dx, dz) {
+    const ok = (ax, az) => dinoOK(px + ax * 0.45, pz + az * 0.45, px, pz) && dinoOK(px + ax * 1.2, pz + az * 1.2);
+    if (ok(dx, dz)) { MEM.side = 0; return [dx, dz]; }
+    const s0 = MEM.side || (Math.random() < 0.5 ? 1 : -1);
+    for (const a of [0.5, 1, 1.55, 2.2]) for (const sg of [s0, -s0]) {
+      const ca = Math.cos(a * sg), sa = Math.sin(a * sg), nx = dx * ca - dz * sa, nz = dx * sa + dz * ca;
+      if (ok(nx, nz)) { MEM.side = sg; return [nx, nz]; }
+    }
+    return [0, 0];
+  }
+  function mindSave() { v8S.set('apDinoPlaces', MEM.cells); v8S.set('apDinoStyle', MEM.st); }
+  function mindTick(dt, T, bp) {
+    if (!free) return;
+    MEM.acc += dt; if (MEM.acc < 0.25) return; const h = MEM.acc; MEM.acc = 0;
+    const fwx = -Math.sin(lastYaw), fwz = -Math.cos(lastYaw), riding = dinoState === 'ride', st = MEM.st;
+    // riding style: how the rider rides, counted while moving
+    if (curSpeed > 1) { st.t += h; if (curSpeed > 21) st.fast += h; else if (curSpeed < 14) st.calm += h; if (Math.min(roadDist(bp.x, bp.z), sroadD(bp.x, bp.z)) > 5) st.off += h; if (!grounded) st.air += h; }
+    if (st.t > 150) { const f = k => st[k] / st.t; MEM.trait = f('air') > 0.05 ? 'air' : f('fast') > 0.3 ? 'fast' : f('off') > 0.45 ? 'off' : f('calm') > 0.5 ? 'calm' : ''; }
+    if (MEM.trait && riding && curSpeed > 2 && T - MEM.traitAt > 420 && cd('mind-trait', 420)) { MEM.traitAt = T; sayM(PL(MD[MEM.trait]), MEM.trait === 'calm' ? 'playful' : MEM.trait === 'air' ? 'scared' : 'proud'); }
+    // places: how often this spot has been visited, across sessions
+    const key = cellKey(bp.x, bp.z);
+    if (key !== MEM.key) {
+      const c = MEM.cells[key] || 0; MEM.key = key; MEM.cells[key] = c + 1; MEM.fresh = c === 0 ? MEM.fresh + 1 : 0;
+      if (MEM.fresh >= 4 && cd('mind-new', 150)) { MEM.fresh = 0; sayM(PL(MD.fresh), 'curious'); }
+      else if (c >= 4 && cd('mind-again', 220)) sayM(PL(MD.again).replace('{n}', c + 1), 'playful');
+      const ks = Object.keys(MEM.cells); if (ks.length > 260) { for (const k of ks) if (MEM.cells[k] <= 1 && Object.keys(MEM.cells).length > 200) delete MEM.cells[k]; }
+      if (T - MEM.save > 20) { MEM.save = T; mindSave(); }
+    }
+    // look-ahead: warn about what the bike is about to hit, not what it already hit
+    if (riding && grounded && curSpeed > 9 && !inWater) {
+      const L = clamp(curSpeed * 0.8, 9, 22), ax = bp.x + fwx * L, az = bp.z + fwz * L;
+      if (waterAt(ax, az) !== null && cd('mind-water', 45)) { DB.lurch = 0.3; dinoReactT = 0.5; sayM(PL(MD.water), 'scared'); }
+      else if (groundY(ax, az) < groundY(bp.x, bp.z) - 3.5 && cd('mind-drop', 60)) { DB.lurch = 0.3; dinoReactT = 0.5; sayM(PL(MD.drop), 'scared'); }
+      else if (curSpeed > 12 && collideAt(ax, az, 0.4) && cd('mind-obstacle', 40)) { DB.lurch = 0.3; dinoReactT = 0.5; sayM(PL(MD.obstacle), 'scared'); }
+    }
+  }
   function brainTick(dt, T, bp, night) {
     if (free && !DB.freeOn) { DB.freeOn = true; DB.hintAt = T + 60; { const hr = new Date().getHours(), tod = hr < 5 || hr >= 21 ? 'late' : hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening'; say(DB.met && Math.random() < 0.35 ? PL(DL.clock[tod]) : PL(DB.met ? DL.back : DL.first), true); } DB.met++; v8S.set('apDinoMet', DB.met); }
     if (!free) DB.freeOn = false;
@@ -3223,7 +3283,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     // blinking; sleepy eyes droop
     DB.blinkAt -= dt; if (DB.blinkAt <= 0) { DB.blinkAt = 2.5 + Math.random() * 4; DB.blinkT = 0; } if (DB.blinkT >= 0) { DB.blinkT += dt; if (DB.blinkT > 0.13) DB.blinkT = -1; }
     { const ey = DB.closedEyes || DB.blinkT >= 0 ? 0.12 : dinoMood === 'sleepy' ? 0.55 : 1; for (const e of dEyes) e.scale.y = ey; }
-    try { riderTick(dt, T, bp); awareTick(dt, T, bp); } catch (e) { if (!DB.errLogged) { DB.errLogged = true; console.warn('rider/dino awareness', e); } }
+    try { riderTick(dt, T, bp); awareTick(dt, T, bp); mindTick(dt, T, bp); } catch (e) { if (!DB.errLogged) { DB.errLogged = true; console.warn('rider/dino awareness', e); } }
     if (DB.tabBack) { DB.tabBack = false; say(PL(DL.tabBack), true); dinoReactT = 0.6; dinoWagBoost = 1; }
     if (dinoState === 'roam') {
       if (DB.zoomQ && !digTarget) { DB.zoomQ = false; DB.zoomT = 3.2; DB.zc.copy(dino.position); }
@@ -3607,7 +3667,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
         if (frameNo % 5 === 0 && !fleeing) { let bi = -1, bd = 2.4; for (let i = 0; i < notes.length; i++) { const n = notes[i], dd = Math.hypot(n.w.position.x - dino.position.x, n.w.position.z - dino.position.z); if (dd < bd) { bd = dd; bi = i; } } if (bi >= 0 && (dinoNoteCool[bi] || 0) < performance.now()) { dinoNoteCool[bi] = performance.now() + 15000; dinoReactT = 0.5; dinoSnapT = 0.35; opts.onDino && opts.onDino('curious'); } }
         if (!fleeing && !dinoSeekLake && !dinoSeekBike) { dinoCheckInT -= dt; if (dinoCheckInT <= 0) { dinoSeekBike = true; const a3 = Math.random() * Math.PI * 2, r3 = 1.2 + Math.random() * 1.6; dinoTarget.set(bp.x + Math.cos(a3) * r3, 0, bp.z + Math.sin(a3) * r3); dinoCheckInT = 9999; } }
         const dBike = Math.hypot(bp.x - dino.position.x, bp.z - dino.position.z);
-        if (!fleeing && dinoRoamT > 3.5 && curSpeed > 1.2 && dBike < 3.2) { dinoState = 'run'; }
+        if (!fleeing && dinoRoamT > 3.5 && curSpeed > 1.2 && dBike < 3.2 + (MEM.trait === 'fast' || MEM.trait === 'air' ? 2.5 : 0)) { dinoState = 'run'; }
         else if (fleeing && dBike < 1.7) { dinoState = 'run'; dinoFleeT = 0; }
         else { const dx = dinoTarget.x - dino.position.x, dz = dinoTarget.z - dino.position.z, d = Math.hypot(dx, dz);
           if (d < 0.25) {
@@ -3617,11 +3677,11 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
             else pickRoamTarget(dino.position.x, dino.position.z);
           } else {
             const spdD = (fleeing ? 3.4 : FETCH.st !== 'none' ? 4.2 : dinoChaseFF ? 2.6 : 1.5) + reactBounce * 1.5, ux = dx / d, uz = dz / d;
-            const [adx, adz] = dinoAvoid(dino.position.x, dino.position.z, ux, uz);
+            const [adx, adz] = dinoPath(dino.position.x, dino.position.z, ux, uz);
             if (!adx && !adz) { dinoStuckT += dt; if (dinoStuckT > 0.6) { dinoStuckT = 0; dinoSeekLake = false; dinoSeekBike = false; pickRoamTarget(dino.position.x, dino.position.z); } }
             else { dinoStuckT = 0; dino.position.x += adx * spdD * dt; dino.position.z += adz * spdD * dt; }
             dino.position.y = groundY(dino.position.x, dino.position.z) + Math.abs(Math.sin(dinoRunPhase * (fleeing ? 7.5 : 5.5))) * 0.05;
-            const targetYaw = Math.atan2(-dx, -dz); let dyaw = targetYaw - dino.rotation.y; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); dino.rotation.y += dyaw * Math.min(1, dt * 6); dinoRunPhase += dt;
+            const steer = adx || adz, targetYaw = Math.atan2(steer ? -adx : -dx, steer ? -adz : -dz); let dyaw = targetYaw - dino.rotation.y; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); dino.rotation.y += dyaw * Math.min(1, dt * 6); dinoRunPhase += dt;
           }
           dLegs.forEach((l, i) => { l.m.rotation.x = Math.sin(dinoRunPhase * (fleeing ? 7.5 : 5.5) + (i % 2 ? Math.PI : 0)) * 0.5; });
         }
@@ -3630,11 +3690,11 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
         const dx = bp.x - dino.position.x, dz = bp.z - dino.position.z, d = Math.hypot(dx, dz) || 0.001;
         if (d < 1.5) { dinoState = 'jumpon'; dinoJumpT = 0; scene.attach(dino); dino.getWorldPosition(dinoJumpFrom); }
         else {
-          const spdD = Math.min(16, 2.4 + d * 0.55);
-          dino.position.x += dx / d * spdD * dt; dino.position.z += dz / d * spdD * dt;
+          const spdD = Math.min(16, 2.4 + d * 0.55), [rx, rz] = dinoPath(dino.position.x, dino.position.z, dx / d, dz / d), go = rx || rz, mx = go ? rx : dx / d, mz = go ? rz : dz / d;
+          dino.position.x += mx * spdD * dt; dino.position.z += mz * spdD * dt;
           const legFreq = 7 + spdD * 0.9;
           dino.position.y = groundY(dino.position.x, dino.position.z) + Math.abs(Math.sin(dinoRunPhase * legFreq)) * 0.08;
-          const targetYaw = Math.atan2(-dx, -dz); let dyaw = targetYaw - dino.rotation.y; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); dino.rotation.y += dyaw * Math.min(1, dt * 8); dinoRunPhase += dt;
+          const targetYaw = Math.atan2(-mx, -mz); let dyaw = targetYaw - dino.rotation.y; dyaw = Math.atan2(Math.sin(dyaw), Math.cos(dyaw)); dino.rotation.y += dyaw * Math.min(1, dt * 8); dinoRunPhase += dt;
           dLegs.forEach((l, i) => { l.m.rotation.x = Math.sin(dinoRunPhase * legFreq + (i % 2 ? Math.PI : 0)) * 0.7; });
           dTail.rotation.y = Math.sin(dinoRunPhase * legFreq) * 0.3;
         }
