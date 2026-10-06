@@ -398,6 +398,22 @@
       "destination": "/Tools-Invoice.dc.html"
     },
     {
+      "source": "/tools/sop-maker",
+      "destination": "/Tools-SOP.dc.html"
+    },
+    {
+      "source": "/tools/sop-maker/build",
+      "destination": "/Tools-SOP-Build.dc.html"
+    },
+    {
+      "source": "/tools/sop-maker/templates",
+      "destination": "/Tools-SOP-Templates.dc.html"
+    },
+    {
+      "source": "/tools/sop-maker/guide",
+      "destination": "/Tools-SOP-Guide.dc.html"
+    },
+    {
       "source": "/tools/resume-maker",
       "destination": "/Tools-Resume.dc.html"
     },

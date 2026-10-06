@@ -1,0 +1,40 @@
+/* SOP paper. Used by the SOP builder preview, the template library previews and printing. */
+.sop-doc{background:#fff;color:#1b1b1b;font:400 var(--fs,10.5pt)/1.45 var(--ff,Arial,sans-serif);padding:18mm 17mm;box-sizing:border-box;overflow-wrap:anywhere;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sop-doc *{box-sizing:border-box}
+.sop-hd{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding-bottom:10px;border-bottom:3px solid var(--ac)}
+.sop-kick{display:block;font-size:.78em;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ac)}
+.sop-hd h1{margin:4px 0 0;font-size:2.05em;line-height:1.12;font-weight:700;letter-spacing:-.01em;color:#111}
+.sop-co{font-size:.95em;font-weight:600;color:#555;text-align:right;max-width:40%}
+.sop-doc table{width:100%;border-collapse:collapse;margin:4px 0 2px;table-layout:fixed}
+.sop-doc th,.sop-doc td{border:1px solid #c9c9c9;padding:5px 7px;text-align:left;vertical-align:top}
+.sop-doc thead th{background:var(--ac);color:#fff;font-weight:700;font-size:.92em;border-color:var(--ac)}
+.sop-meta{margin-top:12px!important}
+.sop-meta th{background:#f2f2f2;font-weight:700;width:17%;font-size:.92em}
+.sop-meta td{width:33%}
+.sop-sec{margin-top:16px;break-inside:auto}
+.sop-sec h2{margin:0 0 7px;font-size:1.22em;font-weight:700;color:var(--ac);border-bottom:1px solid var(--ac);padding-bottom:3px;break-after:avoid}
+.sop-sec h2 span{color:#111}
+.sop-sec p{margin:0 0 6px}
+.sop-sec ul{margin:0;padding-left:1.3em}
+.sop-sec li{margin:0 0 3px}
+.sop-doc tr{break-inside:avoid}
+.sop-steps td div{margin-top:2px;color:#333}
+.sop-n{font-weight:700;color:var(--ac)}
+.sop-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;margin:2px 0 10px}
+.sop-flow span{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border:1px solid var(--ac);border-radius:4px;font-size:.8em;line-height:1.2;max-width:150px}
+.sop-flow b{flex:none;width:16px;height:16px;border-radius:50%;background:var(--ac);color:#fff;font-size:.85em;display:inline-flex;align-items:center;justify-content:center}
+.sop-flow i{width:10px;height:1px;background:var(--ac);position:relative}
+.sop-flow i::after{content:'';position:absolute;right:-1px;top:-3px;border:3.5px solid transparent;border-left:5px solid var(--ac);border-right:0}
+.sop-sign th{background:#f2f2f2;font-weight:700}
+.sop-sign thead th{background:var(--ac)}
+.sop-sign td{height:30px}
+.sop-ft{margin-top:18px;padding-top:6px;border-top:1px solid #ddd;font-size:.78em;color:#777}
+/* print one SOP from the library page */
+#sop-print-host{display:none}
+@media print{
+ @page{margin:16mm 15mm}
+ .sop-doc{padding:0!important;font-size:var(--fs,10.5pt)!important}
+ html.sop-printing body>*:not(#sop-print-host){display:none!important}
+ html.sop-printing #sop-print-host{display:block!important}
+ html.sop-printing,html.sop-printing body{background:#fff!important}
+}

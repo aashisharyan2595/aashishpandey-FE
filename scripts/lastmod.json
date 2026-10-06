@@ -190,5 +190,21 @@
   "Contact.dc.html": {
     "hash": "84444fa3d2a7e30c817043b69243929c658616d7",
     "lastmod": "2026-10-01"
+  },
+  "Tools-SOP.dc.html": {
+    "hash": "ae843356048793b9e528a0a7207d7e3e6bd305fc",
+    "lastmod": "2026-10-06"
+  },
+  "Tools-SOP-Build.dc.html": {
+    "hash": "9e802c0f4a47b7249744cfe1aafeaacd3c518041",
+    "lastmod": "2026-10-06"
+  },
+  "Tools-SOP-Templates.dc.html": {
+    "hash": "3bfd83e325f64120fe72999e9f9b985bd9f8236d",
+    "lastmod": "2026-10-06"
+  },
+  "Tools-SOP-Guide.dc.html": {
+    "hash": "73d750c13deebcfdd5d094da00211831efe2ef1f",
+    "lastmod": "2026-10-06"
   }
 }
