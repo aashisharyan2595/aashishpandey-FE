@@ -246,7 +246,7 @@ function close(p) {
 /* ---------- active state ---------- */
 const rewrites = {};
 for (const r of JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8')).rewrites || []) {
-  if (r.destination.endsWith('.dc.html')) rewrites[r.destination.replace(/^\//, '')] = rewrites[r.destination.replace(/^\//, '')] || r.source;
+  if (r.destination.endsWith('.dc.html')) { const k = path.basename(r.destination); rewrites[k] = rewrites[k] || r.source; }
 }
 function activate(html, p) {
   if (!p) return html;
@@ -292,8 +292,8 @@ function wrapLegacyFooter(src) {
   return src.replace(/(?<!<!-- ap-foot:start -->\s*)<footer class="ap-foot"[\s\S]*?<\/footer>(?!\s*<!-- ap-foot:end -->)/g, (m) => `<!-- ap-foot:start -->\n${m}\n<!-- ap-foot:end -->`);
 }
 let changed = 0, stale = [];
-for (const f of fs.readdirSync(ROOT).filter((x) => x.endsWith('.dc.html')).sort()) {
-  const fp = path.join(ROOT, f), src = fs.readFileSync(fp, 'utf8');
+for (const { name: f, abs: fp } of require('./pages.cjs').list()) {
+  const src = fs.readFileSync(fp, 'utf8');
   if (!/<!-- ap-(nav|foot|close):start -->/.test(src) && !src.includes('<footer class="ap-foot"')) continue;
   const p = rewrites[f];
   let out = wrapLegacyFooter(wrapLegacyNav(src)), a, b;

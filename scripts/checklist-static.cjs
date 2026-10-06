@@ -1,7 +1,7 @@
 // Rewrites the crawlable checklist section in Tools-Checklist.dc.html from the tool's own data.
 // Run after you edit the checks in that file:  node scripts/checklist-static.cjs
 const fs = require('fs'), path = require('path');
-const file = path.join(__dirname, '..', 'Tools-Checklist.dc.html');
+const file = path.join(__dirname, '..', 'pages', 'tools', 'Tools-Checklist.dc.html');
 let s = fs.readFileSync(file, 'utf8');
 const sc = s.slice(s.indexOf('<script type="text/x-dc" data-dc-script>') + 41);
 const m = { exports: {} };

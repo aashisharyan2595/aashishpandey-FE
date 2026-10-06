@@ -36,7 +36,9 @@ const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'site-check-'));
 const SKIP_COPY = new Set(['.git', 'node_modules', 'tpl', '.vercel']);
 fs.cpSync(ROOT, tmp, { recursive: true, filter: (src) => !SKIP_COPY.has(path.basename(src)) || path.dirname(src) !== ROOT });
 const src = {}; // page sources as committed, before the build touches them
-for (const f of fs.readdirSync(tmp).filter((x) => x.endsWith('.html'))) src[f] = fs.readFileSync(path.join(tmp, f), 'utf8');
+// pages are keyed by repo-relative path (pages/tools/Tools-QR.dc.html), root files by name (404.html)
+const htmlFiles = (root) => [...fs.readdirSync(root).filter((x) => x.endsWith('.html')), ...require('./pages.cjs').list(root).map((p) => p.rel)];
+for (const f of htmlFiles(tmp)) src[f] = fs.readFileSync(path.join(tmp, f), 'utf8');
 try {
   execSync(vercel.buildCommand, { cwd: tmp, stdio: 'pipe' });
 } catch (e) {
@@ -153,7 +155,7 @@ function scanHtml(file, html, bases) {
   }
   for (const m of body.matchAll(/url\(\s*(?:&quot;|['"])?([^'")&]+)(?:&quot;|['"])?\s*\)/g)) checkRef(file, m[1], bases);
 }
-const builtPages = fs.readdirSync(tmp).filter((x) => x.endsWith('.html') && served(x)).sort();
+const builtPages = htmlFiles(tmp).filter(served).sort();
 for (const f of builtPages) {
   const html = fs.readFileSync(path.join(tmp, f), 'utf8');
   const bases = routesOf[f] || ['/' + f];

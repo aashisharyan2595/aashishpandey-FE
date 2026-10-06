@@ -1,6 +1,6 @@
 # Ride performance on low-end machines
 
-The homepage ride (`world-v7.js`) was made much lighter for weak CPUs and GPUs. This page records what was wrong, what changed, how it was measured and how to undo it.
+The homepage ride (`assets/js/world-v7.js`) was made much lighter for weak CPUs and GPUs. This page records what was wrong, what changed, how it was measured and how to undo it.
 
 ## What was wrong
 
@@ -13,7 +13,7 @@ Measured on a 4-core, 4 GB profile (which switches the ride to its low-power pat
 
 ## What changed
 
-These changes were first generated from `world-v6.js` by a patch script. Since then `world-v7.js` has been edited in place (ride physics, helmet, speed feel, design drops), so it is the only source of truth; the old generator, `world-v6.js` and the one-off patch scripts were removed and live in git history.
+These changes were first generated from `world-v6.js` by a patch script. Since then `assets/js/world-v7.js` has been edited in place (ride physics, helmet, speed feel, design drops), so it is the only source of truth; the old generator, `world-v6.js` and the one-off patch scripts were removed and live in git history.
 
 | Change | Effect |
 |---|---|
@@ -59,4 +59,4 @@ node scripts/perf/busy-stretches.cjs myrun 100
 
 ## Rolling back
 
-Restore an earlier `world-v7.js` from git history (`git log -- world-v7.js`, then `git checkout <commit> -- world-v7.js`) and bump its `?v=` in `Portfolio.dc.html`.
+Restore an earlier `assets/js/world-v7.js` from git history (`git log -- assets/js/world-v7.js`, then `git checkout <commit> -- assets/js/world-v7.js`) and bump its `?v=` in `Portfolio.dc.html`.

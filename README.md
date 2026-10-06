@@ -30,14 +30,29 @@ Two tools use a small server: the URL shortener (`api/shorten.js`) and the pairi
 ## Stack
 
 - Static HTML plus a small templating runtime (`support.js`, `.dc.html` pages). Newer tool pages are plain HTML with inline JS.
-- Three.js world in `world-v7.js`, generative audio in `audio-v3.js`.
+- Three.js world in `assets/js/world-v7.js`, generative audio in `assets/js/audio-v3.js`.
 - Vercel serverless functions in `api/` (Node, no framework). Upstash Redis over REST for the shortener and P2P mailbox.
 - Hosting: Vercel, deployed from `main`.
+
+## Repository layout
+
+```
+pages/            page sources (.dc.html), grouped: site, services, work, tools (with resume and sop), legal
+assets/           css, images, vendored libraries
+assets/js/        site.js (routing shim, analytics), support.js (page runtime), world-v7.js (3D ride), audio-v3.js
+api/              Vercel serverless functions; api/_adm is the private admin backend
+scripts/          build, sitemap, OG image and check scripts (scripts/pages.cjs finds the pages)
+docs/             setup, SEO and performance notes
+vercel.json       routes, redirects, headers and the build command
+```
+
+Page file names are unique across `pages/`, and `vercel.json` rewrites map each clean URL to its file.
 
 ## Build
 
 ```
-node scripts/chrome.cjs && node scripts/prerender.cjs && node scripts/externalize.cjs && node scripts/inline-css.cjs
+npm run build    # same command Vercel runs; rewrites pages in place, use a scratch copy
+npm run check    # builds in a temp copy and checks links, assets, sitemaps and structured data
 ```
 
 | Script | Job |
@@ -49,12 +64,12 @@ node scripts/chrome.cjs && node scripts/prerender.cjs && node scripts/externaliz
 | `scripts/sitemap.cjs` | Writes `sitemap.xml` (an index) and the per-type sitemaps |
 | `scripts/make-og.py` | Renders the Open Graph images in `assets/og/` |
 
-Do not run `prerender` and `externalize` in the working tree you plan to commit: they rewrite the page sources in place. Copy the repo to a scratch folder to test the real build.
+Do not run `npm run build` in the working tree you plan to commit: it rewrites the page sources in place. `npm run check` does the build in a temp copy for you.
 
 ## Adding a tool
 
-1. Add the page file and a `rewrites` entry in `vercel.json`.
-2. Add the route to `ROUTES` in `site.js`.
+1. Add the page under `pages/tools/` and a `rewrites` entry in `vercel.json`.
+2. Add the route to `ROUTES` in `assets/js/site.js`.
 3. Add it to the menus and `TOOL_ORDER` in `scripts/chrome.cjs`, then run `node scripts/chrome.cjs`.
 4. Add it to `scripts/sitemap.cjs` and `scripts/make-og.py`, then run both.
 5. Add the hub card, `TOOLS` entry and ItemList item in `Tools-v3.dc.html`.

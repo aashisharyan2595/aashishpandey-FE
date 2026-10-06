@@ -22,7 +22,8 @@ const args = process.argv.slice(2), i = args.indexOf('--init');
 const initDate = i >= 0 ? args[i + 1] : null;
 const state = fs.existsSync(stateFile) ? JSON.parse(fs.readFileSync(stateFile, 'utf8')) : {};
 const today = new Date().toISOString().slice(0, 10);
-const hash = f => crypto.createHash('sha1').update(fs.readFileSync(path.join(root, f), 'utf8').replace(/<div id="ap-pre"[\s\S]*?<!-- \/ap-pre -->\n?/, '')).digest('hex');
+const PAGE = require('./pages.cjs').map();
+const hash = f => crypto.createHash('sha1').update(fs.readFileSync(path.join(root, PAGE[f]), 'utf8').replace(/<div id="ap-pre"[\s\S]*?<!-- \/ap-pre -->\n?/, '')).digest('hex');
 let changed = [];
 for (const [, file] of P) {
   const h = hash(file), s = state[file];

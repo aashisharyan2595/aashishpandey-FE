@@ -42,7 +42,7 @@ def score(sents):
     n=len(W); sy=sum(syl(w) for w in W)
     return dict(words=n,fk=round(0.39*(n/len(sents))+11.8*(sy/n)-15.59,1),awl=round(sum(len(w) for w in W)/n,2),mean=round(sum(L)/len(L),1),
                 sd=round(st.pstdev(L),1),cv=round(st.pstdev(L)/(sum(L)/len(L)),2),cx=round(100*sum(1 for w in W if syl(w)>=3 and w.lower() not in JOB)/n,1))
-pages={os.path.basename(f).replace('.dc.html',''):sentences(visible(f)) for f in sorted(glob.glob(os.path.join(ROOT,'*.dc.html')))}
+pages={os.path.basename(f).replace('.dc.html',''):sentences(visible(f)) for f in sorted(glob.glob(os.path.join(ROOT,'pages','**','*.dc.html'),recursive=True))}
 seen=collections.defaultdict(set)
 for p,ss in pages.items():
     for s in ss:

@@ -7,8 +7,8 @@ const css = fs.readFileSync(path.join(ROOT, 'assets', 'nav.css'), 'utf8').replac
   // url() paths were relative to assets/nav.css; once inlined they would resolve against the page, so make them absolute
   .replace(/url\((['"]?)(?!https?:|data:|\/)([^)'"]+)\1\)/g, "url(/assets/$2)");
 let n = 0;
-for (const f of fs.readdirSync(ROOT).filter((x) => x.endsWith('.dc.html') || x === '404.html')) {
-  const p = path.join(ROOT, f), s = fs.readFileSync(p, 'utf8');
+for (const { abs: p } of [...require('./pages.cjs').list(), { abs: path.join(ROOT, '404.html') }]) {
+  const f = path.basename(p), s = fs.readFileSync(p, 'utf8');
   const out = s.replace(/<link rel="stylesheet" href="\/?assets\/nav\.css\?v=\d+">/, () => `<style data-inline="nav">${css}</style>`);
   if (out !== s) { fs.writeFileSync(p, out); n++; }
 }

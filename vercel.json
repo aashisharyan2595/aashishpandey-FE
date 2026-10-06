@@ -256,248 +256,244 @@
   "rewrites": [
     { "source": "/kd2ozfuew9n4uaciyl1j", "destination": "/kd2ozfuew9n4uaciyl1j.html" },
     {
-      "source": "/tools/:file(support.js|site.js)",
-      "destination": "/:file"
-    },
-    {
       "source": "/tools/assets/:path*",
       "destination": "/assets/:path*"
     },
     {
       "source": "/",
-      "destination": "/Portfolio.dc.html"
+      "destination": "/pages/site/Portfolio.dc.html"
     },
     {
       "source": "/portfolio",
-      "destination": "/Proof-v3.dc.html"
+      "destination": "/pages/work/Proof-v3.dc.html"
     },
     {
       "source": "/case-studies",
-      "destination": "/Case-Studies.dc.html"
+      "destination": "/pages/work/Case-Studies.dc.html"
     },
     {
       "source": "/services",
-      "destination": "/Services.dc.html"
+      "destination": "/pages/services/Services.dc.html"
     },
     {
       "source": "/tech-consultant",
-      "destination": "/Tech-Consultant.dc.html"
+      "destination": "/pages/services/Tech-Consultant.dc.html"
     },
     {
       "source": "/ui-ux-design",
-      "destination": "/UI-UX-Design.dc.html"
+      "destination": "/pages/services/UI-UX-Design.dc.html"
     },
     {
       "source": "/seo-consultant",
-      "destination": "/SEO-Consultant.dc.html"
+      "destination": "/pages/services/SEO-Consultant.dc.html"
     },
     {
       "source": "/contact",
-      "destination": "/Contact.dc.html"
+      "destination": "/pages/site/Contact.dc.html"
     },
     {
       "source": "/terms",
-      "destination": "/Legal-Terms.dc.html"
+      "destination": "/pages/legal/Legal-Terms.dc.html"
     },
     {
       "source": "/privacy",
-      "destination": "/Legal-Privacy.dc.html"
+      "destination": "/pages/legal/Legal-Privacy.dc.html"
     },
     {
       "source": "/cookies",
-      "destination": "/Legal-Cookies.dc.html"
+      "destination": "/pages/legal/Legal-Cookies.dc.html"
     },
     {
       "source": "/image-license",
-      "destination": "/Image-License.dc.html"
+      "destination": "/pages/site/Image-License.dc.html"
     },
     {
       "source": "/freelance-project-manager",
-      "destination": "/Freelance-Project-Manager.dc.html"
+      "destination": "/pages/services/Freelance-Project-Manager.dc.html"
     },
     {
       "source": "/wordpress-webflow-developer",
-      "destination": "/Wordpress-Webflow-Developer.dc.html"
+      "destination": "/pages/services/Wordpress-Webflow-Developer.dc.html"
     },
     {
       "source": "/full-stack-developer",
-      "destination": "/Full-Stack-Developer.dc.html"
+      "destination": "/pages/services/Full-Stack-Developer.dc.html"
     },
     {
       "source": "/shopify-developer",
-      "destination": "/Shopify-Developer.dc.html"
+      "destination": "/pages/services/Shopify-Developer.dc.html"
     },
     {
       "source": "/how-this-site-was-built",
-      "destination": "/How-This-Site-Was-Built.dc.html"
+      "destination": "/pages/site/How-This-Site-Was-Built.dc.html"
     },
     {
       "source": "/work-liquid-iv",
-      "destination": "/Work-Liquid-IV.dc.html"
+      "destination": "/pages/work/Work-Liquid-IV.dc.html"
     },
     {
       "source": "/work-talenti",
-      "destination": "/Work-Talenti.dc.html"
+      "destination": "/pages/work/Work-Talenti.dc.html"
     },
     {
       "source": "/work-storynest",
-      "destination": "/Work-StoryNest.dc.html"
+      "destination": "/pages/work/Work-StoryNest.dc.html"
     },
     {
       "source": "/work-ceat-specialty",
-      "destination": "/Work-CEAT-Specialty.dc.html"
+      "destination": "/pages/work/Work-CEAT-Specialty.dc.html"
     },
     {
       "source": "/tools",
-      "destination": "/Tools-v3.dc.html"
+      "destination": "/pages/tools/Tools-v3.dc.html"
     },
     {
       "source": "/tools/pad",
-      "destination": "/Tools-Pad-v2.dc.html"
+      "destination": "/pages/tools/Tools-Pad-v2.dc.html"
     },
     {
       "source": "/tools/url-shortener",
-      "destination": "/Tools-Shortener.dc.html"
+      "destination": "/pages/tools/Tools-Shortener.dc.html"
     },
     {
       "source": "/tools/image-resizer",
-      "destination": "/Tools-Image.dc.html"
+      "destination": "/pages/tools/Tools-Image.dc.html"
     },
     {
       "source": "/tools/lorem-ipsum-generator",
-      "destination": "/Tools-Lorem.dc.html"
+      "destination": "/pages/tools/Tools-Lorem.dc.html"
     },
     {
       "source": "/tools/qr-code-generator",
-      "destination": "/Tools-QR.dc.html"
+      "destination": "/pages/tools/Tools-QR.dc.html"
     },
     {
       "source": "/tools/qr-code-checker",
-      "destination": "/Tools-QR-Check.dc.html"
+      "destination": "/pages/tools/Tools-QR-Check.dc.html"
     },
     {
       "source": "/tools/website-launch-checklist",
-      "destination": "/Tools-Checklist.dc.html"
+      "destination": "/pages/tools/Tools-Checklist.dc.html"
     },
     {
       "source": "/tools/exif-remover",
-      "destination": "/Tools-Exif.dc.html"
+      "destination": "/pages/tools/Tools-Exif.dc.html"
     },
     {
       "source": "/tools/file-hash-checker",
-      "destination": "/Tools-Hash.dc.html"
+      "destination": "/pages/tools/Tools-Hash.dc.html"
     },
     {
       "source": "/tools/exam-photo-resizer",
-      "destination": "/Tools-Exam.dc.html"
+      "destination": "/pages/tools/Tools-Exam.dc.html"
     },
     {
       "source": "/tools/resume-keyword-matcher",
-      "destination": "/Tools-Match.dc.html"
+      "destination": "/pages/tools/Tools-Match.dc.html"
     },
     {
       "source": "/tools/robots-txt-generator",
-      "destination": "/Tools-Robots.dc.html"
+      "destination": "/pages/tools/Tools-Robots.dc.html"
     },
     {
       "source": "/tools/llms-txt-generator",
-      "destination": "/Tools-Llms.dc.html"
+      "destination": "/pages/tools/Tools-Llms.dc.html"
     },
     {
       "source": "/tools/json-ld-schema-generator",
-      "destination": "/Tools-Schema.dc.html"
+      "destination": "/pages/tools/Tools-Schema.dc.html"
     },
     {
       "source": "/tools/llm-token-counter",
-      "destination": "/Tools-Tokens.dc.html"
+      "destination": "/pages/tools/Tools-Tokens.dc.html"
     },
     {
       "source": "/tools/p2p-file-sharing",
-      "destination": "/Tools-P2P.dc.html"
+      "destination": "/pages/tools/Tools-P2P.dc.html"
     },
     {
       "source": "/tools/password-generator",
-      "destination": "/Tools-Password.dc.html"
+      "destination": "/pages/tools/Tools-Password.dc.html"
     },
     {
       "source": "/tools/time-zone-meeting-planner",
-      "destination": "/Tools-Timezone.dc.html"
+      "destination": "/pages/tools/Tools-Timezone.dc.html"
     },
     {
       "source": "/tools/project-estimate-calculator",
-      "destination": "/Tools-Estimate.dc.html"
+      "destination": "/pages/tools/Tools-Estimate.dc.html"
     },
     {
       "source": "/tools/invoice-generator",
-      "destination": "/Tools-Invoice.dc.html"
+      "destination": "/pages/tools/Tools-Invoice.dc.html"
     },
     {
       "source": "/tools/sop-maker",
-      "destination": "/Tools-SOP.dc.html"
+      "destination": "/pages/tools/sop/Tools-SOP.dc.html"
     },
     {
       "source": "/tools/sop-maker/build",
-      "destination": "/Tools-SOP-Build.dc.html"
+      "destination": "/pages/tools/sop/Tools-SOP-Build.dc.html"
     },
     {
       "source": "/tools/sop-maker/templates",
-      "destination": "/Tools-SOP-Templates.dc.html"
+      "destination": "/pages/tools/sop/Tools-SOP-Templates.dc.html"
     },
     {
       "source": "/tools/sop-maker/guide",
-      "destination": "/Tools-SOP-Guide.dc.html"
+      "destination": "/pages/tools/sop/Tools-SOP-Guide.dc.html"
     },
     {
       "source": "/tools/resume-maker",
-      "destination": "/Tools-Resume.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume.dc.html"
     },
     {
       "source": "/tools/resume-maker/build",
-      "destination": "/Tools-Resume-Build.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Build.dc.html"
     },
     {
       "source": "/tools/resume-maker/templates",
-      "destination": "/Tools-Resume-Templates.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Templates.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples",
-      "destination": "/Tools-Resume-Examples.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Examples.dc.html"
     },
     {
       "source": "/tools/resume-maker/guide",
-      "destination": "/Tools-Resume-Guide.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Guide.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples/software-engineer",
-      "destination": "/Tools-Resume-Ex-SoftwareEngineer.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Ex-SoftwareEngineer.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples/ux-ui-designer",
-      "destination": "/Tools-Resume-Ex-UxUiDesigner.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Ex-UxUiDesigner.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples/project-manager",
-      "destination": "/Tools-Resume-Ex-ProjectManager.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Ex-ProjectManager.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples/data-analyst",
-      "destination": "/Tools-Resume-Ex-DataAnalyst.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Ex-DataAnalyst.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples/marketing-manager",
-      "destination": "/Tools-Resume-Ex-MarketingManager.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Ex-MarketingManager.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples/sales-manager",
-      "destination": "/Tools-Resume-Ex-SalesManager.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Ex-SalesManager.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples/mechanical-engineer",
-      "destination": "/Tools-Resume-Ex-MechanicalEngineer.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Ex-MechanicalEngineer.dc.html"
     },
     {
       "source": "/tools/resume-maker/examples/graduate",
-      "destination": "/Tools-Resume-Ex-Graduate.dc.html"
+      "destination": "/pages/tools/resume/Tools-Resume-Ex-Graduate.dc.html"
     },
     {
       "source": "/s/:code",
@@ -559,7 +555,7 @@
       ]
     },
     {
-      "source": "/site.js",
+      "source": "/assets/js/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

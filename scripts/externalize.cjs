@@ -6,8 +6,8 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const root = path.join(__dirname, '..'), out = path.join(root, 'tpl');
 fs.rmSync(out, { recursive: true, force: true });
 let n = 0;
-for (const f of fs.readdirSync(root).filter(x => x.endsWith('.dc.html'))) {
-  const p = path.join(root, f), src = fs.readFileSync(p, 'utf8');
+for (const { name: f, abs: p } of require('./pages.cjs').list()) {
+  const src = fs.readFileSync(p, 'utf8');
   const a = src.indexOf('<x-dc>'), b = src.lastIndexOf('</x-dc>');
   if (a < 0 || b < 0) continue;
   const tpl = src.slice(a + 6, b);

@@ -1,0 +1,14 @@
+{
+  "name": "aashishpandey-fe",
+  "private": true,
+  "description": "Source for aashishpandey.com: a 3D portfolio, service pages and free browser tools.",
+  "license": "UNLICENSED",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node scripts/chrome.cjs && node scripts/prerender.cjs && node scripts/externalize.cjs && node scripts/inline-css.cjs",
+    "chrome": "node scripts/chrome.cjs",
+    "chrome:check": "node scripts/chrome.cjs --check",
+    "sitemap": "node scripts/sitemap.cjs",
+    "check": "node scripts/check-site.cjs"
+  }
+}

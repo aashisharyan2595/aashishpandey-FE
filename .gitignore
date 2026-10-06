@@ -1,1 +1,7 @@
+
+# local tooling output
+.DS_Store
+.graphifyignore
+graphify-out/
+node_modules/
 tpl/

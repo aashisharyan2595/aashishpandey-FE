@@ -77,12 +77,12 @@ const paper = (s, cls = '') => `<div class="sm-paper ${cls}"><div class="sm-scal
 const sample = (id, accent) => { const t = T.find((x) => x.id === id) || T[0], s = SOPDoc.fromTemplate(t, DEPTS); s.meta.company = 'Northwind Studio'; s.meta.effective = '2026-10-01'; s.revs = [['1.0', '2026-10-01', 'First issue', s.meta.owner]]; s.meta.prepared = 'A. Pandey'; if (accent) s.d.accent = accent; return s; };
 
 /* ---------- page shell ---------- */
-const BASE = fs.readFileSync(path.join(ROOT, 'Tools-Estimate.dc.html'), 'utf8');
+const BASE = fs.readFileSync(path.join(ROOT, 'pages/tools/Tools-Estimate.dc.html'), 'utf8');
 const STYLE = BASE.slice(BASE.indexOf('<style>'), BASE.indexOf('input[type=range]{accent-color:#f5b867}') + 39) + '\n</style>';
 const PERSON = JSON.parse(BASE.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'][0];
 const region = (src, name) => (src.match(new RegExp(`<!-- ap-${name}:start -->[\\s\\S]*?<!-- ap-${name}:end -->`)) || [])[0];
 function page(file, o) {
-  const url = SITE + o.path, prev = fs.existsSync(path.join(ROOT, file)) ? fs.readFileSync(path.join(ROOT, file), 'utf8') : '';
+  const url = SITE + o.path, at = path.join(ROOT, 'pages/tools/sop', file), prev = fs.existsSync(at) ? fs.readFileSync(at, 'utf8') : '';
   const nav = region(prev, 'nav') || region(BASE, 'nav'), foot = region(prev, 'foot') || region(BASE, 'foot');
   const navCss = (BASE.match(/nav\.css\?v=\d+/) || ['nav.css?v=1'])[0], navJs = (BASE.match(/nav\.js\?v=\d+/) || ['nav.js?v=1'])[0];
   const img = SITE + '/assets/og/og-tool-sop.jpg';
@@ -119,7 +119,7 @@ function page(file, o) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap"></noscript>
-<script src="/site.js" defer></script>
+<script src="/assets/js/site.js" defer></script>
 <script src="/assets/motion.js" defer></script>
 ${STYLE}
 <link rel="stylesheet" href="/assets/sop-site.css?v=${V}">
@@ -139,7 +139,7 @@ ${o.scripts || ''}<script src="/assets/sop-site.js?v=${V}" defer></script>
 </body>
 </html>
 `;
-  const fp = path.join(ROOT, file);
+  const fp = at;
   if (prev !== html) { fs.writeFileSync(fp, html); console.log('wrote', file); }
 }
 
