@@ -63,3 +63,9 @@
 .rsx .rs-pb{position:absolute;left:0;right:0;border-top:1px dashed #c4c4cc;font:10px Arial;color:#999!important;text-align:right;padding-right:8px;pointer-events:none}
 .rsx-frame{position:relative;overflow:hidden;background:#fff;aspect-ratio:210/297;width:100%}
 .rsx-frame>.rsx{position:absolute;left:0;top:0;transform-origin:top left;transform:scale(.3);overflow:hidden;pointer-events:none;user-select:none}
+.rsx.hd-smcap .rs-h{font-variant:small-caps;letter-spacing:.04em;font-size:calc(var(--fs)*1.25);border-bottom:1px solid var(--ac);padding-bottom:1px;color:var(--ac)}
+.rsx.hc .rs-h{text-align:center}
+.rsx.nm-sc .rs-name{font-variant:small-caps;letter-spacing:.02em}
+.rsx.tight .rs-e{margin-top:4px}
+.rsx.tight .rs-ul li{margin:0}
+.rsx.sd-plain .rs-side{background:none;padding:0;border-radius:0}
