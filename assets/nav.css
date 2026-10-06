@@ -293,3 +293,10 @@ html:has(.ap-ms[open]){overflow:hidden}
 .ap-foot__credits{margin:-36px 0 0;display:flex;align-items:center;flex-wrap:wrap;gap:0 6px;font-size:13px;line-height:1.7;color:#7e788f}
 .ap-foot__heart{display:inline-block;flex:none;color:#f5b867;transform-origin:center}
 @media(max-width:620px){.ap-foot__credits{margin-top:-28px}}
+/* case studies on phones: the in-page contents list is skipped (the page reads top to bottom) and the key numbers become compact rows */
+@media(max-width:760px){article nav[aria-label="On this page"]{display:none!important}}
+@media(max-width:640px){
+section[aria-label="Key numbers"]>div>div{flex-direction:row!important;align-items:center!important;justify-content:space-between;gap:16px!important;padding:18px 20px!important}
+section[aria-label="Key numbers"]>div>div>span:first-child{font-size:36px!important;flex:none}
+section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-width:20ch}
+}
