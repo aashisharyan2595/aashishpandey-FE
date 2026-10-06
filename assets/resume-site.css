@@ -59,8 +59,11 @@ a.rm-tpl:hover .rm-paper{transform:translateY(-4px);box-shadow:0 22px 50px rgba(
 .rm-faq summary::after{content:'+';color:#f5b867;font-size:22px;line-height:1;flex:none;transition:transform .25s}
 .rm-faq details[open] summary::after{transform:rotate(45deg)}
 .rm-faq p{margin:0;padding:0 40px 20px 0;font-size:15.5px;line-height:1.65;color:#aaa4b8}
-.rm-final{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;padding:clamp(28px,4vw,52px);border-radius:clamp(22px,3vw,32px);border:1px solid rgba(244,239,230,.1);background:radial-gradient(600px circle at 0% 0%,rgba(245,184,103,.14),transparent 55%),linear-gradient(180deg,#0f1433,#080a1c)}
-.rm-final h2{margin:0;font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.045em;font-weight:600;max-width:20ch;text-wrap:balance}
+/* the closing call to action wears the Night Ride horizon, like the contact panel (.ap-close in nav.css) */
+.rm-final{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;padding:clamp(28px,5vw,64px) clamp(22px,5vw,64px) max(200px,18vw);border-radius:28px;border:1px solid rgba(245,184,103,.22)}
+.rm-final::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(70% 70% at 50% 100%,rgba(245,184,103,.45),rgba(196,106,74,.2) 45%,transparent 75%),linear-gradient(180deg,#0e1230 0%,#1a1640 70%,#2c1d4a 100%)}
+.rm-final::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:max(193px,17.5vw);z-index:-1;pointer-events:none;background:url(nr/horizon.svg) center bottom/max(100%,1100px) auto no-repeat}
+.rm-final h2{margin:0;font-size:clamp(28px,3.6vw,46px);line-height:1.04;letter-spacing:-.04em;font-weight:600;max-width:20ch;text-wrap:balance}
 /* subpages */
 .rm-crumb{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;font:400 11px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#8e89a0}
 .rm-crumb a{color:#8e89a0}.rm-crumb a:hover{color:#f5b867}.rm-crumb [aria-current]{color:#f4efe6}
