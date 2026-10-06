@@ -396,6 +396,22 @@
       "destination": "/Tools-Match.dc.html"
     },
     {
+      "source": "/tools/robots-txt-generator",
+      "destination": "/Tools-Robots.dc.html"
+    },
+    {
+      "source": "/tools/llms-txt-generator",
+      "destination": "/Tools-Llms.dc.html"
+    },
+    {
+      "source": "/tools/json-ld-schema-generator",
+      "destination": "/Tools-Schema.dc.html"
+    },
+    {
+      "source": "/tools/llm-token-counter",
+      "destination": "/Tools-Tokens.dc.html"
+    },
+    {
       "source": "/tools/p2p-file-sharing",
       "destination": "/Tools-P2P.dc.html"
     },
