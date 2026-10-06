@@ -941,6 +941,8 @@ const SECRETS = [
   { region: 'pier', text: 'End of the land, not the road. Say “lighthouse” when we talk and I’ll know you got this far.' },
   { region: 'lighthouse', text: 'Five of five. You found everything. Let’s build something.' }];
 const ALLNOTES = NOTES.concat(SECRETS);
+// Phones, plus touch-only tablets of any width: they need the on-screen pad, not keyboard hints.
+const compactUI = () => innerWidth < 760 || !!(window.matchMedia && matchMedia('(hover: none) and (pointer: coarse)').matches);
 const TUT = [
   { done: 'ride', title: 'Ride', body: 'Hold W or ↑ to ride. S or ↓ brakes and reverses.', mob: 'Push the left pad up to ride and down to brake.', keys: ['W', 'S'] },
   { done: 'steer', title: 'Steer', body: 'A and D (or ← and →) steer. Lean into the corners.', mob: 'Push the pad left or right to steer.', keys: ['A', 'D'] },
@@ -1021,7 +1023,7 @@ class Component extends DCLogic {
   componentDidMount() {
     { const pre = document.getElementById('ap-pre'); pre && pre.remove(); } document.documentElement.classList.toggle('ap-rm', !!this.state.reduceMotion);
     this.onTab = e => this.state.lbI != null && window.apTrap && window.apTrap(e, this.lbDialog.current); addEventListener('keydown', this.onTab);
-    this.onResize = () => { const m = innerWidth < 760; if (m !== this.state.mobile) { this.setState({ mobile: m }); this.world && this.world.setMobile(m); } this.onScroll(); };
+    this.onResize = () => { const m = compactUI(); if (m !== this.state.mobile) { this.setState({ mobile: m }); this.world && this.world.setMobile(m); } this.onScroll(); };
     this.onTouch = e => { this.touching = e.type === 'touchstart'; if (!this.touching) this.scheduleSnap(); };
     this.scheduleSnap = () => { clearTimeout(this.snapT); if (!this.state.mobile || this.state.free || this.touching || this.state.boot !== 'done') return; this.snapT = setTimeout(() => { if (this.touching || this.state.free) return; const max = document.documentElement.scrollHeight - innerHeight; if (max <= 0) return; const tgt = Math.round(scrollY / max * N) / N * max; if (Math.abs(scrollY - tgt) > 4) scrollTo({ top: tgt, behavior: 'smooth' }); }, 240); };
     addEventListener('touchstart', this.onTouch, { passive: true }); addEventListener('touchend', this.onTouch, { passive: true }); addEventListener('scroll', () => this.scheduleSnap(), { passive: true });
@@ -1045,7 +1047,7 @@ class Component extends DCLogic {
     const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
     const loadWorld = () => import(base + 'world-v7.js?v=10e').then(async m => {
       if (!this.canvasHost.current) return;
-      (window.__ap = this), this.world = await m.createWorld(this.canvasHost.current, { lowPower: lp || this.state.lowGfx || innerWidth < 760, mobile: innerWidth < 760, notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
+      (window.__ap = this), this.world = await m.createWorld(this.canvasHost.current, { lowPower: lp || this.state.lowGfx || innerWidth < 760, mobile: compactUI(), notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
         onNote: (i, x, y) => { this.blip(1180); if (i >= NOTES.length && !(this.state.found || []).includes(i)) { const found = [...(this.state.found || []), i]; this.setState({ found }); try { localStorage.setItem('apSecrets', JSON.stringify(found)); } catch (e) {} } this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
         holdIntro: true, spotted: this.state.spotted, onSpot: k => this.onSpot(k), stamps: this.state.stamps, onStamp: k => this.onStamp(k), onTrick: tr => this.onTrick(tr), lanterns: this.state.lanterns, onLantern: i => this.onLantern(i), treasures: this.state.treasures, postcards: this.state.postcards, onOrb: c => this.onOrb(c), onTreasure: k => this.onTreasure(k), stoneLines: STONES, onStone: (n, t) => this.showToast('Stone read', n + ' / ' + t, ''), onFlag: (n, t) => this.showToast('Prayer flags', n + ' / ' + t, ''), onBell: cave => this.sfx('bell', cave ? 1 : 0), onPlank: () => this.sfx('plank'), onCrack: () => this.sfx('crack'), onDucks: () => this.sfx('quack'),
         onFree: (ft, fs) => { this.setState({ freeT: ft, freeSpd: fs }); if (this.state.tut != null && Math.abs(fs) > 3) this.tutHit('ride'); },
@@ -1097,7 +1099,7 @@ class Component extends DCLogic {
   onJoyEnd() { this.joyOrigin = null; this.setState({ joyX: 0, joyY: 0 }); this.world && this.world.setStick(0, 0); }
   jumpDown(e) { e.preventDefault(); this.tutHit('jump'); this.world && this.world.setTouch('jump', true); }
   jumpUp() { this.world && this.world.setTouch('jump', false); }
-  toggleFree() { const on = !this.state.free, tutGo = on && this.tutMaybe(); if (!on && this.state.tut != null) this.setState({ tut: null }); const mob = innerWidth < 760; this.setState({ hudMin: !!tutGo || mob }); if (on && !tutGo && !mob) this.hudTouch(7000); else clearTimeout(this.hudT); this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false, photo: false, journal: false }); if (!on) this.onScroll(); }
+  toggleFree() { const on = !this.state.free, tutGo = on && this.tutMaybe(); if (!on && this.state.tut != null) this.setState({ tut: null }); const mob = compactUI(); this.setState({ hudMin: !!tutGo || mob }); if (on && !tutGo && !mob) this.hudTouch(7000); else clearTimeout(this.hudT); this.blip(on ? 520 : 820); this.setState({ radio: false }); if (this.world) this.world.setFree(on); document.documentElement.style.overflow = on ? 'hidden' : ''; if (this.world) this.world.setPaused(false); this.setState({ free: on, note: null, proof: false, photo: false, journal: false }); if (!on) this.onScroll(); }
   onStamp(k) { const st = this.state.stamps || []; if (st.includes(k)) return; const stamps = [...st, k]; this.setState({ stamps }); try { localStorage.setItem('apStamps', JSON.stringify(stamps)); } catch (e) {} window.apTrack && window.apTrack('stamp', { k }); this.sfx('unlock'); this.world && this.world.dinoReact && this.world.dinoReact('stamp');
     this.setState({ note: { stamp: k, x: innerWidth / 2 - 140, y: innerHeight * 0.34 } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); }
   onSpot(k) { const sp = this.state.spotted || []; if (sp.includes(k)) return; const spotted = [...sp, k]; this.setState({ spotted }); try { localStorage.setItem('apSpotted', JSON.stringify(spotted)); } catch (e) {} this.showToast('Spotted', k.charAt(0).toUpperCase() + k.slice(1), '+40 XP'); this.world && this.world.dinoReact && this.world.dinoReact('spot', k); window.apTrack && window.apTrack('wildlife_spotted', { kind: k }); }
