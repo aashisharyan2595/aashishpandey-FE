@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://aashishpandey.com/tools</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-06</lastmod>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/pad</loc>
@@ -43,6 +43,11 @@
     <loc>https://aashishpandey.com/tools/file-hash-checker</loc>
     <lastmod>2026-10-01</lastmod>
     <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-hash.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/tools/p2p-file-sharing</loc>
+    <lastmod>2026-10-06</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-p2p.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/password-generator</loc>

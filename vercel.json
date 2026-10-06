@@ -388,6 +388,10 @@
       "destination": "/Tools-Hash.dc.html"
     },
     {
+      "source": "/tools/p2p-file-sharing",
+      "destination": "/Tools-P2P.dc.html"
+    },
+    {
       "source": "/tools/password-generator",
       "destination": "/Tools-Password.dc.html"
     },
