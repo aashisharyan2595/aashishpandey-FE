@@ -219,12 +219,12 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
   .mark{width:40px;height:40px;border-radius:12px;background:var(--amber);color:#1a1420;display:grid;place-items:center;font-weight:700;font-size:19px;letter-spacing:-.04em;flex-shrink:0;box-shadow:0 8px 24px -8px rgba(245,184,103,.6)}
   .bt{display:none}
   .nav{position:static;flex:1;flex-direction:column;gap:4px;height:auto;padding:0;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;overflow-y:auto;scrollbar-width:none}
-  .tab{flex:0 0 auto;min-height:62px;border-radius:14px;gap:4px;font-size:11px}
+  .tab{flex:0 0 auto;min-height:56px;border-radius:14px;gap:3px;font-size:11px}
   .tab:hover{background:rgba(244,239,230,.05);color:var(--ink)}
   .tab.on{background:rgba(245,184,103,.12);color:var(--amber)}
   .tab.on::before{top:14px;bottom:14px;left:-10px;right:auto;width:3px;height:auto;border-radius:0 3px 3px 0}
   .tab .dot{top:6px;left:calc(50% + 4px)}
-  .tab[data-tab=sub]{order:1}.tab[data-tab=news]{order:2}.tab[data-tab=mail]{order:3}.tab[data-tab=spam]{order:4}.tab[data-tab=links]{order:5}.tab[data-tab=team]{order:6}.tab[data-tab=set]{order:7;margin-top:auto}
+  .tab[data-tab=sub]{order:1}.tab[data-tab=news]{order:2}.tab[data-tab=mail]{order:3}.tab[data-tab=seo]{order:4}.tab[data-tab=tools]{order:5}.tab[data-tab=links]{order:6}.tab[data-tab=content]{order:7}.tab[data-tab=spam]{order:8}.tab[data-tab=health]{order:9}.tab[data-tab=team]{order:10}.tab[data-tab=set]{order:11;margin-top:auto}
   .sfoot{display:flex;flex-direction:column;gap:8px;padding-top:12px;margin-top:10px;border-top:1px solid var(--line)}
   .sfoot .who{display:none}
   .sfoot .btn{width:100%;padding:0 6px;font-size:12.5px}
@@ -236,6 +236,8 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
   .bar .grow{flex:1 1 260px}
   #tab-sub .bar .btn,#tab-sub .bar .menu{flex:0 0 auto}
   .grid2{grid-template-columns:1fr 1fr}
+  .grid2.wide{grid-template-columns:1fr}
+  .tsrc{display:none}
   .checks{grid-template-columns:repeat(2,1fr)}
   #drawer{align-items:stretch}
   .sheet{width:min(680px,100%);border-left:1px solid var(--line);padding:0 28px 28px;animation:slide-in .25s var(--ease);box-shadow:-30px 0 80px rgba(0,0,0,.5)}
@@ -267,6 +269,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
 }
 /* ---- desktop: full sidebar with labels ---- */
 @media(min-width:1240px){
+  .grid2.wide{grid-template-columns:1fr 1fr}
   :root{--side:248px}
   .side{padding:calc(18px + env(safe-area-inset-top,0px)) 14px 16px}
   .brand{justify-content:flex-start;padding:4px 8px 18px}
@@ -281,6 +284,33 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
   .appbar{padding:16px 40px}
   .wrap{padding:26px 40px 0}
 }
+/* ---- site sections: health, tools, search, content ---- */
+.hero{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hero .big{font-size:24px;font-weight:600;letter-spacing:-.03em;line-height:1.15}
+.hero .grow{flex:1;min-width:200px}
+.lamp{width:14px;height:14px;border-radius:50%;flex-shrink:0;background:var(--dim);box-shadow:0 0 0 6px rgba(244,239,230,.06)}
+.lamp.ok{background:var(--green);box-shadow:0 0 0 6px rgba(111,214,168,.15)}.lamp.warn{background:var(--amber);box-shadow:0 0 0 6px rgba(245,184,103,.15)}.lamp.bad{background:var(--red);box-shadow:0 0 0 6px rgba(255,143,122,.18)}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.dots i{width:12px;height:12px;border-radius:4px;background:var(--green);opacity:.85}.dots i.warn{background:var(--amber)}.dots i.bad{background:var(--red)}
+.chk-row{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}.chk-row:first-child{border-top:0}
+.chk-row .lamp{margin-top:6px;width:10px;height:10px;box-shadow:none}.chk-row small{display:block;color:var(--mute);font-size:13.5px;overflow-wrap:anywhere}
+.tblw{overflow-x:auto;margin:10px -4px 0;padding:0 4px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}.tbl tr:last-child td{border-bottom:0}
+.tbl .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.tbl td.k{overflow-wrap:anywhere;min-width:140px}
+.spark{display:block;width:96px;height:26px}
+.tsrc{font-size:12px;color:var(--dim);margin-top:4px;font-weight:400}
+@media(max-width:699px){#ttable th:nth-child(n+5),#ttable td:nth-child(n+5),#ttable .n .sub{display:none}.tbl th,.tbl td{padding-left:6px;padding-right:6px}}
+.bars{width:100%;height:170px;margin-top:10px;display:block}
+.delta{font-size:12px;font-weight:600;margin-left:6px}.delta.up{color:var(--green)}.delta.dn{color:var(--red)}
+.switch{display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;margin:6px 0 2px}
+.prevbar{margin-top:12px;padding:9px 14px;border-radius:10px;background:var(--amber);color:#1a1420;font-weight:600;font-size:14px;text-align:center}
+.prevbar a{color:#1a1420;text-decoration:underline}
+.prevchip{display:inline-flex;margin-top:12px;padding:7px 13px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.25);font:500 10.5px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.tm{display:flex;flex-direction:column;gap:10px}
+.tm blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.4;color:var(--ink)}
+.stars{color:var(--amber);letter-spacing:2px}
+.setup ol{margin:10px 0 0;padding-left:20px;line-height:1.75;color:var(--body)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -311,6 +341,10 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
     <button class="tab own" data-tab="spam"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z"/></svg>Spam</button>
     <button class="tab own" data-tab="links"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Links</button>
     <button class="tab own" data-tab="team"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5a3 3 0 0 1 0 6"/><path d="M18 14c2 .6 3.5 2.6 3.5 5"/></svg>Team</button>
+    <button class="tab own" data-tab="seo"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M8 13l2-2 2 2 3-4"/></svg>Search</button>
+    <button class="tab own" data-tab="tools"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Tools</button>
+    <button class="tab own" data-tab="content"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>Content</button>
+    <button class="tab own" data-tab="health"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg>Health<span class="dot hide" id="healthDot">!</span></button>
     <button class="tab" data-tab="set"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
   </nav>
   <div class="sfoot"><div class="who" id="whoami"></div><button class="btn sm" id="out">Sign out</button></div>
@@ -405,6 +439,74 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
     <div class="list" id="lrows"></div><div class="empty hide" id="lempty">No links.</div>
   </section>
 
+  <!-- SEARCH CONSOLE -->
+  <section id="tab-seo" class="hide">
+    <div class="card setup hide" id="gscSetup"><h2>Connect Search Console</h2><p class="sub">Shows your Google search numbers here, refreshed every 6 hours. It needs a read-only Google service account, once.</p>
+      <ol><li>In <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">Google Cloud</a>, create a project, turn on the <b>Google Search Console API</b>, and create a <b>service account</b>. Add a JSON key and download it.</li>
+      <li>In <a href="https://search.google.com/search-console" target="_blank" rel="noopener">Search Console</a>, open Settings, Users and permissions, and add the service account's email (it ends in iam.gserviceaccount.com) as a <b>Restricted</b> user.</li>
+      <li>In Vercel, add <code>GSC_CLIENT_EMAIL</code> (client_email from the JSON) and <code>GSC_PRIVATE_KEY</code> (private_key from the JSON, as it is), then redeploy. The property read is <code id="gscSite"></code>; set <code>GSC_SITE</code> to change it.</li></ol></div>
+    <div id="gscBody" class="hide">
+      <div class="bar"><p class="sub grow" id="gscWhen"></p><button class="btn sm" id="gscRefresh">Refresh now</button></div>
+      <div class="chips" id="gchips"></div>
+      <div class="card"><h2>Clicks and impressions, last 12 weeks</h2><p class="sub">Bars: clicks. Line: impressions. Each week ends on the last day Google has data for.</p><svg class="bars" id="gchart" viewBox="0 0 600 170" preserveAspectRatio="none"></svg></div>
+      <div class="grid2 wide">
+        <div class="card"><h2>Top searches, 28 days</h2><div class="tblw"><table class="tbl" id="gq"></table></div></div>
+        <div class="card"><h2>Top pages, 28 days</h2><div class="tblw"><table class="tbl" id="gp"></table></div></div>
+        <div class="card"><h2>Countries</h2><div class="tblw"><table class="tbl" id="gc"></table></div></div>
+        <div class="card"><h2>Devices</h2><div class="tblw"><table class="tbl" id="gd"></table></div></div>
+      </div>
+    </div>
+    <p class="err" id="gscErr"></p>
+  </section>
+
+  <!-- TOOL USAGE -->
+  <section id="tab-tools" class="hide">
+    <div class="seg" id="tRange" style="margin:0 0 16px"><button data-d="7">7 days</button><button data-d="30" class="on">30 days</button><button data-d="90">90 days</button></div>
+    <div class="chips" id="tchips"></div>
+    <div class="card"><h2>Visits to the tools, per day</h2><p class="sub">Counted without cookies or IP addresses: one for the visit, one more when the tool is used (first click or typing).</p><svg class="bars" id="tchart" viewBox="0 0 600 170" preserveAspectRatio="none"></svg></div>
+    <div class="card"><h2>Each tool</h2><p class="sub"><b>Used</b> is the share of visits where someone actually used the tool. <b>Briefs</b> counts briefs sent from the tool page or straight after it.</p><div class="tblw"><table class="tbl" id="ttable"></table></div></div>
+  </section>
+
+  <!-- CONTENT -->
+  <section id="tab-content" class="hide">
+    <div class="grid2">
+      <div class="card"><h2>Availability line</h2><p class="sub">The small line above "Get in touch" at the end of most pages.</p>
+        <label class="switch"><input type="checkbox" id="cAvOn"> Use my own text</label>
+        <input id="cAvText" maxlength="60" placeholder="Taking new projects from November">
+        <div><span class="prevchip" id="cAvPrev"></span></div></div>
+      <div class="card"><h2>Notice bar</h2><p class="sub">A thin bar at the top of every page (not the 3D home). Visitors can close it.</p>
+        <label class="switch"><input type="checkbox" id="cNoOn"> Show the notice</label>
+        <label class="lbl" for="cNoText">Text</label><input id="cNoText" maxlength="140" placeholder="Booked until mid November. Briefs still welcome.">
+        <div class="two"><div><label class="lbl" for="cNoLink">Link (optional)</label><input id="cNoLink" placeholder="/contact or https://"></div><div><label class="lbl" for="cNoLt">Link text</label><input id="cNoLt" maxlength="40" placeholder="Send a brief"></div></div>
+        <label class="lbl" for="cNoUntil">Hide it after (optional)</label><input id="cNoUntil" type="date" style="max-width:220px">
+        <div class="prevbar hide" id="cNoPrev"></div></div>
+      <div class="card"><h2>Testimonials on the site</h2><p class="sub">Approved quotes show above the contact panel at the end of most pages.</p>
+        <label class="switch"><input type="checkbox" id="cQOn"> Show approved testimonials</label>
+        <label class="lbl" for="cQMax">How many</label><select id="cQMax" style="max-width:160px"><option>1</option><option>2</option><option>3</option><option>4</option><option>6</option></select></div>
+      <div class="card"><h2>Asking for a testimonial</h2><p class="sub">The email sent from a won brief. Placeholders: {first} {name} {company} {project} {link}</p>
+        <label class="lbl" for="cAskSub">Subject</label><input id="cAskSub" maxlength="160"><label class="lbl" for="cAskBody">Message</label><textarea id="cAskBody" rows="7"></textarea></div>
+    </div>
+    <div class="row" style="margin-bottom:22px"><button class="btn pri" id="cSave">Save content</button><span id="cMsg" class="sub"></span></div>
+    <p class="meta">Testimonials</p>
+    <div class="chips" id="tmchips"></div>
+    <div class="list" id="tmList"></div>
+    <details class="card" style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Add one by hand</summary><p class="sub" style="margin-top:8px">For kind words you already have, from an email or LinkedIn. Only add it if they said you may show it.</p>
+      <label class="lbl" for="tmQ">Quote</label><textarea id="tmQ" rows="3" maxlength="600"></textarea>
+      <div class="two"><div><label class="lbl" for="tmN">Name</label><input id="tmN" maxlength="80"></div><div><label class="lbl" for="tmC">Company</label><input id="tmC" maxlength="80"></div></div>
+      <label class="lbl" for="tmR">Role</label><input id="tmR" maxlength="80">
+      <div class="row" style="margin-top:12px"><button class="btn pri" id="tmAdd">Add</button><span class="err" id="tmMsg"></span></div></details>
+    <p class="sub" style="margin-top:18px">Case studies and service pages stay in the code on purpose: Google reads them when the site is built, so editing them here would cost search traffic.</p>
+  </section>
+
+  <!-- SITE HEALTH -->
+  <section id="tab-health" class="hide">
+    <div class="card"><div class="hero"><span class="lamp" id="hLamp"></span><div class="grow"><div class="big" id="hBig">Not checked yet</div><p class="sub" id="hWhen"></p></div><button class="btn pri" id="hRun">Run checks now</button></div>
+      <div class="dots" id="hDots" aria-label="Recent runs"></div>
+      <p class="sub" style="margin-top:12px">Runs on its own twice a day, with the nightly backup (about 3 AM IST) and the morning digest (about 8:30 AM IST). If anything fails, you get an alert on every channel set up under Settings.</p></div>
+    <div class="card"><h2>Checks</h2><div id="hList" style="margin-top:6px"></div></div>
+    <div class="card"><h2>Pages</h2><p class="sub">Every page in the sitemaps plus the main pages, slowest and failing first.</p><div class="tblw"><table class="tbl" id="hPages"></table></div></div>
+  </section>
+
   <!-- TEAM -->
   <section id="tab-team" class="hide">
     <div class="grid2">
@@ -486,7 +588,7 @@ $('bnGo').onclick=function(){openTab('set')};
 $('today').textContent=new Date().toLocaleDateString('en-GB',{timeZone:'Asia/Kolkata',weekday:'short',day:'2-digit',month:'short'});
 
 /* ---------- phone bottom bar: the person chooses which sections sit on it ---------- */
-var ALLTABS=['sub','news','mail','spam','links','team','set'],LABELS={sub:'Inbox',news:'News',mail:'Mail',spam:'Spam',links:'Links',team:'Team',set:'Settings'},DESC={sub:'Briefs and subscribers from the site, and where each deal stands.',news:'Write, test and send the newsletter, and watch the list grow.',mail:'Every email the site sent and what happened to it.',spam:'Rules that keep junk out of the inbox.',links:'Short links made with the URL shortener.',team:'Who can sign in, and everything they did.',set:'This device, alerts, templates and security.'},MAXPIN=5,DEFPIN=['sub','mail','news','set'],curTab='sub';
+var ALLTABS=['sub','news','mail','seo','tools','links','content','spam','health','team','set'],LABELS={sub:'Inbox',news:'News',mail:'Mail',seo:'Search',tools:'Tools',links:'Links',content:'Content',spam:'Spam',health:'Health',team:'Team',set:'Settings'},DESC={sub:'Briefs and subscribers from the site, and where each deal stands.',news:'Write, test and send the newsletter, and watch the list grow.',mail:'Every email the site sent and what happened to it.',spam:'Rules that keep junk out of the inbox.',links:'Short links made with the URL shortener.',team:'Who can sign in, and everything they did.',set:'This device, alerts, templates and security.',seo:'How the site does in Google search, from Search Console.',tools:'Which free tools people use, where they come from, and which bring in briefs.',content:'The availability line, the notice bar and testimonials on the site.',health:'Pages, email, spam check, database and backups, checked twice a day.'},MAXPIN=5,DEFPIN=['sub','mail','news','set'],curTab='sub';
 function pinKey(){return 'adm.pins.'+((me&&(me.id||me.email))||'owner')}
 function avail(){return ALLTABS.filter(function(t){return t==='sub'||t==='set'||isOwner()})}
 function getPins(){var p;try{p=JSON.parse(localStorage.getItem(pinKey())||'null')}catch(e){}
@@ -498,7 +600,7 @@ function applyPins(){var p=getPins(),bar=$('tabs');
   p.forEach(function(t){var b=tabBtn(t);if(b)bar.appendChild(b)});
   ALLTABS.forEach(function(t){var b=tabBtn(t);if(b)b.classList.toggle('unp',p.indexOf(t)<0)});
   refreshBurst()}
-function dotText(t){var d=t==='sub'?$('newDot'):t==='mail'?$('mailDot'):null;return d&&!d.classList.contains('hide')?d.textContent:''}
+function dotText(t){var d=t==='sub'?$('newDot'):t==='mail'?$('mailDot'):t==='health'?$('healthDot'):null;return d&&!d.classList.contains('hide')?d.textContent:''}
 function refreshBurst(){var p=getPins(),any=avail().some(function(t){return p.indexOf(t)<0&&dotText(t)});$('bdot').classList.toggle('hide',!any)}
 var PINSVG='<svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></svg>';
 function drawProf(){var p=getPins(),a=avail(),list=$('plist');list.innerHTML='';
@@ -522,7 +624,7 @@ $('plist').onclick=function(e){var el=e.target.closest&&e.target.closest('button
   if(el.dataset.up||el.dataset.dn){var t2=el.dataset.up||el.dataset.dn,j=p.indexOf(t2),k=el.dataset.up?j-1:j+1;if(k<0||k>=p.length)return;p.splice(j,1);p.splice(k,0,t2)}
   setPins(p);applyPins();drawProf()};
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('prof').classList.contains('hide'))openProf(false)});
-try{var mo=new MutationObserver(refreshBurst);['newDot','mailDot'].forEach(function(i){mo.observe($(i),{attributes:true,childList:true,characterData:true,subtree:true})})}catch(e){}
+try{var mo=new MutationObserver(refreshBurst);['newDot','mailDot','healthDot'].forEach(function(i){mo.observe($(i),{attributes:true,childList:true,characterData:true,subtree:true})})}catch(e){}
 
 
 /* ---------- tabs ---------- */
@@ -530,10 +632,10 @@ function openTab(t){
   if(t!=='sub'&&t!=='set'&&!isOwner())t='sub';
   document.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t)});
   curTab=t;$('curTab').textContent=LABELS[t]||'';$('curSub').textContent=DESC[t]||'';
-  ['sub','news','mail','spam','links','team','set'].forEach(function(x){$('tab-'+x).classList.toggle('hide',x!==t)});
+  ALLTABS.forEach(function(x){$('tab-'+x).classList.toggle('hide',x!==t)});
   window.scrollTo(0,0);
   if(t==='sub'&&!loaded.sub){loaded.sub=1;load()}
-  if(t==='news')loadNews();if(t==='mail')loadMail();if(t==='spam')loadSpam();if(t==='links')loadLinks();if(t==='team')loadTeam();if(t==='set')loadSettings();
+  if(t==='news')loadNews();if(t==='mail')loadMail();if(t==='spam')loadSpam();if(t==='links')loadLinks();if(t==='team')loadTeam();if(t==='set')loadSettings();if(t==='seo')loadGsc();if(t==='tools')loadTools();if(t==='content')loadContent();if(t==='health')loadHealth();
 }
 $('tabs').onclick=function(e){var b=e.target.closest&&e.target.closest('.tab');if(b)openTab(b.dataset.tab)};
 $('fbtn').onclick=function(){$('filt').classList.toggle('open')};
@@ -590,6 +692,7 @@ function openDetail(r){
    +(brief?'<div id="rep" class="thread sect"><h2>'+(work?'Reply':'Conversation')+'</h2><p class="sub">Loading…</p></div>':'')
    +(brief&&work?'<div id="dlv" class="sect"><h2>Delivery</h2><p class="sub">Loading…</p></div>':'')
    +(brief&&own?'<div id="qt" class="sect"><h2>Quote</h2><div id="qlist"><p class="sub">Loading…</p></div><div style="margin-top:10px"><button class="btn sm pri" id="qnew">Create a quote</button></div><div id="qform" class="hide"></div></div>':'')
+   +(brief&&own&&stg==='won'?'<div class="sect"><h2>Testimonial</h2><p class="sub">'+(r.testimonial&&r.testimonial.got?'They wrote one. See Content, Testimonials.':r.testimonial&&r.testimonial.asked?'Asked '+esc(ago(r.testimonial.asked))+'. No answer yet.':'The deal is won. Ask them for two lines about working together; they choose whether it can be shown on the site.')+'</p>'+(r.testimonial&&r.testimonial.got?'':'<div style="margin-top:10px"><button class="btn sm pri" id="tmAsk">'+(r.testimonial&&r.testimonial.asked?'Ask again':'Ask for a testimonial')+'</button></div>')+'</div>':'')
    +(brief&&work?'<div class="sect row"><button class="btn sm" id="ra">Resend alert to me</button><button class="btn sm" id="ru">Resend confirmation</button></div>':'')
    +(own?'<div class="sect"><button class="btn sm danger" id="dl">Delete</button></div>':'')+'<div class="err" id="derr"></div>';
   $('drawer').classList.remove('hide');document.body.style.overflow='hidden';$('x').onclick=close;
@@ -598,6 +701,7 @@ function openDetail(r){
   if($('stg')){$('stg').onclick=function(e){var b=e.target.dataset&&e.target.dataset.s;if(!b)return;if(b==='lost'){$('lostBox').classList.remove('hide');[].forEach.call($('stg').children,function(c){c.classList.toggle('on',c.dataset.s==='lost')});$('stg').dataset.pending='lost';return}patch(r,{stage:b},'Moved to '+stageLabel(b))};
     $('pSave').onclick=function(){var p={value:$('pVal').value,currency:$('pCur').value,followUp:$('pFol').value};if($('stg').dataset.pending==='lost'||stg==='lost'){p.stage='lost';p.lostReason=$('pLost').value}patch(r,p,'Saved')}}
   if($('ra')){$('ra').onclick=function(){resend(r,'admin',this)};$('ru').onclick=function(){resend(r,'user',this)}}
+  if($('tmAsk'))$('tmAsk').onclick=function(){var b=this;if(!confirm('Email '+r.email+' a short form for a testimonial?'))return;b.disabled=true;post('tm_request',{id:r.id}).then(function(x){if(x.ok){Object.assign(r,x.j.item);toast('Asked');openDetail(r)}else{b.disabled=false;$('derr').textContent=x.j.error||'Could not send.'}})};
   if($('dl'))$('dl').onclick=function(){if(confirm('Delete this record for good?'))post('delete',{ids:[r.id]}).then(function(){close();load()})};
   if(brief)loadReply(r);
   if(brief&&work)loadDelivery(r);
@@ -797,6 +901,79 @@ $('sessList').onclick=function(e){var d=e.target.dataset||{};
   if(d.so){e.preventDefault();e.stopPropagation();if(confirm('End this sign-in? That device is signed out straight away.'))post('sessions_revoke',{sid:d.so}).then(function(x){if(x.ok){toast('Signed out');if(x.j.self)show(false);else loadSessions()}else toast(x.j.error)})}
   if(d.sou&&confirm('End every sign-in of this person?'))post('sessions_revoke_user',{uid:d.sou}).then(function(){toast('Signed out');loadSessions()})};
 
+/* ---------- charts and numbers shared by the site sections ---------- */
+function num(n){return Number(n||0).toLocaleString('en-IN')}
+function pct(n){return (Math.round(n*1000)/10)+'%'}
+function chipsHtml(defs){return defs.map(function(c){return '<div class="chip static '+(c[2]||'')+'"><b>'+c[1]+'</b><span>'+c[0]+'</span></div>'}).join('')}
+// bars: values (one per bar), labels (shown under some bars), line: optional second series drawn as a line on its own scale
+function barChart(id,vals,labels,line){var W=600,H=170,n=vals.length,gap=n>40?1:4,bw=(W-16)/n-gap,max=Math.max(1,Math.max.apply(null,vals)),h=['<line x1="0" x2="600" y1="146" y2="146" stroke="rgba(244,239,230,.15)"/>'],every=Math.ceil(n/8);
+  vals.forEach(function(v,i){var x=8+i*(bw+gap),bh=v/max*124;h.push('<rect x="'+x.toFixed(1)+'" y="'+(146-bh).toFixed(1)+'" width="'+Math.max(1,bw).toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="'+(bw>8?3:1)+'" fill="#f5b867"><title>'+esc(labels[i])+': '+num(v)+'</title></rect>');
+    if((i%every===0&&(i===0||n-1-i>=every/2))||i===n-1)h.push('<text x="'+(i===0?x:i===n-1?x+bw:x+bw/2).toFixed(1)+'" y="164" font-size="10" fill="#8e89a0" text-anchor="'+(i===0?'start':i===n-1?'end':'middle')+'">'+esc(labels[i])+'</text>')});
+  if(line){var lm=Math.max(1,Math.max.apply(null,line));h.push('<polyline fill="none" stroke="#7ff3e1" stroke-width="2" points="'+line.map(function(v,i){return (8+i*(bw+gap)+bw/2).toFixed(1)+','+(146-v/lm*124).toFixed(1)}).join(' ')+'"/>')}
+  $(id).innerHTML=h.join('')}
+function spark(vals){var max=Math.max(1,Math.max.apply(null,vals)),n=vals.length;return '<svg class="spark" viewBox="0 0 96 26" preserveAspectRatio="none"><polyline fill="none" stroke="#f5b867" stroke-width="1.6" points="'+vals.map(function(v,i){return (n<2?0:i/(n-1)*96).toFixed(1)+','+(24-v/max*22).toFixed(1)}).join(' ')+'"/></svg>'}
+function dShort(s){var d=new Date(s+'T00:00:00');return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}
+function delta(cur,prev,lowerBetter){if(prev==null||!isFinite(prev)||prev===0)return '';var d=(cur-prev)/prev,up=lowerBetter?d<0:d>0;return '<span class="delta '+(up?'up':'dn')+'">'+(d>0?'+':'')+Math.round(d*100)+'%</span>'}
+
+/* ---------- search console ---------- */
+function loadGsc(refresh){
+  $('gscErr').textContent='';if(refresh)$('gscWhen').textContent='Asking Google…';
+  api('gsc_get',null,refresh?'&refresh=1':'').then(function(x){
+    if(!x.ok){$('gscErr').textContent=x.j.error||'Could not load.';return}var g=x.j;
+    $('gscSetup').classList.toggle('hide',g.ready);$('gscBody').classList.toggle('hide',!g.ready);$('gscSite').textContent=g.site;if(!g.ready)return;
+    var t=g.total,pv=g.previous||{};
+    $('gscWhen').textContent='Data '+dShort(g.range.from)+' to '+dShort(g.range.to)+' for '+g.site+'. Updated '+ago(g.at)+'.';
+    $('gchips').innerHTML=[['Clicks, 28 days',num(t.clicks)+delta(t.clicks,pv.clicks)],['Impressions',num(t.impressions)+delta(t.impressions,pv.impressions)],['Click rate',pct(t.ctr)+delta(t.ctr,pv.ctr)],['Average position',(t.position?t.position.toFixed(1):'-')+delta(t.position,pv.position,true)]].map(function(c){return '<div class="chip static"><b>'+c[1]+'</b><span>'+c[0]+'</span></div>'}).join('');
+    barChart('gchart',g.weeks.map(function(w){return w.clicks}),g.weeks.map(function(w){return dShort(w.to)}),g.weeks.map(function(w){return w.impressions}));
+    var tbl=function(id,rows,head){$(id).innerHTML='<tr><th>'+head+'</th><th class="n">Clicks</th><th class="n">Impr.</th><th class="n">CTR</th><th class="n">Pos.</th></tr>'+(rows.length?rows.map(function(r){return '<tr><td class="k">'+esc(r.key)+'</td><td class="n">'+num(r.clicks)+'</td><td class="n">'+num(r.impressions)+'</td><td class="n">'+pct(r.ctr)+'</td><td class="n">'+r.position.toFixed(1)+'</td></tr>'}).join(''):'<tr><td colspan="5" class="sub">Nothing yet.</td></tr>')};
+    tbl('gq',g.queries,'Search');tbl('gp',g.pages,'Page');tbl('gc',g.countries,'Country');tbl('gd',g.devices,'Device')})}
+$('gscRefresh').onclick=function(){loadGsc(true)};
+
+/* ---------- tool usage ---------- */
+var toolDays=30;
+function loadTools(){api('tools_stats',null,'&days='+toolDays).then(function(x){if(!x.ok)return;var j=x.j,t=j.totals;
+  $('tchips').innerHTML=chipsHtml([['Visits to tools',num(t.views)],['Times used',num(t.uses)],['Used on visit',t.views?pct(t.uses/t.views):'-'],['Briefs from tools',num(t.briefs),t.briefs?'soon':'']]);
+  var labels=[],d0=new Date(j.from.slice(0,4)+'-'+j.from.slice(4,6)+'-'+j.from.slice(6)+'T00:00:00');for(var i=0;i<j.daysTotal.length;i++){labels.push(new Date(d0.getTime()+i*864e5).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}))}
+  barChart('tchart',j.daysTotal,labels);
+  $('ttable').innerHTML='<tr><th>Tool</th><th class="n">Visits</th><th class="n">Used</th><th class="n">Briefs</th><th>Trend</th><th>Came from</th></tr>'+j.tools.map(function(r){return '<tr><td class="k"><b>'+esc(r.name)+'</b>'+(r.sources.length?'<div class="tsrc">From '+r.sources.slice(0,2).map(function(x){return esc(x.key)}).join(', ')+'</div>':'')+'</td><td class="n">'+num(r.views)+'</td><td class="n">'+num(r.uses)+(r.views?' <span class="sub">('+Math.round(r.uses/r.views*100)+'%)</span>':'')+'</td><td class="n">'+(r.briefs?'<b style="color:var(--amber)">'+r.briefs+'</b>':'0')+'</td><td>'+spark(r.days)+'</td><td><div class="tags" style="margin:0">'+(r.sources.length?r.sources.slice(0,3).map(function(x){return '<span class="tag">'+esc(x.key)+' · '+num(x.n)+'</span>'}).join(''):'<span class="sub">-</span>')+'</div></td></tr>'}).join('')})}
+$('tRange').onclick=function(e){var d=e.target.dataset&&e.target.dataset.d;if(!d)return;toolDays=Number(d);[].forEach.call(this.children,function(b){b.classList.toggle('on',b.dataset.d===d)});loadTools()};
+
+/* ---------- content and testimonials ---------- */
+var contentCfg=null;
+function loadContent(){api('content_get').then(function(x){if(!x.ok)return;var c=contentCfg=x.j.content;
+  $('cAvOn').checked=c.avail.on;$('cAvText').value=c.avail.text;$('cNoOn').checked=c.notice.on;$('cNoText').value=c.notice.text;$('cNoLink').value=c.notice.link;$('cNoLt').value=c.notice.linkText;$('cNoUntil').value=c.notice.until;
+  $('cQOn').checked=c.quotes.on;$('cQMax').value=String(c.quotes.max);$('cAskSub').value=c.ask.subject;$('cAskBody').value=c.ask.body;contentPrev()});loadTms()}
+function contentPrev(){$('cAvPrev').textContent=$('cAvOn').checked&&$('cAvText').value.trim()?$('cAvText').value:'Available for full-time and freelance';
+  var on=$('cNoOn').checked&&$('cNoText').value.trim();$('cNoPrev').classList.toggle('hide',!on);$('cNoPrev').innerHTML=esc($('cNoText').value)+($('cNoLink').value?' <a>'+esc($('cNoLt').value||'Read more')+'</a>':'')}
+['cAvOn','cAvText','cNoOn','cNoText','cNoLink','cNoLt'].forEach(function(i){$(i).addEventListener('input',contentPrev);$(i).addEventListener('change',contentPrev)});
+$('cSave').onclick=function(){post('content_save',{avail:{on:$('cAvOn').checked,text:$('cAvText').value},notice:{on:$('cNoOn').checked,text:$('cNoText').value,link:$('cNoLink').value,linkText:$('cNoLt').value,until:$('cNoUntil').value},quotes:{on:$('cQOn').checked,max:$('cQMax').value},ask:{subject:$('cAskSub').value,body:$('cAskBody').value}}).then(function(x){say('cMsg',x.ok?'Saved. The site shows it within about 5 minutes.':x.j.error,x.ok);if(x.ok)toast('Content saved')})};
+function loadTms(){api('tm_list').then(function(x){if(!x.ok)return;var it=x.j.items,n=function(s){return it.filter(function(t){return t.status===s}).length};
+  $('tmchips').innerHTML=chipsHtml([['Waiting for you',n('pending'),n('pending')?'soon':''],['On the site',n('approved')],['Hidden',n('hidden')]]);
+  it.sort(function(a,b){return (a.status==='pending'?0:1)-(b.status==='pending'?0:1)||b.created-a.created});
+  $('tmList').innerHTML=it.length?it.map(function(t){var who=[t.role,t.company].filter(Boolean).join(', ');
+    return '<div class="item plain tm" style="cursor:default" data-tm="'+esc(t.id)+'"><div class="row" style="justify-content:space-between"><div class="row"><span class="pill '+(t.status==='approved'?'s-active':t.status==='pending'?'s-new':'s-archived')+'">'+(t.status==='approved'?'on the site':t.status)+'</span>'+(t.publish?'':'<span class="pill s-off">private: may not be shown</span>')+(t.rating?'<span class="stars">'+new Array(t.rating+1).join('★')+'</span>':'')+'</div><small>'+esc(ago(t.created))+(t.from==='admin'?' · added by hand':'')+'</small></div>'
+      +'<blockquote>'+esc(t.quote)+'</blockquote><div><b>'+esc(t.name)+'</b>'+(who?'<small>'+esc(who)+'</small>':'')+'</div>'
+      +'<div class="row">'+(t.status!=='approved'&&t.publish?'<button class="btn sm pri" data-op="approve">Show on site</button>':'')+(t.status==='approved'?'<button class="btn sm" data-op="hide">Take off site</button>':'')+'<button class="btn sm" data-op="edit">Edit</button><button class="btn sm danger" data-op="delete">Delete</button></div></div>'}).join(''):'<div class="empty">No testimonials yet. Ask from a won brief (open it in the Inbox), or add one by hand below.</div>'})}
+$('tmList').onclick=function(e){var op=e.target.dataset&&e.target.dataset.op;if(!op)return;var box=e.target.closest('[data-tm]'),id=box.dataset.tm,body={id:id,op:op};
+  if(op==='delete'&&!confirm('Delete this testimonial for good?'))return;
+  if(op==='edit'){var q=prompt('Edit the quote (fix a typo, shorten it; keep their meaning):',box.querySelector('blockquote').textContent);if(q===null)return;body.quote=q}
+  post('tm_act',body).then(function(x){if(x.ok){toast(op==='approve'?'On the site within 5 minutes':'Done');loadTms()}else toast(x.j.error)})};
+$('tmAdd').onclick=function(){say('tmMsg','');post('tm_add',{quote:$('tmQ').value,name:$('tmN').value,company:$('tmC').value,role:$('tmR').value}).then(function(x){if(x.ok){['tmQ','tmN','tmC','tmR'].forEach(function(i){$(i).value=''});toast('Added. Press Show on site to publish it.');loadTms()}else say('tmMsg',x.j.error)})};
+
+/* ---------- site health ---------- */
+function healthState(r){return !r?'':r.fails?'bad':r.warns?'warn':'ok'}
+function loadHealth(){api('health_get').then(function(x){if(!x.ok)return;drawHealth(x.j.last,x.j.history)})}
+function drawHealth(l,hist){
+  var st=healthState(l);$('hLamp').className='lamp '+st;
+  $('hBig').textContent=!l?'Not checked yet':l.fails?(l.fails+' problem'+(l.fails>1?'s':'')+' found'):l.warns?'Working, with '+l.warns+' thing'+(l.warns>1?'s':'')+' to look at':'Everything works';
+  $('hWhen').textContent=l?'Checked '+ago(l.at)+' ('+ist(l.at)+'), took '+(l.ms/1000).toFixed(1)+' s, '+(l.via==='manual'?'run by hand':'scheduled'):'Press Run checks now for the first check.';
+  $('hDots').innerHTML=(hist||[]).slice().reverse().map(function(h){return '<i class="'+(h.fails?'bad':h.warns?'warn':'')+'" title="'+esc(ist(h.at))+(h.names&&h.names.length?': '+esc(h.names.join(', ')):'')+'"></i>'}).join('');
+  $('hList').innerHTML=l?l.checks.map(function(c){var s=!c.ok?'bad':c.warn?'warn':'ok';return '<div class="chk-row"><span class="lamp '+s+'"></span><div><b>'+esc(c.name)+'</b><small>'+esc(c.detail||'')+'</small></div><span class="pill '+(s==='ok'?'s-active':s==='warn'?'s-soon':'s-off')+'">'+(s==='ok'?'ok':s==='warn'?'check':'down')+'</span></div>'}).join(''):'<p class="sub">No results yet.</p>';
+  var pg=l&&(l.checks.filter(function(c){return c.key==='pages'})[0]||{}).pages||[];
+  $('hPages').innerHTML=pg.length?'<tr><th>Page</th><th class="n">Answer</th><th class="n">Time</th></tr>'+pg.map(function(p){return '<tr><td class="k">'+esc(p.path)+'</td><td class="n">'+(p.status===200?'<span style="color:var(--green)">200</span>':'<span class="err">'+esc(p.status||p.error)+'</span>')+'</td><td class="n"'+(p.ms>3000?' style="color:var(--amber)"':'')+'>'+num(p.ms)+' ms</td></tr>'}).join(''):'<tr><td class="sub">Nothing checked yet.</td></tr>';
+  var hd=$('healthDot');hd.classList.toggle('hide',st!=='bad')}
+$('hRun').onclick=function(){var b=this;b.disabled=true;b.textContent='Checking…';post('health_run').then(function(x){b.disabled=false;b.textContent='Run checks now';if(x.ok){toast(x.j.ok?'Everything works':'Problems found');loadHealth()}else toast(x.j.error||'Could not run the checks.')})};
+
 /* ---------- mail delivery log ---------- */
 var MAILKIND={'admin-alert':'alert to me','visitor-confirmation':'confirmation','reply':'reply','quote':'quote','newsletter':'newsletter','newsletter-test':'newsletter test','welcome':'welcome','subscribe-confirm':'subscribe confirm','digest':'digest','backup':'backup','admin-note':'note to me','other':'other'};
 function mstatus(s){return '<span class="pill s-'+(s==='delivered'?'active':s==='bounced'||s==='complained'||s==='failed'?'off':s==='delayed'?'soon':'archived')+'">'+esc(s==='complained'?'spam report':s)+'</span>'}
@@ -842,7 +1019,7 @@ $('expPop').onclick=function(e){var f=e.target.getAttribute&&e.target.getAttribu
 var t;['q','type','status','stage','from','to'].forEach(function(id){$(id).addEventListener(id==='q'?'input':'change',function(){clearTimeout(t);t=setTimeout(function(){sel={};load()},id==='q'?250:0)})});
 $('drawer').onclick=function(e){if(e.target===$('drawer'))close()};
 document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
-function start(fresh){api('me').then(function(x){if(!x.ok){show(false);var le=$('lerr');if(x.status===503||x.status===0){le.className='err';le.textContent=x.j.error||'Cannot reach the server.'}else if(fresh){le.className='err';le.textContent='The password was right, but this browser did not keep the sign-in (server answered '+x.status+'). Check that cookies are allowed for this site, then try again.'}return}applyRole(x.j.user);show(true);loaded={};openTab('sub')})}
+function start(fresh){api('me').then(function(x){if(!x.ok){show(false);var le=$('lerr');if(x.status===503||x.status===0){le.className='err';le.textContent=x.j.error||'Cannot reach the server.'}else if(fresh){le.className='err';le.textContent='The password was right, but this browser did not keep the sign-in (server answered '+x.status+'). Check that cookies are allowed for this site, then try again.'}return}applyRole(x.j.user);show(true);loaded={};openTab('sub');if(isOwner())api('health_get').then(function(h){if(h.ok)$('healthDot').classList.toggle('hide',healthState(h.j.last)!=='bad')})})}
 start();
 })();
 </script>
