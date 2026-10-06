@@ -9,6 +9,7 @@
 'use strict';
 var W = 1080, H = 1350;
 var SERIF = '"Cormorant Garamond", Georgia, serif', SANS = '"Instrument Sans", system-ui, sans-serif', MONO = '"JetBrains Mono", ui-monospace, monospace';
+var SITE = 'aashishpandey.com', TAG = '#RideWithAashish', CTA = 'Ride the 3D world';
 var STYLES = [['polaroid', 'Polaroid'], ['gallery', 'Gallery'], ['film', 'Film']];
 var dlg, cv, ctx, capIn, built = false, st = null, raf = 0, noiseTile = null;
 
@@ -37,6 +38,21 @@ function spaced(c, text, x, y, gap, align) { // letter-spaced text
   for (i = 0; i < text.length; i++) { c.fillText(text[i], sx, y); sx += c.measureText(text[i]).width + gap; }
 }
 function fitText(c, text, maxW, size, weight, family) { var s = size; do { c.font = weight + ' ' + s + 'px ' + family; if (c.measureText(text).width <= maxW) break; s -= 2; } while (s > 24); return s; }
+
+/* ---------- the signature under every print: name, address, and what to do ---------- */
+var logo = null;
+function loadLogo(cb) { if (logo) return cb(); var i = new Image(); i.onload = function () { logo = i; cb(); }; i.src = '/assets/logo-mark.svg'; }
+function drawBrand(c, yc) {
+  c.save(); c.textBaseline = 'alphabetic'; c.textAlign = 'left';
+  var name = 'AASHISH PANDEY', sub = CTA + '  \u00B7  ' + TAG;
+  c.font = '600 40px ' + SANS; var w1 = c.measureText(SITE).width; c.font = '500 17px ' + SANS; var w2 = c.measureText(sub).width;
+  var ls = logo ? 84 : 0, gap = logo ? 24 : 0, tw = Math.max(w1, w2), x0 = (W - (ls + gap + tw)) / 2, tx = x0 + ls + gap;
+  if (logo) { c.save(); rr(c, x0, yc - ls / 2, ls, ls, 18); c.clip(); c.drawImage(logo, x0, yc - ls / 2, ls, ls); c.restore(); c.strokeStyle = 'rgba(244,239,230,0.2)'; c.lineWidth = 2; rr(c, x0, yc - ls / 2, ls, ls, 18); c.stroke(); }
+  c.fillStyle = 'rgba(244,239,230,0.86)'; c.font = '500 15px ' + MONO; spaced(c, name, tx, yc - 20, 4.2, 'left');
+  c.fillStyle = '#f5b867'; c.font = '600 40px ' + SANS; c.fillText(SITE, tx, yc + 20);
+  c.fillStyle = 'rgba(244,239,230,0.72)'; c.font = '500 17px ' + SANS; c.fillText(sub, tx, yc + 46);
+  c.restore();
+}
 
 /* ---------- the photo: crop, then grade like film ---------- */
 function coverRect(img, w, h, fx, fy) {
@@ -98,7 +114,7 @@ function drawPolaroid(c, o) {
   var sp = c.createRadialGradient(W * 0.3, H * 0.18, 40, W * 0.3, H * 0.18, W * 0.95); sp.addColorStop(0, 'rgba(255,214,160,0.20)'); sp.addColorStop(1, 'rgba(255,214,160,0)'); c.fillStyle = sp; c.fillRect(0, 0, W, H);
   grain(c, 0, 0, W, H, 0.07, 'overlay');
   var pw = 860, ph = 1040, win = 780, m = (pw - win) / 2;
-  c.save(); c.translate(W / 2, H / 2 - 6); c.rotate(-0.028);
+  c.save(); c.translate(W / 2, H / 2 - 44); c.rotate(-0.028);
   var x = -pw / 2, y = -ph / 2;
   shadowed(c, function () { rr(c, x, y, pw, ph, 10); c.fillStyle = '#f4efe3'; c.fill(); }, 70, 18, 40, 0.6);
   var pg = c.createLinearGradient(x, y, x + pw, y + ph); pg.addColorStop(0, '#fbf8f0'); pg.addColorStop(0.55, '#f3eee1'); pg.addColorStop(1, '#e9e2d1');
@@ -115,12 +131,13 @@ function drawPolaroid(c, o) {
   c.restore();
   // tape across the top corners
   [-1, 1].forEach(function (sd) {
-    c.save(); c.translate(W / 2, H / 2 - 6); c.rotate(-0.028); c.translate(sd * (pw / 2 - 46), -ph / 2 + 8); c.rotate(sd * 0.7);
+    c.save(); c.translate(W / 2, H / 2 - 44); c.rotate(-0.028); c.translate(sd * (pw / 2 - 46), -ph / 2 + 8); c.rotate(sd * 0.7);
     shadowed(c, function () { c.fillStyle = 'rgba(236,222,184,0.66)'; c.fillRect(-84, -26, 168, 52); }, 8, 0, 3, 0.25);
     var tg = c.createLinearGradient(-84, 0, 84, 0); tg.addColorStop(0, 'rgba(255,255,255,0.3)'); tg.addColorStop(0.5, 'rgba(255,255,255,0)'); tg.addColorStop(1, 'rgba(255,255,255,0.22)'); c.fillStyle = tg; c.fillRect(-84, -26, 168, 52);
     c.restore();
   });
-  o.origin = { x: W / 2 - win / 2, y: H / 2 - 6 - ph / 2 + m, rot: -0.028 };
+  drawBrand(c, 1262);
+  o.origin = { x: W / 2 - win / 2, y: H / 2 - 44 - ph / 2 + m, rot: -0.028 };
 }
 
 function drawGallery(c, o) {
@@ -128,7 +145,7 @@ function drawGallery(c, o) {
   var bg = c.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#3a3631'); bg.addColorStop(1, '#16140f'); c.fillStyle = bg; c.fillRect(0, 0, W, H);
   var sp = c.createRadialGradient(W / 2, -60, 40, W / 2, -60, H * 0.95); sp.addColorStop(0, 'rgba(255,236,200,0.30)'); sp.addColorStop(1, 'rgba(255,236,200,0)'); c.fillStyle = sp; c.fillRect(0, 0, W, H);
   grain(c, 0, 0, W, H, 0.08, 'overlay');
-  var fw = 880, fh = 980, fx = (W - fw) / 2, fy = 96, fr = 34, mat = 76;
+  var fw = 880, fh = 940, fx = (W - fw) / 2, fy = 70, fr = 34, mat = 76;
   shadowed(c, function () { c.fillStyle = '#0d0c0b'; c.fillRect(fx, fy, fw, fh); }, 80, 16, 38, 0.62);
   var g = c.createLinearGradient(fx, fy, fx + fw, fy + fh); g.addColorStop(0, '#34312d'); g.addColorStop(0.5, '#0f0e0c'); g.addColorStop(1, '#262421'); c.fillStyle = g; c.fillRect(fx, fy, fw, fh);
   c.lineWidth = 3; c.strokeStyle = 'rgba(255,255,255,0.16)'; c.beginPath(); c.moveTo(fx + 1.5, fy + fh); c.lineTo(fx + 1.5, fy + 1.5); c.lineTo(fx + fw, fy + 1.5); c.stroke();
@@ -143,12 +160,13 @@ function drawGallery(c, o) {
   innerShadow(c, wx, wy, ww, wh, 22, 0.5);
   c.save(); c.beginPath(); c.rect(mx, my, mw, mh); c.clip(); sheen(c, mx, my, mw, mh, 0.13); c.restore();
   // museum label
-  var lw = 560, lh = 118, lx = (W - lw) / 2, ly = fy + fh + 52;
+  var lw = 560, lh = 118, lx = (W - lw) / 2, ly = fy + fh + 44;
   shadowed(c, function () { rr(c, lx, ly, lw, lh, 3); c.fillStyle = '#f3eee2'; c.fill(); }, 22, 0, 10, 0.5);
   grain(c, lx, ly, lw, lh, 0.05, 'multiply');
   c.fillStyle = '#2a2520'; c.textAlign = 'center'; var cs = fitText(c, o.caption, lw - 60, 38, 'italic 500', SERIF); c.font = 'italic 500 ' + cs + 'px ' + SERIF; c.fillText(o.caption, W / 2, ly + 48);
   c.fillStyle = '#6f685b'; c.font = '500 14px ' + SANS; spaced(c, 'AASHISH PANDEY  ·  REAL-TIME 3D  ·  1/1', W / 2, ly + 78, 2.6, 'center');
   c.font = '500 13px ' + MONO; c.fillStyle = '#8f8878'; spaced(c, o.date.toUpperCase(), W / 2, ly + 100, 2, 'center');
+  drawBrand(c, 1268);
   o.origin = { x: wx, y: wy, rot: 0 };
 }
 
@@ -157,7 +175,7 @@ function drawFilm(c, o) {
   var bg = c.createRadialGradient(W / 2, H * 0.44, 20, W / 2, H * 0.44, H * 0.8); bg.addColorStop(0, '#2a2118'); bg.addColorStop(1, '#0a0908'); c.fillStyle = bg; c.fillRect(0, 0, W, H);
   grain(c, 0, 0, W, H, 0.08, 'overlay');
   c.fillStyle = 'rgba(245,184,103,0.85)'; c.font = '500 15px ' + MONO; spaced(c, 'FROM THE ROAD  ·  AASHISH PANDEY', W / 2, 150, 5, 'center');
-  var sh = 640, cx = W / 2, cy = 640;
+  var sh = 640, cx = W / 2, cy = 612;
   c.save(); c.translate(cx, cy); c.rotate(-0.045);
   var sw = W + 600, sx = -sw / 2, sy = -sh / 2;
   shadowed(c, function () { c.fillStyle = '#1a130d'; c.fillRect(sx, sy, sw, sh); }, 60, 0, 30, 0.6);
@@ -179,8 +197,9 @@ function drawFilm(c, o) {
   c.strokeStyle = 'rgba(0,0,0,0.6)'; c.lineWidth = 3; c.strokeRect(-fw / 2, fy2, fw, fh);
   sheen(c, -fw / 2, fy2, fw, fh, 0.08);
   c.restore();
-  c.fillStyle = '#f4efe6'; c.textAlign = 'center'; var cs = fitText(c, o.caption, W - 160, 70, 'italic 500', SERIF); c.font = 'italic 500 ' + cs + 'px ' + SERIF; c.fillText(o.caption, W / 2, 1090);
-  c.fillStyle = 'rgba(244,239,230,0.55)'; c.font = '500 16px ' + SANS; spaced(c, o.date.toUpperCase() + '   ·   EXPLORE MODE   ·   AASHISHPANDEY.COM', W / 2, 1150, 3.4, 'center');
+  c.fillStyle = '#f4efe6'; c.textAlign = 'center'; var cs = fitText(c, o.caption, W - 160, 70, 'italic 500', SERIF); c.font = 'italic 500 ' + cs + 'px ' + SERIF; c.fillText(o.caption, W / 2, 1040);
+  c.fillStyle = 'rgba(244,239,230,0.55)'; c.font = '500 16px ' + SANS; spaced(c, o.date.toUpperCase() + '   ·   EXPLORE MODE', W / 2, 1100, 3.4, 'center');
+  drawBrand(c, 1244);
   o.origin = { x: cx - 342, y: cy - 222, rot: -0.045 };
 }
 
@@ -201,7 +220,8 @@ function defaultCaption(info) {
 }
 function blob(type, cb) { cv.toBlob(cb, type, type === 'image/jpeg' ? 0.93 : undefined); }
 function fileName() { return 'aashish-pandey-' + (st.caption || 'photo').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-' + st.style + '.jpg'; }
-function shareText() { return (st.caption || 'A moment on the road') + '. Snapped while riding through the 3D world on aashishpandey.com'; }
+function siteUrl(via) { return 'https://' + SITE + '/?utm_source=' + via + '&utm_medium=photo-share&utm_campaign=ride-photo'; }
+function shareText(withTag) { return (st.caption || 'A moment on the road') + '. Snapped riding through a 3D world in my browser. Ride it yourself' + (withTag === false ? '' : ' ' + TAG); }
 function flash(b, msg, back) { b.textContent = msg; setTimeout(function () { b.textContent = back; }, 1600); }
 function track(n) { try { window.apTrack && window.apTrack(n, {}); } catch (e) { /* analytics is optional */ } }
 
@@ -257,20 +277,20 @@ function build() {
   var end = function () { drag = null; }; cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
   dlg.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-a]'); if (!b || !st) return; var a = b.getAttribute('data-a'), label = b.textContent;
-    if (a === 'cap') { try { navigator.clipboard.writeText(shareText() + ' https://aashishpandey.com').then(function () { flash(b, 'Copied', label); }, function () { flash(b, 'Not allowed', label); }); } catch (x) { flash(b, 'Not supported', label); } return; }
+    if (a === 'cap') { try { navigator.clipboard.writeText(shareText() + ' ' + siteUrl('copy')).then(function () { flash(b, 'Copied', label); }, function () { flash(b, 'Not allowed', label); }); } catch (x) { flash(b, 'Not supported', label); } return; }
     if (a === 'img') { blob('image/png', function (bl) { if (!bl) return; if (!navigator.clipboard || !window.ClipboardItem) return flash(b, 'Not supported here', label); navigator.clipboard.write([new ClipboardItem({ 'image/png': bl })]).then(function () { flash(b, 'Copied', label); track('photo_copy'); }, function () { flash(b, 'Not allowed', label); }); }); return; }
     blob('image/jpeg', function (bl) {
       if (!bl) return;
       if (a === 'dl') { var u = URL.createObjectURL(bl), l = document.createElement('a'); l.href = u; l.download = fileName(); document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 2000); track('photo_download'); }
-      else if (a === 'native') { var d = { title: st.caption || 'Photo', text: shareText(), url: 'https://aashishpandey.com' }; try { var f = new File([bl], fileName(), { type: 'image/jpeg' }); if (navigator.canShare && navigator.canShare({ files: [f] })) d.files = [f]; } catch (x) { /* text only */ } navigator.share(d).then(function () { track('photo_share'); }, function () {}); }
+      else if (a === 'native') { var d = { title: st.caption || 'Photo', text: shareText(), url: siteUrl('native') }; try { var f = new File([bl], fileName(), { type: 'image/jpeg' }); if (navigator.canShare && navigator.canShare({ files: [f] })) d.files = [f]; } catch (x) { /* text only */ } navigator.share(d).then(function () { track('photo_share'); }, function () {}); }
     });
   });
 }
 function links() {
-  var t = encodeURIComponent(shareText()), u = encodeURIComponent('https://aashishpandey.com');
-  dlg.querySelector('[data-w]').href = 'https://wa.me/?text=' + t + '%20' + u;
-  dlg.querySelector('[data-x]').href = 'https://twitter.com/intent/tweet?text=' + t + '&url=' + u;
-  dlg.querySelector('[data-l]').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + u;
+  var t = function (tag) { return encodeURIComponent(shareText(tag)); };
+  dlg.querySelector('[data-w]').href = 'https://wa.me/?text=' + t() + '%20' + encodeURIComponent(siteUrl('whatsapp'));
+  dlg.querySelector('[data-x]').href = 'https://twitter.com/intent/tweet?text=' + t(false) + '&url=' + encodeURIComponent(siteUrl('x')) + '&hashtags=' + TAG.slice(1);
+  dlg.querySelector('[data-l]').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(siteUrl('linkedin'));
 }
 function setStyle(s) { st.style = s; try { sessionStorage.setItem('apPrintStyle', s); } catch (e) { /* optional */ } dlg.querySelectorAll('.ap-pp__t').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-s') === s ? 'true' : 'false'); }); st.fx = st.fy = 0.5; redraw(); }
 function close() { if (dlg && dlg.open) dlg.close(); }
@@ -283,6 +303,7 @@ function open(opts) {
   capIn.value = st.caption; links();
   dlg.querySelector('[data-a=native]').hidden = !(navigator.share); dlg.querySelector('[data-a=dl]').classList.toggle('ap-pp__b--p', !navigator.share); dlg.querySelector('[data-soc]').hidden = !!navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
   img.onload = function () { fontsReady().then(function () { st.img = img; setStyle(st.style); }); };
+  loadLogo(redraw);
   img.src = opts.src;
   if (opts.onOpen) opts.onOpen();
   if (!dlg.open) dlg.showModal();
