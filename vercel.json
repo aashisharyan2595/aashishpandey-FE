@@ -7,6 +7,12 @@
   "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "30 21 * * *" }, { "path": "/api/kd2ozfuew9n4uaciyl1j?a=digest", "schedule": "0 3 * * *" } ],
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.aashishpandey.com" }],
+      "destination": "https://aashishpandey.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/index.html",
       "destination": "/",
       "permanent": true
