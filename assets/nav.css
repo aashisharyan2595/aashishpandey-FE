@@ -300,3 +300,6 @@ section[aria-label="Key numbers"]>div>div{flex-direction:row!important;align-ite
 section[aria-label="Key numbers"]>div>div>span:first-child{font-size:36px!important;flex:none}
 section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-width:20ch}
 }
+/* inner-page heroes: a soft dusk glow behind the headline, echoing the ride's sunset and the portfolio hero */
+.ap-glow{position:relative;isolation:isolate}
+.ap-glow::before{content:"";position:absolute;z-index:-1;left:-12%;top:-140px;width:min(820px,90%);height:560px;background:radial-gradient(closest-side,rgba(245,184,103,.13),rgba(245,184,103,0)),radial-gradient(closest-side at 70% 60%,rgba(127,243,225,.05),rgba(127,243,225,0));pointer-events:none}
