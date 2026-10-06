@@ -25,6 +25,7 @@
 Most run entirely in the browser with no upload and no account. The URL shortener and the pairing step of P2P file sharing use a small server, and say so on their pages.
 
 - [Free ATS Resume Maker](https://aashishpandey.com/tools/resume-maker): Free ATS resume maker with 54 templates for engineers, designers, project managers and more. Edit sections, save PDF or Word. Private, no sign-up.
+- [Resume vs Job Description](https://aashishpandey.com/tools/resume-keyword-matcher): Free resume keyword matcher: paste a job description and your resume to see the match score, missing keywords and ATS format checks. Nothing is uploaded.
 - [Free QR Code Generator](https://aashishpandey.com/tools/qr-code-generator): Free QR code generator for links, text, Wi-Fi, UPI, email and phone. Download PNG or SVG. Static codes that never expire, with no tracking or sign-up.
 - [Free Invoice Generator](https://aashishpandey.com/tools/invoice-generator): Free invoice generator with GST, VAT or sales tax, six templates, 37 currencies, your logo and signature. Save a PDF invoice. No sign-up, runs in your browser.
 - [Free SOP Maker](https://aashishpandey.com/tools/sop-maker): Free SOP maker with 116 SOP templates for HR, sales, finance, IT and operations. Edit any topic and export Word, PDF or Markdown. No sign-up.

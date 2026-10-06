@@ -392,6 +392,10 @@
       "destination": "/Tools-Exam.dc.html"
     },
     {
+      "source": "/tools/resume-keyword-matcher",
+      "destination": "/Tools-Match.dc.html"
+    },
+    {
       "source": "/tools/p2p-file-sharing",
       "destination": "/Tools-P2P.dc.html"
     },
