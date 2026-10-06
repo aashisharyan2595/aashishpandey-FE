@@ -175,7 +175,8 @@ Run by hand when needed:
 | Script | Job |
 | --- | --- |
 | `scripts/sitemap.cjs` | Writes `seo/sitemap.xml` (an index) and per-type sitemaps. A page's `lastmod` moves only when its content really changes |
-| `scripts/make-og.py` | Renders the 1200 by 630 Open Graph image for each page into `assets/og/` |
+| `scripts/make-og.cjs` | Draws the 1200 by 630 share image for each card in `scripts/og-cards.json` into `assets/og/` (needs Playwright) |
+| `scripts/og-tags.cjs` | Writes the Open Graph and Twitter tags on every page from `scripts/og-cards.json`; `--check` runs in the site check |
 | `scripts/check-site.cjs` | Builds in a temp copy and checks links, assets, stylesheet versions, sitemaps, tool counts and structured data |
 | `scripts/sop-pages.cjs` | Generates the four SOP maker pages and `assets/sop-templates.js` |
 | `scripts/pages.cjs` | Helper that finds every page under `pages/` |
@@ -227,7 +228,7 @@ More in [docs/SETUP.md](docs/SETUP.md): deploying from scratch, moving host, DNS
 1. Add the page under `pages/<group>/` and a `rewrites` entry in `vercel.json`.
 2. Add the route to `ROUTES` in `assets/js/site.js`.
 3. Add it to the menus and `TOOL_ORDER` in `scripts/chrome.cjs`, then run `node scripts/chrome.cjs`.
-4. Add it to `scripts/sitemap.cjs` and `scripts/make-og.py`, then run both.
+4. Add it to `scripts/sitemap.cjs`, and add a card for it in `scripts/og-cards.json`. Run `node scripts/sitemap.cjs`, `node scripts/make-og.cjs <card id>`, bump `v` in `og-cards.json`, then `node scripts/og-tags.cjs`.
 5. For a tool: add the card, `TOOLS` entry and ItemList item in `pages/tools/Tools-v3.dc.html`.
 6. Update the "Free tools" list in `seo/llms.txt`.
 7. Run `npm run check`.
