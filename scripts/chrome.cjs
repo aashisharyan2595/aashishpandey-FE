@@ -123,7 +123,7 @@ const MENUS = {
 // a picture and one line in the wide menus (shown from 1180px up; the image loads on first hover)
 MENUS.work.promo = { href: '/work-liquid-iv', t: 'Liquid I.V. rollout', d: '15 markets on Shopify, 9 new EU markets live in H1 2026.', img: '/assets/nav/promo-work.webp', w: 480, h: 281 };
 MENUS.services.promo = { href: '/shopify-developer', t: 'Shopify developer', d: 'Stores I built, like Copper Chocs, and a 15-market rollout I ran.', img: '/assets/nav/promo-services.webp', w: 480, h: 300 };
-MENUS.tools.promo = { href: '/tools/resume-maker', t: 'Resume Maker', d: '42 ATS-friendly templates. PDF and Word, no sign-up.', img: '/assets/nav/promo-tools.webp', w: 480, h: 300 };
+MENUS.tools.promo = { href: '/tools/resume-maker', t: 'Resume Maker', d: '54 ATS-friendly templates. PDF and Word, no sign-up.', img: '/assets/nav/promo-tools.webp', w: 480, h: 300 };
 const ORDER = ['work', 'services', 'tools', 'more'];
 const HIRE = [
   { href: BOOK, t: 'Book a 20-min call', d: 'Pick a slot that suits you', x: true },
