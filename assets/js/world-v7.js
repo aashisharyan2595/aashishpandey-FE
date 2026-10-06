@@ -3498,7 +3498,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   // contain no lights and no custom shaders. "Hidden" is a separate flag so the world's own show/hide logic is untouched.
   await __y(); const cullList = [], cullQ = [], cullSeen = new WeakSet(), cullBox = new THREE.Box3(), cullSph = new THREE.Sphere();
   await __y(); const CULL_SKIP = /^(sky|cloud|star|sun|moon|flare|wind|water|road|terrain|far-|aurora|rain|snow|dust|petal|leaf|fog|spark|fire|glow|ground|bike|rider|dino|muja|wheel|wisp|note|hit)/i;
-  await __y(); const vAcc = o => { if (o._apAcc) return; o._apAcc = true; let v = o.visible; Object.defineProperty(o, 'visible', { get() { return v && !this._apHide; }, set(x) { v = x; }, configurable: true }); };
+  await __y(); const vAcc = o => { if (o._apAcc) return; o._apAcc = true; let v = o.visible; Object.defineProperty(o, 'visible', { get() { return v && !this._apHide && !this._apHide2; }, set(x) { v = x; }, configurable: true }); };
   await __y(); const cullEligible = o => {
     if (!(o.isMesh || o.isGroup || o.isSprite || o.type === 'Object3D') || o.isInstancedMesh || o.userData.chunked || o.frustumCulled === false || CULL_SKIP.test(o.name || '')) return false;
     let ok = true;
@@ -3512,6 +3512,26 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       cullBox.setFromObject(o); if (cullBox.isEmpty()) continue; cullBox.getBoundingSphere(cullSph);
       const r = cullSph.radius + cullSph.center.distanceTo(o.position); if (r > 70) continue;
       vAcc(o); cullList.push({ o, r }); } };
+  // v7b: tiny-object culling for what the culler above skips (props inside groups, sprites, landmarks, far field notes). A mesh or sprite is
+  // hidden once it is under about a pixel across; field notes also go beyond a distance that shrinks with the quality level. Invisible
+  // hit spheres stop being drawn (raycasting never looked at visibility, so picking still works).
+  await __y(); const tinyList = [], TINY_SKIP = /^(sky|star|sun|moon|flare|aurora|far-|water|road|terrain)/i, NOTE_RX = /^(wisp|note-rock)/;
+  await __y(); const tinyScan = () => { tinyList.length = 0; scene.traverse(o => {
+      if (!(o.isMesh || o.isSprite) || o.isInstancedMesh || o.isSkinnedMesh || o.userData.chunked || !o.material) return;
+      const nm = o.name || '', mt = Array.isArray(o.material) ? o.material[0] : o.material;
+      if (/hit/i.test(nm) && !o.isSprite && mt.transparent && mt.opacity === 0) { mt.visible = false; return; }
+      if (TINY_SKIP.test(nm) || mt.isShaderMaterial) return;
+      if (!o._apT) { o._apT = { o, r: undefined, note: NOTE_RX.test(nm) }; }
+      tinyList.push(o._apT); }); };
+  await __y(); const tinyPass = () => {
+    const cp = camera.position, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360), PX = lp ? 3 : 1.6, farN = 140 + 260 * drawDist;
+    for (let i = 0; i < tinyList.length; i++) { const c = tinyList[i], o = c.o, e = o.matrixWorld.elements;
+      if (c.r === undefined || o.isSprite) {
+        const sx = Math.hypot(e[0], e[1], e[2]), sy = Math.hypot(e[4], e[5], e[6]), sz = Math.hypot(e[8], e[9], e[10]);
+        if (o.isSprite) c.r = 0.5 * Math.max(sx, sy); else { const g = o.geometry; if (!g) { c.r = 1e9; continue; } if (!g.boundingSphere) g.computeBoundingSphere(); c.r = g.boundingSphere.radius * Math.max(sx, sy, sz); }
+        if (!(c.r > 0)) c.r = 1e9; if (!o._apAcc) vAcc(o); }
+      const dx = e[12] - cp.x, dy = e[13] - cp.y, dz = e[14] - cp.z, d = Math.sqrt(dx * dx + dy * dy + dz * dz), px = 2 * c.r * F / (d > 0.01 ? d : 0.01);
+      o._apHide2 = px < (o._apHide2 ? PX * 1.3 : PX) || (c.note && d > farN); } };
   await __y(); const updateRoots = () => { const ch = scene.children; for (let i = 0; i < ch.length; i++) { const o = ch[i]; if (o._apHide || o.userData.apStatic) continue; o.updateMatrixWorld(); } };
   await __y(); const cullPass = () => {
     const cp = camera.position, lim = scene.fog.far + 20, PX = lp ? 3 : 1.4, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360);
@@ -3925,6 +3945,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (key.castShadow && renderer.shadowMap.enabled && (frameNo % 2 === 1 || frameNo < 4)) renderer.shadowMap.needsUpdate = true;
     postU.time.value = T; postU.night.value = night;
     if (frameNo % 6 === 3) { cullScan(); cullStep(160); cullPass(); }
+    if (frameNo % 90 === 7) tinyScan(); if (frameNo % 6 === 1) tinyPass();
     if (warm < 2) { if (warm === 0) beginWarm(); warmStep(); if (warm < 2) return; }
     updateRoots();
     if (snapReq && !snapReq.on) { snapReq.on = true; const m = Math.max(host.clientWidth, host.clientHeight) || 1; renderer.setPixelRatio(Math.min(4096 / m, Math.max(renderer.getPixelRatio(), 2000 / m))); renderer.setSize(host.clientWidth, host.clientHeight); resizePost(); }

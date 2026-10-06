@@ -39,6 +39,12 @@ The first draw arrives later than in v6 (3.9 s against 3.2 s at 6x) because the 
 
 These are lab numbers on a fast GPU. They do not include the real cost of shader compilation on a slow integrated GPU, which is the part the warm-up is meant to hide.
 
+## Tiny-object culling
+
+Measured in Explore mode on the road: about 330 draw calls a frame at the floor level and about 310 at full quality, so the governor's levels did not change the draw call count. A third of them were small things far away: glow sprites (about 40), the field notes' rocks, wisps and click spheres (about 35), landmark parts hundreds of metres off (campfire stones, cliffs, jar ribs, cloud puffs).
+
+`tinyScan` and `tinyPass` in `assets/js/world-v7.js` now hide any mesh or sprite that is under about a pixel across (3 px on low-power), field notes beyond 140 + 260 x draw distance metres, and stop drawing the invisible click spheres (raycasting ignores visibility, so picking still works). After: about 143 calls at the floor and 159 at full quality, with the same picture up close.
+
 ## Never-lag governor
 
 The ride picks its quality while it runs, on every device (`assets/js/world-v7.js`, search for `LADDER`):
