@@ -81,6 +81,7 @@ const MENUS = {
         { href: '/tools/project-estimate-calculator', t: 'Project Estimate', d: 'Best, likely and worst case', f: 'Project Estimate Calculator' },
       ] }, { h: 'Images', items: [
         { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
+        { href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms', b: 'New' },
         { href: '/tools/exif-remover', t: 'Photo Metadata Remover', d: 'Strip GPS and camera data' },
       ] }],
       [{ h: 'QR codes & links', items: [
@@ -193,7 +194,7 @@ function header() {
 
 /* ---------- footer ---------- */
 // Plain text columns, quiet colours, one legal row: the pattern the large sites use (Vercel, Stripe, Linear).
-const TOOL_ORDER = ['/tools/resume-maker', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/sop-maker', '/tools/password-generator', '/tools/p2p-file-sharing', '/tools/image-resizer', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/qr-code-checker', '/tools/website-launch-checklist'];
+const TOOL_ORDER = ['/tools/resume-maker', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/sop-maker', '/tools/password-generator', '/tools/p2p-file-sharing', '/tools/image-resizer', '/tools/exam-photo-resizer', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/qr-code-checker', '/tools/website-launch-checklist'];
 function footer() {
   const link = ([h, t, x]) => `<a href="${e(h)}"${x ? ' target="_blank" rel="noopener"' : ''}>${e(t)}</a>`;
   const col = (h, inner, cls = '') => `<details class="ap-foot__col${cls}" open><summary class="ap-foot__h">${h}</summary><div class="ap-foot__links">${inner}</div></details>`;
