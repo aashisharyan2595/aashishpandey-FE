@@ -16,6 +16,7 @@
  * The header and footer regions are kept from the existing file (scripts/chrome.cjs owns them).
  */
 const fs = require('fs'), path = require('path');
+const { block: ogBlock } = require('./og-tags.cjs');
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://aashishpandey.com';
 const V = 1; // bump when assets/sop-*.js or sop*.css change: assets are cached for 30 days
@@ -103,18 +104,7 @@ function page(file, o) {
 <link rel="manifest" href="/assets/site.webmanifest">
 <meta name="theme-color" content="#0b1030">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Aashish Pandey">
-<meta property="og:title" content="${e(o.title)}">
-<meta property="og:description" content="${e(o.desc)}">
-<meta property="og:url" content="${url}">
-<meta property="og:image" content="${img}">
-<meta property="og:image:alt" content="SOP Maker by Aashish Pandey">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${e(o.title)}">
-<meta name="twitter:description" content="${e(o.desc)}">
-<meta name="twitter:image" content="${img}">
-<meta name="twitter:image:alt" content="SOP Maker by Aashish Pandey">
+${ogBlock({ name: file, title: e(o.title), desc: e(o.desc), url })}
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c')}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">

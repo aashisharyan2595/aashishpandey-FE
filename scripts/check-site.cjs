@@ -209,6 +209,14 @@ try {
     fail(f, 'header or footer differs from scripts/chrome.cjs, so the deploy rewrites it. Run: node scripts/chrome.cjs and commit');
   }
 }
+try {
+  execFileSync(process.execPath, [path.join(ROOT, 'scripts/og-tags.cjs'), '--check'], { cwd: ROOT, stdio: 'pipe' });
+} catch (e) {
+  for (const line of String(e.stdout).split('\n').map((s) => s.trim()).filter(Boolean)) {
+    const [f, ...msg] = line.split(': ');
+    fail(msg.length ? f : 'scripts/og-cards.json', msg.length ? msg.join(': ') : line);
+  }
+}
 
 /* ---------- 3. changed assets got a new ?v= ---------- */
 if (baseArg) {
