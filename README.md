@@ -43,7 +43,10 @@ assets/js/        site.js (routing shim, analytics), support.js (page runtime), 
 api/              Vercel serverless functions; api/_adm is the private admin backend
 scripts/          build, sitemap, OG image and check scripts (scripts/pages.cjs finds the pages)
 docs/             setup, SEO and performance notes
+seo/              sitemaps, robots.txt, llms.txt (served at their usual URLs through vercel.json rewrites)
+admin/            private admin page, service worker and manifest (served at an unlisted path)
 vercel.json       routes, redirects, headers and the build command
+404.html          not-found page (Vercel needs it at the root)
 ```
 
 Page file names are unique across `pages/`, and `vercel.json` rewrites map each clean URL to its file.
@@ -61,7 +64,7 @@ npm run check    # builds in a temp copy and checks links, assets, sitemaps and 
 | `scripts/prerender.cjs` | Injects the static first-paint block into the home page |
 | `scripts/externalize.cjs` | Compiles page templates to hashed `/tpl/*.js` bundles |
 | `scripts/inline-css.cjs` | Inlines critical CSS |
-| `scripts/sitemap.cjs` | Writes `sitemap.xml` (an index) and the per-type sitemaps |
+| `scripts/sitemap.cjs` | Writes `seo/sitemap.xml` (an index) and the per-type sitemaps |
 | `scripts/make-og.py` | Renders the Open Graph images in `assets/og/` |
 
 Do not run `npm run build` in the working tree you plan to commit: it rewrites the page sources in place. `npm run check` does the build in a temp copy for you.
@@ -73,7 +76,7 @@ Do not run `npm run build` in the working tree you plan to commit: it rewrites t
 3. Add it to the menus and `TOOL_ORDER` in `scripts/chrome.cjs`, then run `node scripts/chrome.cjs`.
 4. Add it to `scripts/sitemap.cjs` and `scripts/make-og.py`, then run both.
 5. Add the hub card, `TOOLS` entry and ItemList item in `Tools-v3.dc.html`.
-6. Update the "Free tools" list in `llms.txt`.
+6. Update the "Free tools" list in `seo/llms.txt`.
 
 Pages under `/tools/*` must use absolute asset paths (`/assets/...`), because a relative path resolves against `/tools/`.
 

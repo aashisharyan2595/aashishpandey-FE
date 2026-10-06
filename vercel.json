@@ -254,7 +254,18 @@
     }
   ],
   "rewrites": [
-    { "source": "/kd2ozfuew9n4uaciyl1j", "destination": "/kd2ozfuew9n4uaciyl1j.html" },
+    { "source": "/kd2ozfuew9n4uaciyl1j", "destination": "/admin/kd2ozfuew9n4uaciyl1j.html" },
+    { "source": "/kd2ozfuew9n4uaciyl1j-sw.js", "destination": "/admin/kd2ozfuew9n4uaciyl1j-sw.js" },
+    { "source": "/kd2ozfuew9n4uaciyl1j.webmanifest", "destination": "/admin/kd2ozfuew9n4uaciyl1j.webmanifest" },
+    { "source": "/robots.txt", "destination": "/seo/robots.txt" },
+    { "source": "/llms.txt", "destination": "/seo/llms.txt" },
+    { "source": "/favicon.ico", "destination": "/assets/favicon.ico" },
+    { "source": "/sitemap.xml", "destination": "/seo/sitemap.xml" },
+    { "source": "/sitemap-pages.xml", "destination": "/seo/sitemap-pages.xml" },
+    { "source": "/sitemap-case-studies.xml", "destination": "/seo/sitemap-case-studies.xml" },
+    { "source": "/sitemap-services.xml", "destination": "/seo/sitemap-services.xml" },
+    { "source": "/sitemap-tools.xml", "destination": "/seo/sitemap-tools.xml" },
+    { "source": "/sitemap-resume.xml", "destination": "/seo/sitemap-resume.xml" },
     {
       "source": "/tools/assets/:path*",
       "destination": "/assets/:path*"

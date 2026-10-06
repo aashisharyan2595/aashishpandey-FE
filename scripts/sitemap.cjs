@@ -44,11 +44,11 @@ const used = new Set(), index = [];
 for (const [name, test] of GROUPS) {
   const rows = P.filter(r => test(r[0]));
   rows.forEach(r => used.add(r[0]));
-  fs.writeFileSync(path.join(root, name), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${rows.map(entry).join('')}</urlset>\n`);
+  fs.writeFileSync(path.join(root, 'seo', name), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${rows.map(entry).join('')}</urlset>\n`);
   index.push(`  <sitemap>\n    <loc>${SITE}/${name}</loc>\n    <lastmod>${rows.map(r => state[r[1]].lastmod).sort().pop()}</lastmod>\n  </sitemap>\n`);
   console.log(name, rows.length + ' urls');
 }
 const missed = P.filter(r => !used.has(r[0])).map(r => r[0]);
 if (missed.length) throw new Error('not in any sitemap group: ' + missed.join(', '));
-fs.writeFileSync(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${index.join('')}</sitemapindex>\n`);
+fs.writeFileSync(path.join(root, 'seo', 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${index.join('')}</sitemapindex>\n`);
 console.log(changed.length ? 'lastmod moved for: ' + changed.join(', ') : 'no content changes, dates untouched');

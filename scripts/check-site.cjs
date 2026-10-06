@@ -238,12 +238,12 @@ if (baseArg) {
 /* ---------- 4. sitemaps and the tool count ---------- */
 const read = (f) => fs.readFileSync(path.join(tmp, f), 'utf8');
 const locs = (xml) => [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
-const index = read('sitemap.xml');
+const index = read('seo/sitemap.xml');
 const inSitemaps = new Map(); // url path -> sitemap file
 for (const loc of locs(index)) {
   const name = loc.replace(SITE, '').replace(/^\//, '');
-  if (!fs.existsSync(path.join(tmp, name))) { fail('sitemap.xml', `lists ${loc}, which is not in the repo`); continue; }
-  for (const u of locs(read(name))) {
+  if (!fs.existsSync(path.join(tmp, 'seo', name))) { fail('sitemap.xml', `lists ${loc}, which is not in the repo`); continue; }
+  for (const u of locs(read('seo/' + name))) {
     if (!SITE.test(u)) { fail(name, `${u} is not on aashishpandey.com`); continue; }
     const p = u.replace(SITE, '') || '/';
     if (inSitemaps.has(p)) fail(name, `${p} is listed twice (also in ${inSitemaps.get(p)})`);
@@ -253,7 +253,7 @@ for (const loc of locs(index)) {
     else if (redirects.some((r) => r.re.test(p))) fail(name, `lists ${p}, which redirects; list the destination instead`);
   }
 }
-for (const f of fs.readdirSync(ROOT).filter((x) => /^sitemap-.*\.xml$/.test(x))) {
+for (const f of fs.readdirSync(path.join(ROOT, 'seo')).filter((x) => /^sitemap-.*\.xml$/.test(x))) {
   if (!locs(index).some((l) => l.endsWith('/' + f))) fail('sitemap.xml', `does not list ${f}`);
 }
 // every routed page should be in a sitemap unless it says noindex

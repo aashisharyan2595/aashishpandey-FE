@@ -9,7 +9,7 @@ What the repo already does, and what only you can do outside it. Nobody can guar
 - One clear title, description and canonical URL per page. The bare domain `aashishpandey.com` is canonical. `www` redirects to it.
 - Structured data on every page: `Person` (with alternate names and a portrait `ImageObject`), `WebSite`, breadcrumbs, and page-specific types (`Article`, `CollectionPage`, `WebApplication`, `Service`).
 - Old URLs from the previous site (`/about`, `/work`, `/contact`, `/ride`, `/field-notes/*`) redirect permanently to the new pages.
-- `sitemap.xml` lists every public page and the portrait images. `robots.txt` blocks only `/api/` and `/s/`.
+- `seo/sitemap.xml` lists every public page and the portrait images. `seo/robots.txt` blocks only `/api/` and `/s/`.
 - The home page carries a hidden but real list of links to every key page, so crawlers can find them from the front door.
 - Pages aimed at searches: `/shopify-developer` (Shopify developer and project manager), `/portfolio`, `/case-studies`, and one page per tool.
 
