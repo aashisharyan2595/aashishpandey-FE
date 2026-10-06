@@ -7,7 +7,7 @@
   --nr-amber:#f5b867;--nr-amber-2:#ffc880;--nr-teal:#7ff3e1;--nr-violet:#4a2a5e;
   --nr-line:rgba(244,239,230,.12);--nr-line-2:rgba(244,239,230,.2);
   --nr-r:22px;--nr-r-sm:14px;
-  --nr-pad:clamp(18px,4vw,44px);--nr-max:1200px;--nr-gap:clamp(56px,8vw,112px);
+  --nr-pad:clamp(18px,4vw,44px);--nr-max:1200px;--nr-gap:clamp(72px,9vw,128px);
   --nr-sans:'Geist',system-ui,sans-serif;--nr-mono:'Geist Mono',ui-monospace,monospace;--nr-serif:'Instrument Serif',Georgia,serif;
   --nr-ease:cubic-bezier(.16,1,.3,1);
 }
@@ -254,3 +254,13 @@ a.nr-stop:hover .nr-stop__img img{transform:scale(1.03)}
 /* standalone text links get a 24px+ target (WCAG 2.5.8) */
 .nr-go{padding:6px 0;margin:-6px 0}
 .nr-mail{display:inline-flex;align-items:center;min-height:32px}
+
+/* sky: the hero's dusk horizon for a header that sits inside a width-limited column (tools hubs).
+   The sky and the road bleed to the full screen width; the content keeps its column. */
+.nr-sky{position:relative;isolation:isolate;padding-bottom:max(170px,18vw)!important}
+.nr-sky::before,.nr-sky::after{content:"";position:absolute;left:50%;width:100vw;transform:translateX(-50%);pointer-events:none}
+.nr-sky::before{top:calc(-1*var(--sky-top,0px));bottom:0;z-index:-2;background:
+  radial-gradient(60% 55% at 50% 100%,rgba(245,184,103,.42),rgba(196,106,74,.18) 45%,transparent 75%),
+  linear-gradient(180deg,var(--nr-night) 0%,var(--nr-night) 35%,#151236 70%,#2c1d4a 100%)}
+.nr-sky::after{bottom:-1px;height:max(193px,17.5vw);z-index:-1;background:url(nr/horizon.svg) center bottom/max(100%,1100px) auto no-repeat}
+.nr-sky{margin-bottom:clamp(40px,5vw,72px)!important}
