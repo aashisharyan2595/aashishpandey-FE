@@ -105,6 +105,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap"></noscript>
+<script src="/assets/share-card.js?v=1"></script>
 <script src="/site.js" defer></script>
 <script src="/assets/motion.js" defer></script>
 <style>
@@ -178,7 +179,7 @@ input[type=range]{accent-color:#f5b867}
           <div style="display:flex;gap:6px;">
             <button type="button" onClick="{{ regen }}" title="New text with the same settings" style="height:36px;padding:0 12px;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(21,19,28,.14);background:none;color:#15131c;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#9a5418;color:#9a5418;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>Shuffle</button>
             <button type="button" onClick="{{ download }}" aria-label="Download .txt" title="Download" style="width:36px;height:36px;border-radius:10px;border:1px solid rgba(21,19,28,.14);background:none;color:#15131c;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="border-color:#9a5418;color:#9a5418;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg></button>
-            <button type="button" onClick="{{ copy }}" style="height:36px;padding:0 16px;display:flex;align-items:center;gap:7px;border-radius:10px;border:none;background:#15131c;color:#f4efe6;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="background:#070916;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>{{ copyLabel }}</button>
+            <button type="button" onClick="{{ copy }}" style="height:36px;padding:0 16px;display:flex;align-items:center;gap:7px;border-radius:10px;border:none;background:#15131c;color:#f4efe6;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="background:#070916;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>{{ copyLabel }}</button><button type="button" onClick="{{ shareCard }}" style="height:36px;padding:0 16px;display:flex;align-items:center;gap:7px;border-radius:10px;border:none;background:#15131c;color:#f4efe6;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="background:#070916;">Share card</button>
           </div>
         </div>
         <div style="padding:clamp(20px,3.4vw,40px);max-height:640px;overflow-y:auto;">
@@ -268,6 +269,24 @@ class Component extends DCLogic {
       isRendered: s.out === 'text', isCode: s.out !== 'text', output: text,
       blocks: items.map(i => ({ text: i.text, isP: i.t === 'p', isLi: i.t === 'li' })),
       regen: () => this.set({ seed: s.seed + 1 }),
+      shareCard: () => {
+        if (!window.ApShare) return;
+        const fl = (FLAVS.find(f => f[0] === s.flav) || [0, 'Placeholder text'])[1], wc = (plain.match(/\S+/g) || []).length, mins = Math.max(1, Math.round(wc / 230));
+        ApShare.open({
+          kicker: 'Placeholder text', title: 'Share this text', file: 'placeholder-text.png', link: false,
+          text: s.count + ' ' + u[2] + ' of ' + fl.toLowerCase() + ' placeholder text, ' + wc + ' words.',
+          alt: 'Placeholder text card: ' + wc + ' words of ' + fl,
+          draw: k => {
+            const x = k.ctx; x.textAlign = 'left';
+            x.fillStyle = '#f5b867'; x.font = '600 76px ' + k.F; x.fillText(String(wc), 60, 180); const w = x.measureText(String(wc)).width;
+            x.fillStyle = 'rgba(244,239,230,.6)'; x.font = '400 28px ' + k.F; x.fillText('words · ' + fl, 80 + w, 180);
+            let px = 60; [s.count + ' ' + u[2], plain.length.toLocaleString() + ' characters', '~' + mins + ' min read'].forEach(t => { px += k.pill(px, 215, t, { font: '500 20px ' }) + 14; });
+            // the text itself, set as a page of lines so the card looks like what the text will look like
+            x.fillStyle = 'rgba(244,239,230,.05)'; k.rr(60, 285, 1080, 270, 22); x.fill();
+            x.fillStyle = '#f4efe6'; x.font = '400 25px ' + k.F; k.wrap(plain, 90, 335, 1020, 40, 5);
+          }
+        });
+      },
       copyLabel: s.copied ? 'Copied' : 'Copy',
       copy: async () => { try { await navigator.clipboard.writeText(text); this.setState({ copied: true }); clearTimeout(this.ct); this.ct = setTimeout(() => this.setState({ copied: false }), 1600); } catch (e) { prompt('Copy the text:', text); } if (window.apTrack) window.apTrack('lorem_copy', { unit: s.unit, flav: s.flav, out: s.out }); },
       download: () => { const ext = s.out === 'html' ? 'html' : s.out === 'md' ? 'md' : 'txt'; const url = URL.createObjectURL(new Blob([text], { type: 'text/plain' })); const a = document.createElement('a'); a.href = url; a.download = 'placeholder.' + ext; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); },

@@ -78,6 +78,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap"></noscript>
+<script src="/assets/share-card.js?v=1"></script>
 <script src="/site.js" defer></script>
 <script src="/assets/motion.js" defer></script>
 <style>
@@ -143,6 +144,7 @@ input::placeholder{color:#7d7890}
         <input value="{{ name }}" onChange="{{ onName }}" placeholder="Project name, e.g. Liquid I.V. EU launch" aria-label="Project name" style="flex:1 1 240px;min-width:0;height:40px;padding:0 12px;border-radius:10px;border:1px solid transparent;background:rgba(244,239,230,.05);color:#f4efe6;font-family:inherit;font-size:16px;font-weight:600;outline:none;"></input>
         <div style="display:flex;flex-wrap:wrap;gap:6px;">
           <button type="button" onClick="{{ copyMd }}" style="height:38px;padding:0 13px;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(244,239,230,.14);background:none;color:#f4efe6;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#f5b867;color:#f5b867;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>{{ copyLabel }}</button>
+          <button type="button" onClick="{{ shareCard }}" style="height:38px;padding:0 13px;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(244,239,230,.14);background:none;color:#f4efe6;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#f5b867;color:#f5b867;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>Share card</button>
           <button type="button" onClick="{{ downloadMd }}" style="height:38px;padding:0 13px;display:flex;align-items:center;gap:7px;border-radius:10px;border:1px solid rgba(244,239,230,.14);background:none;color:#f4efe6;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:#f5b867;color:#f5b867;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>.md</button>
           <sc-if value="{{ hasRemoved }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ restore }}" style="height:38px;padding:0 13px;border-radius:10px;border:none;background:none;color:#7ff3e1;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;">{{ restoreLabel }}</button></sc-if><button type="button" onClick="{{ reset }}" title="Clear everything and start over" style="height:38px;padding:0 13px;border-radius:10px;border:none;background:none;color:#8e89a0;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;" style-hover="color:#ffb4a2;">Start over</button>
         </div>
@@ -674,6 +676,33 @@ class Component extends DCLogic {
         if (!confirm('Start over? This clears ticks, your items and sections, and takes you back to the templates.')) return; this.up({ done: {}, custom: {}, removed: {}, customCats: [], removedCats: {}, layout: {}, tpl: null, name: '' });
       },
       copyLabel: s.copied ? 'Copied' : 'Copy as Markdown',
+      shareCard: () => {
+        if (!window.ApShare) return;
+        const tn = (TEMPLATES.find(t => t[0] === s.tpl) || [0, 'Custom'])[1], pct = ALL.length ? done / ALL.length : 0;
+        const rows = cats.filter(c => c.items.length).map(c => ({ n: c.name, d: c.items.filter(i => s.done[i.id]).length, t: c.items.length }));
+        const label = s.name || 'Launch checklist';
+        ApShare.open({
+          kicker: 'Launch checklist', title: 'Share this progress', file: 'launch-checklist.png', link: false,
+          text: label + ': ' + done + ' of ' + ALL.length + ' launch items done' + (mustLeft ? ', ' + mustLeft + ' must-haves left.' : ', all must-haves done.'),
+          alt: 'Launch checklist card, ' + done + ' of ' + ALL.length + ' done',
+          draw: k => {
+            const x = k.ctx; x.textAlign = 'left';
+            x.fillStyle = '#f4efe6'; x.font = '600 38px ' + k.F; x.fillText(k.fit(label, 1000), 60, 130);
+            x.fillStyle = 'rgba(244,239,230,.6)'; x.font = '400 22px ' + k.F; x.fillText(tn, 60, 168);
+            k.ring(230, 360, 140, pct, pct >= 1 ? '#7ff3e1' : '#f5b867', Math.round(pct * 100) + '%', done + ' of ' + ALL.length);
+            k.pill(70, 530, mustLeft ? mustLeft + ' must-have' + (mustLeft === 1 ? '' : 's') + ' left' : 'All must-haves done', mustLeft ? { color: '#f5b867', line: 'rgba(245,184,103,.4)', bg: 'rgba(245,184,103,.07)', font: '500 20px ' } : { color: '#7ff3e1', line: 'rgba(127,243,225,.4)', bg: 'rgba(127,243,225,.07)', font: '500 20px ' });
+            const show = rows.slice(0, 7), rh = Math.min(52, 380 / Math.max(1, show.length)), y0 = 215, X0 = 470, X1 = 1140;
+            show.forEach((r, i) => {
+              const y = y0 + i * rh, f = r.t ? r.d / r.t : 0;
+              x.fillStyle = '#f4efe6'; x.font = '500 21px ' + k.F; x.textAlign = 'left'; x.fillText(k.fit(r.n, 330), X0, y + 22);
+              x.fillStyle = 'rgba(244,239,230,.1)'; k.rr(X0 + 350, y + 6, 230, 14, 7); x.fill();
+              x.fillStyle = f >= 1 ? '#7ff3e1' : '#f5b867'; if (f > 0) { k.rr(X0 + 350, y + 6, Math.max(14, 230 * f), 14, 7); x.fill(); }
+              x.fillStyle = 'rgba(244,239,230,.7)'; x.textAlign = 'right'; x.font = '400 20px ' + k.F; x.fillText(r.d + '/' + r.t, X1, y + 22);
+            });
+            if (rows.length > 7) { x.textAlign = 'left'; x.fillStyle = 'rgba(244,239,230,.5)'; x.font = '400 20px ' + k.F; x.fillText('+' + (rows.length - 7) + ' more sections', X0, y0 + 7 * rh + 18); }
+          }
+        });
+      },
       copyMd: async () => { const t = this.md(); try { await navigator.clipboard.writeText(t); this.setState({ copied: true }); clearTimeout(this.ct); this.ct = setTimeout(() => this.setState({ copied: false }), 1600); } catch (e) { prompt('Copy:', t); } },
       downloadMd: () => { const u = URL.createObjectURL(new Blob([this.md()], { type: 'text/markdown' })); const a = document.createElement('a'); a.href = u; a.download = (slug(s.name) || 'website') + '-launch-checklist.md'; a.click(); setTimeout(() => URL.revokeObjectURL(u), 1000); },
       cats: cats.map((c, ci) => {

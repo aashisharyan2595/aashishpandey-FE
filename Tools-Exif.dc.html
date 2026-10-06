@@ -145,6 +145,7 @@ input[type=range]{accent-color:#f5b867}
 <footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>Project Manager and Creative Technologist in Bangalore. 50+ sites and platforms shipped since 2018.</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>Open to PM roles &amp; freelance</a><form class="ap-foot__news" data-news novalidate><label for="ap-news-e">New tools and write-ups, by email</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Subscribed straight away. Unsubscribe any time. <a href="/privacy">Privacy</a></p></form></div><nav class="ap-foot__cols" aria-label="Footer"><details class="ap-foot__col" open><summary class="ap-foot__h">Work</summary><div class="ap-foot__links"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/work-liquid-iv">Liquid I.V.</a><a href="/work-talenti">Talenti</a><a href="/work-storynest">StoryNest</a><a href="/work-ceat-specialty">CEAT Specialty</a></div></details><details class="ap-foot__col" open><summary class="ap-foot__h">Services</summary><div class="ap-foot__links"><a href="/services">All services</a><a href="/shopify-developer">Shopify developer</a><a href="/full-stack-developer">Full-stack developer</a><a href="/wordpress-webflow-developer">WordPress &amp; Webflow</a><a href="/seo-consultant">SEO consultant</a><a href="/ui-ux-design">UI and UX design</a><a href="/freelance-project-manager">Freelance project manager</a><a href="/tech-consultant">Tech consultant</a></div></details><details class="ap-foot__col ap-foot__col--tools" open><summary class="ap-foot__h">Free tools</summary><div class="ap-foot__links"><div class="ap-foot__tools"><a href="/tools/resume-maker">Resume Maker</a><a href="/tools/qr-code-generator">QR Code Generator</a><a href="/tools/invoice-generator">Invoice Generator</a><a href="/tools/sop-maker">SOP Maker</a><a href="/tools/password-generator">Password Generator</a><a href="/tools/p2p-file-sharing">P2P File Sharing</a><a href="/tools/image-resizer">Image Resizer</a><a href="/tools/url-shortener">URL Shortener</a><a href="/tools/lorem-ipsum-generator">Lorem Ipsum Generator</a><a href="/tools/pad">Online Notepad</a><a href="/tools/time-zone-meeting-planner">Time Zone Planner</a><a href="/tools/file-hash-checker">File Hash Checker</a><a href="/tools/exif-remover" aria-current="page">Photo Metadata Remover</a><a href="/tools/project-estimate-calculator">Project Estimate Calculator</a><a href="/tools/qr-code-checker">QR Code Autopsy</a><a href="/tools/website-launch-checklist">Launch Checklist</a></div><a class="ap-foot__all" href="/tools">All 16 tools</a></div></details><div class="ap-foot__stack"><details class="ap-foot__col" open><summary class="ap-foot__h">Get in touch</summary><div class="ap-foot__links"><a href="mailto:hello@aashishpandey.com">hello@aashishpandey.com</a><a href="https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener">Book a 20-minute call</a><a href="/contact">Send a brief</a><a href="https://wa.me/917558415031" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener">LinkedIn</a></div></details><details class="ap-foot__col" open><summary class="ap-foot__h">More</summary><div class="ap-foot__links"><a href="/">The 3D ride</a><a href="/how-this-site-was-built">How this site was built</a><a href="/assets/Aashish-Pandey-Resume.pdf">Résumé (PDF)</a></div></details></div></nav></div><div class="ap-foot__base"><span class="ap-foot__copy">© 2026 Aashish Pandey</span><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">↑</span></a></div><p class="ap-foot__credits">Designed and built with passion <svg class="ap-foot__heart" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg> by Aashish Pandey</p></div></footer>
 <!-- ap-foot:end -->
 </div>
+<script src="/assets/share-card.js?v=1"></script>
 <script>
 (function () {
 'use strict';
@@ -511,6 +512,32 @@ $('#zip').addEventListener('click', function () {
   save(makeZip(entries), 'clean-photos.zip');
 });
 $('#clear').addEventListener('click', function () { items.forEach(function (i) { if (i.url) URL.revokeObjectURL(i.url); }); items = []; draw(); say('Cleared.'); });
+if (window.ApShare) ApShare.mount($('#clear').parentNode, function () {
+  var ok = items.filter(function (it) { return it.res && !it.res.error; });
+  if (!ok.length) return null;
+  var hi = 0, mid = 0, other = 0, gps = 0, saved = 0, found = 0;
+  ok.forEach(function (it) {
+    var b = it.res.before; found += b.rows.length + b.extras.length; if (b.gps) gps++; saved += Math.max(0, it.size - it.res.clean.length);
+    b.rows.forEach(function (r) { if (r.flag === 'high') hi++; else if (r.flag === 'mid') mid++; else other++; });
+  });
+  return {
+    kicker: 'Photo privacy', title: 'Share this cleanup', file: 'photo-metadata-removed.png', link: false,
+    text: 'Removed ' + found + ' hidden details from ' + ok.length + (ok.length === 1 ? ' photo' : ' photos') + (gps ? ', including GPS location on ' + gps : '') + '. Done in my browser, nothing uploaded.',
+    draw: function (k) {
+      var x = k.ctx;
+      k.ring(290, 335, 165, found ? 1 : 0.02, found ? '#7ff3e1' : 'rgba(244,239,230,.3)', String(found), 'removed');
+      x.textAlign = 'left'; x.fillStyle = '#f4efe6'; x.font = '600 50px ' + k.F; x.fillText(ok.length + (ok.length === 1 ? ' photo cleaned' : ' photos cleaned'), 560, 190);
+      var py = 230, add = function (n, t, c) { if (!n) return; k.pill(560, py, n + ' ' + t, c); py += 54; };
+      add(gps, gps === 1 ? 'photo had GPS location' : 'photos had GPS location', { color: '#ffb39e', line: 'rgba(255,138,107,.5)', bg: 'rgba(255,138,107,.08)', font: '500 22px ' });
+      add(hi, hi === 1 ? 'detail that identifies you or a place' : 'details that identify you or a place', { color: '#ffb39e', line: 'rgba(255,138,107,.4)', bg: 'rgba(255,138,107,.06)', font: '500 22px ' });
+      add(mid, mid === 1 ? 'personal detail' : 'personal details', { color: '#f5b867', line: 'rgba(245,184,103,.4)', bg: 'rgba(245,184,103,.06)', font: '500 22px ' });
+      add(other, other === 1 ? 'technical detail' : 'technical details', { font: '500 22px ' });
+      if (!found) { x.fillStyle = 'rgba(244,239,230,.7)'; x.font = '500 26px ' + k.F; x.fillText('These photos had no hidden details.', 560, 250); }
+      x.fillStyle = 'rgba(244,239,230,.6)'; x.font = '400 22px ' + k.F; x.fillText((saved > 0 ? fmtSize(saved) + ' smaller. ' : '') + 'Picture quality untouched.', 560, 505);
+      x.fillText('Done on this device. Nothing was uploaded.', 560, 540);
+    }
+  };
+});
 window.__exif = { process: process, makeZip: makeZip };
 })();
 

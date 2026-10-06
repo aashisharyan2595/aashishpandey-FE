@@ -137,7 +137,7 @@ const S = {
   role: '',          // 'host' or 'guest' once a room exists
   code: '', key: null, room: '', expires: 0, poll: 0, clock: 0, polling: false,
   hostId: '', members: new Map(),   // id -> name, as the host tells us
-  items: [], mPend: null, seen: new Set()
+  items: [], mPend: null, seen: new Set(), stat: { up: 0, down: 0, t0: 0, peak: 0, files: 0 }
 };
 const links = [];     // every WebRTC link this device has, to the host and to other guests
 const F = new Map();  // file id -> file item (the same objects that are in S.items)
@@ -270,6 +270,7 @@ function opened(l) {
 function onHi(l, m) {
   l.id = clean(m.id, 20) || l.id || uid(); l.name = clean(m.name) || 'Another device';
   if (links.some((x) => x !== l && x.id === l.id && x.open)) { removeLink(l); return; } // already linked to this device
+  if (!S.stat.t0) S.stat.t0 = Date.now();
   if (S.role === 'host' && l.guest) {
     S.members.set(l.id, l.name);
     send(l, { t: 'room', members: openLinks().filter((x) => x !== l && x.id).map((x) => ({ id: x.id, name: x.name })) });
@@ -701,7 +702,7 @@ function onPiece(l, f, i, buf) {
     if (f.state !== 'downloading' || f.have[i]) return;
     const want = f.h.subarray(i * 32, i * 32 + 32), got = new Uint8Array(d);
     for (let k = 0; k < 32; k++) if (want[k] !== got[k]) { l.bad++; if (l.bad >= 3) { l.slowUntil = Date.now() + 120000; } pull(); return; }
-    f.have[i] = 1; f.nhave++; f.got += buf.byteLength; f.lastGot = Date.now();
+    f.have[i] = 1; f.nhave++; f.got += buf.byteLength; f.lastGot = Date.now(); S.stat.down += buf.byteLength;
     f.store.put(i, buf).then(() => {
       flood2({ t: 'got', f: f.id, i });
       if (f.nhave === f.n && f.state === 'downloading') finishFile(f); else pull();
@@ -719,6 +720,7 @@ function finishFile(f) {
     f.url = URL.createObjectURL(blob); f.state = 'done'; f.t1 = Date.now();
     renderItem(f); show(ui.bulk, true);
     say('Received ' + f.name + '.');
+    S.stat.files++;
     track('p2p_received', { mb: Math.round(f.size / 1048576), from: openLinks().length });
     if (!busy()) release();
     pull();
@@ -753,7 +755,7 @@ async function serve(l) {
         if (!l.open) break;
         try { l.dc.send(new Uint8Array(buf, p, Math.min(l.chunk, buf.byteLength - p))); } catch (e) { break; }
       }
-      f.up += buf.byteLength; rate2(f, f.up); tick(f);
+      f.up += buf.byteLength; S.stat.up += buf.byteLength; rate2(f, f.up); tick(f);
     }
   } finally { l.serving = false; if (!busy()) release(); }
 }
@@ -894,7 +896,7 @@ document.addEventListener('visibilitychange', () => { if (holding && document.vi
 window.addEventListener('beforeunload', (e) => { if (openLinks().length && busy()) { e.preventDefault(); e.returnValue = ''; } });
 
 /* ---------- list ---------- */
-function rate(it, n) { const now = Date.now(); it.rate.push([now, n]); while (it.rate.length > 2 && now - it.rate[0][0] > 3000) it.rate.shift(); }
+function rate(it, n) { const now = Date.now(); it.rate.push([now, n]); while (it.rate.length > 2 && now - it.rate[0][0] > 3000) it.rate.shift(); S.stat.peak = Math.max(S.stat.peak, bps(it.rate)); }
 function rate2(it, n) { const now = Date.now(); (it.rate2 = it.rate2 || []).push([now, n]); while (it.rate2.length > 2 && now - it.rate2[0][0] > 3000) it.rate2.shift(); }
 function bps(r) { if (!r || r.length < 2) return 0; const dt = (r[r.length - 1][0] - r[0][0]) / 1000, db = r[r.length - 1][1] - r[0][1]; return dt > 0 && db > 0 ? db / dt : 0; }
 const pending = {}; let frame = 0;
@@ -1054,6 +1056,36 @@ function fromLink() {
   if (m[1] === 'c') { ui.joinIn.value = niceCode(cleanCode(m[2])); joinCode(m[2]); }
   else { ui.manual.open = true; ui.mInviteIn.value = m[2]; manualJoin(m[2]); }
 }
+// share card: what this room has done so far, drawn from live numbers. It never shows the code or file names of others.
+function roomCard() {
+  const mem = members(), st = S.stat, secs = st.t0 ? (Date.now() - st.t0) / 1000 : 0, moved = st.up + st.down;
+  const sent = S.items.filter((x) => x.kind === 'file' && x.dir === 'out' && x.state === 'sharing').length;
+  const got = S.items.filter((x) => x.kind === 'file' && x.state === 'done').length;
+  const text = 'My P2P file room: ' + (mem.length + 1) + ' devices, ' + fmtSize(moved) + ' moved straight between browsers, nothing uploaded to a server.';
+  return {
+    kicker: 'P2P file room', title: 'Share this room', file: 'p2p-room.png', text, url: location.origin + location.pathname, alt: text,
+    draw(c) {
+      const x = c.ctx, names = ['You'].concat(mem.map((m) => m.name.replace(/ \(.*\)$/, '')));
+      const cx = 335, cy = 345, R = 150, n = names.length, pts = names.map((_, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + Math.cos(a) * R, cy + Math.sin(a) * R]; });
+      x.lineWidth = 1.5;
+      for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) { x.strokeStyle = i === 0 ? 'rgba(245,184,103,.55)' : 'rgba(127,243,225,.22)'; x.beginPath(); x.moveTo(pts[i][0], pts[i][1]); x.lineTo(pts[j][0], pts[j][1]); x.stroke(); }
+      pts.forEach((p, i) => {
+        x.fillStyle = i === 0 ? '#f5b867' : '#7ff3e1'; x.beginPath(); x.arc(p[0], p[1], i === 0 ? 17 : 13, 0, 7); x.fill();
+        x.fillStyle = '#070916'; x.beginPath(); x.arc(p[0], p[1], 6, 0, 7); x.fill();
+        const out = Math.atan2(p[1] - cy, p[0] - cx), lx = p[0] + Math.cos(out) * 30, ly = p[1] + Math.sin(out) * 30 + 6;
+        x.fillStyle = i === 0 ? '#f5b867' : 'rgba(244,239,230,.8)'; x.font = '500 18px ' + c.F; x.textAlign = Math.cos(out) > 0.3 ? 'left' : Math.cos(out) < -0.3 ? 'right' : 'center'; x.fillText(c.fit(names[i], 150), lx, ly);
+      });
+      x.textAlign = 'left';
+      c.stat(660, 190, String(n), n === 1 ? 'device in the room' : 'devices in the room', '#f4efe6');
+      c.stat(660, 330, fmtSize(moved), 'moved straight between browsers', '#f5b867');
+      c.stat(660, 470, st.peak ? fmtSize(st.peak) + '/s' : (secs ? Math.round(secs) + ' s' : '0'), st.peak ? 'fastest transfer so far' : 'in this room so far', '#7ff3e1');
+      c.pill(930, 130, got + ' received', { color: '#7ff3e1', line: 'rgba(127,243,225,.35)', bg: 'rgba(127,243,225,.07)' });
+      c.pill(930, 182, sent + ' shared', { color: '#f5b867', line: 'rgba(245,184,103,.4)', bg: 'rgba(245,184,103,.07)' });
+      x.fillStyle = 'rgba(244,239,230,.7)'; x.font = '500 22px ' + c.F; x.fillText("0 bytes uploaded to any server", 660, 555);
+    }
+  };
+}
+if (window.ApShare) ApShare.mount(ui.opts, roomCard, 'Share room card');
 layout();
 fromLink();
 window.addEventListener('hashchange', fromLink);
