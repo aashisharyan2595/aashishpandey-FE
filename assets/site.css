@@ -7,7 +7,7 @@
   --nr-amber:#f5b867;--nr-amber-2:#ffc880;--nr-teal:#7ff3e1;--nr-violet:#4a2a5e;
   --nr-line:rgba(244,239,230,.12);--nr-line-2:rgba(244,239,230,.2);
   --nr-r:22px;--nr-r-sm:14px;
-  --nr-pad:clamp(18px,4vw,44px);--nr-max:1200px;--nr-gap:clamp(56px,8vw,112px);
+  --nr-pad:clamp(18px,4vw,44px);--nr-max:1200px;--nr-gap:clamp(72px,9vw,128px);
   --nr-sans:'Geist',system-ui,sans-serif;--nr-mono:'Geist Mono',ui-monospace,monospace;--nr-serif:'Instrument Serif',Georgia,serif;
   --nr-ease:cubic-bezier(.16,1,.3,1);
 }
@@ -53,16 +53,17 @@ html,body{margin:0;background:var(--nr-night);-webkit-font-smoothing:antialiased
 a:hover .nr-go::after,.nr-go:hover::after{transform:translateX(4px)}
 
 /* hero: dark sky up top, dusk horizon, low-poly ridge and the road at the bottom edge */
-.nr-hero{position:relative;isolation:isolate;padding-top:clamp(36px,6vw,84px);padding-bottom:clamp(150px,19vw,250px)}
+.nr-hero{position:relative;isolation:isolate;padding-top:clamp(36px,6vw,84px);padding-bottom:max(170px,18vw)}
 .nr-hero::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:
   radial-gradient(60% 55% at 50% 100%,rgba(245,184,103,.42),rgba(196,106,74,.18) 45%,transparent 75%),
   linear-gradient(180deg,var(--nr-night) 0%,var(--nr-night) 35%,#151236 70%,#2c1d4a 100%)}
-.nr-hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:clamp(110px,16vw,240px);z-index:-1;pointer-events:none;background:url(nr/horizon.svg) center bottom/cover no-repeat}
+/* the horizon is drawn 1600x280: keep that shape (never crop the ridge tops, which left a flat edge and a dark notch);
+   on narrow screens it keeps a 1100px minimum and trims the sides instead */
+.nr-hero::after,.nr-horizon::after,.nr-cta::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:max(193px,17.5vw);z-index:-1;pointer-events:none;background:url(nr/horizon.svg) center bottom/max(100%,1100px) auto no-repeat}
 .nr-hero__in{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
 .nr-hero__copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px;min-width:0}
 @media(min-width:1000px){.nr-hero__in--split{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
-.nr-hero--short{padding-bottom:clamp(120px,14vw,190px)}
-.nr-hero--short::after{height:clamp(90px,12vw,170px)}
+.nr-hero--short{padding-bottom:max(165px,15vw)}
 .nr-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.25);font:500 10.5px/1.2 var(--nr-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--nr-teal)}
 .nr-chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--nr-teal);box-shadow:0 0 8px var(--nr-teal);flex-shrink:0}
 
@@ -140,9 +141,8 @@ a.nr-stop:hover .nr-stop__img img{transform:scale(1.03)}
 .nr-route a:hover i{transform:translateX(4px)}
 
 /* closing call to action: a second, smaller horizon */
-.nr-cta{position:relative;isolation:isolate;overflow:hidden;border-radius:28px;padding:clamp(28px,5vw,64px) clamp(22px,5vw,64px) clamp(110px,13vw,170px);border:1px solid rgba(245,184,103,.22);display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.nr-cta{position:relative;isolation:isolate;overflow:hidden;border-radius:28px;padding:clamp(28px,5vw,64px) clamp(22px,5vw,64px) 165px;border:1px solid rgba(245,184,103,.22);display:flex;flex-direction:column;align-items:flex-start;gap:16px}
 .nr-cta::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(70% 70% at 50% 100%,rgba(245,184,103,.45),rgba(196,106,74,.2) 45%,transparent 75%),linear-gradient(180deg,var(--nr-panel) 0%,#1a1640 70%,#2c1d4a 100%)}
-.nr-cta::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:clamp(90px,11vw,150px);z-index:-1;background:url(nr/horizon.svg) center bottom/cover no-repeat}
 .nr-cta .nr-lede{color:var(--nr-body)}
 
 /* long reads (legal) */
@@ -232,7 +232,7 @@ a.nr-stop:hover .nr-stop__img img{transform:scale(1.03)}
 
 /* case study pages: the stop (dark, with the ride still) sits above the cream report */
 .nr-case{background:var(--nr-night);color:var(--nr-ink)}
-.nr-case .nr-hero{padding-bottom:clamp(130px,15vw,210px)}
+.nr-case .nr-hero{padding-bottom:max(165px,15vw)}
 .nr-case .nr-hero__in{gap:clamp(24px,3.4vw,44px)}
 @media(min-width:1000px){.nr-case .nr-hero__in--split{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center}}
 .nr-case .nr-h1{max-width:15ch}
@@ -246,8 +246,7 @@ a.nr-stop:hover .nr-stop__img img{transform:scale(1.03)}
 .nr-case__nums{display:grid;gap:12px;margin-top:clamp(28px,4vw,48px)}
 
 /* the horizon at the foot of a dark panel (portfolio and case-study contact panel) */
-.nr-horizon{isolation:isolate;padding-bottom:clamp(120px,13vw,180px)!important}
-.nr-horizon::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:clamp(90px,11vw,150px);z-index:-1;pointer-events:none;background:url(nr/horizon.svg) center bottom/cover no-repeat}
+.nr-horizon{isolation:isolate;padding-bottom:max(165px,14vw)!important}
 .nr-horizon::before{content:"";position:absolute;inset:auto 0 0;height:60%;z-index:-1;pointer-events:none;background:radial-gradient(70% 90% at 50% 100%,rgba(245,184,103,.35),rgba(196,106,74,.12) 50%,transparent 80%)}
 
 /* links inside running text are underlined, so they never rely on colour alone (WCAG 1.4.1) */
@@ -255,3 +254,13 @@ a.nr-stop:hover .nr-stop__img img{transform:scale(1.03)}
 /* standalone text links get a 24px+ target (WCAG 2.5.8) */
 .nr-go{padding:6px 0;margin:-6px 0}
 .nr-mail{display:inline-flex;align-items:center;min-height:32px}
+
+/* sky: the hero's dusk horizon for a header that sits inside a width-limited column (tools hubs).
+   The sky and the road bleed to the full screen width; the content keeps its column. */
+.nr-sky{position:relative;isolation:isolate;padding-bottom:max(170px,18vw)!important}
+.nr-sky::before,.nr-sky::after{content:"";position:absolute;left:50%;width:100vw;transform:translateX(-50%);pointer-events:none}
+.nr-sky::before{top:calc(-1*var(--sky-top,0px));bottom:0;z-index:-2;background:
+  radial-gradient(60% 55% at 50% 100%,rgba(245,184,103,.42),rgba(196,106,74,.18) 45%,transparent 75%),
+  linear-gradient(180deg,var(--nr-night) 0%,var(--nr-night) 35%,#151236 70%,#2c1d4a 100%)}
+.nr-sky::after{bottom:-1px;height:max(193px,17.5vw);z-index:-1;background:url(nr/horizon.svg) center bottom/max(100%,1100px) auto no-repeat}
+.nr-sky{margin-bottom:clamp(40px,5vw,72px)!important}
