@@ -1,0 +1,257 @@
+/* Night Ride: the shared design system for the static pages (services, case studies, portfolio, contact, legal).
+   It carries the 3D ride's look into the inner pages: dusk horizon heroes, stop cards with mono STOP/KM labels,
+   a road for step-by-step sections. Header and footer stay in nav.css. Bump ?v= in the pages after editing. */
+:root{
+  --nr-night:#070916;--nr-night-2:#0c1030;--nr-panel:#0e1230;--nr-panel-2:#131838;
+  --nr-ink:#f4efe6;--nr-body:#cfc9d8;--nr-muted:#aaa4b8;--nr-dim:#8e89a0;
+  --nr-amber:#f5b867;--nr-amber-2:#ffc880;--nr-teal:#7ff3e1;--nr-violet:#4a2a5e;
+  --nr-line:rgba(244,239,230,.12);--nr-line-2:rgba(244,239,230,.2);
+  --nr-r:22px;--nr-r-sm:14px;
+  --nr-pad:clamp(18px,4vw,44px);--nr-max:1200px;--nr-gap:clamp(56px,8vw,112px);
+  --nr-sans:'Geist',system-ui,sans-serif;--nr-mono:'Geist Mono',ui-monospace,monospace;--nr-serif:'Instrument Serif',Georgia,serif;
+  --nr-ease:cubic-bezier(.16,1,.3,1);
+}
+html,body{margin:0;background:var(--nr-night);-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+::selection{background:var(--nr-teal);color:#0b1030}
+:focus-visible{outline:2px solid var(--nr-teal)!important;outline-offset:3px!important}
+.nr{background:var(--nr-night);color:var(--nr-ink);font-family:var(--nr-sans);overflow-x:clip;min-height:100vh;display:flex;flex-direction:column}
+.nr main{flex:1}
+.nr main a{color:var(--nr-amber);text-decoration:none}
+.nr main a:hover{color:var(--nr-ink)}
+.nr *,.nr *::before,.nr *::after,[class*="nr-"],[class*="nr-"] *,[class*="nr-"]::before,[class*="nr-"]::after{box-sizing:border-box}
+.nr-wrap{max-width:var(--nr-max);width:100%;margin:0 auto;padding-left:var(--nr-pad);padding-right:var(--nr-pad)}
+.nr-sec{padding-top:var(--nr-gap)}
+.nr-sec--last{padding-bottom:var(--nr-gap)}
+
+/* type */
+.nr-h1{margin:0;font-weight:600;font-size:clamp(40px,6.2vw,84px);line-height:.97;letter-spacing:-.045em;color:var(--nr-ink);text-wrap:balance;max-width:16ch}
+.nr-h1--sm{font-size:clamp(34px,4.8vw,60px);max-width:20ch}
+.nr-h2{margin:0;font-weight:600;font-size:clamp(28px,3.6vw,46px);line-height:1.04;letter-spacing:-.04em;color:var(--nr-ink);text-wrap:balance}
+.nr-h3{margin:0;font-weight:600;font-size:clamp(20px,2vw,24px);line-height:1.15;letter-spacing:-.025em;color:var(--nr-ink)}
+.nr-em{font-family:var(--nr-serif);font-style:italic;font-weight:400;letter-spacing:-.015em;color:var(--nr-amber)}
+.nr-lede{margin:0;font-size:clamp(16px,1.5vw,19px);line-height:1.6;color:var(--nr-muted);max-width:60ch;text-wrap:pretty}
+.nr-p{margin:0;font-size:15.5px;line-height:1.65;color:var(--nr-muted);text-wrap:pretty}
+.nr-meta{font:500 11px/1.3 var(--nr-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--nr-teal)}
+.nr-meta--amber{color:var(--nr-amber)}
+.nr-meta--dim{color:var(--nr-dim)}
+
+/* breadcrumb */
+.nr-crumb ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;font:500 11px/1 var(--nr-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--nr-dim)}
+.nr-crumb a{color:var(--nr-dim)!important}
+.nr-crumb a:hover{color:var(--nr-amber)!important}
+.nr-crumb [aria-current]{color:var(--nr-ink)}
+.nr-crumb li[aria-hidden]{opacity:.5}
+
+/* buttons */
+.nr-btns{display:flex;flex-wrap:wrap;gap:10px}
+.nr-btn{display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:0 22px;border-radius:99px;font:600 15px/1 var(--nr-sans);white-space:nowrap;background:var(--nr-amber);color:#1a1420!important;border:0;cursor:pointer;transition:background .2s,transform .2s var(--nr-ease),box-shadow .25s}
+.nr-btn:hover{background:var(--nr-amber-2);color:#1a1420!important;transform:translateY(-1px);box-shadow:0 12px 30px rgba(245,184,103,.3)}
+.nr-btn--ghost{background:transparent;color:var(--nr-ink)!important;box-shadow:inset 0 0 0 1px rgba(244,239,230,.3)}
+.nr-btn--ghost:hover{background:rgba(244,239,230,.06);color:var(--nr-ink)!important;box-shadow:inset 0 0 0 1px var(--nr-amber)}
+.nr-go{display:inline-flex;align-items:center;gap:8px;font:500 11.5px/1 var(--nr-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--nr-teal)!important}
+.nr-go::after{content:"→";font-family:var(--nr-sans);letter-spacing:0;transition:transform .3s var(--nr-ease)}
+a:hover .nr-go::after,.nr-go:hover::after{transform:translateX(4px)}
+
+/* hero: dark sky up top, dusk horizon, low-poly ridge and the road at the bottom edge */
+.nr-hero{position:relative;isolation:isolate;padding-top:clamp(36px,6vw,84px);padding-bottom:clamp(150px,19vw,250px)}
+.nr-hero::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:
+  radial-gradient(60% 55% at 50% 100%,rgba(245,184,103,.42),rgba(196,106,74,.18) 45%,transparent 75%),
+  linear-gradient(180deg,var(--nr-night) 0%,var(--nr-night) 35%,#151236 70%,#2c1d4a 100%)}
+.nr-hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:clamp(110px,16vw,240px);z-index:-1;pointer-events:none;background:url(nr/horizon.svg) center bottom/cover no-repeat}
+.nr-hero__in{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
+.nr-hero__copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px;min-width:0}
+@media(min-width:1000px){.nr-hero__in--split{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}}
+.nr-hero--short{padding-bottom:clamp(120px,14vw,190px)}
+.nr-hero--short::after{height:clamp(90px,12vw,170px)}
+.nr-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.25);font:500 10.5px/1.2 var(--nr-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--nr-teal)}
+.nr-chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--nr-teal);box-shadow:0 0 8px var(--nr-teal);flex-shrink:0}
+
+/* stop card: the ride's case-study card, reused for services, studies and side panels */
+.nr-stop{position:relative;display:flex;flex-direction:column;gap:14px;min-width:0;padding:clamp(20px,2.6vw,28px);border-radius:var(--nr-r);background:linear-gradient(180deg,rgba(19,24,56,.92),rgba(12,16,48,.92));border:1px solid var(--nr-line);color:var(--nr-ink)!important;box-shadow:0 30px 60px -40px rgba(0,0,0,.8);transition:border-color .25s,transform .35s var(--nr-ease),box-shadow .35s}
+a.nr-stop:hover{border-color:rgba(245,184,103,.55);transform:translateY(-3px);box-shadow:0 40px 70px -40px rgba(0,0,0,.9),0 0 0 1px rgba(245,184,103,.15)}
+.nr-stop__top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;align-items:baseline}
+.nr-stop__top>.nr-meta:first-child{white-space:nowrap}
+.nr-stop__title{margin:0;font-family:var(--nr-serif);font-style:italic;font-weight:400;font-size:clamp(28px,3vw,38px);line-height:1.04;letter-spacing:-.01em;color:var(--nr-ink);text-wrap:balance}
+.nr-stop__title--sans{font-family:var(--nr-sans);font-style:normal;font-weight:600;font-size:clamp(21px,2.2vw,26px);letter-spacing:-.03em;line-height:1.12}
+.nr-stop__by{margin:0;font-size:13px;line-height:1.45;color:var(--nr-dim)}
+.nr-stop__go{margin-top:auto;padding-top:4px}
+.nr-stop__img{margin:calc(-1*clamp(20px,2.6vw,28px)) calc(-1*clamp(20px,2.6vw,28px)) 4px;height:clamp(150px,17vw,220px);overflow:hidden;border-radius:var(--nr-r) var(--nr-r) 0 0;border-bottom:1px solid var(--nr-line);background:var(--nr-night-2)}
+.nr-stop__img img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .6s var(--nr-ease)}
+a.nr-stop:hover .nr-stop__img img{transform:scale(1.03)}
+.nr-stop--amber{background:linear-gradient(180deg,rgba(245,184,103,.1),rgba(245,184,103,.03)),var(--nr-panel);border-color:rgba(245,184,103,.25)}
+
+/* numbers strip, as on the ride's stop cards */
+.nr-stats{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));margin:0;border-radius:var(--nr-r-sm);background:var(--nr-panel);border:1px solid var(--nr-line);overflow:hidden}
+.nr-stats>div{display:flex;flex-direction:column;gap:6px;padding:14px clamp(12px,1.6vw,18px);min-width:0;border-left:1px solid var(--nr-line)}
+.nr-stats>div:first-child{border-left:0}
+.nr-stats dt,.nr-stats .k{order:2;font:500 10px/1.35 var(--nr-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--nr-dim)}
+.nr-stats dd,.nr-stats .v{order:1;margin:0;font-family:var(--nr-serif);font-size:clamp(24px,2.6vw,32px);line-height:1;color:var(--nr-ink);white-space:nowrap}
+.nr-stats--big dd{font-size:clamp(34px,4.4vw,56px)}
+@media(max-width:640px){.nr-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.nr-stats>div{border-left:0;border-top:1px solid var(--nr-line)}.nr-stats>div:nth-child(2n){border-left:1px solid var(--nr-line)}.nr-stats>div:nth-child(-n+2){border-top:0}.nr-stats>div:last-child:nth-child(odd){grid-column:span 2}}
+
+/* section head: a road marking, a mono label, the heading */
+.nr-head{display:flex;flex-direction:column;gap:14px;margin-bottom:clamp(24px,3.4vw,40px);max-width:760px}
+.nr-head .nr-meta{display:flex;align-items:center;gap:12px}
+.nr-head .nr-meta::before{content:"";width:34px;height:2px;flex-shrink:0;background:repeating-linear-gradient(90deg,var(--nr-amber) 0 10px,transparent 10px 16px)}
+.nr-head--row{max-width:none;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 32px}
+.nr-head--row>div{display:flex;flex-direction:column;gap:14px;max-width:720px}
+
+/* grids */
+.nr-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--min,300px)),1fr))}
+.nr-grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:820px){.nr-grid--2{grid-template-columns:minmax(0,1fr)}}
+.nr-group{display:grid;gap:clamp(20px,3vw,40px);padding-top:clamp(28px,3.4vw,40px);margin-top:clamp(28px,3.4vw,40px);border-top:1px solid var(--nr-line)}
+@media(min-width:900px){.nr-group{grid-template-columns:220px minmax(0,1fr)}}
+.nr-group__label{display:flex;flex-direction:column;gap:10px}
+.nr-group__label p{margin:0;font-size:14px;line-height:1.55;color:var(--nr-dim)}
+
+/* the road: numbered steps along a dashed centre line */
+.nr-road{list-style:none;margin:0;padding:0;display:grid;gap:0;position:relative}
+.nr-road>li{position:relative;display:flex;flex-direction:column;gap:8px;min-width:0;padding:0 0 30px 44px}
+.nr-road>li::before{content:"";position:absolute;left:9px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--nr-night);border:2px solid var(--nr-amber);box-shadow:0 0 0 5px rgba(245,184,103,.12)}
+.nr-road>li::after{content:"";position:absolute;left:15px;top:28px;bottom:2px;width:2px;background:repeating-linear-gradient(180deg,rgba(245,184,103,.7) 0 8px,transparent 8px 15px)}
+.nr-road>li:last-child{padding-bottom:0}
+.nr-road>li:last-child::after{display:none}
+.nr-road p{margin:0;font-size:14.5px;line-height:1.6;color:var(--nr-muted)}
+@media(min-width:860px){
+  .nr-road{grid-template-columns:repeat(var(--n,4),minmax(0,1fr));gap:24px}
+  .nr-road::before{content:"";position:absolute;left:0;right:0;top:12px;height:2px;background:repeating-linear-gradient(90deg,rgba(245,184,103,.7) 0 14px,transparent 14px 26px)}
+  .nr-road>li{padding:44px 0 0}
+  .nr-road>li::before{left:0;top:4px}
+  .nr-road>li::after{display:none}
+}
+
+/* lists of short facts */
+.nr-facts{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:1px;border-radius:var(--nr-r-sm);overflow:hidden;background:var(--nr-line);border:1px solid var(--nr-line)}
+.nr-facts>div{background:var(--nr-panel);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.nr-facts dt{font:500 10px/1.3 var(--nr-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--nr-dim)}
+.nr-facts dd{margin:0;font-size:14.5px;line-height:1.4;color:var(--nr-ink)}
+.nr-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.nr-tags li{padding:5px 10px;border-radius:99px;border:1px solid var(--nr-line-2);font:500 11px/1.2 var(--nr-mono);letter-spacing:.06em;color:var(--nr-body)}
+
+/* route planner: pick a service by problem */
+.nr-route{display:flex;flex-direction:column;padding:8px;border-radius:var(--nr-r);background:rgba(12,16,48,.78);border:1px solid var(--nr-line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
+.nr-route__h{display:flex;justify-content:space-between;gap:12px;padding:12px 14px 10px}
+.nr-route a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:13px 14px;border-radius:12px;color:var(--nr-ink)!important;border-top:1px solid rgba(244,239,230,.06);transition:background .2s}
+.nr-route a:hover{background:rgba(245,184,103,.08)}
+.nr-route a b{font-weight:500;font-size:15px;letter-spacing:-.01em}
+.nr-route a span{grid-column:1;font:500 10.5px/1.3 var(--nr-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--nr-teal)}
+.nr-route a i{grid-row:1/3;grid-column:2;font-style:normal;color:var(--nr-amber);transition:transform .3s var(--nr-ease)}
+.nr-route a:hover i{transform:translateX(4px)}
+
+/* closing call to action: a second, smaller horizon */
+.nr-cta{position:relative;isolation:isolate;overflow:hidden;border-radius:28px;padding:clamp(28px,5vw,64px) clamp(22px,5vw,64px) clamp(110px,13vw,170px);border:1px solid rgba(245,184,103,.22);display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.nr-cta::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(70% 70% at 50% 100%,rgba(245,184,103,.45),rgba(196,106,74,.2) 45%,transparent 75%),linear-gradient(180deg,var(--nr-panel) 0%,#1a1640 70%,#2c1d4a 100%)}
+.nr-cta::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:clamp(90px,11vw,150px);z-index:-1;background:url(nr/horizon.svg) center bottom/cover no-repeat}
+.nr-cta .nr-lede{color:var(--nr-body)}
+
+/* long reads (legal) */
+.nr-doc{display:grid;gap:clamp(28px,4vw,64px);align-items:start}
+@media(min-width:1000px){.nr-doc{grid-template-columns:240px minmax(0,1fr)}}
+.nr-toc{display:none}
+@media(min-width:1000px){.nr-toc{display:flex;flex-direction:column;gap:2px;position:sticky;top:96px;padding:8px;border-radius:var(--nr-r-sm);background:var(--nr-panel);border:1px solid var(--nr-line)}
+.nr-toc .nr-meta{padding:10px 12px 8px}
+.nr-toc a{padding:8px 12px;border-radius:9px;font-size:13.5px;line-height:1.35;color:var(--nr-muted)!important}
+.nr-toc a:hover{background:rgba(244,239,230,.05);color:var(--nr-ink)!important}}
+.nr-prose{max-width:70ch;font-size:16px;line-height:1.75;color:var(--nr-body)}
+.nr-prose h2{margin:2.4em 0 .6em;font-size:clamp(21px,2.2vw,26px);line-height:1.2;letter-spacing:-.03em;color:var(--nr-ink);scroll-margin-top:96px;display:flex;gap:12px;align-items:baseline}
+.nr-prose h2 .nr-meta{font-size:11px;flex-shrink:0}
+.nr-prose h2:first-child{margin-top:0}
+.nr-prose h3{margin:1.6em 0 .4em;font-size:17px;color:var(--nr-ink);letter-spacing:-.015em}
+.nr-prose p,.nr-prose ul,.nr-prose ol{margin:0 0 1em}
+.nr-prose ul,.nr-prose ol{padding-left:1.25em}
+.nr-prose li{margin:.35em 0}
+.nr-prose li::marker{color:var(--nr-amber)}
+.nr-prose strong{color:var(--nr-ink);font-weight:600}
+.nr-prose a{text-decoration:underline;text-decoration-color:rgba(245,184,103,.4);text-underline-offset:3px}
+.nr-prose table{width:100%;border-collapse:collapse;margin:0 0 1.2em;font-size:14.5px;line-height:1.5}
+.nr-prose th,.nr-prose td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--nr-line)}
+.nr-prose th{font:500 10.5px/1.3 var(--nr-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--nr-dim)}
+.nr-prose .nr-scroll{overflow-x:auto}
+.nr-summary{padding:clamp(18px,2.4vw,26px);border-radius:var(--nr-r);background:linear-gradient(180deg,rgba(127,243,225,.07),rgba(127,243,225,.02));border:1px solid rgba(127,243,225,.22);margin-bottom:2em}
+.nr-summary h2{margin-top:0}
+.nr-banner{display:block;width:100%;height:auto;border-radius:var(--nr-r);border:1px solid var(--nr-line);margin-bottom:clamp(24px,3vw,36px)}
+
+/* forms */
+.nr-field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.nr-field label,.nr-label{font:500 11px/1.3 var(--nr-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--nr-dim)}
+.nr-field input,.nr-field select,.nr-field textarea{width:100%;min-height:48px;padding:12px 14px;border-radius:12px;background:rgba(7,9,22,.6);border:1px solid var(--nr-line-2);color:var(--nr-ink);font:400 15.5px/1.4 var(--nr-sans);transition:border-color .2s,box-shadow .2s}
+.nr-field textarea{min-height:140px;resize:vertical}
+.nr-field input:focus,.nr-field select:focus,.nr-field textarea:focus{outline:0;border-color:var(--nr-amber);box-shadow:0 0 0 3px rgba(245,184,103,.18)}
+
+/* reveal: opt-in, motion-safe */
+@media(prefers-reduced-motion:no-preference){
+  .nr-hero__copy>*{animation:nrUp .9s var(--nr-ease) both}
+  .nr-hero__copy>*:nth-child(2){animation-delay:.05s}.nr-hero__copy>*:nth-child(3){animation-delay:.1s}.nr-hero__copy>*:nth-child(4){animation-delay:.15s}.nr-hero__copy>*:nth-child(5){animation-delay:.2s}
+  .nr-hero__side{animation:nrUp 1s .2s var(--nr-ease) both}
+  @keyframes nrUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+}
+
+/* case study row: a still from the ride (cropped to the road, its own HUD card cut off) with the stop card laid over it */
+.nr-study{display:grid;grid-template-columns:minmax(0,1fr);align-items:center;color:var(--nr-ink)!important}
+.nr-study+.nr-study{margin-top:clamp(40px,6vw,88px)}
+.nr-study__img{position:relative;border-radius:var(--nr-r);overflow:hidden;border:1px solid var(--nr-line);background:var(--nr-night-2);aspect-ratio:5/4}
+.nr-study__img img{display:block;width:100%;height:100%;object-fit:cover;object-position:right center;transition:transform .8s var(--nr-ease)}
+.nr-study__img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,9,22,.55),transparent 45%)}
+.nr-study:hover .nr-study__img img{transform:scale(1.025)}
+.nr-study .nr-stop{margin:-64px 12px 0;z-index:1}
+.nr-study__img{aspect-ratio:4/3}
+.nr-study:hover .nr-stop{border-color:rgba(245,184,103,.55)}
+@media(min-width:960px){
+  .nr-study{grid-template-columns:repeat(12,minmax(0,1fr))}
+  .nr-study__img{grid-column:5/13;grid-row:1;aspect-ratio:4/3}
+  .nr-study .nr-stop{grid-column:1/7;grid-row:1;margin:0}
+}
+.nr-proves{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.nr-proves span{padding:4px 9px;border-radius:99px;border:1px solid rgba(245,184,103,.35);font:500 10px/1.2 var(--nr-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--nr-amber)}
+.nr-proves span:first-child{border:0;padding-left:0;color:var(--nr-dim)}
+.nr-quote{margin:-4px 0 0;font-family:var(--nr-serif);font-style:italic;font-size:18px;line-height:1.3;color:var(--nr-amber)}
+@media(max-width:640px){.nr-stop__img{height:140px}}
+
+/* screenshot in a browser frame, used as the hero picture on service pages */
+.nr-fig{margin:0;display:flex;flex-direction:column;border-radius:var(--nr-r);overflow:hidden;background:var(--nr-panel);border:1px solid var(--nr-line-2);box-shadow:0 50px 90px -40px rgba(0,0,0,.9)}
+.nr-fig__bar{display:flex;gap:6px;align-items:center;height:30px;padding:0 14px;background:#141833;border-bottom:1px solid var(--nr-line)}
+.nr-fig__bar i{width:8px;height:8px;border-radius:50%;background:rgba(244,239,230,.22)}
+.nr-fig__bar i:first-child{background:var(--nr-amber)}
+.nr-fig__shot{height:clamp(240px,30vw,400px);overflow:hidden;background:var(--nr-night-2)}
+.nr-fig__shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .6s var(--nr-ease)}
+.nr-fig:hover .nr-fig__shot img{transform:scale(1.025)}
+.nr-fig figcaption{display:flex;flex-direction:column;gap:6px;padding:14px 16px;font-size:13.5px;line-height:1.5;color:var(--nr-muted);border-top:1px solid var(--nr-line)}
+.nr-fig figcaption b{color:var(--nr-ink);font-weight:600}
+
+/* questions: heading on the left, answers listed (all visible, they back the FAQPage markup) */
+.nr-faq{display:grid;gap:clamp(20px,4vw,64px);align-items:start}
+@media(min-width:900px){.nr-faq{grid-template-columns:minmax(0,4fr) minmax(0,8fr)}.nr-faq>.nr-head{position:sticky;top:96px}}
+.nr-faq__list{display:grid;border-top:1px solid var(--nr-line)}
+.nr-faq__list>div{display:grid;gap:8px;padding:20px 0;border-bottom:1px solid var(--nr-line)}
+@media(min-width:700px){.nr-faq__list>div{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px}}
+.nr-faq__list h3{margin:0;font-size:17px;line-height:1.35;font-weight:600;letter-spacing:-.015em;color:var(--nr-ink)}
+.nr-faq__list p{margin:0;font-size:15px;line-height:1.65;color:var(--nr-muted)}
+.nr-links{margin:0;font-size:14px;line-height:1.9;color:var(--nr-dim)}
+.nr-links a{white-space:nowrap}
+
+/* case study pages: the stop (dark, with the ride still) sits above the cream report */
+.nr-case{background:var(--nr-night);color:var(--nr-ink)}
+.nr-case .nr-hero{padding-bottom:clamp(130px,15vw,210px)}
+.nr-case .nr-hero__in{gap:clamp(24px,3.4vw,44px)}
+@media(min-width:1000px){.nr-case .nr-hero__in--split{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center}}
+.nr-case .nr-h1{max-width:15ch}
+.nr-case .nr-lede{color:var(--nr-body)}
+.nr-case__shot{margin:0;display:flex;flex-direction:column;gap:10px}
+.nr-case__shot>div{position:relative;border-radius:var(--nr-r);overflow:hidden;border:1px solid var(--nr-line-2);aspect-ratio:4/3;background:var(--nr-night-2);box-shadow:0 50px 90px -40px rgba(0,0,0,.9)}
+.nr-case__shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center}
+.nr-case__shot>div::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,9,22,.7),transparent 40%)}
+.nr-case__shot figcaption{font-size:13px;line-height:1.5;color:var(--nr-dim)}
+.nr-case__shot figcaption a{color:var(--nr-amber)!important;text-decoration:underline;text-underline-offset:3px}
+.nr-case__nums{display:grid;gap:12px;margin-top:clamp(28px,4vw,48px)}
+
+/* the horizon at the foot of a dark panel (portfolio and case-study contact panel) */
+.nr-horizon{isolation:isolate;padding-bottom:clamp(120px,13vw,180px)!important}
+.nr-horizon::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:clamp(90px,11vw,150px);z-index:-1;pointer-events:none;background:url(nr/horizon.svg) center bottom/cover no-repeat}
+.nr-horizon::before{content:"";position:absolute;inset:auto 0 0;height:60%;z-index:-1;pointer-events:none;background:radial-gradient(70% 90% at 50% 100%,rgba(245,184,103,.35),rgba(196,106,74,.12) 50%,transparent 80%)}
+
+/* links inside running text are underlined, so they never rely on colour alone (WCAG 1.4.1) */
+.nr main p a:not([class]),.nr main li a:not([class]),[class*="nr-"] p a:not([class]),.nr-prose a:not([class]){text-decoration:underline!important;text-decoration-color:rgba(245,184,103,.45)!important;text-underline-offset:3px;text-decoration-thickness:1px}
+/* standalone text links get a 24px+ target (WCAG 2.5.8) */
+.nr-go{padding:6px 0;margin:-6px 0}
+.nr-mail{display:inline-flex;align-items:center;min-height:32px}

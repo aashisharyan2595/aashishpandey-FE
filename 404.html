@@ -11,20 +11,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=1">
 <style>
 html,body{margin:0;background:#070916;color:#f4efe6;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#f5b867;text-decoration:none}a:hover{color:#ffd9a3}
 </style>
 </head>
 <body>
-<main style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;gap:20px;max-width:720px;margin:0 auto;padding:40px clamp(18px,4vw,40px);box-sizing:border-box;">
-  <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#7ff3e1;">404 · Off the route</span>
-  <h1 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;font-size:clamp(44px,8vw,88px);line-height:.95;color:#f4efe6;">This road doesn’t go anywhere.</h1>
-  <div style="display:flex;flex-wrap:wrap;gap:10px;">
-    <a href="/" style="height:46px;padding:0 22px;display:flex;align-items:center;border-radius:99px;background:#f5b867;color:#1a1420;font-family:'Geist Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;">Back to the ride</a>
-    <a href="/portfolio" style="height:46px;padding:0 20px;display:flex;align-items:center;border-radius:99px;border:1px solid rgba(244,239,230,.28);color:#f4efe6;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;">Portfolio</a>
-  </div>
-  <p style="margin:6px 0 0;font-family:Geist,system-ui,sans-serif;font-size:16px;line-height:1.7;color:#aaa4b8;">The page may have moved. Try <a href="/services" style="color:#f5b867;">services</a>, <a href="/tools" style="color:#f5b867;">free tools</a>, the <a href="/case-studies" style="color:#f5b867;">case studies</a>, or <a href="/contact" style="color:#f5b867;">send a brief</a>.</p>
+<main class="nr-hero" style="min-height:100vh;display:flex;align-items:center;padding-top:40px">
+  <div class="nr-wrap"><div class="nr-hero__copy">
+  <span class="nr-chip">404 · Off the route</span>
+  <h1 class="nr-h1"><span class="nr-em">This road doesn’t go anywhere.</span></h1>
+  <p class="nr-lede">The page may have moved. Try <a href="/services">services</a>, <a href="/tools">free tools</a>, the <a href="/case-studies">case studies</a>, or <a href="/contact">send a brief</a>.</p>
+  <div class="nr-btns"><a class="nr-btn" href="/">Back to the ride</a><a class="nr-btn nr-btn--ghost" href="/portfolio">Portfolio</a></div>
+  </div></div>
 </main>
 </body>
 </html>
