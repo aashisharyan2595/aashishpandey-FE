@@ -13,7 +13,7 @@ Measured on a 4-core, 4 GB profile (which switches the ride to its low-power pat
 
 ## What changed
 
-`world-v7.js` is generated from `world-v6.js` by `scripts/make-world-v7.py` (then `scripts/slice-world.cjs`). `world-v6.js` is unchanged and is the rollback.
+These changes were first generated from `world-v6.js` by a patch script. Since then `world-v7.js` has been edited in place (ride physics, helmet, speed feel, design drops), so it is the only source of truth; the old generator, `world-v6.js` and the one-off patch scripts were removed and live in git history.
 
 | Change | Effect |
 |---|---|
@@ -42,14 +42,13 @@ These are lab numbers on a fast GPU. They do not include the real cost of shader
 ## Known limits
 
 - Without `KHR_parallel_shader_compile` (software rendering, a few old drivers) shader compilation still blocks the main thread. Lighthouse and PageSpeed Insights render in software, so their homepage scores improve only a little.
-- Merging and culling only touch the kinds of object listed in `scripts/make-world-v7.py`. Anything else is drawn as before.
-- `createWorld` now returns a promise. `await` on the old synchronous versions still works, so `world-v6.js` and `world-v4.js` can be swapped back with a one-word change in `Portfolio.dc.html`.
+- Merging and culling only touch the kinds of object the original patch script listed. Anything else is drawn as before.
+- `createWorld` now returns a promise. `await` on an older synchronous version from git history still works.
 
-## Regenerating and measuring
+## Measuring
 
 ```bash
-npm install --no-save acorn puppeteer-core
-python3 scripts/make-world-v7.py            # rewrites world-v7.js from world-v6.js
+npm install --no-save puppeteer-core
 node scripts/perf/frame-stats.cjs "http://localhost:8775/?perf" 6 18 1366x768 low
 LOWEND=1 node scripts/perf/cpu-profile.cjs http://localhost:8775/ 6 18 myrun
 node scripts/perf/analyze-profile.cjs myrun
@@ -60,4 +59,4 @@ node scripts/perf/busy-stretches.cjs myrun 100
 
 ## Rolling back
 
-In `Portfolio.dc.html`, change `world-v7.js` in the `import()` line back to `world-v6.js`. Nothing else needs to change.
+Restore an earlier `world-v7.js` from git history (`git log -- world-v7.js`, then `git checkout <commit> -- world-v7.js`) and bump its `?v=` in `Portfolio.dc.html`.
