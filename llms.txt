@@ -20,6 +20,28 @@
 - [Resume maker](https://aashishpandey.com/tools/resume-maker): a free ATS-friendly resume builder that runs in the browser with no account and no upload. 54 templates (including FAANG-style, LaTeX-style, consulting and distinct-layout formats), eight job-based examples, a template gallery, an ATS resume guide, PDF and Word export. Pages: /tools/resume-maker/templates, /tools/resume-maker/examples, /tools/resume-maker/guide.
 - [SOP maker](https://aashishpandey.com/tools/sop-maker): a free standard operating procedure builder with 116 templates across 13 departments, a starter draft for any topic, and Word, PDF and Markdown export. Pages: /tools/sop-maker/templates, /tools/sop-maker/guide.
 
+## Free tools
+
+Most run entirely in the browser with no upload and no account. The URL shortener and the pairing step of P2P file sharing use a small server, and say so on their pages.
+
+- [Free ATS Resume Maker](https://aashishpandey.com/tools/resume-maker): Free ATS resume maker with 54 templates for engineers, designers, project managers and more. Edit sections, save PDF or Word. Private, no sign-up.
+- [Free QR Code Generator](https://aashishpandey.com/tools/qr-code-generator): Free QR code generator for links, text, Wi-Fi, UPI, email and phone. Download PNG or SVG. Static codes that never expire, with no tracking or sign-up.
+- [Free Invoice Generator](https://aashishpandey.com/tools/invoice-generator): Free invoice generator with GST, VAT or sales tax, six templates, 37 currencies, your logo and signature. Save a PDF invoice. No sign-up, runs in your browser.
+- [Free SOP Maker](https://aashishpandey.com/tools/sop-maker): Free SOP maker with 116 SOP templates for HR, sales, finance, IT and operations. Edit any topic and export Word, PDF or Markdown. No sign-up.
+- [Strong Password Generator](https://aashishpandey.com/tools/password-generator): Free password generator: strong random passwords of any length, made in your browser with the secure random number generator. Nothing is sent, saved or logged.
+- [P2P File Sharing](https://aashishpandey.com/tools/p2p-file-sharing): Free P2P file sharing for groups: open a room with a code and everyone downloads from each other, encrypted. More people is faster. No upload, no account.
+- [Image Resizer & Converter](https://aashishpandey.com/tools/image-resizer): Resize images and reduce file size online. Convert to WebP, JPEG, PNG or AVIF, batch up to 50 files and download a zip. Files never leave your device.
+- [Exam Photo & Signature Resizer](https://aashishpandey.com/tools/exam-photo-resizer): Free exam photo and signature resizer: crop to exact pixels or mm and compress to a size like 20–50 KB. Runs in your browser, nothing is uploaded.
+- [Free URL Shortener with Custom Alias, Expiry & QR Code](https://aashishpandey.com/tools/url-shortener): Free URL shortener: shorten any link to aashishpandey.com/s/…, pick a custom alias and expiry, and download a QR code as PNG or SVG. No sign-up.
+- [Lorem Ipsum Generator](https://aashishpandey.com/tools/lorem-ipsum-generator): Free lorem ipsum generator: Latin, plain English or project-manager dummy text as paragraphs, sentences, words or lists. Copy as text, HTML or Markdown.
+- [Online Notepad](https://aashishpandey.com/tools/pad): Free online notepad that autosaves in your browser. Markdown preview, word count, dark mode, .txt/.md export and read-only share links. No sign-up, no account.
+- [Time Zone Meeting Planner](https://aashishpandey.com/tools/time-zone-meeting-planner): Pick a time, date and city, then see that moment in every other time zone. Handles daylight saving; copy the times or download an invite.
+- [File Hash Checker](https://aashishpandey.com/tools/file-hash-checker): Free file hash checker: get the MD5, SHA-1, SHA-256 and SHA-512 of any file or text and compare it with the published checksum. Runs in your browser, no upload.
+- [Photo Metadata Remover](https://aashishpandey.com/tools/exif-remover): Free EXIF remover: see the GPS location, camera and date hidden in a JPEG, PNG or WebP, then download a clean copy. Runs in your browser, nothing is uploaded.
+- [Project Estimate Calculator](https://aashishpandey.com/tools/project-estimate-calculator): Free project estimate calculator: enter best, likely and worst hours by task, set role rates and get a quote, safe range and timeline. Runs in your browser.
+- [QR Code Checker](https://aashishpandey.com/tools/qr-code-checker): Check a QR code from an image: see what it holds, whether it uses a redirect that can expire, and if the link or UPI payment looks safe. Runs in your browser.
+- [Website Launch Checklist](https://aashishpandey.com/tools/website-launch-checklist): Free launch checklists for PMs: 58 website go-live checks, plus Shopify, campaign, product and event templates. Edit online and export to Markdown.
+
 ## Selected work
 
 - [Liquid I.V. · Unilever](https://aashishpandey.com/work-liquid-iv): global Shopify rollout, 15 markets in scope, 12+ live, 9 new EU markets in H1 2026.
