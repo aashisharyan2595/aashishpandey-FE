@@ -64,4 +64,21 @@
     <lastmod>2026-10-01</lastmod>
     <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-invoice.jpg</image:loc></image:image>
   </url>
+  <url>
+    <loc>https://aashishpandey.com/tools/sop-maker</loc>
+    <lastmod>2026-10-06</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-sop.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/tools/sop-maker/build</loc>
+    <lastmod>2026-10-06</lastmod>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/tools/sop-maker/templates</loc>
+    <lastmod>2026-10-06</lastmod>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/tools/sop-maker/guide</loc>
+    <lastmod>2026-10-06</lastmod>
+  </url>
 </urlset>

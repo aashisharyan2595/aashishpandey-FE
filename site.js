@@ -36,6 +36,10 @@
     '/tools/time-zone-meeting-planner': 'Tools-Timezone.dc.html',
     '/tools/project-estimate-calculator': 'Tools-Estimate.dc.html',
     '/tools/invoice-generator': 'Tools-Invoice.dc.html',
+    '/tools/sop-maker': 'Tools-SOP.dc.html',
+    '/tools/sop-maker/build': 'Tools-SOP-Build.dc.html',
+    '/tools/sop-maker/templates': 'Tools-SOP-Templates.dc.html',
+    '/tools/sop-maker/guide': 'Tools-SOP-Guide.dc.html',
     '/tools/resume-maker': 'Tools-Resume.dc.html',
     '/tools/resume-maker/build': 'Tools-Resume-Build.dc.html',
     '/tools/resume-maker/templates': 'Tools-Resume-Templates.dc.html',
@@ -53,9 +57,9 @@
   // Set a GA4 measurement ID (e.g. 'G-XXXXXXX') to enable Google Analytics. Vercel Web Analytics loads automatically in production.
   var GA_ID = 'G-H9J2D0RHRT';
   // Microsoft Clarity (session replay and heatmaps). Production only, loaded when idle, and not on the pages where visitors type their own
-  // text or personal details (notepad, resume builder, invoice), because those pages promise the data stays on the device.
+  // text or personal details (notepad, resume and SOP builders, invoice), because those pages promise the data stays on the device.
   var CLARITY_ID = 'yr4j64clj0';
-  var NO_CLARITY = /^\/tools\/(pad|invoice-generator|resume-maker\/build|password-generator|exif-remover|file-hash-checker|estimate|project-estimate-calculator)/;
+  var NO_CLARITY = /^\/tools\/(pad|invoice-generator|resume-maker\/build|sop-maker\/build|password-generator|exif-remover|file-hash-checker|estimate|project-estimate-calculator)/;
 
   var dev = /\.dc\.html$/.test(location.pathname);
   window.__apRoute = function (p) {

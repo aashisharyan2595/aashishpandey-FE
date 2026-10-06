@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 25; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 27; // bump when assets/nav.css changes: assets are cached for 30 days
 const NAV_JS = 3;   // same for assets/nav.js (search, menu images, footer on phones)
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
@@ -77,6 +77,7 @@ const MENUS = {
       [{ h: 'Documents', items: [
         { href: '/tools/resume-maker', t: 'Resume Maker', d: 'ATS templates, PDF and Word', b: 'Popular' },
         { href: '/tools/invoice-generator', t: 'Invoice Generator', d: 'Tax, discount and your logo' },
+        { href: '/tools/sop-maker', t: 'SOP Maker', d: '116 SOP templates, Word and PDF', b: 'New' },
         { href: '/tools/project-estimate-calculator', t: 'Project Estimate', d: 'Best, likely and worst case', f: 'Project Estimate Calculator' },
       ] }, { h: 'Images', items: [
         { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
@@ -191,7 +192,7 @@ function header() {
 
 /* ---------- footer ---------- */
 // Plain text columns, quiet colours, one legal row: the pattern the large sites use (Vercel, Stripe, Linear).
-const TOOL_ORDER = ['/tools/resume-maker', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/password-generator', '/tools/image-resizer', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/qr-code-checker', '/tools/website-launch-checklist'];
+const TOOL_ORDER = ['/tools/resume-maker', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/sop-maker', '/tools/password-generator', '/tools/image-resizer', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/qr-code-checker', '/tools/website-launch-checklist'];
 function footer() {
   const link = ([h, t, x]) => `<a href="${e(h)}"${x ? ' target="_blank" rel="noopener"' : ''}>${e(t)}</a>`;
   const col = (h, inner, cls = '') => `<details class="ap-foot__col${cls}" open><summary class="ap-foot__h">${h}</summary><div class="ap-foot__links">${inner}</div></details>`;
