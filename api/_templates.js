@@ -214,23 +214,6 @@ function userBriefConfirmation(d, unsubUrl) {
   return { subject, html, text };
 }
 
-/* ---------- 3. subscriber: please confirm ---------- */
-function subscribeConfirm(url, src, unsubUrl, name) {
-  const first = name ? firstName(name) : '';
-  const where = { tools: 'the Tools page', portfolio: 'the portfolio page' }[src] || 'aashishpandey.com';
-  const subject = 'Please confirm your subscription';
-  const html = shell({
-    title: subject, preheader: 'One click and you are subscribed.',
-    eyebrow: 'One click', headline: `Confirm your ${accent('subscription.')}`,
-    body: p(`${first ? 'Hi ' + esc(first) + '. ' : ''}Please confirm you want emails from aashishpandey.com. Nothing is saved until you do.`)
-      + `<p style="margin:0;">${button(url, 'Yes, subscribe me')}</p>`
-      + small('The link works for 48 hours. If it was not you, ignore this email and nothing happens.'),
-    footer: `You get this because this address was typed into the subscribe form on ${esc(where)}.<br>${unsubUrl ? flink(unsubUrl, 'Unsubscribe') + ' &middot; ' : ''}${flink(SITE + '/privacy', 'Privacy')}`,
-  });
-  const text = `${first ? 'Hi ' + first : 'Hi'},\n\nPlease confirm you want emails from aashishpandey.com:\n${url}\n\nThe link works for 48 hours. If it was not you, ignore this email. Nothing happens.\n\n${unsubUrl ? 'Unsubscribe: ' + unsubUrl + '\n' : ''}Privacy: ${SITE}/privacy`;
-  return { subject, html, text };
-}
-
 /* ---------- 4. subscriber: welcome (adapts to where they signed up) ---------- */
 const WELCOME = {
   tools: { hello: 'Most used tools:', pairs: [['QR code generator', '/tools/qr-code-generator'], ['Invoice generator', '/tools/invoice-generator'], ['Password generator', '/tools/password-generator'], ['Image resizer', '/tools/image-resizer']] },
@@ -265,4 +248,4 @@ function adminSubscriber(email, kind = 'subscribed', src, name) {
 }
 
 const priorityOf = (d) => read(d).priority;
-module.exports = { adminBrief, userBriefConfirmation, subscribeConfirm, subscribeWelcome, adminSubscriber, TOPICS, SERVICE_TOPIC, priorityOf, shell, accent, button, flink, BOOK };
+module.exports = { adminBrief, userBriefConfirmation, subscribeWelcome, adminSubscriber, TOPICS, SERVICE_TOPIC, priorityOf, shell, accent, button, flink, BOOK };

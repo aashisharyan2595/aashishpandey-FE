@@ -13,7 +13,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | Path | Purpose |
 |---|---|
 | `Portfolio.dc.html` | Home page, the 3D ride |
-| `Proof-v2.dc.html` | `/portfolio` (client sites, career, toolkit, contact) |
+| `Proof-v3.dc.html` | `/portfolio` (client sites, career, toolkit, contact) |
 | `Services.dc.html` | `/services` hub linking to every service page |
 | `Case-Studies.dc.html` | `/case-studies` (listing of the four case studies) |
 | `Shopify-Developer`, `Full-Stack-Developer`, `Wordpress-Webflow-Developer`, `SEO-Consultant`, `UI-UX-Design`, `Tech-Consultant` (`.dc.html`) | The six service pages, each with a visible FAQ and matching `FAQPage` markup |
@@ -24,9 +24,9 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | `404.html` | Not-found page |
 | `site.js` | Analytics, click tracking, dev-preview routing |
 | `support.js` | The page runtime. Don't edit |
-| `world-v7.js`, `audio-v3.js` | Active 3D world and audio. `world-v7.js` is generated from `world-v6.js` (see `docs/PERFORMANCE.md`). `world-v6.js`, `world-v2/v3/v4.js` and `audio-v2.js` are old copies kept for rollback |
+| `world-v7.js`, `audio-v3.js` | Active 3D world and audio. `world-v7.js` is the source of truth and is edited in place (see `docs/PERFORMANCE.md`). Older versions live in git history only |
 | `api/` | Shortener backend |
-| `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`, and the site-wide `assets/og-image.jpg`, which it builds from `assets/me-ride.webp`. Never point it at an older photo: the earlier artwork showed a readable bike plate), `nav.cjs` (writes the shared header into every static page; the styles are in `assets/nav.css`, bump `?v=` in the pages when you change it), `checklist-static.cjs` (regenerates the crawlable list of checks inside the launch checklist page; run it after editing the checks) |
+| `scripts/` | `prerender.cjs` and `externalize.cjs` (build steps), `sitemap.cjs` (regenerates `sitemap.xml`), `make-og.py` (per-page share images into `assets/og/`, and the site-wide `assets/og-image.jpg`, which it builds from `assets/me-ride.webp`. Never point it at an older photo: the earlier artwork showed a readable bike plate), `chrome.cjs` (writes the shared header, footer and closing panel into every static page; the styles are in `assets/nav.css`, bump `?v=` in the pages when you change it), `check-site.cjs` (the site check CI runs on every PR), `checklist-static.cjs` (regenerates the crawlable list of checks inside the launch checklist page; run it after editing the checks) |
 | `assets/site.css` | "Night Ride", the shared design system for the static pages (services, case studies, contact, legal, 404): dusk horizon heroes (`assets/nr/horizon.svg`), stop cards, the road for steps, stats strips, prose. Classes start with `nr-`. Bump `?v=` in the pages after editing |
 | `assets/` | Images, résumé PDF, OG image. The logo is `logo-mark.svg`; `favicon.svg`, `favicon-32.png`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (square, no rounded corners, because iOS rounds it) and the root `favicon.ico` are all made from it, and `scripts/logo-mark.png` feeds the share images. Browsers cache icons hard, so the page heads link them as `?v=2` and `nav.css?v=2`: bump those numbers when you change them. `assets/vendor/` holds two third-party libraries used by the QR tools: `qrcode.js` (qrcode-generator 1.4.4, MIT) and `jsQR.min.js` (jsQR 1.4.0, Apache-2.0). Both are copied in so the tools do not depend on a CDN |
 | `vercel.json` | Build command, redirects, rewrites, headers |
@@ -101,7 +101,7 @@ Limits in code: 5 new links an hour and 20 a day per visitor, `http(s)` links on
 Any host works if it can do four things. Vercel-specific bits are marked.
 
 1. **Serve the repo root as static files** and run `node scripts/prerender.cjs` before publishing (optional but it improves SEO).
-2. **Rewrite clean URLs to files.** The table is in `vercel.json` under `rewrites`. Examples: `/` → `/Portfolio.dc.html`, `/portfolio` → `/Proof-v2.dc.html`, `/case-studies` → `/Case-Studies.dc.html`, `/tools/pad` → `/Tools-Pad-v2.dc.html`. Redirects for old URLs are under `redirects`.
+2. **Rewrite clean URLs to files.** The table is in `vercel.json` under `rewrites`. Examples: `/` → `/Portfolio.dc.html`, `/portfolio` → `/Proof-v3.dc.html`, `/case-studies` → `/Case-Studies.dc.html`, `/tools/pad` → `/Tools-Pad-v2.dc.html`. Redirects for old URLs are under `redirects`.
 3. **Run the two Node functions.** `POST /api/shorten` and `GET /s/:code` (which `vercel.json` rewrites to `/api/s/:code`). They use `fetch` and `crypto`, so Node 18 or newer. The rate limit reads the `x-forwarded-for` header, so the host must set it to the real visitor IP.
 4. **Send the headers** in `vercel.json` (HSTS, cache rules for `/assets/*` and `*.js`, `no-store` for `/api/*`).
 
@@ -126,13 +126,13 @@ Pushing to `main` deploys to production. There are also `staging`, `redesign` an
 
 ## 9. Adding a new page
 
-1. Create `Something.dc.html`. Copy the `<head>` from a similar page (title, description, canonical, OG tags), then add the page to `PAGES` in `scripts/nav.cjs` and run it so the header matches the rest of the site.
+1. Create `Something.dc.html`. Copy the `<head>` from a similar page (title, description, canonical, OG tags), add the `<!-- ap-nav:start --><!-- ap-nav:end -->` and `<!-- ap-foot:start --><!-- ap-foot:end -->` markers, and run `node scripts/chrome.cjs` so the header and footer match the rest of the site.
 2. Add a rewrite in `vercel.json`, for example `/something` → `/Something.dc.html`.
 3. Add the same route to `ROUTES` in `site.js` so local preview works.
 4. Add the page to the list in `scripts/sitemap.cjs` and to `llms.txt`, then run `node scripts/sitemap.cjs`. Dates in the sitemap only move when a page's content really changes, so run it before every commit that edits a page. The visible "Updated" date on each case study is typed by hand: change it, and `dateModified` in that page's JSON-LD, whenever you edit the case study.
 5. **Keep the page head as the other pages have it.** Each page preloads React and ReactDOM from unpkg (with the same `integrity` hashes as `REACT_SRI` / `REACT_DOM_SRI` in `support.js`). Do not make the Google Fonts stylesheet non-blocking: it was tried, and text then swapped fonts after the first paint and pushed layout shift on `/services` to 0.23. If `support.js` is ever updated to new React versions or hashes, update these `<link rel="preload">` tags to match, or the browser downloads React twice.
 6. **Use absolute paths** for scripts and assets: `/site.js`, `/support.js`, `/assets/...`. A page served from a nested URL like `/tools/pad` breaks with relative paths, because `support.js` would be requested from `/tools/support.js`.
-7. Any page with `{{ }}` bindings needs the `#ap-pre` placeholder (`<div id="ap-pre"></div><!-- /ap-pre -->`) **and** the line `const pre = document.getElementById('ap-pre'); pre && pre.remove();` in its component's `componentDidMount`. The build refuses to strip a bound template from a page without the placeholder. Prerender is opt-in. Only add `<div id="ap-pre"></div><!-- /ap-pre -->` if the page also has code that removes `#ap-pre` on load (see `Proof-v2.dc.html`). Otherwise the static copy stays on the page and everything shows twice.
+7. Any page with `{{ }}` bindings needs the `#ap-pre` placeholder (`<div id="ap-pre"></div><!-- /ap-pre -->`) **and** the line `const pre = document.getElementById('ap-pre'); pre && pre.remove();` in its component's `componentDidMount`. The build refuses to strip a bound template from a page without the placeholder. Prerender is opt-in. Only add `<div id="ap-pre"></div><!-- /ap-pre -->` if the page also has code that removes `#ap-pre` on load (see `Proof-v3.dc.html`). Otherwise the static copy stays on the page and everything shows twice.
 8. Add a share image: add a card to `ITEMS` in `scripts/make-og.py`, run it, and point `og:image` at the new file in `assets/og/`. Add matching `og:image:alt` and `twitter:image:alt` tags. Keep the title under about 60 characters and the description under about 155.
 9. Test the real URL, not just the file, then push.
 
@@ -152,7 +152,7 @@ A 200 only means the file was found. Open each page in a browser too and look fo
 ## 11. Rolling back
 
 - **A bad deploy:** in Vercel, open Deployments and promote the last good one, or `git revert <commit>` and push.
-- **The 3D world:** in `Portfolio.dc.html`, change `world-v7.js` in the `import()` line back to `world-v6.js` (or `world-v4.js`).
+- **The 3D world:** in `Portfolio.dc.html`, restore an older `world-v7.js` from git history (`git log -- world-v7.js`).
 - **Old commits that show your bike plate:** the artwork was replaced in the current files, but earlier commits still contain the old image. Rewriting history is a separate, deliberate step.
 
 ## 12. Known limits
