@@ -245,6 +245,58 @@
     if (dev && h.charAt(0) === '/') { var r = window.__apRoute(h); if (r !== h) { e.preventDefault(); location.href = r; } }
   }, true);
 
+  /* ---- free-tool usage counter: no cookies and no ids, one count for the visit and one when the tool is first used ---- */
+  if (!dev && /^\/tools\/./.test(location.pathname) && !navigator.webdriver) {
+    var ev = function (k) { var d = JSON.stringify({ k: k, p: location.pathname, r: k === 'view' ? document.referrer : '' }); try { if (!(navigator.sendBeacon && navigator.sendBeacon('/api/config?a=ev', d))) fetch('/api/config?a=ev', { method: 'POST', body: d, keepalive: true }); } catch (e) { /* counting must never break a tool */ } };
+    ev('view');
+    var used = false, onUse = function (e) {
+      if (used || !e.target || !e.target.closest || e.target.closest('.ap-nav, .ap-foot, .ap-close, .ap-quotes, .ap-notice, #ap-cc, header, footer')) return;
+      if (e.type === 'pointerdown' && !e.target.closest('button, input, select, textarea, label, a[download], [role=button], canvas')) return;
+      used = true; ['pointerdown', 'input', 'change'].forEach(function (t) { document.removeEventListener(t, onUse, true); }); ev('use');
+    };
+    ['pointerdown', 'input', 'change'].forEach(function (t) { document.addEventListener(t, onUse, true); });
+  }
+
+  /* ---- content set in the admin: availability line, notice bar, testimonials ---- */
+  function applyContent(c) {
+    if (!c) return;
+    var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (x) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[x]; }); };
+    var n = c.notice, nk = n ? 'apNotice:' + n.text + '|' + (n.link || '') : '';
+    var gone = false; try { gone = !!nk && localStorage.getItem('apNoticeX') === nk; } catch (e) { /* show it */ }
+    if (n && !gone && location.pathname !== '/' && !document.querySelector('.ap-notice')) {
+      var bar = document.createElement('div'); bar.className = 'ap-notice'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Notice');
+      var safe = n.link && /^(https:\/\/|\/)/.test(n.link) ? n.link : '';
+      bar.innerHTML = '<span>' + esc(n.text) + '</span>' + (safe ? '<a href="' + esc(safe) + '">' + esc(n.linkText || 'Read more') + '</a>' : '') + '<button type="button" aria-label="Hide this notice">&times;</button>';
+      bar.querySelector('button').onclick = function () { bar.remove(); try { localStorage.setItem('apNoticeX', nk); } catch (e) { /* fine */ } };
+      document.body.insertBefore(bar, document.body.firstChild);
+    }
+    fillContent(c);
+    // pages drawn from a template render their closing panel after this runs, so fill new copies as they appear
+    if (window.MutationObserver && !applyContent.watch) {
+      var t = 0;
+      applyContent.watch = new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { fillContent(c); }, 60); });
+      applyContent.watch.observe(document.body, { childList: true, subtree: true });
+      setTimeout(function () { applyContent.watch.disconnect(); }, 15000);
+    }
+  }
+  function fillContent(c) {
+    var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (x) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[x]; }); };
+    if (c.avail) [].forEach.call(document.querySelectorAll('[data-ap-avail]'), function (el) { if (el.textContent !== c.avail) el.textContent = c.avail; });
+    var qs = c.quotes || [];
+    if (qs.length) [].forEach.call(document.querySelectorAll('[data-ap-quotes]'), function (box) {
+      if (box.children.length) return;
+      box.innerHTML = qs.map(function (q) {
+        var who = [q.role, q.company].filter(Boolean).join(', ');
+        return '<figure class="ap-quote">' + (q.rating ? '<span class="ap-quote__stars" aria-label="' + q.rating + ' out of 5">' + new Array(q.rating + 1).join('★') + '</span>' : '') + '<blockquote>' + esc(q.quote) + '</blockquote><figcaption><b>' + esc(q.name) + '</b>' + esc(who) + '</figcaption></figure>';
+      }).join('');
+      box.hidden = false;
+    });
+  }
+  if (!dev) {
+    var loadContent = function () { fetch('/api/config?a=content').then(function (r) { return r.ok ? r.json() : null; }).then(applyContent).catch(function () { /* the built-in text stays */ }); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadContent); else loadContent();
+  }
+
   // ---- keep Tab focus inside an open dialog ----
   window.apTrap = function (e, box) {
     if (e.key !== 'Tab' || !box) return;

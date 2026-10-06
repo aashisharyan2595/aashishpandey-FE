@@ -326,3 +326,15 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .ap-close__chips a:hover{border-color:#f5b867;color:#f5b867!important}
 .ap-close__chips svg{display:block;flex-shrink:0}
 @media(max-width:420px){.ap-close__chip{letter-spacing:.1em;font-size:10px}}
+/* testimonials above the closing panel and the notice bar: filled by site.js from what the admin publishes */
+.ap-quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 28px;font-family:'Geist',system-ui,sans-serif;color:#f4efe6;text-align:left}
+.ap-quotes[hidden]{display:none}
+.ap-quote{margin:0;display:flex;flex-direction:column;gap:14px;padding:24px;border-radius:22px;background:linear-gradient(180deg,rgba(19,24,56,.92),rgba(12,16,48,.92));border:1px solid rgba(244,239,230,.12)}
+.ap-quote blockquote{margin:0;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:21px;line-height:1.35;letter-spacing:-.005em;color:#f4efe6}
+.ap-quote blockquote::before{content:'\201C';display:block;height:22px;font-size:44px;line-height:1;color:#f5b867}
+.ap-quote figcaption{margin-top:auto;font-size:14px;line-height:1.4;color:#aaa4b8}.ap-quote figcaption b{display:block;color:#f4efe6;font-weight:600}
+.ap-quote__stars{color:#f5b867;letter-spacing:2px;font-size:14px}
+.ap-notice{position:relative;z-index:21;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 44px;background:#f5b867;color:#1a1420;font:600 14px/1.4 'Geist',system-ui,sans-serif;text-align:center}
+.ap-notice a{color:#1a1420;text-decoration:underline;text-underline-offset:3px}
+.ap-notice button{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;border-radius:99px;background:none;color:#1a1420;font-size:20px;line-height:1;cursor:pointer}
+.ap-notice button:hover{background:rgba(26,20,32,.1)}

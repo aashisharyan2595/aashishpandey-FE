@@ -9,6 +9,7 @@
 //   Team:        users_list, users_add, users_update, users_delete, audit_list, pw_change
 //   Security:    sec_get, totp_setup, totp_enable, totp_disable, signout_all, backup_now
 //   Short links: links_list, links_act
+//   Site:        health_get, health_run, tools_stats, gsc_get, content_get, content_save, tm_list, tm_act, tm_add, tm_request
 const crypto = require('crypto');
 const { env, sendMail, clean, parseBody, clientIp, limited, link } = require('./_mail');
 const T = require('./_templates');
@@ -30,12 +31,16 @@ const device = require('./_adm/device');
 const sessions = require('./_adm/sessions');
 const maillog = require('./_adm/maillog');
 const spam = require('./_spam');
+const siteHealth = require('./_adm/sitehealth');
+const toolStats = require('./_adm/toolstats');
+const gsc = require('./_adm/gsc');
+const content = require('./_adm/content');
 
 const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
 const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
 // what goes in the activity log (reads are not recorded; a refused attempt always is)
-const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe']);
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'tm_act', 'tm_add', 'tm_request']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
@@ -61,6 +66,8 @@ const setCookie = (res, v, age) => res.setHeader('Set-Cookie', `${COOKIE}=${v}; 
 const sameOrigin = (req) => { const o = req.headers.origin; if (!o) return true; try { return new URL(o).host === req.headers.host; } catch (e) { return false; } };
 const eq = (a, b) => { const x = crypto.createHash('sha256').update(String(a)).digest(), y = crypto.createHash('sha256').update(String(b)).digest(); return crypto.timingSafeEqual(x, y); };
 const cap = (a, n, len) => (Array.isArray(a) ? a : []).map((x) => String(x).trim().toLowerCase().slice(0, len)).filter(Boolean).slice(0, n);
+// the site the health checks look at: production checks the live domain, a preview checks itself
+const siteOrigin = (req) => (process.env.VERCEL_ENV === 'production' ? 'https://aashishpandey.com' : 'https://' + req.headers.host);
 const DUMMY = users.hash('not a real password', '00000000000000000000000000000000');   // so a wrong email takes as long as a wrong password
 
 /* ---------- filtering ---------- */
@@ -140,8 +147,9 @@ module.exports = async (req, res) => {
     if (a === 'cron' || a === 'digest') {   // Vercel Cron: the nightly backup and the morning digest
       if (!process.env.CRON_SECRET) return out(503, { error: 'Set CRON_SECRET in Vercel to enable scheduled jobs.' });
       if (req.headers.authorization !== 'Bearer ' + process.env.CRON_SECRET) return out(401, { error: 'Not allowed.' });
-      if (a === 'cron') return out(200, await sec.backup());
-      if ((await cfg.get('digest', { on: true })).on === false) return out(200, { sent: false, off: true });
+      const health = await siteHealth.run(siteOrigin(req), { alert: true, via: a }).then((r) => ({ ok: r.ok, fails: r.fails })).catch((e) => ({ error: e.message }));   // twice a day, with an alert if anything fails
+      if (a === 'cron') return out(200, { ...(await sec.backup()), health });
+      if ((await cfg.get('digest', { on: true })).on === false) return out(200, { sent: false, off: true, health });
       return out(200, await pipeline.sendDigest(await store.all()));
     }
 
@@ -191,6 +199,11 @@ module.exports = async (req, res) => {
     if (a === 'mail_for') { const rows = (await maillog.all()).filter((r) => r.ref === String(q.ref || '')); return out(200, { items: rows, webhook: !!process.env.RESEND_WEBHOOK_SECRET }); }
     if (a === 'users_list') { const m = await users.all(); return out(200, { users: Object.values(m).map(users.pub).sort((x, y) => x.createdAt - y.createdAt) }); }
     if (a === 'audit_list') { const m = await users.all(); return out(200, { items: await audit.list({ user: q.user, action: q.action, q: q.q, limit: 300 }), users: [{ id: 'owner', name: 'Owner' }, ...Object.values(m).map((u) => ({ id: u.id, name: u.name }))] }); }
+    if (a === 'health_get') return out(200, await siteHealth.last());
+    if (a === 'tools_stats') return out(200, await toolStats.stats(q.days, await store.all()));
+    if (a === 'gsc_get') { try { return out(200, await gsc.get(q.refresh === '1')); } catch (e) { return out(502, { error: e.message }); } }
+    if (a === 'content_get') return out(200, { content: await content.get(), defaults: content.DEFAULTS });
+    if (a === 'tm_list') return out(200, { items: await content.list() });
     if (!post) return out(405, { error: 'Use POST.' });
 
     /* ----- inbox ----- */
@@ -370,6 +383,17 @@ module.exports = async (req, res) => {
     }
     if (a === 'signout_all') { await sec.bumpEpoch(); await sessions.revokeAll(); setCookie(res, '', 0); return out(200, { ok: true }); }
     if (a === 'backup_now') { const r = await sec.backup(); return r.ok ? out(200, r) : out(502, { error: 'Backup email failed: ' + r.error }); }
+
+    /* ----- site: health, content, testimonials ----- */
+    if (a === 'health_run') return out(200, await siteHealth.run(siteOrigin(req), { via: 'manual' }));
+    if (a === 'content_save') { try { return out(200, { ok: true, content: await content.save(b) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'tm_act') { try { return out(200, { ok: true, item: await content.act(b.id, String(b.op || ''), b) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'tm_add') { try { return out(200, { ok: true, item: await content.add({ ...b, publish: b.publish !== false }, 'admin') }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'tm_request') {
+      const r = await store.get(clean(b.id, 40)); if (!r || r.type !== 'brief' || !r.email) return out(404, { error: 'Brief not found.' });
+      try { const x = await content.request(r); const item = await store.update(r.id, { testimonial: { ...(r.testimonial || {}), asked: Date.now() }, thread: [...(r.thread || []), { dir: 'out', at: Date.now(), subject: 'Testimonial request', body: 'Asked for a testimonial: ' + x.url, by: user.name }] }); return out(200, { ok: true, item: flag(item, now) }); }
+      catch (e) { return out(502, { error: 'Email failed: ' + e.message }); }
+    }
 
     /* ----- short links ----- */
     if (a === 'links_act') { try { await links.act(b.code, b.op); return out(200, { ok: true }); } catch (e) { return out(400, { error: e.message }); } }
