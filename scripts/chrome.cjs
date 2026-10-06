@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 27; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 28; // bump when assets/nav.css changes: assets are cached for 30 days
 const NAV_JS = 3;   // same for assets/nav.js (search, menu images, footer on phones)
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
@@ -209,6 +209,32 @@ function footer() {
     + `<p class="ap-foot__credits">Designed and built with passion <svg class="ap-foot__heart" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg> by Aashish Pandey</p></div></footer>`;
 }
 
+/* ---------- closing contact panel ---------- */
+// One panel closes every page that asks for work: the Night Ride horizon and road, a headline, and every way to get
+// in touch. A page marks where it goes with <!-- ap-close:start --><!-- ap-close:end -->; only the headline and the
+// line under it change from page to page (CLOSE below). Styles: .ap-close in assets/nav.css.
+const C_WORK = { h: 'Got a program that', em: 'needs landing?', p: 'Hiring full-time: I am open to Program and Project Manager roles. Freelance: send a short brief and I will come back with scope, timeline and a quote.' };
+const C_SERVICE = { h: 'Working', em: 'together.', p: 'Freelance: send a short brief and I will come back with scope, timeline and a quote. Full-time: I am open to Program Manager roles. Either way, the fastest start is a 20-minute call.' };
+const C_TOOLS = { h: 'Need a custom tool,', em: 'site or store?', p: 'I scope, design and build tools, websites and Shopify stores for teams in India and abroad. Send a short brief and I will reply within 48 hours.' };
+const C_DEFAULT = { h: 'I plan, build and ship things', em: 'like this for clients.', p: 'Program management for multi-market launches, or a hands-on build for your next site or experiment.' };
+const CLOSE = {
+  '/services': { h: 'Not sure which one', em: 'you need?', p: 'Tell me what is stuck and I will say which of these fits, or whether it is a mix. Freelance briefs get a scope, timeline and quote within 48 hours.' },
+  '/case-studies': { h: 'Have a program', em: 'like these?', p: 'Send a short brief. Freelance briefs get a scope, timeline and quote within 48 hours, and I am open to full-time Program Manager roles.' },
+  '/portfolio': C_WORK, '/work-liquid-iv': C_WORK, '/work-talenti': C_WORK, '/work-storynest': C_WORK, '/work-ceat-specialty': C_WORK,
+};
+for (const h of flat(MENUS.services)) if (h.href !== '/services') CLOSE[h.href] = C_SERVICE;
+function close(p) {
+  const c = CLOSE[p] || (p && p.startsWith('/tools') ? C_TOOLS : C_DEFAULT);
+  const from = (p || '').replace(/^\//, '').replace(/\//g, '-').slice(0, 40) || 'site';
+  const GO = svg('<path d="M7 17 17 7"></path><path d="M7 7h10v10"></path>', 16);
+  const chip = (href, ic, t, more = '') => `<a href="${e(href)}"${more}>${svg(ICONS.extra[ic], 15)}${t}</a>`;
+  return `<div class="ap-close"><div class="ap-close__copy"><span class="ap-close__chip">Available for full-time and freelance</span>`
+    + `<h2 id="ap-close-h" class="ap-close__h">${e(c.h)} <span class="ap-close__em">${e(c.em)}</span></h2><p class="ap-close__p">${e(c.p)}</p></div>`
+    + `<div class="ap-close__links"><a class="ap-close__book" href="${e(BOOK)}" target="_blank" rel="noopener">${svg(ICONS.extra.cal, 22)}<span class="ap-close__bt"><b>Book a 20-min call</b><span>Pick a slot that suits you</span></span>${GO}</a>`
+    + `<a class="ap-close__mail" href="${e(MAIL)}">${svg(ICONS.extra.mail, 20)}<span class="ap-close__bt"><b>hello@aashishpandey.com</b></span>${GO}</a>`
+    + `<div class="ap-close__chips">${chip('/contact?from=' + from, 'send', 'Send a brief')}${chip(CV, 'file', 'Résumé', ' download')}${chip(LI, 'in', 'LinkedIn', ' target="_blank" rel="noopener"')}${chip(WA, 'chat', 'WhatsApp', ' target="_blank" rel="noopener"')}</div></div></div>`;
+}
+
 /* ---------- active state ---------- */
 const rewrites = {};
 for (const r of JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8')).rewrites || []) {
@@ -260,11 +286,12 @@ function wrapLegacyFooter(src) {
 let changed = 0, stale = [];
 for (const f of fs.readdirSync(ROOT).filter((x) => x.endsWith('.dc.html')).sort()) {
   const fp = path.join(ROOT, f), src = fs.readFileSync(fp, 'utf8');
-  if (!src.includes('<!-- ap-nav:start -->') && !src.includes('<footer class="ap-foot"')) continue;
+  if (!/<!-- ap-(nav|foot|close):start -->/.test(src) && !src.includes('<footer class="ap-foot"')) continue;
   const p = rewrites[f];
   let out = wrapLegacyFooter(wrapLegacyNav(src)), a, b;
   [out, a] = region('nav', header, out, p);
   [out, b] = region('foot', footer, out, p);
+  out = out.replace(/(<!-- ap-close:start -->)[\s\S]*?(<!-- ap-close:end -->)/g, (_, a1, b1) => `${a1}\n${close(p)}\n${b1}`);
   out = out.replace(/nav\.css\?v=\d+/g, `nav.css?v=${NAV_CSS}`);
   // the script that opens search and loads the menu pictures sits beside the stylesheet, with the same path style
   if (/nav\.js\?v=\d+/.test(out)) out = out.replace(/nav\.js\?v=\d+/g, `nav.js?v=${NAV_JS}`);

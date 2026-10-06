@@ -303,3 +303,34 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 /* inner-page heroes: a soft dusk glow behind the headline, echoing the ride's sunset and the portfolio hero */
 .ap-glow{position:relative;isolation:isolate}
 .ap-glow::before{content:"";position:absolute;z-index:-1;left:-12%;top:-140px;width:min(820px,90%);height:560px;background:radial-gradient(closest-side,rgba(245,184,103,.13),rgba(245,184,103,0)),radial-gradient(closest-side at 70% 60%,rgba(127,243,225,.05),rgba(127,243,225,0));pointer-events:none}
+/* closing contact panel: written once by scripts/chrome.cjs (<!-- ap-close -->). The Night Ride horizon and road under a
+   headline and every way to get in touch. Same shell as .nr-cta in site.css, kept here because every page loads nav.css. */
+.ap-close-sec{width:100%;max-width:1200px;margin:0 auto;box-sizing:border-box;padding:clamp(72px,9vw,128px) clamp(18px,4vw,44px)}
+.ap-close{position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;border-radius:28px;border:1px solid rgba(245,184,103,.22);padding:clamp(28px,5vw,64px) clamp(22px,5vw,64px) max(200px,18vw);display:grid;grid-template-columns:minmax(0,1fr);gap:28px 56px;align-items:end;font-family:'Geist',system-ui,sans-serif;color:#f4efe6;text-align:left}
+.ap-close *,.ap-close *::before,.ap-close *::after{box-sizing:border-box}
+.ap-close::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(70% 70% at 50% 100%,rgba(245,184,103,.45),rgba(196,106,74,.2) 45%,transparent 75%),linear-gradient(180deg,#0e1230 0%,#1a1640 70%,#2c1d4a 100%)}
+.ap-close::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:max(193px,17.5vw);z-index:-1;pointer-events:none;background:url(nr/horizon.svg) center bottom/max(100%,1100px) auto no-repeat}
+@media(min-width:900px){.ap-close{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.ap-close__copy{display:flex;flex-direction:column;align-items:flex-start;gap:16px;min-width:0}
+.ap-close__chip{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:99px;background:rgba(127,243,225,.08);border:1px solid rgba(127,243,225,.25);font:500 10.5px/1.2 'Geist Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:#7ff3e1}
+.ap-close__chip::before{content:"";width:6px;height:6px;border-radius:50%;background:#7ff3e1;box-shadow:0 0 8px #7ff3e1;flex-shrink:0}
+.ap-close__h{margin:0;font-weight:600;font-size:clamp(28px,3.6vw,46px);line-height:1.04;letter-spacing:-.04em;color:#f4efe6;text-wrap:balance}
+.ap-close__em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.015em;color:#f5b867}
+.ap-close__p{margin:0;max-width:52ch;font-size:clamp(16px,1.5vw,19px);line-height:1.6;color:#cfc9d8;text-wrap:pretty}
+.ap-close__links{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ap-close a{text-decoration:none}
+.ap-close__book,.ap-close__mail{display:flex;align-items:center;gap:14px;min-height:56px;padding:16px 20px;border-radius:16px;transition:background .2s,border-color .2s,transform .3s cubic-bezier(.16,1,.3,1)}
+.ap-close__book{background:#f5b867;color:#1a1420!important}
+.ap-close__book:hover{background:#ffc880;color:#1a1420!important;transform:translateY(-2px)}
+.ap-close__mail{border:1px solid rgba(244,239,230,.2);background:rgba(7,9,22,.35);color:#f4efe6!important}
+.ap-close__mail:hover{border-color:rgba(245,184,103,.6);color:#f4efe6!important}
+.ap-close__book svg,.ap-close__mail svg{display:block;flex-shrink:0}
+.ap-close__bt{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.ap-close__bt b{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.2;overflow-wrap:anywhere}
+.ap-close__mail .ap-close__bt b{font-size:16px;font-weight:500}
+.ap-close__bt span{font-size:13.5px;line-height:1.3;opacity:.75}
+.ap-close__chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ap-close__chips a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 12px;border-radius:99px;border:1px solid rgba(244,239,230,.28);background:rgba(7,9,22,.35);color:#f4efe6!important;font:500 11px/1 'Geist Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;transition:border-color .2s,color .2s}
+.ap-close__chips a:hover{border-color:#f5b867;color:#f5b867!important}
+.ap-close__chips svg{display:block;flex-shrink:0}
+@media(max-width:420px){.ap-close__chip{letter-spacing:.1em;font-size:10px}}
