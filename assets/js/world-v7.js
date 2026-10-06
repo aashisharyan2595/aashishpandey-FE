@@ -3428,6 +3428,8 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   await __y(); let lv = (() => { let sv = null; try { const v = JSON.parse(localStorage.getItem(PKEY) || 'null'); if (v && v.k === PK && Date.now() - v.at < 30 * 864e5) sv = v; } catch (e) {} return Math.min(lvTop, sv ? sv.lv : lvOf(tier, rScale, dyn)); })();
   await __y(); const LBLOCK = [], LBO = LADDER.map(() => 20000);
   await __y(); const applyLv = () => { const e = LADDER[lv]; rScale = e.r; dyn = e.d; setTier(e.t); }; applyLv();
+  // ?fps shows the governor live (level, frame time, draw calls) so people can report what a real device does
+  await __y(); const hud = QS.has('fps') ? (() => { const d = document.createElement('div'); d.style.cssText = 'position:fixed;left:8px;top:8px;z-index:99999;padding:6px 9px;border-radius:8px;background:rgba(0,0,0,.72);color:#7ff3e1;font:11px/1.45 ui-monospace,monospace;pointer-events:none;white-space:pre'; document.body.appendChild(d); renderer.info.autoReset = false; return d; })() : null;
   await __y(); let snapReq = null; // photo mode: one frame rendered at print resolution, then back to the governor's level
   await __y(); const toNDC = e => { const r = canvas.getBoundingClientRect(); mouse.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); };
   await __y(); const hitNote = () => { ray.setFromCamera(mouse, camera); const h = ray.intersectObjects(notes.map(n => n.hit)); return h.length ? h[0].object.userData.note : -1; };
@@ -3526,6 +3528,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (fi < 200) { perf.acc += fi; perf.n++; }
     if (readySent && !perf.t0) perf.t0 = now;
     if (perf.n >= 20) { const ms = perf.acc / perf.n; perf.acc = 0; perf.n = 0;
+      if (hud) hud.textContent = 'level ' + lv + '/' + lvTop + '  tier ' + tier + '  res ' + renderer.getPixelRatio().toFixed(2) + (capOn ? '  30 fps pacing' : '') + '\n' + Math.round(1000 / ms) + ' fps  ' + ms.toFixed(1) + ' ms\ncalls ' + renderer.info.render.calls + '  tris ' + Math.round(renderer.info.render.triangles / 1000) + 'k\n' + gpuName.slice(0, 54);
       const dn = capOn ? 40 : DOWN_MS, up = capOn ? 35 : UP_MS, live = perf.t0 && now - perf.t0 > 2500;
       if (live && ms > dn && now - perf.cool > 900) {
         if (lv > 0) { LBLOCK[lv] = now + LBO[lv]; LBO[lv] = Math.min(LBO[lv] * 2, 300000); lv = Math.max(0, lv - (ms > dn * 1.6 ? 3 : ms > dn * 1.25 ? 2 : 1)); applyLv(); }
@@ -3536,6 +3539,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       } else perf.good = Math.max(0, perf.good - 1);
       if (live && now - perf.cool > 10000 && now - perf.saved > 10000) { perf.saved = now; try { localStorage.setItem(PKEY, JSON.stringify({ k: PK, lv, at: Date.now() })); } catch (e) {} }
     }
+    if (hud) renderer.info.reset();
     if (introStart === null && introArmed) introStart = now;
     const intro = introStart === null ? 0 : sstep(0, 1, (now - introStart) / 6500);
     { const gap = (target - t) * L, vmax = 34 + Math.max(0, Math.abs(gap) - 60) * 0.6, want = clamp(gap * 1.4, -vmax, vmax); vel += (want - vel) * (1 - Math.exp(-dt * 2.2)); t = clamp(t + vel * dt / L, 0, 1); if (Math.abs(gap) < 0.05 && Math.abs(vel) < 0.5) { t = target; vel = 0; } if (!free && CAMP.st !== 'ride') { t = 1; vel = 0; } }

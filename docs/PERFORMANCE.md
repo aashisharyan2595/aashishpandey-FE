@@ -51,6 +51,8 @@ The ride picks its quality while it runs, on every device (`assets/js/world-v7.j
 - Unknown desktops start at tier 2 instead of the top, and weak GPUs start at the bottom (see `probeGPU`).
 - The first 2.5 seconds after the first frame are ignored, so world building and shader warm-up do not count as lag.
 
+Add `?fps` to the page URL to show a small overlay with the level, frame rate, frame time, draw calls, triangles and GPU name. It is the quickest way to see what a real device does.
+
 Debug: with `?perf`, `window.__apW.gov` shows the level (`lv`), the top level (`lvTop`) and whether the 30 fps pacing is on, and `setLv(n)` forces a level.
 
 ## Known limits
