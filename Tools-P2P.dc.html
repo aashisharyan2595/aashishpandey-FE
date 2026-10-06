@@ -147,6 +147,29 @@ input[type=range]{accent-color:#f5b867}
 .p2-manual{display:flex;flex-direction:column;gap:14px;padding-top:12px}
 .p2-manual .tl-textarea{min-height:84px;font-size:12.5px}
 .p2-drop-off{opacity:.55}
+.p2-steps{list-style:none;margin:0;padding:0;display:flex;gap:10px;align-items:center}
+.p2-steps li{display:flex;gap:10px;align-items:center;font:500 14px 'Geist',system-ui,sans-serif;color:#8e89a0;flex:1;padding:10px 14px;border-radius:14px;border:1px solid rgba(244,239,230,.08);transition:all .25s}
+.p2-steps b{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:600 13px 'Geist Mono',ui-monospace,monospace;border:1px solid rgba(244,239,230,.2);flex:none}
+#p2p[data-step=pair] .p2-s1,#p2p[data-step=send] .p2-s2{color:#f4efe6;border-color:rgba(245,184,103,.45);background:rgba(245,184,103,.07)}
+#p2p[data-step=pair] .p2-s1 b,#p2p[data-step=send] .p2-s2 b{background:#f5b867;border-color:#f5b867;color:#1a1420}
+#p2p[data-step=send] .p2-s1{color:#7ff3e1;border-color:rgba(127,243,225,.3)}
+#p2p[data-step=send] .p2-s1 b{background:rgba(127,243,225,.15);border-color:rgba(127,243,225,.5);color:#7ff3e1;font-size:0}
+#p2p[data-step=send] .p2-s1 b:after{content:"\2713";font-size:13px}
+@media(max-width:560px){.p2-steps li span{font-size:13px}.p2-steps li{padding:8px 10px;gap:8px}}
+.p2-ic{display:inline-flex;width:34px;height:34px;border-radius:10px;align-items:center;justify-content:center;margin-right:10px;vertical-align:middle;background:rgba(245,184,103,.12);color:#f5b867}
+.p2-card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));gap:14px}
+.p2-pair>.p2-card:first-child{border-color:rgba(245,184,103,.3)}
+.p2-big{height:52px;padding:0 26px;font-size:15.5px;align-self:flex-start}
+.p2-code{padding:10px 16px;border-radius:14px;background:rgba(7,9,22,.7);border:1px solid rgba(245,184,103,.35);align-self:flex-start}
+.p2-qr{padding:8px;box-sizing:border-box}
+.p2-codein{height:52px!important;text-align:center}
+.tl-drop{padding:clamp(34px,6vw,60px) 20px;border-radius:20px;gap:8px;background:rgba(244,239,230,.02)}
+.p2-up{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(245,184,103,.12);color:#f5b867;margin-bottom:6px;transition:transform .2s}
+.tl-drop:hover .p2-up,.tl-drop.is-over .p2-up{transform:translateY(-3px)}
+.p2-empty{text-align:center;padding:4px 0}
+.p2-list:not(:empty)+.p2-empty{display:none}
+.tl-details>summary{padding:10px 0}
+
 @media(max-width:560px){.p2-item__head{flex-wrap:wrap}.p2-item__act{width:100%;justify-content:flex-end}}
 </style>
 </head>
@@ -157,37 +180,35 @@ input[type=range]{accent-color:#f5b867}
 <!-- ap-nav:end -->
   <main style="flex:1;width:100%;max-width:1200px;margin:0 auto;box-sizing:border-box;padding:clamp(40px,7vw,96px) clamp(18px,4vw,44px) 0;display:flex;flex-direction:column;gap:clamp(28px,4vw,40px);">
         <header style="display:flex;flex-direction:column;gap:16px;"><nav aria-label="Breadcrumb"><ol style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8e89a0;"><li><a href="/" style="color:#8e89a0;">Home</a></li><li aria-hidden="true" style="opacity:.5;">/</li><li><a href="/tools" style="color:#8e89a0;">Tools</a></li><li aria-hidden="true" style="opacity:.5;">/</li><li aria-current="page" style="color:#f4efe6;">P2P File Sharing</li></ol></nav>
-      <h1 style="margin:0;font-weight:600;font-size:clamp(34px,4.8vw,60px);line-height:.97;letter-spacing:-.045em;color:#f4efe6;max-width:900px;text-wrap:balance;">Send files straight to another device <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#f5b867;">with nothing stored on a server.</span></h1>
-      <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:680px;color:#aaa4b8;text-wrap:pretty;">Pair two browsers with a one-time code, then send files of any size directly between them, encrypted. Phone to laptop, Mac to Windows, across the room or across countries. No upload, no account, no app.</p>
+      <h1 style="margin:0;font-weight:600;font-size:clamp(34px,4.8vw,60px);line-height:.97;letter-spacing:-.045em;color:#f4efe6;max-width:900px;text-wrap:balance;">Send files between two devices, <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#f5b867;">with nothing uploaded.</span></h1>
+      <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:680px;color:#aaa4b8;text-wrap:pretty;">Show a code on one device, type it on the other, then drop your files. They travel straight between the two browsers, encrypted. No account, no app, no size cap.</p>
     </header>
     <section id="p2p" class="tl-panel" aria-label="P2P file sharing tool">
       <noscript><p class="tl-verdict is-bad">This tool needs JavaScript to connect the two browsers.</p></noscript>
+      <ol class="p2-steps" aria-label="Progress"><li class="p2-s1"><b>1</b><span>Pair your devices</span></li><li class="p2-s2"><b>2</b><span>Send files or messages</span></li></ol>
       <p id="p2p-unsupported" class="tl-verdict is-bad" hidden>This browser cannot make direct connections (WebRTC). Open the page in a current version of Chrome, Edge, Firefox or Safari.</p>
       <div id="p2p-pair" class="p2-pair">
         <div class="p2-card">
-          <span class="p2-step">On one device</span>
-          <h2 class="p2-h">Start a connection</h2>
-          <p class="tl-small tl-muted">Get a one-time code, then enter it on the other device. Either side can send.</p>
-          <div id="p2p-host-idle"><button id="p2p-start" class="tl-btn tl-btn--p" type="button">Get a code</button></div>
+          <h2 class="p2-h"><span class="p2-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v.01M14 21h.01M17 21h4v-4"/></svg></span>Show a code</h2>
+          <p class="tl-small tl-muted">Use this device to make a code. The other device types it or scans the QR.</p>
+          <div id="p2p-host-idle"><button id="p2p-start" class="tl-btn tl-btn--p p2-big" type="button">Get a code</button></div>
           <div id="p2p-host" hidden style="display:flex;flex-direction:column;gap:12px;">
             <div class="p2-show"><div id="p2p-qr" class="p2-qr"></div><div style="display:flex;flex-direction:column;gap:6px;min-width:0;"><span class="tl-label">Your code</span><span id="p2p-code" class="p2-code"></span><span id="p2p-expiry" class="tl-small tl-muted"></span></div></div>
             <div class="tl-actions"><button id="p2p-copy-link" class="tl-btn" type="button">Copy link</button><button id="p2p-share" class="tl-btn" type="button" hidden>Share</button><button id="p2p-cancel" class="tl-btn" type="button">Cancel</button></div>
           </div>
         </div>
         <div class="p2-card">
-          <span class="p2-step">On the other device</span>
-          <h2 class="p2-h">Join with a code</h2>
-          <p class="tl-small tl-muted">Type the code from the first device, or scan its QR code with the camera to open this page ready to go.</p>
+          <h2 class="p2-h"><span class="p2-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg></span>Enter a code</h2>
+          <p class="tl-small tl-muted">Got a code from the other device? Type it here. Scanning its QR also works.</p>
           <form id="p2p-join" class="p2-join" autocomplete="off"><label class="sr" for="p2p-join-code">Pairing code</label><input id="p2p-join-code" class="tl-input p2-codein" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12" placeholder="XXXX-XXXX"><button class="tl-btn tl-btn--p" type="submit" style="height:48px;">Connect</button></form>
         </div>
       </div>
       <details id="p2p-manual" class="tl-details">
-        <summary>No server at all: pair by copy and paste</summary>
+        <summary>Can’t use a code? Pair by copy and paste</summary>
         <div class="p2-manual">
           <p class="tl-small tl-muted">In this mode nothing reaches my server, not even the encrypted pairing. You carry two short messages between the devices yourself, by chat, email or anything you like.</p>
           <div class="p2-pair">
             <div class="p2-card">
-              <span class="p2-step">On one device</span>
               <h3 class="p2-h">Make an invite</h3>
               <div><button id="p2p-m-create" class="tl-btn" type="button">Make an invite</button></div>
               <div id="p2p-m-host" hidden style="display:flex;flex-direction:column;gap:10px;">
@@ -200,7 +221,6 @@ input[type=range]{accent-color:#f5b867}
               </div>
             </div>
             <div class="p2-card">
-              <span class="p2-step">On the other device</span>
               <h3 class="p2-h">Answer an invite</h3>
               <label class="tl-label" for="p2p-m-invite-in">Paste the invite, or just open the invite link</label>
               <textarea id="p2p-m-invite-in" class="tl-textarea" spellcheck="false" placeholder="Paste the invite here"></textarea>
@@ -216,9 +236,10 @@ input[type=range]{accent-color:#f5b867}
       </details>
       <div id="p2p-conn" class="p2-conn" hidden><span class="p2-dot" aria-hidden="true"></span><div><strong id="p2p-peer"></strong><span id="p2p-route" class="tl-small tl-muted"></span></div><span id="p2p-safety" class="tl-chip tl-chip--ok" title="Both screens should show the same number"></span><button id="p2p-disconnect" class="tl-btn" type="button">Disconnect</button></div>
       <p id="p2p-status" class="p2-status" role="status" aria-live="polite" hidden></p>
-      <div id="p2p-drop" class="tl-drop" tabindex="0" role="button" aria-label="Choose files to send"><strong>Drop files to send</strong><span id="p2p-drop-sub">or click to choose. Any type, any size. They wait here until a device connects.</span><input id="p2p-pick" type="file" multiple hidden></div>
+      <div id="p2p-drop" class="tl-drop" tabindex="0" role="button" aria-label="Choose files to send"><span class="p2-up" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span><strong>Drop files here, or click to choose</strong><span id="p2p-drop-sub">Any type, any size. Added files wait here and send once a device connects.</span><input id="p2p-pick" type="file" multiple hidden></div>
       <form id="p2p-textf" class="p2-join" hidden><label class="sr" for="p2p-text-in">Message or link to send</label><input id="p2p-text-in" class="tl-input" type="text" autocomplete="off" maxlength="20000" placeholder="Send a message or a link"><button class="tl-btn" type="submit" style="height:48px;">Send</button></form>
       <ul id="p2p-list" class="p2-list" aria-label="Transfers"></ul>
+      <p class="p2-empty tl-small tl-muted">Sent and received files show up here. Received files are saved only when you press Save.</p>
       <div id="p2p-bulk" class="tl-actions" hidden><button id="p2p-saveall" class="tl-btn tl-btn--p" type="button" hidden>Save all received</button><button id="p2p-clear" class="tl-btn" type="button">Clear finished</button></div>
     </section>
   <section aria-label="About this tool" style="font-family:Geist,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:clamp(72px,9vw,128px) 0 0;display:flex;flex-direction:column;gap:clamp(72px,9vw,128px);border-top:1px solid rgba(244,239,230,.1);">
@@ -240,6 +261,7 @@ input[type=range]{accent-color:#f5b867}
 <footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>Project Manager and Creative Technologist in Bangalore. 50+ sites and platforms shipped since 2018.</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>Open to PM roles &amp; freelance</a><form class="ap-foot__news" data-news novalidate><label for="ap-news-e">New tools and write-ups, by email</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Subscribed straight away. Unsubscribe any time. <a href="/privacy">Privacy</a></p></form></div><nav class="ap-foot__cols" aria-label="Footer"><details class="ap-foot__col" open><summary class="ap-foot__h">Work</summary><div class="ap-foot__links"><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/work-liquid-iv">Liquid I.V.</a><a href="/work-talenti">Talenti</a><a href="/work-storynest">StoryNest</a><a href="/work-ceat-specialty">CEAT Specialty</a></div></details><details class="ap-foot__col" open><summary class="ap-foot__h">Services</summary><div class="ap-foot__links"><a href="/services">All services</a><a href="/shopify-developer">Shopify developer</a><a href="/full-stack-developer">Full-stack developer</a><a href="/wordpress-webflow-developer">WordPress &amp; Webflow</a><a href="/seo-consultant">SEO consultant</a><a href="/ui-ux-design">UI and UX design</a><a href="/freelance-project-manager">Freelance project manager</a><a href="/tech-consultant">Tech consultant</a></div></details><details class="ap-foot__col ap-foot__col--tools" open><summary class="ap-foot__h">Free tools</summary><div class="ap-foot__links"><div class="ap-foot__tools"><a href="/tools/resume-maker">Resume Maker</a><a href="/tools/qr-code-generator">QR Code Generator</a><a href="/tools/invoice-generator">Invoice Generator</a><a href="/tools/sop-maker">SOP Maker</a><a href="/tools/password-generator">Password Generator</a><a href="/tools/p2p-file-sharing" aria-current="page">P2P File Sharing</a><a href="/tools/image-resizer">Image Resizer</a><a href="/tools/url-shortener">URL Shortener</a><a href="/tools/lorem-ipsum-generator">Lorem Ipsum Generator</a><a href="/tools/pad">Online Notepad</a><a href="/tools/time-zone-meeting-planner">Time Zone Planner</a><a href="/tools/file-hash-checker">File Hash Checker</a><a href="/tools/exif-remover">Photo Metadata Remover</a><a href="/tools/project-estimate-calculator">Project Estimate Calculator</a><a href="/tools/qr-code-checker">QR Code Autopsy</a><a href="/tools/website-launch-checklist">Launch Checklist</a></div><a class="ap-foot__all" href="/tools">All 16 tools</a></div></details><div class="ap-foot__stack"><details class="ap-foot__col" open><summary class="ap-foot__h">Get in touch</summary><div class="ap-foot__links"><a href="mailto:hello@aashishpandey.com">hello@aashishpandey.com</a><a href="https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener">Book a 20-minute call</a><a href="/contact">Send a brief</a><a href="https://wa.me/917558415031" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.linkedin.com/in/aashish-kumar-pandey" target="_blank" rel="noopener">LinkedIn</a></div></details><details class="ap-foot__col" open><summary class="ap-foot__h">More</summary><div class="ap-foot__links"><a href="/">The 3D ride</a><a href="/how-this-site-was-built">How this site was built</a><a href="/assets/Aashish-Pandey-Resume.pdf">Résumé (PDF)</a></div></details></div></nav></div><div class="ap-foot__base"><span class="ap-foot__copy">© 2026 Aashish Pandey</span><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">↑</span></a></div><p class="ap-foot__credits">Designed and built with passion <svg class="ap-foot__heart" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg> by Aashish Pandey</p></div></footer>
 <!-- ap-foot:end -->
 </div>
+<script>(function(){var p=document.getElementById('p2p'),c=document.getElementById('p2p-conn');if(!p||!c)return;function s(){p.dataset.step=c.hidden?'pair':'send'}s();new MutationObserver(s).observe(c,{attributes:true,attributeFilter:['hidden']})})()</script>
 <script src="/assets/vendor/qrcode.js" defer></script>
 <script src="/assets/p2p.js?v=1" defer></script>
 
