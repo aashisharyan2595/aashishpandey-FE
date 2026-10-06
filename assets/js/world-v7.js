@@ -3428,6 +3428,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   await __y(); let lv = (() => { let sv = null; try { const v = JSON.parse(localStorage.getItem(PKEY) || 'null'); if (v && v.k === PK && Date.now() - v.at < 30 * 864e5) sv = v; } catch (e) {} return Math.min(lvTop, sv ? sv.lv : lvOf(tier, rScale, dyn)); })();
   await __y(); const LBLOCK = [], LBO = LADDER.map(() => 20000);
   await __y(); const applyLv = () => { const e = LADDER[lv]; rScale = e.r; dyn = e.d; setTier(e.t); }; applyLv();
+  await __y(); let snapReq = null; // photo mode: one frame rendered at print resolution, then back to the governor's level
   await __y(); const toNDC = e => { const r = canvas.getBoundingClientRect(); mouse.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); };
   await __y(); const hitNote = () => { ray.setFromCamera(mouse, camera); const h = ray.intersectObjects(notes.map(n => n.hit)); return h.length ? h[0].object.userData.note : -1; };
   await __y(); const hitDino = () => { ray.setFromCamera(mouse, camera); return ray.intersectObject(dinoHit, true).length > 0; };
@@ -3922,12 +3923,14 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (frameNo % 6 === 3) { cullScan(); cullStep(160); cullPass(); }
     if (warm < 2) { if (warm === 0) beginWarm(); warmStep(); if (warm < 2) return; }
     updateRoots();
+    if (snapReq && !snapReq.on) { snapReq.on = true; const m = Math.max(host.clientWidth, host.clientHeight) || 1; renderer.setPixelRatio(Math.min(4096 / m, Math.max(renderer.getPixelRatio(), 2000 / m))); renderer.setSize(host.clientWidth, host.clientHeight); resizePost(); }
     renderer.setRenderTarget(postRT); renderer.render(scene, camera);
-    const doBloom = tier > 0; postU.bloomAmt.value = doBloom ? lerp(0.4, 0.9, glow) : 0;
+    const doBloom = snapReq || tier > 0; postU.bloomAmt.value = doBloom ? lerp(0.4, 0.9, glow) : 0;
     if (doBloom) { fsq.material = brightMat; renderer.setRenderTarget(BL.a); renderer.render(fsScene, postCamB); blurPass(BL.a, BL.b, 1, 0, 1); blurPass(BL.b, BL.a, 0, 1, 1); blurPass(BL.a, BL.b, 1, 0, 2.3); blurPass(BL.b, BL.a, 0, 1, 2.3); }
     postU.focus.value = tier >= 2 && !free && intro >= 1 ? dwell * 0.85 : 0;
     postU.speedFx.value = free && !reduceMotion && tier >= 1 && intro >= 1 ? clamp(sstep(18, 27, curSpeed) * 0.14 + boostAmt * 0.1 + punch * 0.16, 0, 0.45) : 0;
     renderer.setRenderTarget(null); renderer.render(postScene, postCam);
+    if (snapReq && snapReq.on) { const q = snapReq; snapReq = null; let url = null; try { url = canvas.toDataURL('image/jpeg', 0.95); } catch (err) { /* fall back below */ } setTier(tier); q.cb(url); }
     if (!readySent) { readySent = true; opts.onReady && opts.onReady(); }
     if (deferred.length && !deferBusy) { deferBusy = true; const runNext = () => { const fn = deferred.shift(); if (!fn) { deferBusy = false; return; } const saved = seed; seed = 9001 + deferred.length * 131; try { fn(); } catch (err) { console.warn(err); } seed = saved; chunkify(); hookAll(); warmMore(); renderer.shadowMap.needsUpdate = true; if (deferred.length) (window.requestIdleCallback ? requestIdleCallback(runNext, { timeout: 500 }) : setTimeout(runNext, 40)); else { deferBusy = false; warmUp(); } }; setTimeout(runNext, 80); }
   }
@@ -3953,6 +3956,13 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     setWeather(k) { WX.force = k || null; if (!k) WX.next = 1; },
     setSeason(sn) { if (['summer', 'spring', 'autumn', 'winter'].includes(sn)) { season = sn; seasonDirty = true; try { sessionStorage.setItem('ap-season', sn); } catch (e) {} } },
     getLife() { return { season, dayPh, dayMix, region: REG.id, weather: { rain: WX.rain, drizzle: WX.drizzle, snow: WX.snow, dust: WX.dust, storm: WX.stormAmt, mist: WX.mist, wet: WX.wet } }; },
+    // photo mode: render one frame at print resolution (with bloom) and hand back a JPEG data URL
+    snapshotHQ(cb) { if (snapReq) return; const q = snapReq = { cb, on: false }; setTimeout(() => { if (snapReq === q) { snapReq = null; cb(this.snapshot()); } }, 1500); },
+    // what the photo shows, for its caption: where, when, and the weather
+    photoInfo() { const names = { midnight: 'midnight', dawn: 'dawn', morning: 'morning', noon: 'noon', afternoon: 'afternoon', golden: 'golden hour', dusk: 'dusk', night: 'night' };
+      let when = curNight > 0.5 ? 'night' : 'daytime'; if (dayPh >= 0) { let bd = 9; for (const k in DAYN) { const d = Math.abs(DAYN[k] - dayPh), dd = Math.min(d, 1 - d); if (dd < bd) { bd = dd; when = names[k]; } } }
+      const w = WX.snow > 0.2 ? 'snowfall' : WX.stormAmt > 0.3 ? 'storm' : WX.rain > 0.25 ? 'rain' : WX.drizzle > 0.25 ? 'drizzle' : WX.dust > 0.25 ? 'dust' : WX.mist > 0.35 ? 'mist' : '';
+      return { place: REGN[REG.id] || '', when, weather: w, night: curNight, kmh: Math.round(curSpeed * 6) }; },
     snapshot() { renderer.setRenderTarget(null); renderer.render(postScene, postCam); return canvas.toDataURL('image/jpeg', 0.92); },
     getMapInfo() { const P = (x, z) => [Math.round(x), Math.round(z)], road = [], coast = [], river = []; for (let z = Z0 + 140; z >= ZEND - 6; z -= 20) road.push(P(roadX(z), z)); for (let z = COAST.zHi; z >= COAST.zLo; z -= 25) coast.push(P(coastX(z), z)); for (let z = RIV.zHi; z >= RIV.zLo; z -= 20) river.push(P(riverX(z), z));
       return { road, coast, river, lake: { x: LAKE.x, z: LAKE.z, r: LAKE.r }, desert: { x: DESERT.x, z: DESERT.z, r: DESERT.r }, meadow: { x: MEADOW.x, z: MEADOW.z, r: MEADOW.r }, fire: { x: FIRE.x, z: FIRE.z }, secrets: SECRET_POS, regions: NREG.map(R => ({ id: R.id, x: R.x, z: R.z, sx: R.sx, sz: R.sz })), sroads: SROADS.map(S => S.pts.map(p => P(p[0], p[1]))), loop: LOOP.pts.map(p => P(p[0], p[1])), trail: TRAIL.pts.map(p => P(p[0], p[1])), peak: { x: PEAK.x, z: PEAK.z, r: PEAK.rE }, lanterns: LANTS.map(L => ({ x: L.x, z: L.z, lit: L.lit })), bounds: { x0: WB.x0, x1: WB.x1, z0: WB.z0, z1: ZEND - 230 }, stops: Array.from({ length: NSTOP + 1 }, (_, i) => { const z = zAt(i / NSTOP); return P(roadX(z), z); }) }; },
