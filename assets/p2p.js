@@ -14,7 +14,8 @@
  * from then on serves it to the others. Devices that still lack many pieces fetch pieces that other guests already hold,
  * and only go to the owner for pieces nobody else has, so the owner uploads each piece about once, however many people
  * download. Pieces are picked rarest first; a stalled or lying peer is dropped and its pieces are asked for elsewhere.
- * ICE uses public STUN only (no TURN relay), so a few strict networks cannot connect. The page says so.
+ * Connection servers: public STUN, plus a TURN relay when the site has one configured (/api/p2p-ice). Devices connect directly
+ * whenever they can, so a room works across countries and networks; the relay only carries traffic that is already encrypted.
  *
  * Wire protocol, JSON strings for control and ArrayBuffers for piece bytes, per link:
  *   hi {id,name}        first message each way
@@ -51,7 +52,17 @@ function fmtTime(s) {
 const show = (el, on) => { if (el) el.hidden = !on; };
 function track(n, p) { try { if (window.apTrack) window.apTrack(n, p || {}); } catch (e) { /* analytics never breaks the tool */ } }
 
-const ICE = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }, { urls: 'stun:stun.cloudflare.com:3478' }];
+const STUN = [{ urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }, { urls: 'stun:stun.cloudflare.com:3478' }];
+// Connection servers come from /api/p2p-ice: public STUN plus, when the site has one set up, short-lived TURN relay credentials.
+// A relay is only used when two devices cannot reach each other directly, and it carries traffic that is already encrypted.
+let ice = { iceServers: STUN, relay: false, at: 0 };
+function loadIce() {
+  if (Date.now() - ice.at < 1200000) return Promise.resolve(ice);
+  return fetch('/api/p2p-ice', { cache: 'no-store' }).then((r) => r.json()).then((j) => {
+    if (j && Array.isArray(j.iceServers) && j.iceServers.length) ice = { iceServers: j.iceServers, relay: !!j.relay, at: Date.now() };
+    return ice;
+  }).catch(() => ice);
+}
 const API = '/api/p2p';
 const ALPHA = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'; // Crockford base32: no I, L, O or U to misread
 const CODE_LEN = 8, TTL = 900000;
@@ -164,7 +175,7 @@ function newLink(opts) {
 }
 function linkById(id) { for (const l of links) if (l.id === id) return l; return null; }
 function newPc(l) {
-  const pc = new RTCPeerConnection({ iceServers: ICE });
+  const pc = new RTCPeerConnection({ iceServers: ice.iceServers });
   l.pc = pc;
   const watch = () => {
     if (pc !== l.pc) return;
@@ -188,6 +199,7 @@ function gathered(pc) {
 }
 const desc = (pc) => ({ type: pc.localDescription.type, sdp: pc.localDescription.sdp, name: ME.name, id: ME.id });
 async function makeOffer(l) {
+  await loadIce();
   const pc = newPc(l);
   wire(l, pc.createDataChannel('ap-files', { ordered: true }));
   await pc.setLocalDescription(await pc.createOffer());
@@ -195,6 +207,7 @@ async function makeOffer(l) {
   return desc(pc);
 }
 async function makeAnswer(l, off) {
+  await loadIce();
   const pc = newPc(l);
   await pc.setRemoteDescription({ type: 'offer', sdp: off.sdp });
   await pc.setLocalDescription(await pc.createAnswer());
@@ -210,7 +223,7 @@ function failLink(l) {
   const mesh = l.toMesh;
   removeLink(l);
   if (mesh) return; // a guest-to-guest link that cannot form is fine: that guest still reaches us through the host
-  if (!openLinks().length && !S.room) { say('The devices found each other but could not open a direct connection. This happens on some office, school and hotel networks, some mobile data networks and some VPNs, which block direct connections. Try both devices on the same Wi-Fi, switch off a VPN, or turn on a phone hotspot and join it with the other device.', 'bad'); S.role = ''; layout(); }
+  if (!openLinks().length && !S.room) { say(ice.relay ? 'The devices found each other but could not connect, even through the relay. Switch off a VPN, check neither device is behind a very strict firewall, and try again.' : 'The devices found each other but could not open a direct connection. This happens on some office, school and hotel networks, some mobile data networks and some VPNs, which block direct connections. Try both devices on the same Wi-Fi, switch off a VPN, or turn on a phone hotspot and join it with the other device.', 'bad'); S.role = ''; layout(); }
   else say('A device found the room but could not open a direct connection. It may be on a network that blocks them (some office, school and mobile networks and VPNs do).', 'warn');
   track('p2p_fail', {});
 }
@@ -296,7 +309,7 @@ function routeInfo(l) {
     if (!pair) st.forEach((r) => { if (!pair && r.type === 'candidate-pair' && r.state === 'succeeded' && (r.selected || r.nominated)) pair = r; });
     const a = pair && st.get(pair.localCandidateId), b = pair && st.get(pair.remoteCandidateId);
     if (!a || !b) return;
-    l.route = a.candidateType === 'host' && b.candidateType === 'host' ? 'lan' : 'internet';
+    l.route = a.candidateType === 'relay' || b.candidateType === 'relay' ? 'relay' : a.candidateType === 'host' && b.candidateType === 'host' ? 'lan' : 'internet';
     layout();
   }).catch(() => {});
 }
@@ -495,7 +508,8 @@ function layout() {
   if (n) {
     ui.peer.textContent = mem > 1 ? 'Room with ' + mem + ' devices' : 'Connected to ' + (members()[0] || {}).name;
     const lan = links.filter((x) => x.open && x.route).every((x) => x.route === 'lan') && links.some((x) => x.open && x.route);
-    ui.route.textContent = (S.hostGone ? 'The host left. ' : '') + 'Direct and encrypted' + (lan ? ', on your local network' : '');
+    const rel = links.some((x) => x.open && x.route === 'relay');
+    ui.route.textContent = (S.hostGone ? 'The host left. ' : '') + (rel ? 'Encrypted, passing through a relay for devices a direct path could not reach' : 'Direct and encrypted' + (lan ? ', on your local network' : ''));
     ui.dropSub.textContent = mem > 1 ? 'Any type, any size. Everyone in the room can download it, and the more people have it the faster it gets.' : 'Any type, any size. They go straight to ' + ((members()[0] || {}).name || 'the other device') + '.';
   } else {
     ui.dropSub.textContent = 'Any type, any size. Added files wait here and send once a device connects.';
