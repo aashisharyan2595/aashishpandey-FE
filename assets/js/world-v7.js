@@ -401,7 +401,7 @@ export async function createWorld(host, opts = {}) {
   await __y(); v6Prep();
   await __y(); const scene = new THREE.Scene();
   await __y(); scene.matrixWorldAutoUpdate = false; // v7: world matrices are updated by updateRoots() in the frame loop, skipping hidden and static roots
-  await __y(); if (/[?&]perf\b/.test(location.search)) window.__apW = { renderer, scene, get lowPower() { return lp; }, get dino() { return { obj: dino, get state() { return dinoState; }, get target() { return dinoTarget; }, MEM, ok: dinoOK, path: dinoPath, clear: dinoClear, pick: pickRoamTarget }; }, get probe() { return { fs, fh, fx, fz, lean, grounded, airY, bike: bikeRoot, PH: typeof PH === 'undefined' ? null : PH, steerIn: typeof steerIn === 'undefined' ? 0 : steerIn, roadX, roadW, roadDist, punch, boostAmt, curSpeed, fov: camera.fov }; } };
+  await __y(); if (/[?&]perf\b/.test(location.search)) window.__apW = { renderer, scene, get lowPower() { return lp; }, get gov() { return { dyn, tier, rScale, lv, lvTop, capOn, pr: renderer.getPixelRatio(), setLv(k) { lv = k; applyLv(); } }; }, get dino() { return { obj: dino, get state() { return dinoState; }, get target() { return dinoTarget; }, MEM, ok: dinoOK, path: dinoPath, clear: dinoClear, pick: pickRoamTarget }; }, get probe() { return { fs, fh, fx, fz, lean, grounded, airY, bike: bikeRoot, PH: typeof PH === 'undefined' ? null : PH, steerIn: typeof steerIn === 'undefined' ? 0 : steerIn, roadX, roadW, roadDist, punch, boostAmt, curSpeed, fov: camera.fov }; } };
   await __y(); scene.fog = new THREE.Fog(0xe0976f, 50, 560);
   await __y(); const camera = new THREE.PerspectiveCamera(52, host.clientWidth / host.clientHeight, 0.1, 4000);
   await __y(); const GT = glowTex();
@@ -3411,13 +3411,23 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       if (batOn && batH.some(b => near(b.x, b.z, 16))) hit('bat'); } }
 
   // Adaptive quality tiers
-  await __y(); const maxTier = lp ? 2 : 3; await __y(); let tier = opts.mobile || weakGPU ? 0 : (lp ? 1 : 3), rScale = opts.softGPU ? 0.6 : weakGPU ? 0.75 : 1, lastDraw = 0, frameNo = 0, drawDist = 1, paused = false, forceLow = lp && !opts.mobile; await __y(); const perf = { acc: 0, n: 0, prev: 0, cool: 0, good: 0 };
+  await __y(); const maxTier = lp ? 2 : 3; await __y(); let dyn = 1, tier = opts.mobile || weakGPU ? 0 : (lp ? 1 : 2), rScale = opts.softGPU ? 0.6 : weakGPU ? 0.75 : 1, lastDraw = 0, frameNo = 0, drawDist = 1, paused = false, forceLow = lp && !opts.mobile; await __y(); const perf = { acc: 0, n: 0, prev: 0, cool: 0, good: 0, t0: 0, saved: 0 };
   // Phones: keep the pixel ratio at or above 1 (below that the low-poly world goes soft); pay for it with shadows + draw distance instead.
   await __y(); const TIERS = opts.mobile ? [{ pr: 1.25, sh: false, dd: 0.55 }, { pr: 1.5, sh: false, dd: 0.7 }, { pr: 1.75, sh: false, dd: 0.85 }, { pr: 2, sh: true, dd: 1 }] : [{ pr: 0.6, sh: false, dd: 0.6 }, { pr: 0.85, sh: false, dd: 0.8 }, { pr: 1.25, sh: true, dd: 1 }, { pr: 1.75, sh: true, dd: 1 }];
-  await __y(); const PERF_DOWN = cap30 ? 44 : (opts.mobile ? 30 : 21), PERF_UP = cap30 ? 36 : (opts.mobile ? 19 : 17.5), RS_MIN = 0.5;
+  await __y(); const DOWN_MS = opts.mobile ? 24 : 19.5, UP_MS = 17.2; let capOn = cap30;
   await __y(); renderer.shadowMap.autoUpdate = false;
-  await __y(); const setTier = k => { tier = k; const c = TIERS[k]; renderer.setPixelRatio(Math.max(0.45, Math.min(devicePixelRatio || 1, c.pr) * (k === 0 ? rScale : 1))); renderer.setSize(host.clientWidth, host.clientHeight); resizePost(); if (key.castShadow !== c.sh) key.castShadow = c.sh; renderer.shadowMap.needsUpdate = true; drawDist = c.dd; document.documentElement.classList.toggle('lite', mobile || k <= 1); awStreaks.visible = k > 0; opts.onTier && opts.onTier(k); };
+  await __y(); const setTier = k => { tier = k; const c = TIERS[k]; renderer.setPixelRatio(Math.max(0.3, Math.min(devicePixelRatio || 1, c.pr) * (k === 0 ? rScale : dyn))); renderer.setSize(host.clientWidth, host.clientHeight); resizePost(); if (key.castShadow !== c.sh) key.castShadow = c.sh; renderer.shadowMap.needsUpdate = true; drawDist = c.dd; document.documentElement.classList.toggle('lite', mobile || k <= 1); awStreaks.visible = k > 0; opts.onTier && opts.onTier(k); };
   await __y(); setTier(tier);
+  // ---- never-lag governor: one ladder of quality levels from the floor up. It reacts in about a third of a second, sheds several
+  // levels at once when far over budget, backs off before retrying a level that failed, and remembers what held last time on this device.
+  await __y(); const LADDER = []; for (const r of [0.4, 0.5, 0.6, 0.75, 0.9, 1]) LADDER.push({ t: 0, r, d: 1 }); for (let t = 1; t <= 3; t++) for (const d of [0.7, 0.8, 0.9, 1]) LADDER.push({ t, r: 1, d });
+  await __y(); const lvTop = (forceLow || weakGPU) ? LADDER.findIndex(e => e.t === 0 && e.r === (weakGPU ? 0.75 : 1)) : (() => { let k = LADDER.length - 1; while (LADDER[k].t > maxTier) k--; return k; })();
+  await __y(); const lvOf = (t, r, d) => { let b = 0; LADDER.forEach((e, i) => { if (e.t === t && (t === 0 ? Math.abs(e.r - r) < 0.07 : Math.abs(e.d - d) < 0.05)) b = i; }); return b; };
+  await __y(); const gpuName = (() => { try { const gl = renderer.getContext(), x = gl.getExtension('WEBGL_debug_renderer_info'); return x ? String(gl.getParameter(x.UNMASKED_RENDERER_WEBGL)) : ''; } catch (e) { return ''; } })();
+  await __y(); const PKEY = 'apPerf', PK = gpuName + '|' + Math.round((devicePixelRatio || 1) * 10) + '|' + (opts.mobile ? 'm' : 'd');
+  await __y(); let lv = (() => { let sv = null; try { const v = JSON.parse(localStorage.getItem(PKEY) || 'null'); if (v && v.k === PK && Date.now() - v.at < 30 * 864e5) sv = v; } catch (e) {} return Math.min(lvTop, sv ? sv.lv : lvOf(tier, rScale, dyn)); })();
+  await __y(); const LBLOCK = [], LBO = LADDER.map(() => 20000);
+  await __y(); const applyLv = () => { const e = LADDER[lv]; rScale = e.r; dyn = e.d; setTier(e.t); }; applyLv();
   await __y(); const toNDC = e => { const r = canvas.getBoundingClientRect(); mouse.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); };
   await __y(); const hitNote = () => { ray.setFromCamera(mouse, camera); const h = ray.intersectObjects(notes.map(n => n.hit)); return h.length ? h[0].object.userData.note : -1; };
   await __y(); const hitDino = () => { ray.setFromCamera(mouse, camera); return ray.intersectObject(dinoHit, true).length > 0; };
@@ -3509,14 +3519,22 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   function loop(now) {
     raf = requestAnimationFrame(loop);
     if (!running || paused) { perf.prev = 0; return; }
-    if (cap30 && lastDraw && now - lastDraw < 31) return; lastDraw = now;
+    if (capOn && lastDraw && now - lastDraw < 31) return; lastDraw = now;
     const dt = Math.min(0.05, (now - last) / 1000); last = now; const T = (now - clock0) / 1000;
     frameNo++; const fi = perf.prev ? now - perf.prev : 16; perf.prev = now;
     if (fi < 200) { perf.acc += fi; perf.n++; }
-    if (perf.n >= 60) { const ms = perf.acc / perf.n; perf.acc = 0; perf.n = 0;
-      if (now - perf.cool > 2500) { if (ms > PERF_DOWN && tier > 0) { setTier(tier - 1); perf.cool = now; perf.good = 0; }
-        else if (ms > PERF_DOWN && rScale > RS_MIN) { rScale = Math.max(RS_MIN, rScale - 0.12); setTier(0); perf.cool = now; perf.good = 0; }
-        else if (ms < PERF_UP) { if (++perf.good >= (opts.mobile ? 3 : 5)) { if (tier === 0 && rScale < 1 && !weakGPU) { rScale = Math.min(1, rScale + 0.12); setTier(0); perf.cool = now; perf.good = 0; } else if (tier < (forceLow || weakGPU ? 0 : maxTier)) { setTier(tier + 1); perf.cool = now; perf.good = 0; } } } else perf.good = 0; } }
+    if (readySent && !perf.t0) perf.t0 = now;
+    if (perf.n >= 20) { const ms = perf.acc / perf.n; perf.acc = 0; perf.n = 0;
+      const dn = capOn ? 40 : DOWN_MS, up = capOn ? 35 : UP_MS, live = perf.t0 && now - perf.t0 > 2500;
+      if (live && ms > dn && now - perf.cool > 900) {
+        if (lv > 0) { LBLOCK[lv] = now + LBO[lv]; LBO[lv] = Math.min(LBO[lv] * 2, 300000); lv = Math.max(0, lv - (ms > dn * 1.6 ? 3 : ms > dn * 1.25 ? 2 : 1)); applyLv(); }
+        else if (!capOn) capOn = true; // already at the floor and still slow: pace at 30 fps for an even picture
+        perf.cool = now; perf.good = 0;
+      } else if (live && ms < up) {
+        if (++perf.good >= (capOn ? 5 : 12) && lv < lvTop && now > (LBLOCK[lv + 1] || 0) && now - perf.cool > 2500) { lv++; if (capOn && lv >= 2 && !cap30) capOn = false; applyLv(); perf.cool = now; perf.good = 0; }
+      } else perf.good = Math.max(0, perf.good - 1);
+      if (live && now - perf.cool > 10000 && now - perf.saved > 10000) { perf.saved = now; try { localStorage.setItem(PKEY, JSON.stringify({ k: PK, lv, at: Date.now() })); } catch (e) {} }
+    }
     if (introStart === null && introArmed) introStart = now;
     const intro = introStart === null ? 0 : sstep(0, 1, (now - introStart) / 6500);
     { const gap = (target - t) * L, vmax = 34 + Math.max(0, Math.abs(gap) - 60) * 0.6, want = clamp(gap * 1.4, -vmax, vmax); vel += (want - vel) * (1 - Math.exp(-dt * 2.2)); t = clamp(t + vel * dt / L, 0, 1); if (Math.abs(gap) < 0.05 && Math.abs(vel) < 0.5) { t = target; vel = 0; } if (!free && CAMP.st !== 'ride') { t = 1; vel = 0; } }

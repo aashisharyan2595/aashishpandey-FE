@@ -39,6 +39,20 @@ The first draw arrives later than in v6 (3.9 s against 3.2 s at 6x) because the 
 
 These are lab numbers on a fast GPU. They do not include the real cost of shader compilation on a slow integrated GPU, which is the part the warm-up is meant to hide.
 
+## Never-lag governor
+
+The ride picks its quality while it runs, on every device (`assets/js/world-v7.js`, search for `LADDER`):
+
+- One ladder of 18 quality levels, from the floor (render scale 0.4, no shadows, short draw distance) up to full quality. Levels are render scale steps, then the shadow and draw-distance tiers, each with its own 0.7 to 1.0 resolution steps.
+- Frame time is checked every 20 frames (about a third of a second). A slow stretch drops one level, or two or three when far over budget. Quality climbs back one level at a time after a long run of good frames.
+- A level that failed is not retried for 20 seconds, then 40, 80, up to 5 minutes, so it does not swing up and down.
+- At the floor and still slow, it paces at 30 fps for an even picture.
+- The level that held for 10 seconds is saved in `localStorage` (`apPerf`, keyed by GPU, pixel ratio and phone or desktop) and used as the starting level next visit.
+- Unknown desktops start at tier 2 instead of the top, and weak GPUs start at the bottom (see `probeGPU`).
+- The first 2.5 seconds after the first frame are ignored, so world building and shader warm-up do not count as lag.
+
+Debug: with `?perf`, `window.__apW.gov` shows the level (`lv`), the top level (`lvTop`) and whether the 30 fps pacing is on, and `setLv(n)` forces a level.
+
 ## Known limits
 
 - Without `KHR_parallel_shader_compile` (software rendering, a few old drivers) shader compilation still blocks the main thread. Lighthouse and PageSpeed Insights render in software, so their homepage scores improve only a little.
