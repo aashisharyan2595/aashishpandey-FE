@@ -119,7 +119,7 @@
         <div class="rk-box">
           <div class="rk-box__head"><label for="rkRes" class="rk-box__t">Your resume</label><span class="tl-small tl-muted" id="rkResN">0 words</span></div>
           <textarea id="rkRes" class="tl-textarea rk-ta" spellcheck="false" placeholder="Paste your resume text here, or upload a PDF, Word or text file."></textarea>
-          <div class="rk-box__foot"><button id="rkUp" class="tl-btn rk-sm" type="button">Upload a file</button><input id="rkFile" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,text/plain" hidden><span class="tl-small tl-muted">PDF, Word (.docx) or text. Read on this device.</span></div>
+          <div class="rk-box__foot"><button id="rkUp" class="tl-btn rk-sm" type="button">Upload a file</button><input id="rkFile" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,text/plain" hidden data-tl-file="Drop your resume to read it"><span class="tl-small tl-muted">PDF, Word (.docx) or text. Read on this device.</span></div>
         </div>
         <div class="rk-box">
           <div class="rk-box__head"><label for="rkJd" class="rk-box__t">Job description</label><span class="tl-small tl-muted" id="rkJdN">0 words</span></div>
@@ -128,13 +128,13 @@
         </div>
       </div>
       <p id="rkMsg" class="tl-small tl-muted rk-msg">Paste both and the match appears here as you type.</p>
-      <div id="rkOut" class="rk-out" hidden aria-live="polite">
+      <div id="rkOut" class="rk-out" hidden aria-live="polite" data-tl-result="See your match">
         <div class="rk-top">
           <div class="rk-ring" aria-hidden="true"><svg viewBox="0 0 120 120" width="150" height="150"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(244,239,230,.1)" stroke-width="11"/><circle id="rkArc" cx="60" cy="60" r="50" fill="none" stroke="#f5b867" stroke-width="11" stroke-linecap="round" stroke-dasharray="0 315" transform="rotate(-90 60 60)"/></svg><div class="rk-ring__n"><b id="rkScore">0</b><span>% match</span></div></div>
           <div class="rk-sum"><h2 id="rkVerdict" class="rk-verdict"></h2><p id="rkLine" class="tl-small tl-muted"></p><div id="rkStats" class="rk-stats"></div></div>
         </div>
         <div class="rk-cols">
-          <div class="rk-col"><h3 class="rk-h">Missing from your resume <span id="rkMissN" class="rk-n"></span></h3><div id="rkMiss" class="rk-chips"></div><p class="tl-small tl-muted" id="rkMissNote"></p><div class="tl-actions"><button id="rkCopy" class="tl-btn" type="button">Copy missing keywords</button></div></div>
+          <div class="rk-col"><h3 class="rk-h">Missing from your resume <span id="rkMissN" class="rk-n"></span></h3><div id="rkMiss" class="rk-chips"></div><p class="tl-small tl-muted" id="rkMissNote"></p><div class="tl-actions"><button id="rkCopy" class="tl-btn" type="button">Copy missing keywords</button><a class="tl-btn" href="/tools/resume-maker/build">Add them in the resume maker</a></div></div>
           <div class="rk-col"><h3 class="rk-h">Already in your resume <span id="rkHitN" class="rk-n"></span></h3><div id="rkHit" class="rk-chips"></div></div>
         </div>
         <div class="rk-block"><h3 class="rk-h">The job description, marked up</h3><p class="tl-small tl-muted rk-legend"><i class="rk-dot rk-dot--h"></i>in your resume <i class="rk-dot rk-dot--m"></i>missing</p><div id="rkMap" class="rk-map" tabindex="0"></div></div>

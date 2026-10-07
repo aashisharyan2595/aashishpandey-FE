@@ -180,7 +180,7 @@ input[type=range]{accent-color:#f5b867}
           <button type="button" role="switch" aria-checked="{{ classicStart }}" onClick="{{ toggleClassic }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0;border:none;background:none;color:#aaa4b8;font-family:inherit;font-size:13.5px;cursor:pointer;text-align:left;"><span>Start with “Lorem ipsum dolor sit amet…”</span><span style="flex-shrink:0;width:40px;height:24px;border-radius:99px;background:{{ switchBg }};position:relative;transition:background .2s;"><span style="position:absolute;top:3px;left:{{ knobLeft }};width:18px;height:18px;border-radius:50%;background:#f4efe6;transition:left .2s;"></span></span></button>
         </sc-if>
       </aside>
-      <section aria-label="Generated text" style="flex:2 1 520px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#f4efe6;color:#15131c;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);">
+      <section aria-label="Generated text" data-tl-result="See the text" style="flex:2 1 520px;min-width:0;display:flex;flex-direction:column;border-radius:24px;background:#f4efe6;color:#15131c;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);">
         <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px 12px 18px;border-bottom:1px solid rgba(21,19,28,.1);">
           <div role="radiogroup" aria-label="Output format" style="display:flex;padding:3px;border-radius:11px;background:#e8e2d6;gap:2px;">
             <sc-for list="{{ outFormats }}" as="o" hint-placeholder-count="3">
