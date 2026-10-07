@@ -69,13 +69,13 @@
 .ta-newb{height:38px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:11px;border:1px solid rgba(245,184,103,.4);background:rgba(245,184,103,.09);color:var(--acc);font:600 13.5px 'Geist',system-ui,sans-serif;cursor:pointer}
 .ta-newb:hover{background:rgba(245,184,103,.16)}
 .ta-list{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:3px;padding-bottom:10px}
-.ta-list-h{padding:10px 8px 4px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.ta-list-h{padding:10px 8px 4px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
 .ta-item{display:flex;align-items:center;gap:10px;padding:10px 6px 10px 12px;border-radius:12px;border:1px solid transparent;border-left:3px solid transparent;background:none;color:var(--ink);text-align:left;cursor:pointer;min-width:0;width:100%}
 .ta-item:hover{background:var(--chip)}
 .ta-item.is-on{background:var(--raise);box-shadow:var(--shadow);border-color:var(--line);border-left-color:var(--acc)}
 .ta-item-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .ta-item-t b{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ta-item-t span{font:500 10px 'Geist Mono',monospace;color:var(--soft)}
+.ta-item-t span{font:500 11.5px 'Geist Mono',monospace;color:var(--soft)}
 .ta-item-x{width:28px;height:28px;border-radius:8px;border:0;background:none;color:var(--soft);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0}
 .ta-item:hover .ta-item-x,.ta-item-x:focus-visible{opacity:1}.ta-item-x:hover{background:var(--chip);color:var(--ink)}
 @media(hover:none){.ta-item-x{opacity:.7}}
@@ -109,3 +109,4 @@
 .ta-pal-l small{margin-left:auto;font:500 10.5px 'Geist Mono',monospace;color:var(--soft)}
 .ta-pal-l .ta-pal-h{padding:8px 12px 3px;font:500 10px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
 @media print{.ta-top,.ta-side,.ta-toast{display:none!important}}
+@media(pointer:coarse){.ta-b{min-width:44px;height:44px}.ta-seg button{height:40px}.ta-newb{height:44px}.ta-item-x{width:40px;height:40px}}

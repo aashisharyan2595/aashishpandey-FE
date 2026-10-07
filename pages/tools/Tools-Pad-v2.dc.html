@@ -44,6 +44,7 @@
 .tl-faq2>div:first-child{position:sticky;top:96px}
 .tl-faq2>div:last-child{max-width:none!important}
 @media(max-width:900px){.tl-faq2{grid-template-columns:1fr;gap:20px}.tl-faq2>div:first-child{position:static}}
+@media(pointer:coarse){[aria-label="Formatting"] button{min-height:44px}[role=tablist][aria-label=View] button{min-height:38px}button[aria-label="Toggle notes list"],button[aria-label="Toggle dark mode"],button[aria-label="Export note"]{min-width:44px;min-height:44px}header button{min-height:44px}}
 </style>
 </head>
 <body>
@@ -281,7 +282,7 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
           <div style="max-width:{{ prevMax }};margin:0 auto;padding:clamp(24px,4vw,56px) clamp(18px,3.4vw,56px) 110px;">{{ previewHtml }}</div>
         </div>
       </sc-if>
-      <div style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:99px;background:var(--raise);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.28);font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.04em;color:var(--soft);white-space:nowrap;opacity:{{ statusOpacity }};transition:opacity .3s;" style-hover="opacity:1;">
+      <div style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:99px;background:var(--raise);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.28);font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--soft);white-space:nowrap;opacity:{{ statusOpacity }};transition:opacity .3s;" style-hover="opacity:1;">
         <span>{{ words }} words</span><span style="opacity:.4;">/</span><span>{{ chars }} chars</span><span style="opacity:.4;">/</span><span>{{ readTime }}</span><span style="opacity:.4;">/</span><span style="display:flex;align-items:center;gap:6px;color:var(--ink);"><span class="pd-dot" style="background:{{ dotColor }};animation:{{ dotAnim }};"></span>{{ saveLabel }}</span>
       </div>
     </main>
