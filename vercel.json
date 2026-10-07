@@ -641,6 +641,7 @@
       ]
     },
     { "source": "/kd2ozfuew9n4uaciyl1j-sw.js", "headers": [ { "key": "Cache-Control", "value": "no-cache" }, { "key": "Service-Worker-Allowed", "value": "/kd2ozfuew9n4uaciyl1j" } ] },
-    { "source": "/pages/(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, follow" } ] }
+    { "source": "/pages/(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, follow" } ] },
+    { "source": "/assets/vendor/three-0.184.0/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] }
   ]
 }
