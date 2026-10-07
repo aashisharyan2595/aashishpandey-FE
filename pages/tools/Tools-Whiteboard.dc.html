@@ -7,7 +7,7 @@
 <script src="/assets/nav.js?v=3" defer></script>
 <link rel="stylesheet" href="/assets/tools.css?v=1">
 <script src="/assets/tools.js?v=2" defer></script>
-<link rel="stylesheet" href="/assets/tool-app.css?v=4">
+<link rel="stylesheet" href="/assets/tool-app.css?v=5">
 <title>Free Online Whiteboard: Diagrams, Mind Maps &amp; Sticky Notes</title>
 <meta name="description" content="Free online whiteboard with an endless canvas: shapes with connectors, sticky notes, frames, pen, text and images. Templates, present mode, SVG and PNG export. No sign-up.">
 <link rel="canonical" href="https://aashishpandey.com/tools/online-whiteboard">
@@ -49,16 +49,16 @@
 .wb-name{flex:0 1 240px;min-width:90px;height:34px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--ink);font:600 15px 'Geist',system-ui,sans-serif;letter-spacing:-.01em;padding:0 10px}
 .wb-name:hover{background:var(--chip)}.wb-name:focus{outline:none;border-color:var(--acc);background:var(--field)}
 .ta-main.wb-main{border-radius:clamp(0px,1.6vw,22px)}
-.wb-stage{position:absolute;inset:0;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.wb-stage{container:wbs/inline-size;position:absolute;inset:0;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
 .wb-stage canvas#wbC{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
 .wb-edw{position:absolute;z-index:6;display:flex;transform-origin:center;pointer-events:auto}
 .wb-edw textarea{margin:0;border:0;outline:0;resize:none;overflow:hidden;background:transparent;padding:0;display:block;caret-color:#f5b867}
 .wb-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;text-align:center;padding:24px}
 .wb-hint div{max-width:400px;display:flex;flex-direction:column;gap:8px}.wb-hint strong{font:600 clamp(20px,3vw,26px)/1.15 Geist,system-ui,sans-serif;letter-spacing:-.03em}.wb-hint span{font-size:14.5px;line-height:1.55;color:var(--soft)}
-.wb-rail{position:absolute;left:12px;top:50%;transform:translateY(-50%);z-index:7;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px;border-radius:16px;background:var(--pop);border:1px solid var(--line2);box-shadow:var(--shadow);max-height:calc(100% - 24px);overflow:auto;scrollbar-width:none}
-.wb-rb{flex:none;width:38px;height:38px;border-radius:11px;border:0;background:none;color:var(--soft);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,color .15s}
+.wb-rail{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:8;display:flex;flex-direction:row;align-items:center;gap:2px;padding:6px;border-radius:18px;background:var(--pop);border:1px solid var(--line2);box-shadow:0 18px 44px rgba(0,0,0,.4);max-width:calc(100% - 24px);overflow-x:auto;scrollbar-width:none}
+.wb-rb{flex:none;width:40px;height:40px;border-radius:12px;border:0;background:none;color:var(--soft);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,color .15s}
 .wb-rb:hover{background:var(--chip);color:var(--ink)}.wb-rb[aria-pressed=true]{background:rgba(245,184,103,.18);color:var(--acc)}
-.wb-rsep{flex:none;width:22px;height:1px;background:var(--line2);margin:4px 0}
+.wb-rsep{flex:none;width:1px;height:22px;background:var(--line2);margin:0 5px}
 .wb-insp{position:absolute;right:12px;top:12px;z-index:7;width:238px;max-height:calc(100% - 24px);overflow:auto;padding:12px 14px;border-radius:16px;background:var(--pop);border:1px solid var(--line2);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
 .wb-is{display:flex;flex-direction:column;gap:8px}
 .wb-sws{display:flex;flex-wrap:wrap;gap:6px}
@@ -86,10 +86,25 @@
 .is-ro .wb-rail,.is-ro .wb-bl{display:none!important}
 .wb-presenting .ta-top,.wb-presenting .ta-side,.wb-presenting .wb-rail,.wb-presenting .wb-insp,.wb-presenting .wb-bl,.wb-presenting .wb-br,.wb-presenting .wb-mini{display:none!important}
 .wb-presenting .ta-body{padding:0}.wb-presenting .ta-main{border-radius:0;border:0}
+
+.wb-bl,.wb-br{bottom:14px}
+@container wbs (max-width:1060px){.wb-bl,.wb-br{bottom:74px}.wb-mini{bottom:126px}}
+.wb-mini{bottom:66px}
+.wb-ctx{position:absolute;z-index:8;display:flex;align-items:center;gap:2px;padding:4px;border-radius:14px;background:var(--pop);border:1px solid var(--line2);box-shadow:0 14px 36px rgba(0,0,0,.4);user-select:none;visibility:hidden}
+.wb-cs{display:block;width:18px;height:18px;border-radius:50%;border:2px solid var(--line2)}
+.wb-cs.none{background:linear-gradient(135deg,transparent 46%,var(--danger) 46% 54%,transparent 54%),var(--chip)}
+.wb-cs.ring{background:transparent;border-width:3px}
+.wb-pal{display:grid;grid-template-columns:repeat(6,26px);gap:7px;padding:8px}
+.wb-pal button{width:26px;height:26px;border-radius:50%;border:2px solid var(--line2);padding:0;cursor:pointer;background:var(--chip)}
+.wb-pal button.none{background:linear-gradient(135deg,transparent 46%,var(--danger) 46% 54%,transparent 54%),var(--chip)}
+.wb-pal button[aria-pressed=true]{border-color:var(--ink);box-shadow:0 0 0 2px var(--pop) inset}
+.wb-start{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px;pointer-events:auto}
+.wb-start button{height:38px;padding:0 16px;border-radius:99px;border:1px solid var(--line2);background:var(--pop);color:var(--ink);font:500 13.5px 'Geist',system-ui,sans-serif;cursor:pointer;transition:border-color .15s,color .15s}
+.wb-start button:hover{border-color:var(--acc);color:var(--acc)}
+.wb-hint div div{max-width:none}
 @media(max-width:860px){
  .ta-hide-m{display:none!important}.ta-show-m{display:inline-flex!important}.ta-hide-s{display:none!important}.ta-brand h1{display:none}.wb-name{flex:1}
- .wb-rail{left:8px;right:8px;top:auto;bottom:10px;transform:none;flex-direction:row;overflow-x:auto;justify-content:flex-start;border-radius:16px}
- .wb-rsep{width:1px;height:22px;margin:0 4px}
+ .wb-rail{left:8px;right:8px;bottom:10px;transform:none;justify-content:flex-start;max-width:none}
  .wb-bl{top:10px;bottom:auto;left:10px}.wb-br{top:10px;bottom:auto;right:10px}
  .wb-insp{left:8px;right:8px;top:auto;bottom:68px;width:auto;max-height:38%;flex-direction:row;flex-wrap:wrap;gap:12px 16px}.wb-insp .wb-is{min-width:150px}
  .wb-mini{bottom:140px;right:10px;width:150px;height:92px}
@@ -176,7 +191,7 @@ const lum = hex => { if (!/^#[0-9a-f]{6}$/i.test(hex || '')) return 0; const n =
 let S = { v: 2, theme: 'dark', side: false, activeId: null, boards: [] };
 const newBoard = o => Object.assign({ id: uid(), name: 'Untitled board', els: [], imgs: {}, cam: { x: 0, y: 0, z: 1 }, grid: 'dots', snap: false, thumb: '', created: Date.now(), updated: Date.now() }, o || {});
 let D = { c: 'auto', f: '', sw: 3, ds: 'solid', op: 1, size: 28, fam: 'sans', al: 'left', shape: 'rect', conn: 'elbow', ea: 'arrow' };
-let tool = 'select', sel = [], hist = [], hi = -1, clipb = null, editing = null, RO = false, shared = null, presenting = null;
+let tool = 'select', sel = [], hist = [], hi = -1, clipb = null, editing = null, RO = false, shared = null, presenting = null, inspOn = false;
 const B = () => RO && shared ? shared : S.boards.find(b => b.id === S.activeId) || S.boards[0];
 const els = () => B().els;
 const byId = id => { const a = B().els; for (let i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; };
@@ -226,7 +241,7 @@ root.innerHTML =
   '<div class="ta-body"><aside class="ta-side" id="taSide" aria-label="Boards"></aside><div class="ta-scrim" data-a="side"></div>' +
   '<main class="ta-main wb-main" id="taMain"><div class="wb-stage" id="wbStage"><canvas id="wbC" role="img" aria-label="Whiteboard canvas. Pick a tool in the toolbar and draw."></canvas>' +
   '<div class="wb-edw" id="wbEdw" hidden><textarea id="wbEd" spellcheck="false" aria-label="Edit text"></textarea></div>' +
-  '<div class="wb-hint" id="wbHint"><div><strong>An empty board</strong><span>Pick a tool on the left and start drawing, or open Templates for a flowchart, mind map or retro. Scroll to pan. Ctrl and scroll, or pinch, to zoom. Paste or drop an image to add it.</span></div></div>' +
+  '<div class="wb-hint" id="wbHint"><div><strong>Start a new board</strong><span>Pick a tool below and start drawing, or begin with a template. Scroll to pan, Ctrl and scroll or pinch to zoom, and paste or drop an image to add it.</span><div class="wb-start"><button data-tpl="flow">Flowchart</button><button data-tpl="mind">Mind map</button><button data-tpl="brain">Brainstorm</button><button data-tpl="retro">Retrospective</button><button data-tpl="swot">SWOT</button></div></div></div><div class="wb-ctx" id="wbCtx" hidden></div>' +
   '<nav class="wb-rail" id="wbRail" aria-label="Tools"></nav><div class="wb-insp" id="wbInsp" hidden></div>' +
   '<div class="wb-bl" id="wbBL"></div><div class="wb-br" id="wbBR"></div><canvas class="wb-mini" id="wbMini" width="360" height="220" hidden aria-label="Map of the board"></canvas>' +
   '<div class="wb-roban" id="wbRO" hidden></div><div class="wb-pres" id="wbPres" hidden></div></div></main></div>' +
@@ -442,7 +457,7 @@ function render() {
   if (boxSel) { ctx.fillStyle = 'rgba(245,184,103,.1)'; ctx.strokeStyle = '#f5b867'; ctx.lineWidth = 1; const bx = Math.min(boxSel.x1, boxSel.x2), by = Math.min(boxSel.y1, boxSel.y2), bw = Math.abs(boxSel.x2 - boxSel.x1), bh = Math.abs(boxSel.y2 - boxSel.y1); ctx.fillRect(bx, by, bw, bh); ctx.strokeRect(bx, by, bw, bh); }
   if (laser.length) { const now = performance.now(); laser = laser.filter(p => now - p.t < 900); laser.forEach((p, i) => { const a = 1 - (now - p.t) / 900; ctx.fillStyle = `rgba(255,70,90,${a})`; ctx.beginPath(); ctx.arc(p.x, p.y, 3 + 5 * a, 0, 7); ctx.fill(); }); if (laser.length) draw(); }
   if (connHover) { ctx.save(); ctx.strokeStyle = '#6aa8ff'; ctx.lineWidth = 2; ctx.setLineDash([]); const he = byId(connHover.id); if (he) { const cs = cornersOf(he); ctx.beginPath(); cs.forEach((p, i) => i ? ctx.lineTo(sx(p.x), sy(p.y)) : ctx.moveTo(sx(p.x), sy(p.y))); ctx.closePath(); ctx.stroke(); const a = anchorPt(he, connHover.s); ctx.fillStyle = '#6aa8ff'; ctx.beginPath(); ctx.arc(sx(a.x), sy(a.y), 6, 0, 7); ctx.fill(); } ctx.restore(); }
-  updateHint(); const pc = $('#wbPct'); if (pc) pc.textContent = Math.round(z * 100) + '%'; placeEd(); if (!$('#wbMini').hidden) drawMini(); positionInsp();
+  updateHint(); const pc = $('#wbPct'); if (pc) pc.textContent = Math.round(z * 100) + '%'; placeEd(); if (!$('#wbMini').hidden) drawMini(); positionInsp(); positionCtx();
 }
 let connHover = null;
 function updateHint() { const h = $('#wbHint'); if (h) h.style.display = els().length || preview ? 'none' : 'flex'; h && (h.style.color = S.theme === 'dark' ? '#f4efe6' : '#15131c'); }
@@ -458,8 +473,9 @@ function drawMini() {
 const SW = [2, 3, 5, 8], isText = e => e.t === 'text' || e.t === 'sticky' || SHAPEY.has(e.t) || e.t === 'frame' || e.t === 'conn';
 function curStyle() { const se = selEls(); return se.length ? se[0] : Object.assign({ t: 'rect' }, D, { size: D.size }); }
 function drawInsp() {
+  if (!sel.length) inspOn = false;
   const box = $('#wbInsp'), se = selEls(), e = curStyle(), tools = ['pen', 'hl', 'conn', 'text', 'sticky'].concat(SHAPES.map(s => s[0]));
-  if (RO || presenting || (!se.length && !tools.includes(tool))) { box.hidden = true; return; } box.hidden = false;
+  drawCtx(); if (RO || presenting || (!se.length && !tools.includes(tool)) || (se.length && !inspOn && tool === 'select')) { box.hidden = true; return; } box.hidden = false;
   const any = (f) => se.length ? se.some(f) : f({ t: tool === 'conn' ? 'conn' : tool === 'pen' || tool === 'hl' ? 'pen' : tool === 'text' ? 'text' : tool === 'sticky' ? 'sticky' : 'rect' });
   const hasConn = any(x => x.t === 'conn'), hasShape = any(x => SHAPEY.has(x.t)), hasSticky = any(x => x.t === 'sticky'), hasStroke = any(x => x.t !== 'sticky' && x.t !== 'img' && x.t !== 'frame'), hasTxt = any(x => x.t === 'text' || SHAPEY.has(x.t) || x.t === 'sticky'), hasPen = any(x => x.t === 'pen' || x.t === 'hl'), allImg = se.length && se.every(x => x.t === 'img');
   const sec = (t, h) => `<div class="wb-is"><span class="ta-lab">${t}</span>${h}</div>`, sw = (k, list, cur) => `<div class="wb-sws">${list.map(c => `<button data-${k}="${c}" aria-pressed="${(cur || '') === c}" aria-label="${c || 'None'}" title="${c || 'None'}" class="${c === '' ? 'none' : ''}" style="${c === 'auto' ? 'background:linear-gradient(135deg,#f4efe6 50%,#15131c 50%)' : c ? 'background:' + c : ''}"></button>`).join('')}</div>`;
@@ -500,6 +516,31 @@ $('#wbInsp').addEventListener('click', e => {
 });
 $('#wbInsp').addEventListener('input', e => { const t = e.target; if (t.id === 'wbOp') applyStyle('op', t.value / 100, true); else if (t.id === 'wbRad') { applyStyle('r', +t.value, true); } });
 $('#wbInsp').addEventListener('change', e => { const t = e.target; if (t.id === 'wbOp' || t.id === 'wbRad') commit(); else if (t.id === 'wbFam') applyStyle('fam', t.value); else if (t.id === 'wbSa') applyStyle('sa', t.value); else if (t.id === 'wbSb') applyStyle('sb', t.value); });
+
+
+/* ============================== floating selection toolbar ============================== */
+function drawCtx() {
+  const box = $('#wbCtx'); if (!box) return; const se = selEls();
+  if (RO || presenting || !se.length || editing) { box.hidden = true; return; }
+  const shapeLike = se.some(e => SHAPEY.has(e.t) || e.t === 'sticky'), strokeLike = se.some(e => e.t !== 'sticky' && e.t !== 'img' && e.t !== 'frame'), txtLike = se.some(e => isText(e) && e.t !== 'conn'), cur = se[0], lockAll = se.every(e => e.lock);
+  const sw = (c, ring) => `<span class="wb-cs" style="${c === 'auto' ? 'background:linear-gradient(135deg,#f4efe6 50%,#15131c 50%)' : c ? 'background:' + c : ''}${ring ? ';box-shadow:0 0 0 2px var(--pop),0 0 0 3.5px ' + ring : ''}"></span>`;
+  let h = '';
+  if (shapeLike) h += `<button class="ta-b" data-a="ctx-fill" aria-label="Fill colour" title="Fill colour">${cur.f ? sw(cur.f) : `<span class="wb-cs none"></span>`}</button>`;
+  if (strokeLike) h += `<button class="ta-b" data-a="ctx-stroke" aria-label="Line colour" title="Line colour"><span class="wb-cs ring" style="border-color:${colOf(cur.c)}"></span></button>`;
+  if (txtLike) h += `<span class="ta-sep"></span><button class="ta-b" data-a="sizeDown" aria-label="Smaller text" title="Smaller text">A-</button><button class="ta-b" data-a="sizeUp" aria-label="Larger text" title="Larger text">A+</button>`;
+  h += `<span class="ta-sep"></span><button class="ta-b" data-a="ctx-style" aria-pressed="${inspOn}" aria-label="More style options" title="More style options">${ico('shapes', 16)}</button><button class="ta-b" data-a="dup" aria-label="Duplicate" title="Duplicate (Ctrl D)">${ico('copy', 16)}</button><button class="ta-b" data-a="lock" aria-pressed="${lockAll}" aria-label="Lock" title="Lock (Ctrl L)">${ico(lockAll ? 'lock' : 'unlock', 16)}</button><button class="ta-b ta-b--danger" data-a="del" aria-label="Delete" title="Delete">${ico('trash', 16)}</button>`;
+  box.innerHTML = h; positionCtx();
+}
+function positionCtx() {
+  const box = $('#wbCtx'); if (!box || box.hidden) { if (box && !box.hidden === false) {} } if (!box) return; const se = selEls();
+  if (!se.length || RO || presenting || editing || op && (op.kind === 'move' || op.kind === 'resize' || op.kind === 'rotate' || op.kind === 'box' || op.kind === 'pan' || op.kind === 'connEnd' || op.kind === 'conn')) { box.style.visibility = 'hidden'; return; }
+  box.hidden = false; const bb = bboxAll(se), z = cam().z, c = cam(), w = box.offsetWidth || 260, h = box.offsetHeight || 42;
+  let x = (bb.x + bb.w / 2) * z + c.x - w / 2, y = bb.y * z + c.y - h - 18; if (y < 8) y = (bb.y + bb.h) * z + c.y + 22; x = Math.max(8, Math.min(W - w - 8, x)); y = Math.max(8, Math.min(H - h - 70, y));
+  box.style.left = x + 'px'; box.style.top = y + 'px'; box.style.visibility = 'visible';
+}
+function swatchPop(anchor, list, cur, kind) {
+  openPop(anchor, `<div class="wb-pal">${list.map(c => `<button data-p="${c}" aria-pressed="${(cur || '') === c}" class="${c === '' ? 'none' : ''}" aria-label="${c || 'None'}" style="${c === 'auto' ? 'background:linear-gradient(135deg,#f4efe6 50%,#15131c 50%)' : c ? 'background:' + c : ''}"></button>`).join('')}</div>`, c => applyStyle(kind, c), { left: true, up: false });
+}
 
 /* ============================== text editing ============================== */
 const editable = e => e && (e.t === 'text' || e.t === 'sticky' || SHAPEY.has(e.t) || e.t === 'frame' || e.t === 'conn');
@@ -796,10 +837,13 @@ function act(a, t, e) {
   else if (a === 'mini') { const m = $('#wbMini'); m.hidden = !m.hidden; drawBL(); draw(); }
   else if (a === 'present') present(); else if (a === 'pnext') goSlide((presenting ? presenting.i : 0) + 1); else if (a === 'pprev') goSlide((presenting ? presenting.i : 0) - 1); else if (a === 'pexit') endPresent(); else if (a === 'laserp') { setTool(tool === 'laser' ? 'select' : 'laser'); drawPres(); }
   else if (a === 'search') findUi(t);
+  else if (a === 'ctx-fill') { const se = selEls(); swatchPop(t, se.some(e => e.t === 'sticky') && !se.some(e => SHAPEY.has(e.t)) ? FILLS.slice(2, 10) : FILLS, se[0] && se[0].f, 'f'); }
+  else if (a === 'ctx-stroke') swatchPop(t, STROKES, selEls()[0] && selEls()[0].c, 'c');
+  else if (a === 'ctx-style') { inspOn = !inspOn; drawInsp(); }
   else if (a === 'newboard') newBoardAction();
   else if (a === 'savecopy') saveCopy();
   else if (a === 'boardmenu') { const id = t.getAttribute('data-id'); openPop(t, `<button data-p="rename">Rename</button><button data-p="dup">${ico('copy')}Duplicate</button><button data-p="json">${ico('down')}Download as file</button><hr><button data-p="del" style="color:var(--danger)">${ico('trash')}Delete board</button>`, p => boardAction(p, id)); e && e.stopPropagation(); }
-  else if (a === 'templates') openPop(t, `<small>Insert a template</small>${TPLS.map(x => `<button data-p="${x[0]}"><div style="display:flex;flex-direction:column;align-items:flex-start;gap:1px"><b style="font-weight:600">${x[1]}</b><span style="font-size:11.5px;color:var(--soft);font-weight:400">${x[2]}</span></div></button>`).join('')}`, p => insertTemplate(p), { side: 'right' });
+  else if (a === 'templates') openPop(t, `<small>Insert a template</small>${TPLS.map(x => `<button data-p="${x[0]}"><div style="display:flex;flex-direction:column;align-items:flex-start;gap:1px"><b style="font-weight:600">${x[1]}</b><span style="font-size:11.5px;color:var(--soft);font-weight:400">${x[2]}</span></div></button>`).join('')}`, p => insertTemplate(p), { left: true, up: true });
   else if (a === 'share') openPop(t, `<small>Share</small><button data-p="link">${ico('link')}Copy a read-only link<span class="k">snapshot</span></button>`, () => shareLink());
   else if (a === 'export') exportMenu(t);
   else if (a === 'more') openPop(t, `<button data-p="present">${ico('play')}Present frames</button><button data-p="search">${ico('search')}Find on the board</button><button data-p="theme">${S.theme === 'dark' ? ico('sun') + 'Light board' : ico('moon') + 'Dark board'}</button><hr><button data-p="share">${ico('share')}Share a link</button><button data-p="export">${ico('down')}Export</button>`, p => { setTimeout(() => { if (p === 'share') shareLink(); else if (p === 'export') exportMenu(t); else if (p === 'search') findUi(t); else act(p, t); }, 0); });
@@ -817,7 +861,8 @@ function exportMenu(t) {
 root.addEventListener('click', ev => {
   const t = ev.target.closest('button, [data-board], [data-a]'); if (!t) return;
   if (t.hasAttribute('data-board')) { switchBoard(t.getAttribute('data-board')); return; }
-  if (t.hasAttribute('data-tool')) { const k = t.getAttribute('data-tool'); if (k === 'shapes') { openPop(t, `<small>Shapes</small>${SHAPES.map(s => `<button data-p="${s[0]}" aria-pressed="${D.shape === s[0]}">${ico(s[0])}${s[1]}</button>`).join('')}`, p => setTool(p), { side: 'right' }); if (!SHAPES.some(s => s[0] === tool)) {} return; } setTool(k); return; }
+  if (t.hasAttribute('data-tool')) { const k = t.getAttribute('data-tool'); if (k === 'shapes') { openPop(t, `<small>Shapes</small>${SHAPES.map(s => `<button data-p="${s[0]}" aria-pressed="${D.shape === s[0]}">${ico(s[0])}${s[1]}</button>`).join('')}`, p => setTool(p), { left: true, up: true }); return; } setTool(k); return; }
+  if (t.hasAttribute('data-tpl')) { insertTemplate(t.getAttribute('data-tpl')); return; }
   const a = t.getAttribute('data-a'); if (a && !t.closest('#wbInsp')) act(a, t, ev);
 });
 $('#wbMini').addEventListener('pointerdown', ev => { const m = $('#wbMini'), r = m.getBoundingClientRect(), mv = e => { const x = (e.clientX - r.left) * (m.width / r.width), y = (e.clientY - r.top) * (m.height / r.height), w = { x: (x - m._ox) / m._k, y: (y - m._oy) / m._k }, c = cam(); c.x = W / 2 - w.x * c.z; c.y = H / 2 - w.y * c.z; draw(); }; mv(ev); m.setPointerCapture(ev.pointerId); const up = () => { m.removeEventListener('pointermove', mv); m.removeEventListener('pointerup', up); save(); }; m.addEventListener('pointermove', mv); m.addEventListener('pointerup', up); });
