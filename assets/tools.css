@@ -139,6 +139,8 @@ main:has(>.tl-hero){padding-top:clamp(22px,3.4vw,48px)!important;gap:clamp(22px,
   .tl-seg button{min-height:44px;height:auto}
   .tl-copy{min-height:44px}
   .tl-panel .tl-link{padding-block:12px;margin-block:-12px}
+  .tl-panel .tl-details>summary{padding-block:12px}
+  .tl-panel .tl-input{min-height:44px}
 }
 
 /* workbench: inputs on the left, the answer on the right and always in view (wide screens only) */
