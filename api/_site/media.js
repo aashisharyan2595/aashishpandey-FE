@@ -14,7 +14,7 @@ async function put(d, who) {
   if (buf.length > MAX) throw new Error('That image is ' + Math.round(buf.length / 1024) + ' KB after shrinking. The limit is ' + Math.round(MAX / 1024) + ' KB. Try a smaller picture.');
   const mime = sniff(buf); if (!mime) throw new Error('Only WebP, JPEG, PNG and GIF images are accepted.');
   const id = Date.now().toString(36) + crypto.randomBytes(3).toString('hex');
-  const meta = { id, mime, size: buf.length, w: Math.min(9999, Number(d.w) || 0), h: Math.min(9999, Number(d.h) || 0), name: clean(d.name, 80) || 'image', alt: clean(d.alt, 160), by: who || '', at: Date.now() };
+  const meta = { id, mime, size: buf.length, w: Math.min(9999, Number(d.w) || 0), h: Math.min(9999, Number(d.h) || 0), name: clean(d.name, 80) || 'image', alt: clean(d.alt, 160), by: (who && who.name) || '', uid: (who && who.id) || '', at: Date.now() };
   await redis('SET', 'media:blob:' + id, buf.toString('base64')); await redis('SET', 'media:meta:' + id, JSON.stringify(meta)); await redis('ZADD', 'media:idx', meta.at, id);
   return meta;
 }

@@ -5,6 +5,7 @@ const posts = require('./posts');
 const media = require('./media');
 const md = require('./md');
 const chrome = require('./chrome.json');
+const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
 const BL = 'v1';   // ?v= for assets/blog.css and blog.js
@@ -14,6 +15,14 @@ const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
 const trunc = (s, n) => { s = String(s || ''); return s.length <= n ? s : s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…'; };
 const jld = (o) => '<script type="application/ld+json">' + JSON.stringify(o).replace(/</g, '\\u003c') + '</script>';
 const PERSON = { '@type': 'Person', '@id': SITE + '/#person', name: 'Aashish Pandey', url: SITE + '/' };
+// the people who write here: name, short bio and photo come from their profile in the admin
+let authorCache = null;
+async function authorOf(p) {
+  if (!authorCache || Date.now() - authorCache.t > 60000) { let m = {}; try { (await cmsAuthors()).forEach((a) => { m[a.id] = a; }); } catch (e) { /* the snapshot name on the entry is used */ } authorCache = { t: Date.now(), m }; }
+  const a = authorCache.m[p.authorId || 'owner'];
+  return { id: p.authorId || 'owner', name: (a && a.name) || p.author || 'Aashish Pandey', bio: (a && a.bio) || '', avatar: (a && a.avatar) || '' };
+}
+const authorLd = (a) => (a.id === 'owner' ? { '@id': SITE + '/#person' } : { '@type': 'Person', name: a.name });
 
 function layout(o) {
   const sec = o.section === 'work' ? chrome.work : chrome.blog;
@@ -125,11 +134,12 @@ ${pages > 1 ? `<nav class="bl-pager" aria-label="Pages">${pg > 1 ? `<a href="${q
 }
 
 /* ---------- one post ---------- */
+const authorBox = (a) => `<aside class="bl-author">${a.avatar ? `<img class="bl-av bl-av--img" src="${esc(a.avatar)}" alt="" width="46" height="46" loading="lazy">` : `<span class="bl-av" aria-hidden="true">${esc(a.name.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase())}</span>`}<div><b>${esc(a.name)}</b><p>${a.bio ? esc(a.bio) : (a.id === 'owner' ? 'Project manager and creative technologist in Bangalore. I run multi-market Shopify programs and build free tools. <a href="/contact">Send a brief</a>.' : '')}</p></div></aside>`;
 const shareBlock = (p, url) => `<div class="bl-share" aria-label="Share"><span>Share</span><button type="button" data-copy="${esc(url)}">Copy link</button><a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(p.title)}" target="_blank" rel="noopener noreferrer">X</a></div>`;
 const tocBlock = (toc) => (toc.length > 2 ? `<nav class="bl-toc" aria-label="On this page"><b>On this page</b><ol>${toc.map((t) => `<li class="l${t.level}"><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ol></nav>` : '');
 
 async function postPage(p, preview) {
-  const r = md.render(p.body), url = SITE + '/blog/' + p.slug, seo = p.seo || {};
+  const r = md.render(p.body), url = SITE + '/blog/' + p.slug, seo = p.seo || {}, au = await authorOf(p);
   const live = await posts.live('post');
   const rel = live.filter((x) => x.id !== p.id).map((x) => ({ x, n: (x.tags || []).filter((t) => (p.tags || []).includes(t)).length })).sort((a, b) => b.n - a.n || (b.x.publishAt - a.x.publishAt)).slice(0, 3).map((a) => a.x);
   const body = `<article class="bl-article" itemscope itemtype="https://schema.org/BlogPosting">
@@ -137,16 +147,16 @@ async function postPage(p, preview) {
 ${p.tags && p.tags.length ? `<div class="bl-tags">${tagChips(p.tags, '/blog')}</div>` : ''}
 <h1 itemprop="headline">${esc(p.title)}</h1>
 <p class="bl-lead">${esc(p.excerpt)}</p>
-<p class="bl-by"><span itemprop="author">${esc(p.author)}</span><span aria-hidden="true">·</span><time datetime="${isoDate(p.publishAt || p.updated)}" itemprop="datePublished">${fmtDate(p.publishAt || p.updated)}</time><span aria-hidden="true">·</span><span>${p.mins || 1} min read</span></p>
+<p class="bl-by"><span itemprop="author">${esc(au.name)}</span><span aria-hidden="true">·</span><time datetime="${isoDate(p.publishAt || p.updated)}" itemprop="datePublished">${fmtDate(p.publishAt || p.updated)}</time><span aria-hidden="true">·</span><span>${p.mins || 1} min read</span></p>
 </div></header>
 ${p.cover && p.cover.src ? `<figure class="bl-cover"><img src="${esc(p.cover.src)}" alt="${esc(p.cover.alt || '')}" itemprop="image" decoding="async"></figure>` : ''}
 <div class="bl-wrap bl-cols"><div class="bl-md" itemprop="articleBody">${r.html}
 <hr class="bl-end">${shareBlock(p, url)}
-<aside class="bl-author"><span class="bl-av" aria-hidden="true">AP</span><div><b>${esc(p.author)}</b><p>Project manager and creative technologist in Bangalore. I run multi-market Shopify programs and build free tools. <a href="/contact">Send a brief</a>.</p></div></aside>
+${authorBox(au)}
 </div>${tocBlock(r.toc) ? `<aside class="bl-side">${tocBlock(r.toc)}</aside>` : ''}</div>
 ${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">Keep reading</h2><div class="bl-grid">${rel.map((x) => card(x)).join('')}</div></section>` : ''}
 </article>`;
-  const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.cover && p.cover.src ? [abs(p.cover.src)] : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: { '@id': SITE + '/#person' }, publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, wordCount: p.words, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title, href: '/blog/' + p.slug }])] }];
+  const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.cover && p.cover.src ? [abs(p.cover.src)] : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, wordCount: p.words, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title, href: '/blog/' + p.slug }])] }];
   return layout({ title: (seo.title || p.title) + ' · Aashish Pandey', desc: seo.description || trunc(p.excerpt, 170), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
 }
 
@@ -218,6 +228,7 @@ async function handle(req, res) {
       let rec = pid ? await posts.get(pid) : await posts.bySlug(type, slug);
       if (rec && rec.type !== type) rec = null;
       if (!rec || (!pid && !posts.isLive(rec))) return send(404, 'text/html; charset=utf-8', notFound(), 'public, max-age=0, s-maxage=30');
+      if (!pid && rec.slug !== slug) { res.setHeader('Location', (type === 'case' ? '/work/' : '/blog/') + rec.slug); res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300'); return res.status(301).send(''); }   // an old address after a rename
       const html = rec.type === 'case' ? await casePage(rec, !!pid) : await postPage(rec, !!pid);
       return send(200, 'text/html; charset=utf-8', html, pid ? 'private, no-store' : undefined);
     }
@@ -227,4 +238,4 @@ async function handle(req, res) {
     return send(500, 'text/plain; charset=utf-8', 'Something went wrong. Please try again in a moment.', 'no-store');
   }
 }
-module.exports = { handle, postPage, casePage };
+module.exports = { handle, postPage, casePage, dropAuthors: () => { authorCache = null; } };
