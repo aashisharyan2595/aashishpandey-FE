@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/assets/nav.css?v=30">
 <script src="/assets/nav.js?v=3" defer></script>
+<link rel="stylesheet" href="/assets/tools.css?v=1">
+<script src="/assets/tools.js?v=2" data-toast="off" defer></script>
 <title>SOP Builder · Free, Private, Word and PDF</title>
 <meta name="description" content="Build a standard operating procedure step by step: roles, numbered steps with owners, checks, KPIs, risks and sign-off. 116 templates or any topic. Word and PDF, free and private.">
 <link rel="canonical" href="https://aashishpandey.com/tools/sop-maker/build">
@@ -35,76 +37,6 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap"></noscript>
 <script src="/assets/js/site.js" defer></script>
 <script src="/assets/motion.js" defer></script>
-<style>
-html,body{margin:0;background:#070916;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
-a{color:#f5b867;text-decoration:none}a:hover{color:#f4efe6}
-::selection{background:#7ff3e1;color:#0b1030}
-:focus-visible{outline:2px solid #7ff3e1!important;outline-offset:3px!important}
-details[data-faq]>summary::-webkit-details-marker{display:none}
-details[data-faq][open] [data-faq-icon]{transform:rotate(45deg)}
-.tl-card{display:flex;flex-direction:column;gap:8px;padding:clamp(20px,2.4vw,24px);border-radius:22px;border:1px solid rgba(244,239,230,.1);background:linear-gradient(180deg,rgba(19,24,56,.92),rgba(12,16,48,.92));color:#f4efe6;min-width:0;transition:border-color .2s,transform .2s}
-.tl-card:hover{border-color:#f5b867;transform:translateY(-2px);color:#f4efe6}
-.tl-panel{border-radius:24px;border:1px solid rgba(244,239,230,.12);background:linear-gradient(180deg,rgba(19,24,56,.92),rgba(12,16,48,.92));padding:clamp(18px,2.6vw,28px);display:flex;flex-direction:column;gap:20px;min-width:0}
-.tl-drop{border:1.5px dashed rgba(244,239,230,.28);border-radius:18px;padding:clamp(28px,5vw,48px) 20px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;cursor:pointer;color:#f4efe6;transition:border-color .2s,background .2s}
-.tl-drop strong{font-size:clamp(17px,2vw,20px);font-weight:600;letter-spacing:-.02em}
-.tl-drop span{font-size:14.5px;color:#aaa4b8}
-.tl-drop:hover,.tl-drop.is-over{border-color:#f5b867;background:rgba(245,184,103,.06)}
-.tl-btn{height:44px;padding:0 18px;border-radius:999px;border:1px solid rgba(244,239,230,.16);background:none;color:#f4efe6;font:500 14px 'Geist',system-ui,sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.tl-btn:hover{border-color:#f5b867}
-.tl-btn--p{background:#f5b867;border-color:#f5b867;color:#1a1420;font-weight:600}
-.tl-btn--p:hover{opacity:.9}
-.tl-actions{display:flex;flex-wrap:wrap;gap:10px}
-.tl-muted{color:#aaa4b8}.tl-small{font-size:13.5px;line-height:1.55;margin:0}
-.tl-file{border-radius:18px;border:1px solid rgba(244,239,230,.1);background:rgba(7,9,22,.5);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
-.tl-file__head{display:flex;gap:14px;align-items:center;min-width:0}
-.tl-file__thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none;background:#0f1433}
-.tl-file__info{display:flex;flex-direction:column;gap:2px;min-width:0}
-.tl-file__info strong{font-size:15.5px;font-weight:600;overflow-wrap:anywhere}
-.tl-chips{display:flex;flex-wrap:wrap;gap:8px}
-.tl-chip{font:500 12.5px 'Geist',system-ui,sans-serif;padding:5px 11px;border-radius:99px;border:1px solid rgba(244,239,230,.16);color:#d8d2e2}
-.tl-chip--hi{border-color:#ff8a6b;color:#ffb39e;background:rgba(255,138,107,.08)}
-.tl-chip--ok{border-color:rgba(127,243,225,.4);color:#7ff3e1;background:rgba(127,243,225,.06)}
-.tl-details summary{cursor:pointer;font:600 14px 'Geist',system-ui,sans-serif;color:#f5b867;padding:4px 0}
-.tl-meta{margin:10px 0 0;display:grid;grid-template-columns:minmax(120px,200px) 1fr;gap:6px 16px;font-size:14px;line-height:1.5}
-.tl-meta dt{color:#8e89a0}.tl-meta dd{margin:0;color:#f4efe6;overflow-wrap:anywhere}
-.tl-meta dd small{color:#8e89a0;font-size:12px}
-.tl-hi{color:#ffb39e!important}
-@media(max-width:560px){.tl-meta{grid-template-columns:1fr;gap:0}.tl-meta dd{margin-bottom:8px}}
-.tl-hashes{margin:0;display:grid;grid-template-columns:96px 1fr;gap:10px 14px;align-items:center}
-.tl-hashes dt{font:500 12px 'Geist Mono',ui-monospace,monospace;letter-spacing:.08em;color:#8e89a0}
-.tl-hashes dd{margin:0;display:flex;gap:10px;align-items:center;min-width:0}
-.tl-hashes code,.tl-code{font:400 13px/1.5 'Geist Mono',ui-monospace,monospace;color:#f4efe6;overflow-wrap:anywhere;word-break:break-all;min-width:0;flex:1}
-@media(max-width:560px){.tl-hashes{grid-template-columns:1fr;gap:2px}.tl-hashes dd{margin-bottom:10px}}
-.tl-copy{flex:none;height:32px;padding:0 12px;border-radius:99px;border:1px solid rgba(244,239,230,.16);background:none;color:#f5b867;font:500 12.5px 'Geist',system-ui,sans-serif;cursor:pointer}
-.tl-copy:hover{border-color:#f5b867}
-.tl-verdict{margin:0;padding:12px 14px;border-radius:12px;font-size:14.5px;line-height:1.5}
-.tl-verdict.is-ok{background:rgba(127,243,225,.1);border:1px solid rgba(127,243,225,.4);color:#9ff7ea}
-.tl-verdict.is-bad{background:rgba(255,138,107,.1);border:1px solid rgba(255,138,107,.45);color:#ffb39e}
-.tl-field{display:flex;flex-direction:column;gap:8px}
-.tl-field label,.tl-label{font-size:13px;font-weight:600;color:#aaa4b8}
-.tl-input,.tl-textarea{width:100%;box-sizing:border-box;border-radius:12px;border:1px solid rgba(244,239,230,.16);background:rgba(7,9,22,.6);color:#f4efe6;font:400 14px/1.5 'Geist Mono',ui-monospace,monospace;padding:12px 14px}
-.tl-textarea{min-height:96px;resize:vertical}
-.tl-input:focus,.tl-textarea:focus{border-color:#f5b867;outline:none}
-.tl-seg{display:inline-flex;border:1px solid rgba(244,239,230,.16);border-radius:99px;padding:3px;gap:2px}
-.tl-seg button{height:34px;padding:0 14px;border-radius:99px;border:0;background:none;color:#aaa4b8;font:500 13px 'Geist',system-ui,sans-serif;cursor:pointer}
-.tl-seg button[aria-pressed=true]{background:rgba(245,184,103,.16);color:#f5b867}
-.tl-row{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
-.tl-check{display:inline-flex;gap:8px;align-items:center;font-size:14.5px;color:#d8d2e2;cursor:pointer}
-.tl-check input{accent-color:#f5b867;width:18px;height:18px}
-.tl-pw{display:flex;gap:14px;align-items:center;flex-wrap:wrap;border-radius:16px;background:rgba(7,9,22,.6);border:1px solid rgba(244,239,230,.12);padding:clamp(14px,2vw,20px)}
-.tl-pw .tl-code{font-size:clamp(17px,2.6vw,24px);letter-spacing:.02em;min-width:200px}
-.tl-bar{height:8px;border-radius:99px;background:rgba(244,239,230,.1);overflow:hidden}
-.tl-bar i{display:block;height:100%;width:0;border-radius:99px;background:#ff8a6b;transition:width .25s,background .25s}
-.tl-bar i[data-level=fair]{background:#f5b867}.tl-bar i[data-level=good]{background:#c5e07a}.tl-bar i[data-level=strong]{background:#7ff3e1}
-.tl-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px}
-.tl-list li{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;border:1px solid rgba(244,239,230,.08);min-width:0}
-.tl-list code{font:400 13.5px 'Geist Mono',ui-monospace,monospace;overflow-wrap:anywhere;flex:1;min-width:0}
-.tl-range{width:100%;accent-color:#f5b867}
-.tl-num{width:76px;text-align:center}
-.tl-note{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:rgba(127,243,225,.06);border:1px solid rgba(127,243,225,.22);color:#b9f5ec;font-size:14px;line-height:1.5}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-input[type=range]{accent-color:#f5b867}
-</style>
 <link rel="stylesheet" href="/assets/sop-site.css?v=3">
 <link rel="stylesheet" href="/assets/sop.css?v=2">
 </head>
@@ -136,7 +68,7 @@ input[type=range]{accent-color:#f5b867}
         <p class="tl-muted tl-small">Templates are a starting point, not legal advice. Check anything that touches law, safety or tax against local rules.</p></section>
       <div class="rb-nav"><button id="rbBack" class="tl-btn" type="button" hidden>Back</button><button id="rbNext" class="tl-btn tl-btn--p" type="button" style="margin-left:auto">Next</button></div>
     </div>
-    <div class="rb-prev"><div class="rb-sticky"><div class="no-print" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span id="pageNote" class="tl-muted" style="font-size:13px"></span><button id="rbDl" class="tl-btn tl-btn--p" type="button">Download</button></div><div id="fit" class="sb-fit"><div id="sop" aria-label="SOP preview"></div></div></div></div>
+    <div class="rb-prev"><div class="rb-sticky"><div class="no-print" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span id="pageNote" class="tl-muted" style="font-size:13px"></span><button id="rbDl" class="tl-btn tl-btn--p" type="button">Download</button></div><div id="fit" class="sb-fit"><div id="sop" data-tl-result="See the preview" aria-label="SOP preview"></div></div></div></div>
   </div>
 </div>
 </main>
