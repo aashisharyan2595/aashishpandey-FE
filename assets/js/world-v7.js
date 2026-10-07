@@ -3421,13 +3421,14 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   // ---- never-lag governor: one ladder of quality levels from the floor up. It reacts in about a third of a second, sheds several
   // levels at once when far over budget, backs off before retrying a level that failed, and remembers what held last time on this device.
   await __y(); const LADDER = []; for (const r of [0.4, 0.5, 0.6, 0.75, 0.9, 1]) LADDER.push({ t: 0, r, d: 1 }); for (let t = 1; t <= 3; t++) for (const d of [0.7, 0.8, 0.9, 1]) LADDER.push({ t, r: 1, d });
-  await __y(); const lvTop = (forceLow || weakGPU) ? LADDER.findIndex(e => e.t === 0 && e.r === (weakGPU ? 0.75 : 1)) : (() => { let k = LADDER.length - 1; while (LADDER[k].t > maxTier) k--; return k; })();
+  await __y(); const lvTopNow = () => (forceLow || weakGPU) ? LADDER.findIndex(e => e.t === 0 && e.r === (weakGPU ? 0.75 : 1)) : (() => { let k = LADDER.length - 1; while (LADDER[k].t > maxTier) k--; return k; })(); const lvTop = lvTopNow();
   await __y(); const lvOf = (t, r, d) => { let b = 0; LADDER.forEach((e, i) => { if (e.t === t && (t === 0 ? Math.abs(e.r - r) < 0.07 : Math.abs(e.d - d) < 0.05)) b = i; }); return b; };
   await __y(); const gpuName = (() => { try { const gl = renderer.getContext(), x = gl.getExtension('WEBGL_debug_renderer_info'); return x ? String(gl.getParameter(x.UNMASKED_RENDERER_WEBGL)) : ''; } catch (e) { return ''; } })();
   await __y(); const PKEY = 'apPerf', PK = gpuName + '|' + Math.round((devicePixelRatio || 1) * 10) + '|' + (opts.mobile ? 'm' : 'd');
   await __y(); let lv = (() => { let sv = null; try { const v = JSON.parse(localStorage.getItem(PKEY) || 'null'); if (v && v.k === PK && Date.now() - v.at < 30 * 864e5) sv = v; } catch (e) {} return Math.min(lvTop, sv ? sv.lv : lvOf(tier, rScale, dyn)); })();
   await __y(); const LBLOCK = [], LBO = LADDER.map(() => 20000);
-  await __y(); const applyLv = () => { const e = LADDER[lv]; rScale = e.r; dyn = e.d; setTier(e.t); }; applyLv();
+  // lower levels also pull the draw distance in and raise the size below which things are hidden (lvK: 3 at the floor, 1 at the top)
+  await __y(); let lvK = 1; await __y(); const applyLv = () => { const e = LADDER[lv]; rScale = e.r; dyn = e.d; setTier(e.t); drawDist = Math.max(0.5, Math.min(1, 0.5 + 0.5 * lv / Math.max(1, lvTop * 0.7))); lvK = 1 + 2 * (1 - lv / Math.max(1, lvTop)); }; applyLv();
   // ?fps shows the governor live (level, frame time, draw calls) so people can report what a real device does
   await __y(); const hud = QS.has('fps') ? (() => { const d = document.createElement('div'); d.style.cssText = 'position:fixed;left:8px;top:8px;z-index:99999;padding:6px 9px;border-radius:8px;background:rgba(0,0,0,.72);color:#7ff3e1;font:11px/1.45 ui-monospace,monospace;pointer-events:none;white-space:pre'; document.body.appendChild(d); renderer.info.autoReset = false; return d; })() : null;
   await __y(); let snapReq = null; // photo mode: one frame rendered at print resolution, then back to the governor's level
@@ -3529,7 +3530,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       if (!o._apT) { o._apT = { o, r: undefined, note: NOTE_RX.test(nm) }; }
       tinyList.push(o._apT); }); };
   await __y(); const tinyPass = () => {
-    const cp = camera.position, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360), PX = lp ? 3 : 1.6, farN = 140 + 260 * drawDist;
+    const cp = camera.position, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360), PX = (lp ? 3 : 1.6) * lvK, farN = 140 + 260 * drawDist;
     for (let i = 0; i < tinyList.length; i++) { const c = tinyList[i], o = c.o, e = o.matrixWorld.elements;
       if (c.r === undefined || o.isSprite) {
         const sx = Math.hypot(e[0], e[1], e[2]), sy = Math.hypot(e[4], e[5], e[6]), sz = Math.hypot(e[8], e[9], e[10]);
@@ -3539,7 +3540,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       o._apHide2 = px < (o._apHide2 ? PX * 1.3 : PX) || (c.note && d > farN); } };
   await __y(); const updateRoots = () => { const ch = scene.children; for (let i = 0; i < ch.length; i++) { const o = ch[i]; if (o._apHide || o.userData.apStatic) continue; o.updateMatrixWorld(); } };
   await __y(); const cullPass = () => {
-    const cp = camera.position, lim = scene.fog.far + 20, PX = lp ? 3 : 1.4, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360);
+    const cp = camera.position, lim = scene.fog.far + 20, PX = (lp ? 3 : 1.4) * lvK, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360);
     for (let i = 0; i < cullList.length; i++) { const c = cullList[i], o = c.o, p = o.position, dx = p.x - cp.x, dy = p.y - cp.y, dz = p.z - cp.z, d = Math.sqrt(dx * dx + dy * dy + dz * dz) - c.r;
       const lim2 = Math.min(lim, c.r * F / PX + 30);   // beyond this the object is under about a pixel, or fully fogged
       if (o._apHide) { if (d < lim2 * 0.9) { o._apHide = false; o.updateMatrixWorld(true); } } else if (d > lim2) o._apHide = true; } };
@@ -3561,7 +3562,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
         else if (!capOn) capOn = true; // already at the floor and still slow: pace at 30 fps for an even picture
         perf.cool = now; perf.good = 0;
       } else if (live && ms < up) {
-        if (++perf.good >= (capOn ? 5 : 12) && lv < lvTop && now > (LBLOCK[lv + 1] || 0) && now - perf.cool > 2500) { lv++; if (capOn && lv >= 2 && !cap30) capOn = false; applyLv(); perf.cool = now; perf.good = 0; }
+        if (++perf.good >= (capOn ? 5 : 12) && lv < lvTopNow() && now > (LBLOCK[lv + 1] || 0) && now - perf.cool > 2500) { lv++; if (capOn && lv >= 2 && !cap30) capOn = false; applyLv(); perf.cool = now; perf.good = 0; }
       } else perf.good = Math.max(0, perf.good - 1);
       if (live && now - perf.cool > 10000 && now - perf.saved > 10000) { perf.saved = now; try { localStorage.setItem(PKEY, JSON.stringify({ k: PK, lv, at: Date.now() })); } catch (e) {} }
     }
@@ -3961,7 +3962,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     postU.focus.value = tier >= 2 && !free && intro >= 1 ? dwell * 0.85 : 0;
     postU.speedFx.value = free && !reduceMotion && tier >= 1 && intro >= 1 ? clamp(sstep(18, 27, curSpeed) * 0.14 + boostAmt * 0.1 + punch * 0.16, 0, 0.45) : 0;
     renderer.setRenderTarget(null); renderer.render(postScene, postCam);
-    if (snapReq && snapReq.on) { const q = snapReq; snapReq = null; let url = null; try { url = canvas.toDataURL('image/jpeg', 0.95); } catch (err) { /* fall back below */ } setTier(tier); q.cb(url); }
+    if (snapReq && snapReq.on) { const q = snapReq; snapReq = null; let url = null; try { url = canvas.toDataURL('image/jpeg', 0.95); } catch (err) { /* fall back below */ } applyLv(); q.cb(url); }
     if (!readySent) { readySent = true; opts.onReady && opts.onReady(); }
     if (deferred.length && !deferBusy) { deferBusy = true; const runNext = () => { const fn = deferred.shift(); if (!fn) { deferBusy = false; return; } const saved = seed; seed = 9001 + deferred.length * 131; try { fn(); } catch (err) { console.warn(err); } seed = saved; chunkify(); hookAll(); warmMore(); renderer.shadowMap.needsUpdate = true; if (deferred.length) (window.requestIdleCallback ? requestIdleCallback(runNext, { timeout: 500 }) : setTimeout(runNext, 40)); else { deferBusy = false; warmUp(); } }; setTimeout(runNext, 80); }
   }
@@ -4012,7 +4013,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       return { bond: B, title: tiers[i][1], pct: nx ? (B - tiers[i][0]) / (nx[0] - tiers[i][0]) : 1, next: nx ? (nx[0] - B) + ' to ' + nx[1] : 'Max bond', pets: DB.petN, left: DB.lbN, snacks: DB.snackN, fetches: DB.fetchN, highFives: DB.hfN, rubs: DB.rubN, regions: DB.regAll.size, fav: fav ? cap1(REGN[fav]) : 'Still deciding' }; },
     orbCombo() { return v8.T - v8.lastOrb < 1.7 ? v8.combo : 0; },
     getPostcardSpots() { return PCS.map(p => ({ k: p.k, name: p.name, x: p.x, z: p.z })); },
-    setForceLow(v) { forceLow = !!v; if (forceLow && tier > 0) setTier(0); },
+    setForceLow(v) { forceLow = !!v; if (forceLow && lv > lvTopNow()) { lv = lvTopNow(); applyLv(); } },
     setHold(active) { if (active && !holdActive) holdT = t; holdActive = active; },
     callDino() { const wasSleepy = curNight && dinoState === 'roam'; if (dinoState === 'roam') { dinoFleeT = 0; dinoSeekLake = false; dinoSeekBike = false; dinoLingerT = 0; dinoState = 'run'; } else if (dinoState === 'jumpoff') { dinoState = 'run'; scene.attach(dino); } dinoReactT = wasSleepy ? 0.9 : 0.5; opts.onDino && opts.onDino('called'); },
     getState() { const distLake = Math.hypot(lastBX - LAKE.x, lastBZ - LAKE.z), water = clamp(1 - distLake / 70, 0, 1);

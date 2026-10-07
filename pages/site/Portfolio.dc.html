@@ -42,7 +42,7 @@
 <script src="/assets/js/support.js" defer></script>
 <link rel="modulepreload" href="/assets/vendor/three-0.184.0/three.module.min.js" fetchpriority="low">
 <link rel="modulepreload" href="/assets/vendor/three-0.184.0/three.core.min.js" fetchpriority="low">
-<link rel="modulepreload" href="/assets/js/world-v7.js?v=10m" fetchpriority="low">
+<link rel="modulepreload" href="/assets/js/world-v7.js?v=10n" fetchpriority="low">
 </head>
 <body>
 <div id="ap-pre" style="position:fixed;inset:0;z-index:30;background:radial-gradient(120% 90% at 50% 100%,#e29a72 0%,#7a5a8e 45%,#2a3a7c 100%);color:#f3ead9;font-family:'Instrument Sans',system-ui,sans-serif;"><nav style="position:absolute;top:20px;left:24px;right:24px;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:12px;"><a href="/" style="color:#fff6ea;font-family:'Cormorant Garamond',serif;font-size:26px;text-decoration:none;">Aashish Pandey</a><a href="/portfolio" style="height:36px;padding:0 14px;display:flex;align-items:center;border-radius:999px;background:#f5b867;color:#1a1420;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;">Portfolio</a></nav>
@@ -1049,7 +1049,7 @@ class Component extends DCLogic {
     this.mapI = setInterval(() => this.drawMap(), 100);
     this.poll = setInterval(() => { if (this.score && this.score.on && this.world) this.score.update(this.world.getState()); this.rideTick(); }, 150);
     const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
-    const loadWorld = () => import('/assets/js/world-v7.js?v=10m').then(async m => {
+    const loadWorld = () => import('/assets/js/world-v7.js?v=10n').then(async m => {
       if (!this.canvasHost.current) return;
       const gpu = m.probeGPU ? m.probeGPU() : {}; (window.__ap = this), this.world = await m.createWorld(this.canvasHost.current, { lowPower: lp || gpu.weak || gpu.igpu || this.state.lowGfx || innerWidth < 760, softGPU: !!gpu.soft, mobile: compactUI(), notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
         onNote: (i, x, y) => { this.blip(1180); if (i >= NOTES.length && !(this.state.found || []).includes(i)) { const found = [...(this.state.found || []), i]; this.setState({ found }); try { localStorage.setItem('apSecrets', JSON.stringify(found)); } catch (e) {} } this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
