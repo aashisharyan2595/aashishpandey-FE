@@ -110,6 +110,30 @@
 <link rel="stylesheet" href="/assets/fonts.css?v=1">
 <script src="/assets/js/site.js" defer></script>
 <style>
+
+/* modern pass: Night Ride atmosphere, glass surfaces, amber accent */
+body{background-image:radial-gradient(60% 55% at 6% -12%,rgba(245,184,103,.11),transparent 62%),radial-gradient(50% 50% at 104% 112%,rgba(127,243,225,.07),transparent 62%);background-attachment:fixed}
+html[data-theme=light] body{background-image:radial-gradient(60% 55% at 6% -12%,rgba(245,184,103,.22),transparent 62%)}
+*{scrollbar-width:thin;scrollbar-color:rgba(244,239,230,.16) transparent}
+html[data-theme=light] *{scrollbar-color:rgba(21,19,28,.18) transparent}
+.pd-brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.01em;line-height:1;white-space:nowrap}
+.pd-brand em{font-style:italic;color:var(--acc)}
+.pd-tb{display:flex;align-items:center;gap:2px;padding:8px clamp(12px,2.4vw,24px);border-bottom:1px solid var(--line);overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.pd-tb::-webkit-scrollbar{display:none}
+.pd-tb button{flex:none;min-width:34px;height:34px;padding:0 8px;border:none;border-radius:9px;background:none;color:var(--soft);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:600 13px 'Geist',system-ui,sans-serif;transition:background .15s,color .15s}
+.pd-tb button:hover{background:var(--chip);color:var(--ink)}
+.pd-tb button:active{transform:translateY(1px)}
+.pd-tb i{flex:none;width:1px;height:18px;background:var(--line);margin:0 6px}
+.pd-tb em{font-family:'Instrument Serif',serif;font-style:italic;font-size:17px;font-weight:400}
+.pd-tb s{text-decoration-thickness:1.5px}
+.pd-hint{margin-left:auto;flex:none;padding-left:14px;font:500 10.5px 'Geist Mono',monospace;letter-spacing:.06em;color:var(--soft);white-space:nowrap}
+@media(max-width:760px){.pd-hint{display:none}}
+.pd-kbd{font:500 10.5px 'Geist Mono',monospace;padding:2px 6px;border-radius:6px;border:1px solid var(--line);color:var(--soft);margin-left:auto}
+.pd-note{position:relative;transition:background .15s}
+.pd-dot{width:6px;height:6px;border-radius:50%}
+@keyframes pdp{50%{opacity:.35}}
+.pd-saving{animation:pdp .9s infinite}
+@media(prefers-reduced-motion:reduce){.pd-saving{animation:none}}
 details[data-faq]>summary::-webkit-details-marker{display:none}
 details[data-faq][open] [data-faq-icon]{transform:rotate(45deg)}
 
@@ -138,17 +162,17 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
 }
 </style>
 </helmet>
-<div style="height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font-family:'Geist',system-ui,sans-serif;overflow:hidden;transition:background .25s,color .25s;">
+<div style="height:100vh;display:flex;flex-direction:column;background:transparent;color:var(--ink);font-family:'Geist',system-ui,sans-serif;overflow:hidden;transition:background .25s,color .25s;">
   <sc-if value="{{ chrome }}" hint-placeholder-val="{{ true }}">
     <header style="flex-shrink:0;height:60px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;padding:0 clamp(10px,2vw,18px);">
       <div style="display:flex;align-items:center;gap:8px;min-width:0;">
         <button onClick="{{ toggleSidebar }}" aria-label="Toggle notes list" title="Notes" style="width:36px;height:36px;border-radius:11px;border:none;background:none;color:var(--soft);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" style-hover="background:var(--chip);color:var(--ink);"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 3v18"></path></svg></button>
-        <a href="/tools" style="display:flex;align-items:center;gap:9px;color:var(--ink);min-width:0;"><img src="/assets/logo-mark.svg" alt="" width="28" height="28" style="width:28px;height:28px;display:block;flex:none;border-radius:3px;"><span style="font-size:15px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;">Notepad</span></a>
+        <a href="/tools" style="display:flex;align-items:center;gap:9px;color:var(--ink);min-width:0;"><img src="/assets/logo-mark.svg" alt="" width="28" height="28" style="width:28px;height:28px;display:block;flex:none;border-radius:3px;"><span class="pd-brand">Note<em>pad</em></span></a>
       </div>
-      <div role="tablist" aria-label="View" style="display:flex;padding:3px;border-radius:12px;background:var(--chip);gap:2px;">
+      <div role="tablist" aria-label="View" style="display:flex;padding:3px;border-radius:12px;background:var(--chip);border:1px solid var(--line);gap:2px;">
         <sc-for list="{{ views }}" as="v" hint-placeholder-count="3">
           <sc-if value="{{ v.on }}" hint-placeholder-val="{{ false }}">
-            <button role="tab" aria-selected="true" title="{{ v.hint }}" onClick="{{ v.pick }}" style="height:30px;padding:0 14px;border-radius:9px;border:none;background:var(--raise);color:var(--ink);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow);">{{ v.label }}</button>
+            <button role="tab" aria-selected="true" title="{{ v.hint }}" onClick="{{ v.pick }}" style="height:30px;padding:0 14px;border-radius:9px;border:none;background:rgba(245,184,103,.16);color:var(--acc);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow);">{{ v.label }}</button>
           </sc-if>
           <sc-if value="{{ v.off }}" hint-placeholder-val="{{ true }}">
             <button role="tab" aria-selected="false" title="{{ v.hint }}" onClick="{{ v.pick }}" style="height:30px;padding:0 14px;border-radius:9px;border:none;background:none;color:var(--soft);font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;" style-hover="color:var(--ink);">{{ v.label }}</button>
@@ -171,7 +195,7 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
             </div>
           </sc-if>
         </div>
-        <button onClick="{{ share }}" style="height:36px;padding:0 15px;display:flex;align-items:center;gap:7px;border-radius:11px;border:none;background:var(--ink);color:var(--inv);font-family:inherit;font-size:13.5px;font-weight:600;white-space:nowrap;cursor:pointer;flex-shrink:0;" style-hover="opacity:.88;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>Share</button>
+        <button onClick="{{ share }}" style="height:36px;padding:0 15px;display:flex;align-items:center;gap:7px;border-radius:11px;border:none;background:#f5b867;color:#1a1420;font-family:inherit;font-size:13.5px;font-weight:600;white-space:nowrap;cursor:pointer;flex-shrink:0;box-shadow:0 6px 18px rgba(245,184,103,.25);" style-hover="background:#ffc880;"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>Share</button>
       </div>
     </header>
   </sc-if>
@@ -183,13 +207,13 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
             <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Search notes" aria-label="Search notes" style="flex:1;min-width:0;border:none;outline:none;background:none;color:var(--ink);font-family:inherit;font-size:14px;"></input>
           </label>
-          <button onClick="{{ newNote }}" style="height:38px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:11px;border:1px dashed var(--line);background:none;color:var(--ink);font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="border-color:var(--acc);color:var(--acc);"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>New note</button>
+          <button onClick="{{ newNote }}" style="height:38px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:11px;border:1px solid rgba(245,184,103,.4);background:rgba(245,184,103,.09);color:var(--acc);font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;" style-hover="background:rgba(245,184,103,.16);"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>New note</button>
         </div>
         <span style="padding:6px 8px;font-size:11.5px;font-weight:600;color:var(--soft);">{{ listLabel }}</span>
         <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:2px;padding-bottom:12px;">
           <sc-for list="{{ notesList }}" as="n" hint-placeholder-count="3">
             <sc-if value="{{ n.active }}" hint-placeholder-val="{{ false }}">
-              <div style="display:flex;align-items:flex-start;gap:4px;padding:11px 6px 11px 12px;border-radius:12px;background:var(--raise);box-shadow:var(--shadow);">
+              <div style="display:flex;align-items:flex-start;gap:4px;padding:11px 6px 11px 12px;border-radius:12px;background:var(--raise);box-shadow:var(--shadow);border:1px solid var(--line);border-left:3px solid var(--acc);">
                 <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;">
                   <span style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ n.title }}</span>
                   <span style="font-size:12.5px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ n.excerpt }}</span>
@@ -213,7 +237,7 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
         <div style="padding:12px 8px;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;font-size:12.5px;line-height:1.45;color:var(--soft);"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>Saved in this browser only. <a href="/tools">More tools</a></span></div>
       </aside>
     </sc-if>
-    <main style="flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;position:relative;background:var(--raise);border-radius:clamp(0px,1.4vw,18px);box-shadow:var(--shadow);overflow:hidden;">
+    <main style="flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;position:relative;background:var(--raise);border:1px solid var(--line);border-radius:clamp(0px,1.6vw,22px);box-shadow:var(--shadow);overflow:hidden;">
       <sc-if value="{{ isShared }}" hint-placeholder-val="{{ false }}">
         <div style="flex-shrink:0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding:10px clamp(14px,3vw,24px);border-bottom:1px solid var(--line);">
           <span style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;"><span style="display:flex;align-items:center;gap:6px;padding:4px 9px;border-radius:99px;background:rgba(127,243,225,.18);color:#1f7a63;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;">Read-only</span>Shared note</span>
@@ -227,9 +251,18 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
         </div>
       </sc-if>
       <sc-if value="{{ showWrite }}" hint-placeholder-val="{{ true }}">
+        <div class="pd-tb" role="toolbar" aria-label="Formatting">
+          <sc-for list="{{ tools }}" as="b" hint-placeholder-count="10">
+            <sc-if value="{{ b.sep }}" hint-placeholder-val="{{ false }}"><i></i></sc-if>
+            <sc-if value="{{ b.btn }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ b.run }}" title="{{ b.hint }}" aria-label="{{ b.label }}"><span>{{ b.t }}</span></button></sc-if>
+          </sc-for>
+          <span class="pd-hint">Markdown shortcuts: Ctrl B, I, K</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showWrite }}" hint-placeholder-val="{{ true }}">
         <div style="flex:1;display:flex;min-height:0;">
           <div style="flex:1;min-width:0;display:flex;min-height:0;">
-            <textarea ref="{{ taRef }}" value="{{ text }}" onChange="{{ onText }}" placeholder="Start writing…" spellcheck="true" aria-label="Note text" style="flex:1;width:100%;max-width:780px;margin:0 auto;box-sizing:border-box;padding:clamp(32px,6vw,80px) clamp(20px,4vw,40px) 120px;border:none;outline:none;resize:none;background:transparent;color:var(--ink);font-family:'Geist',system-ui,sans-serif;font-size:18px;line-height:1.8;caret-color:var(--acc);"></textarea>
+            <textarea ref="{{ taRef }}" value="{{ text }}" onChange="{{ onText }}" placeholder="Start writing. # makes a heading, - a list, [ ] a task." spellcheck="true" aria-label="Note text" style="flex:1;width:100%;max-width:780px;margin:0 auto;box-sizing:border-box;padding:clamp(24px,4vw,56px) clamp(20px,4vw,40px) 120px;border:none;outline:none;resize:none;background:transparent;color:var(--ink);font-family:'Geist',system-ui,sans-serif;font-size:17.5px;line-height:1.85;caret-color:var(--acc);"></textarea>
           </div>
           <sc-if value="{{ isSplit }}" hint-placeholder-val="{{ false }}">
             <div style="flex:1;min-width:0;overflow-y:auto;border-left:1px solid var(--line);background:var(--bg);">
@@ -243,8 +276,8 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
           <div style="max-width:720px;margin:0 auto;padding:clamp(32px,6vw,80px) clamp(20px,4vw,40px) 110px;">{{ previewHtml }}</div>
         </div>
       </sc-if>
-      <div style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:99px;background:var(--raise);border:1px solid var(--line);box-shadow:var(--shadow);font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.04em;color:var(--soft);white-space:nowrap;opacity:{{ statusOpacity }};transition:opacity .3s;" style-hover="opacity:1;">
-        <span>{{ words }} words</span><span style="opacity:.4;">/</span><span>{{ chars }} chars</span><span style="opacity:.4;">/</span><span>{{ readTime }}</span><span style="opacity:.4;">/</span><span style="display:flex;align-items:center;gap:6px;color:var(--ink);"><span style="width:6px;height:6px;border-radius:50%;background:#1f7a63;"></span>{{ saveLabel }}</span>
+      <div style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:99px;background:var(--raise);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.28);font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.04em;color:var(--soft);white-space:nowrap;opacity:{{ statusOpacity }};transition:opacity .3s;" style-hover="opacity:1;">
+        <span>{{ words }} words</span><span style="opacity:.4;">/</span><span>{{ chars }} chars</span><span style="opacity:.4;">/</span><span>{{ readTime }}</span><span style="opacity:.4;">/</span><span style="display:flex;align-items:center;gap:6px;color:var(--ink);"><span class="pd-dot" style="background:{{ dotColor }};animation:{{ dotAnim }};"></span>{{ saveLabel }}</span>
       </div>
     </main>
     <sc-if value="{{ focus }}" hint-placeholder-val="{{ false }}">
@@ -345,7 +378,18 @@ class Component extends DCLogic {
     this.onHash = () => this.readHash();
     window.addEventListener('hashchange', this.onHash);
     this.onKey = e => {
-      const mod = e.metaKey || e.ctrlKey;
+      const mod = e.metaKey || e.ctrlKey, inTa = e.target === this.taRef.current;
+      if (inTa && mod && !e.shiftKey && !e.altKey && ['b', 'i', 'k'].includes(e.key.toLowerCase())) { e.preventDefault(); this.fmt(e.key.toLowerCase()); return; }
+      if (inTa && e.key === 'Enter' && !e.shiftKey && !mod && !e.isComposing) {
+        const ta = e.target, v = ta.value, a = ta.selectionStart, ls = v.lastIndexOf('\n', a - 1) + 1, ln = v.slice(ls, a), m = ln.match(/^(\s*)([-*+]\s\[[ x]\]\s|[-*+]\s|(\d+)\.\s)/);
+        if (m && ta.selectionEnd === a) {
+          e.preventDefault(); const id = this.state.activeId; let nv, pos;
+          if (ln.trim() === m[0].trim()) { nv = v.slice(0, ls) + v.slice(a); pos = ls; }
+          else { const mk = m[3] ? (+m[3] + 1) + '. ' : m[2].replace('[x]', '[ ]'), ins = '\n' + m[1] + mk; nv = v.slice(0, a) + ins + v.slice(a); pos = a + ins.length; }
+          this.setState(s => ({ notes: s.notes.map(n => n.id === id ? { ...n, text: nv, updated: Date.now() } : n) }), () => { this.queueSave(); const t = this.taRef.current; if (t) t.setSelectionRange(pos, pos); });
+          return;
+        }
+      }
       if (e.key === 'Escape') { if (this.state.focus) this.exitFocus(); else if (this.state.exportOpen) this.setState({ exportOpen: false }); }
       else if (mod && e.shiftKey && (e.key === 'F' || e.key === 'f')) { e.preventDefault(); this.state.focus ? this.exitFocus() : this.enterFocus(); }
       else if (mod && (e.key === 's' || e.key === 'S')) { e.preventDefault(); this.persist(); this.flash('Saved to this browser'); }
@@ -381,6 +425,19 @@ class Component extends DCLogic {
     const text = e.target.value, id = this.state.activeId;
     this.setState(s => ({ notes: s.notes.map(n => n.id === id ? { ...n, text, updated: Date.now() } : n) }), () => this.queueSave());
   };
+  fmt(kind) {
+    const ta = this.taRef.current; if (!ta) return;
+    const v = ta.value, a = ta.selectionStart, b = ta.selectionEnd; let nv, na, nb;
+    const wrap = (m, ph) => { const sel = v.slice(a, b) || ph, out = v.slice(a - m.length, a) === m && v.slice(b, b + m.length) === m; if (out && a !== b) { nv = v.slice(0, a - m.length) + sel + v.slice(b + m.length); na = a - m.length; nb = na + sel.length; } else { nv = v.slice(0, a) + m + sel + m + v.slice(b); na = a + m.length; nb = na + sel.length; } };
+    const lines = pre => { const ls = v.lastIndexOf('\n', a - 1) + 1, e = v.indexOf('\n', b), le = e < 0 ? v.length : e, seg = v.slice(ls, le).split('\n'), all = seg.every(x => x.startsWith(pre)), strip = x => x.replace(/^(#{1,3}\s|[-*+]\s\[[ x]\]\s|[-*+]\s|>\s)/, ''); const out = seg.map(x => all ? x.slice(pre.length) : pre + (/^#{1,3}\s/.test(pre) ? strip(x) : x)).join('\n'); nv = v.slice(0, ls) + out + v.slice(le); na = ls; nb = ls + out.length; };
+    if (kind === 'b') wrap('**', 'bold'); else if (kind === 'i') wrap('*', 'italic'); else if (kind === 's') wrap('~~', 'text'); else if (kind === 'c') wrap('`', 'code');
+    else if (kind === 'h1') lines('# '); else if (kind === 'h2') lines('## '); else if (kind === 'ul') lines('- '); else if (kind === 'task') lines('- [ ] '); else if (kind === 'q') lines('> ');
+    else if (kind === 'k') { const sel = v.slice(a, b) || 'link text'; nv = v.slice(0, a) + '[' + sel + '](https://)' + v.slice(b); na = a + sel.length + 3; nb = na + 8; }
+    else if (kind === 'hr') { nv = v.slice(0, a) + (a && v[a - 1] !== '\n' ? '\n' : '') + '\n---\n\n' + v.slice(b); na = nb = nv.length - v.slice(b).length; }
+    else return;
+    const id = this.state.activeId;
+    this.setState(s => ({ notes: s.notes.map(n => n.id === id ? { ...n, text: nv, updated: Date.now() } : n) }), () => { this.queueSave(); const t = this.taRef.current; if (t) { t.focus(); t.setSelectionRange(na, nb); } });
+  }
   newNote = (text) => {
     const n = { id: uid(), text: typeof text === 'string' ? text : '', updated: Date.now() };
     this.setState(s => ({ notes: [n, ...s.notes], activeId: n.id, q: '', view: s.view === 'preview' ? 'write' : s.view }), () => { this.queueSave(); this.taRef.current && this.taRef.current.focus(); });
@@ -445,6 +502,8 @@ class Component extends DCLogic {
       previewHtml: html(md(text)), taRef: this.taRef, text, onText: this.onText,
       words: bw, chars: body.length.toLocaleString(), readTime: Math.max(1, Math.round(bw / 230)) + ' min read',
       saveLabel: shared ? 'Read-only' : s.saving ? 'Saving…' : 'Saved',
+      dotColor: s.saving ? '#f5b867' : '#7ff3e1', dotAnim: s.saving ? 'pdp .9s infinite' : 'none',
+      tools: [['b', 'B', 'Bold', 'Bold (Ctrl B)'], ['i', '<i>', 'Italic', 'Italic (Ctrl I)'], ['s', 'S', 'Strikethrough', 'Strikethrough'], '|', ['h1', 'H1', 'Heading 1', 'Heading 1'], ['h2', 'H2', 'Heading 2', 'Heading 2'], '|', ['ul', '• List', 'Bulleted list', 'Bulleted list'], ['task', '☐ Task', 'Task list', 'Task list'], ['q', '“ Quote', 'Quote', 'Quote'], '|', ['c', '</>', 'Code', 'Inline code'], ['k', 'Link', 'Link', 'Link (Ctrl K)'], ['hr', 'Line', 'Divider', 'Divider']].map(x => x === '|' ? { sep: true, btn: false } : { sep: false, btn: true, t: x[1] === '<i>' ? 'I' : x[1], label: x[2], hint: x[3], run: () => this.fmt(x[0]) }),
       statusOpacity: s.focus ? 0.35 : 1,
       hasToast: !!s.toast, toast: s.toast
     };

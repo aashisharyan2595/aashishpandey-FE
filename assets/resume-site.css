@@ -92,40 +92,9 @@ a.rm-tpl:hover .rm-paper{transform:translateY(-4px);box-shadow:0 22px 50px rgba(
 .rm-guide h2{margin:0;font-weight:600;font-size:clamp(24px,3vw,34px);letter-spacing:-.04em;line-height:1.1}
 .rm-guide p{margin:0;font-size:16px;line-height:1.7;color:#aaa4b8;max-width:68ch}
 /* builder */
-.rb-top{display:flex;flex-wrap:wrap;gap:14px 24px;justify-content:space-between;align-items:center}
-.rb-steps{display:flex;gap:6px;overflow-x:auto;padding:4px;border-radius:99px;border:1px solid rgba(244,239,230,.12);background:rgba(244,239,230,.03);max-width:100%;scrollbar-width:none}
-.rb-steps::-webkit-scrollbar{display:none}
-.rb-steps button{flex:none;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 8px;border-radius:99px;border:0;background:none;color:#aaa4b8;font:500 14px 'Geist',system-ui,sans-serif;cursor:pointer}
-.rb-n{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font:500 12px 'Geist Mono',monospace;border:1px solid rgba(244,239,230,.2)}
-.rb-steps button.is-done .rb-n{background:rgba(127,243,225,.15);border-color:rgba(127,243,225,.5);color:#7ff3e1}
-.rb-steps button[aria-current=step]{background:#f4efe6;color:#15131c}.rb-steps button[aria-current=step] .rb-n{border-color:#15131c;background:#15131c;color:#f4efe6}
 @media(max-width:560px){.rb-l{display:none}.rb-steps button[aria-current=step] .rb-l{display:inline}}
-.rb-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:22px;align-items:start}
 @media(max-width:1060px){.rb-grid{grid-template-columns:minmax(0,1fr)}}
-.rb-panel{display:flex;flex-direction:column;gap:20px;padding:clamp(18px,2.6vw,28px);border-radius:24px;border:1px solid rgba(244,239,230,.12);background:linear-gradient(180deg,rgba(19,24,56,.92),rgba(12,16,48,.92));min-width:0}
-.rb-panel h1,.rb-panel h2{margin:0;font-weight:600;font-size:clamp(22px,2.4vw,28px);letter-spacing:-.035em;line-height:1.1}
-.rb-step{display:flex;flex-direction:column;gap:18px}
-.rb-lab{font-size:13px;font-weight:600;color:#aaa4b8}
-.rb-prev{align-self:stretch;min-width:0}
-.rb-sticky{position:sticky;top:76px;display:flex;flex-direction:column;gap:10px}
 @media(max-width:1060px){.rb-sticky{position:static}}
-.rb-nav{display:flex;justify-content:space-between;gap:10px;padding-top:6px;border-top:1px solid rgba(244,239,230,.08)}
-.rb-roles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.rb-role{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid rgba(244,239,230,.14);background:rgba(7,9,22,.5);color:#f4efe6;cursor:pointer;text-align:left;font:500 13.5px/1.25 'Geist',system-ui,sans-serif}
-.rb-role:hover{border-color:rgba(245,184,103,.6)}
-.rb-role[aria-pressed=true]{border-color:#f5b867;background:rgba(245,184,103,.1)}
-.rb-ico{width:34px;height:34px;border-radius:10px;background:rgba(245,184,103,.1);color:#f5b867;display:flex;align-items:center;justify-content:center;flex:none}
-.rb-tpls{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
-.rb-tpl{display:flex;flex-direction:column;gap:8px;padding:8px;border-radius:14px;border:1px solid rgba(244,239,230,.14);background:rgba(7,9,22,.5);cursor:pointer;color:#f4efe6;font-family:'Geist',system-ui,sans-serif;text-align:left}
-.rb-tpl:hover{border-color:rgba(245,184,103,.6)}
-.rb-tpl[aria-checked=true]{border-color:#f5b867;box-shadow:0 0 0 1px #f5b867 inset;background:rgba(245,184,103,.08)}
-.rb-tpl .rsx-frame{border-radius:6px;border:1px solid rgba(255,255,255,.1)}
-.rb-tpl-n{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:13.5px}
-.rb-dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
-.rb-dl button,.rb-dl label{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:16px;border-radius:18px;border:1px solid rgba(244,239,230,.14);background:rgba(7,9,22,.5);color:#f4efe6;font:600 15.5px 'Geist',system-ui,sans-serif;cursor:pointer;text-align:left}
-.rb-dl button:hover,.rb-dl label:hover{border-color:#f5b867}
-.rb-dl small{font:400 13px/1.4 'Geist',system-ui,sans-serif;color:#aaa4b8}
-.rb-dl .is-p{background:#f5b867;border-color:#f5b867;color:#1a1420}.rb-dl .is-p small{color:#4a3a1c}
 /* editor pieces */
 .tl-select{height:44px;border-radius:12px;border:1px solid rgba(244,239,230,.16);background:rgba(7,9,22,.6);color:#f4efe6;font:400 14px 'Geist',system-ui,sans-serif;padding:0 12px;width:100%;box-sizing:border-box}
 .tz-mini{min-width:34px;height:34px;border-radius:8px;border:1px solid rgba(244,239,230,.16);background:none;color:#aaa4b8;cursor:pointer;font:500 15px/1 'Geist',system-ui,sans-serif;padding:0 8px;flex:none}
@@ -155,11 +124,11 @@ a.rm-tpl:hover .rm-paper{transform:translateY(-4px);box-shadow:0 22px 50px rgba(
 .rs-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .rs-chip{font:500 12.5px 'Geist',system-ui,sans-serif;padding:4px 10px;border-radius:99px;border:1px solid}
 .rs-chip.is-hit{color:#7ff3e1;border-color:rgba(127,243,225,.4);background:rgba(127,243,225,.06)}.rs-chip.is-miss{color:#f5b867;border-color:rgba(245,184,103,.5);background:rgba(245,184,103,.07)}
-#fit{width:100%;position:relative;overflow:hidden;border-radius:8px;background:#fff;box-shadow:0 14px 44px rgba(0,0,0,.5)}
+#fit{width:100%;max-width:840px;margin:0 auto;position:relative;overflow:hidden;border-radius:6px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35),0 30px 80px rgba(0,0,0,.55)}
 .rsx .rs-pb{position:absolute;left:0;right:0;border-top:1px dashed #c4c4cc;font:10px Arial;color:#999!important;text-align:right;padding-right:8px;pointer-events:none}
 @media print{
- html,body,#top,main,.rm,.rb-grid,.rb-prev,.rb-sticky,#fit{display:block!important;background:#fff!important;padding:0!important;margin:0!important;border:0!important;width:auto!important;max-width:none!important;gap:0!important;position:static!important;overflow:visible!important;height:auto!important;box-shadow:none!important}
- .ap-nav,.ap-foot,.rb-top,.rb-panel,.no-print,.ap-float{display:none!important}
+ html,body,#top,main,.rm,.rb-app,.rb-grid,.rb-prev,.rb-sticky,#fit{display:block!important;background:#fff!important;padding:0!important;margin:0!important;border:0!important;width:auto!important;max-width:none!important;gap:0!important;position:static!important;overflow:visible!important;height:auto!important;box-shadow:none!important}
+ .ap-nav,.ap-foot,.rb-bar,.rb-tool,.rb-seg,.rb-panel,.no-print,.ap-float{display:none!important}
  #top{min-height:0!important}
  #resume{transform:none!important;width:auto!important;min-height:0!important;padding:0!important}
  #resume .rs-pb{display:none!important}
@@ -167,11 +136,6 @@ a.rm-tpl:hover .rm-paper{transform:translateY(-4px);box-shadow:0 22px 50px rgba(
 
 .rm-img{display:block;width:100%;height:auto;background:#fff}
 
-.rb-filter{display:flex;flex-wrap:wrap;gap:6px}
-.rb-filter button{height:32px;padding:0 13px;border-radius:99px;border:1px solid rgba(244,239,230,.14);background:none;color:#aaa4b8;font:500 13px 'Geist',system-ui,sans-serif;cursor:pointer}
-.rb-filter button:hover{border-color:#f5b867}
-.rb-filter button[aria-pressed=true]{background:rgba(245,184,103,.14);border-color:#f5b867;color:#f5b867}
-.rb-tpls{max-height:620px;overflow-y:auto;padding-right:4px}
 
 .rm-gal--s{grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:22px}
 .rm-gal--s .rm-gal-i{gap:10px}
@@ -189,3 +153,83 @@ a.rm-tpl:hover .rm-paper{transform:translateY(-4px);box-shadow:0 22px 50px rgba(
 .rm-co img{width:22px;height:22px;object-fit:contain;display:block;flex:none}
 @keyframes rm-marq{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.rm-co-track{animation:none}.rm-co{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.rm-co-track ul[aria-hidden]{display:none}}
+
+/* ---- resume builder studio ---- */
+.rb-main{flex:1;width:100%;display:flex;flex-direction:column;min-height:0}
+.rb-main~.ap-foot{display:none}
+.rb-app{height:calc(100dvh - 64px);min-height:600px;display:flex;flex-direction:column;gap:0;padding:0 clamp(10px,1.6vw,22px) clamp(10px,1.6vw,22px);box-sizing:border-box}
+@media(max-width:980px){.rb-app{height:calc(100dvh - 58px)}}
+.rb-bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:14px;padding:12px 4px 14px}
+.rb-bar-l{display:flex;align-items:center;gap:14px;min-width:0}
+.rb-bar h1{margin:0;font-size:20px;font-weight:600;letter-spacing:-.035em;white-space:nowrap}
+.rb-bar h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:#f5b867;font-size:1.18em;letter-spacing:-.01em}
+.rb-back{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid rgba(244,239,230,.14);display:grid;place-items:center;color:#aaa4b8;transition:border-color .2s,color .2s}
+.rb-back:hover{border-color:#f5b867;color:#f5b867}
+.rb-saved{display:inline-flex;align-items:center;gap:7px;font:500 10.5px 'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#8e89a0;white-space:nowrap}
+.rb-saved::before{content:"";width:6px;height:6px;border-radius:50%;background:#7ff3e1;transition:box-shadow .3s}
+.rb-saved.is-on::before{box-shadow:0 0 0 4px rgba(127,243,225,.25)}
+.rb-bar-r{display:flex;justify-content:flex-end;gap:10px}
+.rb-bar-r .tl-btn{height:42px;padding:0 20px;font-weight:600}
+.rb-steps{display:flex;gap:4px;padding:4px;border-radius:99px;border:1px solid rgba(244,239,230,.12);background:rgba(244,239,230,.035);max-width:100%;overflow-x:auto;scrollbar-width:none}
+.rb-steps::-webkit-scrollbar{display:none}
+.rb-steps button{position:relative;flex:none;display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 15px;border-radius:99px;border:0;background:none;color:#aaa4b8;font:500 13.5px 'Geist',system-ui,sans-serif;cursor:pointer;transition:background .2s,color .2s}
+.rb-steps button:hover{color:#f4efe6}
+.rb-steps button.is-done svg{color:#7ff3e1}
+.rb-steps button[aria-current=step]{background:rgba(245,184,103,.16);color:#f5b867}
+.rb-grid{flex:1;min-height:0;display:grid;grid-template-columns:minmax(380px,470px) minmax(0,1fr);gap:14px}
+.rb-panel{display:flex;flex-direction:column;min-height:0;min-width:0;border-radius:22px;border:1px solid rgba(244,239,230,.1);background:linear-gradient(180deg,rgba(19,24,56,.94),rgba(12,16,48,.94));overflow:hidden}
+.rb-scroll{flex:1;min-height:0;overflow-y:auto;padding:clamp(18px,2vw,26px);display:flex;flex-direction:column;gap:20px;scrollbar-width:thin;scrollbar-color:rgba(244,239,230,.18) transparent}
+.rb-step{display:flex;flex-direction:column;gap:18px}
+.rb-sh h2{margin:0;font-weight:600;font-size:clamp(22px,2vw,26px);letter-spacing:-.04em;line-height:1.1}
+.rb-sh p{margin:8px 0 0;font-size:14px;line-height:1.55;color:#aaa4b8;max-width:46ch}
+.rb-lab{font:500 11px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#f5b867}
+.rb-nav{display:flex;gap:10px;padding:14px clamp(18px,2vw,26px);border-top:1px solid rgba(244,239,230,.08);background:rgba(7,9,22,.4)}
+.rb-nav .tl-btn{height:44px}
+.rb-panel .tl-input,.rb-panel .tl-textarea,.rb-panel .tl-select{font-family:'Geist',system-ui,sans-serif;font-size:14.5px;background:rgba(7,9,22,.55);transition:border-color .2s,box-shadow .2s}
+.rb-panel .tl-input:focus,.rb-panel .tl-textarea:focus,.rb-panel .tl-select:focus{border-color:#f5b867;box-shadow:0 0 0 3px rgba(245,184,103,.14);outline:none}
+.rb-panel .rs-card{transition:border-color .2s}.rb-panel .rs-card:hover{border-color:rgba(245,184,103,.3)}
+.rb-roles{display:flex;flex-wrap:wrap;gap:8px}
+.rb-role{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 15px 0 7px;border-radius:99px;border:1px solid rgba(244,239,230,.14);background:rgba(7,9,22,.5);color:#d8d2e2;cursor:pointer;font:500 13px/1.1 'Geist',system-ui,sans-serif;text-align:left;transition:border-color .2s,background .2s,color .2s}
+.rb-role strong{font-weight:500}
+.rb-role:hover{border-color:rgba(245,184,103,.6);color:#f4efe6}
+.rb-role[aria-pressed=true]{border-color:#f5b867;background:rgba(245,184,103,.14);color:#f5b867}
+.rb-ico{width:26px;height:26px;border-radius:50%;background:rgba(245,184,103,.12);color:#f5b867;display:flex;align-items:center;justify-content:center;flex:none}
+.rb-ico svg{width:14px;height:14px}
+#roleTip{padding:12px 14px;border-radius:14px;background:rgba(127,243,225,.06);border:1px solid rgba(127,243,225,.18);color:#c9f6ee!important;font-size:13.5px!important;line-height:1.55}
+#roleTip:empty{display:none}
+.rb-filter{display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.rb-filter::-webkit-scrollbar{display:none}
+.rb-filter button{flex:none;height:32px;padding:0 13px;border-radius:99px;border:1px solid rgba(244,239,230,.14);background:none;color:#aaa4b8;font:500 12.5px 'Geist',system-ui,sans-serif;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.rb-filter button:hover{border-color:#f5b867;color:#f4efe6}
+.rb-filter button[aria-pressed=true]{background:rgba(245,184,103,.14);border-color:#f5b867;color:#f5b867}
+.rb-tpls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rb-tpl{position:relative;display:flex;flex-direction:column;gap:10px;padding:8px;border-radius:16px;border:1px solid rgba(244,239,230,.12);background:rgba(7,9,22,.45);cursor:pointer;color:#f4efe6;font-family:'Geist',system-ui,sans-serif;text-align:left;transition:transform .25s,border-color .2s,box-shadow .25s}
+.rb-tpl:hover{border-color:rgba(245,184,103,.55);transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+.rb-tpl[aria-checked=true]{border-color:#f5b867;box-shadow:0 0 0 1px #f5b867 inset;background:rgba(245,184,103,.08)}
+.rb-tpl[aria-checked=true]::after{content:"";position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;background:#f5b867 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1420' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center/13px no-repeat;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.rb-tpl .rsx-frame{border-radius:8px;border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.rb-tpl-n{display:flex;flex-direction:column;align-items:flex-start;gap:5px;font-size:13.5px;padding:0 2px 2px}
+.rb-dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rb-dl button,.rb-dl label{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:16px;border-radius:18px;border:1px solid rgba(244,239,230,.12);background:rgba(7,9,22,.5);color:#f4efe6;font:600 15px 'Geist',system-ui,sans-serif;cursor:pointer;text-align:left;transition:border-color .2s,transform .2s}
+.rb-dl button:hover,.rb-dl label:hover{border-color:#f5b867;transform:translateY(-2px)}
+.rb-dl small{font:400 12.5px/1.45 'Geist',system-ui,sans-serif;color:#aaa4b8}
+.rb-dl .is-p{grid-column:1/-1;padding:22px;background:linear-gradient(135deg,#f5b867,#e8946a);border-color:transparent;color:#1a1420;font-size:18px}.rb-dl .is-p small{color:#4a3320;font-size:13.5px}
+.rb-prev{position:relative;min-height:0;min-width:0;overflow:auto;border-radius:22px;border:1px solid rgba(244,239,230,.1);background:radial-gradient(60% 40% at 50% 0%,rgba(245,184,103,.09),transparent 70%),radial-gradient(circle at 1px 1px,rgba(244,239,230,.06) 1px,transparent 0) 0 0/22px 22px,#0a0d26;scrollbar-width:thin;scrollbar-color:rgba(244,239,230,.18) transparent}
+.rb-tool{position:sticky;top:0;z-index:3;display:flex;justify-content:center;padding:14px 14px 0;pointer-events:none}
+.rb-chip{pointer-events:auto;max-width:100%;padding:8px 14px;border-radius:99px;border:1px solid rgba(244,239,230,.14);background:rgba(14,18,48,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font:500 11px 'Geist Mono',monospace;letter-spacing:.06em;color:#aaa4b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb-sticky{padding:18px clamp(14px,3vw,44px) 44px}
+.rb-seg{display:none}
+@media(max-width:1280px){.rb-saved{display:none}}
+@media(max-width:1180px){.rb-steps button .rb-l{display:none}.rb-steps button[aria-current=step] .rb-l{display:inline}.rb-grid{grid-template-columns:minmax(360px,420px) minmax(0,1fr)}}
+@media(max-width:900px){
+ .rb-app{padding-bottom:78px}
+ .rb-bar{grid-template-columns:minmax(0,1fr) auto;gap:10px 12px;padding-top:6px}
+ .rb-steps{grid-column:1/-1;order:3}.rb-saved{display:none}
+ .rb-bar-r .tl-btn span{display:none}.rb-bar-r .tl-btn{width:42px;padding:0}
+ .rb-grid{grid-template-columns:minmax(0,1fr)}
+ .rb-app[data-view=edit] .rb-prev,.rb-app[data-view=preview] .rb-panel{display:none}
+ .rb-seg{display:flex;position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:30;padding:4px;gap:2px;border-radius:99px;background:rgba(14,18,48,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(244,239,230,.16);box-shadow:0 14px 40px rgba(0,0,0,.5)}
+ .rb-seg button{height:40px;padding:0 26px;border-radius:99px;border:0;background:none;color:#aaa4b8;font:600 14px 'Geist',system-ui,sans-serif;cursor:pointer}
+ .rb-seg button[aria-pressed=true]{background:#f5b867;color:#1a1420}
+}
+@media(max-width:520px){.rb-tpls{gap:10px}.rb-dl{grid-template-columns:minmax(0,1fr)}.rb-bar h1{font-size:18px}}

@@ -273,7 +273,7 @@ function cleanState(raw) {
   s.d = d; s.open = {}; s.dirty = !!raw.dirty; return s;
 }
 function load() { var raw = null; try { raw = JSON.parse(localStorage.getItem('apResume') || 'null'); } catch (e) {} st = raw ? cleanState(raw) : fresh('software'); }
-var saveT; function save() { try { localStorage.setItem('apResume', JSON.stringify({ role: st.role, tpl: st.tpl, p: st.p, sections: st.sections, d: st.d, dirty: st.dirty })); } catch (e) {} }
+var saveT, savedT; function save() { var sv = $('#rbSaved'); if (sv) { sv.classList.add('is-on'); clearTimeout(savedT); savedT = setTimeout(function () { sv.classList.remove('is-on'); }, 1200); } try { localStorage.setItem('apResume', JSON.stringify({ role: st.role, tpl: st.tpl, p: st.p, sections: st.sections, d: st.d, dirty: st.dirty })); } catch (e) {} }
 
 /* ------------ text helpers ------------ */
 var lines = function (t) { return String(t || '').split('\n').map(function (x) { return x.trim(); }).filter(Boolean); };
@@ -341,7 +341,7 @@ function layout() {
   rs.style.transform = 'scale(' + s + ')'; rs.style.transformOrigin = 'top left';
   fit.style.height = Math.round(rs.offsetHeight * s) + 'px';
   st._pages = pages; st._H = H;
-  $('#pageNote').textContent = 'About ' + pages + (pages === 1 ? ' page' : ' pages') + ' on ' + d.paper + '. Dashed lines show roughly where pages break.';
+  $('#pageNote').textContent = 'About ' + pages + (pages === 1 ? ' page' : ' pages') + ' · ' + d.paper; $('#pageNote').title = 'Dashed lines in the preview mark roughly where pages break';
 }
 window.addEventListener('resize', function () { layout(); });
 
@@ -575,19 +575,22 @@ $('#clearAll').addEventListener('click', function () { if (!window.confirm('Remo
 $('#jd').addEventListener('input', function (e) { jdText = e.target.value; drawMatch(); });
 
 /* ---- steps ---- */
-var STEPS = ['Start', 'Details', 'Sections', 'Design', 'Check', 'Download'], cur = 1;
+var STEPS = ['Template', 'Details', 'Sections', 'Design', 'Check', 'Download'], cur = 1;
+var STEP_ICO = ['<rect x="3" y="3" width="18" height="7" rx="1.5"/><rect x="3" y="14" width="9" height="7" rx="1.5"/><rect x="16" y="14" width="5" height="7" rx="1.5"/>', '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>', '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>', '<circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2H18a4 4 0 0 0 4-4c0-4.4-4.5-9-10-9z"/>', '<path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3z"/><path d="m9 12 2 2 4-4"/>', '<path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/>'];
 function go(n) {
   cur = Math.max(1, Math.min(STEPS.length, n));
   Array.prototype.forEach.call(document.querySelectorAll('.rb-step'), function (p) { p.hidden = +p.getAttribute('data-step') !== cur; });
   Array.prototype.forEach.call(document.querySelectorAll('#rbSteps button'), function (b) { var i = +b.getAttribute('data-go'); b.setAttribute('aria-current', i === cur ? 'step' : 'false'); b.classList.toggle('is-done', i < cur); });
-  $('#rbBack').hidden = cur === 1; $('#rbNext').hidden = cur === STEPS.length; $('#rbNext').textContent = 'Next: ' + (STEPS[cur] || '');
+  $('#rbBack').hidden = cur === 1; $('#rbNext').hidden = cur === STEPS.length; $('#rbNext').textContent = 'Next: ' + (STEPS[cur] || ''); setView('edit');
   if (cur === 1) drawStart(); if (cur === 5) drawAts();
-  var top = $('#rbSteps'); if (top && top.getBoundingClientRect().top < 0) top.scrollIntoView({ block: 'start' });
+  var sc = $('#rbScroll'); if (sc) sc.scrollTop = 0; var cb = document.querySelector('#rbSteps [aria-current=step]'); if (cb && cb.scrollIntoView) cb.scrollIntoView({ block: 'nearest', inline: 'center' });
   if (window.apTrack) window.apTrack('resume_step', { s: cur });
 }
-(function () { var box = $('#rbSteps'); STEPS.forEach(function (n, i) { box.appendChild(h('button', { type: 'button', 'data-go': String(i + 1), onclick: function () { go(i + 1); } }, h('span', { class: 'rb-n', text: String(i + 1) }), h('span', { class: 'rb-l', text: n }))); }); })();
+(function () { var box = $('#rbSteps'); STEPS.forEach(function (n, i) { var bt = h('button', { type: 'button', 'data-go': String(i + 1), title: n, onclick: function () { go(i + 1); } }, h('span', { class: 'rb-l', text: n })); bt.insertAdjacentHTML('afterbegin', '<svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + STEP_ICO[i] + '</svg>'); box.appendChild(bt); }); })();
 $('#rbBack').addEventListener('click', function () { go(cur - 1); }); $('#rbNext').addEventListener('click', function () { go(cur + 1); });
 $('#rbDl').addEventListener('click', function () { go(6); });
+function setView(v) { var app = document.querySelector('.rb-app'); if (!app) return; app.setAttribute('data-view', v); Array.prototype.forEach.call(document.querySelectorAll('.rb-seg button'), function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-v') === v ? 'true' : 'false'); }); if (v === 'preview') layout(); }
+Array.prototype.forEach.call(document.querySelectorAll('.rb-seg button'), function (b) { b.addEventListener('click', function () { setView(b.getAttribute('data-v')); }); });
 
 load();
 (function () {
