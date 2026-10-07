@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 30; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 33; // bump when assets/nav.css changes: assets are cached for 30 days
 const NAV_JS = 3;   // same for assets/nav.js (search, menu images, footer on phones)
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
@@ -53,19 +53,18 @@ const MENUS = {
     note: 'Open to freelance and contract work',
     cta: { href: '/services', label: 'All services' },
     cols: [
-      [{ h: 'Overview', items: [{ href: '/services', t: 'All services', d: 'How I can help', ic: 'grid' }] },
-       { h: 'Advise and deliver', items: [
-        { href: '/freelance-project-manager', t: 'Freelance project manager', d: 'Launches, rollouts, handovers', ic: 'kanban', f: 'Freelance project manager' },
-        { href: '/tech-consultant', t: 'Tech consultant', d: 'Architecture and delivery', ic: 'compass' },
-      ] }],
       [{ h: 'Build', items: [
         { href: '/shopify-developer', t: 'Shopify developer', d: 'Stores, themes, multi-market', ic: 'store' },
         { href: '/full-stack-developer', t: 'Full-stack developer', d: 'Custom builds end to end', ic: 'code' },
         { href: '/wordpress-webflow-developer', t: 'WordPress & Webflow', d: 'CMS sites that are easy to run', ic: 'layout' },
-      ] }],
-      [{ h: 'Grow and design', items: [
+      ] }, { h: 'Grow and design', items: [
         { href: '/seo-consultant', t: 'SEO consultant', d: 'Technical SEO and GEO', ic: 'search' },
         { href: '/ui-ux-design', t: 'UI and UX design', d: 'Interfaces and prototypes', ic: 'pen' },
+      ] }],
+      [{ h: 'Advise and deliver', items: [
+        { href: '/freelance-project-manager', t: 'Freelance project manager', d: 'Launches, rollouts, handovers', ic: 'kanban', f: 'Freelance project manager' },
+        { href: '/tech-consultant', t: 'Tech consultant', d: 'Architecture and delivery', ic: 'compass' },
+        { href: '/services', t: 'All services', d: 'How I can help', ic: 'grid' },
       ] }],
     ],
   },
@@ -73,35 +72,38 @@ const MENUS = {
     label: 'Tools',
     note: 'Free · no sign-up · runs in your browser',
     cta: { href: '/tools', label: null /* "All N tools" */ },
+    compact: true,
+    pop: ['/tools/qr-code-generator', '/tools/resume-maker', '/tools/invoice-generator', '/tools/image-resizer'],
     cols: [
       [{ h: 'Resume & career', items: [
-        { href: '/tools/resume-maker', t: 'Resume Maker', d: 'ATS templates, PDF and Word', b: 'Popular' },
+        { href: '/tools/resume-maker', t: 'Resume Maker', d: 'ATS templates, PDF and Word' },
         { href: '/tools/resume-keyword-matcher', t: 'Resume Keyword Matcher', d: 'Match a resume to a job post' },
         { href: '/tools/sop-maker', t: 'SOP Maker', d: '116 SOP templates, Word and PDF' },
       ] }, { h: 'Business', items: [
-        { href: '/tools/invoice-generator', t: 'Invoice Generator', d: 'GST, VAT, discount and logo', b: 'Popular' },
+        { href: '/tools/invoice-generator', t: 'Invoice Generator', d: 'GST, VAT, discount and logo' },
         { href: '/tools/project-estimate-calculator', t: 'Project Estimate', d: 'Best, likely and worst case', f: 'Project Estimate Calculator' },
         { href: '/tools/time-zone-meeting-planner', t: 'Time Zone Planner', d: 'Convert a time across cities', f: 'Time Zone Planner' },
       ] }],
       [{ h: 'QR codes & links', items: [
-        { href: '/tools/qr-code-generator', t: 'QR Code Generator', d: 'Static codes that never expire', b: 'Popular' },
+        { href: '/tools/qr-code-generator', t: 'QR Code Generator', d: 'Static codes that never expire' },
         { href: '/tools/qr-code-checker', t: 'QR Code Checker', d: 'See if a code is dynamic', f: 'QR Code Autopsy' },
         { href: '/tools/url-shortener', t: 'URL Shortener', d: 'Short link with its own QR' },
       ] }, { h: 'Images & files', items: [
         { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
         { href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms' },
         { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored' },
-      ] }, { h: 'Projects & notes', items: [
+      ] }],
+      [{ h: 'Projects & notes', items: [
         { href: '/tools/project-management-tool', t: 'Project Board', d: 'Kanban, Gantt, calendar', f: 'Project Management Tool', b: 'New' },
         { href: '/tools/online-whiteboard', t: 'Online Whiteboard', d: 'Diagrams, mind maps, sticky notes', b: 'New' },
         { href: '/tools/pad', t: 'Online Notepad', d: 'Markdown, autosave, share' },
         { href: '/tools/website-launch-checklist', t: 'Launch Checklist', d: 'Go-live templates' },
-      ] }],
-      [{ h: 'Security', items: [
+      ] }, { h: 'Security', items: [
         { href: '/tools/password-generator', t: 'Password Generator', d: 'Made on your device' },
         { href: '/tools/file-hash-checker', t: 'File Hash Checker', d: 'MD5, SHA-1, SHA-256' },
         { href: '/tools/exif-remover', t: 'Photo Metadata Remover', d: 'Strip GPS and camera data' },
-      ] }, { h: 'SEO, AI & developer', items: [
+      ] }],
+      [{ h: 'SEO, AI & developer', items: [
         { href: '/tools/robots-txt-generator', t: 'Robots.txt Generator', d: 'Block AI bots, test pages' },
         { href: '/tools/llms-txt-generator', t: 'llms.txt Generator', d: 'Describe your site for AI' },
         { href: '/tools/json-ld-schema-generator', t: 'JSON-LD Schema', d: 'FAQ, product, article, event' },
@@ -135,7 +137,6 @@ const MENUS = {
 // a picture and one line in the wide menus (shown from 1180px up; the image loads on first hover)
 MENUS.work.promo = { href: '/work-liquid-iv', t: 'Liquid I.V. rollout', d: '15 markets on Shopify, 9 new EU markets live in H1 2026.', img: '/assets/nav/promo-work.webp', w: 480, h: 281 };
 MENUS.services.promo = { href: '/shopify-developer', t: 'Shopify developer', d: 'Stores I built, like Copper Chocs, and a 15-market rollout I ran.', img: '/assets/nav/promo-services.webp', w: 480, h: 300 };
-MENUS.tools.promo = { href: '/tools/resume-maker', t: 'Resume Maker', d: '54 ATS-friendly templates. PDF and Word, no sign-up.', img: '/assets/nav/promo-tools.webp', w: 480, h: 300 };
 const ORDER = ['work', 'services', 'tools', 'more'];
 const HIRE = [
   { href: BOOK, t: 'Book a 20-min call', d: 'Pick a slot that suits you', x: true },
@@ -170,15 +171,17 @@ const flat = (m) => m.cols.flat().flatMap((g) => g.items);
 
 /* ---------- header ---------- */
 function megaItem(it) {
-  return `<a class="ap-mega__it" role="menuitem" href="${e(it.href)}"${ext(it)}><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}${it.b ? `<span class="ap-mega__b">${e(it.b)}</span>` : ''}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`;
+  return `<a class="ap-mega__it" role="menuitem" href="${e(it.href)}"${ext(it)} title="${e(it.d)}"><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}${it.b ? `<span class="ap-mega__b">${e(it.b)}</span>` : ''}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`;
 }
 function mega(key) {
   const m = MENUS[key], n = m.cols.length;
   const cols = m.cols.map((col) => `<div class="ap-mega__col">${col.map((g) => `<div class="ap-mega__g"><p class="ap-mega__h">${e(g.h)}</p>${g.items.map(megaItem).join('')}</div>`).join('')}</div>`).join('');
   const cta = m.cta.label === null ? `All ${toolCount} tools` : m.cta.label;
   const feat = m.feat ? `<a class="ap-mega__feat" role="menuitem" href="${e(m.feat.href)}"><span class="ap-mega__fic">${icon(m.feat)}</span><span class="ap-mega__ftx"><span class="ap-mega__ft">${e(m.feat.t)}<span class="ap-mega__b">${e(m.feat.b)}</span></span><span class="ap-mega__fd">${e(m.feat.d)}</span></span><span class="ap-mega__fgo">${e(m.feat.cta)}${ARROW}</span></a>` : '';
+  const byHref = Object.fromEntries(flat(m).map((it) => [it.href, it]));
+  const pop = m.pop ? `<div class="ap-mega__pop"><p class="ap-mega__h">Most used</p><div class="ap-mega__tiles">${m.pop.map((h) => { const it = byHref[h]; return `<a class="ap-mega__tile" role="menuitem" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`; }).join('')}</div></div>` : '';
   const pr = m.promo ? `<a class="ap-mega__promo" role="menuitem" href="${e(m.promo.href)}"><span class="ap-mega__pimg"><img data-src="${e(m.promo.img)}" alt="" width="${m.promo.w}" height="${m.promo.h}" decoding="async"></span><span class="ap-mega__pt">${e(m.promo.t)}</span><span class="ap-mega__pd">${e(m.promo.d)}</span><span class="ap-mega__pgo">Open${ARROW}</span></a>` : '';
-  return `<div class="ap-dd ap-dd--mega"><button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button><div class="ap-mega ap-mega--${n}${m.promo ? ' ap-mega--promo' : ''}" role="menu">${feat}<div class="ap-mega__main"><div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div>${pr}</div><div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all" role="menuitem" href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div></div></div>`;
+  return `<div class="ap-dd ap-dd--mega"><button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button><div class="ap-mega ap-mega--${n}${m.promo ? ' ap-mega--promo' : ''}${m.compact ? ' ap-mega--compact' : ''}" role="menu">${feat}${pop}<div class="ap-mega__main"><div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div>${pr}</div><div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all" role="menuitem" href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div></div></div>`;
 }
 function sheetGroup(key) {
   const m = MENUS[key];

@@ -338,3 +338,27 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .ap-notice a{color:#1a1420;text-decoration:underline;text-underline-offset:3px}
 .ap-notice button{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;border-radius:99px;background:none;color:#1a1420;font-size:20px;line-height:1;cursor:pointer}
 .ap-notice button:hover{background:rgba(26,20,32,.1)}
+
+/* mega menu structure: columns with dividers, a "most used" strip, a compact four-column tools menu */
+.ap-mega__col+.ap-mega__col{border-left:1px solid rgba(244,239,230,.07);padding-left:10px}
+.ap-mega__h{display:flex;align-items:center;gap:8px}
+.ap-mega--4{width:min(1140px,calc(100vw - 32px))}
+.ap-mega__cols--4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.ap-mega__pop{padding:6px 6px 14px;margin-bottom:6px;border-bottom:1px solid rgba(244,239,230,.08)}
+.ap-mega__pop .ap-mega__h{margin-left:4px}
+.ap-mega__tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ap-mega__tile{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid rgba(244,239,230,.1);background:rgba(244,239,230,.04);transition:border-color .2s,background .2s,transform .3s cubic-bezier(.16,1,.3,1),opacity .3s}
+.ap-mega__tile:hover,.ap-mega__tile:focus-visible{border-color:rgba(245,184,103,.55);background:rgba(245,184,103,.09);transform:translateY(-1px)}
+.ap-mega__tile .ap-mega__ic{width:40px;height:40px;border-radius:12px}
+.ap-mega__tile .ap-mega__ic svg{width:19px;height:19px}
+.ap-mega__tile .ap-mega__t{font-size:14.5px;font-weight:600}
+.ap-mega .ap-mega__tile{opacity:0;transform:translateY(4px)}
+.ap-dd--mega:hover .ap-mega__tile,.ap-dd--mega:has(:focus-visible) .ap-mega__tile{opacity:1;transform:none}
+.ap-mega--compact .ap-mega__it{align-items:center;padding:7px 10px;min-height:44px}
+.ap-mega--compact .ap-mega__d{display:none}
+.ap-mega--compact .ap-mega__ic{width:28px;height:28px;border-radius:8px}
+.ap-mega--compact .ap-mega__t{font-size:13.5px}
+.ap-mega--compact .ap-mega__g+.ap-mega__g{margin-top:6px}
+.ap-mega__col:nth-child(4) .ap-mega__it{transition-delay:0s,.12s,.12s}
+@media(max-width:1180px){.ap-mega--4{width:min(940px,calc(100vw - 32px))}.ap-mega__tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.ap-mega__cols--4{grid-template-columns:repeat(2,minmax(0,1fr))}.ap-mega__col:nth-child(3){border-left:0;padding-left:6px}}
+.ap-mega--compact .ap-mega__tile .ap-mega__d{display:block}
