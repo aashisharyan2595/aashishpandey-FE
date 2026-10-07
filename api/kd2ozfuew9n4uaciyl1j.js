@@ -35,12 +35,14 @@ const siteHealth = require('./_adm/sitehealth');
 const toolStats = require('./_adm/toolstats');
 const gsc = require('./_adm/gsc');
 const content = require('./_adm/content');
+const guard = require('./_adm/guard');
+const attention = require('./_adm/attention');
 
 const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
 const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
 // what goes in the activity log (reads are not recorded; a refused attempt always is)
-const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'tm_act', 'tm_add', 'tm_request']);
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'tm_act', 'tm_add', 'tm_request']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
@@ -69,6 +71,19 @@ const cap = (a, n, len) => (Array.isArray(a) ? a : []).map((x) => String(x).trim
 // the site the health checks look at: production checks the live domain, a preview checks itself
 const siteOrigin = (req) => (process.env.VERCEL_ENV === 'production' ? 'https://aashishpandey.com' : 'https://' + req.headers.host);
 const DUMMY = users.hash('not a real password', '00000000000000000000000000000000');   // so a wrong email takes as long as a wrong password
+
+// sign-in alerts: a push message every time, plus an email when the browser is new or its location does not match
+const alertMail = (subject, text) => sendMail({ to: env().admins, subject, text, html: `<p style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;">${String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;')}</p>`, kind: 'security' }).catch((e) => console.error('alert mail failed', e.message));
+async function signInAlert(uid, who, info, text) {
+  const fresh = await sec.newDevice(uid, info), title = info.mismatch ? 'Sign-in: location does not match' : fresh ? 'New device sign-in' : who === 'Owner' ? 'Admin sign-in' : 'Team sign-in';
+  await notify.send((fresh ? 'New device. ' : '') + text, { title, tag: 'login' });
+  if (fresh || info.mismatch) await alertMail(title, (fresh ? 'This browser has not signed in to this account before. ' : '') + text);
+}
+async function signInFailed(label, ip) {   // five wrong tries in a row on one account: tell the owner once
+  const n = await sec.noteFail(label);
+  if (n === 5) { const t = `Five wrong sign-in attempts in a row for ${label} (latest from ${ip}). After ${sec.FAIL_MAX} the account is locked for 15 minutes.`; await notify.send(t, { title: 'Sign-in attempts failing', tag: 'login-fail' }); await alertMail('Sign-in attempts failing', t); }
+}
+const lockedMsg = 'Too many wrong attempts on this account. Wait 15 minutes.';
 
 /* ---------- filtering ---------- */
 function filter(rows, q) {
@@ -104,6 +119,7 @@ module.exports = async (req, res) => {
   const out = (code, j) => { status = code; return res.status(code).json(j); };
   if (!process.env.ADMIN_PASSWORD) return out(503, { error: 'The admin is not set up yet. Add ADMIN_PASSWORD in the Vercel project settings.' });
   if (!store.enabled()) return out(503, { error: 'The database is not connected. UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are missing.' });
+  if (a !== 'cron' && a !== 'digest' && !guard.allowed(req)) return out(404, { error: 'Not found.' });   // ADMIN_ALLOWED_IPS: everything except the scheduled jobs
   const post = req.method === 'POST';
   if (post && !sameOrigin(req)) return out(403, { error: 'Request blocked.' });
 
@@ -117,30 +133,34 @@ module.exports = async (req, res) => {
       if (b.email) {   // a team member
         const email = String(b.email).trim().toLowerCase();
         if (await limited('adminloginu', email, 8, 900)) return out(429, { error: 'Too many tries. Wait 15 minutes.' });
+        if ((await sec.failCount(email)) >= sec.FAIL_MAX) return out(429, { error: lockedMsg });
         const u = await users.byEmail(email), good = users.verify(b.password, u ? u.pwHash : DUMMY) && u && u.active;
         const who = { id: u ? u.id : '', name: u ? u.name : email, role: u ? u.role : '' };
-        if (!good) { await sec.logLogin(req, false, 'wrong email or password', email, info); await audit.log(req, who, 'login', { ok: false }, 401); return out(401, { error: 'Wrong email or password.' }); }
+        if (!good) { await sec.logLogin(req, false, 'wrong email or password', email, info); await audit.log(req, who, 'login', { ok: false }, 401); await signInFailed(email, clientIp(req)); return out(401, { error: 'Wrong email or password.' }); }
         if ((await sec.totpState(u.id)).enabled) {
           if (!b.code) return out(401, { error: 'Enter the 6-digit code from your authenticator app.', need2fa: true });
-          if (!(await sec.verifySecondStep(b.code, u.id))) { await sec.logLogin(req, false, 'wrong 2FA code', email, info); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); return out(401, { error: 'That code is not right.', need2fa: true }); }
+          if (!(await sec.verifySecondStep(b.code, u.id))) { await sec.logLogin(req, false, 'wrong 2FA code', email, info); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); await signInFailed(email, clientIp(req)); return out(401, { error: 'That code is not right.', need2fa: true }); }
         }
+        await sec.clearFails(email);
         const sess = await sessions.create({ id: u.id, name: u.name, role: u.role }, info, clientIp(req));
         setCookie(res, issue(await sec.epoch(), u.id, sess.id), TTL); await users.update(u.id, { lastLogin: Date.now() });
         await sec.logLogin(req, true, '', email, { ...info, sid: sess.id }); await audit.log(req, who, 'login', { ok: true, place, mismatchKm: info.mismatch ? info.distanceKm : undefined }, 200);
-        await notify.send(alertText(`${u.name} (${u.role})`), { title: info.mismatch ? 'Sign-in: location does not match' : 'Team sign-in', tag: 'login' });
+        await signInAlert(u.id, 'Team', info, alertText(`${u.name} (${u.role})`));
         return out(200, { ok: true, user: users.pub(u) });
       }
       const who = { id: 'owner', name: 'Owner', role: 'owner' };
-      if (!b.password || !eq(b.password, process.env.ADMIN_PASSWORD)) { await sec.logLogin(req, false, 'wrong password', 'owner', info); await audit.log(req, who, 'login', { ok: false }, 401); return out(401, { error: 'Wrong password.' }); }
+      if ((await sec.failCount('owner')) >= sec.FAIL_MAX) return out(429, { error: lockedMsg });
+      if (!b.password || !eq(b.password, process.env.ADMIN_PASSWORD)) { await sec.logLogin(req, false, 'wrong password', 'owner', info); await audit.log(req, who, 'login', { ok: false }, 401); await signInFailed('owner', clientIp(req)); return out(401, { error: 'Wrong password.' }); }
       const st = await sec.totpState('owner');
       if (st.enabled) {
         if (!b.code) return out(401, { error: 'Enter the 6-digit code from your authenticator app.', need2fa: true });
-        if (!(await sec.verifySecondStep(b.code, 'owner'))) { await sec.logLogin(req, false, 'wrong 2FA code', 'owner', info); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); return out(401, { error: 'That code is not right.', need2fa: true }); }
+        if (!(await sec.verifySecondStep(b.code, 'owner'))) { await sec.logLogin(req, false, 'wrong 2FA code', 'owner', info); await audit.log(req, who, 'login', { ok: false, why: '2FA' }, 401); await signInFailed('owner', clientIp(req)); return out(401, { error: 'That code is not right.', need2fa: true }); }
       }
+      await sec.clearFails('owner');
       const sess = await sessions.create(who, info, clientIp(req));
       setCookie(res, issue(await sec.epoch(), 'owner', sess.id), TTL);
       await sec.logLogin(req, true, st.enabled ? '2FA' : '', 'owner', { ...info, sid: sess.id }); await audit.log(req, who, 'login', { ok: true, place, mismatchKm: info.mismatch ? info.distanceKm : undefined }, 200);
-      await notify.send(alertText('Owner') + ' If this was not you, open Settings and sign that session out.', { title: info.mismatch ? 'Sign-in: location does not match' : 'Admin sign-in', tag: 'login' });
+      await signInAlert('owner', 'Owner', info, alertText('Owner') + ' If this was not you, open Settings and sign that session out.');
       return out(200, { ok: true });
     }
     if (a === 'logout') { const sid = cookieSid(req); if (sid) await sessions.revoke(String(sid)).catch(() => {}); setCookie(res, '', 0); return out(200, { ok: true }); }
@@ -148,9 +168,10 @@ module.exports = async (req, res) => {
       if (!process.env.CRON_SECRET) return out(503, { error: 'Set CRON_SECRET in Vercel to enable scheduled jobs.' });
       if (req.headers.authorization !== 'Bearer ' + process.env.CRON_SECRET) return out(401, { error: 'Not allowed.' });
       const health = await siteHealth.run(siteOrigin(req), { alert: true, via: a }).then((r) => ({ ok: r.ok, fails: r.fails })).catch((e) => ({ error: e.message }));   // twice a day, with an alert if anything fails
-      if (a === 'cron') return out(200, { ...(await sec.backup()), health });
+      if (a === 'cron') { const r = await sec.backup(); await attention.noteRun('cron', r.ok, r.error); return out(200, { ...r, health }); }
       if ((await cfg.get('digest', { on: true })).on === false) return out(200, { sent: false, off: true, health });
-      return out(200, await pipeline.sendDigest(await store.all()));
+      const sent = await pipeline.sendDigest(await store.all()); await attention.noteRun('digest', true);
+      return out(200, sent);
     }
 
     /* ----- signed in from here ----- */
@@ -179,7 +200,7 @@ module.exports = async (req, res) => {
     if (a === 'links_list') return out(200, await links.list());
     if (a === 'sec_get') {
       const st = await sec.totpState(user.id), owner = user.role === 'owner';
-      return out(200, { totp: { enabled: !!st.enabled, recoveryLeft: (st.recovery || []).length }, history: owner ? await sec.history(50) : [], backup: owner ? await sec.lastBackup() : null, cronReady: !!process.env.CRON_SECRET });
+      return out(200, { totp: { enabled: !!st.enabled, recoveryLeft: (st.recovery || []).length }, history: owner ? await sec.history(50) : [], backup: owner ? await sec.lastBackup() : null, cronReady: !!process.env.CRON_SECRET, ipAllow: owner ? { on: guard.on(), yours: guard.ipOf(req) } : null });
     }
     if (a === 'spam_get') {
       const c = await cfg.get('spam', spam.DEFAULTS), rows = await store.all(), since = Date.now() - 30 * 864e5;
@@ -203,6 +224,8 @@ module.exports = async (req, res) => {
     if (a === 'tools_stats') return out(200, await toolStats.stats(q.days, await store.all()));
     if (a === 'gsc_get') { try { return out(200, await gsc.get(q.refresh === '1')); } catch (e) { return out(502, { error: e.message }); } }
     if (a === 'content_get') return out(200, { content: await content.get(), defaults: content.DEFAULTS });
+    if (a === 'content_log') return out(200, { items: await content.history(100) });
+    if (a === 'attention_get') return out(200, await attention.build({ rows: await store.all(), now }));
     if (a === 'tm_list') return out(200, { items: await content.list() });
     if (!post) return out(405, { error: 'Use POST.' });
 
@@ -386,7 +409,8 @@ module.exports = async (req, res) => {
 
     /* ----- site: health, content, testimonials ----- */
     if (a === 'health_run') return out(200, await siteHealth.run(siteOrigin(req), { via: 'manual' }));
-    if (a === 'content_save') { try { return out(200, { ok: true, content: await content.save(b) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'content_save') { try { return out(200, { ok: true, content: await content.save(b, user.name) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'content_restore') { try { return out(200, { ok: true, content: await content.restore(b.t, clean(b.area, 60), clean(b.field, 60)) }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'tm_act') { try { return out(200, { ok: true, item: await content.act(b.id, String(b.op || ''), b) }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'tm_add') { try { return out(200, { ok: true, item: await content.add({ ...b, publish: b.publish !== false }, 'admin') }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'tm_request') {
@@ -401,6 +425,7 @@ module.exports = async (req, res) => {
     return out(404, { error: 'Unknown action.' });
   } catch (e) {
     console.error('admin:', e.message);
+    if (a === 'cron' || a === 'digest') await attention.noteRun(a, false, e.message);
     return out(500, { error: 'Something went wrong. Try again.' });
   } finally {
     if (user && AUDITED.has(a)) await audit.log(req, user, a, audit.detailOf(a, body, q), status);

@@ -312,6 +312,17 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
 .stars{color:var(--amber);letter-spacing:2px}
 .setup ol{margin:10px 0 0;padding-left:20px;line-height:1.75;color:var(--body)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* needs attention */
+.att{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
+.att:first-of-type{border-top:0}
+.att .lamp{margin-top:6px;width:10px;height:10px;box-shadow:none}.att .lamp.info{background:var(--dim)}
+.att b{display:block;font-weight:600;font-size:15px}.att small{display:block;color:var(--mute);font-size:13.5px;overflow-wrap:anywhere}
+.att .go{margin-left:auto;flex:none}
+.attn-h{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.attn-h h2{margin:0}.attn-h .grow{flex:1;min-width:0}
+.hist{display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.hist .h{padding:10px 0;border-top:1px solid var(--line);font-size:14px;overflow-wrap:anywhere}.hist .h:first-child{border-top:0}
+.hist .h small{color:var(--dim);display:block}.hist .h s{color:var(--dim)}.hist .h u{text-decoration:none;color:var(--green)}
+.prevq{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(7,9,22,.4);font-size:14px;color:var(--body)}.prevq small{display:block;color:var(--dim);margin-top:4px}
 </style>
 </head>
 <body>
@@ -365,6 +376,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
 
   <!-- INBOX -->
   <section id="tab-sub">
+    <div class="card own hide" id="attn"><div class="attn-h"><h2>Needs attention</h2><span class="sub grow" id="attnSub"></span><button class="btn sm" id="attnRef">Refresh</button><button class="btn danger sm" id="attnOut" title="Ends every sign-in, including this one">Sign out all devices</button></div><div id="attnList" style="margin-top:6px"></div></div>
     <p class="meta">At a glance</p>
     <div class="chips" id="chips"></div>
     <p class="meta">Pipeline</p>
@@ -473,20 +485,29 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
       <div class="card"><h2>Availability line</h2><p class="sub">The small line above "Get in touch" at the end of most pages.</p>
         <label class="switch"><input type="checkbox" id="cAvOn"> Use my own text</label>
         <input id="cAvText" maxlength="60" placeholder="Taking new projects from November">
+        <label class="lbl" for="cAvSt">Status light</label><select id="cAvSt" style="max-width:240px"><option value="open">Green: open for work</option><option value="limited">Amber: limited space</option><option value="booked">Red: fully booked</option></select>
         <div><span class="prevchip" id="cAvPrev"></span></div></div>
       <div class="card"><h2>Notice bar</h2><p class="sub">A thin bar at the top of every page (not the 3D home). Visitors can close it.</p>
         <label class="switch"><input type="checkbox" id="cNoOn"> Show the notice</label>
         <label class="lbl" for="cNoText">Text</label><input id="cNoText" maxlength="140" placeholder="Booked until mid November. Briefs still welcome.">
         <div class="two"><div><label class="lbl" for="cNoLink">Link (optional)</label><input id="cNoLink" placeholder="/contact or https://"></div><div><label class="lbl" for="cNoLt">Link text</label><input id="cNoLt" maxlength="40" placeholder="Send a brief"></div></div>
-        <label class="lbl" for="cNoUntil">Hide it after (optional)</label><input id="cNoUntil" type="date" style="max-width:220px">
+        <div class="two"><div><label class="lbl" for="cNoFrom">Show it from (optional)</label><input id="cNoFrom" type="date"></div><div><label class="lbl" for="cNoUntil">Hide it after (optional)</label><input id="cNoUntil" type="date"></div></div>
+        <div class="two"><div><label class="lbl" for="cNoStyle">Colour</label><select id="cNoStyle"><option value="promo">Amber (default)</option><option value="info">Teal (news)</option><option value="alert">Red (important)</option></select></div><div><label class="lbl" for="cNoScope">Where</label><select id="cNoScope"><option value="all">Every page</option><option value="tools">Tools pages only</option></select></div></div>
         <div class="prevbar hide" id="cNoPrev"></div></div>
+      <div class="card"><h2>Closing panel text</h2><p class="sub">The headline and line above the contact buttons at the end of most pages. Leave a box empty to keep the built-in words.</p>
+        <label class="switch"><input type="checkbox" id="cClOn"> Use my own text</label>
+        <div class="two"><div><label class="lbl" for="cClH">Headline</label><input id="cClH" maxlength="80" placeholder="Need a custom tool,"></div><div><label class="lbl" for="cClEm">Highlighted words</label><input id="cClEm" maxlength="60" placeholder="site or store?"></div></div>
+        <label class="lbl" for="cClP">Line under it</label><textarea id="cClP" rows="3" maxlength="260"></textarea>
+        <div class="prevq" id="cClPrev"></div></div>
       <div class="card"><h2>Testimonials on the site</h2><p class="sub">Approved quotes show above the contact panel at the end of most pages.</p>
         <label class="switch"><input type="checkbox" id="cQOn"> Show approved testimonials</label>
-        <label class="lbl" for="cQMax">How many</label><select id="cQMax" style="max-width:160px"><option>1</option><option>2</option><option>3</option><option>4</option><option>6</option></select></div>
+        <label class="lbl" for="cQMax">How many</label><select id="cQMax" style="max-width:160px"><option>1</option><option>2</option><option>3</option><option>4</option><option>6</option></select>
+        <div id="cQPrev"></div></div>
       <div class="card"><h2>Asking for a testimonial</h2><p class="sub">The email sent from a won brief. Placeholders: {first} {name} {company} {project} {link}</p>
         <label class="lbl" for="cAskSub">Subject</label><input id="cAskSub" maxlength="160"><label class="lbl" for="cAskBody">Message</label><textarea id="cAskBody" rows="7"></textarea></div>
     </div>
     <div class="row" style="margin-bottom:22px"><button class="btn pri" id="cSave">Save content</button><span id="cMsg" class="sub"></span></div>
+    <div class="card"><h2>Change history</h2><p class="sub">Who changed the availability line, the notice bar and the testimonial settings, with the old and the new value.</p><div class="hist" id="cHist"><span class="sub">Loading…</span></div></div>
     <p class="meta">Testimonials</p>
     <div class="chips" id="tmchips"></div>
     <div class="list" id="tmList"></div>
@@ -542,7 +563,9 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
         <label class="lbl" for="tSub">Subject</label><input id="tSub"><label class="lbl" for="tBody">Message</label><textarea id="tBody" rows="9"></textarea>
         <div class="row" style="margin-top:14px"><button class="btn pri" id="tSave">Save</button><button class="btn" id="tReset">Reset to default</button><span id="tMsg" class="sub"></span></div></div>
       <div class="card"><h2>Two-factor sign-in</h2><div id="tfa" class="sub" style="margin-top:8px">Loading…</div></div>
-      <div class="card own"><h2>Sign-in security</h2><p class="sub">Every sign-in records its IP address, the place that address belongs to, and the device and browser used. See it under Sign-in history and Signed in now.</p></div>
+      <div class="card own"><h2>Sign-in security</h2><p class="sub">Every sign-in records its IP address, the place that address belongs to, and the device and browser used. See it under Sign-in history and Signed in now.</p>
+        <p class="sub" style="margin-top:10px">A new browser or a location that does not match sends a push message and an email. Ten wrong passwords on one account lock it for 15 minutes, and eight tries from one address do the same for that address.</p>
+        <div id="ipBox" class="sub" style="margin-top:10px"></div></div>
       <div class="card own"><h2>Backup and sessions</h2><div id="bk" class="sub" style="margin-top:8px">Loading…</div>
         <div class="row" style="margin-top:14px"><button class="btn" id="bkNow">Email me a backup</button><button class="btn danger" id="soAll">Sign out everywhere</button></div><div id="bkMsg" class="sub" style="margin-top:8px"></div></div>
     </div>
@@ -628,6 +651,21 @@ try{var mo=new MutationObserver(refreshBurst);['newDot','mailDot','healthDot'].f
 
 
 /* ---------- tabs ---------- */
+var attnAt=0;
+function loadAttention(force){
+  if(!isOwner())return;var now=Date.now();if(!force&&now-attnAt<120000)return;attnAt=now;
+  api('attention_get').then(function(x){var c=$('attn');if(!x.ok){c.classList.add('hide');return}
+    c.classList.remove('hide');var it=x.j.items,bad=it.filter(function(i){return i.level==='bad'}).length,warn=it.filter(function(i){return i.level==='warn'}).length;
+    $('attnSub').textContent=bad||warn?(bad?bad+' to fix':'')+(bad&&warn?', ':'')+(warn?warn+' to look at':''):'All clear';
+    $('attnList').innerHTML=it.length?it.map(function(i,n){return '<div class="att"><span class="lamp '+(i.level==='bad'?'bad':i.level==='warn'?'warn':'info')+'"></span><div><b>'+esc(i.title)+'</b>'+(i.detail?'<small>'+esc(i.detail)+'</small>':'')+'</div>'+(i.tab?'<button class="btn sm go" data-go="'+esc(i.tab)+'">Open</button>':'')+'</div>'}).join(''):'<p class="ok" style="margin:8px 0 0">Nothing needs you right now.</p>';
+    })}
+$('attnList').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-go]');if(b)openTab(b.getAttribute('data-go'))};
+$('attnRef').onclick=function(){loadAttention(true)};
+$('attnOut').onclick=function(){if(confirm('Sign out on every device, including this one?'))post('signout_all').then(function(){show(false)})};
+$('cHist').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-rs]');if(!b)return;if(!confirm('Put this back to what it was?'))return;
+  post('content_restore',{t:b.getAttribute('data-rs'),area:b.getAttribute('data-ra'),field:b.getAttribute('data-rf')}).then(function(x){if(x.ok){toast('Restored');loadContent();loadContentLog()}else toast(x.j.error)})};
+function loadContentLog(){api('content_log').then(function(x){if(!x.ok)return;var it=x.j.items;
+  $('cHist').innerHTML=it.length?it.map(function(h){return '<div class="h"><b>'+esc(h.area)+'</b>, '+esc(h.field)+': <s>'+esc(h.before||'empty')+'</s> &rarr; <u>'+esc(h.after||'empty')+'</u><small>'+esc(h.by||'Unknown')+' &middot; '+esc(ist(h.t))+(h.area==='Testimonial request email'?'':' &middot; <button class="linkbtn" style="display:inline;padding:0" data-rs="'+esc(h.t)+'" data-ra="'+esc(h.area)+'" data-rf="'+esc(h.field)+'">Restore the old value</button>')+'</small></div>'}).join(''):'<span class="sub">No changes yet. Edits you save from now on appear here.</span>'})}
 function openTab(t){
   if(t!=='sub'&&t!=='set'&&!isOwner())t='sub';
   document.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t)});
@@ -635,7 +673,8 @@ function openTab(t){
   ALLTABS.forEach(function(x){$('tab-'+x).classList.toggle('hide',x!==t)});
   window.scrollTo(0,0);
   if(t==='sub'&&!loaded.sub){loaded.sub=1;load()}
-  if(t==='news')loadNews();if(t==='mail')loadMail();if(t==='spam')loadSpam();if(t==='links')loadLinks();if(t==='team')loadTeam();if(t==='set')loadSettings();if(t==='seo')loadGsc();if(t==='tools')loadTools();if(t==='content')loadContent();if(t==='health')loadHealth();
+  if(t==='sub')loadAttention();
+  if(t==='news')loadNews();if(t==='mail')loadMail();if(t==='spam')loadSpam();if(t==='links')loadLinks();if(t==='team')loadTeam();if(t==='set')loadSettings();if(t==='seo')loadGsc();if(t==='tools')loadTools();if(t==='content'){loadContent();loadContentLog()}if(t==='health')loadHealth();
 }
 $('tabs').onclick=function(e){var b=e.target.closest&&e.target.closest('.tab');if(b)openTab(b.dataset.tab)};
 $('fbtn').onclick=function(){$('filt').classList.toggle('open')};
@@ -811,6 +850,7 @@ function loadSettings(){
   api('sec_get').then(function(x){if(!x.ok)return;var j=x.j,t=j.totp;
     $('tfa').innerHTML=t.enabled?'<p class="ok">Two-factor sign-in is on. '+t.recoveryLeft+' recovery codes left.</p><div class="row"><input id="offCode" placeholder="Current code" inputmode="numeric" style="width:170px"><button class="btn danger sm" id="tOff">Turn off</button></div><div id="tMsg2" class="err"></div>':'<p>Add a second step to signing in: a 6-digit code from an authenticator app (Google Authenticator, Authy, 1Password).</p><button class="btn pri" id="tOn" style="margin-top:8px">Set up</button><div id="tSetup"></div>';
     if($('tOn'))$('tOn').onclick=setup2fa;if($('tOff'))$('tOff').onclick=function(){post('totp_disable',{code:$('offCode').value}).then(function(y){if(y.ok)loadSettings();else say('tMsg2',y.j.error)})};
+    if(isOwner()&&j.ipAllow){$('ipBox').innerHTML=j.ipAllow.on?'<span class="ok">IP allowlist is on</span> (ADMIN_ALLOWED_IPS). Your address now: <code>'+esc(j.ipAllow.yours)+'</code>.':'Anyone with the link can reach the sign-in page. To limit it to your own addresses, add <code>ADMIN_ALLOWED_IPS</code> in Vercel (comma separated, for example <code>'+esc(j.ipAllow.yours)+'</code>) and redeploy. Your address now: <code>'+esc(j.ipAllow.yours)+'</code>. Cloudflare Access in front of the domain is stronger still.'}
     if(isOwner()){var b=j.backup;$('bk').innerHTML=(b?'Last backup: '+esc(ist(b.at))+', '+b.count+' records, '+(b.ok?'<span class="ok">emailed</span>':'<span class="err">failed: '+esc(b.error||'')+'</span>'):'No backup has run yet.')+'<br>'+(j.cronReady?'Nightly backup is on (about 3 AM IST).':'<span class="err">Nightly backup is off. Add <code>CRON_SECRET</code> in Vercel (any long random text) and redeploy.</span>');
       histData=j.history;drawHist()}})
 }
@@ -941,19 +981,26 @@ $('tRange').onclick=function(e){var d=e.target.dataset&&e.target.dataset.d;if(!d
 /* ---------- content and testimonials ---------- */
 var contentCfg=null;
 function loadContent(){api('content_get').then(function(x){if(!x.ok)return;var c=contentCfg=x.j.content;
-  $('cAvOn').checked=c.avail.on;$('cAvText').value=c.avail.text;$('cNoOn').checked=c.notice.on;$('cNoText').value=c.notice.text;$('cNoLink').value=c.notice.link;$('cNoLt').value=c.notice.linkText;$('cNoUntil').value=c.notice.until;
-  $('cQOn').checked=c.quotes.on;$('cQMax').value=String(c.quotes.max);$('cAskSub').value=c.ask.subject;$('cAskBody').value=c.ask.body;contentPrev()});loadTms()}
-function contentPrev(){$('cAvPrev').textContent=$('cAvOn').checked&&$('cAvText').value.trim()?$('cAvText').value:'Available for full-time and freelance';
+  $('cAvOn').checked=c.avail.on;$('cAvText').value=c.avail.text;$('cAvSt').value=c.avail.status||'open';$('cNoFrom').value=c.notice.from||'';$('cNoStyle').value=c.notice.style||'promo';$('cNoScope').value=c.notice.scope||'all';$('cClOn').checked=c.closing.on;$('cClH').value=c.closing.head;$('cClEm').value=c.closing.em;$('cClP').value=c.closing.text;$('cNoOn').checked=c.notice.on;$('cNoText').value=c.notice.text;$('cNoLink').value=c.notice.link;$('cNoLt').value=c.notice.linkText;$('cNoUntil').value=c.notice.until;
+  $('cQOn').checked=c.quotes.on;$('cQMax').value=String(c.quotes.max);qPrev();$('cAskSub').value=c.ask.subject;$('cAskBody').value=c.ask.body;contentPrev()});loadTms()}
+function qPrev(){var el=$('cQPrev');if(!el)return;if(!$('cQOn').checked){el.innerHTML='<div class="prevq">Testimonials are hidden on the site.</div>';return}
+  var n=parseInt($('cQMax').value,10)||3,list=(window.__tms||[]).filter(function(t){return t.status==='approved'&&t.publish}).sort(function(a,b){return (b.order||0)-(a.order||0)||b.created-a.created}).slice(0,n);
+  el.innerHTML=list.length?list.map(function(t){return '<div class="prevq">&ldquo;'+esc(t.quote)+'&rdquo;<small>'+esc(t.name)+(t.role||t.company?', '+esc([t.role,t.company].filter(Boolean).join(', ')):'')+'</small></div>'}).join(''):'<div class="prevq">No approved testimonials yet. Approve one below and it shows here.</div>'}
+['cQOn','cQMax'].forEach(function(i){$(i).addEventListener('change',qPrev)});
+var STC={open:'#7ff3e1',limited:'#f5b867',booked:'#ff8a8a'},NOC={promo:['#f5b867','#1a1420'],info:['#7ff3e1','#07151a'],alert:['#ff8a8a','#2a0a0a']};
+function contentPrev(){var st=$('cAvSt').value;$('cAvPrev').innerHTML='<span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:'+STC[st]+';box-shadow:0 0 8px '+STC[st]+'"></span>'+esc($('cAvOn').checked&&$('cAvText').value.trim()?$('cAvText').value:'Available for full-time and freelance');
+  var nc=NOC[$('cNoStyle').value]||NOC.promo;$('cNoPrev').style.background=nc[0];$('cNoPrev').style.color=nc[1];
+  $('cClPrev').innerHTML=$('cClOn').checked&&($('cClH').value||$('cClP').value)?'<b>'+esc($('cClH').value)+' <span style="color:#f5b867;font-style:italic">'+esc($('cClEm').value)+'</span></b><small>'+esc($('cClP').value)+'</small>':'The built-in text is shown.';
   var on=$('cNoOn').checked&&$('cNoText').value.trim();$('cNoPrev').classList.toggle('hide',!on);$('cNoPrev').innerHTML=esc($('cNoText').value)+($('cNoLink').value?' <a>'+esc($('cNoLt').value||'Read more')+'</a>':'')}
-['cAvOn','cAvText','cNoOn','cNoText','cNoLink','cNoLt'].forEach(function(i){$(i).addEventListener('input',contentPrev);$(i).addEventListener('change',contentPrev)});
-$('cSave').onclick=function(){post('content_save',{avail:{on:$('cAvOn').checked,text:$('cAvText').value},notice:{on:$('cNoOn').checked,text:$('cNoText').value,link:$('cNoLink').value,linkText:$('cNoLt').value,until:$('cNoUntil').value},quotes:{on:$('cQOn').checked,max:$('cQMax').value},ask:{subject:$('cAskSub').value,body:$('cAskBody').value}}).then(function(x){say('cMsg',x.ok?'Saved. The site shows it within about 5 minutes.':x.j.error,x.ok);if(x.ok)toast('Content saved')})};
-function loadTms(){api('tm_list').then(function(x){if(!x.ok)return;var it=x.j.items,n=function(s){return it.filter(function(t){return t.status===s}).length};
+['cAvOn','cAvText','cAvSt','cNoOn','cNoText','cNoLink','cNoLt','cNoStyle','cClOn','cClH','cClEm','cClP'].forEach(function(i){$(i).addEventListener('input',contentPrev);$(i).addEventListener('change',contentPrev)});
+$('cSave').onclick=function(){post('content_save',{avail:{on:$('cAvOn').checked,text:$('cAvText').value,status:$('cAvSt').value},notice:{on:$('cNoOn').checked,text:$('cNoText').value,link:$('cNoLink').value,linkText:$('cNoLt').value,from:$('cNoFrom').value,until:$('cNoUntil').value,style:$('cNoStyle').value,scope:$('cNoScope').value},closing:{on:$('cClOn').checked,head:$('cClH').value,em:$('cClEm').value,text:$('cClP').value},quotes:{on:$('cQOn').checked,max:$('cQMax').value},ask:{subject:$('cAskSub').value,body:$('cAskBody').value}}).then(function(x){say('cMsg',x.ok?'Saved. The site shows it within about 5 minutes.':x.j.error,x.ok);if(x.ok){toast('Content saved');loadContentLog()}})};
+function loadTms(){api('tm_list').then(function(x){if(!x.ok)return;var it=x.j.items;window.__tms=it;qPrev();var n=function(s){return it.filter(function(t){return t.status===s}).length};
   $('tmchips').innerHTML=chipsHtml([['Waiting for you',n('pending'),n('pending')?'soon':''],['On the site',n('approved')],['Hidden',n('hidden')]]);
   it.sort(function(a,b){return (a.status==='pending'?0:1)-(b.status==='pending'?0:1)||b.created-a.created});
   $('tmList').innerHTML=it.length?it.map(function(t){var who=[t.role,t.company].filter(Boolean).join(', ');
     return '<div class="item plain tm" style="cursor:default" data-tm="'+esc(t.id)+'"><div class="row" style="justify-content:space-between"><div class="row"><span class="pill '+(t.status==='approved'?'s-active':t.status==='pending'?'s-new':'s-archived')+'">'+(t.status==='approved'?'on the site':t.status)+'</span>'+(t.publish?'':'<span class="pill s-off">private: may not be shown</span>')+(t.rating?'<span class="stars">'+new Array(t.rating+1).join('★')+'</span>':'')+'</div><small>'+esc(ago(t.created))+(t.from==='admin'?' · added by hand':'')+'</small></div>'
       +'<blockquote>'+esc(t.quote)+'</blockquote><div><b>'+esc(t.name)+'</b>'+(who?'<small>'+esc(who)+'</small>':'')+'</div>'
-      +'<div class="row">'+(t.status!=='approved'&&t.publish?'<button class="btn sm pri" data-op="approve">Show on site</button>':'')+(t.status==='approved'?'<button class="btn sm" data-op="hide">Take off site</button>':'')+'<button class="btn sm" data-op="edit">Edit</button><button class="btn sm danger" data-op="delete">Delete</button></div></div>'}).join(''):'<div class="empty">No testimonials yet. Ask from a won brief (open it in the Inbox), or add one by hand below.</div>'})}
+      +'<div class="row">'+(t.status!=='approved'&&t.publish?'<button class="btn sm pri" data-op="approve">Show on site</button>':'')+(t.status==='approved'?'<button class="btn sm" data-op="top">Show first</button><button class="btn sm" data-op="bottom">Show last</button><button class="btn sm" data-op="hide">Take off site</button>':'')+'<button class="btn sm" data-op="edit">Edit</button><button class="btn sm danger" data-op="delete">Delete</button></div></div>'}).join(''):'<div class="empty">No testimonials yet. Ask from a won brief (open it in the Inbox), or add one by hand below.</div>'})}
 $('tmList').onclick=function(e){var op=e.target.dataset&&e.target.dataset.op;if(!op)return;var box=e.target.closest('[data-tm]'),id=box.dataset.tm,body={id:id,op:op};
   if(op==='delete'&&!confirm('Delete this testimonial for good?'))return;
   if(op==='edit'){var q=prompt('Edit the quote (fix a typo, shorten it; keep their meaning):',box.querySelector('blockquote').textContent);if(q===null)return;body.quote=q}

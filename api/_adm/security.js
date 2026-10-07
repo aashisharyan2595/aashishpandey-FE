@@ -18,6 +18,19 @@ async function history(n = 50) {
   return (rows || []).map((r) => { try { return JSON.parse(r); } catch (e) { return null; } }).filter(Boolean);
 }
 
+// Wrong-password counting per account (not per address), so a spread-out guessing attack still hits a wall. A right password clears it.
+const FAIL_MAX = 10, FAIL_WINDOW = 900;
+const fkey = (who) => 'admin:fail:' + String(who || 'owner').toLowerCase().slice(0, 80);
+async function failCount(who) { try { return Number(await redis('GET', fkey(who))) || 0; } catch (e) { return 0; } }
+async function noteFail(who) { try { const n = await redis('INCR', fkey(who)); if (n === 1) await redis('EXPIRE', fkey(who), FAIL_WINDOW); return n; } catch (e) { return 0; } }
+const clearFails = (who) => redis('DEL', fkey(who)).catch(() => {});
+// "new device": the first time this browser, system and country sign in to this account. Remembered for good.
+async function newDevice(uid, info) {
+  const d = (info && info.device) || {}, g = (info && info.geo) || {};
+  const key = require('crypto').createHash('sha1').update([d.browser, d.os, d.device, d.model, g.country].join('|')).digest('hex').slice(0, 16);
+  try { return (await redis('SADD', 'admin:dev:' + (uid || 'owner'), key)) === 1; } catch (e) { return false; }
+}
+
 // 2FA is per person: the owner keeps the original key, everyone else gets their own
 const tkey = (uid) => (!uid || uid === 'owner' ? 'admin:totp' : 'admin:totp:' + uid);
 async function totpState(uid) { const raw = await redis('GET', tkey(uid)); return raw ? JSON.parse(raw) : { enabled: false }; }
@@ -52,4 +65,4 @@ async function backup() {
 async function lastBackup() { const raw = await redis('GET', 'admin:backup'); return raw ? JSON.parse(raw) : null; }
 
 
-module.exports = { epoch, bumpEpoch, logLogin, history, totpState, saveTotp, verifySecondStep, backup, lastBackup };
+module.exports = { FAIL_MAX, failCount, noteFail, clearFails, newDevice, epoch, bumpEpoch, logLogin, history, totpState, saveTotp, verifySecondStep, backup, lastBackup };

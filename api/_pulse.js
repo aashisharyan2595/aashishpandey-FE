@@ -28,8 +28,10 @@ module.exports = async (req, res) => {
       res.setHeader('Cache-Control', 'public, max-age=60');
       if (!store.enabled()) return res.status(200).json({});
       const c = await content.get(), today = new Date(Date.now() + 5.5 * 3600e3).toISOString().slice(0, 10);
-      const notice = c.notice.on && c.notice.text && (!c.notice.until || c.notice.until >= today) ? { text: c.notice.text, link: c.notice.link, linkText: c.notice.linkText } : null;
-      return res.status(200).json({ avail: c.avail.on ? c.avail.text : '', notice, quotes: c.quotes.on ? await content.published(c.quotes.max) : [] });
+      const nt = c.notice, live = nt.on && nt.text && (!nt.from || nt.from <= today) && (!nt.until || nt.until >= today);
+      const notice = live ? { text: nt.text, link: nt.link, linkText: nt.linkText, style: nt.style, scope: nt.scope } : null;
+      const cl = c.closing, closing = cl.on ? { head: cl.head, em: cl.em, text: cl.text } : null;
+      return res.status(200).json({ avail: c.avail.on ? c.avail.text : '', availStatus: c.avail.on ? c.avail.status : '', notice, closing, quotes: c.quotes.on ? await content.published(c.quotes.max) : [] });
     }
     if (a === 'tform') {
       res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Robots-Tag', 'noindex, nofollow'); res.setHeader('Content-Type', 'text/html; charset=utf-8');

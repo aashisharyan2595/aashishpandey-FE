@@ -21,7 +21,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 34; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 35; // bump when assets/nav.css changes: assets are cached for 30 days
 const NAV_JS = 3;   // same for assets/nav.js (search, menu images, footer on phones)
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
@@ -262,7 +262,7 @@ function close(p) {
   const GO = svg('<path d="M7 17 17 7"></path><path d="M7 7h10v10"></path>', 16);
   const chip = (href, ic, t, more = '') => `<a href="${e(href)}"${more}>${svg(ICONS.extra[ic], 15)}${t}</a>`;
   return `<div class="ap-quotes" data-ap-quotes hidden></div><div class="ap-close"><div class="ap-close__copy"><span class="ap-close__chip" data-ap-avail>Available for full-time and freelance</span>`
-    + `<h2 id="ap-close-h" class="ap-close__h">${e(c.h)} <span class="ap-close__em">${e(c.em)}</span></h2><p class="ap-close__p">${e(c.p)}</p></div>`
+    + `<h2 id="ap-close-h" class="ap-close__h" data-ap-ch>${e(c.h)} <span class="ap-close__em" data-ap-ce>${e(c.em)}</span></h2><p class="ap-close__p" data-ap-cp>${e(c.p)}</p></div>`
     + `<div class="ap-close__links"><a class="ap-close__book" href="${e(BOOK)}" target="_blank" rel="noopener">${svg(ICONS.extra.cal, 22)}<span class="ap-close__bt"><b>Book a 20-min call</b><span>Pick a slot that suits you</span></span>${GO}</a>`
     + `<a class="ap-close__mail" href="${e(MAIL)}">${svg(ICONS.extra.mail, 20)}<span class="ap-close__bt"><b>hello@aashishpandey.com</b></span>${GO}</a>`
     + `<div class="ap-close__chips">${chip('/contact?from=' + from, 'send', 'Send a brief')}${chip(CV, 'file', 'Résumé', ' download')}${chip(LI, 'in', 'LinkedIn', ' target="_blank" rel="noopener"')}${chip(WA, 'chat', 'WhatsApp', ' target="_blank" rel="noopener"')}</div></div></div>`;

@@ -264,10 +264,11 @@
   function applyContent(c) {
     if (!c) return;
     var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (x) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[x]; }); };
-    var n = c.notice, nk = n ? 'apNotice:' + n.text + '|' + (n.link || '') : '';
+    var n = c.notice && Object.assign({}, c.notice), nk = n ? 'apNotice:' + n.text + '|' + (n.link || '') : '';
     var gone = false; try { gone = !!nk && localStorage.getItem('apNoticeX') === nk; } catch (e) { /* show it */ }
+    if (n && n.scope === 'tools' && !/^\/tools(\/|$)/.test(location.pathname)) n = null;   // a notice for the tools pages only
     if (n && !gone && location.pathname !== '/' && !document.querySelector('.ap-notice')) {
-      var bar = document.createElement('div'); bar.className = 'ap-notice'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Notice');
+      var bar = document.createElement('div'); bar.className = 'ap-notice' + (n.style === 'info' || n.style === 'alert' ? ' ap-notice--' + n.style : ''); bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Notice');
       var safe = n.link && /^(https:\/\/|\/)/.test(n.link) ? n.link : '';
       bar.innerHTML = '<span>' + esc(n.text) + '</span>' + (safe ? '<a href="' + esc(safe) + '">' + esc(n.linkText || 'Read more') + '</a>' : '') + '<button type="button" aria-label="Hide this notice">&times;</button>';
       bar.querySelector('button').onclick = function () { bar.remove(); try { localStorage.setItem('apNoticeX', nk); } catch (e) { /* fine */ } };
@@ -284,7 +285,12 @@
   }
   function fillContent(c) {
     var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (x) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[x]; }); };
-    if (c.avail) [].forEach.call(document.querySelectorAll('[data-ap-avail]'), function (el) { if (el.textContent !== c.avail) el.textContent = c.avail; });
+    if (c.avail) [].forEach.call(document.querySelectorAll('[data-ap-avail]'), function (el) { if (el.textContent !== c.avail) el.textContent = c.avail; if (c.availStatus) el.setAttribute('data-status', c.availStatus); });
+    var cl = c.closing;   // closing panel copy set in the admin; an empty field keeps the built-in text
+    if (cl) {
+      [].forEach.call(document.querySelectorAll('[data-ap-ch]'), function (h) { var em = h.querySelector('[data-ap-ce]'); if (cl.head) { var tn = h.firstChild; if (tn && tn.nodeType === 3) tn.nodeValue = cl.head + ' '; } if (em && cl.em) em.textContent = cl.em; });
+      [].forEach.call(document.querySelectorAll('[data-ap-cp]'), function (p) { if (cl.text) p.textContent = cl.text; });
+    }
     var qs = c.quotes || [];
     if (qs.length) [].forEach.call(document.querySelectorAll('[data-ap-quotes]'), function (box) {
       if (box.children.length) return;

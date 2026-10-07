@@ -368,3 +368,8 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .ap-mega__col:nth-child(4) .ap-mega__it{transition-delay:0s,.12s,.12s}
 @media(max-width:1180px){.ap-mega--4{width:min(940px,calc(100vw - 32px))}.ap-mega__tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.ap-mega__cols--4{grid-template-columns:repeat(2,minmax(0,1fr))}.ap-mega__col:nth-child(3){border-left:0;padding-left:6px}}
 .ap-mega--compact .ap-mega__tile .ap-mega__d{display:block}
+
+.ap-notice--info{background:#7ff3e1;color:#07151a}.ap-notice--info a,.ap-notice--info button{color:#07151a}
+.ap-notice--alert{background:#ff8a8a;color:#2a0a0a}.ap-notice--alert a,.ap-notice--alert button{color:#2a0a0a}
+.ap-close__chip[data-status=limited]{background:rgba(245,184,103,.1);border-color:rgba(245,184,103,.35)}.ap-close__chip[data-status=limited]::before{background:#f5b867;box-shadow:0 0 8px #f5b867}
+.ap-close__chip[data-status=booked]{background:rgba(255,138,138,.1);border-color:rgba(255,138,138,.35)}.ap-close__chip[data-status=booked]::before{background:#ff8a8a;box-shadow:0 0 8px #ff8a8a}
