@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/assets/nav.css?v=30">
 <script src="/assets/nav.js?v=3" defer></script>
 <link rel="stylesheet" href="/assets/tools.css?v=1">
-<script src="/assets/tools.js?v=1" defer></script>
+<script src="/assets/tools.js?v=2" defer></script>
 <title>Free Invoice Generator: PDF with GST, VAT, Tax and Logo</title>
 <meta name="description" content="Free invoice generator with GST, VAT or sales tax, six templates, 37 currencies, your logo and signature. Save a PDF invoice. No sign-up, runs in your browser.">
 <link rel="canonical" href="https://aashishpandey.com/tools/invoice-generator">
@@ -135,6 +135,13 @@
 .inv-sw[aria-pressed=true]{border-color:#f4efe6;box-shadow:0 0 0 2px #070916 inset}
 .inv-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .inv-bar label.tl-btn{cursor:pointer}
+.inv-more{position:relative}.inv-more>summary{list-style:none;cursor:pointer}.inv-more>summary::-webkit-details-marker{display:none}
+.inv-menu{position:absolute;z-index:5;top:calc(100% + 8px);left:0;display:flex;flex-direction:column;gap:8px;padding:10px;min-width:220px;background:#141532;border:1px solid rgba(244,239,230,.14);border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.inv-bar{position:relative;z-index:6}.inv-menu .tl-btn{width:100%;box-sizing:border-box;justify-content:flex-start}
+.inv-ex{margin:14px 0 0;font-size:15px;color:#aaa4b8}
+.inv-exon{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin:14px 0 0;padding:12px 14px 12px 18px;border-radius:16px;background:rgba(244,178,94,.1);border:1px solid rgba(244,178,94,.35);color:#f4efe6;font-size:14.5px}
+.inv-view{display:none}
+@media(max-width:1020px){.inv-view{display:flex;position:sticky;top:72px;z-index:4;margin:14px 0 0;background:#0b0c1f}.inv-view button{flex:1 1 0}.inv-grid[data-view=edit] #inv-wrap,.inv-grid[data-view=preview] #inv-form{display:none}.inv-grid{margin-top:14px}}
 .inv-sticky{position:sticky;top:76px;display:flex;flex-direction:column;gap:10px;min-width:0}
 @media(max-width:1020px){.inv-sticky{position:static}}
 .inv-prevhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:14px;color:#aaa4b8}
@@ -170,7 +177,8 @@
 @media(max-width:560px){.inv-parties{grid-template-columns:1fr}.inv-head{flex-direction:column}.inv-title{text-align:left}.inv-desc{width:auto}}
 @media print{
  html,body,#top,main,section,.inv-grid,.inv-col,.inv-sticky{display:block!important;background:#fff!important;padding:0!important;margin:0!important;border:0!important;width:auto!important;max-width:none!important;gap:0!important;position:static!important;overflow:visible!important}
- .ap-nav,.ap-foot,header,[aria-label="About this tool"],.inv-formcol,.no-print,.ap-float,.inv-bar,.inv-prevhead{display:none!important}
+ .ap-nav,.ap-foot,header,[aria-label="About this tool"],.inv-formcol,.no-print,.ap-float,.inv-bar,.inv-prevhead,.inv-view{display:none!important}
+ #inv-wrap{display:block!important}
  #paper{border-radius:0!important;padding:0!important;min-height:0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
@@ -195,7 +203,10 @@
     </header>
     <section aria-label="Invoice generator" style="display:flex;flex-direction:column;gap:18px">
       <style id="pagesize"></style>
-      <div class="inv-bar"><button id="print" class="tl-btn tl-btn--p" type="button">Print or save as PDF</button><button id="newInv" class="tl-btn" type="button">New invoice</button><button id="saveFile" class="tl-btn" type="button">Save invoice file</button><label class="tl-btn">Open invoice file<input id="openFile" type="file" accept="application/json,.json" hidden></label><button id="clearAll" class="tl-btn" type="button">Clear saved data</button></div>
+      <div class="inv-bar"><button id="print" class="tl-btn tl-btn--p" type="button">Print or save as PDF</button><button id="newInv" class="tl-btn" type="button">New invoice</button><details class="inv-more"><summary class="tl-btn">Save or open<span aria-hidden="true"> ▾</span></summary><div class="inv-menu"><button id="saveFile" class="tl-btn" type="button">Save invoice file</button><label class="tl-btn">Open invoice file<input id="openFile" type="file" accept="application/json,.json" hidden></label><button id="clearAll" class="tl-btn" type="button">Clear saved data</button></div></details></div>
+      <p id="exRow" class="inv-ex no-print" hidden>First time here? <button id="exGo" class="tl-link" type="button">See an example invoice</button></p>
+      <p id="exOn" class="inv-exon no-print" role="status" hidden><span>You are looking at an example. Nothing is saved until you change something.</span><button id="exOff" class="tl-btn" type="button">Start my own</button></p>
+      <div class="inv-view tl-seg no-print" role="group" aria-label="Show"><button type="button" data-view="edit" aria-pressed="true">Edit details</button><button type="button" data-view="preview" aria-pressed="false">Preview · <span id="sumView"></span></button></div>
       <div class="inv-grid">
         <div class="inv-col inv-formcol" id="inv-form">
           <div class="inv-card"><h2>Template</h2><div id="tpls" class="inv-tpls" role="radiogroup" aria-label="Invoice template"></div><p class="tl-muted tl-small">Six layouts. The accent colour below tints each of them.</p></div>
@@ -359,7 +370,7 @@ function clean(raw) {
   return s;
 }
 function load() { var raw = null; try { raw = JSON.parse(localStorage.getItem('apInvoice') || 'null'); } catch (e) {} st = raw ? clean(raw) : blank(); }
-function save() { try { localStorage.setItem('apInvoice', JSON.stringify(st)); } catch (e) {} }
+function save() { if (exMode) return; try { localStorage.setItem('apInvoice', JSON.stringify(st)); } catch (e) {} }
 
 /* ---- money ---- */
 function dec() { try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: st.cur }).resolvedOptions().maximumFractionDigits; } catch (e) { return 2; } }
@@ -451,7 +462,8 @@ function drawPaper() {
   if (st.footer) paper.appendChild(h('div', { class: 'inv-foot', text: 'Made with the free invoice generator at aashishpandey.com/tools/invoice-generator' }));
   var ps = $('#pagesize'); ps.textContent = '@page{size:' + (st.size === 'Letter' ? 'letter' : 'A4') + ';margin:12mm}';
   $('#dueShow').textContent = st.terms === -1 ? '' : (due ? 'Due ' + fmtDate(due) : '');
-  $('#sumTotal').textContent = fmt(c.balance);
+  $('#sumTotal').textContent = $('#sumView').textContent = fmt(c.balance);
+  exPaint();
 }
 
 /* ---- form binding ---- */
@@ -666,6 +678,7 @@ $('#print').addEventListener('click', function () {
   window.print();
 });
 $('#newInv').addEventListener('click', function () {
+  if (exMode) { $('#exOff').click(); return; }
   if (!window.confirm('Start a new invoice? Your business details stay, the client and items are cleared.')) return;
   st = blank({ from: st.from, logo: st.logo, cur: st.cur, accent: st.accent, size: st.size, taxName: st.taxName, defTax: st.defTax, pay: st.pay, notes: st.notes, terms: st.terms, no: st.no, words: st.words, footer: st.footer, taxMode: st.taxMode, region: st.region, comps: st.comps, inclusive: st.inclusive, split: st.split, curShow: st.curShow, numFmt: st.numFmt, tpl: st.tpl, logoSize: st.logoSize, sig: st.sig, signName: st.signName, signLabel: st.signLabel }); syncForm(); update(); window.scrollTo({ top: 0 });
 });
@@ -679,6 +692,32 @@ $('#openFile').addEventListener('change', function (e) {
 });
 $('#clearAll').addEventListener('click', function () { if (!window.confirm('Remove everything saved in this browser, including your business details and logo?')) return; try { localStorage.removeItem('apInvoice'); } catch (e) {} st = blank(); syncForm(); update(); });
 
+/* example invoice: shown on request, never saved until the visitor edits it */
+var exMode = false;
+function isEmpty() { return !st.from.name && !st.to.name && st.items.every(function (i) { return !i.d && !i.p; }); }
+function exPaint() { var r = $('#exRow'), on = $('#exOn'); if (!r) return; r.hidden = exMode || !isEmpty(); on.hidden = !exMode; }
+$('#exGo').addEventListener('click', function () {
+  var t = today(), ex = blank();
+  ex.cur = st.cur; ex.size = st.size; ex.no = 'INV-0042'; ex.date = t; ex.terms = 14; ex.tpl = 'modern'; ex.taxMode = 'single'; ex.comps = [{ id: nid(), name: 'Tax', rate: 10 }];
+  ex.from = { name: 'Northwind Studio', addr: '12 Harbour Road\nSuite 4', email: 'hello@northwind.example', phone: '+1 555 0100', tax: '' };
+  ex.to = { name: 'Bluebird Cafe', addr: '88 Park Lane', email: 'accounts@bluebird.example', tax: '' };
+  ex.items = [{ id: nid(), d: 'Website design, five pages', q: 1, p: 1200, t: 0 }, { id: nid(), d: 'Copywriting, per page', q: 5, p: 90, t: 0 }, { id: nid(), d: 'Hosting set-up and launch', q: 1, p: 150, t: 0 }];
+  ex.disc = 5; ex.pay = 'Bank transfer to Northwind Studio, account 0000 1234'; ex.words = true;
+  exMode = true; st = ex; syncForm(); update();
+});
+$('#exOff').addEventListener('click', function () { exMode = false; st = blank(); syncForm(); update(); var f = $('#f-fn'); f && f.focus(); });
+$('#inv-form').addEventListener('input', function () { if (exMode) { exMode = false; exPaint(); } }, true);
+$('#inv-form').addEventListener('change', function () { if (exMode) { exMode = false; exPaint(); save(); } }, true);
+/* phones and tablets: switch between the form and the preview */
+var grid = $('.inv-grid'); grid.setAttribute('data-view', 'edit');
+document.querySelectorAll('.inv-view button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var v = b.getAttribute('data-view'); grid.setAttribute('data-view', v);
+    document.querySelectorAll('.inv-view button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    var top = $('.inv-view').getBoundingClientRect().top; if (top < 72) window.scrollBy({ top: top - 72 });
+  });
+});
+document.addEventListener('click', function (e) { var m = $('.inv-more'); if (m && m.open && !m.contains(e.target)) m.open = false; });
 window.addEventListener('pagehide', save);
 load(); buildSelects(); bindForm(); syncForm(); drawPaper();
 window.__inv = { setTpl: function (k) { st.tpl = k; drawTpls(); update(); }, calc: function () { return calc(); }, st: function () { return st; }, words: function (m) { return amountWords(m); }, nextNo: nextNo };
