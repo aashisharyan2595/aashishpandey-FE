@@ -65,6 +65,8 @@ Add `?fps` to the page URL to show a small overlay with the level, frame rate, f
 
 - The level also sets the draw distance (fog and chunk range go from 0.5 at the floor to 1.0 at about 70 percent of the ladder) and the size below which small things are hidden (3 times the normal threshold at the floor, 1 time at the top). Draw calls in Explore mode: about 113 at the floor, 119 in the middle, 151 at the top.
 
+- Data saver or a 2g connection (`navigator.connection`) caps the ladder at the second shadow tier. Low battery (under 20 percent, not charging; Chrome and Edge only) paces at 30 fps until it charges.
+
 Debug: with `?perf`, `window.__apW.gov` shows the level (`lv`), the top level (`lvTop`) and whether the 30 fps pacing is on, and `setLv(n)` forces a level.
 
 ## Known limits

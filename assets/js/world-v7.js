@@ -3414,19 +3414,22 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   await __y(); const maxTier = lp ? 2 : 3; await __y(); let dyn = 1, tier = opts.mobile || weakGPU ? 0 : (lp ? 1 : 2), rScale = opts.softGPU ? 0.6 : weakGPU ? 0.75 : 1, lastDraw = 0, frameNo = 0, drawDist = 1, paused = false, forceLow = lp && !opts.mobile; await __y(); const perf = { acc: 0, n: 0, prev: 0, cool: 0, good: 0, t0: 0, saved: 0 };
   // Phones: keep the pixel ratio at or above 1 (below that the low-poly world goes soft); pay for it with shadows + draw distance instead.
   await __y(); const TIERS = opts.mobile ? [{ pr: 1.25, sh: false, dd: 0.55 }, { pr: 1.5, sh: false, dd: 0.7 }, { pr: 1.75, sh: false, dd: 0.85 }, { pr: 2, sh: true, dd: 1 }] : [{ pr: 0.6, sh: false, dd: 0.6 }, { pr: 0.85, sh: false, dd: 0.8 }, { pr: 1.25, sh: true, dd: 1 }, { pr: 1.75, sh: true, dd: 1 }];
-  await __y(); const DOWN_MS = opts.mobile ? 24 : 19.5, UP_MS = 17.2; let capOn = cap30;
+  await __y(); const DOWN_MS = opts.mobile ? 24 : 19.5, UP_MS = 17.2; let capOn = cap30, batLow = false;
   await __y(); renderer.shadowMap.autoUpdate = false;
   await __y(); const setTier = k => { tier = k; const c = TIERS[k]; renderer.setPixelRatio(Math.max(0.3, Math.min(devicePixelRatio || 1, c.pr) * (k === 0 ? rScale : dyn))); renderer.setSize(host.clientWidth, host.clientHeight); resizePost(); if (key.castShadow !== c.sh) key.castShadow = c.sh; renderer.shadowMap.needsUpdate = true; drawDist = c.dd; document.documentElement.classList.toggle('lite', mobile || k <= 1); awStreaks.visible = k > 0; opts.onTier && opts.onTier(k); };
   await __y(); setTier(tier);
   // ---- never-lag governor: one ladder of quality levels from the floor up. It reacts in about a third of a second, sheds several
   // levels at once when far over budget, backs off before retrying a level that failed, and remembers what held last time on this device.
   await __y(); const LADDER = []; for (const r of [0.4, 0.5, 0.6, 0.75, 0.9, 1]) LADDER.push({ t: 0, r, d: 1 }); for (let t = 1; t <= 3; t++) for (const d of [0.7, 0.8, 0.9, 1]) LADDER.push({ t, r: 1, d });
-  await __y(); const lvTopNow = () => (forceLow || weakGPU) ? LADDER.findIndex(e => e.t === 0 && e.r === (weakGPU ? 0.75 : 1)) : (() => { let k = LADDER.length - 1; while (LADDER[k].t > maxTier) k--; return k; })(); const lvTop = lvTopNow();
+  await __y(); const saver = (() => { try { const c = navigator.connection; return !!(c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))); } catch (e) { return false; } })();
+  await __y(); const lvTopNow = () => (forceLow || weakGPU) ? LADDER.findIndex(e => e.t === 0 && e.r === (weakGPU ? 0.75 : 1)) : (() => { let k = LADDER.length - 1; while (LADDER[k].t > (saver ? 1 : maxTier)) k--; return k; })(); const lvTop = lvTopNow();
   await __y(); const lvOf = (t, r, d) => { let b = 0; LADDER.forEach((e, i) => { if (e.t === t && (t === 0 ? Math.abs(e.r - r) < 0.07 : Math.abs(e.d - d) < 0.05)) b = i; }); return b; };
   await __y(); const gpuName = (() => { try { const gl = renderer.getContext(), x = gl.getExtension('WEBGL_debug_renderer_info'); return x ? String(gl.getParameter(x.UNMASKED_RENDERER_WEBGL)) : ''; } catch (e) { return ''; } })();
   await __y(); const PKEY = 'apPerf', PK = gpuName + '|' + Math.round((devicePixelRatio || 1) * 10) + '|' + (opts.mobile ? 'm' : 'd');
   await __y(); let lv = (() => { let sv = null; try { const v = JSON.parse(localStorage.getItem(PKEY) || 'null'); if (v && v.k === PK && Date.now() - v.at < 30 * 864e5) sv = v; } catch (e) {} return Math.min(lvTop, sv ? sv.lv : lvOf(tier, rScale, dyn)); })();
   await __y(); const LBLOCK = [], LBO = LADDER.map(() => 20000);
+  // low battery and not charging (Chrome and Edge only): pace at 30 fps while that lasts
+  await __y(); try { if (navigator.getBattery) navigator.getBattery().then(bt => { const f = () => { batLow = !bt.charging && bt.level < 0.2; if (batLow) capOn = true; else if (!cap30 && lv >= 2) capOn = false; }; bt.addEventListener('levelchange', f); bt.addEventListener('chargingchange', f); f(); }).catch(() => {}); } catch (e) { /* optional */ }
   // lower levels also pull the draw distance in and raise the size below which things are hidden (lvK: 3 at the floor, 1 at the top)
   await __y(); let lvK = 1; await __y(); const applyLv = () => { const e = LADDER[lv]; rScale = e.r; dyn = e.d; setTier(e.t); drawDist = Math.max(0.5, Math.min(1, 0.5 + 0.5 * lv / Math.max(1, lvTop * 0.7))); lvK = 1 + 2 * (1 - lv / Math.max(1, lvTop)); }; applyLv();
   // ?fps shows the governor live (level, frame time, draw calls) so people can report what a real device does
@@ -3562,7 +3565,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
         else if (!capOn) capOn = true; // already at the floor and still slow: pace at 30 fps for an even picture
         perf.cool = now; perf.good = 0;
       } else if (live && ms < up) {
-        if (++perf.good >= (capOn ? 5 : 12) && lv < lvTopNow() && now > (LBLOCK[lv + 1] || 0) && now - perf.cool > 2500) { lv++; if (capOn && lv >= 2 && !cap30) capOn = false; applyLv(); perf.cool = now; perf.good = 0; }
+        if (++perf.good >= (capOn ? 5 : 12) && lv < lvTopNow() && now > (LBLOCK[lv + 1] || 0) && now - perf.cool > 2500) { lv++; if (capOn && lv >= 2 && !cap30 && !batLow) capOn = false; applyLv(); perf.cool = now; perf.good = 0; }
       } else perf.good = Math.max(0, perf.good - 1);
       if (live && now - perf.cool > 10000 && now - perf.saved > 10000) { perf.saved = now; try { localStorage.setItem(PKEY, JSON.stringify({ k: PK, lv, at: Date.now() })); } catch (e) {} }
     }
