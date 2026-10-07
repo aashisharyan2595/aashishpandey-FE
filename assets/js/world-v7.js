@@ -401,7 +401,7 @@ export async function createWorld(host, opts = {}) {
   await __y(); v6Prep();
   await __y(); const scene = new THREE.Scene();
   await __y(); scene.matrixWorldAutoUpdate = false; // v7: world matrices are updated by updateRoots() in the frame loop, skipping hidden and static roots
-  await __y(); if (/[?&]perf\b/.test(location.search)) window.__apW = { renderer, scene, get lowPower() { return lp; }, get gov() { return { dyn, tier, rScale, lv, lvTop, capOn, pr: renderer.getPixelRatio(), setLv(k) { lv = k; applyLv(); } }; }, get dino() { return { obj: dino, get state() { return dinoState; }, get target() { return dinoTarget; }, MEM, ok: dinoOK, path: dinoPath, clear: dinoClear, pick: pickRoamTarget }; }, get probe() { return { fs, fh, fx, fz, lean, grounded, airY, bike: bikeRoot, PH: typeof PH === 'undefined' ? null : PH, steerIn: typeof steerIn === 'undefined' ? 0 : steerIn, roadX, roadW, roadDist, punch, boostAmt, curSpeed, fov: camera.fov }; } };
+  await __y(); if (/[?&]perf\b/.test(location.search)) window.__apW = { fr: [], renderer, scene, get lowPower() { return lp; }, get gov() { return { dyn, tier, rScale, lv, lvTop, capOn, pr: renderer.getPixelRatio(), setLv(k) { lv = k; applyLv(); } }; }, get dino() { return { obj: dino, get state() { return dinoState; }, get target() { return dinoTarget; }, MEM, ok: dinoOK, path: dinoPath, clear: dinoClear, pick: pickRoamTarget }; }, get probe() { return { fs, fh, fx, fz, lean, grounded, airY, bike: bikeRoot, PH: typeof PH === 'undefined' ? null : PH, steerIn: typeof steerIn === 'undefined' ? 0 : steerIn, roadX, roadW, roadDist, punch, boostAmt, curSpeed, fov: camera.fov }; } };
   await __y(); scene.fog = new THREE.Fog(0xe0976f, 50, 560);
   await __y(); const camera = new THREE.PerspectiveCamera(52, host.clientWidth / host.clientHeight, 0.1, 4000);
   await __y(); const GT = glowTex();
@@ -3477,8 +3477,13 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       if (o.isInstancedMesh) { p = new THREE.InstancedMesh(o.geometry, o.material, 1); if (o.instanceColor) p.setColorAt(0, new THREE.Color()); }
       else if (o.isPoints) p = new THREE.Points(o.geometry, o.material); else if (o.isLine) p = new THREE.Line(o.geometry, o.material); else if (o.isSprite) p = new THREE.Sprite(o.material); else p = new THREE.Mesh(o.geometry, o.material);
       p.receiveShadow = o.receiveShadow; p.castShadow = o.castShadow; p.frustumCulled = false; return p; }); };
-  await __y(); const warmRun = (list, jobs, budget) => { const t0 = performance.now(); renderer.setRenderTarget(postRT);
-    while (list.length && performance.now() - t0 < budget) { try { jobs.push(renderer.compileAsync(list.pop(), camera, warmScene)); } catch (err) { /* skip */ } }
+  // Without parallel compile (software GL, a few old drivers) the same programs are compiled one at a time, a few milliseconds per frame,
+  // while the first frame waits, instead of all at once inside the first draw (which froze the page for seconds).
+  await __y(); const hasPar = () => { try { return renderer.extensions.has('KHR_parallel_shader_compile'); } catch (err) { return false; } };
+  // Asking for the newest program's link status makes the driver finish it now, so the time budget below measures real compile time.
+  await __y(); const warmWait = () => { try { const gl = renderer.getContext(), ps = renderer.info.programs; if (ps && ps.length) { const pr = ps[ps.length - 1]; if (pr && pr.program) gl.getProgramParameter(pr.program, gl.LINK_STATUS); } } catch (err) { /* ignore */ } };
+  await __y(); const warmRun = (list, jobs, budget) => { const t0 = performance.now(), par = hasPar(); renderer.setRenderTarget(postRT);
+    while (list.length && performance.now() - t0 < budget) { try { const o = list.pop(); if (par && !opts.softGPU) jobs.push(renderer.compileAsync(o, camera, warmScene)); else { renderer.compile(o, camera, warmScene); warmWait(); } } catch (err) { /* skip */ } }
     renderer.setRenderTarget(null); };
   await __y(); const warmFinish = () => { if (warm < 2) { warm = 2; warmProxies = null; opts.onWarm && opts.onWarm(performance.now() - warmT0); } };
   await __y(); const warmStep = () => { // once per frame while warming
@@ -3490,7 +3495,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   };
   // Without KHR_parallel_shader_compile (software GL, a few old drivers) compiling up front would just block the main thread for longer, so leave it lazy.
   await __y(); const canWarm = () => { try { return !opts.softGPU && renderer.extensions.has('KHR_parallel_shader_compile'); } catch (err) { return false; } };
-  await __y(); const beginWarm = () => { warm = 1; warmT0 = performance.now(); try { mergeStatic(); } catch (err) { console.warn(err); } if (!canWarm()) { warmFinish(); return; } setTimeout(warmFinish, 12000); };
+  await __y(); const beginWarm = () => { warm = 1; warmT0 = performance.now(); try { mergeStatic(); } catch (err) { console.warn(err); } setTimeout(warmFinish, canWarm() ? 12000 : 45000); };
   // After each deferred build step, compile the new materials in the background, a few at a time, without holding the frame.
   await __y(); const warmMore = () => { try { if (!canWarm()) return; const ps = warmCollect(), jobs = []; const step = () => { warmRun(ps, jobs, 4); if (ps.length) setTimeout(step, 24); }; step(); } catch (err) { /* ignore */ } };
 
@@ -3545,6 +3550,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (capOn && lastDraw && now - lastDraw < 31) return; lastDraw = now;
     const dt = Math.min(0.05, (now - last) / 1000); last = now; const T = (now - clock0) / 1000;
     frameNo++; const fi = perf.prev ? now - perf.prev : 16; perf.prev = now;
+    if (window.__apW && window.__apW.fr && window.__apW.fr.length < 600) window.__apW.fr.push([Math.round(now), warm, Math.round(performance.now() - now)]); // ?perf only: frame start times and warm-up state
     if (fi < 200) { perf.acc += fi; perf.n++; }
     if (readySent && !perf.t0) perf.t0 = now;
     if (perf.n >= 20) { const ms = perf.acc / perf.n; perf.acc = 0; perf.n = 0;

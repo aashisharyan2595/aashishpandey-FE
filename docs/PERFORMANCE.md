@@ -45,6 +45,10 @@ Measured in Explore mode on the road: about 330 draw calls a frame at the floor 
 
 `tinyScan` and `tinyPass` in `assets/js/world-v7.js` now hide any mesh or sprite that is under about a pixel across (3 px on low-power), field notes beyond 140 + 260 x draw distance metres, and stop drawing the invisible click spheres (raycasting ignores visibility, so picking still works). After: about 143 calls at the floor and 159 at full quality, with the same picture up close.
 
+## Startup on drivers without parallel shader compile
+
+Software GL and a few old drivers have no `KHR_parallel_shader_compile`. Before, the warm-up was skipped there and every program compiled inside the first draw. Now the same warm-up runs in slices of about 10 ms per frame, each slice waiting for its program to link, so the page stays responsive while the first frame waits. In the 4x CPU slowdown, software GL test the longest freeze fell from 6.3 s to 3.6 s. The rest is software GL compiling shaders on first draw, which a real GPU does not do, so it needs a real cheap PC to judge. `?perf` also records frame start times in `window.__apW.fr` for this kind of check.
+
 ## Never-lag governor
 
 The ride picks its quality while it runs, on every device (`assets/js/world-v7.js`, search for `LADDER`):
