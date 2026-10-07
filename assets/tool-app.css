@@ -1,0 +1,36 @@
+/* App-style tools (project board, whiteboard): a full-height workspace inside a tool page, with a fullscreen mode.
+   Uses the Night Ride tokens: ink #070916, panel #0e1230, amber #f5b867, teal #7ff3e1, cream #f4efe6. */
+.ta{position:relative;display:flex;flex-direction:column;min-width:0;border-radius:22px;border:1px solid rgba(244,239,230,.12);background:#0b0f2a;overflow:hidden;height:clamp(600px,calc(100dvh - 140px),940px);isolation:isolate;font-family:'Geist',system-ui,sans-serif;color:#f4efe6}
+.ta:fullscreen{height:100dvh;border-radius:0;border:0}
+.ta *{box-sizing:border-box}
+.ta-bar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid rgba(244,239,230,.08);background:#0e1233;overflow-x:auto;scrollbar-width:none;flex:none;z-index:5}
+.ta-bar::-webkit-scrollbar{display:none}
+.ta-b{flex:none;min-width:36px;height:36px;padding:0 9px;border-radius:10px;border:1px solid transparent;background:none;color:#b9b3c8;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;font:500 13px 'Geist',system-ui,sans-serif;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.ta-b:hover{background:rgba(244,239,230,.07);color:#f4efe6}
+.ta-b[aria-pressed=true],.ta-b.is-on{background:rgba(245,184,103,.16);color:#f5b867}
+.ta-b:disabled{opacity:.35;cursor:default;background:none}
+.ta-b svg{flex:none;width:18px;height:18px}
+.ta-b--p{background:#f5b867;color:#1a1420;font-weight:600}
+.ta-b--p:hover{background:#ffc880;color:#1a1420}
+.ta-sep{flex:none;width:1px;height:20px;background:rgba(244,239,230,.12);margin:0 4px}
+.ta-sp{flex:1;min-width:6px}
+.ta-chip{flex:none;padding:5px 11px;border-radius:99px;border:1px solid rgba(244,239,230,.14);background:rgba(7,9,22,.5);font:500 11px 'Geist Mono',ui-monospace,monospace;letter-spacing:.05em;color:#aaa4b8;white-space:nowrap}
+.ta-in,.ta-sel{height:36px;border-radius:10px;border:1px solid rgba(244,239,230,.14);background:rgba(7,9,22,.55);color:#f4efe6;font:400 13.5px 'Geist',system-ui,sans-serif;padding:0 11px;min-width:0}
+.ta-in:focus,.ta-sel:focus,.ta-txt:focus{outline:none;border-color:#f5b867;box-shadow:0 0 0 3px rgba(245,184,103,.14)}
+.ta-txt{width:100%;border-radius:10px;border:1px solid rgba(244,239,230,.14);background:rgba(7,9,22,.55);color:#f4efe6;font:400 14px/1.55 'Geist',system-ui,sans-serif;padding:10px 12px;resize:vertical;min-height:84px}
+.ta-lab{font:500 10.5px 'Geist Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#f5b867}
+.ta-menu{position:relative;flex:none}
+.ta-pop{position:fixed;top:60px;right:12px;z-index:60;max-height:70vh;overflow:auto;min-width:210px;padding:6px;border-radius:14px;border:1px solid rgba(244,239,230,.14);background:#11163a;box-shadow:0 22px 60px rgba(0,0,0,.55);display:flex;flex-direction:column;gap:2px}
+.ta-pop[hidden]{display:none}
+.ta-pop button,.ta-pop label{height:38px;padding:0 11px;border:0;border-radius:9px;background:none;color:#e6e0ef;font:500 13.5px 'Geist',system-ui,sans-serif;text-align:left;cursor:pointer;display:flex;align-items:center;gap:9px}
+.ta-pop button:hover,.ta-pop label:hover{background:rgba(244,239,230,.07)}
+.ta-pop hr{border:0;border-top:1px solid rgba(244,239,230,.1);margin:4px 2px}
+.ta-pop small{display:block;padding:6px 11px 4px;font:500 10px 'Geist Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#8e89a0}
+.ta-modal{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(5,7,20,.66);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.ta-modal[hidden]{display:none}
+.ta-card{width:min(640px,100%);max-height:100%;overflow:auto;border-radius:20px;border:1px solid rgba(244,239,230,.14);background:linear-gradient(180deg,#151a42,#0f1335);box-shadow:0 30px 90px rgba(0,0,0,.6);padding:20px;display:flex;flex-direction:column;gap:14px}
+.ta-toast{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:60;padding:9px 16px;border-radius:99px;background:#070916;border:1px solid rgba(244,239,230,.18);color:#f4efe6;font:500 13px 'Geist',system-ui,sans-serif;box-shadow:0 14px 40px rgba(0,0,0,.5);pointer-events:none;opacity:0;transition:opacity .2s}
+.ta-toast.on{opacity:1}
+.ta kbd{font:500 10.5px 'Geist Mono',ui-monospace,monospace;padding:2px 6px;border-radius:6px;border:1px solid rgba(244,239,230,.18);color:#aaa4b8}
+@media(max-width:760px){.ta{height:clamp(560px,calc(100dvh - 120px),900px);border-radius:18px}}
+@media print{.ta-bar,.ta-modal,.ta-toast{display:none!important}}

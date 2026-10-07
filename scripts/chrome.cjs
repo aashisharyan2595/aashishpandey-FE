@@ -98,6 +98,8 @@ const MENUS = {
         { href: '/tools/pad', t: 'Online Notepad', d: 'Markdown, autosave, share' },
         { href: '/tools/lorem-ipsum-generator', t: 'Lorem Ipsum', d: 'Text, HTML or Markdown', f: 'Lorem Ipsum Generator' },
         { href: '/tools/time-zone-meeting-planner', t: 'Time Zone Planner', d: 'Convert a time across cities', f: 'Time Zone Planner' },
+        { href: '/tools/project-management-tool', t: 'Project Board', d: 'Kanban, list and timeline', f: 'Project Management Tool', b: 'New' },
+        { href: '/tools/online-whiteboard', t: 'Online Whiteboard', d: 'Draw, sketch, sticky notes', b: 'New' },
         { href: '/tools/website-launch-checklist', t: 'Launch Checklist', d: 'Go-live templates' },
       ] }, { h: 'SEO & AI', items: [
         { href: '/tools/robots-txt-generator', t: 'Robots.txt Generator', d: 'Block AI bots, test pages', b: 'New' },
@@ -200,7 +202,7 @@ function header() {
 
 /* ---------- footer ---------- */
 // Plain text columns, quiet colours, one legal row: the pattern the large sites use (Vercel, Stripe, Linear).
-const TOOL_ORDER = ['/tools/resume-maker', '/tools/resume-keyword-matcher', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/sop-maker', '/tools/password-generator', '/tools/p2p-file-sharing', '/tools/image-resizer', '/tools/exam-photo-resizer', '/tools/robots-txt-generator', '/tools/json-ld-schema-generator', '/tools/llm-token-counter', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/qr-code-checker', '/tools/llms-txt-generator', '/tools/website-launch-checklist'];
+const TOOL_ORDER = ['/tools/resume-maker', '/tools/resume-keyword-matcher', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/sop-maker', '/tools/password-generator', '/tools/p2p-file-sharing', '/tools/image-resizer', '/tools/exam-photo-resizer', '/tools/robots-txt-generator', '/tools/json-ld-schema-generator', '/tools/llm-token-counter', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/project-management-tool', '/tools/online-whiteboard', '/tools/qr-code-checker', '/tools/llms-txt-generator', '/tools/website-launch-checklist'];
 function footer() {
   const link = ([h, t, x]) => `<a href="${e(h)}"${x ? ' target="_blank" rel="noopener"' : ''}>${e(t)}</a>`;
   const col = (h, inner, cls = '') => `<details class="ap-foot__col${cls}" open><summary class="ap-foot__h">${h}</summary><div class="ap-foot__links">${inner}</div></details>`;

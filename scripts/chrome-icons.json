@@ -15,7 +15,9 @@
   "/tools/pad": "<path d=\"M12 20h9\"></path><path d=\"M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z\"></path>",
   "/tools/lorem-ipsum-generator": "<path d=\"M17 6.1H3\"></path><path d=\"M21 12.1H3\"></path><path d=\"M15.1 18H3\"></path>",
   "/tools/time-zone-meeting-planner": "<circle cx=\"12\" cy=\"12\" r=\"10\"></circle><polyline points=\"12 6 12 12 16 14\"></polyline>",
-  "/tools/website-launch-checklist": "<path d=\"m3 17 2 2 4-4\"></path><path d=\"m3 7 2 2 4-4\"></path><path d=\"M13 6h8\"></path><path d=\"M13 12h8\"></path><path d=\"M13 18h8\"></path>"
+  "/tools/website-launch-checklist": "<path d=\"m3 17 2 2 4-4\"></path><path d=\"m3 7 2 2 4-4\"></path><path d=\"M13 6h8\"></path><path d=\"M13 12h8\"></path><path d=\"M13 18h8\"></path>",
+  "/tools/project-management-tool": "<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"></rect><path d=\"M8 7v7\"></path><path d=\"M12 7v4\"></path><path d=\"M16 7v9\"></path>",
+  "/tools/online-whiteboard": "<path d=\"M12 20h9\"></path><path d=\"M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z\"></path><path d=\"m15 5 4 4\"></path>"
  },
  "extra": {
   "portfolio": "<rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\"></rect><path d=\"M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"></path>",

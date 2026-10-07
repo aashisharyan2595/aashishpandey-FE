@@ -2,7 +2,7 @@
 
 Source for [aashishpandey.com](https://aashishpandey.com), the portfolio of Aashish Pandey (project manager and creative technologist, Bangalore).
 
-The home page is a live 3D motorcycle ride rendered in the browser with Three.js. Around it sit a portfolio, case studies, service pages, 22 free tools and a small private admin for enquiries.
+The home page is a live 3D motorcycle ride rendered in the browser with Three.js. Around it sit a portfolio, case studies, service pages, 24 free tools and a small private admin for enquiries.
 
 ![The 3D ride on the home page](docs/images/home-ride.webp)
 
@@ -34,7 +34,7 @@ The home page is a live 3D motorcycle ride rendered in the browser with Three.js
 | Ride | `/` | Scroll-driven 3D ride with nine story stops, plus an Explore mode where you drive freely |
 | Portfolio | `/portfolio`, `/case-studies`, `/work-*` | Client work, career, and four written case studies |
 | Services | `/services` and seven sub-pages | Shopify, full-stack, WordPress and Webflow, SEO, UI/UX, tech consulting, freelance project management |
-| Tools | `/tools` and `/tools/*` | 22 free tools, listed below |
+| Tools | `/tools` and `/tools/*` | 24 free tools, listed below |
 | Write-up | `/how-this-site-was-built` | How the site was made |
 | Legal and contact | `/contact`, `/privacy`, `/terms`, `/cookies`, `/image-license` | |
 
@@ -48,7 +48,7 @@ Most run entirely in the browser: no upload, no account. Two use a small server 
 
 | Group | Tools |
 | --- | --- |
-| Documents and business | Resume maker (54 templates), resume keyword matcher, invoice generator, SOP maker (116 templates), project estimate calculator, website launch checklist, online notepad |
+| Documents and business | Resume maker (54 templates), resume keyword matcher, invoice generator, SOP maker (116 templates), project estimate calculator, website launch checklist, online notepad, project management board (Kanban, list, timeline), online whiteboard |
 | Images and files | Image resizer and converter, exam photo and signature resizer, photo metadata (EXIF) remover, file hash checker, QR code generator, QR code checker |
 | SEO and AI | robots.txt generator, llms.txt generator, JSON-LD schema generator, LLM token counter and API cost calculator |
 | Sharing and utilities | P2P file sharing, URL shortener, time zone meeting planner, password generator, lorem ipsum generator |

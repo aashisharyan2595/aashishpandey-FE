@@ -44,6 +44,8 @@ Most run entirely in the browser with no upload and no account. The URL shortene
 - [File Hash Checker](https://aashishpandey.com/tools/file-hash-checker): Free file hash checker: get the MD5, SHA-1, SHA-256 and SHA-512 of any file or text and compare it with the published checksum. Runs in your browser, no upload.
 - [Photo Metadata Remover](https://aashishpandey.com/tools/exif-remover): Free EXIF remover: see the GPS location, camera and date hidden in a JPEG, PNG or WebP, then download a clean copy. Runs in your browser, nothing is uploaded.
 - [Project Estimate Calculator](https://aashishpandey.com/tools/project-estimate-calculator): Free project estimate calculator: enter best, likely and worst hours by task, set role rates and get a quote, safe range and timeline. Runs in your browser.
+- [Project Management Board](https://aashishpandey.com/tools/project-management-tool): Free project management tool: plan work on a Kanban board, a list or a timeline with owners, due dates, labels and checklists. Private, runs in your browser.
+- [Online Whiteboard](https://aashishpandey.com/tools/online-whiteboard): Free online whiteboard with an endless canvas: pen, shapes, arrows, sticky notes, text and images. Saves in your browser, exports PNG.
 - [QR Code Checker](https://aashishpandey.com/tools/qr-code-checker): Check a QR code from an image: see what it holds, whether it uses a redirect that can expire, and if the link or UPI payment looks safe. Runs in your browser.
 - [Website Launch Checklist](https://aashishpandey.com/tools/website-launch-checklist): Free launch checklists for PMs: 58 website go-live checks, plus Shopify, campaign, product and event templates. Edit online and export to Markdown.
 

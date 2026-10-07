@@ -267,6 +267,8 @@
     { "source": "/Tech-Consultant.dc.html", "destination": "/tech-consultant", "permanent": true },
     { "source": "/Tools-Checklist.dc.html", "destination": "/tools/website-launch-checklist", "permanent": true },
     { "source": "/Tools-Estimate.dc.html", "destination": "/tools/project-estimate-calculator", "permanent": true },
+    { "source": "/Tools-Board.dc.html", "destination": "/tools/project-management-tool", "permanent": true },
+    { "source": "/Tools-Whiteboard.dc.html", "destination": "/tools/online-whiteboard", "permanent": true },
     { "source": "/Tools-Exam.dc.html", "destination": "/tools/exam-photo-resizer", "permanent": true },
     { "source": "/Tools-Exif.dc.html", "destination": "/tools/exif-remover", "permanent": true },
     { "source": "/Tools-Hash.dc.html", "destination": "/tools/file-hash-checker", "permanent": true },
@@ -490,6 +492,14 @@
     {
       "source": "/tools/project-estimate-calculator",
       "destination": "/pages/tools/Tools-Estimate.dc.html"
+    },
+    {
+      "source": "/tools/project-management-tool",
+      "destination": "/pages/tools/Tools-Board.dc.html"
+    },
+    {
+      "source": "/tools/online-whiteboard",
+      "destination": "/pages/tools/Tools-Whiteboard.dc.html"
     },
     {
       "source": "/tools/invoice-generator",
