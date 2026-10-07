@@ -3,16 +3,23 @@
 const crypto = require('crypto');
 const { redis } = require('../_lib');
 
-const ROLES = ['owner', 'assistant', 'viewer'];
+const ROLES = ['owner', 'assistant', 'editor', 'viewer'];
 const READ = new Set(['me', 'list', 'links_list', 'spam_get', 'alerts_get', 'news_overview', 'tpl_get', 'sec_get', 'push_key', 'push_subscribe', 'push_unsubscribe', 'push_test', 'pw_change', 'sessions_list', 'sessions_revoke', 'totp_setup', 'totp_enable', 'totp_disable', 'digest_get']);
-const ASSIST = new Set([...READ, 'mail_for', 'update', 'reply_get', 'reply_send', 'thread_note', 'resend', 'bulk']);
-// owner-only: export, delete, templates, spam rules, alerts, newsletter, short links, backups, team, activity log, quotes, sign out everywhere
+// blog, case studies, media and the site texts: owner and editor can change them; the assistant can read them
+const CONTENT_READ = ['posts_list', 'post_get', 'post_preview', 'post_preview_url', 'post_revisions', 'media_list', 'content_get', 'content_log', 'tm_list'];
+const CONTENT_WRITE = ['post_save', 'post_delete', 'post_duplicate', 'post_restore', 'media_upload', 'media_update', 'media_delete', 'content_save', 'content_restore', 'tm_act', 'tm_add'];
+// an editor sees nothing of the inbox: only their own account settings plus the content actions
+const SELF = ['me', 'sec_get', 'push_key', 'push_subscribe', 'push_unsubscribe', 'push_test', 'pw_change', 'sessions_list', 'sessions_revoke', 'totp_setup', 'totp_enable', 'totp_disable'];
+const EDITOR = new Set([...SELF, ...CONTENT_READ, ...CONTENT_WRITE]);
+const ASSIST = new Set([...READ, ...CONTENT_READ, 'mail_for', 'update', 'reply_get', 'reply_send', 'thread_note', 'resend', 'bulk']);
+// editor: content only (see EDITOR above). owner-only: export, delete, templates, spam rules, alerts, newsletter, short links, backups, team, activity log, quotes, sign out everywhere
 function can(role, action, body) {
   if (role === 'owner') return true;
   if (role === 'assistant') {
     if (action === 'bulk') { const a = String((body && body.action) || ''); return a.startsWith('status:') || a === 'notspam'; }   // not delete, not block
     return ASSIST.has(action);
   }
+  if (role === 'editor') return EDITOR.has(action);
   return role === 'viewer' && READ.has(action);
 }
 
@@ -32,7 +39,7 @@ function genPassword() { let s = ''; for (const b of crypto.randomBytes(14)) s +
 async function add({ name, email, role }) {
   const m = await all(); email = String(email || '').trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) throw new Error('That email address does not look right.');
-  if (!ROLES.includes(role) || role === 'owner') throw new Error('Choose assistant or viewer.');
+  if (!ROLES.includes(role) || role === 'owner') throw new Error('Choose assistant, editor or viewer.');
   if (Object.values(m).some((u) => u.email === email)) throw new Error('Someone with that email already exists.');
   const pw = genPassword(), id = crypto.randomBytes(5).toString('hex');
   m[id] = { id, name: String(name || '').trim().slice(0, 60) || email, email, role, active: true, createdAt: Date.now(), pwHash: hash(pw), mustChange: true };
@@ -42,7 +49,7 @@ async function byEmail(email) { email = String(email || '').trim().toLowerCase()
 async function get(id) { return (await all())[id] || null; }
 async function update(id, patch) {
   const m = await all(); const u = m[id]; if (!u) throw new Error('User not found.');
-  if (patch.role !== undefined) { if (!ROLES.includes(patch.role) || patch.role === 'owner') throw new Error('Choose assistant or viewer.'); u.role = patch.role; }
+  if (patch.role !== undefined) { if (!ROLES.includes(patch.role) || patch.role === 'owner') throw new Error('Choose assistant, editor or viewer.'); u.role = patch.role; }
   if (patch.active !== undefined) u.active = !!patch.active;
   let password;
   if (patch.resetPassword) { password = genPassword(); u.pwHash = hash(password); u.mustChange = true; }

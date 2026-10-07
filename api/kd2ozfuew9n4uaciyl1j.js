@@ -36,13 +36,16 @@ const toolStats = require('./_adm/toolstats');
 const gsc = require('./_adm/gsc');
 const content = require('./_adm/content');
 const guard = require('./_adm/guard');
+const posts = require('./_site/posts');
+const media = require('./_site/media');
+const mdr = require('./_site/md');
 const attention = require('./_adm/attention');
 
 const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
 const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
 // what goes in the activity log (reads are not recorded; a refused attempt always is)
-const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'tm_act', 'tm_add', 'tm_request']);
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'post_save', 'post_delete', 'post_duplicate', 'post_restore', 'media_upload', 'media_update', 'media_delete', 'tm_act', 'tm_add', 'tm_request']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
@@ -224,6 +227,16 @@ module.exports = async (req, res) => {
     if (a === 'tools_stats') return out(200, await toolStats.stats(q.days, await store.all()));
     if (a === 'gsc_get') { try { return out(200, await gsc.get(q.refresh === '1')); } catch (e) { return out(502, { error: e.message }); } }
     if (a === 'content_get') return out(200, { content: await content.get(), defaults: content.DEFAULTS });
+    if (a === 'posts_list') {
+      const rows = await posts.all(), type = String(q.type || ''), now0 = Date.now();
+      const items = rows.filter((p) => !type || p.type === type).map((p) => ({ id: p.id, type: p.type, title: p.title, slug: p.slug, state: posts.stateOf(p, now0), updated: p.updated, publishAt: p.publishAt, tags: p.tags, category: p.category, author: p.author, words: p.words, mins: p.mins, cover: p.cover && p.cover.src, featured: p.featured, excerpt: p.excerpt, noindex: !!(p.seo && p.seo.noindex) }));
+      const n = (t, st) => rows.filter((p) => p.type === t && (!st || posts.stateOf(p, now0) === st)).length;
+      return out(200, { items, counts: { post: n('post'), postPublished: n('post', 'published'), postDraft: n('post', 'draft'), postScheduled: n('post', 'scheduled'), case: n('case'), casePublished: n('case', 'published'), caseDraft: n('case', 'draft'), caseScheduled: n('case', 'scheduled') } });
+    }
+    if (a === 'post_get') { const p = await posts.get(String(q.id || '')); return p ? out(200, { post: p }) : out(404, { error: 'Not found.' }); }
+    if (a === 'post_revisions') { const r = await posts.revisions(String(q.id || '')); return out(200, { items: r.map((x) => ({ t: x.t, by: x.by, title: x.post.title, status: x.post.status, words: x.post.words })) }); }
+    if (a === 'post_preview_url') { const p = await posts.get(String(q.id || '')); if (!p) return out(404, { error: 'Not found.' }); return out(200, { url: `${siteOrigin(req) === 'https://aashishpandey.com' ? 'https://aashishpandey.com' : siteOrigin(req)}${p.type === 'case' ? '/work/' : '/blog/'}${p.slug}?preview=${posts.previewToken(p.id)}` }); }
+    if (a === 'media_list') return out(200, { items: await media.list(300), max: media.MAX });
     if (a === 'content_log') return out(200, { items: await content.history(100) });
     if (a === 'attention_get') return out(200, await attention.build({ rows: await store.all(), now }));
     if (a === 'tm_list') return out(200, { items: await content.list() });
@@ -411,6 +424,14 @@ module.exports = async (req, res) => {
     if (a === 'health_run') return out(200, await siteHealth.run(siteOrigin(req), { via: 'manual' }));
     if (a === 'content_save') { try { return out(200, { ok: true, content: await content.save(b, user.name) }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'content_restore') { try { return out(200, { ok: true, content: await content.restore(b.t, clean(b.area, 60), clean(b.field, 60)) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'post_preview') { const r = mdr.render(String(b.body || '').slice(0, 80000)); return out(200, { html: r.html, toc: r.toc, words: r.words, mins: Math.max(1, Math.round(r.words / 200)) }); }
+    if (a === 'post_save') { try { const p = await posts.save(b, user.name); return out(200, { ok: true, post: p, state: posts.stateOf(p) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'post_delete') { const ok = await posts.remove(clean(b.id, 20)); return ok ? out(200, { ok: true }) : out(404, { error: 'Not found.' }); }
+    if (a === 'post_duplicate') { const p = await posts.get(clean(b.id, 20)); if (!p) return out(404, { error: 'Not found.' }); try { const c = await posts.save({ ...p, id: undefined, title: p.title + ' (copy)', slug: p.slug + '-copy', status: 'draft', publishAt: 0, featured: false }, user.name); return out(200, { ok: true, post: c }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'post_restore') { try { const p = await posts.restore(clean(b.id, 20), b.t, user.name); return out(200, { ok: true, post: p }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'media_upload') { try { return out(200, { ok: true, item: await media.put(b, user.name) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'media_update') { try { return out(200, { ok: true, item: await media.update(clean(b.id, 20), b) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'media_delete') { const ok = await media.remove(clean(b.id, 20)); return ok ? out(200, { ok: true }) : out(404, { error: 'Not found.' }); }
     if (a === 'tm_act') { try { return out(200, { ok: true, item: await content.act(b.id, String(b.op || ''), b) }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'tm_add') { try { return out(200, { ok: true, item: await content.add({ ...b, publish: b.publish !== false }, 'admin') }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'tm_request') {

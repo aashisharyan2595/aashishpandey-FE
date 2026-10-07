@@ -3,6 +3,7 @@
 // which share this function so the site stays within the 12 functions Vercel Hobby allows.
 const pulse = require('./_pulse');
 module.exports = (req, res) => {
+  if ((req.query || {}).a === 'site') return require('./_site/render').handle(req, res);   // /blog, /work, /media and their feeds (see vercel.json)
   if ((req.query || {}).a) return pulse(req, res);
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.status(200).json({ turnstile: process.env.TURNSTILE_SITEKEY || '' });

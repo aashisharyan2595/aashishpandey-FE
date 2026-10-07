@@ -49,6 +49,11 @@ for (const [name, test] of GROUPS) {
   index.push(`  <sitemap>\n    <loc>${SITE}/${name}</loc>\n    <lastmod>${rows.map(r => state[r[1]].lastmod).sort().pop()}</lastmod>\n  </sitemap>\n`);
   console.log(name, rows.length + ' urls');
 }
+// blog posts and the extra case studies live in the database, so their sitemap is drawn by the site function (/sitemap-posts.xml in vercel.json).
+// The file here is only an empty placeholder so the repo checks see every sitemap the index lists.
+const postsMap = path.join(root, 'seo', 'sitemap-posts.xml');
+if (!fs.existsSync(postsMap)) fs.writeFileSync(postsMap, '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>\n');
+index.push(`  <sitemap>\n    <loc>${SITE}/sitemap-posts.xml</loc>\n  </sitemap>\n`);
 const missed = P.filter(r => !used.has(r[0])).map(r => r[0]);
 if (missed.length) throw new Error('not in any sitemap group: ' + missed.join(', '));
 fs.writeFileSync(path.join(root, 'seo', 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${index.join('')}</sitemapindex>\n`);

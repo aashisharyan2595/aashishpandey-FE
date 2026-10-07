@@ -126,6 +126,7 @@ const MENUS = {
     feat: { href: '/', t: 'Ride the 3D site', d: 'Scroll a motorcycle through my career, then take it off-road.', ic: 'bike', cta: 'Start the ride', b: 'Interactive' },
     cols: [
       [{ h: 'Explore', items: [
+        { href: '/blog', t: 'Blog', d: 'Notes on delivery, Shopify and tools', ic: 'file' },
         { href: '/how-this-site-was-built', t: 'How this site was built', d: 'The build guide, step by step', ic: 'wrench' },
       ] }, { h: 'About me', items: [
         { href: CV, t: 'Résumé (PDF)', d: 'One page, up to date', ic: 'file', dl: true },
@@ -161,7 +162,7 @@ const FOOT = {
     { href: WA, label: 'WhatsApp', ic: 'chat', x: true },
   ],
   work: [['/case-studies', 'Case studies'], ['/work-liquid-iv', 'Liquid I.V.'], ['/work-talenti', 'Talenti'], ['/work-storynest', 'StoryNest'], ['/work-ceat-specialty', 'CEAT Specialty'], ['/portfolio', 'Portfolio']],
-  more: [['/', 'The 3D ride'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)'], ['/contact', 'Send a brief']],
+  more: [['/', 'The 3D ride'], ['/blog', 'Blog'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)'], ['/contact', 'Send a brief']],
 };
 
 /* ---------- helpers ---------- */
@@ -236,7 +237,7 @@ function footer() {
   const tools = `<div class="ap-foot__tools">${FOOT_TOOLS.map(link).join('')}</div><a class="ap-foot__all" href="/tools">All ${toolCount} tools</a>`;
   const work = [['/portfolio', 'Portfolio'], ...FOOT.work.filter(([h]) => h !== '/portfolio')];
   const contact = [[MAIL, 'hello@aashishpandey.com'], [BOOK, 'Book a 20-minute call', 1], ['/contact', 'Send a brief'], [WA, 'WhatsApp', 1], [LI, 'LinkedIn', 1]];
-  const more = [['/', 'The 3D ride'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)']];
+  const more = [['/', 'The 3D ride'], ['/blog', 'Blog'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)']];
   return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><form class="ap-foot__news" data-news novalidate><label for="ap-news-e">New tools and write-ups, by email</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Subscribed straight away. Unsubscribe any time. <a href="/privacy">Privacy</a></p></form></div>`
     + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', work.map(link).join(''))}${col('Services', svc.map(link).join(''))}<div class="ap-foot__stack">${col('Get in touch', contact.map(link).join(''))}${col('More', more.map(link).join(''))}</div>${col(`Free tools <span class="ap-foot__n">${toolCount}</span>`, tools, ' ap-foot__col--tools')}</nav></div>`
     + `<div class="ap-foot__base"><p class="ap-foot__copy">© ${YEAR} Aashish Pandey<span class="ap-foot__sep" aria-hidden="true">·</span><span class="ap-foot__credits">Designed and built with passion ${HEART}</span></p><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><a href="#" class="ap-foot__up">Back to top<span aria-hidden="true">↑</span></a></div></div></footer>`;
@@ -253,6 +254,8 @@ const C_DEFAULT = { h: 'I plan, build and ship things', em: 'like this for clien
 const CLOSE = {
   '/services': { h: 'Not sure which one', em: 'you need?', p: 'Tell me what is stuck and I will say which of these fits, or whether it is a mix. Freelance briefs get a scope, timeline and quote within 48 hours.' },
   '/case-studies': { h: 'Have a program', em: 'like these?', p: 'Send a short brief. Freelance briefs get a scope, timeline and quote within 48 hours, and I am open to full-time Program Manager roles.' },
+  '/blog': { h: 'Have something', em: 'to build or fix?', p: 'Send a short brief. Freelance briefs get a scope, timeline and quote within 48 hours, and I am open to full-time Program Manager roles.' },
+  '/work': C_WORK,
   '/portfolio': C_WORK, '/work-liquid-iv': C_WORK, '/work-talenti': C_WORK, '/work-storynest': C_WORK, '/work-ceat-specialty': C_WORK,
 };
 for (const h of flat(MENUS.services)) if (h.href !== '/services') CLOSE[h.href] = C_SERVICE;
@@ -342,3 +345,13 @@ for (const { name: f, abs: fp } of pages) {
 }
 if (CHECK) { if (stale.length) { console.error('Out of date, run: node scripts/chrome.cjs\n  ' + stale.join('\n  ')); process.exit(1); } console.log('chrome: all pages current'); }
 else console.log(`chrome: ${changed} page(s) updated`);
+
+/* ---------- the same pieces for pages the server draws (blog, case studies): api/_site/chrome.json ---------- */
+// The site function cannot read the page files, so the header, footer and closing panel are saved as JSON that it can require.
+if (!CHECK) {
+  const pack = (p, c) => ({ nav: activate(header(), p), close: close(c || p) });
+  const j = { head: HEAD, navCss: NAV_CSS, navJs: NAV_JS, foot: footer(), blog: pack('/blog'), work: pack('/case-studies', '/work') };
+  const outp = path.join(ROOT, 'api', '_site', 'chrome.json'), txt = JSON.stringify(j);
+  fs.mkdirSync(path.dirname(outp), { recursive: true });
+  if (!fs.existsSync(outp) || fs.readFileSync(outp, 'utf8') !== txt) { fs.writeFileSync(outp, txt); console.log('chrome: api/_site/chrome.json written'); }
+}

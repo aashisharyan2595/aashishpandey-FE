@@ -20,4 +20,7 @@
     <loc>https://aashishpandey.com/sitemap-tools.xml</loc>
     <lastmod>2026-10-07</lastmod>
   </sitemap>
+  <sitemap>
+    <loc>https://aashishpandey.com/sitemap-posts.xml</loc>
+  </sitemap>
 </sitemapindex>

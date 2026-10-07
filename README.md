@@ -146,6 +146,8 @@ Vercel serverless functions in `api/` (Node, no framework, no npm dependencies).
 
 A private admin lives behind an unlisted path (`admin/`, `api/_adm/`): an inbox and pipeline for enquiries (stages, deal value, a 48 hour reply promise, follow-ups, a morning digest), quotes, newsletter list, sent-mail log, sign-in history, TOTP two-factor sign-in (RFC 6238), "sign out everywhere", nightly backup, and Web Push notifications (VAPID, RFC 8291) with no dependencies. It is `noindex`, `no-store` and rate limited.
 
+**Content engine (blog and extra case studies).** Posts and case studies are written in the admin (Posts, Case studies, Media) and kept in Redis (`post:*`, `slug:*`, `media:*`). `api/_site/render.js` draws `/blog`, `/blog/<slug>`, `/work`, `/work/<slug>`, `/blog/rss.xml`, `/sitemap-posts.xml` and `/media/<id>` as full HTML on the server, cached at the CDN for two minutes; the rewrites in `vercel.json` point at `/api/config?a=site` so no extra Vercel function is used (Hobby allows 12 and the site uses all of them). Bodies are Markdown (`api/_site/md.js`: raw HTML is always escaped; callouts, tables, a YouTube embed and a button are supported). The header, footer and closing panel come from `api/_site/chrome.json`, which `scripts/chrome.cjs` writes on every build, so menu changes reach these pages too. Images are shrunk to WebP in the browser (about 450 KB at most) and stored in Redis. Roles: owner and editor can write; an editor sees no inbox.
+
 Redis keys used by the public tools:
 
 | Key | Value |
@@ -245,6 +247,8 @@ Set in Vercel. Each feature switches off or falls back when its variables are mi
 | `RESEND_API_KEY`, `RESEND_FROM`, `RESEND_AUDIENCE_ID`, `RESEND_WEBHOOK_SECRET` | Email: contact form, newsletter, delivery events |
 | `TURNSTILE_SITEKEY`, `TURNSTILE_SECRET` | Bot protection on forms |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SECRET`, `CRON_SECRET`, `NEWSLETTER_SECRET` | Admin sign-in, signed links and the scheduled jobs |
+| `ADMIN_ALLOWED_IPS` | Optional. Comma separated IPs or IPv4 ranges allowed to reach the admin API (scheduled jobs are exempt) |
+| `VERCEL_TOKEN`, `VERCEL_PROJECT_ID`, `VERCEL_TEAM_ID`, `VERCEL_DEPLOY_LIMIT` | Optional. Lets the admin's Needs attention panel count deployments in the last 24 hours |
 
 Never commit values. `vercel.json` also schedules two cron jobs (a nightly job and a morning digest).
 

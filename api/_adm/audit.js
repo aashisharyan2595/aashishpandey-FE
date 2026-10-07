@@ -7,7 +7,7 @@ function detailOf(a, b, q) {
   const o = {};
   if (b) {
     if (Array.isArray(b.ids)) o.records = b.ids.length; else if (b.id) o.record = String(b.id).slice(0, 30);
-    for (const k of ['action', 'status', 'stage', 'which', 'op', 'key', 'code', 'role', 'name', 'email', 'value', 'currency', 'followUp']) if (b[k] !== undefined && b[k] !== '' && k !== 'code') o[k] = String(b[k]).slice(0, 60);
+    for (const k of ['action', 'status', 'stage', 'which', 'op', 'key', 'code', 'role', 'name', 'email', 'value', 'currency', 'followUp', 'title', 'slug', 'type']) if (b[k] !== undefined && b[k] !== '' && k !== 'code') o[k] = String(b[k]).slice(0, 60);
     if (b.code !== undefined && a.startsWith('links_')) o.code = String(b.code).slice(0, 40);
     if (b.min) o.level = String(b.min);
     if (b.subject) o.subject = String(b.subject).slice(0, 80);

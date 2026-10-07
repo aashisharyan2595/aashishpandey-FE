@@ -313,6 +313,13 @@
     { "source": "/audio-v3.js", "destination": "/assets/js/audio-v3.js", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/blog", "destination": "/api/config?a=site&p=blog" },
+    { "source": "/blog/rss.xml", "destination": "/api/config?a=site&p=rss" },
+    { "source": "/blog/:slug", "destination": "/api/config?a=site&p=post&slug=:slug" },
+    { "source": "/work", "destination": "/api/config?a=site&p=work" },
+    { "source": "/work/:slug", "destination": "/api/config?a=site&p=case&slug=:slug" },
+    { "source": "/sitemap-posts.xml", "destination": "/api/config?a=site&p=psitemap" },
+    { "source": "/media/:id", "destination": "/api/config?a=site&p=media&id=:id" },
     { "source": "/kd2ozfuew9n4uaciyl1j", "destination": "/admin/kd2ozfuew9n4uaciyl1j.html" },
     { "source": "/kd2ozfuew9n4uaciyl1j-sw.js", "destination": "/admin/kd2ozfuew9n4uaciyl1j-sw.js" },
     { "source": "/kd2ozfuew9n4uaciyl1j.webmanifest", "destination": "/admin/kd2ozfuew9n4uaciyl1j.webmanifest" },
