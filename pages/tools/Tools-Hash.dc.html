@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/assets/nav.css?v=33">
 <script src="/assets/nav.js?v=3" defer></script>
-<link rel="stylesheet" href="/assets/tools.css?v=1">
+<link rel="stylesheet" href="/assets/tools.css?v=2">
 <script src="/assets/tools.js?v=2" defer></script>
 <title>SHA-1 Hash Checker: Verify SHA-1, MD5 &amp; SHA-256 Files</title>
 <meta name="description" content="Free SHA-1 hash checker: verify a file's SHA-1 checksum, plus MD5, SHA-256 and SHA-512, against the published value or a whole checksum list, and identify any pasted hash. Runs in your browser, no upload.">
@@ -68,18 +68,24 @@
 <!-- ap-nav:end -->
   <main style="flex:1;width:100%;max-width:1200px;margin:0 auto;box-sizing:border-box;padding:clamp(40px,7vw,96px) clamp(18px,4vw,44px) 0;display:flex;flex-direction:column;gap:clamp(28px,4vw,40px);">
         <header class="tl-hero" style="display:flex;flex-direction:column;gap:16px;"><nav aria-label="Breadcrumb"><ol style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8e89a0;"><li><a href="/" style="color:#8e89a0;">Home</a></li><li aria-hidden="true" style="opacity:.5;">/</li><li><a href="/tools" style="color:#8e89a0;">Tools</a></li><li aria-hidden="true" style="opacity:.5;">/</li><li aria-current="page" style="color:#f4efe6;">File Hash Checker</li></ol></nav>
-      <h1 style="margin:0;font-weight:600;font-size:clamp(34px,4.8vw,60px);line-height:.97;letter-spacing:-.045em;color:#f4efe6;max-width:900px;text-wrap:balance;">Check a file&#x27;s SHA-1, SHA-256 or MD5 hash <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#f5b867;">without uploading it.</span></h1>
+      <h1 style="margin:0;font-weight:600;font-size:clamp(34px,4.8vw,60px);line-height:.97;letter-spacing:-.045em;color:#f4efe6;max-width:900px;text-wrap:balance;">Check a file&#x27;s <span style="white-space:nowrap">SHA-1,</span> <span style="white-space:nowrap">SHA-256</span> or MD5 hash <span style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em;color:#f5b867;">without uploading it.</span></h1>
       <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:640px;color:#aaa4b8;text-wrap:pretty;">A free SHA-1 hash checker that also does MD5, SHA-256, SHA-384 and SHA-512. Drop a file or paste text to get all five. Paste a hash to find out what it is and whether it can still be trusted, or paste the checksum from the download page and see straight away whether it matches.</p>
       <ul class="tl-trust" aria-label="Good to know"><li>Free, no sign-up</li><li>Files are never uploaded</li><li>MD5 to SHA-512</li></ul>
     </header>
-    <section class="tl-panel" aria-label="File hash tool">
+    <section class="tl-panel tl-bench" aria-label="File hash tool">
+      <div class="tl-bench__in">
       <div id="drop" class="tl-drop" tabindex="0" role="button" aria-label="Drop a file here"><strong>Drop a file here</strong><span>or click to choose. Hashed on your device, never uploaded.</span><input id="pick" type="file" multiple hidden data-tl-file="Drop files to hash them"></div>
       <p class="tl-small tl-muted" id="tryRow">New to this? <button id="try" class="tl-link" type="button">Try an example</button>: it hashes a short sentence and checks it against a published SHA-256.</p>
       <div class="tl-field"><label for="text">Or paste text to hash</label><textarea id="text" class="tl-textarea" placeholder="Type or paste text"></textarea></div>
       <div class="tl-field"><label for="expected">Hash to test, or the checksum from the download page (optional)</label><textarea id="expected" class="tl-textarea tl-textarea--sm" rows="2" autocomplete="off" spellcheck="false" placeholder="Paste a hash to identify it, or a whole SHA256SUMS list to check several files"></textarea></div>
       <div class="tl-row"><span class="tl-label">Show as</span><span class="tl-seg" role="group" aria-label="Output format"><button type="button" data-fmt="hex" aria-pressed="true">Hex</button><button type="button" data-fmt="b64" aria-pressed="false">Base64</button></span><label class="tl-check"><input id="upper" type="checkbox"> Uppercase</label><button id="clear" class="tl-btn" type="button">Clear</button></div>
-      <div id="verdict"></div>
+      </div>
+      <div class="tl-bench__out">
+      <h2 class="tl-out-h">Result</h2>
+      <div id="verdict" data-tl-out></div>
       <div id="out" data-tl-result="See the hashes" style="display:flex;flex-direction:column;gap:14px;"></div>
+      <div class="tl-ph"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg><strong>Hashes show up here</strong><span>Drop a file or type some text on the left. All five hashes appear here, and a pasted checksum gets a Match or No match.</span></div>
+      </div>
       <p id="live" class="sr" aria-live="polite"></p>
     </section>
   <section aria-label="About this tool" style="font-family:Geist,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:clamp(72px,9vw,128px) 0 0;display:flex;flex-direction:column;gap:clamp(72px,9vw,128px);border-top:1px solid rgba(244,239,230,.1);">

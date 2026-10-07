@@ -113,11 +113,49 @@ input[type=range]{accent-color:#f5b867}
 /* phones: the tool, not the intro, should own the first screen */
 @media(max-width:600px){
   .tl-hero{gap:12px!important}
-  .tl-hero h1{font-size:clamp(30px,8.4vw,36px)!important;line-height:1.02!important}
-  .tl-hero>p{font-size:15.5px!important;line-height:1.55!important}
+  .tl-hero h1{font-size:clamp(28px,7.8vw,34px)!important;line-height:1.02!important}
+  .tl-hero>p{font-size:15px!important;line-height:1.5!important}
   .tl-trust{font-size:13.5px;gap:6px 14px}
   .tl-panel{border-radius:20px;padding:16px}
   .tl-actions .tl-btn{flex:1 1 auto}
 }
 @media(prefers-reduced-motion:reduce){.tl-toast,.tl-jump,.tl-veil,.tl-btn{transition:none}}
 .tl-panel [hidden],[data-tl-result][hidden]{display:none!important}
+
+/* ---------- tool shell, part 2 (2026-10): the tool owns the first screen ---------- */
+/* compact header: less air above, and on wide screens the intro sits beside the headline instead of under it */
+main:has(>.tl-hero){padding-top:clamp(22px,3.4vw,48px)!important;gap:clamp(22px,3vw,32px)!important}
+.tl-hero nav[aria-label=Breadcrumb] ol{font-size:12px!important;letter-spacing:.1em!important}
+@media(min-width:1000px){
+  .tl-hero{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:clamp(40px,5vw,72px);row-gap:12px!important;align-items:end}
+  .tl-hero>nav{grid-column:1/-1}
+  .tl-hero>h1{grid-column:1;grid-row:2/span 2;align-self:end;font-size:clamp(38px,3.6vw,52px)!important;line-height:1!important}
+  .tl-hero>p{grid-column:2;grid-row:2;font-size:16px!important;line-height:1.6!important;max-width:none!important}
+  .tl-hero>.tl-trust{grid-column:2;grid-row:3}
+}
+
+/* touch screens: every control at least 44px tall (Apple HIG, WCAG 2.5.5) */
+@media(pointer:coarse){
+  .tl-seg button{min-height:44px;height:auto}
+  .tl-copy{min-height:44px}
+  .tl-panel .tl-link{padding-block:12px;margin-block:-12px}
+}
+
+/* workbench: inputs on the left, the answer on the right and always in view (wide screens only) */
+.tl-bench__in,.tl-bench__out{display:flex;flex-direction:column;gap:20px;min-width:0}
+.tl-ph{display:none}
+@media(min-width:1180px){
+  main:has(.tl-bench){max-width:1360px!important}
+  .tl-bench{display:grid!important;grid-template-columns:var(--tl-bench,minmax(0,1fr) minmax(340px,420px));gap:28px;align-items:start}
+  .tl-bench__out{position:sticky;top:84px;max-height:calc(100vh - 100px);overflow:auto;overscroll-behavior:contain;padding:20px;border-radius:18px;border:1px solid rgba(244,239,230,.1);background:rgba(7,9,22,.45);box-sizing:border-box;scrollbar-width:thin;scrollbar-color:rgba(244,239,230,.2) transparent}
+  .tl-ph{display:flex;flex-direction:column;align-items:flex-start;gap:8px;color:#aaa4b8;font-size:14.5px;line-height:1.55}
+  .tl-ph strong{color:#f4efe6;font-size:16px;font-weight:600;letter-spacing:-.01em}
+  .tl-ph svg{color:#f5b867;margin-bottom:4px}
+  .tl-bench__out:has([data-tl-result]:not(:empty):not([hidden]),[data-tl-out]:not(:empty)) .tl-ph{display:none}
+}
+.tl-out-h{margin:0;font:500 11.5px 'Geist Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#8e89a0}
+@media(max-width:1179px){.tl-out-h{display:none}}
+@media(min-width:1180px){
+  /* the main actions stay pinned at the foot of the result column while it scrolls */
+  .tl-bench__out>.tl-actions{position:sticky;bottom:-20px;z-index:1;margin:0 -20px -20px;padding:14px 20px 20px;background:linear-gradient(180deg,rgba(11,14,40,0),#0b0e28 22%)}
+}

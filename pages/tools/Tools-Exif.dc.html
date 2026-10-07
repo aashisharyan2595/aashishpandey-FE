@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/assets/nav.css?v=33">
 <script src="/assets/nav.js?v=3" defer></script>
-<link rel="stylesheet" href="/assets/tools.css?v=1">
+<link rel="stylesheet" href="/assets/tools.css?v=2">
 <script src="/assets/tools.js?v=2" defer></script>
 <title>Photo Metadata Remover: Strip EXIF and GPS Data</title>
 <meta name="description" content="Free EXIF remover: see the GPS location, camera and date hidden in a JPEG, PNG or WebP, then download a clean copy. Runs in your browser, nothing is uploaded.">
@@ -43,6 +43,10 @@
 
 
 <style id="tl-css">
+/* once photos are in, the drop zone shrinks to a slim bar so the findings start near the top */
+.tl-panel:has(#results:not(:empty)) #drop{flex-direction:row;justify-content:center;flex-wrap:wrap;gap:4px 10px;padding:14px 18px}
+.tl-panel:has(#results:not(:empty)) #drop strong{font-size:15.5px}
+.tl-panel:has(#results:not(:empty)) #drop span{font-size:13.5px}
 .tl-faq2{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,5vw,72px);align-items:start}
 .tl-faq2>div:first-child{position:sticky;top:96px}
 .tl-faq2>div:last-child{max-width:none!important}
