@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v1';   // ?v= for assets/blog.css and blog.js
+const BL = 'v2';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
@@ -108,27 +108,28 @@ ${p.category || (p.tags && p.tags[0]) ? `<span class="bl-kick">${esc(p.category 
 
 /* ---------- blog index ---------- */
 async function blogIndex(q) {
-  const tag = String(q.tag || '').slice(0, 40), per = 9, pg = Math.max(1, parseInt(q.page, 10) || 1);
+  const tag = String(q.tag || '').slice(0, 40), find = String(q.q || '').trim().slice(0, 60).toLowerCase(), per = 9, pg = Math.max(1, parseInt(q.page, 10) || 1);
   const all = await posts.live('post'), tags = {};
   all.forEach((p) => (p.tags || []).forEach((t) => { tags[t] = (tags[t] || 0) + 1; }));
-  const rows = tag ? all.filter((p) => (p.tags || []).includes(tag)) : all;
-  const feat = !tag && pg === 1 ? rows.find((p) => p.featured) || rows[0] : null, rest = rows.filter((p) => p !== feat), pages = Math.max(1, Math.ceil(rest.length / per)), slice = rest.slice((pg - 1) * per, pg * per);
+  const rows = all.filter((p) => (!tag || (p.tags || []).includes(tag)) && (!find || [p.title, p.excerpt, (p.tags || []).join(' '), p.category].join(' ').toLowerCase().includes(find)));
+  const feat = !tag && !find && pg === 1 ? rows.find((p) => p.featured) || rows[0] : null, rest = rows.filter((p) => p !== feat), pages = Math.max(1, Math.ceil(rest.length / per)), slice = rest.slice((pg - 1) * per, pg * per);
   const topTags = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 10).map((x) => x[0]);
-  const qs = (n) => '/blog?' + [tag ? 'tag=' + encodeURIComponent(tag) : '', n > 1 ? 'page=' + n : ''].filter(Boolean).join('&');
+  const qs = (n) => '/blog?' + [tag ? 'tag=' + encodeURIComponent(tag) : '', find ? 'q=' + encodeURIComponent(find) : '', n > 1 ? 'page=' + n : ''].filter(Boolean).join('&');
   const body = `<header class="bl-hero"><div class="bl-wrap">${crumbs([{ t: 'Home', href: '/' }, { t: 'Blog' }])}
 <p class="bl-eyebrow">Blog</p>
 <h1>Notes on shipping <em>digital work</em></h1>
 <p class="bl-lead">What I learn running multi-market Shopify programs, building small tools and getting websites live. Short, practical, no fluff.</p>
+${all.length > 5 || find ? `<form class="bl-search" action="/blog" role="search"><input type="search" name="q" value="${esc(find)}" placeholder="Search the blog" aria-label="Search the blog" maxlength="60"><button type="submit">Search</button></form>` : ''}
 ${topTags.length ? `<div class="bl-filter" role="group" aria-label="Topics"><a class="bl-tag${tag ? '' : ' is-on'}" href="/blog">All</a>${topTags.map((t) => `<a class="bl-tag${t === tag ? ' is-on' : ''}" href="/blog?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>` : ''}
 </div></header>
 <div class="bl-wrap bl-list">
 ${feat ? card(feat, true) : ''}
-${slice.length ? `<div class="bl-grid">${slice.map((p) => card(p)).join('')}</div>` : (!feat ? `<div class="bl-empty"><h2>${tag ? 'Nothing under ' + esc(tag) + ' yet' : 'The first posts are on the way'}</h2><p>${tag ? '<a href="/blog">See all posts</a>' : 'In the meantime, the <a href="/tools">free tools</a> and <a href="/case-studies">case studies</a> are live.'}</p></div>` : '')}
+${slice.length ? `<div class="bl-grid">${slice.map((p) => card(p)).join('')}</div>` : (!feat ? `<div class="bl-empty"><h2>${find ? 'Nothing found for ' + esc(find) : tag ? 'Nothing under ' + esc(tag) + ' yet' : 'The first posts are on the way'}</h2><p>${tag || find ? '<a href="/blog">See all posts</a>' : 'In the meantime, the <a href="/tools">free tools</a> and <a href="/case-studies">case studies</a> are live.'}</p></div>` : '')}
 ${pages > 1 ? `<nav class="bl-pager" aria-label="Pages">${pg > 1 ? `<a href="${qs(pg - 1)}" rel="prev">Newer</a>` : '<span></span>'}<span>Page ${pg} of ${pages}</span>${pg < pages ? `<a href="${qs(pg + 1)}" rel="next">Older</a>` : '<span></span>'}</nav>` : ''}
 </div>`;
   const canonical = SITE + '/blog' + (tag ? '?tag=' + encodeURIComponent(tag) : '') + (pg > 1 ? (tag ? '&' : '?') + 'page=' + pg : '');
   return layout({
-    title: (tag ? tag + ': ' : '') + 'Blog · Aashish Pandey', desc: 'Notes on running multi-market Shopify programs, building small web tools and shipping websites, by Aashish Pandey.', canonical, rss: true, noindex: false, body,
+    title: (tag ? tag + ': ' : find ? 'Search: ' + find + ' · ' : '') + 'Blog · Aashish Pandey', desc: 'Notes on running multi-market Shopify programs, building small web tools and shipping websites, by Aashish Pandey.', canonical, rss: true, noindex: !!find, body,
     jsonld: [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'Blog', '@id': SITE + '/blog#blog', url: SITE + '/blog', name: 'Aashish Pandey: Blog', publisher: { '@id': SITE + '/#person' }, blogPost: rows.slice(0, 20).map((p) => ({ '@type': 'BlogPosting', headline: p.title, url: SITE + base(p), datePublished: isoDate(p.publishAt) })) }, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }])] }],
   });
 }
@@ -142,7 +143,7 @@ async function postPage(p, preview) {
   const r = md.render(p.body), url = SITE + '/blog/' + p.slug, seo = p.seo || {}, au = await authorOf(p);
   const live = await posts.live('post');
   const rel = live.filter((x) => x.id !== p.id).map((x) => ({ x, n: (x.tags || []).filter((t) => (p.tags || []).includes(t)).length })).sort((a, b) => b.n - a.n || (b.x.publishAt - a.x.publishAt)).slice(0, 3).map((a) => a.x);
-  const body = `<article class="bl-article" itemscope itemtype="https://schema.org/BlogPosting">
+  const body = `<article class="bl-article" itemscope itemtype="https://schema.org/BlogPosting"${preview ? '' : ' data-pid="' + p.id + '"'}>
 <header class="bl-ah"><div class="bl-wrap bl-wrap--n">${crumbs([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title }])}
 ${p.tags && p.tags.length ? `<div class="bl-tags">${tagChips(p.tags, '/blog')}</div>` : ''}
 <h1 itemprop="headline">${esc(p.title)}</h1>
@@ -172,7 +173,7 @@ async function workIndex() {
 async function casePage(p, preview) {
   const r = md.render(p.body), url = SITE + '/work/' + p.slug, c = p.case || {}, seo = p.seo || {};
   const more = (await posts.live('case')).filter((x) => x.id !== p.id).slice(0, 3);
-  const body = `<article class="bl-article bl-case">
+  const body = `<article class="bl-article bl-case"${preview ? '' : ' data-pid="' + p.id + '"'}>
 <header class="bl-ah"><div class="bl-wrap bl-wrap--n">${crumbs([{ t: 'Home', href: '/' }, { t: 'Case studies', href: '/case-studies' }, { t: p.title }])}
 <p class="bl-eyebrow">Case study${c.client ? ' · ' + esc(c.client) : ''}</p>
 <h1>${esc(p.title)}</h1><p class="bl-lead">${esc(p.excerpt)}</p>
@@ -219,6 +220,7 @@ async function handle(req, res) {
       res.setHeader('Content-Type', m.meta.mime); res.setHeader('Cache-Control', 'public, max-age=31536000, immutable'); res.setHeader('X-Content-Type-Options', 'nosniff'); res.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox");
       return res.status(200).send(m.data);
     }
+    if (p === 'hit') { if (req.method !== 'POST') return send(405, 'text/plain; charset=utf-8', 'Use POST', 'no-store'); await require('./stats').hit(req, String(q.id || '')); return send(204, 'text/plain; charset=utf-8', '', 'no-store'); }
     if (p === 'rss') return send(200, 'application/rss+xml; charset=utf-8', await rss());
     if (p === 'psitemap') return send(200, 'application/xml; charset=utf-8', await sitemap());
     if (p === 'blog') return send(200, 'text/html; charset=utf-8', await blogIndex(q));

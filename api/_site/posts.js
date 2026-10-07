@@ -181,7 +181,7 @@ async function purge(id, actor) {
   if (p.status !== 'trash') throw err('Move it to the trash first.', 400);
   if (!has(actor, 'content.delete')) throw err('You do not have permission to delete for good.', 403);
   for (const s of [p.slug].concat(p.oldSlugs || [])) await redis('DEL', `slug:${p.type}:${s}`);
-  await redis('DEL', 'post:' + p.id); await redis('ZREM', 'posts:idx', p.id); await redis('DEL', 'post:rev:' + p.id); await redis('DEL', 'lock:' + p.id);
+  await redis('DEL', 'post:' + p.id); await redis('ZREM', 'posts:idx', p.id); await redis('DEL', 'post:rev:' + p.id); await redis('DEL', 'lock:' + p.id); await require('./stats').forget(p.id);
   dropCache(); return true;
 }
 

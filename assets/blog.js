@@ -20,6 +20,9 @@
     }, { rootMargin: '-90px 0px -65% 0px' });
     Object.keys(map).forEach(function (id) { var h = document.getElementById(id); if (h) io.observe(h); });
   }
+  // count a view after the page has been open for a few seconds; the server ignores crawlers and repeat visits
+  var art2 = document.querySelector('[data-pid]');
+  if (art2 && navigator.sendBeacon) setTimeout(function () { try { navigator.sendBeacon('/api/config?a=site&p=hit&id=' + art2.getAttribute('data-pid')); } catch (e) { /* views are best effort */ } }, 4000);
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-copy]'); if (!b) return;
     var url = b.getAttribute('data-copy'), done = function () { var t = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = t; }, 1600); };

@@ -56,7 +56,7 @@ async function handle(a, c) {
   try {
     /* ----- reads ----- */
     if (a === 'posts_list') {
-      const type = String(q.type || ''), rows = (await posts.all()).filter((p) => !type || p.type === type), sm = rows.map((p) => posts.summary(p));
+      const type = String(q.type || ''), rows = (await posts.all()).filter((p) => !type || p.type === type), sm = rows.map((p) => posts.summary(p)), pv = await require('../_site/stats').totals(sm.map((x) => x.id)); sm.forEach((x) => { x.views = pv[x.id] || 0; });
       const n = (t, st) => rows.filter((p) => p.type === t && (st === 'all' ? p.status !== 'trash' : posts.stateOf(p) === st)).length;
       const counts = {}; ['post', 'case'].forEach((t) => { counts[t] = n(t, 'all'); ['draft', 'review', 'approved', 'published', 'scheduled', 'archived', 'trash'].forEach((s) => { counts[t + '_' + s] = n(t, s); }); });
       return ok({ items: sm, counts, me: user.id });

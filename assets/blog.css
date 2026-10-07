@@ -87,3 +87,5 @@ a.bl-tag:hover{border-color:var(--bl-amber);color:var(--bl-ink)!important}.bl-ta
 .bl-metrics b{font-size:clamp(32px,4vw,46px);font-weight:600;letter-spacing:-.045em;color:var(--bl-amber);line-height:1}.bl-metrics span{font-size:14px;color:var(--bl-mute);line-height:1.4}
 @media print{.bl-progress,.ap-nav,.ap-foot,.ap-close-sec,.bl-share,.bl-side{display:none!important}.bl-page{background:#fff;color:#111}.bl-md,.bl-md h2,.bl-md h3{color:#111}}
 @media(prefers-reduced-motion:reduce){.bl-card,.bl-card__img img{transition:none}.bl-progress i{transition:none}html{scroll-behavior:auto}}
+
+.bl-search{display:flex;gap:8px;margin:22px 0 0;max-width:460px}.bl-search input{flex:1;min-width:0;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--bl-line);background:rgba(244,239,230,.04);color:var(--bl-ink);font:inherit;font-size:15px}.bl-search input::placeholder{color:var(--bl-dim)}.bl-search button{height:44px;padding:0 18px;border-radius:10px;border:0;background:var(--bl-amber);color:#0b1030;font:inherit;font-size:14px;font-weight:600;cursor:pointer}.bl-search button:hover{background:var(--bl-teal)}
