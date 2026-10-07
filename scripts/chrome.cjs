@@ -12,6 +12,8 @@
  * It also runs first in the Vercel build (vercel.json), so production never drifts
  * from this file even if someone forgets to run it before committing.
  * Active state (current page and its menu) comes from the vercel.json rewrites.
+ * Every page, 404.html included, also gets the shared <head> tags in <!-- ap-head:start --> ... <!-- ap-head:end -->,
+ * added just before </head> on first run.
  */
 const fs = require('fs');
 const path = require('path');
@@ -27,6 +29,10 @@ const WA = 'https://wa.me/917558415031';
 const LI = 'https://www.linkedin.com/in/aashish-kumar-pandey';
 const CV = '/assets/Aashish-Pandey-Resume.pdf';
 const MAIL = 'mailto:hello@aashishpandey.com';
+
+// Tags every page carries in its <head>. Ahrefs Web Analytics is cookieless, like Vercel Web Analytics, so it loads
+// without waiting for the cookie choice (see the cookie policy, "No cookies").
+const HEAD = '<script src="https://analytics.ahrefs.com/analytics.js" data-key="NLMsfOMIs451GqBmVggYOA" async></script>';
 
 /* ---------- the menus ---------- */
 // item: href, t (title), d (description), ic (icon key), f (footer label, defaults to t), b (badge), x (external), dl (download)
@@ -310,12 +316,21 @@ function wrapLegacyFooter(src) {
   // first run only: put markers round footers that do not have them yet
   return src.replace(/(?<!<!-- ap-foot:start -->\s*)<footer class="ap-foot"[\s\S]*?<\/footer>(?!\s*<!-- ap-foot:end -->)/g, (m) => `<!-- ap-foot:start -->\n${m}\n<!-- ap-foot:end -->`);
 }
+function headTags(src) {
+  if (!src.includes('<!-- ap-head:start -->')) return src.replace('</head>', '<!-- ap-head:start --><!-- ap-head:end -->\n</head>').replace(/(<!-- ap-head:start -->)[\s\S]*?(<!-- ap-head:end -->)/, `$1\n${HEAD}\n$2`);
+  return src.replace(/(<!-- ap-head:start -->)[\s\S]*?(<!-- ap-head:end -->)/, `$1\n${HEAD}\n$2`);
+}
 let changed = 0, stale = [];
-for (const { name: f, abs: fp } of require('./pages.cjs').list()) {
+const pages = [...require('./pages.cjs').list(), { name: '404.html', abs: path.join(ROOT, '404.html') }];
+for (const { name: f, abs: fp } of pages) {
   const src = fs.readFileSync(fp, 'utf8');
-  if (!/<!-- ap-(nav|foot|close):start -->/.test(src) && !src.includes('<footer class="ap-foot"')) continue;
+  const head = headTags(src);
+  if (!/<!-- ap-(nav|foot|close):start -->/.test(src) && !src.includes('<footer class="ap-foot"')) {
+    if (head !== src) { changed++; stale.push(f); if (!CHECK) fs.writeFileSync(fp, head); }
+    continue;
+  }
   const p = rewrites[f];
-  let out = wrapLegacyFooter(wrapLegacyNav(src)), a, b;
+  let out = wrapLegacyFooter(wrapLegacyNav(head)), a, b;
   [out, a] = region('nav', header, out, p);
   [out, b] = region('foot', footer, out, p);
   out = out.replace(/(<!-- ap-close:start -->)[\s\S]*?(<!-- ap-close:end -->)/g, (_, a1, b1) => `${a1}\n${close(p)}\n${b1}`);
