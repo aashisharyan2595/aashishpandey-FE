@@ -51,6 +51,22 @@
     doc.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[download]'); if (a) dl(a); }, true);
   }
 
+  /* ---------- no scroll reveal inside the tool ----------
+     motion.js fades page sections in as they scroll into view. Inside a tool that hid fresh results
+     (time zones, estimate, invoice) until the visitor scrolled, so the tool itself is left alone:
+     anything after the hero and before "About this tool" gets an empty animation instead. */
+  var anim = Element.prototype.animate;
+  function inTool(el) {
+    var main = el.closest && el.closest('main'); if (!main || el.closest('.tl-hero')) return false;
+    var about = main.querySelector('section[aria-label="About this tool"]');
+    return !about || !!(about.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_PRECEDING);
+  }
+  if (anim) Element.prototype.animate = function (kf, o) {
+    var f = kf && kf[0];
+    if (f && f.opacity === 0 && f.transform === 'translateY(22px)' && inTool(this)) return anim.call(this, [], 0);
+    return anim.apply(this, arguments);
+  };
+
   /* ---------- Ctrl/Cmd + Enter ---------- */
   doc.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' || !(e.metaKey || e.ctrlKey) || e.defaultPrevented) return;

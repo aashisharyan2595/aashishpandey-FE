@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/assets/nav.css?v=30">
 <script src="/assets/nav.js?v=3" defer></script>
 <link rel="stylesheet" href="/assets/tools.css?v=1">
-<script src="/assets/tools.js?v=1" defer></script>
+<script src="/assets/tools.js?v=2" defer></script>
 <title>Project Estimate Calculator: Cost &amp; Timeline (PERT)</title>
 <meta name="description" content="Free project estimate calculator: enter best, likely and worst hours by task, set role rates and get a quote, safe range and timeline. Runs in your browser.">
 <link rel="canonical" href="https://aashishpandey.com/tools/project-estimate-calculator">
@@ -60,6 +60,11 @@
 .es-l{display:none;font-size:11.5px;color:#8e89a0}
 .es-exp{font:500 14px 'Geist Mono',ui-monospace,monospace;text-align:right;color:#f5b867}
 #tasks{display:flex;flex-direction:column;gap:8px}
+.es-dock{position:fixed;z-index:30;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;max-width:calc(100vw - 24px);box-sizing:border-box;padding:8px 8px 8px 18px;border-radius:999px;background:#f4efe6;color:#14122a;text-decoration:none;font:500 14px/1.2 'Geist',system-ui,sans-serif;box-shadow:0 14px 34px rgba(0,0,0,.45);white-space:nowrap}
+.es-dock[hidden]{display:none}.es-dock__k{color:#5d5870}.es-dock strong{font-size:16px;font-weight:600}
+.es-dock #dockWeeks{overflow:hidden;text-overflow:ellipsis;color:#3c3850}
+.es-dock__go{padding:8px 14px;border-radius:999px;background:#14122a;color:#f4efe6;flex:none}
+@media(max-width:600px){.es-role{display:grid;grid-template-columns:minmax(0,1fr) 92px 34px;gap:8px}.es-role .es-n{width:100%}.es-rn{max-width:none}.es-cur{display:none}}
 @media(max-width:900px){
  .es-th{display:none}
  .es-task{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.1fr);padding:12px;border-radius:14px;border:1px solid rgba(244,239,230,.08);gap:8px 10px}
@@ -117,7 +122,7 @@
         <div class="tl-field" style="flex:0 1 220px"><label for="cur">Currency</label><select id="cur" class="tl-select"></select></div>
       </div>
       <div class="tl-field no-print"><span class="tl-label">Start from a template</span><div class="tl-actions"><button type="button" class="tl-btn" data-tpl="site">Marketing website</button><button type="button" class="tl-btn" data-tpl="shop">Shopify store</button><button type="button" class="tl-btn" data-tpl="app">Web app MVP</button><button type="button" class="tl-btn" data-tpl="mobile">Mobile app</button><button type="button" class="tl-btn" data-tpl="blank">Blank</button></div></div>
-      <div class="tl-field"><span class="tl-label">Rates by role</span><div id="roles" style="display:flex;flex-direction:column;gap:8px"></div><div class="tl-actions no-print"><button id="addRole" class="tl-btn" type="button">Add a role</button></div></div>
+      <div class="tl-field"><span class="tl-label" id="rolesLbl">Rates by role</span><div id="roles" style="display:flex;flex-direction:column;gap:8px"></div><div class="tl-actions no-print"><button id="addRole" class="tl-btn" type="button">Add a role</button></div></div>
       <div class="tl-field"><span class="tl-label">Tasks, in hours</span>
         <div class="es-th" aria-hidden="true"><span>Task</span><span>Who</span><span>Best</span><span>Likely</span><span>Worst</span><span>Expected</span><span></span></div>
         <div id="tasks"></div><div class="tl-actions no-print"><button id="addTask" class="tl-btn" type="button">Add a task</button></div></div>
@@ -130,8 +135,9 @@
         <div class="tl-field"><label for="hpw">Hours a week each</label><input id="hpw" class="tl-input es-n" type="number" min="1" max="80" step="1" inputmode="numeric"></div>
         <div class="tl-field"><label for="conf">Confidence</label><select id="conf" class="tl-select"><option value="50">50% (expected)</option><option value="80" selected>80% (recommended)</option><option value="90">90%</option><option value="95">95%</option></select></div>
       </div>
-      <div id="out" style="display:flex;flex-direction:column;gap:18px;border-top:1px solid rgba(244,239,230,.1);padding-top:20px" aria-live="polite"></div>
+      <div id="out" tabindex="-1" style="display:flex;flex-direction:column;gap:18px;border-top:1px solid rgba(244,239,230,.1);padding-top:20px" aria-live="polite"></div>
       <div class="tl-actions no-print"><button id="copy" class="tl-btn tl-btn--p" type="button">Copy summary</button><button id="csv" class="tl-btn" type="button">Download CSV</button><button id="print" class="tl-btn" type="button">Print or save as PDF</button><button id="share" class="tl-btn" type="button">Copy link</button><button id="reset" class="tl-btn" type="button">Start again</button></div>
+      <a href="#out" id="dock" class="es-dock no-print" hidden><span class="es-dock__k">Quote</span><strong id="dockTotal"></strong><span id="dockWeeks"></span><span class="es-dock__go">See it</span></a>
       <p class="tl-muted tl-small">An estimate is a forecast, not a promise. Review the tasks and rates before you send a quote.</p>
     </section>
   <section aria-label="About this tool" style="font-family:Geist,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:clamp(72px,9vw,128px) 0 0;display:flex;flex-direction:column;gap:clamp(72px,9vw,128px);border-top:1px solid rgba(244,239,230,.1);">
@@ -260,6 +266,7 @@ function drawRoles() {
     var del = st.roles.length > 1 ? h('button', { type: 'button', class: 'tz-mini', 'aria-label': 'Remove role ' + r.name, onclick: function () { var first = st.roles[idx === 0 ? 1 : 0].id; st.tasks.forEach(function (t) { if (t.role === r.id) t.role = first; }); st.roles.splice(idx, 1); drawRoles(); drawTasks(); update(); } }, '×') : null;
     rolesEl.appendChild(h('div', { class: 'es-role' }, nm, h('span', { class: 'es-cur', text: st.cur + ' / hour' }), rt, del));
   });
+  $('#rolesLbl').textContent = 'Rates by role, ' + st.cur + ' an hour';
   $('#addRole').hidden = st.roles.length >= 8;
 }
 function refreshRoleOptions() {
@@ -293,6 +300,7 @@ function update() {
     h('div', {}, h('span', { class: 'tl-label', text: 'Quote at ' + st.conf + '% confidence' }), h('div', { class: 'es-total', text: money(c.total) })),
     h('div', {}, h('span', { class: 'tl-label', text: 'Timeline' }), h('div', { class: 'es-total es-total--s', text: weeksText(c.weeks) }), h('span', { class: 'tl-muted tl-small', text: st.ppl + ' ' + (st.ppl === 1 ? 'person' : 'people') + ', ' + st.hpw + ' productive hours each a week' })));
   outEl.appendChild(big);
+  $('#dockTotal').textContent = money(c.total); $('#dockWeeks').textContent = weeksText(c.weeks).replace(/ \(.*\)/, '');
   var range = h('div', { class: 'es-range' });
   [['Best case', c.totO], ['Expected', c.totE], ['Safe (' + st.conf + '%)', c.hoursConf], ['Worst case', c.totP]].forEach(function (x) { range.appendChild(h('div', {}, h('span', { class: 'tl-muted', text: x[0] }), h('strong', { text: hrs(x[1]) }))); });
   outEl.appendChild(range);
@@ -355,6 +363,17 @@ function init() {
   $('#csv').addEventListener('click', function () { var u = URL.createObjectURL(new Blob([csv()], { type: 'text/csv' })), a = h('a', { href: u, download: (st.name || 'estimate').replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() + '.csv' }); document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 3000); });
   $('#share').addEventListener('click', function (e) { copy(shareUrl(), e.currentTarget, 'Copy link'); });
   $('#print').addEventListener('click', function () { window.print(); });
+  /* quote dock: the total stays in reach while editing a long task list */
+  (function () {
+    var dock = $('#dock'), panel = $('.tl-panel');
+    document.body.appendChild(dock);
+    function paint() {
+      var p = panel.getBoundingClientRect(), o = outEl.getBoundingClientRect(), vh = innerHeight;
+      dock.hidden = !(p.top < vh * 0.25 && p.bottom > vh * 0.5 && o.top > vh - 40);
+    }
+    addEventListener('scroll', paint, { passive: true }); addEventListener('resize', paint); paint();
+    dock.addEventListener('click', function (e) { e.preventDefault(); outEl.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); outEl.focus({ preventScroll: true }); });
+  })();
   $('#reset').addEventListener('click', function () { if (!window.confirm('Clear everything and start again?')) return; try { localStorage.removeItem('apEstimate'); } catch (e) {} history.replaceState(null, '', location.pathname); location.reload(); });
 }
 load();

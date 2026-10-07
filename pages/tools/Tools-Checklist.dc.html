@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/assets/nav.css?v=30">
 <script src="/assets/nav.js?v=3" defer></script>
 <link rel="stylesheet" href="/assets/tools.css?v=1">
-<script src="/assets/tools.js?v=1" defer></script>
+<script src="/assets/tools.js?v=2" defer></script>
 <title>Website Launch Checklist: Free, Editable Go-Live Templates</title>
 <meta name="description" content="Free launch checklists for PMs: 58 website go-live checks, plus Shopify, campaign, product and event templates. Edit online and export to Markdown.">
 <link rel="canonical" href="https://aashishpandey.com/tools/website-launch-checklist">
@@ -102,6 +102,7 @@ a:hover{color:#f4efe6}
 ::selection{background:#7ff3e1;color:#0b1030}
 :focus-visible{outline:2px solid #7ff3e1!important;outline-offset:3px!important}
 input::placeholder{color:#7d7890}
+@media(max-width:600px){.ck-grip{display:none!important}.ck-row{grid-template-columns:24px minmax(0,1fr)!important;gap:8px 12px!important;padding-left:14px!important}.ck-tag{grid-column:2;justify-self:start}}
 </style>
 </helmet>
 <div id="top" style="min-height:100vh;background:#070916;color:#f4efe6;font-family:'Geist',system-ui,sans-serif;overflow-x:clip;display:flex;flex-direction:column;">
@@ -192,8 +193,8 @@ input::placeholder{color:#7d7890}
         <div onDragOver="{{ c.onDragOver }}" onDrop="{{ c.onDrop }}" style="display:flex;flex-direction:column;border-radius:20px;overflow:hidden;border:1px solid {{ c.dropBorder }};background:{{ c.dropBg }};transition:border-color .15s,background .15s;">
           <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="4">
             <div draggable="true" onDragStart="{{ it.onDragStart }}" onDragEnd="{{ it.onDragEnd }}" onDragOver="{{ it.onDragOver }}" onDrop="{{ it.onDrop }}" style="display:flex;align-items:flex-start;border-bottom:1px solid rgba(244,239,230,.07);box-shadow:{{ it.dropShadow }};opacity:{{ it.opacity }};" style-hover="background:rgba(244,239,230,.04);">
-            <span aria-hidden="true" title="Drag to move" style="flex-shrink:0;width:18px;padding:17px 0 0 8px;color:#7d7890;cursor:grab;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg></span>
-            <button type="button" role="checkbox" aria-checked="{{ it.aria }}" onClick="{{ it.toggle }}" style="flex:1;min-width:0;display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:14px;align-items:start;padding:15px 8px 15px 8px;border:none;background:none;color:inherit;text-align:left;font-family:inherit;cursor:pointer;">
+            <span class="ck-grip" aria-hidden="true" title="Drag to move" style="flex-shrink:0;width:18px;padding:17px 0 0 8px;color:#7d7890;cursor:grab;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg></span>
+            <button class="ck-row" type="button" role="checkbox" aria-checked="{{ it.aria }}" onClick="{{ it.toggle }}" style="flex:1;min-width:0;display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:14px;align-items:start;padding:15px 8px 15px 8px;border:none;background:none;color:inherit;text-align:left;font-family:inherit;cursor:pointer;">
               <span style="width:22px;height:22px;margin-top:1px;border-radius:7px;border:1.5px solid {{ it.boxBorder }};background:{{ it.boxBg }};display:flex;align-items:center;justify-content:center;color:#070916;transition:background .15s,border-color .15s;">
                 <sc-if value="{{ it.done }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
               </span>
@@ -201,7 +202,7 @@ input::placeholder{color:#7d7890}
                 <span style="font-size:15.5px;font-weight:500;line-height:1.4;color:{{ it.titleColor }};text-decoration:{{ it.deco }};text-decoration-color:rgba(244,239,230,.35);">{{ it.title }}</span>
                 <span style="font-size:13.5px;line-height:1.55;color:#8e89a0;text-wrap:pretty;">{{ it.note }}</span>
               </span>
-              <span style="padding:3px 8px;border-radius:99px;background:{{ it.tagBg }};color:{{ it.tagFg }};font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;">{{ it.tag }}</span>
+              <span class="ck-tag" style="padding:3px 8px;border-radius:99px;background:{{ it.tagBg }};color:{{ it.tagFg }};font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;">{{ it.tag }}</span>
             </button>
             <label title="Move to another section" style="flex-shrink:0;position:relative;width:32px;height:32px;margin:11px 0 0 0;border-radius:9px;color:#8e89a0;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(244,239,230,.08);color:#f4efe6;">
               <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="m16 3 4 4-4 4"></path><path d="M20 7H4"></path><path d="m8 21-4-4 4-4"></path><path d="M4 17h16"></path></svg>
