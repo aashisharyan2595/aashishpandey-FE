@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/assets/nav.css?v=33">
 <script src="/assets/nav.js?v=3" defer></script>
-<link rel="stylesheet" href="/assets/tools.css?v=2">
+<link rel="stylesheet" href="/assets/tools.css?v=3">
 <script src="/assets/tools.js?v=2" defer></script>
 <title>Exam Photo &amp; Signature Resizer: Exact KB and Pixels</title>
 <meta name="description" content="Free exam photo and signature resizer: crop to exact pixels or mm and compress to a size like 20–50 KB. Runs in your browser, nothing is uploaded.">
@@ -73,6 +73,7 @@
 .ex-ruler--l span{writing-mode:vertical-rl;transform:rotate(180deg);padding:6px 2px}
 .ex-stage{position:relative;border-radius:6px;overflow:hidden;line-height:0;cursor:grab;touch-action:none;box-shadow:0 0 0 2px #f5b867,0 18px 50px rgba(0,0,0,.45);background:repeating-conic-gradient(#20264d 0 25%,#171c3f 0 50%) 0 0/16px 16px;max-width:100%}
 .ex-stage:active{cursor:grabbing}
+@media(max-width:900px){.ex-stage canvas{max-height:46vh;width:auto}}
 .ex-stage canvas{display:block;max-width:100%;height:auto}
 .ex-stage__tip{position:absolute;left:50%;top:10px;transform:translateX(-50%);line-height:1;font:500 12px 'Geist',system-ui,sans-serif;color:#f4efe6;background:rgba(7,9,22,.72);padding:6px 10px;border-radius:99px;pointer-events:none;transition:opacity .4s}
 .ex-stage.is-moved .ex-stage__tip{opacity:0}
@@ -82,7 +83,7 @@
 .ex-right{display:flex;flex-direction:column;gap:18px;min-width:0}
 .ex-block{display:flex;flex-direction:column;gap:10px;min-width:0}
 .ex-chips{display:flex;flex-wrap:wrap;gap:8px}
-.ex-chip{height:36px;padding:0 13px;border-radius:99px;border:1px solid rgba(244,239,230,.16);background:none;color:#d8d2e2;font:500 13px 'Geist',system-ui,sans-serif;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.ex-chip{height:36px;min-height:36px;padding:0 13px;border-radius:99px;border:1px solid rgba(244,239,230,.16);background:none;color:#d8d2e2;font:500 13px 'Geist',system-ui,sans-serif;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
 .ex-chip:hover{border-color:#f5b867;color:#f4efe6}
 .ex-chip[aria-pressed=true]{background:rgba(245,184,103,.14);border-color:#f5b867;color:#f5b867}
 .ex-fields{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px 14px}
@@ -92,8 +93,18 @@
 .ex-fields .tl-input{font-family:'Geist',system-ui,sans-serif;font-size:15px;height:46px;padding:0 14px}
 .ex-fields select.tl-input{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#aaa4b8 50%),linear-gradient(135deg,#aaa4b8 50%,transparent 50%);background-position:calc(100% - 20px) 20px,calc(100% - 14px) 20px;background-size:6px 6px;background-repeat:no-repeat;padding-right:34px}
 .ex-opts{gap:12px}
+@media(pointer:coarse){.ex-chip,.ex-modes button,.ex-zoom .tl-btn{height:44px}}
 .ex-res{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:clamp(18px,3vw,32px);align-items:center;padding:clamp(16px,2.4vw,24px);border-radius:20px;border:1px solid rgba(244,239,230,.12);background:rgba(7,9,22,.5)}
 @media(max-width:700px){.ex-res{grid-template-columns:1fr;justify-items:center}.ex-res__body{width:100%}}
+/* the finished image sits at the top of the settings column, so the verdict and Download button are in view as soon as a photo is in */
+.ex-right .ex-res{grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:18px;align-items:start;padding:18px;border-color:rgba(127,243,225,.28)}
+.ex-right .ex-res__pic{max-width:150px}.ex-right .ex-res__pic canvas{max-height:200px}
+.ex-right .ex-verdict{font-size:19px}
+.ex-right .ex-gauge{padding-top:26px}
+.ex-right .ex-res__body{gap:12px}
+.ex-right .ex-facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px}
+.ex-right .ex-facts dd{font-size:15.5px}
+@media(max-width:700px){.ex-right .ex-res{grid-template-columns:1fr;justify-items:center}}
 .ex-res__pic{line-height:0;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px rgba(244,239,230,.2),0 14px 40px rgba(0,0,0,.4);background:#fff;max-width:240px}
 .ex-res__pic canvas{display:block;max-width:100%;max-height:300px;width:auto;height:auto}
 .ex-res__body{display:flex;flex-direction:column;gap:16px;min-width:0}
@@ -151,6 +162,16 @@
           </div>
         </div>
         <div class="ex-right">
+          <div id="exRes" class="ex-res" hidden aria-live="polite" data-tl-result="See your finished image">
+            <div class="ex-res__pic"><canvas id="exOut" aria-label="Your finished image"></canvas></div>
+            <div class="ex-res__body">
+              <div class="ex-verdict" id="exVerdict"></div>
+              <div class="ex-gauge" id="exGauge" aria-hidden="true"><div class="ex-gauge__track"><i class="ex-gauge__win" id="exWin"></i><i class="ex-gauge__mark" id="exMark"></i></div><div class="ex-gauge__scale"><span id="exG0">0</span><span id="exG1"></span><span id="exG2"></span></div></div>
+              <dl class="ex-facts" id="exFacts"></dl>
+              <div class="tl-actions"><button id="exDl" class="tl-btn tl-btn--p" type="button">Download image</button></div>
+              <p class="tl-small tl-muted" id="exNote"></p>
+            </div>
+          </div>
           <div class="ex-block"><span class="tl-label">Common sizes</span><div id="exChips" class="ex-chips" role="group" aria-label="Common sizes"></div><p class="tl-small tl-muted">Exam sizes are from recent notices (checked October 2026). Rules change, so always use the numbers in your own notice.</p></div>
           <div class="ex-block ex-fields">
             <div class="tl-field"><label for="exW">Width</label><input id="exW" class="tl-input" type="number" inputmode="decimal" min="1" step="any" placeholder="Auto"></div>
@@ -166,16 +187,6 @@
             <label class="tl-check" id="exCleanL" hidden><input id="exClean" type="checkbox" checked> Make the paper white and the ink darker</label>
             <label class="tl-check" id="exExactL"><input id="exExact" type="checkbox" checked> Keep the exact size (never shrink pixels to fit the weight)</label>
           </div>
-        </div>
-      </div>
-      <div id="exRes" class="ex-res" hidden aria-live="polite" data-tl-result="See your finished image">
-        <div class="ex-res__pic"><canvas id="exOut" aria-label="Your finished image"></canvas></div>
-        <div class="ex-res__body">
-          <div class="ex-verdict" id="exVerdict"></div>
-          <div class="ex-gauge" id="exGauge" aria-hidden="true"><div class="ex-gauge__track"><i class="ex-gauge__win" id="exWin"></i><i class="ex-gauge__mark" id="exMark"></i></div><div class="ex-gauge__scale"><span id="exG0">0</span><span id="exG1"></span><span id="exG2"></span></div></div>
-          <dl class="ex-facts" id="exFacts"></dl>
-          <div class="tl-actions"><button id="exDl" class="tl-btn tl-btn--p" type="button">Download image</button></div>
-          <p class="tl-small tl-muted" id="exNote"></p>
         </div>
       </div>
       <p id="exLive" class="sr" aria-live="polite"></p>
