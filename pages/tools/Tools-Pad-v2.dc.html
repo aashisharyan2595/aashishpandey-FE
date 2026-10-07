@@ -123,11 +123,14 @@ html[data-theme=light] *{scrollbar-color:rgba(21,19,28,.18) transparent}
 .pd-tb button{flex:none;min-width:34px;height:34px;padding:0 8px;border:none;border-radius:9px;background:none;color:var(--soft);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:600 13px 'Geist',system-ui,sans-serif;transition:background .15s,color .15s}
 .pd-tb button:hover{background:var(--chip);color:var(--ink)}
 .pd-tb button:active{transform:translateY(1px)}
+.pd-tb button[aria-pressed=true]{color:var(--acc);background:rgba(245,184,103,.14)}
 .pd-tb i{flex:none;width:1px;height:18px;background:var(--line);margin:0 6px}
 .pd-tb em{font-family:'Instrument Serif',serif;font-style:italic;font-size:17px;font-weight:400}
 .pd-tb s{text-decoration-thickness:1.5px}
+.pd-sp{flex:1}
 .pd-hint{margin-left:auto;flex:none;padding-left:14px;font:500 10.5px 'Geist Mono',monospace;letter-spacing:.06em;color:var(--soft);white-space:nowrap}
-@media(max-width:760px){.pd-hint{display:none}}
+@media(max-width:760px){.pd-sp{flex:1}
+.pd-hint{display:none}}
 .pd-kbd{font:500 10.5px 'Geist Mono',monospace;padding:2px 6px;border-radius:6px;border:1px solid var(--line);color:var(--soft);margin-left:auto}
 .pd-note{position:relative;transition:background .15s}
 .pd-dot{width:6px;height:6px;border-radius:50%}
@@ -212,6 +215,7 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
         <span style="padding:6px 8px;font-size:11.5px;font-weight:600;color:var(--soft);">{{ listLabel }}</span>
         <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:2px;padding-bottom:12px;">
           <sc-for list="{{ notesList }}" as="n" hint-placeholder-count="3">
+            <sc-if value="{{ n.hasHead }}" hint-placeholder-val="{{ false }}"><span style="padding:12px 8px 4px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);">{{ n.head }}</span></sc-if>
             <sc-if value="{{ n.active }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;align-items:flex-start;gap:4px;padding:11px 6px 11px 12px;border-radius:12px;background:var(--raise);box-shadow:var(--shadow);border:1px solid var(--line);border-left:3px solid var(--acc);">
                 <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;">
@@ -247,7 +251,7 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
           </div>
         </div>
         <div style="flex:1;overflow-y:auto;">
-          <div style="max-width:720px;margin:0 auto;padding:clamp(32px,6vw,80px) clamp(20px,4vw,40px) 110px;">{{ sharedHtml }}</div>
+          <div style="max-width:{{ prevMax }};margin:0 auto;padding:clamp(24px,4vw,56px) clamp(18px,3.4vw,56px) 110px;">{{ sharedHtml }}</div>
         </div>
       </sc-if>
       <sc-if value="{{ showWrite }}" hint-placeholder-val="{{ true }}">
@@ -256,24 +260,25 @@ textarea::placeholder,input::placeholder{color:var(--soft);opacity:.75}
             <sc-if value="{{ b.sep }}" hint-placeholder-val="{{ false }}"><i></i></sc-if>
             <sc-if value="{{ b.btn }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ b.run }}" title="{{ b.hint }}" aria-label="{{ b.label }}"><span>{{ b.t }}</span></button></sc-if>
           </sc-for>
-          <span class="pd-hint">Markdown shortcuts: Ctrl B, I, K</span>
+          <span class="pd-sp"></span>
+          <sc-for list="{{ viewTools }}" as="v" hint-placeholder-count="3"><button type="button" onClick="{{ v.run }}" title="{{ v.hint }}" aria-label="{{ v.hint }}" aria-pressed="{{ v.on }}"><span>{{ v.t }}</span></button></sc-for>
         </div>
       </sc-if>
       <sc-if value="{{ showWrite }}" hint-placeholder-val="{{ true }}">
         <div style="flex:1;display:flex;min-height:0;">
           <div style="flex:1;min-width:0;display:flex;min-height:0;">
-            <textarea ref="{{ taRef }}" value="{{ text }}" onChange="{{ onText }}" placeholder="Start writing. # makes a heading, - a list, [ ] a task." spellcheck="true" aria-label="Note text" style="flex:1;width:100%;max-width:780px;margin:0 auto;box-sizing:border-box;padding:clamp(24px,4vw,56px) clamp(20px,4vw,40px) 120px;border:none;outline:none;resize:none;background:transparent;color:var(--ink);font-family:'Geist',system-ui,sans-serif;font-size:17.5px;line-height:1.85;caret-color:var(--acc);"></textarea>
+            <textarea ref="{{ taRef }}" value="{{ text }}" onChange="{{ onText }}" placeholder="Start writing. # makes a heading, - a list, [ ] a task." spellcheck="true" aria-label="Note text" style="flex:1;width:100%;max-width:{{ colMax }};margin:0 auto;box-sizing:border-box;padding:clamp(20px,3vw,40px) clamp(18px,3.4vw,56px) 120px;border:none;outline:none;resize:none;background:transparent;color:var(--ink);font-family:'Geist',system-ui,sans-serif;font-size:{{ fontPx }};line-height:1.8;caret-color:var(--acc);"></textarea>
           </div>
           <sc-if value="{{ isSplit }}" hint-placeholder-val="{{ false }}">
             <div style="flex:1;min-width:0;overflow-y:auto;border-left:1px solid var(--line);background:var(--bg);">
-              <div style="max-width:720px;margin:0 auto;padding:clamp(32px,6vw,80px) clamp(20px,4vw,40px) 110px;">{{ previewHtml }}</div>
+              <div style="max-width:{{ prevMax }};margin:0 auto;padding:clamp(24px,4vw,56px) clamp(18px,3.4vw,56px) 110px;">{{ previewHtml }}</div>
             </div>
           </sc-if>
         </div>
       </sc-if>
       <sc-if value="{{ showPreviewOnly }}" hint-placeholder-val="{{ false }}">
         <div style="flex:1;overflow-y:auto;">
-          <div style="max-width:720px;margin:0 auto;padding:clamp(32px,6vw,80px) clamp(20px,4vw,40px) 110px;">{{ previewHtml }}</div>
+          <div style="max-width:{{ prevMax }};margin:0 auto;padding:clamp(24px,4vw,56px) clamp(18px,3.4vw,56px) 110px;">{{ previewHtml }}</div>
         </div>
       </sc-if>
       <div style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:99px;background:var(--raise);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.28);font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.04em;color:var(--soft);white-space:nowrap;opacity:{{ statusOpacity }};transition:opacity .3s;" style-hover="opacity:1;">
@@ -367,7 +372,7 @@ class Component extends DCLogic {
       theme: (saved && saved.theme) || (dt === 'system' ? (sysDark ? 'dark' : 'light') : dt),
       view: (saved && saved.view) || (this.props.defaultView ?? 'write'),
       sidebar: this.props.showSidebar ?? true, focus: false, exportOpen: false,
-      saving: false, toast: '', shared: null, q: ''
+      saving: false, toast: '', shared: null, q: '', wide: saved && typeof saved.wide === 'boolean' ? saved.wide : true, fs: saved && saved.fs ? saved.fs : 17
     };
     this.taRef = React.createRef();
   }
@@ -413,8 +418,8 @@ class Component extends DCLogic {
     try { this.setState({ shared: await decodeNote(m[1]) }); } catch (e) { this.flash('That share link is broken'); }
   }
   persist() {
-    const { notes, activeId, theme, view } = this.state;
-    try { localStorage.setItem(KEY, JSON.stringify({ notes, activeId, theme, view })); } catch (e) { this.flash('Storage is full'); }
+    const { notes, activeId, theme, view, wide, fs } = this.state;
+    try { localStorage.setItem(KEY, JSON.stringify({ notes, activeId, theme, view, wide, fs })); } catch (e) { this.flash('Storage is full'); }
     this.setState({ saving: false });
   }
   queueSave() { this.setState({ saving: true }); clearTimeout(this.saveT); this.saveT = setTimeout(() => this.persist(), 400); }
@@ -478,12 +483,14 @@ class Component extends DCLogic {
     const shared = s.shared !== null, chrome = !s.focus;
     const html = (h) => React.createElement('div', { dangerouslySetInnerHTML: { __html: h } });
     const q = s.q.trim().toLowerCase();
-    const notesList = [...s.notes].filter(n => !q || n.text.toLowerCase().includes(q)).sort((x, y) => y.updated - x.updated).map(n => ({
+    const grp = ts => { const d0 = new Date(); d0.setHours(0, 0, 0, 0); if (ts >= d0.getTime()) return 'Today'; if (ts >= d0.getTime() - 864e5) return 'Yesterday'; if (ts >= d0.getTime() - 6 * 864e5) return 'Previous 7 days'; return 'Earlier'; };
+    let lastG = null;
+    const notesList = [...s.notes].filter(n => !q || n.text.toLowerCase().includes(q)).sort((x, y) => y.updated - x.updated).map(n => { const g = grp(n.updated), hasHead = g !== lastG; lastG = g; return ({ hasHead, head: g,
       title: titleOf(n.text), excerpt: excerptOf(n.text), meta: ago(n.updated) + ' · ' + wordsOf(n.text) + ' words',
       active: n.id === s.activeId && !shared, inactive: !(n.id === s.activeId && !shared),
       select: () => { if (shared) this.closeShared(); this.setState({ activeId: n.id }, () => this.queueSave()); },
       remove: () => this.removeNote(n.id)
-    }));
+    }); });
     const body = shared ? s.shared : text, bw = shared ? wordsOf(s.shared) : w;
     return {
       chrome, focus: s.focus, sidebarShown: s.sidebar && chrome, isDark: s.theme === 'dark', isLight: s.theme !== 'dark',
@@ -501,6 +508,10 @@ class Component extends DCLogic {
       showWrite: !shared && s.view !== 'preview', isSplit: s.view === 'split', showPreviewOnly: !shared && s.view === 'preview',
       previewHtml: html(md(text)), taRef: this.taRef, text, onText: this.onText,
       words: bw, chars: body.length.toLocaleString(), readTime: Math.max(1, Math.round(bw / 230)) + ' min read',
+      colMax: s.wide ? 'none' : '820px', prevMax: s.wide ? '980px' : '720px', fontPx: s.fs + 'px',
+      viewTools: [{ t: s.wide ? 'Full' : 'Narrow', hint: s.wide ? 'Full width. Switch to a narrow column' : 'Narrow column. Switch to full width', on: s.wide, run: () => this.setState(x => ({ wide: !x.wide }), () => this.queueSave()) },
+        { t: 'A−', hint: 'Smaller text', on: false, run: () => this.setState(x => ({ fs: Math.max(13, x.fs - 1) }), () => this.queueSave()) },
+        { t: 'A+', hint: 'Larger text', on: false, run: () => this.setState(x => ({ fs: Math.min(26, x.fs + 1) }), () => this.queueSave()) }],
       saveLabel: shared ? 'Read-only' : s.saving ? 'Saving…' : 'Saved',
       dotColor: s.saving ? '#f5b867' : '#7ff3e1', dotAnim: s.saving ? 'pdp .9s infinite' : 'none',
       tools: [['b', 'B', 'Bold', 'Bold (Ctrl B)'], ['i', '<i>', 'Italic', 'Italic (Ctrl I)'], ['s', 'S', 'Strikethrough', 'Strikethrough'], '|', ['h1', 'H1', 'Heading 1', 'Heading 1'], ['h2', 'H2', 'Heading 2', 'Heading 2'], '|', ['ul', '• List', 'Bulleted list', 'Bulleted list'], ['task', '☐ Task', 'Task list', 'Task list'], ['q', '“ Quote', 'Quote', 'Quote'], '|', ['c', '</>', 'Code', 'Inline code'], ['k', 'Link', 'Link', 'Link (Ctrl K)'], ['hr', 'Line', 'Divider', 'Divider']].map(x => x === '|' ? { sep: true, btn: false } : { sep: false, btn: true, t: x[1] === '<i>' ? 'I' : x[1], label: x[2], hint: x[3], run: () => this.fmt(x[0]) }),
