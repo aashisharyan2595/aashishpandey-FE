@@ -234,9 +234,9 @@ html:has(.ap-ms[open]){overflow:hidden}
 .ap-foot__links{display:flex;flex-direction:column;gap:11px}
 .ap-foot__links a{font-size:14px;line-height:1.35;overflow-wrap:anywhere}
 .ap-foot__links a[href^="mailto:"]{overflow-wrap:normal;white-space:nowrap}
-/* the tools: one band across the three columns, in reading order down each column */
-.ap-foot__col--tools{grid-column:1/-1;padding-top:32px;border-top:1px solid rgba(244,239,230,.09)}
-.ap-foot__tools{columns:3;column-gap:clamp(24px,3vw,40px)}
+/* the tools: one band across the full footer, in reading order down each column */
+.ap-foot__col--tools{padding-top:32px;border-top:1px solid rgba(244,239,230,.09)}
+.ap-foot__tools{columns:5;column-gap:clamp(24px,3vw,40px)}
 .ap-foot__tools a{display:block;break-inside:avoid;margin-bottom:11px;font-size:14px;line-height:1.35}
 .ap-foot .ap-foot__all{align-self:flex-start;margin-top:6px;color:#f4efe6;font-weight:500}
 .ap-foot .ap-foot__all::after{content:" \2192";color:#f5b867}
@@ -267,6 +267,7 @@ html:has(.ap-ms[open]){overflow:hidden}
 .ap-foot__top{grid-template-columns:minmax(0,1fr)}
 .ap-foot__brand{max-width:440px}
 }
+@media(max-width:1020px){.ap-foot__tools{columns:3}}
 @media(max-width:800px){.ap-foot__tools{columns:2}}
 /* phones: each list folds up, as on large retail and SaaS sites */
 @media(max-width:620px){
