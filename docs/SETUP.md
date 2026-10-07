@@ -5,7 +5,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 ## 1. What the site is made of
 
 - **Static pages.** Every page is a `.dc.html` file under `pages/<group>/` (`site`, `services`, `work`, `tools`, `legal`). There is no framework and no bundler. A small runtime (`assets/js/support.js`) turns each file into the page in the browser.
-- **The ride.** `Portfolio.dc.html` loads a 3D world (`assets/js/world-v7.js`, three.js from unpkg) and generated audio (`assets/js/audio-v3.js`).
+- **The ride.** `Portfolio.dc.html` loads a 3D world (`assets/js/world-v7.js`, three.js 0.184 self-hosted in `assets/vendor/three-0.184.0/`) and generated audio (`assets/js/audio-v3.js`).
 - **Clean URLs.** `vercel.json` maps paths like `/tools/pad` to the real file (`Tools-Pad-v2.dc.html`).
 - **One tiny backend.** `api/shorten.js` and `api/s/[code].js` power the URL shortener. They are Node functions and need a Redis database.
 - **Build step.** `node scripts/prerender.cjs && node scripts/externalize.cjs`. The first writes a static copy of each page's content into the HTML. The second moves each dynamic page's template into a hashed file under `tpl/`, so the served HTML has real content and no `{{ }}` template code. `tpl/` is generated at deploy and is git-ignored. Source files keep their inline templates, so the design tool and local previews still work.
@@ -42,7 +42,7 @@ How to rebuild aashishpandey.com from this repo, and what to change if you switc
 | Domain registrar and DNS | `aashishpandey.com` | Paid yearly |
 | Upstash Redis | Short-link storage | Free plan |
 | Google Analytics 4 | Traffic. ID is in `assets/js/site.js` (`GA_ID`) | Free |
-| unpkg, Google Fonts, simpleicons | Libraries, fonts and logos loaded by the pages | Free |
+| unpkg, Google Fonts, simpleicons | React runtime, fonts and logos loaded by the pages (three.js is self-hosted) | Free |
 | Email (`hello@aashishpandey.com`) | Set up separately from the site. It lives in the DNS MX records, so keep those when you change DNS | Varies |
 
 ## 3. Deploy from scratch on Vercel

@@ -107,7 +107,7 @@ flowchart LR
     F --> R[(Upstash Redis)]
     F --> M[Resend email]
     F --> T[Cloudflare Turnstile]
-    B -.->|three.js| U[unpkg CDN]
+    B -.->|React runtime| U[unpkg CDN]
     B -.->|WebRTC| B2[Other browsers]
     B -.->|opt-in only| A[GA4 and Clarity]
 ```
@@ -119,7 +119,7 @@ flowchart LR
 
 ## The 3D ride
 
-- **Engine.** `assets/js/world-v7.js` (Three.js 0.184, loaded from unpkg) exports `createWorld(host, opts)`. It was generated from earlier versions and has since been edited in place; check `git log -- assets/js/world-v7.js` before assuming how it was produced.
+- **Engine.** `assets/js/world-v7.js` (Three.js 0.184, self-hosted in `assets/vendor/three-0.184.0/`) exports `createWorld(host, opts)`. It was generated from earlier versions and has since been edited in place; check `git log -- assets/js/world-v7.js` before assuming how it was produced.
 - **Route.** A fixed road with nine numbered stops. Scrolling advances the bike along it. Explore mode lets you leave the road and drive anywhere on a map of about 1.85 by 2.7 km: jungle, savanna, blossom valley, a snow peak with an ice cave, and hidden stamps to find.
 - **Physics.** Lateral grip limits turning by surface (road, dirt, sand, ice, reduced by rain and snow), braking is grip-limited, lean follows lateral acceleration through a spring-damper, and the front end steers on its own axis. The speedometer shows true speed x 6 by design.
 - **Rendering.** Real bloom, height fog, depth-of-field blur, adaptive quality tiers that move on frame time, tiled lazy loading (160 m tiles), instancing and distance culling. On phones: no MSAA, a lower starting tier, and a shader warm-up before the first frame.

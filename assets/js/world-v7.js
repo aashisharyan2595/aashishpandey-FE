@@ -1,4 +1,4 @@
-import * as THREE from 'https://unpkg.com/three@0.184.0/build/three.module.js';
+import * as THREE from '/assets/vendor/three-0.184.0/three.module.min.js';
 
 const L = 1575, Z0 = 20, NSTOP = 9;
 export const zAt = t => Z0 - t * L;
