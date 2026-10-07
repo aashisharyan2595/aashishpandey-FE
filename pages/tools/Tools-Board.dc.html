@@ -7,7 +7,7 @@
 <script src="/assets/nav.js?v=3" defer></script>
 <link rel="stylesheet" href="/assets/tools.css?v=1">
 <script src="/assets/tools.js?v=2" defer></script>
-<link rel="stylesheet" href="/assets/tool-app.css?v=3">
+<link rel="stylesheet" href="/assets/tool-app.css?v=4">
 <title>Free Project Management Tool: Kanban, Gantt &amp; Calendar</title>
 <meta name="description" content="Free project management tool with Kanban, list, Gantt timeline, calendar and dashboard views. Assign owners, set dependencies, track progress. Private, no sign-up.">
 <link rel="canonical" href="https://aashishpandey.com/tools/project-management-tool">
@@ -324,7 +324,7 @@ const TPL = {
 };
 
 /* ============================== state ============================== */
-let S = { v: 2, theme: 'dark', view: 'board', side: true, activeId: null, boards: [] };
+let S = { v: 2, theme: 'dark', view: 'board', side: false, activeId: null, boards: [] };
 let F = { q: '', who: '', pri: '', label: '', due: '', hideDone: false };
 let RO = false, shared = null;
 const newBoard = o => Object.assign({ id: uid(), name: 'Untitled board', cols: [], cards: [], log: [], group: 'none', zoom: 'week', created: Date.now(), updated: Date.now() }, o || {});
@@ -344,14 +344,13 @@ function clean(o) {
 }
 function load() {
   let raw = null; try { raw = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
-  if (raw && Array.isArray(raw.boards) && raw.boards.length) { S.boards = raw.boards.slice(0, 60).map(clean); S.theme = raw.theme === 'light' ? 'light' : 'dark'; S.view = ['board', 'list', 'time', 'cal', 'dash'].includes(raw.view) ? raw.view : 'board'; S.activeId = raw.activeId; S.side = raw.side !== false; }
+  if (raw && Array.isArray(raw.boards) && raw.boards.length) { S.boards = raw.boards.slice(0, 60).map(clean); S.theme = raw.theme === 'light' ? 'light' : 'dark'; S.view = ['board', 'list', 'time', 'cal', 'dash'].includes(raw.view) ? raw.view : 'board'; S.activeId = raw.activeId; S.side = raw.side === true; }
   else {
     let old = null; try { old = JSON.parse(localStorage.getItem(OLD) || 'null'); } catch (e) {}
     if (old && Array.isArray(old.cols) && Array.isArray(old.cards)) { S.boards = [clean(old)]; if (old.view === 'time' || old.view === 'list') S.view = old.view; }
     else S.boards = [clean(TPL.site.build())];
   }
   if (!S.boards.some(b => b.id === S.activeId)) S.activeId = S.boards[0].id;
-  if (window.innerWidth < 860) S.side = false;
 }
 let saveT, warned = false;
 function save() { if (RO) return; clearTimeout(saveT); saveT = setTimeout(flush, 300); }

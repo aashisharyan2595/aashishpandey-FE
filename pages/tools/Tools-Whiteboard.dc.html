@@ -7,7 +7,7 @@
 <script src="/assets/nav.js?v=3" defer></script>
 <link rel="stylesheet" href="/assets/tools.css?v=1">
 <script src="/assets/tools.js?v=2" defer></script>
-<link rel="stylesheet" href="/assets/tool-app.css?v=3">
+<link rel="stylesheet" href="/assets/tool-app.css?v=4">
 <title>Free Online Whiteboard: Diagrams, Mind Maps &amp; Sticky Notes</title>
 <meta name="description" content="Free online whiteboard with an endless canvas: shapes with connectors, sticky notes, frames, pen, text and images. Templates, present mode, SVG and PNG export. No sign-up.">
 <link rel="canonical" href="https://aashishpandey.com/tools/online-whiteboard">
@@ -173,7 +173,7 @@ const SHAPEY = new Set(['rect', 'ellipse', 'diamond', 'triangle', 'hexagon', 'st
 const lum = hex => { if (!/^#[0-9a-f]{6}$/i.test(hex || '')) return 0; const n = parseInt(hex.slice(1), 16); return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255; };
 
 /* ============================== state ============================== */
-let S = { v: 2, theme: 'dark', side: true, activeId: null, boards: [] };
+let S = { v: 2, theme: 'dark', side: false, activeId: null, boards: [] };
 const newBoard = o => Object.assign({ id: uid(), name: 'Untitled board', els: [], imgs: {}, cam: { x: 0, y: 0, z: 1 }, grid: 'dots', snap: false, thumb: '', created: Date.now(), updated: Date.now() }, o || {});
 let D = { c: 'auto', f: '', sw: 3, ds: 'solid', op: 1, size: 28, fam: 'sans', al: 'left', shape: 'rect', conn: 'elbow', ea: 'arrow' };
 let tool = 'select', sel = [], hist = [], hi = -1, clipb = null, editing = null, RO = false, shared = null, presenting = null;
@@ -183,7 +183,7 @@ const byId = id => { const a = B().els; for (let i = 0; i < a.length; i++) if (a
 const selEls = () => sel.map(byId).filter(Boolean);
 function load() {
   let raw = null; try { raw = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
-  if (raw && Array.isArray(raw.boards) && raw.boards.length) { S.boards = raw.boards.map(b => newBoard(b)); S.theme = raw.theme === 'light' ? 'light' : 'dark'; S.activeId = raw.activeId; S.side = raw.side !== false; if (raw.d) for (const k in D) if (raw.d[k] != null) D[k] = raw.d[k]; }
+  if (raw && Array.isArray(raw.boards) && raw.boards.length) { S.boards = raw.boards.map(b => newBoard(b)); S.theme = raw.theme === 'light' ? 'light' : 'dark'; S.activeId = raw.activeId; S.side = raw.side === true; if (raw.d) for (const k in D) if (raw.d[k] != null) D[k] = raw.d[k]; }
   else {
     let old = null; try { old = JSON.parse(localStorage.getItem(OLD) || 'null'); } catch (e) {}
     if (old && Array.isArray(old.els)) { S.boards = [newBoard({ name: 'My whiteboard', els: old.els.map(upgrade), imgs: old.imgs || {}, cam: old.cam || { x: 0, y: 0, z: 1 } })]; S.theme = old.theme === 'light' ? 'light' : 'dark'; }
@@ -191,7 +191,6 @@ function load() {
   }
   if (!S.boards.some(b => b.id === S.activeId)) S.activeId = S.boards[0].id;
   S.boards.forEach(b => { b.els = (b.els || []).filter(e => e && e.t && e.id).map(upgrade); });
-  if (innerWidth < 860) S.side = false;
 }
 function upgrade(e) { /* v1 boards: lines and arrows become connectors, shapes get fill colours */
   if ((e.t === 'line' || e.t === 'arrow') && e.x1 != null) return { id: e.id, t: 'conn', a: { x: e.x1, y: e.y1 }, b: { x: e.x2, y: e.y2 }, style: 'straight', sa: 'none', sb: e.t === 'arrow' ? 'arrow' : 'none', c: e.c || 'auto', sw: e.sw || 3, ds: 'solid', op: 1 };

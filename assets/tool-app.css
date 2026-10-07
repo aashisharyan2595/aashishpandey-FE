@@ -84,6 +84,7 @@
 .ta-side-f a{color:var(--acc)}
 .ta-main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:0;position:relative;background:var(--raise);border:1px solid var(--line);border-radius:clamp(0px,1.6vw,22px);box-shadow:var(--shadow);overflow:hidden}
 .ta-scrim{display:none}
+@media(min-width:861px){.ta-app.side-off .ta-side{display:none}}
 @media(max-width:860px){
  .ta-side{position:absolute;z-index:30;left:0;top:0;bottom:0;width:min(300px,86vw);padding:8px 10px 0 10px;background:var(--bg);border-right:1px solid var(--line);box-shadow:0 0 60px rgba(0,0,0,.5);transform:translateX(-102%);transition:transform .22s}
  .ta-app.side-open .ta-side{transform:none}
