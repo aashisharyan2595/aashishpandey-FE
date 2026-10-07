@@ -479,7 +479,7 @@ var st;
 function blank(keepBiz) {
   var cur = 'USD'; try { if (/Kolkata|Calcutta/.test(Intl.DateTimeFormat().resolvedOptions().timeZone)) cur = 'INR'; } catch (e) {}
   var s = { cur: cur, size: 'A4', accent: ACCENTS[0], logo: '', from: { name: '', addr: '', email: '', phone: '', tax: '' }, to: { name: '', addr: '', email: '', tax: '' }, no: 'INV-0001', date: today(), terms: 14, due: '', po: '',
-    tpl: 'classic', logoSize: 'm', sig: { mode: 'none', img: '', text: '', font: 'dancing' }, signName: '', signLabel: 'Authorised signature', items: [{ id: nid(), d: '', q: 1, p: 0, t: 0 }], taxMode: 'none', region: 'custom', comps: [{ id: nid(), name: 'Tax', rate: 0 }], inclusive: false, split: false, curShow: 'symbol', numFmt: 'auto', taxName: 'GST', defTax: 0, discType: 'pct', disc: 0, paid: 0, notes: 'Thank you for your business.', pay: '', words: false, footer: false };
+    tpl: 'classic', logoSize: 'm', sig: { mode: 'none', img: '', text: '', font: 'dancing' }, signName: '', signLabel: 'Authorised signature', items: [{ id: nid(), d: '', q: 1, p: 0, t: 0 }], taxMode: 'none', region: 'custom', comps: [{ id: nid(), name: 'Tax', rate: 0 }], inclusive: false, split: false, curShow: 'symbol', numFmt: 'auto', taxName: 'GST', defTax: 0, discType: 'pct', disc: 0, paid: 0, notes: 'Thank you for your business.', pay: '', words: false, footer: true };
   if (keepBiz) { s.from = keepBiz.from; s.logo = keepBiz.logo; s.cur = keepBiz.cur; s.accent = keepBiz.accent; s.size = keepBiz.size; s.taxName = keepBiz.taxName; s.defTax = keepBiz.defTax; s.taxMode = keepBiz.taxMode; s.region = keepBiz.region; s.comps = keepBiz.comps; s.inclusive = keepBiz.inclusive; s.split = keepBiz.split; s.curShow = keepBiz.curShow; s.numFmt = keepBiz.numFmt; s.pay = keepBiz.pay; s.notes = keepBiz.notes; s.terms = keepBiz.terms; s.no = nextNo(keepBiz.no); s.words = keepBiz.words; s.footer = keepBiz.footer; s.tpl = keepBiz.tpl; s.logoSize = keepBiz.logoSize; s.sig = keepBiz.sig; s.signName = keepBiz.signName; s.signLabel = keepBiz.signLabel; s.items[0].t = keepBiz.taxMode === 'lines' ? keepBiz.defTax : 0; }
   return s;
 }
@@ -822,7 +822,7 @@ $('#addItem').addEventListener('click', function () { st.items.push({ id: nid(),
 var origTitle = document.title;
 window.addEventListener('afterprint', function () { document.title = origTitle; });
 $('#print').addEventListener('click', function () {
-  drawPaper(); document.title = (st.no || 'Invoice') + (st.from.name ? ' ' + st.from.name : '');
+  drawPaper(); document.title = (st.no || 'Invoice') + (st.from.name ? ' ' + st.from.name : '') + ' - aashishpandey.com';
   if (window.apTrack) window.apTrack('invoice_print', {});
   window.print();
 });

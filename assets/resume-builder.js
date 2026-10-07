@@ -566,7 +566,7 @@ function flash(b, t, idle) { b.textContent = t; setTimeout(function () { b.textC
 /* ------------ wiring ------------ */
 var origTitle = document.title;
 window.addEventListener('afterprint', function () { document.title = origTitle; });
-$('#print').addEventListener('click', function () { render(); document.title = (st.p.name.trim() ? st.p.name.trim() + ' - Resume' : 'Resume'); if (window.apTrack) window.apTrack('resume_print', { t: st.tpl }); window.print(); });
+$('#print').addEventListener('click', function () { render(); document.title = (st.p.name.trim() ? st.p.name.trim() + ' - Resume' : 'Resume') + ' - aashishpandey.com'; if (window.apTrack) window.apTrack('resume_print', { t: st.tpl }); window.print(); });
 $('#dl-docx').addEventListener('click', function () { download(docx(), fileName('docx')); if (window.apTrack) window.apTrack('resume_docx', {}); });
 $('#dl-txt').addEventListener('click', function (e) { var t = toText(), b = e.currentTarget; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { flash(b, 'Copied', 'Copy as plain text'); }, function () { window.prompt('Copy this:', t); }); });
 $('#dl-json').addEventListener('click', function () { save(); download(new Blob([localStorage.getItem('apResume') || '{}'], { type: 'application/json' }), fileName('json')); });

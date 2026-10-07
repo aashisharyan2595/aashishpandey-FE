@@ -83,6 +83,7 @@
 .es-tbl th{text-align:left;font-weight:500;color:#8e89a0;padding:8px 6px;border-bottom:1px solid rgba(244,239,230,.1)}
 .es-tbl td{padding:9px 6px;border-bottom:1px solid rgba(244,239,230,.05)}
 .es-tbl th:nth-child(n+2),.es-tbl td:nth-child(n+2){text-align:right}
+@media(max-width:440px){.es-tbl{font-size:12.5px;display:block;overflow-x:auto}.es-tbl th,.es-tbl td{padding:8px 3px}}
 .tl-select{height:44px;border-radius:12px;border:1px solid rgba(244,239,230,.16);background:rgba(7,9,22,.6);color:#f4efe6;font:400 14px 'Geist',system-ui,sans-serif;padding:0 12px;width:100%;box-sizing:border-box}
 .tz-mini{width:34px;height:34px;border-radius:8px;border:1px solid rgba(244,239,230,.16);background:none;color:#aaa4b8;cursor:pointer;font:500 16px/1 'Geist',system-ui,sans-serif;padding:0;flex:none}
 .tz-mini:hover{border-color:#f5b867;color:#f5b867}
@@ -361,7 +362,7 @@ function init() {
   $('#copy').addEventListener('click', function (e) { copy(summaryText(), e.currentTarget, 'Copy summary'); if (window.apTrack) window.apTrack('estimate_copy', {}); });
   $('#csv').addEventListener('click', function () { var u = URL.createObjectURL(new Blob([csv()], { type: 'text/csv' })), a = h('a', { href: u, download: (st.name || 'estimate').replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-').toLowerCase() + '.csv' }); document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 3000); });
   $('#share').addEventListener('click', function (e) { copy(shareUrl(), e.currentTarget, 'Copy link'); });
-  $('#print').addEventListener('click', function () { window.print(); });
+  $('#print').addEventListener('click', function () { var t0 = document.title; document.title = (st.name || 'Estimate') + ' - aashishpandey.com'; window.addEventListener('afterprint', function r() { document.title = t0; window.removeEventListener('afterprint', r); }); window.print(); });
   /* quote dock: the total stays in reach while editing a long task list */
   (function () {
     var dock = $('#dock'), panel = $('.tl-panel');

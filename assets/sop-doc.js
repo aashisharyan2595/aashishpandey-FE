@@ -256,7 +256,7 @@ function printDoc(s) {
   var host = document.getElementById('sop-print-host');
   if (!host) { host = document.createElement('div'); host.id = 'sop-print-host'; document.body.appendChild(host); }
   host.innerHTML = html(s); document.documentElement.classList.add('sop-printing');
-  var t = document.title; document.title = (s.meta.title || 'SOP') + ' - SOP';
+  var t = document.title; document.title = (s.meta.title || 'SOP') + ' - SOP - aashishpandey.com';
   var done = function () { document.documentElement.classList.remove('sop-printing'); host.innerHTML = ''; document.title = t; window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done); window.print(); setTimeout(function () { if (document.documentElement.classList.contains('sop-printing') && !window.matchMedia('print').matches) done(); }, 1500);
 }

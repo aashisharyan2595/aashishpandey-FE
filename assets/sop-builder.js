@@ -219,7 +219,7 @@ $('#rbBack').addEventListener('click', function () { go(step - 1); });
 $('#rbDl').addEventListener('click', function () { go(MAX); });
 var origTitle = document.title;
 window.addEventListener('afterprint', function () { document.title = origTitle; });
-$('#print').addEventListener('click', function () { render(); document.title = (st.meta.title || 'SOP') + ' - SOP'; track('sop_print', { t: st.tpl }); window.print(); });
+$('#print').addEventListener('click', function () { render(); document.title = (st.meta.title || 'SOP') + ' - SOP - aashishpandey.com'; track('sop_print', { t: st.tpl }); window.print(); });
 $('#dl-docx').addEventListener('click', function () { D.save(st, 'docx'); track('sop_docx', { t: st.tpl }); });
 $('#dl-md').addEventListener('click', function () { D.save(st, 'md'); track('sop_md', { t: st.tpl }); });
 $('#dl-json').addEventListener('click', function () { D.save(st, 'json'); });
