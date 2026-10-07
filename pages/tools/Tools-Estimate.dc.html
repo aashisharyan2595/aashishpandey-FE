@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/assets/nav.css?v=33">
 <script src="/assets/nav.js?v=3" defer></script>
-<link rel="stylesheet" href="/assets/tools.css?v=1">
+<link rel="stylesheet" href="/assets/tools.css?v=2">
 <script src="/assets/tools.js?v=2" defer></script>
 <title>Project Estimate Calculator: Cost &amp; Timeline (PERT)</title>
 <meta name="description" content="Free project estimate calculator: enter best, likely and worst hours by task, set role rates and get a quote, safe range and timeline. Runs in your browser.">
@@ -70,6 +70,13 @@
  .es-c-name{grid-column:1/4}.es-c-role{grid-column:1/-1}.es-c-del{grid-column:4;grid-row:1;align-items:flex-end}
  .es-c-exp{grid-column:4}.es-l{display:block}.es-n{text-align:left}.es-exp{text-align:left}
 }
+@media(min-width:1180px){
+ .es-th,.es-task{grid-template-columns:minmax(130px,1fr) 132px repeat(3,60px) 62px 34px;gap:6px}
+ .es-out{border-top:0!important;padding-top:0!important}
+ .es-big{gap:14px 32px!important}
+ .es-tbl{font-size:13px}
+ .tl-bench__out .tl-actions .tl-btn{flex:1 1 auto}
+}
 .es-big{display:flex;flex-wrap:wrap;gap:20px 48px;align-items:flex-end}
 .es-total{font:600 clamp(32px,5vw,52px)/1.05 'Geist',system-ui,sans-serif;letter-spacing:-.04em;color:#f4efe6;margin-top:4px}
 .es-total--s{font-size:clamp(22px,3.2vw,32px);letter-spacing:-.03em}
@@ -116,7 +123,8 @@
       <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:640px;color:#aaa4b8;text-wrap:pretty;">List the tasks, give each a best, likely and worst case in hours, set your rates, and get a quote with a safe range and a timeline. Start from a template or build your own. It runs in your browser.</p>
       <ul class="tl-trust" aria-label="Good to know"><li>Free, no sign-up</li><li>Best, likely and worst case</li><li>Saved in your browser</li></ul>
     </header>
-    <section class="tl-panel" aria-label="Project estimate calculator">
+    <section class="tl-panel tl-bench" aria-label="Project estimate calculator">
+      <div class="tl-bench__in">
       <div class="es-row">
         <div class="tl-field wide"><label for="pname">Estimate name</label><input id="pname" class="tl-input" style="font-family:'Geist',system-ui,sans-serif" type="text" maxlength="80"></div>
         <div class="tl-field" style="flex:0 1 220px"><label for="cur">Currency</label><select id="cur" class="tl-select"></select></div>
@@ -135,10 +143,14 @@
         <div class="tl-field"><label for="hpw">Hours a week each</label><input id="hpw" class="tl-input es-n" type="number" min="1" max="80" step="1" inputmode="numeric"></div>
         <div class="tl-field"><label for="conf">Confidence</label><select id="conf" class="tl-select"><option value="50">50% (expected)</option><option value="80" selected>80% (recommended)</option><option value="90">90%</option><option value="95">95%</option></select></div>
       </div>
-      <div id="out" tabindex="-1" style="display:flex;flex-direction:column;gap:18px;border-top:1px solid rgba(244,239,230,.1);padding-top:20px" aria-live="polite"></div>
-      <div class="tl-actions no-print"><button id="copy" class="tl-btn tl-btn--p" type="button">Copy summary</button><button id="csv" class="tl-btn" type="button">Download CSV</button><button id="print" class="tl-btn" type="button">Print or save as PDF</button><button id="share" class="tl-btn" type="button">Copy link</button><button id="reset" class="tl-btn" type="button">Start again</button></div>
-      <a href="#out" id="dock" class="es-dock no-print" hidden><span class="es-dock__k">Quote</span><strong id="dockTotal"></strong><span id="dockWeeks"></span><span class="es-dock__go">See it</span></a>
+      </div>
+      <div class="tl-bench__out">
+      <h2 class="tl-out-h">Your quote</h2>
+      <div id="out" tabindex="-1" class="es-out" style="display:flex;flex-direction:column;gap:18px;border-top:1px solid rgba(244,239,230,.1);padding-top:20px" aria-live="polite"></div>
       <p class="tl-muted tl-small">An estimate is a forecast, not a promise. Review the tasks and rates before you send a quote.</p>
+      <div class="tl-actions no-print"><button id="copy" class="tl-btn tl-btn--p" type="button">Copy summary</button><button id="csv" class="tl-btn" type="button">Download CSV</button><button id="print" class="tl-btn" type="button">Print or save as PDF</button><button id="share" class="tl-btn" type="button">Copy link</button><button id="reset" class="tl-btn" type="button">Start again</button></div>
+      </div>
+      <a href="#out" id="dock" class="es-dock no-print" hidden><span class="es-dock__k">Quote</span><strong id="dockTotal"></strong><span id="dockWeeks"></span><span class="es-dock__go">See it</span></a>
     </section>
   <section aria-label="About this tool" style="font-family:Geist,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:clamp(72px,9vw,128px) 0 0;display:flex;flex-direction:column;gap:clamp(72px,9vw,128px);border-top:1px solid rgba(244,239,230,.1);">
     <div style="display:flex;flex-direction:column;gap:clamp(20px,3vw,32px);"><div style="display:flex;flex-direction:column;gap:16px;"><h2 style="margin:0;font-family:'Geist',system-ui,sans-serif;font-weight:600;font-size:clamp(28px,3.6vw,44px);line-height:1.02;letter-spacing:-.045em;color:#f4efe6;max-width:22ch;text-wrap:balance;">How to estimate a project</h2></div>

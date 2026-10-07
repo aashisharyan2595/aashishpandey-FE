@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/assets/nav.css?v=33">
 <script src="/assets/nav.js?v=3" defer></script>
-<link rel="stylesheet" href="/assets/tools.css?v=1">
+<link rel="stylesheet" href="/assets/tools.css?v=2">
 <script src="/assets/tools.js?v=2" defer></script>
 <title>Resume vs Job Description: Free ATS Keyword Matcher</title>
 <meta name="description" content="Free resume keyword matcher: paste a job description and your resume to see the match score, missing keywords and ATS format checks. Nothing is uploaded.">
@@ -53,6 +53,15 @@
 #rk [hidden]{display:none!important}
 .rk-inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,22px)}
 @media(max-width:860px){.rk-inputs{grid-template-columns:1fr}}
+@media(min-width:1180px){
+ .rk{--tl-bench:minmax(0,1fr) minmax(0,1.12fr)}
+ .rk-inputs{grid-template-columns:1fr}
+ .rk-ta{min-height:230px}
+ .rk-msg{text-align:left;padding:4px 0;font-size:14.5px}
+ .rk-out{border-top:0;padding-top:0}
+ .rk-top{padding-top:0}
+ .rk-ring{width:120px;height:120px}.rk-ring svg{width:120px;height:120px}.rk-ring__n b{font-size:36px}
+}
 .rk-box{display:flex;flex-direction:column;gap:10px;min-width:0}
 .rk-box__head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .rk-box__t{font:600 17px 'Geist',system-ui,sans-serif;letter-spacing:-.02em;color:#f4efe6}
@@ -112,8 +121,9 @@
       <p style="margin:0;font-size:clamp(16px,1.6vw,18px);line-height:1.6;max-width:680px;color:#aaa4b8;text-wrap:pretty;">Paste the job post and your resume. See which keywords the job asks for, which ones your resume already has, and what to add. Everything is read in your browser and nothing is uploaded.</p>
       <ul class="tl-trust" aria-label="Good to know"><li>Free, no sign-up</li><li>Read in your browser</li><li>PDF, Word or text</li></ul>
     </header>
-        <section id="rk" class="tl-panel rk" aria-label="Resume keyword matcher">
+        <section id="rk" class="tl-panel rk tl-bench" aria-label="Resume keyword matcher">
       <noscript><p class="tl-verdict is-bad">This tool needs JavaScript. Your resume is read in your browser, not on a server.</p></noscript>
+      <div class="tl-bench__in">
       <div class="rk-inputs">
         <div class="rk-box">
           <div class="rk-box__head"><label for="rkRes" class="rk-box__t">Your resume</label><span class="tl-small tl-muted" id="rkResN">0 words</span></div>
@@ -126,6 +136,9 @@
           <div class="rk-box__foot"><button id="rkEx" class="tl-btn rk-sm" type="button">Try an example</button><button id="rkClear" class="tl-btn rk-sm" type="button">Clear both</button></div>
         </div>
       </div>
+      </div>
+      <div class="tl-bench__out">
+      <h2 class="tl-out-h">Your match</h2>
       <p id="rkMsg" class="tl-small tl-muted rk-msg">Paste both and the match appears here as you type.</p>
       <div id="rkOut" class="rk-out" hidden aria-live="polite" data-tl-result="See your match">
         <div class="rk-top">
@@ -138,6 +151,7 @@
         </div>
         <div class="rk-block"><h3 class="rk-h">The job description, marked up</h3><p class="tl-small tl-muted rk-legend"><i class="rk-dot rk-dot--h"></i>in your resume <i class="rk-dot rk-dot--m"></i>missing</p><div id="rkMap" class="rk-map" tabindex="0"></div></div>
         <div class="rk-block"><h3 class="rk-h">Resume format checks <span id="rkFmtN" class="rk-n"></span></h3><ul id="rkChecks" class="rk-checks"></ul></div>
+      </div>
       </div>
       <p id="rkLive" class="sr" aria-live="polite"></p>
     </section>
