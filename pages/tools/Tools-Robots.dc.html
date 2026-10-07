@@ -75,6 +75,14 @@
 .gn-toggle input{margin-top:3px;accent-color:#f5b867;width:18px;height:18px;flex:none}
 .gn-toggle b{display:block;font:600 14.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
 .gn-toggle span{display:block;font-size:13px;color:#aaa4b8;line-height:1.45;margin-top:1px}
+.gn-fold{border:1px solid rgba(244,239,230,.1);border-radius:14px;background:rgba(7,9,22,.35)}
+.gn-fold>summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:48px;padding:10px 44px 10px 16px;position:relative;font:600 14.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
+.gn-fold>summary::-webkit-details-marker{display:none}
+.gn-fold>summary::after{content:'';position:absolute;right:18px;top:50%;width:8px;height:8px;border-right:2px solid #f5b867;border-bottom:2px solid #f5b867;transform:translateY(-70%) rotate(45deg);transition:transform .2s}
+.gn-fold[open]>summary::after{transform:translateY(-30%) rotate(-135deg)}
+.gn-fold>summary:focus-visible{outline:2px solid #f5b867;outline-offset:2px;border-radius:14px}
+.gn-fold__n{font:400 13px 'Geist',system-ui,sans-serif;color:#aaa4b8}
+.gn-fold__b{display:flex;flex-direction:column;gap:12px;padding:4px 14px 14px}
 .gn-toggles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:8px}
 .gn-out{position:sticky;top:88px;display:flex;flex-direction:column;gap:14px;min-width:0}
 @media(max-width:940px){.gn-out{position:static}}
@@ -97,6 +105,7 @@
 .gn-verdict.ok{background:rgba(127,243,225,.1);border:1px solid rgba(127,243,225,.4);color:#9ff7ea}
 .gn-verdict.no{background:rgba(255,138,107,.1);border:1px solid rgba(255,138,107,.45);color:#ffb39e}
 .gn-add{align-self:flex-start;height:38px;padding:0 15px;font-size:13px}
+@media(pointer:coarse){.gn-chip,.gn-add{min-height:44px;height:auto}.gn-item__x{width:40px;height:40px;top:6px;right:6px}.gn-item .gn-pad{padding-right:46px}.tl-panel .tl-check{min-height:44px}}
 </style>
 </head>
 <body>
@@ -122,8 +131,9 @@
             <div class="gn-row"><div class="tl-field"><label for="rbDelay">Crawl delay in seconds (optional)</label><input id="rbDelay" class="tl-input" type="number" min="0" step="1" placeholder="None"></div></div><p class="tl-small tl-muted gn-sub">Bing and some others honour crawl-delay. Google ignores it.</p></div>
           <div class="gn-sec"><h2>AI crawlers</h2><p class="tl-small tl-muted gn-sub">Choose what to keep out. These are requests: well-behaved bots follow them, others may not.</p>
             <div class="gn-chips"><button type="button" class="gn-chip" id="rbTrainAll">Block all AI training</button><button type="button" class="gn-chip" id="rbTrainNone">Allow all AI training</button></div>
-            <span class="tl-label">AI training and data collection</span><div class="gn-toggles" id="rbTrain"></div>
-            <span class="tl-label">AI search and assistants</span><p class="tl-small tl-muted gn-sub">Blocking these can remove your pages from AI answers and citations.</p><div class="gn-toggles" id="rbAssist"></div>
+            <details class="gn-fold"><summary>Choose crawlers one by one <span class="gn-fold__n" id="rbBotN"></span></summary>
+            <div class="gn-fold__b"><span class="tl-label">AI training and data collection</span><div class="gn-toggles" id="rbTrain"></div>
+            <span class="tl-label">AI search and assistants</span><p class="tl-small tl-muted gn-sub">Blocking these can remove your pages from AI answers and citations.</p><div class="gn-toggles" id="rbAssist"></div></div></details>
             <label class="tl-check"><input id="rbCom" type="checkbox" checked> Add comments to the file</label></div>
         </div>
         <div class="gn-out" data-tl-result="See your robots.txt">
@@ -160,7 +170,7 @@
 'use strict';
 var $ = function (s) { return document.querySelector(s); };
 var el = { pre: $('#rbPre'), preN: $('#rbPreN'), host: $('#rbHost'), maps: $('#rbMaps'), mapAdd: $('#rbMapAdd'), rules: $('#rbRules'), ruleAdd: $('#rbRuleAdd'), delay: $('#rbDelay'), train: $('#rbTrain'), assist: $('#rbAssist'),
-  trainAll: $('#rbTrainAll'), trainNone: $('#rbTrainNone'), com: $('#rbCom'), out: $('#rbOut'), copy: $('#rbCopy'), dl: $('#rbDl'), where: $('#rbWhere'), checks: $('#rbChecks'), t: $('#rbT'), tua: $('#rbTua'), tr: $('#rbTr'), live: $('#rbLive') };
+  trainAll: $('#rbTrainAll'), trainNone: $('#rbTrainNone'), com: $('#rbCom'), out: $('#rbOut'), copy: $('#rbCopy'), dl: $('#rbDl'), where: $('#rbWhere'), checks: $('#rbChecks'), t: $('#rbT'), tua: $('#rbTua'), tr: $('#rbTr'), live: $('#rbLive'), botN: $('#rbBotN') };
 var TRAIN = [['GPTBot', 'OpenAI, model training'], ['ClaudeBot', 'Anthropic, model training'], ['anthropic-ai', 'Anthropic, older agent name'], ['Google-Extended', 'Google, Gemini training (a control token)'], ['CCBot', 'Common Crawl, used by many AI labs'], ['Applebot-Extended', 'Apple, AI training'], ['Meta-ExternalAgent', 'Meta, AI training'], ['Bytespider', 'ByteDance'], ['Amazonbot', 'Amazon'], ['cohere-ai', 'Cohere'], ['Diffbot', 'Diffbot, data extraction']];
 var ASSIST = [['OAI-SearchBot', 'ChatGPT search results'], ['ChatGPT-User', 'ChatGPT, when a person asks it to open a page'], ['PerplexityBot', 'Perplexity search index'], ['Perplexity-User', 'Perplexity, when a person asks it to open a page'], ['Claude-SearchBot', 'Claude search results'], ['Claude-User', 'Claude, when a person asks it to open a page']];
 var PRESETS = [
@@ -266,6 +276,7 @@ function applyPreset(p) {
 function host() { var v = el.host.value.trim().replace(/\/+$/, ''); if (!v) return ''; if (!/^https?:\/\//i.test(v)) v = 'https://' + v; try { return new URL(v).origin; } catch (e) { return ''; } }
 function update(keepFocus) {
   var text = build(); paint(text); chipsPre();
+  var nb = function (o) { return Object.keys(o).filter(function (k) { return o[k]; }).length; }; el.botN.textContent = nb(S.train) + ' of ' + TRAIN.length + ' training bots blocked, ' + nb(S.assist) + ' of ' + ASSIST.length + ' assistants';
   var h = host(); el.where.textContent = (h || 'https://example.com') + '/robots.txt';
   el.checks.textContent = ''; checks(text).forEach(function (c) { var li = document.createElement('li'); li.className = c.s; li.innerHTML = '<i></i><div><b></b> <span></span></div>'; li.querySelector('i').textContent = c.s === 'p' ? '✓' : c.s === 'w' ? '!' : '×'; li.querySelector('b').textContent = c.t + '.'; li.querySelector('span').textContent = c.d; el.checks.appendChild(li); });
   test(text);

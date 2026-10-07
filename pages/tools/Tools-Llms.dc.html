@@ -75,6 +75,14 @@
 .gn-toggle input{margin-top:3px;accent-color:#f5b867;width:18px;height:18px;flex:none}
 .gn-toggle b{display:block;font:600 14.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
 .gn-toggle span{display:block;font-size:13px;color:#aaa4b8;line-height:1.45;margin-top:1px}
+.gn-fold{border:1px solid rgba(244,239,230,.1);border-radius:14px;background:rgba(7,9,22,.35)}
+.gn-fold>summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:48px;padding:10px 44px 10px 16px;position:relative;font:600 14.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
+.gn-fold>summary::-webkit-details-marker{display:none}
+.gn-fold>summary::after{content:'';position:absolute;right:18px;top:50%;width:8px;height:8px;border-right:2px solid #f5b867;border-bottom:2px solid #f5b867;transform:translateY(-70%) rotate(45deg);transition:transform .2s}
+.gn-fold[open]>summary::after{transform:translateY(-30%) rotate(-135deg)}
+.gn-fold>summary:focus-visible{outline:2px solid #f5b867;outline-offset:2px;border-radius:14px}
+.gn-fold__n{font:400 13px 'Geist',system-ui,sans-serif;color:#aaa4b8}
+.gn-fold__b{display:flex;flex-direction:column;gap:12px;padding:4px 14px 14px}
 .gn-toggles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:8px}
 .gn-out{position:sticky;top:88px;display:flex;flex-direction:column;gap:14px;min-width:0}
 @media(max-width:940px){.gn-out{position:static}}
@@ -97,6 +105,7 @@
 .gn-verdict.ok{background:rgba(127,243,225,.1);border:1px solid rgba(127,243,225,.4);color:#9ff7ea}
 .gn-verdict.no{background:rgba(255,138,107,.1);border:1px solid rgba(255,138,107,.45);color:#ffb39e}
 .gn-add{align-self:flex-start;height:38px;padding:0 15px;font-size:13px}
+@media(pointer:coarse){.gn-chip,.gn-add{min-height:44px;height:auto}.gn-item__x{width:40px;height:40px;top:6px;right:6px}.gn-item .gn-pad{padding-right:46px}.tl-panel .tl-check{min-height:44px}}
 </style>
 </head>
 <body>
@@ -119,9 +128,10 @@
             <div class="tl-field"><label for="llSum">One-line summary</label><input id="llSum" class="tl-input" type="text" maxlength="300" placeholder="Privacy-first web analytics for small teams."></div>
             <div class="tl-field"><label for="llMore">More detail for a language model (optional)</label><textarea id="llMore" class="tl-textarea" placeholder="Who it is for, what it does, and anything an assistant should know before answering questions about it."></textarea></div>
             <div class="tl-field"><label for="llSite">Site address</label><input id="llSite" class="tl-input" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url"></div></div>
-          <div class="gn-sec"><h2>Add pages from a list</h2><p class="tl-small tl-muted gn-sub">Paste addresses one per line, or paste the whole of your sitemap.xml and the page addresses are taken from it. Titles are made from the address, so edit them after.</p>
+          <details class="gn-fold"><summary>Add pages from a list <span class="gn-fold__n">Paste addresses or a sitemap.xml</span></summary>
+            <div class="gn-fold__b"><p class="tl-small tl-muted">Paste addresses one per line, or paste the whole of your sitemap.xml and the page addresses are taken from it. Titles are made from the address, so edit them after.</p>
             <div class="tl-field"><label for="llPaste">Page addresses or sitemap.xml</label><textarea id="llPaste" class="tl-textarea" spellcheck="false" placeholder="https://example.com/docs/getting-started&#10;https://example.com/pricing"></textarea></div>
-            <button id="llPasteGo" class="tl-btn gn-add" type="button">Add to the first section</button></div>
+            <button id="llPasteGo" class="tl-btn gn-add" type="button">Add to the first section</button></div></details>
           <div class="gn-sec"><h2>Sections and links</h2><p class="tl-small tl-muted gn-sub">Group pages the way you would explain the site to a new colleague. A section named Optional marks pages an assistant can skip when short of space.</p>
             <div id="llSecs" class="gn-list"></div><button id="llSecAdd" class="tl-btn gn-add" type="button">Add a section</button></div>
         </div>
