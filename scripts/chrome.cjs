@@ -74,38 +74,39 @@ const MENUS = {
     note: 'Free · no sign-up · runs in your browser',
     cta: { href: '/tools', label: null /* "All N tools" */ },
     cols: [
-      [{ h: 'Documents', items: [
+      [{ h: 'Resume & career', items: [
         { href: '/tools/resume-maker', t: 'Resume Maker', d: 'ATS templates, PDF and Word', b: 'Popular' },
-        { href: '/tools/resume-keyword-matcher', t: 'Resume Keyword Matcher', d: 'Match a resume to a job post', b: 'New' },
-        { href: '/tools/invoice-generator', t: 'Invoice Generator', d: 'Tax, discount and your logo' },
-        { href: '/tools/sop-maker', t: 'SOP Maker', d: '116 SOP templates, Word and PDF', b: 'New' },
+        { href: '/tools/resume-keyword-matcher', t: 'Resume Keyword Matcher', d: 'Match a resume to a job post' },
+        { href: '/tools/sop-maker', t: 'SOP Maker', d: '116 SOP templates, Word and PDF' },
+      ] }, { h: 'Business', items: [
+        { href: '/tools/invoice-generator', t: 'Invoice Generator', d: 'GST, VAT, discount and logo', b: 'Popular' },
         { href: '/tools/project-estimate-calculator', t: 'Project Estimate', d: 'Best, likely and worst case', f: 'Project Estimate Calculator' },
-      ] }, { h: 'Images', items: [
-        { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
-        { href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms', b: 'New' },
-        { href: '/tools/exif-remover', t: 'Photo Metadata Remover', d: 'Strip GPS and camera data' },
+        { href: '/tools/time-zone-meeting-planner', t: 'Time Zone Planner', d: 'Convert a time across cities', f: 'Time Zone Planner' },
       ] }],
       [{ h: 'QR codes & links', items: [
         { href: '/tools/qr-code-generator', t: 'QR Code Generator', d: 'Static codes that never expire', b: 'Popular' },
         { href: '/tools/qr-code-checker', t: 'QR Code Checker', d: 'See if a code is dynamic', f: 'QR Code Autopsy' },
         { href: '/tools/url-shortener', t: 'URL Shortener', d: 'Short link with its own QR' },
-      ] }, { h: 'Files & security', items: [
-        { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored', b: 'New' },
+      ] }, { h: 'Images & files', items: [
+        { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
+        { href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms' },
+        { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored' },
+      ] }, { h: 'Projects & notes', items: [
+        { href: '/tools/project-management-tool', t: 'Project Board', d: 'Kanban, Gantt, calendar', f: 'Project Management Tool', b: 'New' },
+        { href: '/tools/online-whiteboard', t: 'Online Whiteboard', d: 'Diagrams, mind maps, sticky notes', b: 'New' },
+        { href: '/tools/pad', t: 'Online Notepad', d: 'Markdown, autosave, share' },
+        { href: '/tools/website-launch-checklist', t: 'Launch Checklist', d: 'Go-live templates' },
+      ] }],
+      [{ h: 'Security', items: [
         { href: '/tools/password-generator', t: 'Password Generator', d: 'Made on your device' },
         { href: '/tools/file-hash-checker', t: 'File Hash Checker', d: 'MD5, SHA-1, SHA-256' },
-      ] }],
-      [{ h: 'Writing & planning', items: [
-        { href: '/tools/pad', t: 'Online Notepad', d: 'Markdown, autosave, share' },
+        { href: '/tools/exif-remover', t: 'Photo Metadata Remover', d: 'Strip GPS and camera data' },
+      ] }, { h: 'SEO, AI & developer', items: [
+        { href: '/tools/robots-txt-generator', t: 'Robots.txt Generator', d: 'Block AI bots, test pages' },
+        { href: '/tools/llms-txt-generator', t: 'llms.txt Generator', d: 'Describe your site for AI' },
+        { href: '/tools/json-ld-schema-generator', t: 'JSON-LD Schema', d: 'FAQ, product, article, event' },
+        { href: '/tools/llm-token-counter', t: 'LLM Token Counter', d: 'Tokens, window fit and cost' },
         { href: '/tools/lorem-ipsum-generator', t: 'Lorem Ipsum', d: 'Text, HTML or Markdown', f: 'Lorem Ipsum Generator' },
-        { href: '/tools/time-zone-meeting-planner', t: 'Time Zone Planner', d: 'Convert a time across cities', f: 'Time Zone Planner' },
-        { href: '/tools/project-management-tool', t: 'Project Board', d: 'Kanban, list and timeline', f: 'Project Management Tool', b: 'New' },
-        { href: '/tools/online-whiteboard', t: 'Online Whiteboard', d: 'Draw, sketch, sticky notes', b: 'New' },
-        { href: '/tools/website-launch-checklist', t: 'Launch Checklist', d: 'Go-live templates' },
-      ] }, { h: 'SEO & AI', items: [
-        { href: '/tools/robots-txt-generator', t: 'Robots.txt Generator', d: 'Block AI bots, test pages', b: 'New' },
-        { href: '/tools/llms-txt-generator', t: 'llms.txt Generator', d: 'Describe your site for AI', b: 'New' },
-        { href: '/tools/json-ld-schema-generator', t: 'JSON-LD Schema', d: 'FAQ, product, article, event', b: 'New' },
-        { href: '/tools/llm-token-counter', t: 'LLM Token Counter', d: 'Tokens, window fit and cost', b: 'New' },
       ] }],
     ],
   },
