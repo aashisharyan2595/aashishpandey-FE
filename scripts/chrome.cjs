@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 33; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 34; // bump when assets/nav.css changes: assets are cached for 30 days
 const NAV_JS = 3;   // same for assets/nav.js (search, menu images, footer on phones)
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
@@ -206,21 +206,34 @@ function header() {
 
 /* ---------- footer ---------- */
 // Plain text columns, quiet colours, one legal row: the pattern the large sites use (Vercel, Stripe, Linear).
-const TOOL_ORDER = ['/tools/resume-maker', '/tools/resume-keyword-matcher', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/sop-maker', '/tools/password-generator', '/tools/p2p-file-sharing', '/tools/image-resizer', '/tools/exam-photo-resizer', '/tools/robots-txt-generator', '/tools/json-ld-schema-generator', '/tools/llm-token-counter', '/tools/url-shortener', '/tools/lorem-ipsum-generator', '/tools/pad', '/tools/time-zone-meeting-planner', '/tools/file-hash-checker', '/tools/exif-remover', '/tools/project-estimate-calculator', '/tools/project-management-tool', '/tools/online-whiteboard', '/tools/qr-code-checker', '/tools/llms-txt-generator', '/tools/website-launch-checklist'];
+// Desktop: brand on the left; Work, Services and Contact in three columns, the tools as one full-width band under them.
+// Phones: each list folds up (nav.js). Labels are sentence case, the same as every other column.
+const FOOT_TOOLS = [
+  ['/tools/resume-maker', 'Resume maker'], ['/tools/resume-keyword-matcher', 'Resume keyword matcher'], ['/tools/qr-code-generator', 'QR code generator'],
+  ['/tools/invoice-generator', 'Invoice generator'], ['/tools/sop-maker', 'SOP maker'], ['/tools/password-generator', 'Password generator'],
+  ['/tools/p2p-file-sharing', 'P2P file sharing'], ['/tools/image-resizer', 'Image resizer'], ['/tools/exam-photo-resizer', 'Exam photo resizer'],
+  ['/tools/robots-txt-generator', 'Robots.txt generator'], ['/tools/json-ld-schema-generator', 'JSON-LD schema generator'], ['/tools/llm-token-counter', 'LLM token counter'],
+  ['/tools/url-shortener', 'URL shortener'], ['/tools/lorem-ipsum-generator', 'Lorem ipsum generator'], ['/tools/pad', 'Online notepad'],
+  ['/tools/time-zone-meeting-planner', 'Time zone planner'], ['/tools/file-hash-checker', 'File hash checker'], ['/tools/exif-remover', 'Photo metadata remover'],
+  ['/tools/project-estimate-calculator', 'Project estimate calculator'], ['/tools/project-management-tool', 'Project management tool'], ['/tools/online-whiteboard', 'Online whiteboard'],
+  ['/tools/qr-code-checker', 'QR code checker'], ['/tools/llms-txt-generator', 'llms.txt generator'], ['/tools/website-launch-checklist', 'Website launch checklist'],
+];
+const HEART = '<svg class="ap-foot__heart" aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg>';
 function footer() {
+  const known = new Set(flat(MENUS.tools).map((t) => t.href));
+  for (const [h] of FOOT_TOOLS) if (!known.has(h)) throw new Error('footer tool not in the Tools menu: ' + h);
+  if (FOOT_TOOLS.length !== toolCount) throw new Error(`footer lists ${FOOT_TOOLS.length} tools, the Tools menu has ${toolCount}`);
   const link = ([h, t, x]) => `<a href="${e(h)}"${x ? ' target="_blank" rel="noopener"' : ''}>${e(t)}</a>`;
   const col = (h, inner, cls = '') => `<details class="ap-foot__col${cls}" open><summary class="ap-foot__h">${h}</summary><div class="ap-foot__links">${inner}</div></details>`;
   const order = ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/ui-ux-design', '/freelance-project-manager', '/tech-consultant'];
   const svc = [['/services', 'All services'], ...flat(MENUS.services).filter((i) => i.href !== '/services').sort((a, b) => order.indexOf(a.href) - order.indexOf(b.href)).map((i) => [i.href, i.f || i.t])];
-  const byHref = Object.fromEntries(flat(MENUS.tools).map((t) => [t.href, t]));
-  const tools = `<div class="ap-foot__tools">${TOOL_ORDER.map((h) => `<a href="${e(h)}">${e(byHref[h].f || byHref[h].t)}</a>`).join('')}</div><a class="ap-foot__all" href="/tools">All ${toolCount} tools</a>`;
+  const tools = `<div class="ap-foot__tools">${FOOT_TOOLS.map(link).join('')}</div><a class="ap-foot__all" href="/tools">All ${toolCount} tools</a>`;
   const work = [['/portfolio', 'Portfolio'], ...FOOT.work.filter(([h]) => h !== '/portfolio')];
   const contact = [[MAIL, 'hello@aashishpandey.com'], [BOOK, 'Book a 20-minute call', 1], ['/contact', 'Send a brief'], [WA, 'WhatsApp', 1], [LI, 'LinkedIn', 1]];
   const more = [['/', 'The 3D ride'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)']];
   return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><form class="ap-foot__news" data-news novalidate><label for="ap-news-e">New tools and write-ups, by email</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Subscribed straight away. Unsubscribe any time. <a href="/privacy">Privacy</a></p></form></div>`
-    + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', work.map(link).join(''))}${col('Services', svc.map(link).join(''))}${col('Free tools', tools, ' ap-foot__col--tools')}<div class="ap-foot__stack">${col('Get in touch', contact.map(link).join(''))}${col('More', more.map(link).join(''))}</div></nav></div>`
-    + `<div class="ap-foot__base"><span class="ap-foot__copy">© ${YEAR} Aashish Pandey</span><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><a href="#" class="ap-foot__up">Back to top <span aria-hidden="true">↑</span></a></div>`
-    + `<p class="ap-foot__credits">Designed and built with passion <svg class="ap-foot__heart" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg> by Aashish Pandey</p></div></footer>`;
+    + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', work.map(link).join(''))}${col('Services', svc.map(link).join(''))}<div class="ap-foot__stack">${col('Get in touch', contact.map(link).join(''))}${col('More', more.map(link).join(''))}</div>${col(`Free tools <span class="ap-foot__n">${toolCount}</span>`, tools, ' ap-foot__col--tools')}</nav></div>`
+    + `<div class="ap-foot__base"><p class="ap-foot__copy">© ${YEAR} Aashish Pandey<span class="ap-foot__sep" aria-hidden="true">·</span><span class="ap-foot__credits">Designed and built with passion ${HEART}</span></p><nav class="ap-foot__legal" aria-label="Legal"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a><a href="/image-license">Image licence</a><button type="button" data-cookie-settings>Cookie settings</button></nav><a href="#" class="ap-foot__up">Back to top<span aria-hidden="true">↑</span></a></div></div></footer>`;
 }
 
 /* ---------- closing contact panel ---------- */
