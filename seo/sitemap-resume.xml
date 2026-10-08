@@ -2,51 +2,153 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/software-classic.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/designer-modern.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/pm-executive.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-classic.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-modern.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-minimal.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-executive.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-banner.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-timeline.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/templates</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-classic.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-modern.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-compact.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-executive.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-minimal.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-sidebar.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-professional.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-corporate.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-clean.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-simple.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-traditional.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-academic.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-bold.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-elegant.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-creative.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-tech.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-startup.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-banner.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-noir.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-split.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-sideright.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-timeline.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-boxed.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-dotted.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-doublerule.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-monochrome.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-pastel.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-headline.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-balanced.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-leftbar.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-latex.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-bigtech.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-xyz.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-amazon.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-meta.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-apple.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-netflix.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-deedy.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-ivy.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-consulting.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-wallstreet.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-accent.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-swiss.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-ledger.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-rail.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-chips.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-stripe.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-monogram.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-cards.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-magazine.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-cream.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-framed.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-architect.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/t-edge.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/software-classic.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/designer-modern.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/pm-executive.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/data-compact.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/marketing-modern.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/sales-classic.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/engineer-classic.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/fresher-minimal.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/guide</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples/software-engineer</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/software-classic.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples/ux-ui-designer</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/designer-modern.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples/project-manager</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/pm-executive.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples/data-analyst</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/data-compact.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples/marketing-manager</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/marketing-modern.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples/sales-manager</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/sales-classic.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples/mechanical-engineer</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/engineer-classic.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tools/resume-maker/examples/graduate</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-resume.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/resume/fresher-minimal.webp</image:loc></image:image>
   </url>
 </urlset>

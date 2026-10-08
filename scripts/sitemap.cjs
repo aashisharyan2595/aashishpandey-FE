@@ -40,7 +40,15 @@ const GROUPS = [
   ['sitemap-resume.xml', loc => loc.startsWith('/tools/resume-maker')],
   ['sitemap-tools.xml', loc => loc === '/tools' || (loc.startsWith('/tools/') && !loc.startsWith('/tools/resume-maker'))],
 ];
-const entry = ([loc, file, imgs = []]) => `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${state[file].lastmod}</lastmod>\n${imgs.map(x => `    <image:image><image:loc>${SITE}${x}</image:loc></image:image>\n`).join('')}  </url>\n`;
+// Every content image a page shows is listed with it, found in the page source (img tags, data and JSON-LD) so a new picture needs no list to edit.
+// Interface art (menu promos, icons, logos, favicons) is left out: it says nothing about the page.
+const IMG_RE = /(?:https:\/\/aashishpandey\.com)?\/?(assets\/(?:work|build|resume|og|aashish-pandey|me-)[A-Za-z0-9_\/.-]*\.(?:webp|jpe?g|png))/g;
+const pageImages = (file, extra) => {
+  const out = new Set((extra || []).map(x => x.replace(/^\//, '')));
+  for (const m of fs.readFileSync(path.join(root, PAGE[file]), 'utf8').matchAll(IMG_RE)) out.add(m[1]);
+  return [...out].filter(x => fs.existsSync(path.join(root, x))).slice(0, 100).map(x => '/' + x);
+};
+const entry = ([loc, file, imgs = []]) => { imgs = pageImages(file, imgs); return `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${state[file].lastmod}</lastmod>\n${imgs.map(x => `    <image:image><image:loc>${SITE}${x}</image:loc></image:image>\n`).join('')}  </url>\n`; };
 const used = new Set(), index = [];
 for (const [name, test] of GROUPS) {
   const rows = P.filter(r => test(r[0]));

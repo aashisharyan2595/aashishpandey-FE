@@ -2,36 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://aashishpandey.com/services</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <image:image><image:loc>https://aashishpandey.com/assets/og/og-services.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/copper-chocs-shopify-store-aashish-pandey.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/bytzsoft-wordpress-website-aashish-pandey.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/royal-arc-wordpress-product-catalogue-aashish-pandey.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/nskt-global-website-seo-aashish-pandey.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/tekgeminus-corporate-website-aashish-pandey.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/shopify-developer</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-svc-shopify.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/copper-chocs-shopify-store-aashish-pandey.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/full-stack-developer</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-svc-full-stack.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/bytzsoft-wordpress-website-aashish-pandey.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/wordpress-webflow-developer</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <image:image><image:loc>https://aashishpandey.com/assets/og/og-svc-wordpress-webflow.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/royal-arc-wordpress-product-catalogue-aashish-pandey.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/seo-consultant</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-svc-seo.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/access-health-international-wordpress-website-aashish-pandey.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/freelance-project-manager</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-svc-pm.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/jungle-by-sturmfrei-hostel-website-aashish-pandey.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/ui-ux-design</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-svc-ui-ux.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/nskt-global-website-seo-aashish-pandey.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/tech-consultant</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-svc-tech.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/work/tekgeminus-corporate-website-aashish-pandey.webp</image:loc></image:image>
   </url>
 </urlset>

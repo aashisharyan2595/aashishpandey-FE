@@ -2,22 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://aashishpandey.com/case-studies</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-case-studies.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/liquid-iv-shopify-multi-market-rollout-case-study-aashish-pandey.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/talenti-canada-website-launch-case-study-aashish-pandey.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/storynest-seo-growth-case-study-aashish-pandey.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/ceat-specialty-aem-vendor-transition-case-study-aashish-pandey.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/work-liquid-iv</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-liquid-iv.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/liquid-iv-shopify-multi-market-rollout-case-study-aashish-pandey.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/work-talenti</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-talenti.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/talenti-canada-website-launch-case-study-aashish-pandey.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/work-storynest</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-storynest.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/storynest-seo-growth-case-study-aashish-pandey.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://aashishpandey.com/work-ceat-specialty</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-08</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-ceat-specialty.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/build/ceat-specialty-aem-vendor-transition-case-study-aashish-pandey.jpg</image:loc></image:image>
   </url>
 </urlset>

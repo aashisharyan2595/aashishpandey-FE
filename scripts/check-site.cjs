@@ -202,6 +202,22 @@ for (const [asset, vs] of Object.entries(verNow)) {
     for (const f of pages) fail(f, `links assets/${asset}?v=${v}, current is v=${want}${pinned[asset] ? ' (scripts/chrome.cjs)' : ''}`);
   }
 }
+
+// Images that carry meaning (work screenshots, case study art, resume examples, portraits) need a description and a size, so search engines
+// can index them and the page does not jump while they load. Interface art (menu promos, icons, logos) is exempt.
+{
+  const CONTENT_IMG = /assets\/(?:work|build|resume\/(?!t-)|aashish-pandey|me-)/;
+  for (const p of require('./pages.cjs').list()) {
+    const src = fs.readFileSync(p.abs, 'utf8').replace(/<script[\s\S]*?<\/script>/g, '');
+    for (const m of src.matchAll(/<img\b[^>]*>/g)) {
+      const t = m[0], u = (/(?:data-)?src="([^"]*)"/.exec(t) || [])[1] || '';
+      if (!CONTENT_IMG.test(u) || u.includes('{{')) continue;
+      const alt = (/\balt="([^"]*)"/.exec(t) || [])[1];
+      if (!alt || !alt.trim()) fail(p.rel, `image ${u} has no alt text`);
+      if (!/\bwidth="\d+"/.test(t) || !/\bheight="\d+"/.test(t)) fail(p.rel, `image ${u} has no width and height`);
+    }
+  }
+}
 try {
   execFileSync(process.execPath, [path.join(ROOT, 'scripts/chrome.cjs'), '--check'], { cwd: ROOT, stdio: 'pipe' });
 } catch (e) {

@@ -319,6 +319,7 @@
     { "source": "/work", "destination": "/api/config?a=site&p=work" },
     { "source": "/work/:slug", "destination": "/api/config?a=site&p=case&slug=:slug" },
     { "source": "/sitemap-posts.xml", "destination": "/api/config?a=site&p=psitemap" },
+    { "source": "/media/:id/:name", "destination": "/api/config?a=site&p=media&id=:id" },
     { "source": "/media/:id", "destination": "/api/config?a=site&p=media&id=:id" },
     { "source": "/kd2ozfuew9n4uaciyl1j", "destination": "/admin/kd2ozfuew9n4uaciyl1j.html" },
     { "source": "/kd2ozfuew9n4uaciyl1j-sw.js", "destination": "/admin/kd2ozfuew9n4uaciyl1j-sw.js" },

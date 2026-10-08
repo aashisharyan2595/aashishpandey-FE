@@ -88,6 +88,39 @@ ${chrome.foot}
 </html>`;
 }
 
+
+/* ---------- images: keyword addresses, sizes and structured data ----------
+   Uploaded pictures live at /media/<id>. In the page they are shown as /media/<id>/<what-it-shows>.webp so the address says what the picture is
+   (the words after the id are ignored when serving), and every body image gets its width and height so the page does not jump while loading. */
+const EXT = { 'image/webp': 'webp', 'image/jpeg': 'jpg', 'image/png': 'png', 'image/gif': 'gif' };
+const metaCache = new Map();
+async function metaOf(id) {
+  const c = metaCache.get(id); if (c && Date.now() - c.t < 300000) return c.m;
+  let m = null; try { m = await media.meta(id); } catch (e) { /* the plain address still works */ }
+  metaCache.set(id, { t: Date.now(), m }); if (metaCache.size > 400) metaCache.clear(); return m;
+}
+const MEDIA_RE = /\/media\/([a-z0-9]{6,20})(?![a-z0-9\/])/g;
+const keywordUrl = (m) => '/media/' + m.id + '/' + (posts.slugify(m.alt || String(m.name || '').replace(/\.[a-z0-9]+$/i, '')).slice(0, 60) || 'image') + '.' + (EXT[m.mime] || 'webp');
+// returns a copy of the entry with keyword addresses, plus the list of its images for structured data and the sitemap
+async function withImages(p) {
+  const text = [p.body, p.cover && p.cover.src, p.seo && p.seo.ogImage].join('\n'), ids = [...new Set([...text.matchAll(MEDIA_RE)].map((m) => m[1]))].slice(0, 40), map = {};
+  for (const id of ids) { const m = await metaOf(id); if (m) map[id] = m; }
+  const swap = (t) => String(t || '').replace(MEDIA_RE, (x, id) => (map[id] ? keywordUrl(map[id]) : x));
+  const q = { ...p, body: swap(p.body), cover: { ...(p.cover || {}), src: swap(p.cover && p.cover.src) }, seo: { ...(p.seo || {}), ogImage: swap(p.seo && p.seo.ogImage) } };
+  const imgs = [];
+  if (q.cover.src) imgs.push({ url: q.cover.src, alt: q.cover.alt || p.title, id: ((q.cover.src.match(/\/media\/([a-z0-9]+)/) || [])[1]) });
+  for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/media\/([a-z0-9]+)[^)\s]*)/g)) imgs.push({ url: m[2], alt: m[1], id: m[3] });
+  imgs.forEach((i) => { const m = map[i.id]; if (m) { i.w = m.w; i.h = m.h; } });
+  q.images = imgs.filter((x, k) => imgs.findIndex((y) => y.url === x.url) === k).slice(0, 12); q.mediaMap = map;
+  return q;
+}
+// width and height on every body image; the first picture on the page is not lazy-loaded when there is no cover
+function sized(html, map) {
+  return html.replace(/<img src="(\/media\/([a-z0-9]+)\/[^"]*)"/g, (x, src, id) => (map[id] && map[id].w && map[id].h ? `<img src="${src}" width="${map[id].w}" height="${map[id].h}"` : x));
+}
+const coverAttrs = (p) => { const i = p.images && p.images[0]; return i && i.url === (p.cover && p.cover.src) && i.w && i.h ? ` width="${i.w}" height="${i.h}" fetchpriority="high"` : ' fetchpriority="high"'; };
+const imageLd = (list) => list.map((i) => ({ '@type': 'ImageObject', url: abs(i.url), contentUrl: abs(i.url), caption: i.alt || undefined, width: i.w || undefined, height: i.h || undefined, license: SITE + '/image-license', acquireLicensePage: SITE + '/image-license#request', creditText: 'Aashish Pandey', copyrightNotice: '© ' + new Date().getFullYear() + ' Aashish Pandey' }));
+
 /* ---------- pieces ---------- */
 const crumbs = (items) => '<nav class="bl-crumbs" aria-label="Breadcrumb"><ol>' + items.map((c, i) => `<li>${c.href && i < items.length - 1 ? `<a href="${esc(c.href)}">${esc(c.t)}</a>` : esc(c.t)}</li>`).join('<li aria-hidden="true">/</li>') + '</ol></nav>';
 const crumbLd = (items) => ({ '@type': 'BreadcrumbList', itemListElement: items.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.t, item: abs(c.href || '') })) });
@@ -139,8 +172,9 @@ const authorBox = (a) => `<aside class="bl-author">${a.avatar ? `<img class="bl-
 const shareBlock = (p, url) => `<div class="bl-share" aria-label="Share"><span>Share</span><button type="button" data-copy="${esc(url)}">Copy link</button><a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(p.title)}" target="_blank" rel="noopener noreferrer">X</a></div>`;
 const tocBlock = (toc) => (toc.length > 2 ? `<nav class="bl-toc" aria-label="On this page"><b>On this page</b><ol>${toc.map((t) => `<li class="l${t.level}"><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ol></nav>` : '');
 
-async function postPage(p, preview) {
-  const r = md.render(p.body), url = SITE + '/blog/' + p.slug, seo = p.seo || {}, au = await authorOf(p);
+async function postPage(p0, preview) {
+  const p = await withImages(p0), r = md.render(p.body), url = SITE + '/blog/' + p.slug, seo = p.seo || {}, au = await authorOf(p);
+  r.html = sized(r.html, p.mediaMap);
   const live = await posts.live('post');
   const rel = live.filter((x) => x.id !== p.id).map((x) => ({ x, n: (x.tags || []).filter((t) => (p.tags || []).includes(t)).length })).sort((a, b) => b.n - a.n || (b.x.publishAt - a.x.publishAt)).slice(0, 3).map((a) => a.x);
   const body = `<article class="bl-article" itemscope itemtype="https://schema.org/BlogPosting"${preview ? '' : ' data-pid="' + p.id + '"'}>
@@ -150,14 +184,14 @@ ${p.tags && p.tags.length ? `<div class="bl-tags">${tagChips(p.tags, '/blog')}</
 <p class="bl-lead">${esc(p.excerpt)}</p>
 <p class="bl-by"><span itemprop="author">${esc(au.name)}</span><span aria-hidden="true">·</span><time datetime="${isoDate(p.publishAt || p.updated)}" itemprop="datePublished">${fmtDate(p.publishAt || p.updated)}</time><span aria-hidden="true">·</span><span>${p.mins || 1} min read</span></p>
 </div></header>
-${p.cover && p.cover.src ? `<figure class="bl-cover"><img src="${esc(p.cover.src)}" alt="${esc(p.cover.alt || '')}" itemprop="image" decoding="async"></figure>` : ''}
+${p.cover && p.cover.src ? `<figure class="bl-cover"><img src="${esc(p.cover.src)}"${coverAttrs(p)} alt="${esc(p.cover.alt || '')}" itemprop="image" decoding="async"></figure>` : ''}
 <div class="bl-wrap bl-cols"><div class="bl-md" itemprop="articleBody">${r.html}
 <hr class="bl-end">${shareBlock(p, url)}
 ${authorBox(au)}
 </div>${tocBlock(r.toc) ? `<aside class="bl-side">${tocBlock(r.toc)}</aside>` : ''}</div>
 ${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">Keep reading</h2><div class="bl-grid">${rel.map((x) => card(x)).join('')}</div></section>` : ''}
 </article>`;
-  const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.cover && p.cover.src ? [abs(p.cover.src)] : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, wordCount: p.words, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title, href: '/blog/' + p.slug }])] }];
+  const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, wordCount: p.words, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title, href: '/blog/' + p.slug }])] }];
   return layout({ title: (seo.title || p.title) + ' · Aashish Pandey', desc: seo.description || trunc(p.excerpt, 170), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
 }
 
@@ -170,8 +204,9 @@ async function workIndex() {
 <div class="bl-wrap bl-list">${rows.length ? `<div class="bl-grid">${rows.map((p) => card(p)).join('')}</div>` : '<div class="bl-empty"><h2>More case studies are on the way</h2><p>See the <a href="/case-studies">four main case studies</a> in the meantime.</p></div>'}</div>`;
   return layout({ section: 'work', title: 'More case studies · Aashish Pandey', desc: 'Case studies from multi-market Shopify programs, website launches and tool builds by Aashish Pandey.', canonical: SITE + '/work', body, jsonld: [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'CollectionPage', '@id': SITE + '/work#page', url: SITE + '/work', name: 'More case studies', isPartOf: { '@id': SITE + '/#website' } }, crumbLd([{ t: 'Home', href: '/' }, { t: 'Case studies', href: '/case-studies' }, { t: 'More work', href: '/work' }])] }] });
 }
-async function casePage(p, preview) {
-  const r = md.render(p.body), url = SITE + '/work/' + p.slug, c = p.case || {}, seo = p.seo || {};
+async function casePage(p0, preview) {
+  const p = await withImages(p0), r = md.render(p.body), url = SITE + '/work/' + p.slug, c = p.case || {}, seo = p.seo || {};
+  r.html = sized(r.html, p.mediaMap);
   const more = (await posts.live('case')).filter((x) => x.id !== p.id).slice(0, 3);
   const body = `<article class="bl-article bl-case"${preview ? '' : ' data-pid="' + p.id + '"'}>
 <header class="bl-ah"><div class="bl-wrap bl-wrap--n">${crumbs([{ t: 'Home', href: '/' }, { t: 'Case studies', href: '/case-studies' }, { t: p.title }])}
@@ -180,14 +215,14 @@ async function casePage(p, preview) {
 <dl class="bl-facts">${c.client ? `<div><dt>Client</dt><dd>${esc(c.client)}</dd></div>` : ''}${c.role ? `<div><dt>My role</dt><dd>${esc(c.role)}</dd></div>` : ''}${c.year ? `<div><dt>Year</dt><dd>${esc(c.year)}</dd></div>` : ''}${c.services && c.services.length ? `<div><dt>Services</dt><dd>${c.services.map(esc).join(', ')}</dd></div>` : ''}</dl>
 </div></header>
 ${c.metrics && c.metrics.length ? `<div class="bl-wrap"><ul class="bl-metrics">${c.metrics.map((m) => `<li><b>${esc(m.value)}</b><span>${esc(m.label)}</span></li>`).join('')}</ul></div>` : ''}
-${p.cover && p.cover.src ? `<figure class="bl-cover"><img src="${esc(p.cover.src)}" alt="${esc(p.cover.alt || '')}" decoding="async"></figure>` : ''}
+${p.cover && p.cover.src ? `<figure class="bl-cover"><img src="${esc(p.cover.src)}"${coverAttrs(p)} alt="${esc(p.cover.alt || '')}" decoding="async"></figure>` : ''}
 <div class="bl-wrap bl-cols"><div class="bl-md">${r.html}
 ${c.stack && c.stack.length ? `<h2 id="stack">Built with</h2><div class="bl-tags">${c.stack.map((s) => `<span class="bl-tag">${esc(s)}</span>`).join('')}</div>` : ''}
 ${c.link ? `<p class="md-cta"><a class="md-btn" href="${esc(c.link)}" rel="noopener noreferrer" target="_blank">Visit the live site</a></p>` : ''}
 <hr class="bl-end">${shareBlock(p, url)}</div>${tocBlock(r.toc) ? `<aside class="bl-side">${tocBlock(r.toc)}</aside>` : ''}</div>
 ${more.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">More case studies</h2><div class="bl-grid">${more.map((x) => card(x)).join('')}</div></section>` : ''}
 </article>`;
-  const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'Article', '@id': url + '#article', headline: p.title, description: p.excerpt, image: p.cover && p.cover.src ? [abs(p.cover.src)] : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: { '@id': SITE + '/#person' }, publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, about: c.client || undefined, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Case studies', href: '/case-studies' }, { t: p.title, href: '/work/' + p.slug }])] }];
+  const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'Article', '@id': url + '#article', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: { '@id': SITE + '/#person' }, publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, about: c.client || undefined, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Case studies', href: '/case-studies' }, { t: p.title, href: '/work/' + p.slug }])] }];
   return layout({ section: 'work', title: (seo.title || p.title + ' · Case study') + ' · Aashish Pandey', desc: seo.description || trunc(p.excerpt, 170), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, body, jsonld: ld });
 }
 
@@ -202,11 +237,12 @@ async function rss() {
     + rows.map((p) => `<item><title>${esc(p.title)}</title><link>${SITE}/blog/${p.slug}</link><guid isPermaLink="true">${SITE}/blog/${p.slug}</guid><pubDate>${new Date(p.publishAt || p.updated).toUTCString()}</pubDate><description>${esc(p.excerpt)}</description>${(p.tags || []).map((t) => `<category>${esc(t)}</category>`).join('')}</item>`).join('') + '</channel></rss>';
 }
 async function sitemap() {
-  const rows = (await posts.live()).filter((p) => !(p.seo && p.seo.noindex)), idx = (u, m) => `<url><loc>${SITE}${u}</loc>${m ? `<lastmod>${new Date(m).toISOString().slice(0, 10)}</lastmod>` : ''}</url>`;
+  const rows = (await posts.live()).filter((p) => !(p.seo && p.seo.noindex)), idx = (u, m, imgs) => `<url><loc>${SITE}${u}</loc>${m ? `<lastmod>${new Date(m).toISOString().slice(0, 10)}</lastmod>` : ''}${(imgs || []).map((i) => `<image:image><image:loc>${esc(abs(i.url))}</image:loc></image:image>`).join('')}</url>`;
   const lastOf = (t) => Math.max(0, ...rows.filter((p) => p.type === t).map((p) => p.updated));
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`
+  const withImgs = []; for (const p of rows) withImgs.push([p, (await withImages(p)).images]);
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`
     + (rows.some((p) => p.type === 'post') ? idx('/blog', lastOf('post')) : '') + (rows.some((p) => p.type === 'case') ? idx('/work', lastOf('case')) : '')
-    + rows.map((p) => idx((p.type === 'case' ? '/work/' : '/blog/') + p.slug, p.updated)).join('') + '</urlset>';
+    + withImgs.map(([p, imgs]) => idx((p.type === 'case' ? '/work/' : '/blog/') + p.slug, p.updated, imgs)).join('') + '</urlset>';
 }
 
 /* ---------- entry ---------- */
