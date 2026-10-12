@@ -192,7 +192,7 @@ ${authorBox(au)}
 ${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">Keep reading</h2><div class="bl-grid">${rel.map((x) => card(x)).join('')}</div></section>` : ''}
 </article>`;
   const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, wordCount: p.words, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title, href: '/blog/' + p.slug }])] }];
-  return layout({ title: (seo.title || p.title) + ' · Aashish Pandey', desc: seo.description || trunc(p.excerpt, 170), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
+  return layout({ title: (seo.title || p.title) + ' · Aashish Pandey', desc: seo.description || trunc(p.excerpt, 155), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
 }
 
 /* ---------- case studies ---------- */
@@ -223,7 +223,7 @@ ${c.link ? `<p class="md-cta"><a class="md-btn" href="${esc(c.link)}" rel="noope
 ${more.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">More case studies</h2><div class="bl-grid">${more.map((x) => card(x)).join('')}</div></section>` : ''}
 </article>`;
   const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'Article', '@id': url + '#article', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: { '@id': SITE + '/#person' }, publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, about: c.client || undefined, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Case studies', href: '/case-studies' }, { t: p.title, href: '/work/' + p.slug }])] }];
-  return layout({ section: 'work', title: (seo.title || p.title + ' · Case study') + ' · Aashish Pandey', desc: seo.description || trunc(p.excerpt, 170), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, body, jsonld: ld });
+  return layout({ section: 'work', title: (seo.title || p.title + ' · Case study') + ' · Aashish Pandey', desc: seo.description || trunc(p.excerpt, 155), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, body, jsonld: ld });
 }
 
 function notFound() {

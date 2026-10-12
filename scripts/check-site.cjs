@@ -218,6 +218,18 @@ for (const [asset, vs] of Object.entries(verNow)) {
     }
   }
 }
+// Bing Webmaster flags a meta description outside 70 to 160 characters, and a page without a language tag.
+for (const p of require('./pages.cjs').list()) {
+  const h = fs.readFileSync(p.abs, 'utf8');
+  if (/<meta[^>]+name="robots"[^>]+noindex/i.test(h)) continue;
+  const d = (/<meta name="description" content="([^"]*)">/.exec(h) || [])[1];
+  if (d === undefined) fail(p.rel, 'has no meta description');
+  else {
+    const n = d.replace(/&(?:#\d+|[a-z]+);/g, '_').length;
+    if (n < 70 || n > 160) fail(p.rel, `meta description is ${n} characters, keep it between 70 and 160`);
+  }
+  if (!/<html[^>]*\blang="/.test(h)) fail(p.rel, '<html> has no lang attribute');
+}
 try {
   execFileSync(process.execPath, [path.join(ROOT, 'scripts/chrome.cjs'), '--check'], { cwd: ROOT, stdio: 'pipe' });
 } catch (e) {

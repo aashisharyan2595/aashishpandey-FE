@@ -13,7 +13,7 @@
  * from this file even if someone forgets to run it before committing.
  * Active state (current page and its menu) comes from the vercel.json rewrites.
  * Every page, 404.html included, also gets the shared <head> tags in <!-- ap-head:start --> ... <!-- ap-head:end -->,
- * added just before </head> on first run.
+ * added just before </head> on first run, and <html lang="en"> where the tag has no lang.
  */
 const fs = require('fs');
 const path = require('path');
@@ -32,7 +32,8 @@ const MAIL = 'mailto:hello@aashishpandey.com';
 
 // Tags every page carries in its <head>. Ahrefs Web Analytics is cookieless, like Vercel Web Analytics, so it loads
 // without waiting for the cookie choice (see the cookie policy, "No cookies").
-const HEAD = '<script src="https://analytics.ahrefs.com/analytics.js" data-key="NLMsfOMIs451GqBmVggYOA" async></script>';
+// The content-language tag is the "meta language" Bing Webmaster checks for; <html lang="en"> is set by headTags() below.
+const HEAD = '<meta http-equiv="content-language" content="en">\n<script src="https://analytics.ahrefs.com/analytics.js" data-key="NLMsfOMIs451GqBmVggYOA" async></script>';
 
 /* ---------- the menus ---------- */
 // item: href, t (title), d (description), ic (icon key), f (footer label, defaults to t), b (badge), x (external), dl (download)
@@ -320,6 +321,7 @@ function wrapLegacyFooter(src) {
   return src.replace(/(?<!<!-- ap-foot:start -->\s*)<footer class="ap-foot"[\s\S]*?<\/footer>(?!\s*<!-- ap-foot:end -->)/g, (m) => `<!-- ap-foot:start -->\n${m}\n<!-- ap-foot:end -->`);
 }
 function headTags(src) {
+  src = src.replace(/<html(?![^>]*\blang=)([^>]*)>/i, '<html lang="en"$1>');
   if (!src.includes('<!-- ap-head:start -->')) return src.replace('</head>', '<!-- ap-head:start --><!-- ap-head:end -->\n</head>').replace(/(<!-- ap-head:start -->)[\s\S]*?(<!-- ap-head:end -->)/, `$1\n${HEAD}\n$2`);
   return src.replace(/(<!-- ap-head:start -->)[\s\S]*?(<!-- ap-head:end -->)/, `$1\n${HEAD}\n$2`);
 }
