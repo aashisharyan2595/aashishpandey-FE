@@ -127,6 +127,8 @@
   if (!dev) {
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     var v = document.createElement('script'); v.defer = true; v.src = '/_vercel/insights/script.js'; document.head.appendChild(v);   // cookieless
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    var si = document.createElement('script'); si.defer = true; si.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(si);   // Speed Insights: cookieless page speed scores
     startAnalytics();
   }
 
