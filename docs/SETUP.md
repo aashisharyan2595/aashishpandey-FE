@@ -106,7 +106,7 @@ Any host works if it can do four things. Vercel-specific bits are marked.
 3. **Run the two Node functions.** `POST /api/shorten` and `GET /s/:code` (which `vercel.json` rewrites to `/api/s/:code`). They use `fetch` and `crypto`, so Node 18 or newer. The rate limit reads the `x-forwarded-for` header, so the host must set it to the real visitor IP.
 4. **Send the headers** in `vercel.json` (HSTS, cache rules for `/assets/*` and `*.js`, `no-store` for `/api/*`).
 
-Vercel-only: `/_vercel/insights/script.js` in `assets/js/site.js` (Web Analytics). Remove that line on another host.
+Vercel-only: `/_vercel/insights/script.js` (Web Analytics) and `/_vercel/speed-insights/script.js` (Speed Insights) in `assets/js/site.js`. Remove those lines on another host.
 
 On a plain server (nginx plus Node), translate the rewrites into `try_files` or `rewrite` rules and run the two functions in a small Express app. Netlify and Cloudflare Pages have their own redirect and function formats, so `vercel.json` needs translating by hand.
 
