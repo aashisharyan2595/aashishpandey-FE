@@ -215,7 +215,7 @@ ${BAND}
     </div>
     <div class="rb-prev"><div class="rb-sticky"><div class="no-print" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span id="pageNote" class="tl-muted" style="font-size:13px"></span><button id="rbDl" class="tl-btn tl-btn--p" type="button">Download</button></div><div id="fit" class="sb-fit"><div id="sop" aria-label="SOP preview"></div></div></div></div>
   </div>`;
-  const url = SITE + '/tools/sop-maker/build', desc = `Build a standard operating procedure step by step: roles, numbered steps with owners, checks, KPIs, risks and sign-off. ${N} templates or any topic. Word and PDF, free and private.`;
+  const url = SITE + '/tools/sop-maker/build', desc = `Build an SOP step by step: roles, numbered steps with owners, checks, KPIs, risks and sign-off. ${N} templates or any topic. Word and PDF, free and private.`;
   page('Tools-SOP-Build.dc.html', { noindex: true, path: '/tools/sop-maker/build', title: 'SOP Builder · Free, Private, Word and PDF', desc, gap: '22px', body,
     scripts: `<script src="/assets/sop-templates.js?v=${V}"></script>\n<script src="/assets/sop-doc.js?v=${V}"></script>\n<script src="/assets/sop-builder.js?v=${V}"></script>\n`,
     ld: [crumbLd(url, [['Home', '/'], ['Tools', '/tools'], ['SOP Maker', '/tools/sop-maker'], ['Builder', '/tools/sop-maker/build']])] });
