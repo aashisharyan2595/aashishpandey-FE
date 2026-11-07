@@ -60,7 +60,7 @@ const ACTIONS = {
   me: null, reauth: null, reauth_state: null, pw_change: null, sec_get: null, sessions_list: null, sessions_revoke: null, totp_setup: null, totp_enable: null, totp_disable: null,
   push_key: null, push_subscribe: null, push_unsubscribe: null, push_test: null, profile_get: null, profile_save: null, authors_list: 'content.view', notes_seen: null,
   // inbox
-  list: 'inbox.view', mail_for: 'inbox.view', digest_get: 'inbox.view', tpl_get: 'inbox.view', reply_get: 'inbox.view', quote_list: 'inbox.view', quote_preview: 'inbox.view',
+  list: 'inbox.view', today_get: 'inbox.view', search_all: 'inbox.view', mail_for: 'inbox.view', digest_get: 'inbox.view', tpl_get: 'inbox.view', reply_get: 'inbox.view', quote_list: 'inbox.view', quote_preview: 'inbox.view',
   update: 'inbox.manage', resend: 'inbox.manage', reply_send: 'inbox.manage', thread_note: 'inbox.manage', quote_send: 'quotes.manage', quote_status: 'quotes.manage',
   bulk: (b) => { const a = String((b && b.action) || ''); return a.startsWith('status:') || a === 'notspam' ? 'inbox.manage' : 'inbox.delete'; },
   delete: 'inbox.delete', export: 'inbox.export',
