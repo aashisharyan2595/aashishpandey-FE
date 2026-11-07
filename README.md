@@ -115,7 +115,7 @@ flowchart LR
 - **Static first.** No framework and no bundler. Pages are `.dc.html` files served as HTML. A small runtime (`assets/js/support.js`) fills `{{ }}` templates in the browser; newer tool pages are plain HTML with inline JS and need no runtime.
 - **Crawlable by default.** At build time the first-paint content of each page is written into the HTML and the template is moved to a hashed `/tpl/*.js` file, so crawlers that do not run JavaScript still read real content.
 - **Clean URLs by rewrite.** `cleanUrls` is off. Every route is a `vercel.json` rewrite from a clean path to a file under `pages/`.
-- **Privacy by design.** Tool data stays on the device. Analytics (GA4 and Microsoft Clarity) only start after the visitor accepts the cookie notice, and Clarity is never loaded on pages where visitors type their own text or personal data.
+- **Privacy by design.** Tool data stays on the device. Analytics (GA4 and Microsoft Clarity) are separate switches in the privacy choices panel and only start after the visitor turns them on, and Clarity is never loaded on pages where visitors type their own text or personal data.
 
 ## The 3D ride
 
