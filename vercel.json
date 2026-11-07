@@ -261,6 +261,7 @@
     { "source": "/Freelance-Project-Manager.dc.html", "destination": "/freelance-project-manager", "permanent": true },
     { "source": "/Full-Stack-Developer.dc.html", "destination": "/full-stack-developer", "permanent": true },
     { "source": "/Image-License.dc.html", "destination": "/image-license", "permanent": true },
+    { "source": "/Newsletter.dc.html", "destination": "/newsletter", "permanent": true },
     { "source": "/Legal-Cookies.dc.html", "destination": "/cookies", "permanent": true },
     { "source": "/Legal-Privacy.dc.html", "destination": "/privacy", "permanent": true },
     { "source": "/Legal-Terms.dc.html", "destination": "/terms", "permanent": true },
@@ -388,6 +389,10 @@
     {
       "source": "/image-license",
       "destination": "/pages/site/Image-License.dc.html"
+    },
+    {
+      "source": "/newsletter",
+      "destination": "/pages/site/Newsletter.dc.html"
     },
     {
       "source": "/freelance-project-manager",

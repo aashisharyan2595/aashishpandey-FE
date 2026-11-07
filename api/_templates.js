@@ -226,12 +226,12 @@ function subscribeWelcome(unsubUrl, src, name) {
   const html = shell({
     title: subject, preheader: 'Thanks for subscribing.',
     eyebrow: 'You are in', headline: first ? `Welcome, ${accent(first + '.')}` : `Welcome ${accent('aboard.')}`,
-    body: p('I only write when I have published something worth reading, never to fill space.')
+    body: p('What to expect: at most one email a month, with the new free tools I have built and one practical tip from my project work. I only write when there is something worth reading, never to fill space.')
       + h(w.hello.replace(/:$/, '')) + w.pairs.slice(0, 3).map(([l, u]) => card(SITE + u, l)).join('')
-      + `<p style="margin:16px 0 16px;">Reply any time. It comes to me.</p>` + p('Aashish'),
+      + `<p style="margin:16px 0 16px;">One favour: hit reply and tell me which small tool would save you time at work. I read every reply, and the best ideas get built.</p>` + p('Aashish'),
     footer: `${flink(unsubUrl, 'Unsubscribe')} &middot; ${flink(SITE + '/privacy', 'Privacy')}`,
   });
-  const text = `${first ? 'Hi ' + first : 'Hi'},\n\nYou are on the list. I only write when I have published something worth reading, never to fill space.\n\n${w.hello}\n${w.pairs.slice(0, 3).map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nReply any time. It comes to me.\n\nAashish\n\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
+  const text = `${first ? 'Hi ' + first : 'Hi'},\n\nYou are on the list. What to expect: at most one email a month, with the new free tools I have built and one practical tip from my project work. I only write when there is something worth reading, never to fill space.\n\n${w.hello}\n${w.pairs.slice(0, 3).map(([l, u]) => `- ${l}: ${SITE}${u}`).join('\n')}\n\nOne favour: hit reply and tell me which small tool would save you time at work. I read every reply, and the best ideas get built.\n\nAashish\n\nUnsubscribe: ${unsubUrl}\nPrivacy: ${SITE}/privacy`;
   return { subject, html, text };
 }
 
