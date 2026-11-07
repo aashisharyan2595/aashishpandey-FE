@@ -1,0 +1,99 @@
+{
+  "_about": "One list of the other names people use for each tool. scripts/chrome.cjs reads it: `k` and `aka` go into the menu (data-k), where assets/nav.js turns them into site search and /tools search; `aka` is also shown on the tool page (ap-aka region) and written into its SoftwareApplication schema as alternateName and keywords. Only names that really describe the tool: no brands we are not, no tools we do not have. A new tool in the menu needs an entry here or the build check fails.",
+  "/tools/resume-maker": {
+    "aka": ["resume builder", "CV maker", "CV builder"],
+    "k": "resume, cv, curriculum vitae, biodata, bio data, ats resume, resume template, resume format, fresher resume, job application, pdf, word, docx, resme, reume, rsume"
+  },
+  "/tools/resume-keyword-matcher": {
+    "aka": ["ATS resume checker", "resume scanner", "job description matcher"],
+    "k": "ats, ats score, resume score, resume checker, cv checker, keywords, job description, jd, compare resume, match, missing keywords, tailor resume, optimize resume"
+  },
+  "/tools/sop-maker": {
+    "aka": ["SOP template generator", "standard operating procedure builder", "process document maker"],
+    "k": "sop, standard operating procedure, process, procedure, policy, work instruction, workflow, runbook, playbook, manual, hr, operations, template, pdf, word, docx, markdown"
+  },
+  "/tools/qr-code-generator": {
+    "aka": ["QR code maker", "Wi-Fi QR code generator", "UPI QR code generator"],
+    "k": "qr, qrcode, qr code, barcode, wifi, wi-fi, upi, payment, vcard, contact card, link, url, svg, png, logo, static, no expiry, kr code, qr maker"
+  },
+  "/tools/qr-code-checker": {
+    "aka": ["QR code scanner", "QR code reader", "dynamic QR code checker"],
+    "k": "qr, scan, scanner, decode, read qr, qr image, safe, redirect, dynamic, static, expired qr, autopsy"
+  },
+  "/tools/url-shortener": {
+    "aka": ["link shortener", "short link generator", "custom short URL maker"],
+    "k": "short url, shorten, shorten link, tiny url, tinyurl, bitly alternative, alias, expiry, redirect, link"
+  },
+  "/tools/invoice-generator": {
+    "aka": ["invoice maker", "bill generator", "GST invoice generator", "receipt maker"],
+    "k": "invoice, bill, billing, receipt, tax invoice, gst, vat, tax, pdf, freelance, client, payment, invoce, invioce"
+  },
+  "/tools/project-estimate-calculator": {
+    "aka": ["project cost calculator", "quote calculator", "PERT estimate calculator"],
+    "k": "estimate, estimation, cost, budget, quote, quotation, pricing, price, hours, rate, timeline, pert, three point, freelance quote"
+  },
+  "/tools/time-zone-meeting-planner": {
+    "aka": ["time zone converter", "world clock", "meeting time finder"],
+    "k": "timezone, timezones, tz, time zone, convert time, time converter, world time, utc, gmt, ist, est, pst, cet, meeting, scheduler, schedule, planner, city time, daylight saving, dst, timzone, timezon"
+  },
+  "/tools/exam-photo-resizer": {
+    "aka": ["passport photo resizer", "signature resizer", "exam form photo resizer"],
+    "k": "exam, form, photo, signature, passport size, passport photo, 10kb, 20kb, 50kb, 100kb, kb, pixels, mm, resize, compress, jpg, ssc, upsc, ibps, neet, jee, gate, railway, government job, application"
+  },
+  "/tools/image-resizer": {
+    "aka": ["image compressor", "image converter", "photo resizer", "WebP converter"],
+    "k": "image, photo, picture, pic, resize, compress, reduce size, shrink, convert, webp, avif, jpeg, jpg, png, batch, bulk, optimize, img"
+  },
+  "/tools/p2p-file-sharing": {
+    "aka": ["peer-to-peer file transfer", "large file sender", "device-to-device file sharing"],
+    "k": "p2p, peer to peer, send files, share files, transfer, file transfer, large files, big files, video, photos, phone to laptop, airdrop, wetransfer alternative, webrtc, direct"
+  },
+  "/tools/password-generator": {
+    "aka": ["random password generator", "passphrase generator", "strong password maker"],
+    "k": "password, passwords, passwd, pwd, pass word, random, strong, secure, passphrase, diceware, generate password, pasword, passwrd"
+  },
+  "/tools/file-hash-checker": {
+    "aka": ["checksum calculator", "SHA-256 checker", "MD5 checker", "hash identifier"],
+    "k": "hash, checksum, md5, sha, sha1, sha-1, sha256, sha-256, sha512, sha-512, verify, integrity, download, identify hash"
+  },
+  "/tools/exif-remover": {
+    "aka": ["EXIF remover", "photo metadata viewer", "GPS location remover"],
+    "k": "exif, metadata, meta data, gps, location, geotag, strip, remove, clean photo, privacy, camera data"
+  },
+  "/tools/project-management-tool": {
+    "aka": ["Kanban board", "Gantt chart maker", "task tracker", "project planner"],
+    "k": "project management, pm, kanban, board, gantt, gantt chart, timeline, calendar, task, tasks, todo, to do list, sprint, scrum, agile, planner, trello alternative, asana alternative, jira alternative, team"
+  },
+  "/tools/online-whiteboard": {
+    "aka": ["virtual whiteboard", "mind map maker", "flowchart maker", "diagram tool"],
+    "k": "whiteboard, white board, draw, drawing, sketch, brainstorm, sticky notes, diagram, flowchart, flow chart, mind map, mindmap, canvas, miro alternative, figjam alternative"
+  },
+  "/tools/pad": {
+    "aka": ["Markdown editor", "online notes", "text pad"],
+    "k": "notepad, note, notes, pad, text editor, markdown, md, scratchpad, write, share note, autosave, txt"
+  },
+  "/tools/website-launch-checklist": {
+    "aka": ["website go-live checklist", "site launch checklist", "handover checklist"],
+    "k": "checklist, launch, go live, golive, website, seo checklist, migration, handover, campaign, product launch, event, pre launch"
+  },
+  "/tools/robots-txt-generator": {
+    "aka": ["robots.txt maker", "robots.txt tester", "AI crawler blocker"],
+    "k": "robots, robot, robots.txt, robotstxt, crawler, bots, block ai, gptbot, claudebot, ccbot, disallow, sitemap"
+  },
+  "/tools/llms-txt-generator": {
+    "aka": ["llms.txt maker", "llms.txt file creator"],
+    "k": "llms, llms.txt, llmstxt, llm txt, ai assistant, chatgpt, claude, perplexity, site summary, geo, aeo"
+  },
+  "/tools/json-ld-schema-generator": {
+    "aka": ["schema markup generator", "structured data generator", "FAQ schema generator"],
+    "k": "schema, json ld, jsonld, json-ld, structured data, rich results, rich snippet, faq, product, article, local business, event, breadcrumb, seo markup"
+  },
+  "/tools/llm-token-counter": {
+    "aka": ["token counter", "AI API cost calculator", "GPT token calculator"],
+    "k": "token, tokens, tokenizer, llm, gpt, chatgpt, claude, gemini, openai, prompt, context window, cost, price, api"
+  },
+  "/tools/lorem-ipsum-generator": {
+    "aka": ["dummy text generator", "placeholder text generator", "filler text generator"],
+    "k": "lorem, ipsum, lorem ipsum, lipsum, dummy, placeholder, filler, sample text, paragraphs"
+  }
+}

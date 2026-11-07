@@ -53,7 +53,7 @@
         var h = txt(g.querySelector('.ap-mega__h'));
         g.querySelectorAll('.ap-mega__it').forEach(function (a) {
           var t = a.querySelector('.ap-mega__t').cloneNode(true), b = t.querySelector('.ap-mega__b'); if (b) b.remove();
-          add({ t: txt(t), href: a.getAttribute('href'), d: txt(a.querySelector('.ap-mega__d')), g: menu, k: h, x: a.target === '_blank', dl: a.hasAttribute('download') });
+          add({ t: txt(t), href: a.getAttribute('href'), d: txt(a.querySelector('.ap-mega__d')), g: menu, k: h, x: a.target === '_blank', dl: a.hasAttribute('download'), a: a.getAttribute('data-k') || '' });
         });
       });
     });
@@ -80,26 +80,102 @@
     list.addEventListener('mousemove', function (e) { var a = e.target.closest && e.target.closest('.ap-pal__it'); if (a) pick(+a.getAttribute('data-i'), false); });
     list.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('.ap-pal__it'); if (!a) return; e.preventDefault(); go(+a.getAttribute('data-i')); });
   }
-  function score(it, q) {
-    var t = it.t.toLowerCase(), hay = (it.t + ' ' + it.d + ' ' + (it.k || '') + ' ' + it.g).toLowerCase(), s = 0;
-    for (var i = 0; i < q.length; i++) {
-      if (hay.indexOf(q[i]) < 0) return -1;
-      s += t.indexOf(q[i]) === 0 ? 4 : t.indexOf(q[i]) > 0 ? 3 : 1;
+  /* ---------- matching ----------
+     A tool is found by its name, by the other names listed for it in scripts/tool-search.json (they arrive here as data-k on its menu link),
+     or by its short description, in that order of weight. Typos are forgiven (one slip in a short word, two in a long one), a run-together word
+     such as "timezone" matches "time zone", and every word typed has to match something. Used by this search box and by the /tools page. */
+  var norm = function (v) { return String(v || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim(); };
+  var STOP = ' a an the my me i we to for of and or in on with how do can what is online free tool tools make create get best ';
+  var words = function (v) { // typed text as words, without filler such as "free" or "my" (unless that leaves nothing)
+    var all = norm(v).split(' ').filter(Boolean), keep = all.filter(function (w) { return STOP.indexOf(' ' + w + ' ') < 0; });
+    return keep.length ? keep : all;
+  };
+  function dist(a, b, max) { // Damerau-Levenshtein (a swap of two letters counts as one slip), gives up above max
+    var la = a.length, lb = b.length; if (Math.abs(la - lb) > max) return max + 1;
+    var p2 = null, p1 = [], i, j, c, row;
+    for (j = 0; j <= lb; j++) p1[j] = j;
+    for (i = 1; i <= la; i++) {
+      row = [i]; var low = i;
+      for (j = 1; j <= lb; j++) {
+        c = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+        row[j] = Math.min(p1[j] + 1, row[j - 1] + 1, p1[j - 1] + c);
+        if (i > 1 && j > 1 && a.charCodeAt(i - 1) === b.charCodeAt(j - 2) && a.charCodeAt(i - 2) === b.charCodeAt(j - 1)) row[j] = Math.min(row[j], p2[j - 2] + 1);
+        if (row[j] < low) low = row[j];
+      }
+      if (low > max) return max + 1;
+      p2 = p1; p1 = row;
     }
-    return s;
+    return p1[lb];
   }
+  function prep(it) {
+    if (it.P) return it.P;
+    var ph = (it.a ? it.a.split(',') : []).map(norm).filter(Boolean), tk = {}, add = function (x) { x.split(' ').forEach(function (w) { if (w) tk[w] = 1; }); };
+    ph.forEach(add);
+    var nm = norm(it.t), ds = norm(it.d + ' ' + (it.k || '') + ' ' + it.g);
+    return (it.P = { nm: nm, nt: nm.split(' '), ph: ph, at: Object.keys(tk), ds: ds, dt: ds.split(' '), sq: [nm.replace(/ /g, '')].concat(ph.map(function (x) { return x.replace(/ /g, ''); })) });
+  }
+  // how well one typed word matches one tool (0 = not at all). fuzz = how many slips to forgive (loosened for the "closest tools" list)
+  function wordScore(P, w, fuzz) {
+    var best = 0, i, t, sc, tol = w.length < 4 ? 0 : w.length < 10 ? 1 : 2; if (fuzz && w.length > 5) tol = Math.min(3, tol + 1);
+    for (i = 0; i < P.nt.length; i++) { t = P.nt[i]; sc = t === w ? 100 : t.indexOf(w) === 0 ? 92 : t.indexOf(w) > 0 && w.length > 2 ? 70 : 0; if (sc > best) best = sc; }
+    if (best >= 92) return best;
+    if (P.ph.some(function (x) { return x === w; }) || P.at.indexOf(w) >= 0) best = Math.max(best, 66);
+    else for (i = 0; i < P.at.length; i++) { t = P.at[i]; if (t.indexOf(w) === 0) best = Math.max(best, 58); else if (w.length > 2 && t.indexOf(w) > 0) best = Math.max(best, 40); }
+    if (best < 58) for (i = 0; i < P.sq.length; i++) { t = P.sq[i]; if (t.indexOf(w) === 0 && w.length > 3) best = Math.max(best, i ? 56 : 88); else if (w.length > 3 && t.indexOf(w) > 0) best = Math.max(best, 38); }
+    if (best < 50) for (i = 0; i < P.dt.length; i++) { t = P.dt[i]; if (t.indexOf(w) === 0) best = Math.max(best, 22); else if (w.length > 2 && t.indexOf(w) > 0) best = Math.max(best, 12); }
+    if (!best && tol && w.length > 3) { // typos: against the name words, the other names' words and the run-together forms
+      var d, m = tol + 1;
+      P.nt.forEach(function (x) { d = dist(w, x, tol); if (d < m) m = d; });
+      P.at.forEach(function (x) { d = dist(w, x.slice(0, w.length + 1), tol); if (d < m) m = d; d = dist(w, x, tol); if (d < m) m = d; });
+      P.sq.forEach(function (x) { d = dist(w, x, tol); if (d < m) m = d; });
+      if (m <= tol) best = 46 - 8 * m;
+    }
+    return best;
+  }
+  function score(it, q, any) { // q = words; every word must match unless any is set (closest-tools list)
+    var P = prep(it), s = 0, hit = 0, i, v;
+    for (i = 0; i < q.length; i++) { v = wordScore(P, q[i], any); if (v) { s += v; hit++; } else if (!any) return -1; }
+    if (!hit) return -1;
+    var whole = q.join(' ');
+    if (P.nm === whole) s += 60; else if (P.nm.indexOf(whole) === 0) s += 25;
+    return s - (any ? 20 * (q.length - hit) : 0);
+  }
+  var getIndex = function () { if (!index || !index.length) index = build(); return index; };
+  function rank(q, any) {
+    return getIndex().map(function (it, n) { return { it: it, s: score(it, q, any), n: n }; }).filter(function (r) { return r.s >= 0; })
+      .sort(function (a, b) { return b.s - a.s || a.n - b.n; });
+  }
+  // for the /tools page: tool links in best-first order for what was typed ([] when nothing matches)
+  window.apToolMatch = function (text) {
+    var q = words(text); if (!q.length) return null;
+    return rank(q).filter(function (r) { return /^\/tools\/[^?#]/.test(r.it.href) || r.it.href === '/tools/pad'; }).map(function (r) { return r.it.href; });
+  };
+  window.apToolNear = function (text, n) { // nearest tools when nothing matches: [{href, t}]
+    var q = words(text), out = [];
+    rank(q, true).forEach(function (r) { if (r.s >= 30 && out.length < (n || 4) && /^\/tools\//.test(r.it.href)) out.push({ href: r.it.href, t: r.it.t }); });
+    return out;
+  };
   function row(it, i) {
     return '<a class="ap-pal__it" role="option" id="ap-pal-' + i + '" data-i="' + i + '" href="' + it.href + '"' + (it.x ? ' target="_blank" rel="noopener"' : '') + '><span class="ap-pal__t">' + esc(it.t) + '</span><span class="ap-pal__d">' + esc(it.d) + '</span><span class="ap-pal__g">' + esc(it.g) + '</span></a>';
   }
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function render() {
-    var q = input.value.toLowerCase().split(/\s+/).filter(Boolean), html = '';
+    var q = words(input.value), html = '';
+    getIndex();
     if (!q.length) {
       items = SUGGEST.map(function (h) { return index.filter(function (x) { return x.href === h; })[0]; }).filter(Boolean);
       html = '<p class="ap-pal__h">Suggested</p>' + items.map(row).join('');
     } else {
-      items = index.map(function (it) { return { it: it, s: score(it, q) }; }).filter(function (r) { return r.s >= 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 12).map(function (r) { return r.it; });
-      html = items.length ? items.map(row).join('') : '<p class="ap-pal__none">Nothing matches that. Try “resume”, “QR” or “Shopify”, or <a href="/contact">send a brief</a>.</p>';
+      items = rank(q).slice(0, 12).map(function (r) { return r.it; });
+      if (items.length) html = items.map(row).join('');
+      else {
+        // nothing matched even with typos allowed: offer the nearest tools, or the popular ones
+        items = rank(q, true).filter(function (r) { return r.s >= 30 && /^\/tools\//.test(r.it.href); }).slice(0, 4).map(function (r) { return r.it; });
+        var near = !!items.length;
+        if (!near) items = ['/tools/resume-maker', '/tools/qr-code-generator', '/tools/invoice-generator', '/tools/image-resizer'].map(function (h) { return index.filter(function (x) { return x.href === h; })[0]; }).filter(Boolean);
+        html = '<p class="ap-pal__none">No tool is called that. ' + (near ? 'Closest:' : 'Popular tools:') + '</p>' + items.map(row).join('')
+          + '<p class="ap-pal__none">Missing one? <a href="/contact">Tell me what you need</a>.</p>';
+      }
     }
     list.innerHTML = html; sel = 0; pick(0, true);
   }
