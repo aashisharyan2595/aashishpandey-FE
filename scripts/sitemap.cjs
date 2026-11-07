@@ -12,7 +12,7 @@ const P = [
   ['/work-storynest', 'Work-StoryNest.dc.html'], ['/work-ceat-specialty', 'Work-CEAT-Specialty.dc.html'],
   ['/services', 'Services.dc.html', ['/assets/og/og-services.jpg']],
   ['/shopify-developer', 'Shopify-Developer.dc.html'], ['/full-stack-developer', 'Full-Stack-Developer.dc.html'], ['/wordpress-webflow-developer', 'Wordpress-Webflow-Developer.dc.html', ['/assets/og/og-svc-wordpress-webflow.jpg']],
-  ['/seo-consultant', 'SEO-Consultant.dc.html'], ['/freelance-project-manager', 'Freelance-Project-Manager.dc.html'], ['/image-license', 'Image-License.dc.html'], ['/contact', 'Contact.dc.html'], ['/terms', 'Legal-Terms.dc.html'], ['/privacy', 'Legal-Privacy.dc.html'], ['/cookies', 'Legal-Cookies.dc.html'], ['/ui-ux-design', 'UI-UX-Design.dc.html'], ['/tech-consultant', 'Tech-Consultant.dc.html'],
+  ['/seo-consultant', 'SEO-Consultant.dc.html'], ['/freelance-project-manager', 'Freelance-Project-Manager.dc.html'], ['/image-license', 'Image-License.dc.html'], ['/newsletter', 'Newsletter.dc.html'], ['/contact', 'Contact.dc.html'], ['/terms', 'Legal-Terms.dc.html'], ['/privacy', 'Legal-Privacy.dc.html'], ['/cookies', 'Legal-Cookies.dc.html'], ['/ui-ux-design', 'UI-UX-Design.dc.html'], ['/tech-consultant', 'Tech-Consultant.dc.html'],
   ['/tools', 'Tools-v3.dc.html'], ['/tools/pad', 'Tools-Pad-v2.dc.html'], ['/tools/url-shortener', 'Tools-Shortener.dc.html'],
   ['/tools/image-resizer', 'Tools-Image.dc.html'], ['/tools/lorem-ipsum-generator', 'Tools-Lorem.dc.html'], ['/tools/qr-code-generator', 'Tools-QR.dc.html', ['/assets/og/og-tool-qr.jpg']], ['/tools/qr-code-checker', 'Tools-QR-Check.dc.html', ['/assets/og/og-tool-qr-check.jpg']], ['/tools/website-launch-checklist', 'Tools-Checklist.dc.html'],
   ['/tools/project-management-tool', 'Tools-Board.dc.html', ['/assets/og/og-tool-board.jpg']], ['/tools/online-whiteboard', 'Tools-Whiteboard.dc.html', ['/assets/og/og-tool-whiteboard.jpg']],
@@ -34,7 +34,7 @@ for (const [, file] of P) {
 fs.writeFileSync(stateFile, JSON.stringify(state, null, 2) + '\n');
 // One sitemap per kind of page, tied together by an index at /sitemap.xml (the only one robots.txt names).
 const GROUPS = [
-  ['sitemap-pages.xml', loc => loc === '/' || loc === '/portfolio' || loc === '/how-this-site-was-built' || ['/contact', '/image-license', '/terms', '/privacy', '/cookies'].includes(loc)],
+  ['sitemap-pages.xml', loc => loc === '/' || loc === '/portfolio' || loc === '/how-this-site-was-built' || ['/contact', '/newsletter', '/image-license', '/terms', '/privacy', '/cookies'].includes(loc)],
   ['sitemap-case-studies.xml', loc => loc === '/case-studies' || loc.startsWith('/work-')],
   ['sitemap-services.xml', loc => loc === '/services' || ['/shopify-developer', '/full-stack-developer', '/wordpress-webflow-developer', '/seo-consultant', '/freelance-project-manager', '/ui-ux-design', '/tech-consultant'].includes(loc)],
   ['sitemap-resume.xml', loc => loc.startsWith('/tools/resume-maker')],

@@ -230,20 +230,27 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotice); else initNotice();
   document.addEventListener('click', function (ev) { var t = ev.target.closest && ev.target.closest('[data-cookie-settings]'); if (t) { ev.preventDefault(); noticeFrom = t; showNotice(true, true); } });
 
-  /* ---- newsletter form in the footer ---- */
+  /* ---- newsletter forms (footer, tool pages, /newsletter): any form[data-news], its value names the place ---- */
   var T0 = Date.now();
   document.addEventListener('submit', function (ev) {
     var f = ev.target; if (!f || !f.matches || !f.matches('form[data-news]')) return;
     ev.preventDefault();
-    var msg = f.querySelector('[data-news-msg]'), btn = f.querySelector('button'), email = (f.email.value || '').trim();
+    var msg = f.querySelector('[data-news-msg]'), btn = f.querySelector('button[type=submit]') || f.querySelector('button'), email = (f.email.value || '').trim();
+    var via = (f.getAttribute('data-news') || 'form').replace(/[^a-z-]/g, '').slice(0, 20) || 'form';   // which sign-up place this is (footer, after-use, card, inline, page), so the list shows what works
     var say = function (t, cls) { msg.textContent = t; msg.className = cls || ''; };
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say('That email address does not look right.', 'is-err'); f.email.focus(); return; }
     btn.disabled = true; say('Sending…');
     window.apToken().then(function (tk) {
       if (!tk && window.apTokenStuck) return { ok: false, j: { error: VERIFY_MSG } };
-      return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, name: ((f.elements['name'] && f.elements['name'].value) || '').trim().slice(0, 60), cf: tk }) }).then(asResult);
+      return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, via: via, name: ((f.elements['name'] && f.elements['name'].value) || '').trim().slice(0, 60), cf: tk }) }).then(asResult);
     })
-      .then(function (x) { btn.disabled = false; if (x.ok) { f.email.value = ''; if (f.elements['name']) f.elements['name'].value = ''; say(x.j.message || 'Check your inbox to confirm.', 'is-ok'); if (window.apTrack) window.apTrack('newsletter_signup', {}); } else say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err'); })
+      .then(function (x) {
+        btn.disabled = false;
+        if (!x.ok) return say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err');
+        f.email.value = ''; if (f.elements['name']) f.elements['name'].value = ''; say(x.j.message || 'You are subscribed.', 'is-ok');
+        try { localStorage.setItem('apNlDone', '1'); } catch (e) { /* storage off: the prompts may ask again, nothing breaks */ }
+        if (window.apTrack) window.apTrack('newsletter_signup', { via: via });
+      })
       .catch(function () { btn.disabled = false; say('Could not reach the server. Please try again later.', 'is-err'); });
   });
   /* ---- Cloudflare Turnstile (optional): runs only when TURNSTILE_SITEKEY is set in Vercel; stays invisible unless Cloudflare needs a click ---- */
@@ -385,4 +392,57 @@
     else if (e.shiftKey && act === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && act === last) { e.preventDefault(); first.focus(); }
   };
+})();
+
+/* ---- reading card: one small, dismissible email offer on pages people read (blog, services, case studies, portfolio) ----
+   Not a modal: it never covers the page, takes no focus, and waits until the visitor has read most of the page (60% scrolled, at least 20 s).
+   Skipped on the 3D home, Portfolio, the tools (tools.js has the corner card and the after-use offer there), contact, legal pages and the newsletter page.
+   Once per visit; "No thanks" is remembered for 60 days (apNlX) and a sign-up stops every offer (apNlDone). Reduced motion: no animation. */
+(function () {
+  var p = location.pathname.replace(/\/$/, '') || '/';
+  if (p === '/' || /^\/(tools|portfolio|newsletter|contact|privacy|terms|cookies|image-license|kd2ozfuew9n4uaciyl1j)/.test(p) || /^\/api\//.test(p)) return;
+  var ls = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  var ss = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} } };
+  var x = Number(ls.get('apNlX')) || 0;
+  if (ls.get('apNlDone') === '1' || (x && Date.now() - x < 60 * 864e5) || ss.get('apNlSeen') === '1') return;
+  if (window.matchMedia && matchMedia('print').matches) return;
+  var t0 = Date.now(), shown = false;
+  function css() {
+    if (document.getElementById('ap-rc-css')) return;
+    var s = document.createElement('style'); s.id = 'ap-rc-css';
+    s.textContent = '#ap-rc{position:fixed;z-index:90;right:16px;bottom:16px;width:min(360px,calc(100vw - 32px));box-sizing:border-box;padding:16px 16px 12px;border-radius:18px;background:rgba(15,20,51,.98);border:1px solid rgba(244,239,230,.18);box-shadow:0 20px 60px rgba(0,0,0,.5);color:#f4efe6;font:400 14px/1.5 Geist,system-ui,sans-serif;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s}'
+      + '#ap-rc.is-on{opacity:1;transform:none}#ap-rc *{box-sizing:border-box}#ap-rc b{display:block;margin:0 28px 2px 0;font:600 15px/1.3 Geist,system-ui,sans-serif;letter-spacing:-.01em}#ap-rc p.apr-s{margin:0 0 10px;font-size:13px;color:#b9b3c6}#ap-rc a{color:#f5b867;text-decoration:underline;text-underline-offset:3px}'
+      + '#ap-rc form{display:flex;flex-wrap:wrap;gap:8px}#ap-rc input[type=email]{flex:1 1 150px;min-width:0;height:44px;padding:0 12px;border-radius:12px;border:1px solid rgba(244,239,230,.2);background:rgba(244,239,230,.05);color:#f4efe6;font:400 15px Geist,system-ui,sans-serif}#ap-rc input:focus{outline:none;border-color:#f5b867;box-shadow:0 0 0 3px rgba(245,184,103,.18)}'
+      + '#ap-rc button[type=submit]{height:44px;padding:0 16px;border-radius:999px;border:0;background:#f5b867;color:#1a1420;font:600 14px Geist,system-ui,sans-serif;cursor:pointer}#ap-rc button[disabled]{opacity:.6;cursor:wait}'
+      + '#ap-rc [data-news-msg]{flex-basis:100%;margin:0;font-size:12.5px;color:#b9b3c6}#ap-rc [data-news-msg]:empty{display:none}#ap-rc [data-news-msg].is-ok{color:#7ff3e1;font-size:14px}#ap-rc [data-news-msg].is-err{color:#ffb39e}'
+      + '#ap-rc .apr-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}#ap-rc .apr-x{position:absolute;top:4px;right:4px;width:44px;height:44px;border:0;background:none;color:#b9b3c6;font-size:22px;line-height:1;cursor:pointer}#ap-rc .apr-x:hover{color:#f4efe6}'
+      + '#ap-rc .apr-no{display:block;margin:6px 0 0 auto;min-height:32px;padding:0 4px;border:0;background:none;color:#b9b3c6;font:500 12.5px Geist,system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}'
+      + '@media(max-width:640px){#ap-rc{right:12px;left:12px;bottom:12px;width:auto}}@media(prefers-reduced-motion:reduce){#ap-rc{transition:none;transform:none}}@media print{#ap-rc{display:none!important}}';
+    document.head.appendChild(s);
+  }
+  function close(remember) { var c = document.getElementById('ap-rc'); if (c) c.remove(); if (remember) ls.set('apNlX', String(Date.now())); document.removeEventListener('keydown', esc); }
+  function esc(e) { if (e.key === 'Escape') close(true); }
+  function show() {
+    if (shown) return;
+    if (document.getElementById('ap-cc') || document.querySelector('.ap-notice') || document.querySelector('.ap-nav__dd[open], .ap-nav [aria-expanded="true"]')) return void setTimeout(check, 4000);   // the cookie notice or a menu is open: wait
+    shown = true; ss.set('apNlSeen', '1'); css();
+    var c = document.createElement('aside'); c.id = 'ap-rc'; c.setAttribute('aria-label', 'New tools by email');
+    c.innerHTML = '<button type="button" class="apr-x" aria-label="Close">&times;</button><b>New free tools, by email</b><p class="apr-s">At most one email a month, plus one practical tip. Unsubscribe in one click. <a href="/newsletter">What you get</a> · <a href="/privacy">Privacy</a></p>'
+      + '<form data-news="reading" novalidate><input class="apr-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><input name="email" type="email" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required maxlength="254"><button type="submit">Subscribe</button><p data-news-msg role="status" aria-live="polite"></p></form><button type="button" class="apr-no">No thanks</button>';
+    document.body.appendChild(c);
+    c.querySelector('.apr-x').addEventListener('click', function () { close(true); });
+    c.querySelector('.apr-no').addEventListener('click', function () { close(true); });
+    document.addEventListener('keydown', esc);
+    new MutationObserver(function () { var m = c.querySelector('[data-news-msg].is-ok'); if (m) setTimeout(function () { close(false); }, 3500); }).observe(c, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    requestAnimationFrame(function () { c.classList.add('is-on'); });
+  }
+  function check() {
+    if (shown) return;
+    var d = document.documentElement, max = d.scrollHeight - innerHeight;
+    if (max < 300) return;   // a short page: nothing worth waiting for
+    var deep = (window.pageYOffset || d.scrollTop) / max >= (innerWidth < 640 ? .75 : .6);
+    if (deep && Date.now() - t0 >= 20000) show();
+    else if (deep) setTimeout(check, 20000 - (Date.now() - t0) + 50);
+  }
+  addEventListener('scroll', function () { if (!shown) check(); }, { passive: true });
 })();

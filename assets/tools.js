@@ -34,7 +34,7 @@
       try {
         cb[k] = function () {
           var p = orig.apply(cb, arguments);
-          if (p && p.then) p.then(function () { toast(k === 'write' ? 'Image copied' : 'Copied to clipboard'); }, function () {});
+          if (p && p.then) p.then(function () { toast(k === 'write' ? 'Image copied' : 'Copied to clipboard'); win(doc.activeElement); }, function () {});
           return p;
         };
       } catch (e) {}
@@ -44,7 +44,7 @@
       if (!a || !a.hasAttribute || !a.hasAttribute('download')) return;
       var now = Date.now(); if (now - lastDl < 400) return; lastDl = now;
       var n = a.getAttribute('download');
-      toast(n ? 'Downloading ' + n : 'Download started');
+      toast(n ? 'Downloading ' + n : 'Download started'); win(a);
     }
     var click = HTMLAnchorElement.prototype.click;
     HTMLAnchorElement.prototype.click = function () { dl(this); return click.apply(this, arguments); };
@@ -131,6 +131,49 @@
   }
   if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', initJump); else initJump();
 
+  /* ---------- after a win: one small, inline email offer right after the tool did its job ----------
+     A copy or a download is the moment the tool has proved itself, so that is when it asks, once per page, below the result.
+     Never a modal, never in the way: it sits in the page flow, has a "No thanks" that is remembered for 60 days (apNlX),
+     and is not shown again once the visitor has subscribed anywhere on the site (apNlDone). The tools never depend on it. */
+  var ls = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  function nlQuiet() { var x = Number(ls.get('apNlX')) || 0; return ls.get('apNlDone') === '1' || (x && Date.now() - x < 60 * 864e5); }
+  var winShown = false;
+  function win(src) {
+    if (winShown || !/^\/tools\//.test(location.pathname) || nlQuiet()) return;
+    winShown = true;
+    setTimeout(function () {
+      if (nlQuiet() || doc.querySelector('.tl-nl')) return;   // the corner card is already asking
+      var at = winAnchor(src); if (!at) return;
+      // when the tool ends right above the "Try next" email box, light that box up instead of adding a second form
+      var nl = doc.querySelector('.tl-next__nl'), nf = nl && nl.querySelector('form');
+      if (nf && nl.getBoundingClientRect().top - at.getBoundingClientRect().bottom < 240) {
+        nl.classList.add('tl-next__nl--hot'); nf.setAttribute('data-news', 'after-use');
+        var b = nl.querySelector('.tl-next__t b'); if (b) b.textContent = 'Done. Want the next free tool too?';
+        return;
+      }
+      var w = doc.createElement('aside'); w.className = 'tl-win'; w.setAttribute('aria-label', 'New tools by email');
+      w.innerHTML = '<div class="tl-win__t"><b>Done. Want the next free tool too?</b><span>At most one email a month, plus one practical tip. Unsubscribe in one click. <a href="/newsletter">What you get</a></span></div>'
+        + '<form data-news="after-use" novalidate><input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tl-nl__hp"><input name="email" type="email" class="tl-input" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required maxlength="254"><button class="tl-btn tl-btn--p" type="submit">Subscribe</button><p data-news-msg role="status"></p></form>'
+        + '<button type="button" class="tl-win__x">No thanks</button>';
+      at.parentNode.insertBefore(w, at.nextSibling);
+      w.querySelector('.tl-win__x').addEventListener('click', function () { ls.set('apNlX', String(Date.now())); w.remove(); });
+      requestAnimationFrame(function () { w.classList.add('is-on'); });
+    }, 1400);   // after the toast has had its moment
+  }
+  // below the answer when the page marks one, otherwise below the block of the page the visitor just used
+  function winAnchor(src) {
+    var res = doc.querySelector('[data-tl-result]'), main = doc.querySelector('main');
+    if (res && res.offsetParent !== null && !res.closest('.tl-hero') && res.getBoundingClientRect().width >= res.parentElement.getBoundingClientRect().width * 0.9) return res;   // a half-width answer (two columns) would squeeze the offer in beside it
+    if (res && res.offsetParent !== null) src = res;
+    if (!main) return null;
+    var el = src && src.nodeType === 1 && main.contains(src) ? src : null;
+    while (el && el.parentElement !== main) el = el.parentElement;
+    if (el && !el.matches('.tl-hero, header, section[aria-label="About this tool"], .tl-next')) return el;
+    var nx = main.querySelector('.tl-next'); return nx ? nx.previousElementSibling : null;
+  }
+  var print0 = window.print;   // résumé, SOP and invoice save their PDF through the print dialog
+  if (typeof print0 === 'function') window.print = function () { var r = print0.apply(window, arguments); win(doc.activeElement); return r; };
+
   /* ---------- what next: related tools under the tool, and a small email prompt once the tool has been used ----------
      The related tools are read from the page's own "More free tools" cards, so there is one list to keep. The email form is a form[data-news],
      which site.js already submits to /api/subscribe (honeypot, time check, Turnstile). */
@@ -157,25 +200,29 @@
 
     function nlForm(sub) {
       if (sub) return '<p class="tl-next__ok">You are on the list. New tools will reach you by email.</p>';
-      return '<div class="tl-next__t"><b>New free tools by email</b><span>One short email when a new tool goes live. Unsubscribe any time. <a href="/privacy">Privacy</a></span></div>'
-        + '<form data-news novalidate><input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tl-nl__hp"><input name="email" type="email" class="tl-input" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required><button class="tl-btn tl-btn--p" type="submit">Subscribe</button><p data-news-msg role="status"></p></form>';
+      return '<div class="tl-next__t"><b>New free tools by email</b><span>At most one email a month, plus one practical tip. Unsubscribe in one click. <a href="/newsletter">What you get</a> · <a href="/privacy">Privacy</a></span></div>'
+        + '<form data-news="' + (sub === 0 ? 'card' : 'inline') + '" novalidate><input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tl-nl__hp"><input name="email" type="email" class="tl-input" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required><button class="tl-btn tl-btn--p" type="submit">Subscribe</button><p data-news-msg role="status"></p></form>';
     }
     // a successful sign-up is remembered, so neither the form nor the card asks again
     new MutationObserver(function (m) {
-      m.forEach(function (r) { var t = r.target; if (t.matches && t.matches('[data-news-msg].is-ok') && t.closest('.tl-next, .tl-nl')) { store.set('apNlDone', '1'); setTimeout(function () { var c = doc.querySelector('.tl-nl'); if (c) c.remove(); }, 3500); } });
+      m.forEach(function (r) { var t = r.target; if (t.matches && t.matches('[data-news-msg].is-ok') && t.closest('.tl-next, .tl-nl, .tl-win')) { store.set('apNlDone', '1'); setTimeout(function () { var c = doc.querySelector('.tl-nl'); if (c) c.remove(); var x = doc.querySelector('.tl-win__x'); if (x) x.remove(); }, 3500); } });
     }).observe(doc.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
 
-    // the floating card: wide screens only (phones have bottom bars), after real use, never with the cookie notice up, once per 60 days
-    if (done || innerWidth < 900) return;
+    // the floating card: after real use, never with the cookie notice up, once per 60 days (on phones it floats above the tools' bottom bars)
+    if (done) return;
     var asked = Number(store.get('apNlX')) || 0; if (asked && Date.now() - asked < 60 * 864e5) return;
     var shown = false, usedAt = 0;
     function show() {
-      if (shown || doc.getElementById('ap-cc')) { if (!shown) setTimeout(show, 4000); return; }
+      if (shown || nlQuiet() || doc.querySelector('.tl-win')) return;   // signed up, said no, or the inline offer is already asking
+      if (doc.getElementById('ap-cc')) return void setTimeout(show, 4000);
       shown = true;
       var c = doc.createElement('aside'); c.className = 'tl-nl'; c.setAttribute('aria-label', 'New tools by email');
-      c.innerHTML = '<button type="button" class="tl-nl__x" aria-label="Close">&times;</button>' + nlForm(false).replace('<div class="tl-next__t">', '<div class="tl-next__t">');
+      c.innerHTML = '<button type="button" class="tl-nl__x" aria-label="Close">&times;</button>' + nlForm(0);
       body().appendChild(c); requestAnimationFrame(function () { c.classList.add('is-on'); });
-      c.querySelector('.tl-nl__x').addEventListener('click', function () { store.set('apNlX', String(Date.now())); c.remove(); });
+      var gone = function () { store.set('apNlX', String(Date.now())); c.remove(); doc.removeEventListener('keydown', esc); };
+      var esc = function (e) { if (e.key === 'Escape') gone(); };
+      doc.addEventListener('keydown', esc);
+      c.querySelector('.tl-nl__x').addEventListener('click', gone);
     }
     function onUse(e) {
       var t = e.target; if (!t || !t.closest || t.closest('.ap-nav, .ap-foot, .ap-close, .ap-quotes, .ap-notice, #ap-cc, header, footer, .tl-next, .tl-nl')) return;
