@@ -12,6 +12,7 @@ const TOOLS = {
   'resume-maker': 'Resume maker', 'resume-keyword-matcher': 'Resume keyword matcher', 'p2p-file-sharing': 'P2P file sharing',
   'llm-token-counter': 'LLM token counter', 'robots-txt-generator': 'robots.txt generator', 'llms-txt-generator': 'llms.txt generator',
   'json-ld-schema-generator': 'JSON-LD schema generator',
+  'project-management-tool': 'Project board', 'online-whiteboard': 'Online whiteboard',
 };
 const ymd = (t) => new Date(t + 5.5 * 3600e3).toISOString().slice(0, 10).replace(/-/g, '');   // days in IST
 const toolOf = (path) => { const m = /^\/tools\/([a-z0-9-]+)/.exec(String(path || '')); return m && TOOLS[m[1]] ? m[1] : null; };
