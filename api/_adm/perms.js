@@ -38,7 +38,8 @@ const PERMS = [
   { id: 'team.manage', g: 'Manage', label: 'Manage people', desc: 'Add, deactivate and reset team members.' },
   { id: 'roles.manage', g: 'Manage', label: 'Manage roles', desc: 'Create roles and change what they can do.' },
   { id: 'audit.view', g: 'Manage', label: 'See the activity log', desc: '' },
-  { id: 'security.manage', g: 'Manage', label: 'Security controls', desc: 'Sign everyone out, backups, end other people\'s sign-ins.' },
+  { id: 'security.manage', g: 'Manage', label: 'Security controls', desc: 'Sign everyone out, backups, end other people\'s sign-ins, security rules.' },
+  { id: 'privacy.manage', g: 'Manage', label: 'Privacy requests', desc: 'Find, export and erase everything held about one person.' },
 ];
 const ALL = PERMS.map((p) => p.id);
 const pick = (...p) => p.flatMap((x) => (x.endsWith('.*') ? ALL.filter((i) => i.startsWith(x.slice(0, -1))) : [x]));
@@ -46,7 +47,7 @@ const pick = (...p) => p.flatMap((x) => (x.endsWith('.*') ? ALL.filter((i) => i.
 // the built-in roles. Their ids stay stable because people are stored with them.
 const PRESETS = {
   owner: { name: 'Owner', desc: 'Everything, always. Signs in with the password set in Vercel.', perms: ALL, locked: true },
-  admin: { name: 'Admin', desc: 'Runs the whole site day to day. Cannot manage roles or security controls.', perms: ALL.filter((p) => !['roles.manage', 'security.manage'].includes(p)) },
+  admin: { name: 'Admin', desc: 'Runs the whole site day to day. Cannot manage roles or security controls.', perms: ALL.filter((p) => !['roles.manage', 'security.manage', 'privacy.manage'].includes(p)) },
   editor: { name: 'Editor', desc: 'Reviews, edits and publishes content. No inbox.', perms: pick('content.*', 'taxonomy.manage', 'site.edit', 'media.*', 'insights.view') },
   author: { name: 'Author', desc: 'Writes drafts and sends them for review. Cannot publish.', perms: pick('content.view', 'content.create', 'content.edit_own', 'media.view', 'media.upload') },
   assistant: { name: 'Support', desc: 'Works the inbox: replies, stages, notes and quotes. Reads content.', perms: pick('inbox.view', 'inbox.manage', 'quotes.manage', 'mail.view', 'content.view') },
@@ -56,7 +57,7 @@ const PRESETS = {
 
 // what each admin action needs. null = any signed-in person (their own account). A function decides from the request body.
 const ACTIONS = {
-  me: null, pw_change: null, sec_get: null, sessions_list: null, sessions_revoke: null, totp_setup: null, totp_enable: null, totp_disable: null,
+  me: null, reauth: null, reauth_state: null, pw_change: null, sec_get: null, sessions_list: null, sessions_revoke: null, totp_setup: null, totp_enable: null, totp_disable: null,
   push_key: null, push_subscribe: null, push_unsubscribe: null, push_test: null, profile_get: null, profile_save: null, authors_list: 'content.view', notes_seen: null,
   // inbox
   list: 'inbox.view', mail_for: 'inbox.view', digest_get: 'inbox.view', tpl_get: 'inbox.view', reply_get: 'inbox.view', quote_list: 'inbox.view', quote_preview: 'inbox.view',
@@ -70,7 +71,9 @@ const ACTIONS = {
   attention_get: 'insights.view', health_get: 'insights.view', tools_stats: 'insights.view', gsc_get: 'insights.view', health_run: 'health.run',
   alerts_get: 'settings.manage', alerts_save: 'settings.manage', alerts_test: 'settings.manage', tpl_save: 'settings.manage', digest_save: 'settings.manage', digest_now: 'settings.manage',
   users_list: 'team.manage', users_add: 'team.manage', users_update: 'team.manage', users_delete: 'team.manage', sessions_revoke_user: 'team.manage',
-  roles_list: null, roles_save: 'roles.manage', roles_delete: 'roles.manage', roles_reset: 'roles.manage', audit_list: 'audit.view', signout_all: 'security.manage', backup_now: 'security.manage',
+  roles_list: null, roles_save: 'roles.manage', roles_delete: 'roles.manage', roles_reset: 'roles.manage', audit_list: 'audit.view', audit_export: 'audit.view', audit_verify: 'audit.view', signout_all: 'security.manage', backup_now: 'security.manage',
+  policy_get: 'security.manage', policy_save: 'security.manage', posture_get: 'security.manage',
+  privacy_find: 'privacy.manage', privacy_export: 'privacy.manage', privacy_erase: 'privacy.manage', privacy_log: 'privacy.manage',
   // content
   posts_list: 'content.view', post_get: 'content.view', post_preview: 'content.view', post_preview_url: 'content.view', post_revisions: 'content.view', post_diff: 'content.view', post_comment: 'content.view', post_assign: 'content.view', post_lock: 'content.view', post_unlock: 'content.view',
   post_save: 'content.create', post_duplicate: 'content.create', post_move: 'content.view', post_restore: 'content.view', post_bulk: 'content.view', post_delete: 'content.view',   // these check the entry itself as well

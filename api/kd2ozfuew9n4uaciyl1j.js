@@ -10,6 +10,8 @@
 //   Security:    sec_get, totp_setup, totp_enable, totp_disable, signout_all, backup_now
 //   Short links: links_list, links_act
 //   Site:        health_get, health_run, tools_stats, gsc_get, content_get, content_save, tm_list, tm_act, tm_add, tm_request
+//   Policy:      reauth, reauth_state, policy_get, policy_save, posture_get, audit_export, audit_verify
+//   Privacy:     privacy_find, privacy_export, privacy_erase, privacy_log
 const crypto = require('crypto');
 const { env, sendMail, clean, parseBody, clientIp, limited, link } = require('./_mail');
 const T = require('./_templates');
@@ -39,12 +41,14 @@ const guard = require('./_adm/guard');
 const perms = require('./_adm/perms');
 const cms = require('./_adm/cms');
 const attention = require('./_adm/attention');
+const policy = require('./_adm/policy');
+const privacy = require('./_adm/privacy');
 
 const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
 const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
 // what goes in the activity log (reads are not recorded; a refused attempt always is)
-const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'post_save', 'post_move', 'post_comment', 'post_assign', 'post_bulk', 'post_delete', 'post_duplicate', 'post_restore', 'media_upload', 'media_update', 'media_delete', 'tax_rename', 'tax_delete', 'roles_save', 'roles_delete', 'roles_reset', 'profile_save', 'tm_act', 'tm_add', 'tm_request']);
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'post_save', 'post_move', 'post_comment', 'post_assign', 'post_bulk', 'post_delete', 'post_duplicate', 'post_restore', 'media_upload', 'media_update', 'media_delete', 'tax_rename', 'tax_delete', 'roles_save', 'roles_delete', 'roles_reset', 'profile_save', 'tm_act', 'tm_add', 'tm_request', 'audit_export', 'audit_verify', 'policy_save', 'privacy_find', 'privacy_export', 'privacy_erase']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
@@ -61,12 +65,15 @@ async function session(req) {
   if (!(j.exp > Date.now() / 1000) || String(j.e) !== await sec.epoch()) return null;
   const uid = j.u || 'owner', rec = await sessions.get(j.s);   // ended from the admin, or expired: no longer valid even though the cookie is
   if (!rec || rec.uid !== uid) return null;
-  sessions.touch(rec).catch(() => {});
-  if (uid === 'owner') return { id: 'owner', name: (await cms.ownerProfile()).name || 'Owner', role: 'owner', roleName: 'Owner', perms: await perms.permsOf('owner'), sid: rec.id };
+  const pol = await policy.get();
+  if (sessions.idle(rec, pol.idleMin, Date.now())) { await sessions.revoke(rec.id); req.idleOut = pol.idleMin; return null; }   // left alone too long: this sign-in is over
+  if (req.headers['x-adm-bg'] !== '1') sessions.touch(rec).catch(() => {});   // background refreshes (the editor's lock heartbeat) do not count as activity
+  const base = { sid: rec.id, elev: rec.elev || 0, rec, pol };
+  if (uid === 'owner') return { id: 'owner', name: (await cms.ownerProfile()).name || 'Owner', role: 'owner', roleName: 'Owner', perms: await perms.permsOf('owner'), ...base };
   const u = await users.get(uid);
   if (!u || !u.active) return null;
   const rl = (await perms.roles())[u.role];
-  return { id: u.id, name: u.name, role: u.role, roleName: rl ? rl.name : u.role, perms: await perms.permsOf(u.role), mustChange: !!u.mustChange, sid: rec.id };
+  return { id: u.id, name: u.name, role: u.role, roleName: rl ? rl.name : u.role, perms: await perms.permsOf(u.role), mustChange: !!u.mustChange, ...base };
 }
 const setCookie = (res, v, age) => res.setHeader('Set-Cookie', `${COOKIE}=${v}; Path=/; Max-Age=${age}; HttpOnly; Secure; SameSite=Strict`);
 const sameOrigin = (req) => { const o = req.headers.origin; if (!o) return true; try { return new URL(o).host === req.headers.host; } catch (e) { return false; } };
@@ -180,11 +187,29 @@ module.exports = async (req, res) => {
 
     /* ----- signed in from here ----- */
     user = await session(req);
-    if (!user) return out(401, { error: 'Sign in required.' });
+    if (!user) return out(401, req.idleOut ? { error: `Signed out after ${req.idleOut} minutes without activity. Sign in again.`, idle: true } : { error: 'Sign in required.' });
     body = post ? parseBody(req) : {};
     if (!perms.allowed(user, a, body)) { await audit.log(req, user, 'denied:' + a, audit.detailOf(a, body, q), 403); user = null; return out(403, { error: 'Your role does not allow that.' }); }
-    const b = body, now = Date.now();
-    if (a === 'me') return out(200, { ok: true, user: { id: user.id, name: user.name, role: user.role, roleName: user.roleName, mustChange: user.mustChange, perms: [...user.perms] } });
+    const b = body, now = Date.now(), pol = user.pol;
+    const has2fa = pol.require2fa || a === 'me' ? !!(await sec.totpState(user.id)).enabled : true;
+    if (pol.require2fa && !has2fa && !policy.SETUP_OK.has(a)) { user = null; return out(403, { error: 'Turn on two-factor sign-in first. It is required for everyone on this admin.', need2faSetup: true }); }
+    if (policy.STEP_UP.has(a) && !policy.elevated(user, pol, now)) { await audit.log(req, user, 'stepup:' + a, audit.detailOf(a, body, q), 403); user = null; return out(403, { error: 'Confirm it is you first.', reauth: true }); }
+    if (a === 'me') return out(200, { ok: true, user: { id: user.id, name: user.name, role: user.role, roleName: user.roleName, mustChange: user.mustChange, perms: [...user.perms], has2fa, need2faSetup: pol.require2fa && !has2fa }, policy: { idleMin: pol.idleMin, stepUp: pol.stepUp, stepUpMin: pol.stepUpMin, require2fa: pol.require2fa } });
+    if (a === 'reauth_state') return out(200, { elevated: !!policy.elevated(user, pol, now), stepUp: pol.stepUp, until: user.elev ? user.elev + pol.stepUpMin * 60000 : 0, need2fa: !!(await sec.totpState(user.id)).enabled });
+    if (a === 'reauth' && post) {   // sudo mode: the password again (and the authenticator code when 2FA is on) unlocks risky actions for a few minutes
+      const label = user.id === 'owner' ? 'owner' : ((await users.get(user.id)) || {}).email || user.id;
+      if (await limited('adminreauth', user.id, 6, 900)) return out(429, { error: 'Too many tries. Wait 15 minutes.' });
+      if ((await sec.failCount(label)) >= sec.FAIL_MAX) return out(429, { error: lockedMsg });
+      const u = user.id === 'owner' ? null : await users.get(user.id);
+      const good = user.id === 'owner' ? !!b.password && eq(b.password, process.env.ADMIN_PASSWORD) : !!u && users.verify(b.password, u.pwHash);
+      if (!good) { await audit.log(req, user, 'reauth', { ok: false }, 401); await signInFailed(label, clientIp(req)); return out(400, { error: 'That password is not right.' }); }
+      if ((await sec.totpState(user.id)).enabled) {
+        if (!b.code) return out(400, { error: 'Enter the 6-digit code from your authenticator app.', need2fa: true });
+        if (!(await sec.verifySecondStep(b.code, user.id))) { await audit.log(req, user, 'reauth', { ok: false, why: '2FA' }, 401); await signInFailed(label, clientIp(req)); return out(400, { error: 'That code is not right.', need2fa: true }); }
+      }
+      await sec.clearFails(label); await sessions.elevate(user.rec); await audit.log(req, user, 'reauth', { ok: true }, 200);
+      return out(200, { ok: true, until: Date.now() + pol.stepUpMin * 60000 });
+    }
 
     const viaCms = await cms.handle(a, { user, q, b, req, now, method: req.method, origin: siteOrigin(req) });   // entries, media, roles, profiles
     if (viaCms) return out(viaCms.code, viaCms.json);
@@ -226,7 +251,13 @@ module.exports = async (req, res) => {
     }
     if (a === 'mail_for') { const rows = (await maillog.all()).filter((r) => r.ref === String(q.ref || '')); return out(200, { items: rows, webhook: !!process.env.RESEND_WEBHOOK_SECRET }); }
     if (a === 'users_list') { const m = await users.all(); return out(200, { users: Object.values(m).map(users.pub).sort((x, y) => x.createdAt - y.createdAt) }); }
-    if (a === 'audit_list') { const m = await users.all(); return out(200, { items: await audit.list({ user: q.user, action: q.action, q: q.q, limit: 300 }), users: [{ id: 'owner', name: 'Owner' }, ...Object.values(m).map((u) => ({ id: u.id, name: u.name }))] }); }
+    if (a === 'audit_list') { const m = await users.all(), r = await audit.list({ user: q.user, action: q.action, kind: q.kind, from: q.from, to: q.to, q: q.q, limit: Math.min(1000, Number(q.limit) || 300) }); return out(200, { ...r, check: await audit.lastCheck(), users: [{ id: 'owner', name: 'Owner' }, ...Object.values(m).map((u) => ({ id: u.id, name: u.name }))] }); }
+    if (a === 'audit_export') { res.setHeader('Content-Type', 'text/csv; charset=utf-8'); res.setHeader('Content-Disposition', `attachment; filename="activity-${new Date().toISOString().slice(0, 10)}.csv"`); return res.status(200).send(await audit.exportCsv({ user: q.user, kind: q.kind, from: q.from, to: q.to, q: q.q })); }
+    if (a === 'audit_verify') return out(200, await audit.verify());
+    if (a === 'policy_get') return out(200, { policy: pol, idle: policy.IDLE, step: policy.STEP, has2fa: !!(await sec.totpState(user.id)).enabled });
+    if (a === 'posture_get') return out(200, await policy.posture({ sec, users, guard, pol, auditCheck: (await audit.lastCheck()) || (await audit.verify()) }));
+    if (a === 'privacy_log') return out(200, { items: await privacy.register() });
+
     if (a === 'health_get') return out(200, await siteHealth.last());
     if (a === 'tools_stats') return out(200, await toolStats.stats(q.days, await store.all()));
     if (a === 'gsc_get') { try { return out(200, await gsc.get(q.refresh === '1')); } catch (e) { return out(502, { error: e.message }); } }
@@ -424,6 +455,18 @@ module.exports = async (req, res) => {
       const r = await store.get(clean(b.id, 40)); if (!r || r.type !== 'brief' || !r.email) return out(404, { error: 'Brief not found.' });
       try { const x = await content.request(r); const item = await store.update(r.id, { testimonial: { ...(r.testimonial || {}), asked: Date.now() }, thread: [...(r.thread || []), { dir: 'out', at: Date.now(), subject: 'Testimonial request', body: 'Asked for a testimonial: ' + x.url, by: user.name }] }); return out(200, { ok: true, item: flag(item, now) }); }
       catch (e) { return out(502, { error: 'Email failed: ' + e.message }); }
+    }
+
+    /* ----- security rules and privacy requests ----- */
+    if (a === 'policy_save') { try { return out(200, { ok: true, policy: await policy.save(b, !!(await sec.totpState(user.id)).enabled) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'privacy_find') { try { return out(200, await privacy.find(b.email)); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'privacy_export') {   // POST, so the address never sits in a URL or a server log
+      try { const d = await privacy.exportData(b.email); await privacy.note('export', d.email, await privacy.find(d.email), user.name, clean(b.ref, 80)); res.setHeader('Content-Type', 'application/json; charset=utf-8'); res.setHeader('Content-Disposition', `attachment; filename="data-${privacy.hash(d.email)}.json"`); return res.status(200).send(JSON.stringify(d, null, 2)); }
+      catch (e) { return out(400, { error: e.message }); }
+    }
+    if (a === 'privacy_erase') {
+      if (b.confirm !== 'ERASE') return out(400, { error: 'Type ERASE to confirm.' });
+      try { return out(200, await privacy.erase(b.email, { unblock: !!b.unblock, ref: clean(b.ref, 80) }, user.name)); } catch (e) { return out(400, { error: e.message }); }
     }
 
     /* ----- short links ----- */

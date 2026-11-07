@@ -15,6 +15,12 @@ async function touch(rec) {   // remember when it was last used, at most once a 
   rec.last = now; const left = Math.max(60, Math.floor((rec.created + TTL * 1000 - now) / 1000));
   await redis('SET', 'sess:' + rec.id, JSON.stringify(rec), 'EX', left);
 }
+// "confirm it is you": a fresh password check, remembered on the sign-in itself for a few minutes
+async function elevate(rec) {
+  rec.elev = Date.now(); const left = Math.max(60, Math.floor((rec.created + TTL * 1000 - rec.elev) / 1000));
+  await redis('SET', 'sess:' + rec.id, JSON.stringify(rec), 'EX', left);
+}
+const idle = (rec, minutes, now) => minutes > 0 && now - rec.last > minutes * 60000;
 async function list() {
   const ids = (await redis('ZREVRANGE', 'sess', 0, 199)) || []; if (!ids.length) return [];
   const rows = await redis('MGET', ...ids.map((i) => 'sess:' + i)), out = [];
@@ -24,4 +30,4 @@ async function list() {
 async function revoke(id) { await redis('DEL', 'sess:' + id); await redis('ZREM', 'sess', id); }
 async function revokeUser(uid) { for (const s of await list()) if (s.uid === uid) await revoke(s.id); }
 async function revokeAll() { for (const s of await list()) await revoke(s.id); }
-module.exports = { create, get, touch, list, revoke, revokeUser, revokeAll };
+module.exports = { create, get, touch, elevate, idle, list, revoke, revokeUser, revokeAll };
