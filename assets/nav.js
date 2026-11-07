@@ -133,4 +133,71 @@
     if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); pal && !pal.hidden ? close() : open(); }
     else if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); open(); }
   });
+
+  /* ---------- "Most used" tools in the Tools menu ----------
+     The four tiles are filled in this order, without repeats:
+       1. tools this visitor opened before, most used first (fades with time, so recent visits count more)
+       2. the site-wide top tools of the last 30 days (/api/config?a=top, cached by the CDN and here for 12 hours)
+       3. the defaults written into the page by scripts/chrome.cjs
+     Visits are kept only in this browser (localStorage key apTools) and are never sent anywhere. The menu is closed
+     while this runs, so nothing moves on screen; if storage is blocked the defaults simply stay. */
+  var KEY = 'apTools', TOPKEY = 'apToolsTop', HALF = 30 * 864e5, SLOTS = 4;
+  var store = function (k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } };
+  var known = function () { var o = {}; d.querySelectorAll('.ap-mega__g .ap-mega__it, .ap-ms__tiles .ap-ms__tile').forEach(function (a) { o[a.getAttribute('href')] = 1; }); return o; };
+  (function remember() {
+    var m = /^\/tools\/([a-z0-9-]+)/.exec(location.pathname), h = m && '/tools/' + m[1];
+    if (!h || !known()[h]) return;
+    var all = store(KEY) || {}, now = Date.now(), it = all[h] || { s: 0, t: now };
+    if (now - it.t < 30 * 6e4 && it.s) { it.t = now; } else { it.s = it.s * Math.pow(0.5, (now - it.t) / HALF) + 1; it.t = now; }   // a reload within 30 minutes is the same visit
+    all[h] = it;
+    var keys = Object.keys(all).sort(function (a, b) { return all[b].t - all[a].t; });
+    keys.slice(40).forEach(function (k) { delete all[k]; });
+    store(KEY, all);
+  }());
+  function popTools(defs) {
+    var ok = known(), out = [], mine = 0, all = store(KEY) || {}, now = Date.now(), top = store(TOPKEY);
+    var add = function (h) { if (out.length < SLOTS && ok[h] && out.indexOf(h) < 0) { out.push(h); return true; } };
+    Object.keys(all).map(function (h) { return { h: h, s: all[h].s * Math.pow(0.5, (now - all[h].t) / HALF) }; })
+      .sort(function (a, b) { return b.s - a.s; }).forEach(function (r) { if (add(r.h)) mine++; });
+    ((top && top.list) || []).forEach(add); defs.forEach(add);
+    return { list: out, mine: mine };
+  }
+  function tile(h, phone) {
+    var src = d.querySelector((phone ? '.ap-ms__tiles .ap-ms__tile' : '.ap-mega__g .ap-mega__it') + '[href="' + h + '"]'); if (!src) return null;
+    var a = d.createElement('a'), ic = src.querySelector('.ap-mega__ic');
+    a.href = h;
+    if (phone) { a.className = 'ap-ms__tile'; a.innerHTML = ic.outerHTML + '<span></span>'; a.lastChild.textContent = txt(src); return a; }
+    var t = src.querySelector('.ap-mega__t'), name = t ? txt(t.firstChild) : txt(src);
+    a.className = 'ap-mega__tile'; a.setAttribute('role', 'menuitem');
+    a.innerHTML = ic.outerHTML + '<span class="ap-mega__tx"><span class="ap-mega__t"></span><span class="ap-mega__d"></span></span>';
+    a.querySelector('.ap-mega__t').textContent = name; a.querySelector('.ap-mega__d').textContent = txt(src.querySelector('.ap-mega__d'));
+    return a;
+  }
+  function fillPop() {
+    d.querySelectorAll('[data-ap-pop]').forEach(function (box) {
+      var phone = box.classList.contains('ap-ms__pop'), grid = box.querySelector(phone ? '.ap-ms__tiles' : '.ap-mega__tiles'), head = box.querySelector('p');
+      if (!grid || !head) return;
+      if (!box.getAttribute('data-def')) box.setAttribute('data-def', [].map.call(grid.children, function (a) { return a.getAttribute('href'); }).join(' '));
+      var r = popTools(box.getAttribute('data-def').split(' ')), sig = r.list.join(' ') + '|' + r.mine;
+      if (box.getAttribute('data-sig') === sig) return;
+      var tiles = r.list.map(function (h) { return tile(h, phone); });
+      if (tiles.some(function (x) { return !x; })) return;
+      grid.textContent = ''; tiles.forEach(function (x) { grid.appendChild(x); });
+      head.textContent = !r.mine ? 'Most used' : r.mine >= SLOTS ? 'Your tools' : 'Your tools and most used';
+      box.setAttribute('data-sig', sig);
+    });
+  }
+  fillPop();
+  ['mouseover', 'focusin', 'touchstart'].forEach(function (ev) { d.addEventListener(ev, function (e) { if (e.target.closest && e.target.closest('.ap-dd--mega, .ap-ms')) fillPop(); }, { passive: true, capture: true }); });
+  window.addEventListener('pageshow', fillPop);
+  // site-wide top tools: one small CDN-cached request at most every 12 hours, after the page has settled
+  var top = store(TOPKEY);
+  if (!(top && Date.now() - top.t < 12 * 36e5) && window.fetch && !/^(localhost|127\.)/.test(location.hostname)) {
+    var later = window.requestIdleCallback || function (f) { setTimeout(f, 2500); };
+    window.addEventListener('load', function () { later(function () {
+      fetch('/api/config?a=top').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (j && j.tools) { store(TOPKEY, { t: Date.now(), list: j.tools.map(function (k) { return '/tools/' + k; }) }); fillPop(); }
+      }).catch(function () { /* the defaults stay */ });
+    }); });
+  }
 }());

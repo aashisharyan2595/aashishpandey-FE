@@ -21,8 +21,8 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 36; // bump when assets/nav.css changes: assets are cached for 30 days
-const NAV_JS = 3;   // same for assets/nav.js (search, menu images, footer on phones)
+const NAV_CSS = 37; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_JS = 4;   // same for assets/nav.js (search, menu images, footer on phones)
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
 const WA = 'https://wa.me/917558415031';
@@ -187,7 +187,8 @@ function mega(key) {
   const cta = m.cta.label === null ? `All ${toolCount} tools` : m.cta.label;
   const feat = m.feat ? `<a class="ap-mega__feat" role="menuitem" href="${e(m.feat.href)}"><span class="ap-mega__fic">${icon(m.feat)}</span><span class="ap-mega__ftx"><span class="ap-mega__ft">${e(m.feat.t)}<span class="ap-mega__b">${e(m.feat.b)}</span></span><span class="ap-mega__fd">${e(m.feat.d)}</span></span><span class="ap-mega__fgo">${e(m.feat.cta)}${ARROW}</span></a>` : '';
   const byHref = Object.fromEntries(flat(m).map((it) => [it.href, it]));
-  const pop = m.pop ? `<div class="ap-mega__pop"><p class="ap-mega__h">Most used</p><div class="ap-mega__tiles">${m.pop.map((h) => { const it = byHref[h]; return `<a class="ap-mega__tile" role="menuitem" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`; }).join('')}</div></div>` : '';
+  // m.pop is the default for new visitors; nav.js swaps in the visitor's own tools and the site-wide top tools (see popTools there)
+  const pop = m.pop ? `<div class="ap-mega__pop" data-ap-pop><p class="ap-mega__h">Most used</p><div class="ap-mega__tiles">${m.pop.map((h) => { const it = byHref[h]; return `<a class="ap-mega__tile" role="menuitem" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`; }).join('')}</div></div>` : '';
   const pr = m.promo ? `<a class="ap-mega__promo" role="menuitem" href="${e(m.promo.href)}"><span class="ap-mega__pimg"><img data-src="${e(m.promo.img)}" alt="" width="${m.promo.w}" height="${m.promo.h}" decoding="async"></span><span class="ap-mega__pt">${e(m.promo.t)}</span><span class="ap-mega__pd">${e(m.promo.d)}</span><span class="ap-mega__pgo">Open${ARROW}</span></a>` : '';
   return `<div class="ap-dd ap-dd--mega"><button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button><div class="ap-mega ap-mega--${n}${m.promo ? ' ap-mega--promo' : ''}${m.compact ? ' ap-mega--compact' : ''}" role="menu">${feat}${pop}<div class="ap-mega__main"><div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div>${pr}</div><div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all" role="menuitem" href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div></div></div>`;
 }
@@ -195,7 +196,9 @@ function sheetGroup(key) {
   const m = MENUS[key];
   if (key === 'tools') {
     const tiles = flat(m).map((it) => `<a class="ap-ms__tile" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span>${e(it.t)}</span></a>`).join('');
-    return `<details class="ap-ms__grp"><summary>Tools<span class="ap-ms__count">${toolCount}</span>${CHEV}</summary><div class="ap-ms__body"><a class="ap-ms__all" href="/tools">All tools<span>Free, no sign-up</span></a><div class="ap-ms__tiles">${tiles}</div></div></details>`;
+    const byHref = Object.fromEntries(flat(m).map((it) => [it.href, it]));
+    const pop = `<div class="ap-ms__pop" data-ap-pop><p class="ap-ms__h">Most used</p><div class="ap-ms__tiles">${m.pop.map((h) => { const it = byHref[h]; return `<a class="ap-ms__tile" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span>${e(it.t)}</span></a>`; }).join('')}</div></div>`;
+    return `<details class="ap-ms__grp"><summary>Tools<span class="ap-ms__count">${toolCount}</span>${CHEV}</summary><div class="ap-ms__body"><a class="ap-ms__all" href="/tools">All tools<span>Free, no sign-up</span></a>${pop}<p class="ap-ms__h">Every tool</p><div class="ap-ms__tiles">${tiles}</div></div></details>`;
   }
   const feat = m.feat ? `<a class="ap-ms__feat" href="${e(m.feat.href)}"><span class="ap-mega__ic">${icon(m.feat)}</span><span class="ap-ms__ftx"><span class="ap-ms__rt">${e(m.feat.t)}</span><span class="ap-ms__rd">${e(m.feat.d)}</span></span>${ARROW}</a>` : '';
   const rows = feat + flat(m).map((it) => `<a class="ap-ms__row" href="${e(it.href)}"${ext(it)}><span class="ap-ms__rt">${e(it.t)}</span><span class="ap-ms__rd">${e(it.d)}</span></a>`).join('');

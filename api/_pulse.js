@@ -1,5 +1,6 @@
 // Public endpoints for small site features. No cookies, nothing personal kept beyond what a client types into the testimonial form.
 //   POST ?a=ev        { k: 'view'|'use', p: path, r: referrer }   free-tool usage counter (see _adm/toolstats.js)
+//   GET  ?a=top       the most used free tools of the last 30 days, for the Tools menu (CDN-cached for 6 hours)
 //   GET  ?a=content   availability line, notice bar and approved testimonials for the pages (CDN-cached for 5 minutes)
 //   GET  ?a=tform&t=  the testimonial form a client opens from the email (t is a signed brief id)
 //   POST ?a=tsubmit   { t, quote, name, role, company, rating, publish, hp, ts }
@@ -21,6 +22,16 @@ module.exports = async (req, res) => {
       if (await limited('ev', clientIp(req), 300, 3600)) return res.status(204).end();
       await stats.hit(b.k === 'use' ? 'use' : 'view', clean(b.p, 120), clean(b.r, 400), req.headers.host);
       return res.status(204).end();
+    }
+    if (a === 'top') {
+      // ranked by real use (first click or typing), then views; a tool needs a few views so one visit cannot put it on the menu
+      res.setHeader('Vercel-CDN-Cache-Control', 'max-age=21600, stale-while-revalidate=86400');
+      res.setHeader('CDN-Cache-Control', 'max-age=21600, stale-while-revalidate=86400');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      if (!store.enabled()) return res.status(200).json({ tools: [] });
+      const s = await stats.stats(30, []);
+      const tools = s.tools.filter((t) => t.views >= 5).sort((x, y) => y.uses - x.uses || y.views - x.views).slice(0, 8).map((t) => t.key);
+      return res.status(200).json({ days: 30, tools });
     }
     if (a === 'content') {
       res.setHeader('Vercel-CDN-Cache-Control', 'max-age=300, stale-while-revalidate=600');
