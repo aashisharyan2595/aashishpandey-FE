@@ -247,7 +247,7 @@
       .then(function (x) {
         btn.disabled = false;
         if (!x.ok) return say(x.j.error || 'Could not subscribe. Please try again later.', 'is-err');
-        f.email.value = ''; if (f.elements['name']) f.elements['name'].value = ''; say(x.j.message || 'You are subscribed.', 'is-ok');
+        f.email.value = ''; if (f.elements['name']) f.elements['name'].value = ''; say((f.getAttribute('data-ok') && /^You are subscribed/.test(x.j.message || '') ? f.getAttribute('data-ok') : x.j.message) || 'You are subscribed.', 'is-ok');
         try { localStorage.setItem('apNlDone', '1'); } catch (e) { /* storage off: the prompts may ask again, nothing breaks */ }
         if (window.apTrack) window.apTrack('newsletter_signup', { via: via });
       })
@@ -394,61 +394,186 @@
   };
 })();
 
-/* ---- reading card: one small, dismissible email offer on pages people read (blog, services, case studies, portfolio) ----
-   Not a modal: it never covers the page, takes no focus, and waits until the visitor has read a good part of the page (40% scrolled and 12 s, or 45 s on the page).
-   Skipped on the 3D home, Portfolio, the tools (tools.js has the corner card and the after-use offer there), contact, legal pages and the newsletter page.
-   Once per visit; "No thanks" is remembered for 60 days (apNlX) and a sign-up stops every offer (apNlDone). Reduced motion: no animation. */
+/* ---- email pop-ups: one small, dismissible offer, set from the admin desk (Pop-ups tab) ----
+   window.apPop is shared by this file (the "reading card" on blog, services and case-study pages) and tools.js (the corner card and the after-use offer on tool pages).
+   Settings come from /api/config?a=popups (cached at the edge for 5 minutes). If that call fails or is slow, the built-in defaults below apply, so a pop-up never depends on it.
+   Never a modal: no overlay, no focus taken, nothing blocks the page, "No thanks" or Escape closes it, reduced motion switches the animation off, and it waits for the cookie notice,
+   an open menu and typing. Storage (all in the visitor's own browser, listed in the cookie policy): apNlX = when "No thanks" was said (and which settings version), apNlDone = subscribed, apNlSeen = pop-ups shown this visit. */
 (function () {
-  var p = location.pathname.replace(/\/$/, '') || '/';
-  if (p === '/' || /^\/(tools|portfolio|newsletter|contact|privacy|terms|cookies|image-license|kd2ozfuew9n4uaciyl1j)/.test(p) || /^\/api\//.test(p)) return;
-  var ls = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
-  var ss = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} } };
-  // ?nl=show on any page clears this browser's "already asked / subscribed" memory and shows the offer after a moment (for testing it yourself)
-  var force = /[?&]nl=show\b/.test(location.search);
-  if (force) { try { localStorage.removeItem('apNlX'); localStorage.removeItem('apNlDone'); sessionStorage.removeItem('apNlSeen'); } catch (e) {} }
-  var x = Number(ls.get('apNlX')) || 0;
-  if (ls.get('apNlDone') === '1' || (x && Date.now() - x < 60 * 864e5) || ss.get('apNlSeen') === '1') return;
-  if (window.matchMedia && matchMedia('print').matches) return;
-  var t0 = Date.now(), shown = false;
-  function css() {
-    if (document.getElementById('ap-rc-css')) return;
-    var s = document.createElement('style'); s.id = 'ap-rc-css';
-    s.textContent = '#ap-rc{position:fixed;z-index:90;right:16px;bottom:16px;width:min(360px,calc(100vw - 32px));box-sizing:border-box;padding:16px 16px 12px;border-radius:18px;background:rgba(15,20,51,.98);border:1px solid rgba(244,239,230,.18);box-shadow:0 20px 60px rgba(0,0,0,.5);color:#f4efe6;font:400 14px/1.5 Geist,system-ui,sans-serif;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s}'
-      + '#ap-rc.is-on{opacity:1;transform:none}#ap-rc *{box-sizing:border-box}#ap-rc b{display:block;margin:0 28px 2px 0;font:600 15px/1.3 Geist,system-ui,sans-serif;letter-spacing:-.01em}#ap-rc p.apr-s{margin:0 0 10px;font-size:13px;color:#b9b3c6}#ap-rc a{color:#f5b867;text-decoration:underline;text-underline-offset:3px}'
-      + '#ap-rc form{display:flex;flex-wrap:wrap;gap:8px}#ap-rc input[type=email]{flex:1 1 150px;min-width:0;height:44px;padding:0 12px;border-radius:12px;border:1px solid rgba(244,239,230,.2);background:rgba(244,239,230,.05);color:#f4efe6;font:400 15px Geist,system-ui,sans-serif}#ap-rc input:focus{outline:none;border-color:#f5b867;box-shadow:0 0 0 3px rgba(245,184,103,.18)}'
-      + '#ap-rc button[type=submit]{height:44px;padding:0 16px;border-radius:999px;border:0;background:#f5b867;color:#1a1420;font:600 14px Geist,system-ui,sans-serif;cursor:pointer}#ap-rc button[disabled]{opacity:.6;cursor:wait}'
-      + '#ap-rc [data-news-msg]{flex-basis:100%;margin:0;font-size:12.5px;color:#b9b3c6}#ap-rc [data-news-msg]:empty{display:none}#ap-rc [data-news-msg].is-ok{color:#7ff3e1;font-size:14px}#ap-rc [data-news-msg].is-err{color:#ffb39e}'
-      + '#ap-rc .apr-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}#ap-rc .apr-x{position:absolute;top:4px;right:4px;width:44px;height:44px;border:0;background:none;color:#b9b3c6;font-size:22px;line-height:1;cursor:pointer}#ap-rc .apr-x:hover{color:#f4efe6}'
-      + '#ap-rc .apr-no{display:block;margin:6px 0 0 auto;min-height:32px;padding:0 4px;border:0;background:none;color:#b9b3c6;font:500 12.5px Geist,system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}'
-      + '@media(max-width:640px){#ap-rc{right:12px;left:12px;bottom:12px;width:auto}}@media(prefers-reduced-motion:reduce){#ap-rc{transition:none;transform:none}}@media print{#ap-rc{display:none!important}}';
-    document.head.appendChild(s);
+  var DEF = {
+    on: true, ver: 1, surfaces: { reading: true, tool: true, afterUse: true }, types: { blog: true, services: true, cases: true, tools: true, other: true },
+    include: [], exclude: ['/', '/portfolio'], devices: { desktop: true, phone: true }, limits: { delay: 8, perVisit: 1, quietDays: 60 },
+    triggers: { seconds: 12, scroll: 40, fallback: 45, afterUse: 12, toolFallback: 40, exit: false }, position: 'right',
+    style: { bg: '#0f1433', fg: '#f4efe6', mute: '#b9b3c6', line: '#f4efe62e', field: '#f4efe60d', accent: '#f5b867', ink: '#1a1420', link: '#f5b867' },
+    copy: { 'default': { head: 'New free tools, by email', body: 'At most one email a month, plus one practical tip. Unsubscribe in one click.', button: 'Subscribe', success: '', dismiss: 'No thanks' } },
+    doneHead: 'Done. Want the next free tool too?',
+    never: ['/contact', '/privacy', '/terms', '/cookies', '/image-license', '/newsletter', '/api', '/kd2ozfuew9n4uaciyl1j']
+  };
+  var ls = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }, del: function (k) { try { localStorage.removeItem(k); } catch (e) {} } };
+  var ss = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }, del: function (k) { try { sessionStorage.removeItem(k); } catch (e) {} } };
+  var path = (location.pathname.replace(/\/+$/, '') || '/').toLowerCase();
+  var force = /[?&]nl=show\b/.test(location.search);   // ?nl=show clears this browser's "already asked / subscribed" memory and shows the offer after a moment (for testing it yourself)
+  if (force) { ls.del('apNlX'); ls.del('apNlDone'); ss.del('apNlSeen'); }
+  var num = function (v, lo, hi, d) { v = Math.round(Number(v)); return isFinite(v) ? Math.min(hi, Math.max(lo, v)) : d; };
+  var hex = function (v, d) { return typeof v === 'string' && /^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(v) ? v : d; };
+  var str = function (v, d, n) { return typeof v === 'string' && v ? v.replace(/[<>]/g, '').slice(0, n) : d; };
+  function merge(c) {   // the answer from the server, checked again here, over the built-in defaults
+    c = c && typeof c === 'object' ? c : {};
+    var o = JSON.parse(JSON.stringify(DEF)), g = function (k) { return c[k] && typeof c[k] === 'object' ? c[k] : {}; };
+    if (c.on === false) o.on = false;
+    o.ver = num(c.ver, 1, 1e6, 1);
+    Object.keys(o.surfaces).forEach(function (k) { if (g('surfaces')[k] === false) o.surfaces[k] = false; });
+    Object.keys(o.types).forEach(function (k) { if (g('types')[k] === false) o.types[k] = false; });
+    ['desktop', 'phone'].forEach(function (k) { if (g('devices')[k] === false) o.devices[k] = false; });
+    var list = function (a, d) { return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string' && /^\/[a-z0-9\-_.~\/%]*$/.test(x); }).slice(0, 40) : d; };
+    o.include = list(c.include, []); o.exclude = list(c.exclude, DEF.exclude);
+    var L = g('limits'), T = g('triggers');
+    o.limits.delay = num(L.delay, 5, 120, 8); o.limits.perVisit = num(L.perVisit, 1, 3, 1); o.limits.quietDays = num(L.quietDays, 1, 365, 60);
+    var d = o.limits.delay;
+    o.triggers.seconds = Math.max(d, num(T.seconds, 5, 300, 12)); o.triggers.fallback = Math.max(o.triggers.seconds, num(T.fallback, 15, 600, 45));
+    o.triggers.scroll = num(T.scroll, 10, 90, 40); o.triggers.afterUse = num(T.afterUse, 5, 300, 12); o.triggers.toolFallback = Math.max(d, num(T.toolFallback, 15, 600, 40)); o.triggers.exit = T.exit === true;
+    o.position = c.position === 'left' || c.position === 'bar' ? c.position : 'right';
+    var S = g('style'); Object.keys(o.style).forEach(function (k) { o.style[k] = hex(S[k], o.style[k]); });
+    var C = g('copy'), cd = DEF.copy['default'];
+    o.copy = {};
+    ['default', 'blog', 'services', 'cases', 'tools', 'other'].forEach(function (t) {
+      var s = C[t] && typeof C[t] === 'object' ? C[t] : {}, r = t === 'default' ? cd : { head: '', body: '', button: '', success: '', dismiss: '' };
+      o.copy[t] = { head: str(s.head, r.head, 80), body: str(s.body, r.body, 220), button: str(s.button, r.button, 24), success: str(s.success, r.success, 120), dismiss: str(s.dismiss, r.dismiss, 24) };
+    });
+    o.doneHead = str(c.doneHead, DEF.doneHead, 80);
+    return o;
   }
-  function close(remember) { var c = document.getElementById('ap-rc'); if (c) c.remove(); if (remember) ls.set('apNlX', String(Date.now())); document.removeEventListener('keydown', esc); }
-  function esc(e) { if (e.key === 'Escape') close(true); }
-  function show() {
-    if (shown) return;
-    var cc = document.getElementById('ap-cc') || document.querySelector('.ap-notice');
-    if ((cc && innerWidth < 900) || document.querySelector('.ap-nav__dd[open], .ap-nav [aria-expanded="true"]')) return void setTimeout(check, 4000);   // on phones the cookie notice has the bottom of the screen: wait for it or a menu is open: wait
-    shown = true; ss.set('apNlSeen', '1'); css();
-    var c = document.createElement('aside'); c.id = 'ap-rc'; c.setAttribute('aria-label', 'New tools by email');
-    c.innerHTML = '<button type="button" class="apr-x" aria-label="Close">&times;</button><b>New free tools, by email</b><p class="apr-s">At most one email a month, plus one practical tip. Unsubscribe in one click. <a href="/newsletter">What you get</a> · <a href="/privacy">Privacy</a></p>'
-      + '<form data-news="reading" novalidate><input class="apr-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><input name="email" type="email" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required maxlength="254"><button type="submit">Subscribe</button><p data-news-msg role="status" aria-live="polite"></p></form><button type="button" class="apr-no">No thanks</button>';
-    document.body.appendChild(c);
-    if (cc) { var r = cc.getBoundingClientRect(); c.style.bottom = Math.max(16, innerHeight - r.top + 12) + 'px'; }   // on wide screens it sits just above the cookie notice instead of waiting for it
-    c.querySelector('.apr-x').addEventListener('click', function () { close(true); });
-    c.querySelector('.apr-no').addEventListener('click', function () { close(true); });
-    document.addEventListener('keydown', esc);
-    new MutationObserver(function () { var m = c.querySelector('[data-news-msg].is-ok'); if (m) setTimeout(function () { close(false); }, 3500); }).observe(c, { subtree: true, attributes: true, attributeFilter: ['class'] });
-    requestAnimationFrame(function () { c.classList.add('is-on'); });
+  var cur = null, waiting = null;
+  function load(cb) {
+    if (cur) return cb(cur);
+    if (waiting) return waiting.push(cb);
+    waiting = [cb];
+    var fin = function (c) { if (cur) return; cur = merge(c); var w = waiting; waiting = null; w.forEach(function (f) { try { f(cur); } catch (e) {} }); };
+    setTimeout(function () { fin(null); }, 3000);   // slow or failed: the defaults, so the offer never depends on the network
+    try { fetch('/api/config?a=popups').then(function (r) { return r.ok ? r.json() : null; }).then(fin).catch(function () { fin(null); }); } catch (e) { fin(null); }
   }
-  function check() {
-    if (shown) return;
-    var d = document.documentElement, max = d.scrollHeight - innerHeight;
-    if (max < 300) return;   // a short page: nothing worth waiting for
-    var deep = (window.pageYOffset || d.scrollTop) / max >= (innerWidth < 640 ? .5 : .4);
-    if (deep && Date.now() - t0 >= 12000) show();
-    else if (deep) setTimeout(check, 12000 - (Date.now() - t0) + 50);
+  function typeOf(p) { return /^\/tools(\/|$)/.test(p) ? 'tools' : /^\/blog(\/|$)/.test(p) ? 'blog' : /^\/(services|freelance|full-stack|seo-|shopify|tech-consult|ui-ux|wordpress)/.test(p) ? 'services' : /^\/(case-studies|work(-[a-z0-9-]+)?)(\/|$)/.test(p) ? 'cases' : 'other'; }
+  function covers(rule, p) { return rule === '/' ? p === '/' : p === rule || p.indexOf(rule + '/') === 0; }
+  var phone = function () { return innerWidth < 760; };
+  // is the page, the device and the switch allowed for this surface? (not about this visitor's history)
+  function allowed(c, surface) {
+    if (!c.on || !c.surfaces[surface]) return false;
+    if (c.never.some(function (r) { return covers(r, path); }) || c.exclude.some(function (r) { return covers(r, path); })) return false;
+    if (phone() ? !c.devices.phone : !c.devices.desktop) return false;
+    return !!c.types[typeOf(path)] || c.include.some(function (r) { return covers(r, path); });
   }
-  addEventListener('scroll', function () { if (!shown) check(); }, { passive: true });
-  setTimeout(function () { if (!shown && document.documentElement.scrollHeight - innerHeight >= 300) show(); }, force ? 1500 : 45000);   // someone who reads without scrolling still gets one quiet offer after 45 s
+  function quiet(c) {   // subscribed, or said "No thanks" recently (a settings reset makes older answers stop counting)
+    if (ls.get('apNlDone') === '1') return true;
+    var m = /^(\d+)(?::(\d+))?$/.exec(ls.get('apNlX') || ''), c0 = c || cur || DEF;
+    if (!m) return false;
+    return +(m[2] || 1) >= c0.ver && Date.now() - +m[1] < c0.limits.quietDays * 864e5;
+  }
+  var seen = function () { return Number(ss.get('apNlSeen')) || 0; };
+  function can(c, surface) { return allowed(c, surface) && !quiet(c) && seen() < c.limits.perVisit && !(window.matchMedia && matchMedia('print').matches); }
+  function ev(k, s) {
+    try { var d = JSON.stringify({ k: k, s: s, p: path }); if (!(navigator.sendBeacon && navigator.sendBeacon('/api/config?a=pev', d))) fetch('/api/config?a=pev', { method: 'POST', body: d, keepalive: true }); } catch (e) { /* counting must never break a page */ }
+  }
+  function copyOf(c, type, f) { var v = c.copy[type] && c.copy[type][f]; return v || c.copy['default'][f]; }
+  function mark(c, surface) { ss.set('apNlSeen', String(seen() + 1)); ev('shown', surface); }
+  function dismiss(c, surface) { ls.set('apNlX', Date.now() + ':' + c.ver); ev('dismiss', surface); }
+
+  function css(c) {
+    var old = document.getElementById('ap-rc-css'); if (old) old.remove();
+    var s = c.style, bar = c.position === 'bar', left = c.position === 'left', rm = '@media(prefers-reduced-motion:reduce){#ap-rc{transition:none;transform:none}}';
+    var el = document.createElement('style'); el.id = 'ap-rc-css';
+    el.textContent = '#ap-rc{position:fixed;z-index:90;bottom:16px;' + (bar ? 'left:0;right:0;width:auto;border-radius:0;border-width:1px 0 0;padding:14px max(16px,calc((100vw - 1100px)/2)) calc(14px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px' : (left ? 'left' : 'right') + ':16px;width:min(360px,calc(100vw - 32px));padding:16px 16px 12px;border-radius:18px') + ';box-sizing:border-box;background:' + s.bg + ';border:1px solid ' + s.line + ';box-shadow:0 20px 60px rgba(0,0,0,.45);color:' + s.fg + ';font:400 14px/1.5 Geist,system-ui,sans-serif;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s}'
+      + (bar ? '#ap-rc{bottom:0}' : '')
+      + '#ap-rc.is-on{opacity:1;transform:none}#ap-rc *{box-sizing:border-box}#ap-rc .apr-t{' + (bar ? 'flex:1 1 320px;min-width:0' : '') + '}#ap-rc b{display:block;margin:0 ' + (bar ? '0' : '28px') + ' 2px 0;font:600 15px/1.3 Geist,system-ui,sans-serif;letter-spacing:-.01em}#ap-rc p.apr-s{margin:0 ' + (bar ? '0' : '0 10px') + ';font-size:13px;color:' + s.mute + '}#ap-rc a{color:' + s.link + ';text-decoration:underline;text-underline-offset:3px}'
+      + '#ap-rc form{display:flex;flex-wrap:wrap;gap:8px;' + (bar ? 'flex:1 1 360px;max-width:520px;margin-right:36px' : '') + '}#ap-rc input[type=email]{flex:1 1 150px;min-width:0;height:44px;padding:0 12px;border-radius:12px;border:1px solid ' + s.line + ';background:' + s.field + ';color:' + s.fg + ';font:400 15px Geist,system-ui,sans-serif}#ap-rc input:focus{outline:none;border-color:' + s.link + ';box-shadow:0 0 0 3px ' + s.link + '2e}'
+      + '#ap-rc button[type=submit]{height:44px;padding:0 16px;border-radius:999px;border:0;background:' + s.accent + ';color:' + s.ink + ';font:600 14px Geist,system-ui,sans-serif;cursor:pointer}#ap-rc button[disabled]{opacity:.6;cursor:wait}'
+      + '#ap-rc [data-news-msg]{flex-basis:100%;margin:0;font-size:12.5px;color:' + s.mute + '}#ap-rc [data-news-msg]:empty{display:none}#ap-rc [data-news-msg].is-ok{color:' + s.link + ';font-size:14px}#ap-rc [data-news-msg].is-err{color:#e0674a}'
+      + '#ap-rc .apr-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}#ap-rc .apr-x{position:absolute;top:4px;right:4px;width:44px;height:44px;border:0;background:none;color:' + s.mute + ';font-size:22px;line-height:1;cursor:pointer}#ap-rc .apr-x:hover{color:' + s.fg + '}'
+      + '#ap-rc .apr-no{' + (bar ? 'display:none' : 'display:block;margin:6px 0 0 auto') + ';min-height:32px;padding:0 4px;border:0;background:none;color:' + s.mute + ';font:500 12.5px Geist,system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}'
+      + '@media(max-width:640px){#ap-rc{' + (bar ? '' : 'right:12px;left:12px;bottom:12px;width:auto') + '}#ap-rc .apr-no{display:block;margin:2px 0 0 auto}}@media(max-width:899px){#ap-rc.apr--tool{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}'
+      + rm + '@media print{#ap-rc{display:none!important}}';
+    document.head.appendChild(el);
+  }
+  function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; }
+  var openCard = null;
+  function closeCard(c, surface, remember) {
+    var k = document.getElementById('ap-rc'); if (k) k.remove(); document.body.style.paddingBottom = '';
+    if (remember) dismiss(c, surface);
+    document.removeEventListener('keydown', openCard && openCard.esc); openCard = null;
+  }
+  // builds the card from the settings. Every word the admin set goes in with textContent, never as HTML.
+  function render(c, surface) {
+    var type = typeOf(path), via = surface === 'tool' ? 'card' : 'reading';
+    css(c);
+    var k = el('aside', 'apr--' + surface); k.id = 'ap-rc'; k.setAttribute('aria-label', 'New tools by email');
+    var x = el('button', 'apr-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Close'); k.appendChild(x);
+    var t = el('div', 'apr-t'); t.appendChild(el('b', '', copyOf(c, type, 'head')));
+    var p = el('p', 'apr-s', copyOf(c, type, 'body') + ' ');
+    var a1 = el('a', '', 'What you get'); a1.href = '/newsletter'; var a2 = el('a', '', 'Privacy'); a2.href = '/privacy';
+    p.appendChild(a1); p.appendChild(document.createTextNode(' · ')); p.appendChild(a2); t.appendChild(p); k.appendChild(t);
+    var f = el('form'); f.setAttribute('data-news', via); f.noValidate = true; var ok = copyOf(c, type, 'success'); if (ok) f.setAttribute('data-ok', ok);
+    var hp = el('input', 'apr-hp'); hp.name = 'hp'; hp.tabIndex = -1; hp.autocomplete = 'off'; hp.setAttribute('aria-hidden', 'true');
+    var em = document.createElement('input'); em.name = 'email'; em.type = 'email'; em.placeholder = 'you@example.com'; em.autocomplete = 'email'; em.inputMode = 'email'; em.setAttribute('aria-label', 'Email address'); em.required = true; em.maxLength = 254;
+    var sb = el('button', '', copyOf(c, type, 'button')); sb.type = 'submit';
+    var m = el('p'); m.setAttribute('data-news-msg', ''); m.setAttribute('role', 'status'); m.setAttribute('aria-live', 'polite');
+    [hp, em, sb, m].forEach(function (n) { f.appendChild(n); }); k.appendChild(f);
+    var no = el('button', 'apr-no', copyOf(c, type, 'dismiss')); no.type = 'button'; k.appendChild(no);
+    document.body.appendChild(k);
+    var cc = document.getElementById('ap-cc');
+    if (cc) { var r = cc.getBoundingClientRect(); k.style.bottom = Math.max(c.position === 'bar' ? 0 : 16, innerHeight - r.top + 12) + 'px'; }   // wide screens: just above the cookie notice
+    var esc = function (e) { if (e.key === 'Escape') closeCard(c, surface, true); };
+    openCard = { esc: esc };
+    var go = function () { closeCard(c, surface, true); };
+    x.addEventListener('click', go); no.addEventListener('click', go); document.addEventListener('keydown', esc);
+    new MutationObserver(function () { if (k.querySelector('[data-news-msg].is-ok')) setTimeout(function () { closeCard(c, surface, false); }, 3500); }).observe(k, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    if (c.position === 'bar') document.body.style.paddingBottom = Math.ceil(k.getBoundingClientRect().height) + 'px';   // the bar never hides the end of the page
+    requestAnimationFrame(function () { k.classList.add('is-on'); });
+  }
+  var lastKey = 0;   // typing: a pop-up never appears while someone is in the middle of it (a text field in focus and a key pressed in the last 3 seconds)
+  document.addEventListener('keydown', function () { lastKey = Date.now(); }, true);
+  var busy = function () { var a = document.activeElement; return !!(a && (/^(INPUT|TEXTAREA)$/.test(a.tagName) || a.isContentEditable) && !(a.closest && a.closest('#ap-rc')) && Date.now() - lastKey < 3000); };
+
+  // surface: 'reading' (this file) or 'tool' (tools.js). Returns { use() } for tool pages, or null when nothing will be shown.
+  function start(surface, opt) {
+    opt = opt || {};
+    if (surface === 'reading' && (typeOf(path) === 'tools' || path === '/')) return null;   // tools have their own card; the 3D home stays clean (it is also in the default "never" list)
+    if (ls.get('apNlDone') === '1' && !force) return null;
+    var ctl = { use: function () {} };
+    load(function (c) {
+      if (!can(c, surface)) return;
+      var T = c.triggers, t0 = Date.now(), shown = false, tries = 0, tm = null;
+      function show() {
+        if (shown) return;
+        if (!can(c, surface) || (opt.guard && !opt.guard())) return;
+        var cc = document.getElementById('ap-cc');
+        // wait (a few seconds at a time) for: the cookie notice on phones, an open menu, typing, a hidden tab
+        if (++tries < 20 && ((cc && innerWidth < 900) || document.querySelector('.ap-nav__dd[open], .ap-nav [aria-expanded="true"]') || busy() || document.hidden)) return void (tm = setTimeout(show, 4000));
+        shown = true; mark(c, surface); render(c, surface);
+        removeEventListener('scroll', check); document.removeEventListener('mouseout', leave);
+      }
+      function check() {
+        if (shown || surface !== 'reading') return;
+        var d = document.documentElement, max = d.scrollHeight - innerHeight;
+        if (max < 300) return;   // a short page: nothing worth waiting for
+        var deep = (window.pageYOffset || d.scrollTop) / max >= T.scroll / 100 + (innerWidth < 640 ? .1 : 0), left = T.seconds * 1000 - (Date.now() - t0);
+        if (deep && left <= 0) show(); else if (deep) setTimeout(check, left + 50);
+      }
+      function leave(e) {   // exit intent: the pointer leaves through the top of the window (desktop only), after the minimum time on the page
+        if (!T.exit || shown || e.relatedTarget || e.clientY > 0 || phone() || !(window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches)) return;
+        if (Date.now() - t0 >= c.limits.delay * 1000) show();
+      }
+      if (surface === 'reading') {
+        addEventListener('scroll', check, { passive: true });
+        setTimeout(function () { if (!shown && document.documentElement.scrollHeight - innerHeight >= 300) show(); }, force ? 1500 : T.fallback * 1000);   // someone who reads without scrolling still gets one quiet offer
+      } else {
+        ctl.use = function () { ctl.use = function () {}; setTimeout(show, Math.max(T.afterUse * 1000, c.limits.delay * 1000 - (Date.now() - t0))); };
+        setTimeout(show, force ? 1500 : T.toolFallback * 1000);
+      }
+      if (T.exit) document.addEventListener('mouseout', leave);
+    });
+    return ctl;
+  }
+
+  window.apPop = { cfg: load, can: can, quiet: quiet, mark: mark, dismiss: dismiss, ev: ev, copy: copyOf, type: function () { return typeOf(path); }, start: start, now: function () { return cur || DEF; }, force: force };
+  if (/^\/api\//.test(path)) return;
+  start('reading');
 })();

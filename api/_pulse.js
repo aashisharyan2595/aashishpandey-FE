@@ -1,6 +1,8 @@
 // Public endpoints for small site features. No cookies, nothing personal kept beyond what a client types into the testimonial form.
 //   POST ?a=ev        { k: 'view'|'use', p: path, r: referrer }   free-tool usage counter (see _adm/toolstats.js)
 //   GET  ?a=top       the most used free tools of the last 30 days, for the Tools menu (CDN-cached for 6 hours)
+//   GET  ?a=popups    the newsletter pop-up settings from the admin (CDN-cached for 5 minutes; the script has built-in defaults if this fails)
+//   POST ?a=pev       { k: 'shown'|'dismiss', s: surface, p: path }   anonymous pop-up counter (see _adm/popups.js)
 //   GET  ?a=content   availability line, notice bar and approved testimonials for the pages (CDN-cached for 5 minutes)
 //   GET  ?a=tform&t=  the testimonial form a client opens from the email (t is a signed brief id)
 //   POST ?a=tsubmit   { t, quote, name, role, company, rating, publish, hp, ts }
@@ -8,6 +10,7 @@ const store = require('./_store');
 const stats = require('./_adm/toolstats');
 const content = require('./_adm/content');
 const notify = require('./_adm/notify');
+const popups = require('./_adm/popups');
 const { clean, parseBody, clientIp, limited, esc } = require('./_mail');
 
 const BOT = /bot|crawl|spider|slurp|preview|headless|lighthouse|pingdom|uptime|monitor|curl|wget|python|axios|node-fetch/i;
@@ -21,6 +24,21 @@ module.exports = async (req, res) => {
       if (!store.enabled() || BOT.test(ua) || !ua) return res.status(204).end();
       if (await limited('ev', clientIp(req), 300, 3600)) return res.status(204).end();
       await stats.hit(b.k === 'use' ? 'use' : 'view', clean(b.p, 120), clean(b.r, 400), req.headers.host);
+      return res.status(204).end();
+    }
+    if (a === 'popups') {
+      res.setHeader('Vercel-CDN-Cache-Control', 'max-age=300, stale-while-revalidate=600');
+      res.setHeader('CDN-Cache-Control', 'max-age=300, stale-while-revalidate=600');
+      res.setHeader('Cache-Control', 'public, max-age=60');
+      if (!store.enabled()) return res.status(200).json({});   // nothing saved yet: the script uses its built-in defaults
+      return res.status(200).json(popups.publicConfig(await popups.get()));
+    }
+    if (a === 'pev' && post) {
+      res.setHeader('Cache-Control', 'no-store');
+      const b = parseBody(req), ua = String(req.headers['user-agent'] || '');
+      if (!store.enabled() || BOT.test(ua) || !ua) return res.status(204).end();
+      if (await limited('pev', clientIp(req), 60, 3600)) return res.status(204).end();
+      await popups.hit(String(b.k || ''), String(b.s || ''), b.p);
       return res.status(204).end();
     }
     if (a === 'top') {
@@ -67,7 +85,7 @@ module.exports = async (req, res) => {
     return res.status(404).json({ error: 'Unknown action.' });
   } catch (e) {
     console.error('pulse:', a, e.message);
-    return a === 'ev' ? res.status(204).end() : res.status(500).json({ error: 'Something went wrong. Please try again.' });
+    return a === 'ev' || a === 'pev' ? res.status(204).end() : res.status(500).json({ error: 'Something went wrong. Please try again.' });
   }
 };
 

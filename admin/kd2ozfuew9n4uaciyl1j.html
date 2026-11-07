@@ -318,6 +318,24 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
 .hist{display:flex;flex-direction:column;gap:2px;margin-top:10px}
 .hist .h{padding:10px 0;border-top:1px solid var(--line);font-size:14px;overflow-wrap:anywhere}.hist .h:first-child{border-top:0}
 .hist .h small{color:var(--dim);display:block}.hist .h s{color:var(--dim)}.hist .h u{text-decoration:none;color:var(--green)}
+/* ---- Pop-ups tab ---- */
+.ppmaster{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}.ppmaster .sub{margin-top:2px}
+.ppbig{font-size:18px;margin:0}.ppbig input{width:22px;height:22px;min-height:0}
+.ppwrap{display:grid;grid-template-columns:minmax(0,1fr);gap:0 18px;align-items:start}.ppcol{min-width:0}
+@media(min-width:1100px){.ppwrap{grid-template-columns:minmax(0,1fr) minmax(340px,430px)}.ppside{position:sticky;top:calc(var(--head) + 14px)}}
+.ppsm{display:block;font-weight:400;font-size:13px;color:var(--dim);margin-left:0}.switch{flex-wrap:wrap}
+.ppchk{display:flex;flex-wrap:wrap;gap:4px 22px}
+.ppacc{display:flex;gap:10px;flex-wrap:wrap}.ppacc button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px 0 10px;border-radius:99px;border:1px solid var(--line2);background:rgba(244,239,230,.04);cursor:pointer;font-weight:600;font-size:14px}.ppacc button i{width:20px;height:20px;border-radius:50%;display:block}.ppacc button[aria-checked=true]{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber) inset}
+.ppst{position:relative;margin-top:12px;height:300px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0b0e28}
+.ppst[data-d=phone]{width:260px;height:420px;margin-left:auto;margin-right:auto}
+.ppfake{padding:18px 18px}.ppfake i{display:block;height:9px;border-radius:5px;background:rgba(244,239,230,.1);margin:0 0 12px}.ppfake i:nth-child(1){width:55%;height:14px;background:rgba(244,239,230,.2)}.ppfake i:nth-child(3){width:90%}.ppfake i:nth-child(5){width:70%}
+.ppcardw{position:absolute;inset:auto 0 0 0;pointer-events:none}
+.ppc{position:absolute;bottom:12px;width:min(300px,calc(100% - 24px));padding:13px 13px 8px;border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.45);font-size:12.5px;line-height:1.45}
+.ppc.r{right:12px}.ppc.l{left:12px}.ppc.bar{left:0;right:0;bottom:0;width:auto;border-radius:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:10px 14px}
+.ppc b{display:block;font-size:13.5px;margin:0 22px 2px 0}.ppc p{margin:0 0 8px}.ppc a{text-decoration:underline}
+.ppc .f{display:flex;gap:6px}.ppc .e{flex:1;height:32px;border-radius:9px;padding:0 9px;display:flex;align-items:center;opacity:.8}.ppc .s{height:32px;border-radius:99px;padding:0 13px;display:flex;align-items:center;font-weight:600;white-space:nowrap}
+.ppc .x{position:absolute;top:5px;right:9px;opacity:.7;font-size:16px}.ppc .n{display:block;text-align:right;text-decoration:underline;opacity:.75;margin-top:5px;font-size:11.5px}.ppc.bar .t{flex:1 1 200px}.ppc.bar .f{flex:1 1 220px;max-width:340px;margin-right:22px}.ppc.bar .n{display:none}.ppc.bar p{margin:0}
+.ppst[data-d=phone] .ppc.bar .n{display:block}
 .prevq{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(7,9,22,.4);font-size:14px;color:var(--body)}.prevq small{display:block;color:var(--dim);margin-top:4px}
 /* ===== v3: one design system for the whole dashboard ===== */
 :root{--ok:#6fd6a8;--info:#8db4ff;--vio:#b9a2ff;--r-xs:8px}
@@ -357,7 +375,7 @@ kbd{font:500 10.5px var(--mono);padding:2px 6px;border-radius:6px;border:1px sol
 .usr{display:flex;align-items:center;gap:10px;background:none;border:0;color:var(--ink);cursor:pointer;text-align:left;min-width:0;padding:0;flex:1}.usr .un{display:flex;flex-direction:column;min-width:0;line-height:1.25}.usr b{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.usr small{font-size:11.5px;color:var(--mute)}
 @media(min-width:700px){
   .navh{display:block;height:1px;margin:8px 6px;background:var(--line);font-size:0;overflow:hidden}
-  .tab[data-tab=home]{order:1}.navh[data-g=content]{order:2}.tab[data-tab=posts]{order:3}.tab[data-tab=cases]{order:4}.tab[data-tab=calendar]{order:5}.tab[data-tab=media]{order:6}.tab[data-tab=tax]{order:7}.tab[data-tab=content]{order:8}
+  .tab[data-tab=home]{order:1}.navh[data-g=content]{order:2}.tab[data-tab=posts]{order:3}.tab[data-tab=cases]{order:4}.tab[data-tab=calendar]{order:5}.tab[data-tab=media]{order:6}.tab[data-tab=tax]{order:7}.tab[data-tab=content]{order:8}.tab[data-tab=popups]{order:8}
   .navh[data-g=audience]{order:9}.tab[data-tab=sub]{order:10}.tab[data-tab=news]{order:11}.tab[data-tab=mail]{order:12}.tab[data-tab=spam]{order:13}
   .navh[data-g=growth]{order:14}.tab[data-tab=seo]{order:15}.tab[data-tab=tools]{order:16}.tab[data-tab=links]{order:17}
   .navh[data-g=manage]{order:18}.tab[data-tab=health]{order:19}.tab[data-tab=team]{order:20}.tab[data-tab=privacy]{order:21}.tab[data-tab=set]{order:22;margin-top:0}
@@ -733,7 +751,7 @@ main:focus{outline:none}
   <nav class="nav" id="tabs" aria-label="Sections">
     <button class="tab on" data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>Overview</button>
     <p class="navh" data-g="content">Content</p>
-    <button class="tab" data-tab="posts"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Posts<span class="cnt" id="cntPosts"></span></button><button class="tab" data-tab="cases"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>Case studies</button><button class="tab" data-tab="calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Calendar</button><button class="tab" data-tab="media"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>Media</button><button class="tab" data-tab="tax"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V4h9l8.6 8.6a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg>Categories and tags</button><button class="tab" data-tab="content"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>Site text</button>
+    <button class="tab" data-tab="posts"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Posts<span class="cnt" id="cntPosts"></span></button><button class="tab" data-tab="cases"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>Case studies</button><button class="tab" data-tab="calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Calendar</button><button class="tab" data-tab="media"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>Media</button><button class="tab" data-tab="tax"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V4h9l8.6 8.6a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg>Categories and tags</button><button class="tab" data-tab="content"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>Site text</button><button class="tab" data-tab="popups"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M14 13h4M14 9h4M7 9h3v4H7zM8 21h8"/></svg>Pop-ups</button>
     <p class="navh" data-g="audience">Audience</p>
     <button class="tab" data-tab="sub"><svg viewBox="0 0 24 24"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M4 13 6.5 5h11L20 13v6H4z"/></svg>Inbox<span class="dot hide" id="newDot"></span></button><button class="tab" data-tab="news"><svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></svg>Newsletter</button><button class="tab" data-tab="mail"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Mail log<span class="dot hide" id="mailDot"></span></button><button class="tab" data-tab="spam"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z"/></svg>Spam rules</button>
     <p class="navh" data-g="growth">Growth</p>
@@ -930,6 +948,80 @@ main:focus{outline:none}
       <div class="row" style="margin-top:12px"><button class="btn pri" id="tmAdd">Add</button><span class="err" id="tmMsg"></span></div></details>
     <p class="sub" style="margin-top:18px">Case studies and service pages stay in the code on purpose: Google reads them when the site is built, so editing them here would cost search traffic.</p>
   </section>
+  <!-- POP-UPS -->
+  <section id="tab-popups" class="hide">
+    <div class="card ppmaster">
+      <div class="ppm-l"><label class="switch ppbig"><input type="checkbox" id="ppOn"> <span id="ppOnT">Pop-ups are on</span></label>
+        <p class="sub" id="ppState">Loading…</p></div>
+      <div class="row"><a class="btn" id="ppTest" href="/blog?nl=show" target="_blank" rel="noopener">Try it on the site</a></div>
+    </div>
+    <div class="ppwrap">
+      <div class="ppcol">
+        <div class="card"><h2>Where they show</h2>
+          <p class="sub">Pick the kinds of pop-up, then the pages. Never on the contact form, legal pages, the newsletter page or the admin, whatever you choose.</p>
+          <p class="meta" style="margin-top:14px">Kinds</p>
+          <label class="switch"><input type="checkbox" id="ppS_reading"> Reading card<small class="ppsm">on blog, services and case-study pages</small></label>
+          <label class="switch"><input type="checkbox" id="ppS_tool"> Tool corner card<small class="ppsm">on tool pages, after someone uses the tool</small></label>
+          <label class="switch"><input type="checkbox" id="ppS_afterUse"> After-use offer<small class="ppsm">inside the tool page, after copy, download or print</small></label>
+          <p class="meta" style="margin-top:18px">Page types</p>
+          <div class="ppchk"><label class="switch"><input type="checkbox" id="ppT_blog"> Blog</label><label class="switch"><input type="checkbox" id="ppT_services"> Services</label><label class="switch"><input type="checkbox" id="ppT_cases"> Case studies</label><label class="switch"><input type="checkbox" id="ppT_tools"> Tools</label><label class="switch"><input type="checkbox" id="ppT_other"> Other pages</label></div>
+          <label class="lbl" for="ppExc">Never show on these pages (one per line)</label>
+          <textarea id="ppExc" rows="3" placeholder="/&#10;/portfolio"></textarea>
+          <p class="sub">A path also covers the pages under it. <b>/</b> alone means the home page only.</p>
+          <label class="lbl" for="ppInc">Always show on these pages, even if their type is off</label>
+          <textarea id="ppInc" rows="2" placeholder="/tools/qr-code-generator"></textarea>
+          <p class="meta" style="margin-top:18px">Devices</p>
+          <div class="ppchk"><label class="switch"><input type="checkbox" id="ppDevD"> Desktop and tablet</label><label class="switch"><input type="checkbox" id="ppDevP"> Phones</label></div>
+        </div>
+        <div class="card"><h2>When they show</h2>
+          <p class="sub">Slow and rare is the point. Nothing can appear sooner than the minimum below, and nothing covers the page: a pop-up can always be closed, and it waits for the cookie notice, open menus and typing.</p>
+          <div class="two"><div><label class="lbl" for="ppDelay">Minimum seconds on the page</label><input id="ppDelay" type="number" inputmode="numeric" min="5" max="120"></div><div><label class="lbl" for="ppPer">Most pop-ups per visit</label><select id="ppPer"><option>1</option><option>2</option><option>3</option></select></div></div>
+          <div class="two"><div><label class="lbl" for="ppQuiet">Quiet days after "No thanks"</label><input id="ppQuiet" type="number" inputmode="numeric" min="1" max="365"></div><div><label class="lbl" for="ppSec">Reading card: seconds on the page</label><input id="ppSec" type="number" inputmode="numeric" min="5" max="300"></div></div>
+          <div class="two"><div><label class="lbl" for="ppScroll">…and scrolled this far (%)</label><input id="ppScroll" type="number" inputmode="numeric" min="10" max="90"></div><div><label class="lbl" for="ppFb">Or after this many seconds, without scrolling</label><input id="ppFb" type="number" inputmode="numeric" min="15" max="600"></div></div>
+          <div class="two"><div><label class="lbl" for="ppUse">Tools: seconds after the tool is used</label><input id="ppUse" type="number" inputmode="numeric" min="5" max="300"></div><div><label class="lbl" for="ppTfb">Tools: or after this many seconds, unused</label><input id="ppTfb" type="number" inputmode="numeric" min="15" max="600"></div></div>
+          <label class="switch" style="margin-top:14px"><input type="checkbox" id="ppExit"> Also when a desktop visitor moves to leave the page<small class="ppsm">exit intent: only with a mouse, only after the minimum time, once</small></label>
+          <p class="err" id="ppAdj" style="min-height:0"></p>
+        </div>
+        <div class="card"><h2>Look</h2>
+          <p class="sub">Colours come from the site's own set, so a pop-up always fits the design. The after-use offer sits inside the page and keeps the page's style.</p>
+          <div class="two"><div><label class="lbl" for="ppPos">Position</label><select id="ppPos"></select></div><div><label class="lbl" for="ppTheme">Theme</label><select id="ppTheme"></select></div></div>
+          <label class="lbl">Accent</label><div class="ppacc" id="ppAcc" role="radiogroup" aria-label="Accent colour"></div>
+        </div>
+        <div class="card"><h2>Words</h2>
+          <p class="sub">Plain text only. Leave a page type's boxes empty to use the main wording. A link to what they get and to the privacy page always follows the text.</p>
+          <label class="lbl" for="ppVar">Edit the words for</label><select id="ppVar"></select>
+          <label class="lbl" for="ppHead">Headline</label><input id="ppHead" maxlength="80">
+          <label class="lbl" for="ppBody">Line under it</label><textarea id="ppBody" rows="2" maxlength="220"></textarea>
+          <div class="two"><div><label class="lbl" for="ppBtn">Button</label><input id="ppBtn" maxlength="24"></div><div><label class="lbl" for="ppNo">Close link</label><input id="ppNo" maxlength="24"></div></div>
+          <label class="lbl" for="ppOk">Thank-you line after subscribing (optional)</label><input id="ppOk" maxlength="120" placeholder="Leave empty for: You are subscribed. A welcome email is on its way.">
+          <label class="lbl" for="ppDone">After-use offer headline</label><input id="ppDone" maxlength="80">
+        </div>
+        <div class="row" style="margin-bottom:22px"><button class="btn pri" id="ppSave">Save pop-up settings</button><button class="btn" id="ppDef" type="button">Fill in the built-in defaults</button><span id="ppMsg" class="sub"></span></div>
+      </div>
+      <div class="ppcol ppside">
+        <div class="card ppprev"><h2>Live preview</h2>
+          <p class="sub">Follows the form as you type. Nothing is saved until you press Save.</p>
+          <div class="two" style="margin-top:8px"><div><label class="lbl" for="ppPT">Page type</label><select id="ppPT"></select></div><div><label class="lbl" for="ppPD">Device</label><select id="ppPD"><option value="desk">Desktop</option><option value="phone">Phone</option></select></div></div>
+          <div class="ppst" id="ppStage" data-d="desk"><div class="ppfake"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="ppcardw" id="ppCard"></div></div>
+        </div>
+        <div class="card"><h2>Ask everyone again</h2>
+          <p class="sub" id="ppResetT">Visitors who said "No thanks" are left alone for the quiet days you set. If you change the offer a lot, you can ask them all again. People who already subscribed are never asked again.</p>
+          <div class="row" style="margin-top:10px"><button class="btn" id="ppReset">Ask everyone again</button><span id="ppResetM" class="sub"></span></div>
+        </div>
+      </div>
+    </div>
+    <p class="meta" style="margin-top:8px">How they are doing</p>
+    <div class="row" style="margin-bottom:10px"><div class="seg" id="ppRange" role="group" aria-label="Period"><button data-d="7">7 days</button><button data-d="30" class="on">30 days</button><button data-d="90">90 days</button></div></div>
+    <div class="chips" id="ppChips"></div>
+    <div class="card"><h2>Shown per day</h2><p class="sub">Counted without cookies, IP addresses or ids: one tick when a pop-up appears, one when it is closed with No thanks, the cross or Escape. Sign-ups are counted from the subscriber list.</p><svg class="bars" id="ppChart" viewBox="0 0 600 170" preserveAspectRatio="none"></svg></div>
+    <div class="grid2">
+      <div class="card"><h2>By kind</h2><div class="tblw"><table class="tbl" id="ppTblS"></table></div></div>
+      <div class="card"><h2>By page type</h2><div class="tblw"><table class="tbl" id="ppTblT"></table></div></div>
+    </div>
+    <div class="card"><h2>Pages</h2><p class="sub">The pages where a pop-up appeared most, with the sign-ups that came from them.</p><div class="tblw"><table class="tbl" id="ppTblP"></table></div></div>
+    <div class="card"><h2>Change history</h2><p class="sub">Who changed which setting. Every save is also in the signed activity log (Team).</p><div class="hist" id="ppHist"><span class="sub">Loading…</span></div></div>
+  </section>
+
 
   <!-- SITE HEALTH -->
   <section id="tab-health" class="hide">
@@ -1566,6 +1658,7 @@ var TABS={
   media:{l:'Media',g:'Content',d:'Images for posts and case studies.',perm:['media.view']},
   tax:{l:'Categories and tags',g:'Content',d:'Keep topics tidy: rename, merge and remove.',perm:['content.view']},
   content:{l:'Site text',g:'Content',d:'The availability line, notice bar, closing panel and testimonials.',perm:['site.edit']},
+  popups:{l:'Pop-ups',g:'Content',d:'When, where and how the newsletter pop-ups appear, what they say, and how well they work.',perm:['site.edit']},
   sub:{l:'Inbox',g:'Audience',d:'Briefs and subscribers from the site, and where each deal stands.',perm:['inbox.view']},
   news:{l:'Newsletter',g:'Audience',d:'Write, test and send the newsletter, and watch the list grow.',perm:['news.manage']},
   mail:{l:'Mail log',g:'Audience',d:'Every email the site sent and what happened to it.',perm:['mail.view']},
@@ -1578,7 +1671,7 @@ var TABS={
   privacy:{l:'Privacy requests',g:'Manage',d:'Find, hand over or erase everything held about one person.',perm:['privacy.manage']},
   set:{l:'Settings',g:'Manage',d:'Your profile and device, alerts, email templates and security.',perm:[]}
 };
-ALLTABS=['home','posts','cases','calendar','media','tax','content','sub','news','mail','spam','seo','tools','links','health','team','privacy','set'];
+ALLTABS=['home','posts','cases','calendar','media','tax','content','popups','sub','news','mail','spam','seo','tools','links','health','team','privacy','set'];
 ALLTABS.forEach(function(t){LABELS[t]=TABS[t].l;DESC[t]=TABS[t].d});
 var GROUPS=['Overview','Content','Audience','Growth','Manage'];
 function tabAllowed(t){var d=TABS[t];return !!d&&(!d.perm.length||canAny.apply(null,d.perm))}
@@ -2884,6 +2977,75 @@ addEventListener('resize',function(){var o=$('tour');if(o&&TOUR[tourI]){var st=T
 var applyRole5=applyRole;
 applyRole=function(u){applyRole5(u);drawViews();if(!lsGet('adm.tour.v1',0))setTimeout(function(){if(!$('app').classList.contains('hide')&&!document.querySelector('.modal'))tourStart(false)},1600)};
 $('usrBtn').onclick=function(){menu($('usrBtn'),[{l:'My profile',f:function(){openTab('set');setTimeout(function(){setGroup('acct')},200)}},{l:'Take the tour',f:function(){tourStart(true)}},{l:'Keyboard shortcuts',f:showShortcuts},{sep:1},{l:'Sign out',f:function(){$('out').click()},cls:'danger'}])};
+
+/* ---------- pop-ups: settings, live preview, stats ---------- */
+var PP={cfg:null,meta:null,def:null,copy:null,variant:'default',days:30,ready:false};
+var PPF={ppOn:'on'};
+function ppv(id){return $(id).value}
+function ppLoad(){api('popups_get').then(function(x){if(!x.ok)return;PP.meta=x.j.meta;PP.def=x.j.defaults;PP.cfg=x.j.popups;PP.last=x.j.lastReset;ppInit();ppFill(PP.cfg);ppResetNote();ppPrev()});ppStats();ppLog()}
+function ppInit(){if(PP.ready)return;PP.ready=true;var m=PP.meta;
+  $('ppPos').innerHTML=Object.keys(m.positions).map(function(k){return '<option value="'+k+'">'+esc(m.positions[k])+'</option>'}).join('');
+  $('ppTheme').innerHTML=Object.keys(m.themes).map(function(k){return '<option value="'+k+'">'+esc(m.themes[k].name)+'</option>'}).join('');
+  $('ppAcc').innerHTML=Object.keys(m.accents).map(function(k){return '<button type="button" role="radio" aria-checked="false" data-a="'+k+'"><i style="background:'+m.accents[k].bg+'"></i>'+esc(m.accents[k].name)+'</button>'}).join('');
+  var vs=[['default','Everyone (the main wording)']].concat(Object.keys(m.types).map(function(k){return [k,m.types[k]]}));
+  $('ppVar').innerHTML=vs.map(function(v){return '<option value="'+v[0]+'">'+esc(v[1])+'</option>'}).join('');
+  $('ppPT').innerHTML=Object.keys(m.types).map(function(k){return '<option value="'+k+'">'+esc(m.types[k])+'</option>'}).join('');
+  $('ppAcc').onclick=function(e){var b=e.target.closest&&e.target.closest('button[data-a]');if(!b)return;ppAccent(b.getAttribute('data-a'));ppPrev()};
+  $('ppVar').onchange=function(){PP.variant=this.value;ppWords();ppPrev()};
+  ['ppHead','ppBody','ppBtn','ppNo','ppOk'].forEach(function(id){$(id).addEventListener('input',function(){ppKeepWords();ppPrev()})});
+  document.querySelectorAll('#tab-popups input,#tab-popups select,#tab-popups textarea').forEach(function(el){el.addEventListener('input',ppPrev);el.addEventListener('change',ppPrev)});
+  $('ppPT').onchange=ppPrev;$('ppPD').onchange=ppPrev;
+  $('ppOn').addEventListener('change',function(){ppStateText()});
+  $('ppRange').onclick=function(e){var d=e.target.dataset&&e.target.dataset.d;if(!d)return;PP.days=Number(d);[].forEach.call(this.children,function(b){b.classList.toggle('on',b.dataset.d===d)});ppStats()};
+  $('ppSave').onclick=ppSave;
+  $('ppDef').onclick=function(){ppFill(PP.def);toast('Built-in defaults filled in. Press Save to keep them.');ppPrev()};
+  $('ppReset').onclick=function(){ask({title:'Ask everyone again?',text:'Everyone who said "No thanks" will see the pop-up again, once, after the usual delay. People who already subscribed are not asked. You will be asked to confirm it is you.',ok:'Ask everyone again'}).then(function(v){if(!v)return;post('popups_reset',{}).then(function(x){if(x.ok){PP.cfg=x.j.popups;PP.last=Date.now();toast('Everyone will be asked again');ppResetNote();ppLog()}else toast(x.j.error)})})}
+}
+function ppAccent(k){document.querySelectorAll('#ppAcc button').forEach(function(b){b.setAttribute('aria-checked',b.getAttribute('data-a')===k?'true':'false')});PP.accent=k}
+function ppWords(){var c=PP.copy[PP.variant]||{},d=PP.copy['default'];['head','body','button','success','dismiss'].forEach(function(f){var id={head:'ppHead',body:'ppBody',button:'ppBtn',success:'ppOk',dismiss:'ppNo'}[f];$(id).value=c[f]||'';$(id).placeholder=PP.variant==='default'?(f==='success'?'Leave empty for: You are subscribed. A welcome email is on its way.':''):('Same as the main wording'+(d[f]?': '+d[f]:''))})}
+function ppKeepWords(){var c=PP.copy[PP.variant]=PP.copy[PP.variant]||{};c.head=ppv('ppHead');c.body=ppv('ppBody');c.button=ppv('ppBtn');c.dismiss=ppv('ppNo');c.success=ppv('ppOk')}
+function ppFill(c){
+  $('ppOn').checked=!!c.on;
+  ['reading','tool','afterUse'].forEach(function(k){$('ppS_'+k).checked=!!c.surfaces[k]});
+  ['blog','services','cases','tools','other'].forEach(function(k){$('ppT_'+k).checked=!!c.types[k]});
+  $('ppExc').value=c.exclude.join('\n');$('ppInc').value=c.include.join('\n');
+  $('ppDevD').checked=!!c.devices.desktop;$('ppDevP').checked=!!c.devices.phone;
+  $('ppDelay').value=c.limits.delay;$('ppPer').value=String(c.limits.perVisit);$('ppQuiet').value=c.limits.quietDays;
+  $('ppSec').value=c.triggers.seconds;$('ppScroll').value=c.triggers.scroll;$('ppFb').value=c.triggers.fallback;$('ppUse').value=c.triggers.afterUse;$('ppTfb').value=c.triggers.toolFallback;$('ppExit').checked=!!c.triggers.exit;
+  $('ppPos').value=c.look.position;$('ppTheme').value=c.look.theme;ppAccent(c.look.accent);
+  PP.copy=JSON.parse(JSON.stringify(c.copy));$('ppDone').value=c.doneHead;ppWords();ppStateText()}
+function ppCollect(){ppKeepWords();return{on:$('ppOn').checked,
+  surfaces:{reading:$('ppS_reading').checked,tool:$('ppS_tool').checked,afterUse:$('ppS_afterUse').checked},
+  types:{blog:$('ppT_blog').checked,services:$('ppT_services').checked,cases:$('ppT_cases').checked,tools:$('ppT_tools').checked,other:$('ppT_other').checked},
+  exclude:ppv('ppExc'),include:ppv('ppInc'),devices:{desktop:$('ppDevD').checked,phone:$('ppDevP').checked},
+  limits:{delay:ppv('ppDelay'),perVisit:ppv('ppPer'),quietDays:ppv('ppQuiet')},
+  triggers:{seconds:ppv('ppSec'),scroll:ppv('ppScroll'),fallback:ppv('ppFb'),afterUse:ppv('ppUse'),toolFallback:ppv('ppTfb'),exit:$('ppExit').checked},
+  look:{position:ppv('ppPos'),theme:ppv('ppTheme'),accent:PP.accent||'amber'},copy:PP.copy,doneHead:ppv('ppDone')}}
+function ppSave(){var b=ppCollect();$('ppSave').disabled=true;
+  post('popups_save',b).then(function(x){$('ppSave').disabled=false;
+    if(!x.ok){say('ppMsg',x.j.error||'Could not save.',false);return}
+    var before=JSON.stringify(PP.cfg);PP.cfg=x.j.popups;ppFill(PP.cfg);ppPrev();
+    say('ppMsg',x.j.changed?'Saved. The site picks it up within about 5 minutes.':'Nothing had changed.',true);if(x.j.changed){toast('Pop-up settings saved');ppLog()}
+    var c=PP.cfg;$('ppAdj').textContent=(Number(b.limits.delay)!==c.limits.delay||Number(b.triggers.seconds)!==c.triggers.seconds||Number(b.triggers.toolFallback)!==c.triggers.toolFallback)?'Some timings were raised to respect the minimum delay of '+c.limits.delay+' seconds.':''})}
+function ppStateText(){var on=$('ppOn').checked;$('ppOnT').textContent=on?'Pop-ups are on':'Pop-ups are off';$('ppState').textContent=on?'Visitors can see the pop-ups that are switched on below, following the rules.':'Nothing is shown anywhere. Saved settings below are kept for when you switch them on.'}
+function ppResetNote(){var v=PP.cfg?PP.cfg.ver:1;$('ppResetM').textContent=PP.last?'Last asked again '+ist(PP.last)+' (version '+v+').':'Never reset (version '+v+').'}
+function ppStyle(){var m=PP.meta,t=m.themes[ppv('ppTheme')]||m.themes.dusk,a=m.accents[PP.accent||'amber']||m.accents.amber;return{bg:t.bg,fg:t.fg,mute:t.mute,line:t.line,field:t.field,accent:a.bg,ink:a.ink,link:t.light?a.linkOnLight:a.link}}
+function ppPrev(){if(!PP.meta||!$('ppCard'))return;var s=ppStyle(),type=ppv('ppPT')||'blog',cp=PP.copy||{},d=cp['default']||{},c=cp[type]||{},w=function(f){return c[f]||d[f]||''},pos=ppv('ppPos');
+  $('ppStage').setAttribute('data-d',ppv('ppPD'));
+  var cls=pos==='bar'?'bar':pos==='left'?'l':'r',phone=ppv('ppPD')==='phone';
+  $('ppCard').innerHTML='<div class="ppc '+cls+'" style="background:'+s.bg+';color:'+s.fg+';border:1px solid '+s.line+'"><span class="x" style="color:'+s.mute+'">&times;</span><div class="t"><b>'+esc(w('head'))+'</b><p style="color:'+s.mute+'">'+esc(w('body'))+' <a style="color:'+s.link+'">What you get</a> &middot; <a style="color:'+s.link+'">Privacy</a></p></div><div class="f"><span class="e" style="background:'+s.field+';border:1px solid '+s.line+';color:'+s.mute+'">you@example.com</span><span class="s" style="background:'+s.accent+';color:'+s.ink+'">'+esc(w('button'))+'</span></div><span class="n" style="color:'+s.mute+'">'+esc(w('dismiss'))+'</span></div>';
+  if(phone&&pos!=='bar'){var k=$('ppCard').firstChild;k.classList.remove('l');k.classList.add('r');k.style.left='12px';k.style.right='12px';k.style.width='auto'}}
+function ppStats(){api('popups_stats',null,'&days='+PP.days).then(function(x){if(!x.ok)return;var j=x.j,t=j.total,pc=function(a,b){return b?Math.round(a/b*1000)/10+'%':'–'};
+  $('ppChips').innerHTML=[['Shown',t.shown],['Closed with No thanks',t.dismissed],['Subscribed',t.subscribed],['Sign-up rate',t.shown?Math.round(Math.min(t.subscribed,t.shown)/t.shown*1000)/10+'%':'–']].map(function(c){return '<div class="chip static"><b>'+c[1]+'</b><span>'+c[0]+'</span></div>'}).join('');
+  barChart('ppChart',j.trend,j.labels.map(function(d){return d.slice(6)+'/'+d.slice(4,6)}));
+  var head='<tr><th>{0}</th><th class="n">Shown</th><th class="n">No thanks</th><th class="n">Subscribed</th><th class="n">Rate</th></tr>',row=function(n,v){return '<tr><td class="k"><b>'+esc(n)+'</b></td><td class="n">'+v.shown+'</td><td class="n">'+v.dismissed+'</td><td class="n">'+v.subscribed+'</td><td class="n">'+pc(Math.min(v.subscribed,v.shown||v.subscribed),v.shown)+'</td></tr>'};
+  var M=PP.meta||{surfaces:{reading:'Reading card',tool:'Tool corner card',afterUse:'After-use offer'},types:{blog:'Blog',services:'Services',cases:'Case studies',tools:'Tools',other:'Other pages'}};
+  $('ppTblS').innerHTML=head.replace('{0}','Kind')+Object.keys(M.surfaces).map(function(k){return row(M.surfaces[k],j.surfaces[k]||{shown:0,dismissed:0,subscribed:0})}).join('');
+  $('ppTblT').innerHTML=head.replace('{0}','Page type')+Object.keys(M.types).map(function(k){return row(M.types[k],j.types[k]||{shown:0,dismissed:0,subscribed:0})}).join('');
+  $('ppTblP').innerHTML=j.pages.length?head.replace('{0}','Page')+j.pages.map(function(r){return row(r.path,r)}).join(''):'<tr><td class="sub">Nothing yet. Counts start with the first pop-up shown after this is live.</td></tr>'})}
+function ppLog(){api('popups_log').then(function(x){if(!x.ok)return;var it=x.j.items;
+  $('ppHist').innerHTML=it.length?it.map(function(h){return '<div class="h"><b>'+esc(h.field)+'</b>: <s>'+esc(h.before||'empty')+'</s> &rarr; <u>'+esc(h.after||'empty')+'</u><small>'+esc(h.by||'Unknown')+' &middot; '+esc(ist(h.t))+'</small></div>'}).join(''):'<span class="sub">No changes yet. Edits you save from now on appear here.</span>'})}
+var openTabPP=openTab;openTab=function(t){openTabPP(t);if(t==='popups')ppLoad()};
 
 start();
 })();
