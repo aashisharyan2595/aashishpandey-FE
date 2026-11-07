@@ -53,14 +53,19 @@ async function unsubscribe(endpoint) { await saveSubs((await subs()).filter((s) 
 const count = async () => (await subs()).length;
 
 // → { sent, failed }. A browser that says the subscription is gone (404 or 410) is dropped.
+// Urgency (RFC 8030) decides how fast a sleeping phone is woken: Android (FCM) holds "normal" messages until the
+// next Doze maintenance window and Apple sends them at low priority, which is how a sign-in alert ended up 10-15
+// minutes late. Alerts go out as "high"; only low-value messages such as the morning digest should pass "normal".
+const URGENCY = new Set(['very-low', 'low', 'normal', 'high']);
 async function sendAll(msg, only) {
   const list = (await subs()).filter((s) => !only || only(s));
   if (!list.length) return { sent: 0, failed: 0 };
+  const urgency = URGENCY.has(msg.urgency) ? msg.urgency : 'high', ttl = String(Math.max(0, Math.min(2419200, Math.round(Number(msg.ttl) || 86400))));
   const v = await vapid(), body = JSON.stringify({ title: msg.title || 'aashishpandey.com', body: msg.body || '', url: msg.url || ADMIN_PATH, tag: msg.tag || 'alert' }), dead = new Set();
   let sent = 0, failed = 0;
   await Promise.all(list.map(async (s) => {
     try {
-      const r = await fetch(s.endpoint, { method: 'POST', headers: { Authorization: `vapid t=${jwt(new URL(s.endpoint).origin, v)}, k=${v.pub}`, 'Content-Encoding': 'aes128gcm', 'Content-Type': 'application/octet-stream', TTL: '86400', Urgency: 'normal' }, body: encrypt(s, body) });
+      const r = await fetch(s.endpoint, { method: 'POST', headers: { Authorization: `vapid t=${jwt(new URL(s.endpoint).origin, v)}, k=${v.pub}`, 'Content-Encoding': 'aes128gcm', 'Content-Type': 'application/octet-stream', TTL: ttl, Urgency: urgency }, body: encrypt(s, body) });
       if (r.ok) sent++; else { failed++; if (r.status === 404 || r.status === 410) dead.add(s.endpoint); }
     } catch (e) { failed++; }
   }));
