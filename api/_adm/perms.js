@@ -78,7 +78,7 @@ const ACTIONS = {
   posts_list: 'content.view', post_get: 'content.view', post_preview: 'content.view', post_preview_url: 'content.view', post_revisions: 'content.view', post_diff: 'content.view', post_comment: 'content.view', post_assign: 'content.view', post_lock: 'content.view', post_unlock: 'content.view',
   post_save: 'content.create', post_duplicate: 'content.create', post_move: 'content.view', post_restore: 'content.view', post_bulk: 'content.view', post_delete: 'content.view',   // these check the entry itself as well
   tax_list: 'content.view', tax_rename: 'taxonomy.manage', tax_delete: 'taxonomy.manage',
-  content_get: 'content.view', content_log: 'site.edit', content_save: 'site.edit', content_restore: 'site.edit', tm_list: 'site.edit', tm_act: 'site.edit', tm_add: 'site.edit', tm_request: 'site.edit',
+  content_get: 'content.view', popups_get: 'site.edit', popups_stats: 'site.edit', popups_log: 'site.edit', popups_save: 'site.edit', popups_reset: 'site.edit', content_log: 'site.edit', content_save: 'site.edit', content_restore: 'site.edit', tm_list: 'site.edit', tm_act: 'site.edit', tm_add: 'site.edit', tm_request: 'site.edit',
   media_list: 'media.view', media_upload: 'media.upload', media_update: 'media.upload', media_delete: 'media.upload',   // update and delete also check who uploaded it
 };
 

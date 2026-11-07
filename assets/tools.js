@@ -136,29 +136,38 @@
      Never a modal, never in the way: it sits in the page flow, has a "No thanks" that is remembered for 60 days (apNlX),
      and is not shown again once the visitor has subscribed anywhere on the site (apNlDone). The tools never depend on it. */
   var ls = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
-  function nlQuiet() { var x = Number(ls.get('apNlX')) || 0; return ls.get('apNlDone') === '1' || (x && Date.now() - x < 60 * 864e5); }
   var winShown = false;
+  // What the offer says, when it shows and how often are set in the admin desk (Pop-ups tab) and handled by window.apPop in site.js; without it nothing is shown.
   function win(src) {
-    if (winShown || !/^\/tools\//.test(location.pathname) || nlQuiet()) return;
+    var P = window.apPop;
+    if (winShown || !P || !/^\/tools\//.test(location.pathname)) return;
     winShown = true;
-    setTimeout(function () {
-      if (nlQuiet() || doc.querySelector('.tl-nl')) return;   // the corner card is already asking
-      var at = winAnchor(src); if (!at) return;
-      // when the tool ends right above the "Try next" email box, light that box up instead of adding a second form
-      var nl = doc.querySelector('.tl-next__nl'), nf = nl && nl.querySelector('form');
-      if (nf && nl.getBoundingClientRect().top - at.getBoundingClientRect().bottom < 240) {
-        nl.classList.add('tl-next__nl--hot'); nf.setAttribute('data-news', 'after-use');
-        var b = nl.querySelector('.tl-next__t b'); if (b) b.textContent = 'Done. Want the next free tool too?';
-        return;
-      }
-      var w = doc.createElement('aside'); w.className = 'tl-win'; w.setAttribute('aria-label', 'New tools by email');
-      w.innerHTML = '<div class="tl-win__t"><b>Done. Want the next free tool too?</b><span>At most one email a month, plus one practical tip. Unsubscribe in one click. <a href="/newsletter">What you get</a></span></div>'
-        + '<form data-news="after-use" novalidate><input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tl-nl__hp"><input name="email" type="email" class="tl-input" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required maxlength="254"><button class="tl-btn tl-btn--p" type="submit">Subscribe</button><p data-news-msg role="status"></p></form>'
-        + '<button type="button" class="tl-win__x">No thanks</button>';
-      at.parentNode.insertBefore(w, at.nextSibling);
-      w.querySelector('.tl-win__x').addEventListener('click', function () { ls.set('apNlX', String(Date.now())); w.remove(); });
-      requestAnimationFrame(function () { w.classList.add('is-on'); });
-    }, 1400);   // after the toast has had its moment
+    P.cfg(function (c) {
+      if (!P.can(c, 'afterUse')) return;
+      setTimeout(function () {
+        if (!P.can(c, 'afterUse') || doc.querySelector('#ap-rc')) return;   // the corner card is already asking
+        var at = winAnchor(src); if (!at) return;
+        // when the tool ends right above the "Try next" email box, light that box up instead of adding a second form
+        var nl = doc.querySelector('.tl-next__nl'), nf = nl && nl.querySelector('form');
+        if (nf && nl.getBoundingClientRect().top - at.getBoundingClientRect().bottom < 240) {
+          nl.classList.add('tl-next__nl--hot'); nf.setAttribute('data-news', 'after-use'); P.mark(c, 'afterUse');
+          var b = nl.querySelector('.tl-next__t b'); if (b) b.textContent = c.doneHead;
+          return;
+        }
+        var w = doc.createElement('aside'); w.className = 'tl-win'; w.setAttribute('aria-label', 'New tools by email');
+        var t = doc.createElement('div'); t.className = 'tl-win__t';
+        var h = doc.createElement('b'); h.textContent = c.doneHead; var sp = doc.createElement('span'); sp.textContent = P.copy(c, 'tools', 'body') + ' ';
+        var lk = doc.createElement('a'); lk.href = '/newsletter'; lk.textContent = 'What you get'; sp.appendChild(lk); t.appendChild(h); t.appendChild(sp); w.appendChild(t);
+        var f = doc.createElement('form'); f.setAttribute('data-news', 'after-use'); f.noValidate = true;
+        var ok = P.copy(c, 'tools', 'success'); if (ok) f.setAttribute('data-ok', ok);
+        f.innerHTML = '<input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tl-nl__hp"><input name="email" type="email" class="tl-input" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required maxlength="254"><button class="tl-btn tl-btn--p" type="submit"></button><p data-news-msg role="status"></p>';
+        f.querySelector('button').textContent = P.copy(c, 'tools', 'button'); w.appendChild(f);
+        var x = doc.createElement('button'); x.type = 'button'; x.className = 'tl-win__x'; x.textContent = P.copy(c, 'tools', 'dismiss'); w.appendChild(x);
+        at.parentNode.insertBefore(w, at.nextSibling); P.mark(c, 'afterUse');
+        x.addEventListener('click', function () { P.dismiss(c, 'afterUse'); w.remove(); });
+        requestAnimationFrame(function () { w.classList.add('is-on'); });
+      }, 1400);   // after the toast has had its moment
+    });
   }
   // below the answer when the page marks one, otherwise below the block of the page the visitor just used
   function winAnchor(src) {
@@ -210,33 +219,22 @@
       m.forEach(function (r) { var t = r.target; if (t.matches && t.matches('[data-news-msg].is-ok') && t.closest('.tl-next, .tl-nl, .tl-win')) { store.set('apNlDone', '1'); setTimeout(function () { var c = doc.querySelector('.tl-nl'); if (c) c.remove(); var x = doc.querySelector('.tl-win__x'); if (x) x.remove(); }, 3500); } });
     }).observe(doc.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
 
-    // the floating card: after real use, never with the cookie notice up, once per 60 days (on phones it floats above the tools' bottom bars)
+    // the floating card: after real use, never with the cookie notice up. Look, words, timing and limits come from the admin desk through window.apPop (site.js).
     if (done) return;
-    var asked = Number(store.get('apNlX')) || 0; if (asked && Date.now() - asked < 60 * 864e5) return;
-    var shown = false, usedAt = 0;
-    function show() {
-      if (shown || nlQuiet() || doc.querySelector('.tl-win')) return;   // signed up, said no, or the inline offer is already asking
-      var cc = doc.getElementById('ap-cc');
-      if (cc && innerWidth < 900) return void setTimeout(show, 4000);   // on phones the cookie notice has the bottom of the screen
-      shown = true;
-      var c = doc.createElement('aside'); c.className = 'tl-nl'; c.setAttribute('aria-label', 'New tools by email');
-      c.innerHTML = '<button type="button" class="tl-nl__x" aria-label="Close">&times;</button>' + nlForm(0);
-      body().appendChild(c);
-      if (cc) { var r = cc.getBoundingClientRect(); c.style.bottom = Math.max(16, innerHeight - r.top + 12) + 'px'; }   // wide screens: just above the cookie notice
-      requestAnimationFrame(function () { c.classList.add('is-on'); });
-      var gone = function () { store.set('apNlX', String(Date.now())); c.remove(); doc.removeEventListener('keydown', esc); };
-      var esc = function (e) { if (e.key === 'Escape') gone(); };
-      doc.addEventListener('keydown', esc);
-      c.querySelector('.tl-nl__x').addEventListener('click', gone);
-    }
-    function onUse(e) {
-      var t = e.target; if (!t || !t.closest || t.closest('.ap-nav, .ap-foot, .ap-close, .ap-quotes, .ap-notice, #ap-cc, header, footer, .tl-next, .tl-nl')) return;
-      if (e.type === 'pointerdown' && !t.closest('button, input, select, textarea, label, a[download], [role=button], canvas')) return;
-      ['pointerdown', 'input', 'change'].forEach(function (k) { doc.removeEventListener(k, onUse, true); });
-      usedAt = Date.now(); setTimeout(show, 12000);
-    }
-    ['pointerdown', 'input', 'change'].forEach(function (k) { doc.addEventListener(k, onUse, true); });
-    setTimeout(show, force ? 1500 : 40000);   // someone who only reads the tool page still gets one quiet offer after 40 s
+    var armTries = 0;
+    (function arm() {
+      var P = window.apPop;   // site.js loads right after this file, so it can still be a moment away
+      if (!P) return void (++armTries < 40 && setTimeout(arm, 150));
+      var pop = P.start('tool', { guard: function () { return !doc.querySelector('.tl-win'); } });   // the inline offer, if it is already asking, takes the place of the card
+      if (!pop) return;
+      function onUse(e) {
+        var t = e.target; if (!t || !t.closest || t.closest('.ap-nav, .ap-foot, .ap-close, .ap-quotes, .ap-notice, #ap-cc, header, footer, .tl-next, #ap-rc')) return;
+        if (e.type === 'pointerdown' && !t.closest('button, input, select, textarea, label, a[download], [role=button], canvas')) return;
+        ['pointerdown', 'input', 'change'].forEach(function (k) { doc.removeEventListener(k, onUse, true); });
+        pop.use();
+      }
+      ['pointerdown', 'input', 'change'].forEach(function (k) { doc.addEventListener(k, onUse, true); });
+    })();
   }
   if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', initNext); else initNext();
 })();

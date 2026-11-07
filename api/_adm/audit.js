@@ -19,6 +19,7 @@ function detailOf(a, b, q) {
     for (const k of ['action', 'status', 'stage', 'which', 'op', 'key', 'code', 'role', 'name', 'email', 'value', 'currency', 'followUp', 'title', 'slug', 'type']) if (b[k] !== undefined && b[k] !== '' && k !== 'code') o[k] = String(b[k]).slice(0, 60);
     if (b.code !== undefined && a.startsWith('links_')) o.code = String(b.code).slice(0, 40);
     if (b.min) o.level = String(b.min);
+    if (b._sum) o.changed = String(b._sum).slice(0, 200);   // set by the handler after a save: which settings changed (never the values)
     if (b.subject) o.subject = String(b.subject).slice(0, 80);
     if (a.startsWith('privacy_')) delete o.email;   // a privacy request must not leave the address behind in the log
   }

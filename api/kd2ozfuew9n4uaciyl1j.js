@@ -11,6 +11,7 @@
 //   Security:    sec_get, totp_setup, totp_enable, totp_disable, signout_all, backup_now
 //   Short links: links_list, links_act
 //   Site:        health_get, health_run, tools_stats, gsc_get, content_get, content_save, tm_list, tm_act, tm_add, tm_request
+//   Pop-ups:     popups_get, popups_stats, popups_log, popups_save, popups_reset
 //   Policy:      reauth, reauth_state, policy_get, policy_save, posture_get, audit_export, audit_verify
 //   Privacy:     privacy_find, privacy_export, privacy_erase, privacy_log
 const crypto = require('crypto');
@@ -38,6 +39,7 @@ const siteHealth = require('./_adm/sitehealth');
 const toolStats = require('./_adm/toolstats');
 const gsc = require('./_adm/gsc');
 const content = require('./_adm/content');
+const popups = require('./_adm/popups');
 const guard = require('./_adm/guard');
 const desk = require('./_adm/desk');
 const perms = require('./_adm/perms');
@@ -50,7 +52,7 @@ const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
 const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
 // what goes in the activity log (reads are not recorded; a refused attempt always is)
-const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'post_save', 'post_move', 'post_comment', 'post_assign', 'post_bulk', 'post_delete', 'post_duplicate', 'post_restore', 'media_upload', 'media_update', 'media_delete', 'tax_rename', 'tax_delete', 'roles_save', 'roles_delete', 'roles_reset', 'profile_save', 'tm_act', 'tm_add', 'tm_request', 'audit_export', 'audit_verify', 'policy_save', 'privacy_find', 'privacy_export', 'privacy_erase']);
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'popups_save', 'popups_reset', 'post_save', 'post_move', 'post_comment', 'post_assign', 'post_bulk', 'post_delete', 'post_duplicate', 'post_restore', 'media_upload', 'media_update', 'media_delete', 'tax_rename', 'tax_delete', 'roles_save', 'roles_delete', 'roles_reset', 'profile_save', 'tm_act', 'tm_add', 'tm_request', 'audit_export', 'audit_verify', 'policy_save', 'privacy_find', 'privacy_export', 'privacy_erase']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
@@ -266,6 +268,9 @@ module.exports = async (req, res) => {
     if (a === 'gsc_get') { try { return out(200, await gsc.get(q.refresh === '1')); } catch (e) { return out(502, { error: e.message }); } }
     if (a === 'content_get') return out(200, { content: await content.get(), defaults: content.DEFAULTS });
     if (a === 'content_log') return out(200, { items: await content.history(100) });
+    if (a === 'popups_get') return out(200, { popups: await popups.get(), defaults: popups.DEFAULTS, meta: popups.meta(), lastReset: await popups.lastReset() });
+    if (a === 'popups_stats') return out(200, await popups.stats(q.days, await store.all()));
+    if (a === 'popups_log') return out(200, { items: await popups.history(100) });
     if (a === 'today_get') return out(200, desk.today(await store.all(), now));
     if (a === 'search_all') return out(200, desk.search(await store.all(), q.q));
     if (a === 'attention_get') return out(200, await attention.build({ rows: await store.all(), now }));
@@ -455,6 +460,8 @@ module.exports = async (req, res) => {
     /* ----- site: health, content, testimonials ----- */
     if (a === 'health_run') return out(200, await siteHealth.run(siteOrigin(req), { via: 'manual' }));
     if (a === 'content_save') { try { return out(200, { ok: true, content: await content.save(b, user.name) }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'popups_save') { try { const r = await popups.save(b, user.name); b._sum = r.changes.map((c) => c.field).join(', ') || 'no change'; return out(200, { ok: true, popups: r.cfg, changed: r.changes.length }); } catch (e) { return out(400, { error: e.message }); } }
+    if (a === 'popups_reset') { const c = await popups.reset(user.name); b._sum = 'version ' + c.ver; return out(200, { ok: true, popups: c }); }
     if (a === 'content_restore') { try { return out(200, { ok: true, content: await content.restore(b.t, clean(b.area, 60), clean(b.field, 60)) }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'tm_act') { try { return out(200, { ok: true, item: await content.act(b.id, String(b.op || ''), b) }); } catch (e) { return out(400, { error: e.message }); } }
     if (a === 'tm_add') { try { return out(200, { ok: true, item: await content.add({ ...b, publish: b.publish !== false }, 'admin') }); } catch (e) { return out(400, { error: e.message }); } }

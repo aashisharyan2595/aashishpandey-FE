@@ -9,7 +9,7 @@ const DEFAULTS = { idleMin: 30, stepUp: true, stepUpMin: 10, require2fa: false }
 const IDLE = [0, 15, 30, 60, 120, 240], STEP = [5, 10, 15, 30];
 
 // actions that need a fresh password (sudo mode). Each one exports personal data, cannot be undone, or changes who can get in.
-const STEP_UP = new Set(['export', 'audit_export', 'privacy_export', 'privacy_erase', 'backup_now', 'signout_all', 'users_add', 'users_update', 'users_delete', 'sessions_revoke_user', 'roles_save', 'roles_delete', 'roles_reset', 'totp_disable', 'policy_save']);
+const STEP_UP = new Set(['export', 'audit_export', 'privacy_export', 'privacy_erase', 'backup_now', 'signout_all', 'users_add', 'users_update', 'users_delete', 'sessions_revoke_user', 'roles_save', 'roles_delete', 'roles_reset', 'totp_disable', 'policy_save', 'popups_save', 'popups_reset']);
 // what a person may still do while the "everyone needs 2FA" rule is waiting for them
 const SETUP_OK = new Set(['me', 'sec_get', 'totp_setup', 'totp_enable', 'pw_change', 'sessions_list', 'sessions_revoke', 'profile_get', 'push_key', 'reauth', 'reauth_state', 'notes_seen', 'roles_list']);
 
