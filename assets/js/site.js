@@ -87,42 +87,74 @@
     if (window.va) window.va('event', { name: name, data: props });
     if (dev && window.console) console.info('[track]', name, props);
   };
-  /* ---- consent: Google Analytics and Clarity only run after the visitor accepts ---- */
-  var CONSENT_KEY = 'apConsent';
-  function getConsent() { try { var c = JSON.parse(localStorage.getItem(CONSENT_KEY) || 'null'); return c && typeof c.a === 'boolean' ? c : null; } catch (e) { return null; } }
-  function setConsent(a) { try { localStorage.setItem(CONSENT_KEY, JSON.stringify({ v: 1, a: a, t: Date.now() })); } catch (e) {} }
-  var gpc = navigator.globalPrivacyControl === true;   // a Global Privacy Control signal counts as "reject"
-  function analyticsAllowed() { var c = getConsent(); return !gpc && !!(c && c.a); }
+  /* ---- consent: Google Analytics and Clarity are separate choices, both off until the visitor turns them on ----
+     Stored in localStorage apConsent as { v: 2, s: { stats, replay }, a, p, t }. A choice lasts 12 months, then the panel asks again.
+     A v1 "reject" (one Accept/Reject choice) is kept as a reject; a v1 "accept" is asked again, because it did not name each tool. */
+  var CONSENT_KEY = 'apConsent', POLICY_V = '2026-11-07', YEAR = 365 * 864e5;
+  var gpc = navigator.globalPrivacyControl === true;   // a Global Privacy Control signal counts as "reject all"
+  function getConsent() {
+    try {
+      var c = JSON.parse(localStorage.getItem(CONSENT_KEY) || 'null'), age = c && Date.now() - (+c.t || 0);
+      if (!c || !(age >= 0 && age < YEAR)) return null;
+      if (c.v === 2 && c.s) return { s: { stats: c.s.stats === true, replay: c.s.replay === true }, t: c.t };
+      if (c.a === false) return { s: { stats: false, replay: false }, t: c.t };
+    } catch (e) { /* no stored choice */ }
+    return null;
+  }
+  function setConsent(s) {
+    s = { stats: !!s.stats, replay: !!s.replay };
+    try { localStorage.setItem(CONSENT_KEY, JSON.stringify({ v: 2, s: s, a: s.stats || s.replay, p: POLICY_V, t: Date.now() })); } catch (e) {}
+  }
+  function allowed(k) { var c = getConsent(); return !gpc && !!(c && c.s[k]); }
   function whenIdle(fn, ms) {
     var done = false, run = function () { if (done) return; done = true; fn(); };
     ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { addEventListener(ev, run, { once: true, passive: true }); });
     if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: ms }); else setTimeout(run, ms - 1000);
   }
-  var started = false;
+  var gaOn = false, clOn = false;
   function startAnalytics() {
-    if (dev || started || !analyticsAllowed()) return; started = true;
-    window['ga-disable-' + GA_ID] = false;
-    if (GA_ID) {
-      // GA is queued now and its script loads when the page is idle, so it never competes with first paint
-      window.gtag = function () { window.dataLayer.push(arguments); };
-      window.gtag('js', new Date()); window.gtag('config', GA_ID);
-      whenIdle(function () { if (!analyticsAllowed()) return; var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(g); }, 4000);
+    if (dev) return;
+    if (GA_ID && !gaOn && allowed('stats')) {
+      gaOn = true; window['ga-disable-' + GA_ID] = false;
+      if (window.gtag) window.gtag('consent', 'update', { analytics_storage: 'granted' });
+      else {
+        // GA is queued now and its script loads when the page is idle, so it never competes with first paint.
+        // Consent covers statistics only, so advertising storage and signals stay denied.
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+        window.gtag('js', new Date()); window.gtag('config', GA_ID);
+        whenIdle(function () { if (!allowed('stats')) return; var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(g); }, 4000);
+      }
     }
-    if (CLARITY_ID && !NO_CLARITY.test(location.pathname)) {
+    if (CLARITY_ID && !clOn && allowed('replay') && !NO_CLARITY.test(location.pathname)) {
+      clOn = true;
+      if (window.clarity) { window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' }); return; }
       whenIdle(function () {
-        if (!analyticsAllowed()) return;
+        if (!allowed('replay')) { clOn = false; return; }
         (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', CLARITY_ID);
+        // Clarity needs an explicit consent signal for visitors in the EEA, UK and Switzerland (enforced since 31 October 2025)
+        window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' });
       }, 9000);
     }
   }
-  function stopAnalytics() {
-    window['ga-disable-' + GA_ID] = true;
-    if (window.clarity) { try { window.clarity('consent', false); } catch (e) {} }
+  function dropCookies(re) {
     var host = location.hostname.split('.').slice(-2).join('.');
     document.cookie.split(';').forEach(function (c) {
       var n = c.split('=')[0].trim();
-      if (/^(_ga|_gid|_gat|_clck|_clsk|MUID|CLID|ANONCHK|SM|_uetsid|_uetvid)/.test(n)) ['', '; domain=' + host, '; domain=.' + host].forEach(function (d) { document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d; });
+      if (re.test(n)) ['', '; domain=' + host, '; domain=.' + host].forEach(function (d) { document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d; });
     });
+  }
+  function stopAnalytics() {
+    if (!allowed('stats')) {
+      gaOn = false; window['ga-disable-' + GA_ID] = true;
+      if (window.gtag) { try { window.gtag('consent', 'update', { analytics_storage: 'denied' }); } catch (e) {} }
+      dropCookies(/^(_ga|_gid|_gat)/);
+    }
+    if (!allowed('replay')) {
+      clOn = false;
+      if (window.clarity) { try { window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'denied' }); window.clarity('consent', false); } catch (e) {} }
+      dropCookies(/^(_clck|_clsk|MUID|CLID|ANONCHK|SM|_uetsid|_uetvid)/);
+    }
   }
   if (!dev) {
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -132,36 +164,71 @@
     startAnalytics();
   }
 
-  /* ---- cookie notice ---- */
-  function showNotice(fromFooter) {
+  /* ---- privacy choices panel: first layer (Reject all / Choose / Accept all), second layer with a switch per tool ---- */
+  function noticeCss() {
+    if (document.getElementById('ap-cc-css')) return;
+    var st = document.createElement('style'); st.id = 'ap-cc-css';
+    st.textContent = '#ap-cc{position:fixed;z-index:95;left:16px;bottom:16px;width:min(460px,calc(100vw - 32px));max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain;box-sizing:border-box;padding:18px 18px 16px;border-radius:20px;background:rgba(15,20,51,.98);border:1px solid rgba(244,239,230,.18);box-shadow:0 24px 70px rgba(0,0,0,.55);color:#f4efe6;font:400 14px/1.55 Geist,system-ui,sans-serif;animation:apccIn .5s cubic-bezier(.16,1,.3,1) both}'
+      + '#ap-cc *{box-sizing:border-box}#ap-cc h2{margin:0 0 6px;font:600 16px/1.2 Geist,system-ui,sans-serif;letter-spacing:-.02em}#ap-cc p{margin:0 0 14px;color:#cfc9d8}#ap-cc a{color:#f5b867;text-decoration:underline;text-underline-offset:3px}'
+      + '#ap-cc .apcc-row{display:flex;gap:10px;flex-wrap:wrap}#ap-cc .apcc-row button{flex:1 1 120px;min-height:44px;padding:0 16px;border-radius:999px;font:600 14px Geist,system-ui,sans-serif;cursor:pointer;border:1px solid #f4efe6;background:#f4efe6;color:#1a1420;transition:background .2s,border-color .2s}'
+      + '#ap-cc .apcc-row button:hover{background:#fff;border-color:#fff}#ap-cc .apcc-row button[data-cc=choose],#ap-cc .apcc-row button[data-cc=save]{background:rgba(244,239,230,.08);border-color:rgba(244,239,230,.35);color:#f4efe6}#ap-cc .apcc-row button[data-cc=choose]:hover,#ap-cc .apcc-row button[data-cc=save]:hover{background:rgba(244,239,230,.16);border-color:#f4efe6}'
+      + '#ap-cc .apcc-list{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}#ap-cc .apcc-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:11px 13px;border-radius:14px;background:rgba(244,239,230,.05);border:1px solid rgba(244,239,230,.1)}'
+      + '#ap-cc .apcc-item b{font-weight:600;font-size:14px}#ap-cc .apcc-item span{grid-column:1;font-size:12.5px;line-height:1.45;color:#b9b3c6}#ap-cc .apcc-item .apcc-sw{grid-column:2;grid-row:1/span 2}'
+      + '#ap-cc .apcc-fixed{grid-column:2;grid-row:1/span 2;font-style:normal;font:500 11px/1 "Geist Mono",ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;color:#7ff3e1;white-space:nowrap}'
+      + '#ap-cc .apcc-sw{position:relative;display:inline-block;width:46px;height:28px}#ap-cc .apcc-sw input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}'
+      + '#ap-cc .apcc-sw i{position:absolute;inset:0;border-radius:99px;background:rgba(244,239,230,.18);transition:background .2s;pointer-events:none}#ap-cc .apcc-sw i:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#f4efe6;transition:transform .2s cubic-bezier(.16,1,.3,1)}'
+      + '#ap-cc .apcc-sw input:checked+i{background:#f5b867}#ap-cc .apcc-sw input:checked+i:after{transform:translateX(18px);background:#1a1420}#ap-cc .apcc-sw input:disabled{cursor:not-allowed}#ap-cc .apcc-sw input:disabled+i{opacity:.45}#ap-cc .apcc-sw input:focus-visible+i{outline:2px solid #7ff3e1;outline-offset:2px}'
+      + '#ap-cc:not(.apcc-bar) .apcc-row{position:sticky;bottom:-16px;margin:0 -18px -16px;padding:12px 18px 16px;background:linear-gradient(rgba(15,20,51,.9),#0f1433 30%);border-top:1px solid rgba(244,239,230,.1)}'
+      + '#ap-cc .apcc-note{margin:-4px 0 14px;font-size:12.5px;line-height:1.45;color:#b9b3c6}#ap-cc .apcc-note strong{color:#f4efe6}'
+      + '@media(max-width:899px){#ap-cc{left:10px;bottom:10px;width:calc(100vw - 20px);max-height:calc(100dvh - 20px);padding:14px 14px 12px;border-radius:16px}#ap-cc h2{font-size:14.5px;margin-bottom:4px}#ap-cc p{font-size:12.5px;line-height:1.45;margin-bottom:10px}#ap-cc .apcc-row{gap:8px}#ap-cc .apcc-row button{flex:1 1 0;min-height:42px;padding:0 10px;font-size:13.5px}#ap-cc .apcc-item{padding:10px 11px}#ap-cc:not(.apcc-bar) .apcc-row{bottom:-12px;margin:0 -14px -12px;padding:10px 14px 12px}}'
+      + '@media(min-width:900px){#ap-cc.apcc-bar{left:16px;right:16px;margin:0 auto;width:auto;max-width:1080px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 28px;padding:14px 14px 14px 22px;border-radius:18px}#ap-cc.apcc-bar h2{grid-column:1;margin:0;font-size:14.5px}#ap-cc.apcc-bar p{grid-column:1;margin:0;font-size:13.5px;line-height:1.5}#ap-cc.apcc-bar .apcc-row{grid-column:2;grid-row:1/span 2;flex-wrap:nowrap}#ap-cc.apcc-bar .apcc-row button{flex:0 0 auto;min-height:42px;padding:0 18px}}'
+      + '#ap-cc :focus-visible{outline:2px solid #7ff3e1;outline-offset:2px}@keyframes apccIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){#ap-cc{animation:none}#ap-cc .apcc-sw i,#ap-cc .apcc-sw i:after{transition:none}}';
+    document.head.appendChild(st);
+  }
+  var noticeFrom = null;
+  function showNotice(fromFooter, detail) {
     var old = document.getElementById('ap-cc'); if (old) old.remove();
-    if (!document.getElementById('ap-cc-css')) {
-      var st = document.createElement('style'); st.id = 'ap-cc-css';
-      st.textContent = '#ap-cc{position:fixed;z-index:95;left:16px;bottom:16px;width:min(440px,calc(100vw - 32px));box-sizing:border-box;padding:18px 18px 16px;border-radius:20px;background:rgba(15,20,51,.97);border:1px solid rgba(244,239,230,.18);box-shadow:0 24px 70px rgba(0,0,0,.55);color:#f4efe6;font:400 14px/1.55 Geist,system-ui,sans-serif;animation:apccIn .5s cubic-bezier(.16,1,.3,1) both}'
-        + '#ap-cc *{box-sizing:border-box}#ap-cc h2{margin:0 0 6px;font:600 16px/1.2 Geist,system-ui,sans-serif;letter-spacing:-.02em}#ap-cc p{margin:0 0 14px;color:#cfc9d8}#ap-cc a{color:#f5b867;text-decoration:underline;text-underline-offset:3px}'
-        + '#ap-cc .apcc-row{display:flex;gap:10px;flex-wrap:wrap}#ap-cc button{flex:1 1 140px;min-height:44px;padding:0 16px;border-radius:999px;font:600 14px Geist,system-ui,sans-serif;cursor:pointer;border:1px solid rgba(244,239,230,.35);background:rgba(244,239,230,.08);color:#f4efe6;transition:background .2s,border-color .2s}'
-        + '#ap-cc button:hover{background:rgba(244,239,230,.16);border-color:#f4efe6}#ap-cc button[data-a="1"]{background:#f5b867;border-color:#f5b867;color:#1a1420}#ap-cc button[data-a="1"]:hover{background:#ffc880}'
-        + '@media(max-width:899px){#ap-cc{left:10px;bottom:10px;width:calc(100vw - 20px);padding:14px 14px 12px;border-radius:16px}#ap-cc h2{font-size:14.5px;margin-bottom:4px}#ap-cc p{font-size:12.5px;line-height:1.45;margin-bottom:10px}#ap-cc .apcc-row{flex-wrap:nowrap;gap:8px}#ap-cc button{flex:1 1 0;min-height:42px;padding:0 12px}}'
-        + '@media(min-width:900px){#ap-cc{left:16px;right:16px;margin:0 auto;width:auto;max-width:1040px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 28px;padding:14px 14px 14px 22px;border-radius:18px}#ap-cc h2{grid-column:1;margin:0;font-size:14.5px}#ap-cc p{grid-column:1;margin:0;font-size:13.5px;line-height:1.5}#ap-cc .apcc-row{grid-column:2;grid-row:1/span 2;flex-wrap:nowrap}#ap-cc button{flex:0 0 auto;min-height:42px;padding:0 20px}}'
-        + '#ap-cc :focus-visible{outline:2px solid #7ff3e1;outline-offset:2px}@keyframes apccIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){#ap-cc{animation:none}}';
-      document.head.appendChild(st);
+    noticeCss();
+    var cur = getConsent(), s = cur ? cur.s : { stats: false, replay: false }, box = document.createElement('div');
+    box.id = 'ap-cc'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-labelledby', 'apcc-h');
+    var links = 'More in the <a href="/cookies">cookie policy</a> and the <a href="/privacy">privacy policy</a>.';
+    var when = cur ? new Date(cur.t).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    if (!detail) {
+      box.className = 'apcc-bar';
+      box.innerHTML = '<h2 id="apcc-h">Your privacy choices</h2><p>With your OK, I use Google Analytics (pages you visit, device, rough location) and Microsoft Clarity (clicks and scrolls, as heatmaps and replays) to see what works on this site. Both stay off unless you turn them on, and every tool works without them. ' + links + '</p>'
+        + '<div class="apcc-row"><button type="button" data-cc="reject">Reject all</button><button type="button" data-cc="choose">Choose</button><button type="button" data-cc="accept">Accept all</button></div>';
+    } else {
+      var sw = function (k, on) { return '<label class="apcc-sw"><input type="checkbox" role="switch" data-k="' + k + '"' + (on ? ' checked' : '') + (gpc ? ' disabled' : '') + ' aria-describedby="apcc-' + k + '"><i></i></label>'; };
+      box.innerHTML = '<h2 id="apcc-h">Privacy choices</h2>'
+        + '<p>Turn each tool on or off. You can change this at any time from Cookie settings at the bottom of every page, and turning a tool off is as quick as turning it on.</p>'
+        + (gpc ? '<p class="apcc-note"><strong>Your browser sends a Global Privacy Control signal</strong>, so both stay off on this site.</p>' : '')
+        + (cur ? '<p class="apcc-note">Your choice was saved on ' + when + '.</p>' : '')
+        + '<ul class="apcc-list">'
+        + '<li class="apcc-item"><b id="apcc-l-st">Statistics: Google Analytics</b><span id="apcc-stats">Pages you visit, how you found the site, your device and browser, and your approximate location. Sets cookies (_ga) for up to two years. Never used for ads.</span>' + sw('stats', s.stats) + '</li>'
+        + '<li class="apcc-item"><b>Heatmaps and replays: Microsoft Clarity</b><span id="apcc-replay">How you click, scroll and move on a page. Sets cookies (_clck, _clsk) for up to a year. Switched off on tools where you type your own text.</span>' + sw('replay', s.replay) + '</li>'
+        + '<li class="apcc-item"><b>Needed for the site</b><span>Remembers this choice, your drafts, settings and the tools you open, in your own browser. Never sent to me.</span><em class="apcc-fixed">Always on</em></li>'
+        + '<li class="apcc-item"><b>Cookieless counts</b><span>Ahrefs and Vercel count page views and page speed with no cookies and nothing that identifies you.</span><em class="apcc-fixed">Always on</em></li>'
+        + '</ul><p class="apcc-note">Under 18? Please leave both off. ' + links + '</p>'
+        + '<div class="apcc-row"><button type="button" data-cc="reject">Reject all</button><button type="button" data-cc="save">Save choices</button><button type="button" data-cc="accept">Accept all</button></div>';
     }
-    var cur = getConsent(), box = document.createElement('div');
-    box.id = 'ap-cc'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Cookie notice');
-    box.innerHTML = '<h2>Cookies and analytics</h2><p>I use Google Analytics and Microsoft Clarity to see how the site is used. They only start if you accept. The tools and the rest of the site work without them. '
-      + (cur ? 'Right now you have <strong>' + (cur.a ? 'accepted' : 'rejected') + '</strong> analytics. ' : '') + 'See the <a href="/cookies">cookie policy</a> and the <a href="/privacy">privacy policy</a>.</p>'
-      + '<div class="apcc-row"><button type="button" data-a="0">Reject</button><button type="button" data-a="1">Accept analytics</button></div>';
     box.addEventListener('click', function (ev) {
-      var b = ev.target.closest && ev.target.closest('button[data-a]'); if (!b) return;
-      var yes = b.getAttribute('data-a') === '1'; setConsent(yes); box.remove();
-      if (yes) startAnalytics(); else { started = false; stopAnalytics(); }
+      var b = ev.target.closest && ev.target.closest('button[data-cc]'); if (!b) return;
+      var act = b.getAttribute('data-cc');
+      if (act === 'choose') { showNotice(true, true); return; }
+      var pick = act === 'accept' ? { stats: true, replay: true } : act === 'reject' ? { stats: false, replay: false } : {
+        stats: !!(box.querySelector('input[data-k=stats]') || {}).checked, replay: !!(box.querySelector('input[data-k=replay]') || {}).checked };
+      setConsent(pick); box.remove();
+      stopAnalytics(); startAnalytics();
+      if (noticeFrom && document.contains(noticeFrom)) { try { noticeFrom.focus(); } catch (e) {} }
+      noticeFrom = null;
     });
+    box.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && (fromFooter || detail)) { box.remove(); if (noticeFrom) { try { noticeFrom.focus(); } catch (e) {} } noticeFrom = null; } });
     document.body.appendChild(box);
-    if (fromFooter) { var f = box.querySelector('button'); if (f) f.focus(); }
+    if (fromFooter || detail) { var f = box.querySelector('input:not([disabled]), button'); if (f) f.focus(); }
   }
   function initNotice() { if (!getConsent() && !gpc) showNotice(false); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initNotice); else initNotice();
-  document.addEventListener('click', function (ev) { var t = ev.target.closest && ev.target.closest('[data-cookie-settings]'); if (t) { ev.preventDefault(); showNotice(true); } });
+  document.addEventListener('click', function (ev) { var t = ev.target.closest && ev.target.closest('[data-cookie-settings]'); if (t) { ev.preventDefault(); noticeFrom = t; showNotice(true, true); } });
 
   /* ---- newsletter form in the footer ---- */
   var T0 = Date.now();
