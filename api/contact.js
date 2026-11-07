@@ -13,6 +13,8 @@ const SERVICES = ['Shopify development', 'Full-stack development', 'WordPress or
 const BUDGETS = ['Not sure yet', 'Under $1,000', '$1,000 to $5,000', '$5,000 to $15,000', '$15,000 to $50,000', 'More than $50,000'];
 const TIMELINES = ['As soon as possible', 'Within a month', 'In 1 to 3 months', 'No fixed date'];
 const pick = (v, list) => (list.includes(v) ? v : '');
+// short fields never need angle brackets; dropping them keeps markup out of the admin, the alerts and the emails
+const plain = (v, max) => clean(v, max).replace(/[<>]/g, '');
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -23,9 +25,9 @@ module.exports = async (req, res) => {
   if (clean(b.hp, 200) || !(age >= 3000 && age <= 864e5)) return res.status(200).json({ ok: true });
 
   const d = {
-    name: clean(b.name, 80), email: clean(b.email, 254).toLowerCase(), company: clean(b.company, 120), website_url: clean(b.website_url, 200),
+    name: plain(b.name, 80), email: clean(b.email, 254).toLowerCase(), company: plain(b.company, 120), website_url: plain(b.website_url, 200),
     service: pick(b.service, SERVICES), budget: pick(b.budget, BUDGETS), timeline: pick(b.timeline, TIMELINES), message: clean(b.message, 4000),
-    page: clean(b.page, 80), source: clean(b.source, 40), ref: clean(b.ref, 120), when: new Date().toUTCString(),
+    page: plain(b.page, 80), source: plain(b.source, 40), ref: plain(b.ref, 120), when: new Date().toUTCString(),
   };
   if (d.name.length < 2) return res.status(400).json({ error: 'Please add your name.' });
   if (!validEmail(d.email)) return res.status(400).json({ error: 'That email address does not look right.' });

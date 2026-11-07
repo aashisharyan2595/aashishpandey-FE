@@ -54,7 +54,7 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const nl2br = (s) => esc(s).replace(/\r?\n/g, '<br>');
 const firstName = (n) => clean(n, 80).split(/\s+/)[0] || 'there';
 const parseBody = (req) => { let b = req.body; if (typeof b === 'string') { try { b = JSON.parse(b); } catch (e) { b = {}; } } return b && typeof b === 'object' ? b : {}; };
-const clientIp = (req) => String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
+const clientIp = (req) => String(req.headers['x-vercel-forwarded-for'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();   // Vercel sets these itself, so a visitor cannot pick their own rate-limit bucket
 
 /* ---------- signed links (confirm and unsubscribe) ---------- */
 const b64 = (buf) => Buffer.from(buf).toString('base64url');

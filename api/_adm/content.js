@@ -74,7 +74,7 @@ async function history(n) {
 const secret = () => crypto.createHash('sha256').update('ap-tm|' + (env().secret || process.env.ADMIN_PASSWORD || '')).digest();
 const sig = (s) => crypto.createHmac('sha256', secret()).update(s).digest('base64url').slice(0, 22);
 const tokenFor = (briefId) => `${briefId}.${sig(briefId)}`;
-function briefOf(tok) { const [id, s] = String(tok || '').split('.'); if (!id || !s || id.length > 40) return null; const a = Buffer.from(sig(id)), b = Buffer.from(s); return a.length === b.length && crypto.timingSafeEqual(a, b) ? id : null; }
+function briefOf(tok) { const parts = String(tok || '').split('.'), [id, s] = parts; if (parts.length !== 2 || !id || !s || id.length > 40 || !/^[A-Za-z0-9-]+$/.test(id)) return null; const a = Buffer.from(sig(id)), b = Buffer.from(s); return a.length === b.length && crypto.timingSafeEqual(a, b) ? id : null; }
 const formUrl = (briefId) => `${SITE}/api/config?a=tform&t=${encodeURIComponent(tokenFor(briefId))}`;
 
 async function list() {

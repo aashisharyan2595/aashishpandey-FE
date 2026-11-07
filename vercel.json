@@ -6,6 +6,10 @@
   "trailingSlash": false,
   "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "30 21 * * *" }, { "path": "/api/kd2ozfuew9n4uaciyl1j?a=digest", "schedule": "0 3 * * *" } ],
   "redirects": [
+    { "source": "/api/:file((?:.*)\\.(?:js|cjs|mjs|json|ts|md))", "destination": "/", "permanent": false },
+    { "source": "/:file(vercel\\.json|package\\.json|README\\.md|\\.editorconfig|\\.gitattributes|\\.gitignore|\\.vercelignore)", "destination": "/", "permanent": false },
+    { "source": "/.github/:path*", "destination": "/", "permanent": false },
+    { "source": "/docs/:path*", "destination": "/", "permanent": false },
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.aashishpandey.com" }],
@@ -610,6 +614,14 @@
         {
           "key": "Permissions-Policy",
           "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin-allow-popups"
         }
       ]
     },
@@ -662,5 +674,7 @@
     { "source": "/pages/(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, follow" } ] },
     { "source": "/assets/vendor/fonts/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
     { "source": "/assets/vendor/three-0.184.0/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] }
+,
+    { "source": "/kd2ozfuew9n4uaciyl1j(.*)", "headers": [ { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; worker-src 'self'; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'" }, { "key": "X-Frame-Options", "value": "DENY" } ] }
   ]
 }
