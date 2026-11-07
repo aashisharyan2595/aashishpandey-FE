@@ -170,7 +170,7 @@ module.exports = async (req, res) => {
     if (a === 'logout') { const sid = cookieSid(req); if (sid) await sessions.revoke(String(sid)).catch(() => {}); setCookie(res, '', 0); return out(200, { ok: true }); }
     if (a === 'cron' || a === 'digest') {   // Vercel Cron: the nightly backup and the morning digest
       if (!process.env.CRON_SECRET) return out(503, { error: 'Set CRON_SECRET in Vercel to enable scheduled jobs.' });
-      if (req.headers.authorization !== 'Bearer ' + process.env.CRON_SECRET) return out(401, { error: 'Not allowed.' });
+      if (!eq(String(req.headers.authorization || ''), 'Bearer ' + process.env.CRON_SECRET)) return out(401, { error: 'Not allowed.' });
       const health = await siteHealth.run(siteOrigin(req), { alert: true, via: a }).then((r) => ({ ok: r.ok, fails: r.fails })).catch((e) => ({ error: e.message }));   // twice a day, with an alert if anything fails
       if (a === 'cron') { const r = await sec.backup(); await attention.noteRun('cron', r.ok, r.error); return out(200, { ...r, health }); }
       if ((await cfg.get('digest', { on: true })).on === false) return out(200, { sent: false, off: true, health });
@@ -390,7 +390,9 @@ module.exports = async (req, res) => {
       const u = await users.get(user.id), np = String(b.newPassword || '');
       if (!u || !users.verify(b.current, u.pwHash)) return out(400, { error: 'Your current password is not right.' });
       if (np.length < 10) return out(400, { error: 'Use at least 10 characters.' });
-      await users.update(user.id, { newPassword: np }); return out(200, { ok: true });
+      await users.update(user.id, { newPassword: np });
+      for (const s of await sessions.list()) if (s.uid === user.id && s.id !== user.sid) await sessions.revoke(s.id);   // a new password ends every other sign-in of this person
+      return out(200, { ok: true });
     }
 
     /* ----- security ----- */

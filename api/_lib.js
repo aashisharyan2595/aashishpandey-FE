@@ -51,7 +51,7 @@ function checkAlias(a) {
 const ALPHA = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 function code(n = 6) { let s = ''; const b = require('crypto').randomBytes(n); for (let i = 0; i < n; i++) s += ALPHA[b[i] % ALPHA.length]; return s; }
 
-function ip(req) { return String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim(); }
+function ip(req) { return String(req.headers['x-vercel-forwarded-for'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim(); }
 
 async function rateLimit(addr) {
   const h = `rl:h:${addr}`, d = `rl:d:${addr}`;

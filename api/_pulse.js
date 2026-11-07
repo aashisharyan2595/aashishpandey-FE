@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
       const id = content.briefOf(req.query.t), rec = id && store.enabled() ? await store.get(id) : null;
       if (!rec) return res.status(404).send(page('This link does not work', '<p class="lede">The link may be incomplete. Please reply to the email and I will send a fresh one.</p>'));
       if (rec.testimonial && rec.testimonial.got) return res.status(200).send(page('Thank you', '<p class="lede">I already have your words. Thank you again for taking the time.</p>'));
-      return res.status(200).send(page('Two lines about working together?', form(rec, String(req.query.t))));
+      return res.status(200).send(page('Two lines about working together?', form(rec, content.tokenFor(id))));
     }
     if (a === 'tsubmit' && post) {
       res.setHeader('Cache-Control', 'no-store');
@@ -83,7 +83,7 @@ function form(rec, tok) {
 <input type="text" name="hp" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
 <button type="submit">Send</button><p id="m" role="status"></p>
 </form>
-<script>(function(){var T0=Date.now(),f=document.getElementById('f'),m=document.getElementById('m');f.onsubmit=function(e){e.preventDefault();var d={t:${JSON.stringify(tok)},ts:T0,hp:f.hp.value,quote:f.quote.value,name:f.name.value,company:f.company.value,role:f.role.value,publish:f.publish.checked,rating:(f.querySelector('[name=rating]:checked')||{}).value};
+<script>(function(){var T0=Date.now(),f=document.getElementById('f'),m=document.getElementById('m');f.onsubmit=function(e){e.preventDefault();var d={t:${JSON.stringify(tok).replace(/</g, '\\u003c')},ts:T0,hp:f.hp.value,quote:f.quote.value,name:f.name.value,company:f.company.value,role:f.role.value,publish:f.publish.checked,rating:(f.querySelector('[name=rating]:checked')||{}).value};
 if(d.quote.trim().length<15){m.textContent='Please write at least a sentence.';m.className='err';return}var b=f.querySelector('button');b.disabled=true;m.className='';m.textContent='Sending...';
 fetch('/api/config?a=tsubmit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})}).then(function(x){if(x.ok){f.outerHTML='<p class="done">Thank you. That means a lot.</p>'}else{b.disabled=false;m.className='err';m.textContent=x.j.error||'Could not send. Please reply to the email instead.'}}).catch(function(){b.disabled=false;m.className='err';m.textContent='Could not reach the server. Please try again.'})}})();</script>`;
 }

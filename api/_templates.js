@@ -194,7 +194,7 @@ function userBriefConfirmation(d, unsubUrl) {
     : d.company ? `I noted that it is for ${d.company}.` : '';
   const want = WANT[SERVICE_TOPIC[d.service]] || WANT.other;
   const best = r.t.proof[0];
-  const quoted = String(d.message).replace(/\s+/g, ' ').trim();
+  const quoted = String(d.message).replace(/\s+/g, ' ').replace(/\b(?:https?:\/\/|www\.)\S+/gi, '[link]').trim();   // links are not echoed, so the form cannot be used to mail someone else a link from this domain
   const snippet = quoted.length > 160 ? quoted.slice(0, 157) + '...' : quoted;
   const open = r.src.key === 'ride' ? 'Thanks for riding all the way to the campfire.' : `Thanks for your ${r.t.short} brief.`;
   const html = shell({

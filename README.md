@@ -142,7 +142,7 @@ Vercel serverless functions in `api/` (Node, no framework, no npm dependencies).
 | `POST /api/subscribe`, `GET /api/newsletter` | Newsletter: subscribe, confirm, one-click unsubscribe with signed links |
 | `POST /api/resend-webhook` | Delivery, bounce and spam events from Resend, verified with the Svix signature |
 | `GET /api/quote` | Public quote page with accept or decline, gated by a signed token |
-| `GET /api/config`, `GET /api/health` | Public Turnstile site key; which settings are present (booleans only) |
+| `GET /api/config`, `GET /api/health` | Public Turnstile site key; `{ ok: true }` (the list of which settings are present needs `Authorization: Bearer <CRON_SECRET>`) |
 
 A private admin lives behind an unlisted path (`admin/`, `api/_adm/`): an inbox and pipeline for enquiries (stages, deal value, a 48 hour reply promise, follow-ups, a morning digest), quotes, newsletter list, sent-mail log, sign-in history, TOTP two-factor sign-in (RFC 6238), "sign out everywhere", nightly backup, and Web Push notifications (VAPID, RFC 8291) with no dependencies. It is `noindex`, `no-store` and rate limited.
 
