@@ -58,10 +58,6 @@ textarea{resize:vertical;line-height:1.5}
 .lbl{display:block;font-size:13px;color:var(--mute);margin:14px 0 6px}
 
 /* ---- sign in ---- */
-#login{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px 200px;background:url(/assets/nr/horizon.svg) center bottom/max(100%,1100px) auto no-repeat}
-#login form{width:min(420px,100%);background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:14px;box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
-#login h1{font-size:30px;letter-spacing:-.04em}
-#login .meta{color:var(--teal);margin:0}
 .linkbtn{background:none;border:0;color:var(--amber);cursor:pointer;font-size:14px;padding:6px 0;text-align:left}
 
 /* ---- shell: header ---- */
@@ -558,6 +554,58 @@ kbd{font:500 10.5px var(--mono);padding:2px 6px;border-radius:6px;border:1px sol
 
 @media(max-width:699px){.dt .tt{min-width:0}.dt td,.dt th{padding:10px}.dt td.ck,.dt th.ck{width:34px;padding-left:10px;padding-right:0}.dtw{border-radius:var(--r-sm)}}
 
+
+/* ---- v4: sign-in screen. A dusk scene with a live clock beside the form; phones get the scene as a band on top ---- */
+body:has(#login:not(.hide)){padding:0!important}
+#login{min-height:100vh;min-height:100dvh;display:grid;grid-template-rows:auto 1fr;background:var(--bg)}
+.lg-scene{position:relative;overflow:hidden;min-height:240px;background:radial-gradient(120% 90% at 70% 100%,rgba(245,184,103,.28),transparent 60%),radial-gradient(90% 70% at 20% 100%,rgba(200,120,170,.18),transparent 65%),linear-gradient(180deg,#05061a 0%,#0c1030 45%,#2a1f4d 100%)}
+.lg-stars{position:absolute;inset:0}.lg-stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#f4efe6;opacity:.7;animation:lgTw 4s ease-in-out infinite}
+@keyframes lgTw{0%,100%{opacity:.15}50%{opacity:.9}}
+.lg-moon{position:absolute;right:14%;top:16%;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff6e4,#f5b867 70%);box-shadow:0 0 60px 18px rgba(245,184,103,.25);animation:lgFloat 9s ease-in-out infinite}
+@keyframes lgFloat{50%{transform:translateY(-8px)}}
+.lg-copy{position:relative;z-index:2;padding:28px 24px 0}.lg-copy .meta{color:var(--teal);margin:0 0 10px}
+.lg-greet{margin:0;font:400 clamp(34px,8vw,64px)/1 var(--serif);font-style:italic;color:var(--ink);letter-spacing:-.01em}
+.lg-clock{margin:10px 0 0;font:500 13px var(--mono);letter-spacing:.12em;color:var(--mute);text-transform:uppercase}.lg-clock span{color:var(--amber)}.lg-clock i{font-style:normal;margin-left:8px;color:var(--dim)}
+.lg-road{position:absolute;left:0;right:0;bottom:0;height:min(42%,260px);background:url(/assets/nr/horizon.svg) center bottom/max(100%,1100px) 100% no-repeat}
+.lg-lights{position:absolute;left:50%;bottom:0;width:26px;height:8px;margin-left:-13px;animation:lgDrive 7s cubic-bezier(.5,0,.9,.6) infinite;opacity:0}
+.lg-lights::before,.lg-lights::after{content:'';position:absolute;top:0;width:8px;height:8px;border-radius:50%;background:#fff3d6;box-shadow:0 0 14px 4px rgba(255,236,190,.7)}.lg-lights::before{left:0}.lg-lights::after{right:0}
+@keyframes lgDrive{0%{transform:translateY(0) scale(1.6);opacity:0}10%{opacity:1}85%{opacity:.8}100%{transform:translateY(calc(-1 * min(42vh,260px) * .27)) scale(.12);opacity:0}}
+.lg-pane{display:flex;align-items:flex-start;justify-content:center;padding:0 16px 40px;margin-top:-34px;position:relative;z-index:3}
+#lf{width:min(440px,100%);background:var(--card);border:1px solid var(--line2);border-radius:var(--r);padding:26px 24px;display:flex;flex-direction:column;gap:12px;box-shadow:0 40px 90px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(244,239,230,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);animation:lgIn .7s var(--ease) both}
+@keyframes lgIn{from{opacity:0;transform:translateY(18px)}}
+#lf.shake{animation:lgShake .42s}
+@keyframes lgShake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.lg-brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}.lg-brand i{font-family:var(--serif);font-weight:400;color:var(--amber);font-size:1.15em}
+.lg-brand .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--amber);color:#1a1420;font-weight:700;box-shadow:0 8px 22px -8px rgba(245,184,103,.7)}
+#lf h1{font-size:30px;letter-spacing:-.04em;margin-top:4px}
+.lg-seg{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:99px;border:1px solid var(--line);background:var(--field);margin:4px 0 2px}
+.lg-seg button{position:relative;z-index:1;height:38px;border:0;background:none;border-radius:99px;color:var(--mute);font-weight:600;font-size:14px;cursor:pointer;transition:color .2s}
+.lg-seg button[aria-selected=true]{color:#1a1420}
+.lg-pill{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:99px;background:var(--amber);transition:transform .35s var(--ease)}
+.lg-seg.team .lg-pill{transform:translateX(100%)}
+.lg-f .lbl,.lg-step .lbl{margin-top:4px}
+.lg-step{display:flex;flex-direction:column;gap:10px;animation:lgIn .45s var(--ease) both}
+.lg-caps{margin:6px 0 0;font-size:13px;color:var(--amber)}.lg-caps::before{content:'\21EA  '}
+.lg-2fa{display:flex;gap:12px;margin:0;padding:12px 14px;border-radius:var(--r-sm);border:1px solid rgba(127,243,225,.3);background:rgba(127,243,225,.06)}
+.lg-2fa b{display:block;font-size:14.5px}.lg-2fa small{display:block;color:var(--mute);font-size:13px;line-height:1.45}
+.lg-shield svg{width:26px;height:26px;fill:none;stroke:var(--teal);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lg-code{font:500 24px var(--mono)!important;letter-spacing:.35em;text-align:center}
+.lg-go{width:100%;min-height:50px;margin-top:4px;font-size:16px;position:relative}
+.lg-spin{display:none;width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(26,20,32,.3);border-top-color:#1a1420;animation:lgRot .8s linear infinite}
+.lg-go.busy .lg-spin{display:inline-block}.lg-go.done{background:var(--green);border-color:var(--green)}
+@keyframes lgRot{to{transform:rotate(360deg)}}
+#lerr:empty{min-height:0}
+.lg-trust{list-style:none;display:flex;flex-wrap:wrap;gap:6px 14px;margin:2px 0 0;padding:12px 0 0;border-top:1px solid var(--line);font-size:12.5px;color:var(--dim)}
+.lg-trust li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:7px;vertical-align:1px}
+@media(min-width:900px){
+  #login{grid-template-rows:none;grid-template-columns:minmax(0,1.15fr) minmax(460px,.85fr)}
+  .lg-scene{min-height:100vh;min-height:100dvh}
+  .lg-copy{padding:56px 56px 0}.lg-moon{width:76px;height:76px}
+  .lg-road{height:46%}
+  @keyframes lgDrive{0%{transform:translateY(0) scale(2);opacity:0}10%{opacity:1}85%{opacity:.8}100%{transform:translateY(-12vh) scale(.12);opacity:0}}
+  .lg-pane{margin:0;align-items:center;padding:40px;background:radial-gradient(600px 400px at 0% 50%,rgba(74,42,94,.25),transparent 70%)}
+  #lf{padding:34px 32px}
+}
 /* ---- v4: enterprise pieces (same Night Ride tokens) ---- */
 .skip{position:fixed;left:16px;top:-60px;z-index:200;background:var(--amber);color:#1a1420;font-weight:600;padding:10px 16px;border-radius:99px;transition:top .15s}.skip:focus{top:12px;color:#1a1420}
 main:focus{outline:none}
@@ -583,17 +631,33 @@ main:focus{outline:none}
 </head>
 <body>
 <section id="login" class="hide">
-  <form id="lf" novalidate>
-    <p class="meta">aashishpandey.com</p>
-    <h1>Admin <i>login</i></h1>
-    <p class="sub">Submissions from aashishpandey.com. Everything is saved here before any email is sent.</p>
-    <input id="em" class="hide" type="email" placeholder="Your email" autocomplete="off" inputmode="email" disabled>
-    <div class="pwwrap"><input id="pw" type="password" placeholder="Password" autocomplete="current-password" required autofocus style="padding-right:52px"><button type="button" class="eye" id="eye" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" class="e-on"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" class="e-off"><path d="M3 3l18 18"/><path d="M10.6 6.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.7C3.9 8.5 2 12 2 12s3.6 7 10 7c1.7 0 3.2-.4 4.5-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></div>
-    <input id="code" class="hide" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code (or a recovery code)">
-    <button class="btn pri" type="submit" style="width:100%">Sign in</button>
-    <button class="linkbtn" type="button" id="teamLink">Team member? Sign in with your email</button>
+  <div class="lg-scene" aria-hidden="true">
+    <div class="lg-stars" id="lgStars"></div><div class="lg-moon"></div>
+    <div class="lg-copy"><p class="meta">aashishpandey.com</p><p class="lg-greet" id="lgGreet">Good evening</p><p class="lg-clock"><span id="lgTime">--:--</span> IST <i id="lgDate"></i></p></div>
+    <div class="lg-road"><div class="lg-lights"></div></div>
+  </div>
+  <div class="lg-pane">
+  <form id="lf" novalidate aria-labelledby="lgH">
+    <div class="lg-brand"><span class="mark" aria-hidden="true">A</span><span>Admin <i>desk</i></span></div>
+    <h1 id="lgH">Welcome <i>back</i></h1>
+    <p class="sub" id="lgSub">Sign in to run the site: briefs, posts, the newsletter and more.</p>
+    <div class="lg-seg" role="tablist" aria-label="Who is signing in"><button type="button" role="tab" id="lgOwner" aria-selected="true">Owner</button><button type="button" role="tab" id="lgTeam" aria-selected="false">Team member</button><span class="lg-pill" aria-hidden="true"></span></div>
+    <div class="lg-step" id="lgStep1">
+      <div class="lg-f hide" id="emW"><label class="lbl" for="em">Work email</label><input id="em" type="email" placeholder="you@company.com" autocomplete="username" inputmode="email" disabled></div>
+      <div class="lg-f"><label class="lbl" for="pw" id="pwL">Owner password</label><div class="pwwrap"><input id="pw" type="password" placeholder="••••••••••" autocomplete="current-password" required autofocus style="padding-right:52px"><button type="button" class="eye" id="eye" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" class="e-on"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" class="e-off"><path d="M3 3l18 18"/><path d="M10.6 6.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.7C3.9 8.5 2 12 2 12s3.6 7 10 7c1.7 0 3.2-.4 4.5-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></div>
+        <p class="lg-caps hide" id="lgCaps" role="status">Caps Lock is on</p></div>
+    </div>
+    <div class="lg-step hide" id="lgStep2">
+      <p class="lg-2fa"><span class="lg-shield" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><b>Two-factor check</b><small>Open your authenticator app and enter the 6-digit code. Lost your phone? Use a recovery code.</small></span></p>
+      <label class="lbl" for="code">Authentication code</label><input id="code" class="lg-code" inputmode="numeric" autocomplete="one-time-code" placeholder="123 456" maxlength="20">
+      <button class="linkbtn" type="button" id="lgBack">&larr; Use a different password</button>
+    </div>
+    <button class="btn pri lg-go" type="submit"><span class="lg-spin" aria-hidden="true"></span><span id="lgGoT">Sign in</span></button>
+    <button class="linkbtn hide" type="button" id="teamLink">Team member? Sign in with your email</button>
     <div class="err" id="lerr" role="alert"></div>
+    <ul class="lg-trust"><li>Two-factor sign-in</li><li>Signed activity log</li><li>Idle sign-out</li></ul>
   </form>
+  </div>
 </section>
 
 <div id="app" class="hide">
@@ -2494,6 +2558,36 @@ showShortcuts=function(){var L={home:'Overview',posts:'Posts',cases:'Case studie
   var row=function(r){return '<kbd>'+esc(r[0])+'</kbd><span>'+esc(r[1])+'</span>'};
   ask({title:'Keyboard shortcuts',ok:false,cancel:'Close',body:'<div class="kgrid"><h3>Anywhere</h3>'+[['Ctrl K','Search and jump anywhere'],['/','Search on this page'],['?','This list'],['Esc','Close a menu, dialog or the editor']].map(row).join('')+'<h3>Go to</h3>'+nav.map(row).join('')+'<h3>Editor</h3>'+[['Ctrl S','Save the entry'],['Ctrl B / I / K','Bold, italic, link'],['Ctrl Z','Undo a block change']].map(row).join('')+'</div>'})};
 
+
+/* ---------- sign-in screen: owner or team, caps lock, a separate two-factor step, a live clock ---------- */
+var lgMode='owner';
+function lgSet(m,keep){lgMode=m;var team=m==='team';$('lgOwner').setAttribute('aria-selected',String(!team));$('lgTeam').setAttribute('aria-selected',String(team));document.querySelector('.lg-seg').classList.toggle('team',team);
+  $('emW').classList.toggle('hide',!team);$('em').disabled=!team;$('pwL').textContent=team?'Password':'Owner password';
+  $('lgSub').textContent=team?'Sign in with the email and password you were given. You choose your own password the first time.':'Sign in to run the site: briefs, posts, the newsletter and more.';
+  try{localStorage.setItem('adm.lgMode',m)}catch(e){}if(!keep)(team&&!$('em').value?$('em'):$('pw')).focus()}
+function lgStep(n){$('lgStep1').classList.toggle('hide',n!==1);$('lgStep2').classList.toggle('hide',n!==2);document.querySelector('.lg-seg').classList.toggle('hide',n===2);$('lgGoT').textContent=n===2?'Verify and sign in':'Sign in';if(n===2){$('code').value='';$('code').focus()}else{$('code').value='';$('pw').focus()}}
+$('lgOwner').onclick=function(){lgSet('owner')};$('lgTeam').onclick=function(){lgSet('team')};
+$('lgBack').onclick=function(){lgStep(1);$('lerr').textContent=''};
+try{var lm=localStorage.getItem('adm.lgMode'),le0=localStorage.getItem('adm.lgEmail');if(le0)$('em').value=le0;if(lm==='team')lgSet('team',true)}catch(e){}
+function caps(e){if(e.getModifierState)$('lgCaps').classList.toggle('hide',!e.getModifierState('CapsLock'))}
+$('pw').addEventListener('keydown',caps);$('pw').addEventListener('keyup',caps);$('pw').addEventListener('blur',function(){$('lgCaps').classList.add('hide')});
+$('code').addEventListener('input',function(){var v=$('code').value.replace(/\s/g,'');if(/^\d{6}$/.test(v))$('lf').requestSubmit?$('lf').requestSubmit():$('lf').querySelector('button[type=submit]').click()});
+$('lf').onsubmit=function(e){e.preventDefault();var lerr=$('lerr'),btn=$('lf').querySelector('.lg-go'),team=lgMode==='team';
+  if(team&&!$('em').value.trim()){lerr.className='err';lerr.textContent='Enter your email.';$('em').focus();return}
+  if(!$('pw').value){lerr.className='err';lerr.textContent='Enter your password.';$('pw').focus();return}
+  lerr.textContent='';btn.disabled=true;btn.classList.add('busy');$('lgGoT').textContent=$('lgStep2').classList.contains('hide')?'Signing in…':'Checking…';
+  var body={password:$('pw').value,code:$('code').value.replace(/\s/g,''),client:clientInfo()};if(team)body.email=$('em').value.trim();
+  post('login',body).then(function(x){btn.disabled=false;btn.classList.remove('busy');
+    if(x.ok){try{if(team)localStorage.setItem('adm.lgEmail',body.email)}catch(e){}btn.classList.add('done');$('lgGoT').textContent='Signed in';
+      setTimeout(function(){btn.classList.remove('done');$('pw').value='';lgStep(1);start(true)},450);return}
+    if(x.j.need2fa){var first=$('lgStep2').classList.contains('hide');lgStep(2);if(first){lerr.textContent='';return}}else $('lgGoT').textContent=$('lgStep2').classList.contains('hide')?'Sign in':'Verify and sign in';
+    lerr.className='err';lerr.textContent=x.j.error||('Could not sign in (server answered '+x.status+').');
+    var f=$('lf');f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake')})};
+(function(){var box=$('lgStars'),h='';for(var i=0;i<70;i++){var sz=Math.random()<.15?3:2;h+='<i style="left:'+(Math.random()*100).toFixed(1)+'%;top:'+(Math.random()*58).toFixed(1)+'%;width:'+sz+'px;height:'+sz+'px;animation-delay:'+(Math.random()*4).toFixed(2)+'s;animation-duration:'+(3+Math.random()*4).toFixed(1)+'s"></i>'}box.innerHTML=h;
+  function tick(){var d=new Date(),o={timeZone:'Asia/Kolkata'},hr=+d.toLocaleString('en-GB',Object.assign({hour:'2-digit',hour12:false},o));
+    $('lgGreet').textContent=hr<5?'Late night':hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+    $('lgTime').textContent=d.toLocaleTimeString('en-GB',Object.assign({hour:'2-digit',minute:'2-digit',hour12:false},o));$('lgDate').textContent=d.toLocaleDateString('en-GB',Object.assign({weekday:'short',day:'2-digit',month:'short'},o))}
+  tick();setInterval(tick,15000)})();
 
 start();
 })();
