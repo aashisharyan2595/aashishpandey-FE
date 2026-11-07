@@ -21,8 +21,11 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 37; // bump when assets/nav.css changes: assets are cached for 30 days
-const NAV_JS = 4;   // same for assets/nav.js (search, menu images, footer on phones)
+const NAV_CSS = 38; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_JS = 5;   // same for assets/nav.js (search, menu images, footer on phones)
+// Other names people use for each tool (scripts/tool-search.json): menu search terms (data-k), the "Also called" line
+// on each tool page (<!-- ap-aka:start --> ... <!-- ap-aka:end -->) and alternateName/keywords in its SoftwareApplication schema.
+const SEARCH = JSON.parse(fs.readFileSync(path.join(__dirname, 'tool-search.json'), 'utf8')); delete SEARCH._about;
 
 const BOOK = 'https://bookings.cloud.microsoft/bookwithme/user/21d85864cd9e44ad8e0b02c8924d50a0@aashishpandey.com/meetingtype/GSQs53Xp5k-9OwIn67Xxow2?anonymous&ismsaljsauthenabled&ep=mlink';
 const WA = 'https://wa.me/917558415031';
@@ -176,10 +179,19 @@ const CARET = '<svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24
 const CHEV = '<svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ap-ms__chev"><path d="m6 9 6 6 6-6"></path></svg>';
 const toolCount = MENUS.tools.cols.flat().reduce((n, g) => n + g.items.length, 0);
 const flat = (m) => m.cols.flat().flatMap((g) => g.items);
+{ // every tool in the menu needs its other names, and every entry must be a tool in the menu
+  const inMenu = new Set(flat(MENUS.tools).map((it) => it.href)), bad = [];
+  for (const h of inMenu) if (!SEARCH[h] || !SEARCH[h].aka.length || !SEARCH[h].k) bad.push(`${h}: add it to scripts/tool-search.json`);
+  for (const h of Object.keys(SEARCH)) if (!inMenu.has(h)) bad.push(`${h}: in tool-search.json but not in the Tools menu`);
+  if (bad.length) { console.error('chrome: ' + bad.join('\n  ')); process.exit(1); }
+}
 
 /* ---------- header ---------- */
+// search terms for a menu item: the tool's other names, then the extra words (assets/nav.js reads data-k)
+const terms = (href) => { const s = SEARCH[href]; return s ? [...s.aka, ...s.k.split(',')].map((x) => x.trim().toLowerCase()).filter((x, i, a) => x && a.indexOf(x) === i).join(',') : ''; };
 function megaItem(it) {
-  return `<a class="ap-mega__it" role="menuitem" href="${e(it.href)}"${ext(it)} title="${e(it.d)}"><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}${it.b ? `<span class="ap-mega__b">${e(it.b)}</span>` : ''}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`;
+  const k = terms(it.href);
+  return `<a class="ap-mega__it" role="menuitem" href="${e(it.href)}"${ext(it)} title="${e(it.d)}"${k ? ` data-k="${e(k)}"` : ''}><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}${it.b ? `<span class="ap-mega__b">${e(it.b)}</span>` : ''}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`;
 }
 function mega(key) {
   const m = MENUS[key], n = m.cols.length;
@@ -275,6 +287,34 @@ function close(p) {
     + `<div class="ap-close__chips">${chip('/contact?from=' + from, 'send', 'Send a brief')}${chip(CV, 'file', 'Résumé', ' download')}${chip(LI, 'in', 'LinkedIn', ' target="_blank" rel="noopener"')}${chip(WA, 'chat', 'WhatsApp', ' target="_blank" rel="noopener"')}</div></div></div>`;
 }
 
+/* ---------- a tool's other names on its own page ---------- */
+// Visible line under the intro (shown on the page, so the schema below describes what a reader can see)
+const lower = (x) => (/^[A-Z][a-z]/.test(x) ? x[0].toLowerCase() + x.slice(1) : x);
+function aka(p) {
+  const s = SEARCH[p]; if (!s) return '';
+  return `<p class="tl-aka">Also called ${s.aka.map((x) => e(lower(x))).join(s.aka.length > 2 ? ', ' : ' or ').replace(/, ([^,]*)$/, ' or $1')}.</p>`;
+}
+// alternateName and keywords on the page's SoftwareApplication / WebApplication node
+function schema(src, p) {
+  const s = SEARCH[p]; if (!s) return src;
+  return src.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (m, a, body, b) => {
+    let j; try { j = JSON.parse(body); } catch (err) { return m; }
+    const nodes = j['@graph'] || [j]; let hit = false;
+    for (const n of nodes) {
+      const t = [].concat(n['@type'] || []);
+      if (!t.includes('SoftwareApplication') && !t.includes('WebApplication')) continue;
+      hit = true;
+      const names = [].concat(n.alternateName || []);
+      for (const x of s.aka) if (!names.some((y) => y.toLowerCase() === x.toLowerCase())) names.push(x);
+      n.alternateName = names;
+      const kw = String(n.keywords || '').split(',').map((x) => x.trim()).filter(Boolean);
+      for (const x of s.aka) if (!kw.some((y) => y.toLowerCase() === x.toLowerCase())) kw.push(x.toLowerCase());
+      n.keywords = kw.join(', ');
+    }
+    return hit ? a + JSON.stringify(j) + b : m;
+  });
+}
+
 /* ---------- active state ---------- */
 const rewrites = {};
 for (const r of JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8')).rewrites || []) {
@@ -342,6 +382,8 @@ for (const { name: f, abs: fp } of pages) {
   [out, a] = region('nav', header, out, p);
   [out, b] = region('foot', footer, out, p);
   out = out.replace(/(<!-- ap-close:start -->)[\s\S]*?(<!-- ap-close:end -->)/g, (_, a1, b1) => `${a1}\n${close(p)}\n${b1}`);
+  out = out.replace(/(<!-- ap-aka:start -->)[\s\S]*?(<!-- ap-aka:end -->)/g, (_, a1, b1) => `${a1}${aka(p)}${b1}`);
+  out = schema(out, p);
   out = out.replace(/nav\.css\?v=\d+/g, `nav.css?v=${NAV_CSS}`);
   // the script that opens search and loads the menu pictures sits beside the stylesheet, with the same path style
   if (/nav\.js\?v=\d+/.test(out)) out = out.replace(/nav\.js\?v=\d+/g, `nav.js?v=${NAV_JS}`);
