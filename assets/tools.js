@@ -185,6 +185,8 @@
     if (!main || !about || doc.querySelector('.tl-next')) return;
     if (!about.querySelector('a[href^="/tools/"] span') && ++nextTries < 20) return void setTimeout(initNext, 400);   // pages drawn by the template runtime fill in after load
     var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+    var force = /[?&]nl=show\b/.test(location.search);   // ?nl=show clears this browser's memory and shows the offer after a moment
+    if (force) { try { localStorage.removeItem('apNlX'); localStorage.removeItem('apNlDone'); } catch (e) {} }
     var done = store.get('apNlDone') === '1';
     var seen = {}, cards = [].slice.call(about.querySelectorAll('a[href^="/tools/"]')).filter(function (a) {
       var h = a.getAttribute('href'); if (!/^\/tools\/[^/?#]+$/.test(h) || h === path || seen[h] || a.closest('.ap-close, .ap-foot, .ap-nav') || !a.querySelector('span')) return false;
@@ -214,11 +216,14 @@
     var shown = false, usedAt = 0;
     function show() {
       if (shown || nlQuiet() || doc.querySelector('.tl-win')) return;   // signed up, said no, or the inline offer is already asking
-      if (doc.getElementById('ap-cc')) return void setTimeout(show, 4000);
+      var cc = doc.getElementById('ap-cc');
+      if (cc && innerWidth < 900) return void setTimeout(show, 4000);   // on phones the cookie notice has the bottom of the screen
       shown = true;
       var c = doc.createElement('aside'); c.className = 'tl-nl'; c.setAttribute('aria-label', 'New tools by email');
       c.innerHTML = '<button type="button" class="tl-nl__x" aria-label="Close">&times;</button>' + nlForm(0);
-      body().appendChild(c); requestAnimationFrame(function () { c.classList.add('is-on'); });
+      body().appendChild(c);
+      if (cc) { var r = cc.getBoundingClientRect(); c.style.bottom = Math.max(16, innerHeight - r.top + 12) + 'px'; }   // wide screens: just above the cookie notice
+      requestAnimationFrame(function () { c.classList.add('is-on'); });
       var gone = function () { store.set('apNlX', String(Date.now())); c.remove(); doc.removeEventListener('keydown', esc); };
       var esc = function (e) { if (e.key === 'Escape') gone(); };
       doc.addEventListener('keydown', esc);
@@ -228,9 +233,10 @@
       var t = e.target; if (!t || !t.closest || t.closest('.ap-nav, .ap-foot, .ap-close, .ap-quotes, .ap-notice, #ap-cc, header, footer, .tl-next, .tl-nl')) return;
       if (e.type === 'pointerdown' && !t.closest('button, input, select, textarea, label, a[download], [role=button], canvas')) return;
       ['pointerdown', 'input', 'change'].forEach(function (k) { doc.removeEventListener(k, onUse, true); });
-      usedAt = Date.now(); setTimeout(show, 25000);
+      usedAt = Date.now(); setTimeout(show, 12000);
     }
     ['pointerdown', 'input', 'change'].forEach(function (k) { doc.addEventListener(k, onUse, true); });
+    setTimeout(show, force ? 1500 : 40000);   // someone who only reads the tool page still gets one quiet offer after 40 s
   }
   if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', initNext); else initNext();
 })();

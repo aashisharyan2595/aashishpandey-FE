@@ -395,7 +395,7 @@
 })();
 
 /* ---- reading card: one small, dismissible email offer on pages people read (blog, services, case studies, portfolio) ----
-   Not a modal: it never covers the page, takes no focus, and waits until the visitor has read most of the page (60% scrolled, at least 20 s).
+   Not a modal: it never covers the page, takes no focus, and waits until the visitor has read a good part of the page (40% scrolled and 12 s, or 45 s on the page).
    Skipped on the 3D home, Portfolio, the tools (tools.js has the corner card and the after-use offer there), contact, legal pages and the newsletter page.
    Once per visit; "No thanks" is remembered for 60 days (apNlX) and a sign-up stops every offer (apNlDone). Reduced motion: no animation. */
 (function () {
@@ -403,6 +403,9 @@
   if (p === '/' || /^\/(tools|portfolio|newsletter|contact|privacy|terms|cookies|image-license|kd2ozfuew9n4uaciyl1j)/.test(p) || /^\/api\//.test(p)) return;
   var ls = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   var ss = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} } };
+  // ?nl=show on any page clears this browser's "already asked / subscribed" memory and shows the offer after a moment (for testing it yourself)
+  var force = /[?&]nl=show\b/.test(location.search);
+  if (force) { try { localStorage.removeItem('apNlX'); localStorage.removeItem('apNlDone'); sessionStorage.removeItem('apNlSeen'); } catch (e) {} }
   var x = Number(ls.get('apNlX')) || 0;
   if (ls.get('apNlDone') === '1' || (x && Date.now() - x < 60 * 864e5) || ss.get('apNlSeen') === '1') return;
   if (window.matchMedia && matchMedia('print').matches) return;
@@ -424,12 +427,14 @@
   function esc(e) { if (e.key === 'Escape') close(true); }
   function show() {
     if (shown) return;
-    if (document.getElementById('ap-cc') || document.querySelector('.ap-notice') || document.querySelector('.ap-nav__dd[open], .ap-nav [aria-expanded="true"]')) return void setTimeout(check, 4000);   // the cookie notice or a menu is open: wait
+    var cc = document.getElementById('ap-cc') || document.querySelector('.ap-notice');
+    if ((cc && innerWidth < 900) || document.querySelector('.ap-nav__dd[open], .ap-nav [aria-expanded="true"]')) return void setTimeout(check, 4000);   // on phones the cookie notice has the bottom of the screen: wait for it or a menu is open: wait
     shown = true; ss.set('apNlSeen', '1'); css();
     var c = document.createElement('aside'); c.id = 'ap-rc'; c.setAttribute('aria-label', 'New tools by email');
     c.innerHTML = '<button type="button" class="apr-x" aria-label="Close">&times;</button><b>New free tools, by email</b><p class="apr-s">At most one email a month, plus one practical tip. Unsubscribe in one click. <a href="/newsletter">What you get</a> · <a href="/privacy">Privacy</a></p>'
       + '<form data-news="reading" novalidate><input class="apr-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><input name="email" type="email" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required maxlength="254"><button type="submit">Subscribe</button><p data-news-msg role="status" aria-live="polite"></p></form><button type="button" class="apr-no">No thanks</button>';
     document.body.appendChild(c);
+    if (cc) { var r = cc.getBoundingClientRect(); c.style.bottom = Math.max(16, innerHeight - r.top + 12) + 'px'; }   // on wide screens it sits just above the cookie notice instead of waiting for it
     c.querySelector('.apr-x').addEventListener('click', function () { close(true); });
     c.querySelector('.apr-no').addEventListener('click', function () { close(true); });
     document.addEventListener('keydown', esc);
@@ -440,9 +445,10 @@
     if (shown) return;
     var d = document.documentElement, max = d.scrollHeight - innerHeight;
     if (max < 300) return;   // a short page: nothing worth waiting for
-    var deep = (window.pageYOffset || d.scrollTop) / max >= (innerWidth < 640 ? .75 : .6);
-    if (deep && Date.now() - t0 >= 20000) show();
-    else if (deep) setTimeout(check, 20000 - (Date.now() - t0) + 50);
+    var deep = (window.pageYOffset || d.scrollTop) / max >= (innerWidth < 640 ? .5 : .4);
+    if (deep && Date.now() - t0 >= 12000) show();
+    else if (deep) setTimeout(check, 12000 - (Date.now() - t0) + 50);
   }
   addEventListener('scroll', function () { if (!shown) check(); }, { passive: true });
+  setTimeout(function () { if (!shown && document.documentElement.scrollHeight - innerHeight >= 300) show(); }, force ? 1500 : 45000);   // someone who reads without scrolling still gets one quiet offer after 45 s
 })();
