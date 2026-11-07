@@ -1,5 +1,6 @@
 // Admin backend. Path is deliberately unlisted; never link to it. The owner signs in with ADMIN_PASSWORD (Vercel env); team members have their own accounts.
 // Everything is /api/<this file>?a=<action>. Public: login, logout, cron and digest (need CRON_SECRET). The rest needs a session, and the role decides what it may do.
+//   Desk:        today_get, search_all (read only, inbox.view)
 //   Inbox:       list, export, update, delete, resend, bulk, reply_get, reply_send, thread_note, tpl_get, tpl_save
 //   Pipeline:    update (stage, value, follow-up), digest_get, digest_save, digest_now
 //   Quotes:      quote_preview, quote_send, quote_list, quote_status
@@ -38,6 +39,7 @@ const toolStats = require('./_adm/toolstats');
 const gsc = require('./_adm/gsc');
 const content = require('./_adm/content');
 const guard = require('./_adm/guard');
+const desk = require('./_adm/desk');
 const perms = require('./_adm/perms');
 const cms = require('./_adm/cms');
 const attention = require('./_adm/attention');
@@ -115,6 +117,7 @@ function filter(rows, q) {
       else if (q.stage === 'followup') { if (!pipeline.followDue(r, now)) return false; }
       else if (pipeline.stageOf(r) !== q.stage) return false;
     }
+    if (q.via && q.via !== 'all' && (r.via || '') !== (q.via === 'unknown' ? '' : q.via)) return false;
     if (r.created < from || r.created > to) return false;
     if (text && !['name', 'email', 'company', 'website_url', 'service', 'message', 'page', 'source', 'note'].some((k) => String(r[k] || '').toLowerCase().includes(text))) return false;
     return true;
@@ -240,7 +243,7 @@ module.exports = async (req, res) => {
     }
     if (a === 'alerts_get') return out(200, { cfg: await cfg.get('alerts', { min: 'high' }), channels: { ...notify.channels(), push: (await push.count()) > 0 } });
     if (a === 'digest_get') return out(200, { cfg: await cfg.get('digest', { on: true }), cronReady: !!process.env.CRON_SECRET });
-    if (a === 'news_overview') { const rows = await store.all(); return out(200, { growth: news.growth(rows), campaigns: await news.list() }); }
+    if (a === 'news_overview') { const rows = await store.all(); return out(200, { growth: news.growth(rows), campaigns: await news.list(), sources: { month: desk.sources(rows, now, 30), all: desk.sources(rows, now, 0) } }); }
     if (a === 'tpl_get') return out(200, { templates: await replies.templates(), defaults: replies.defaults() });
     if (a === 'push_key') return out(200, { key: await push.publicKey() });
     if (a === 'sessions_list') { const all = await sessions.list(), mine = user.perms.has('team.manage') || user.perms.has('security.manage') ? all : all.filter((x) => x.uid === user.id); return out(200, { sessions: mine.map((x) => ({ ...x, current: x.id === user.sid })), you: user.sid }); }
@@ -263,6 +266,8 @@ module.exports = async (req, res) => {
     if (a === 'gsc_get') { try { return out(200, await gsc.get(q.refresh === '1')); } catch (e) { return out(502, { error: e.message }); } }
     if (a === 'content_get') return out(200, { content: await content.get(), defaults: content.DEFAULTS });
     if (a === 'content_log') return out(200, { items: await content.history(100) });
+    if (a === 'today_get') return out(200, desk.today(await store.all(), now));
+    if (a === 'search_all') return out(200, desk.search(await store.all(), q.q));
     if (a === 'attention_get') return out(200, await attention.build({ rows: await store.all(), now }));
     if (a === 'tm_list') return out(200, { items: await content.list() });
     if (!post) return out(405, { error: 'Use POST.' });
