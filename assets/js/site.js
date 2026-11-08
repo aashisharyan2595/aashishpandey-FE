@@ -236,13 +236,16 @@
     var f = ev.target; if (!f || !f.matches || !f.matches('form[data-news]')) return;
     ev.preventDefault();
     var msg = f.querySelector('[data-news-msg]'), btn = f.querySelector('button[type=submit]') || f.querySelector('button'), email = (f.email.value || '').trim();
-    var via = (f.getAttribute('data-news') || 'form').replace(/[^a-z-]/g, '').slice(0, 20) || 'form';   // which sign-up place this is (footer, after-use, card, inline, page), so the list shows what works
+    var via = (f.getAttribute('data-news') || 'form').replace(/[^a-z0-9-]/g, '').slice(0, 20) || 'form';   // which sign-up place this is (footer, after-use, card, inline, page), so the list shows what works
     var say = function (t, cls) { msg.textContent = t; msg.className = cls || ''; };
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say('That email address does not look right.', 'is-err'); f.email.focus(); return; }
+    var extra = {}, bad = '';   // answers to the extra fields a pop-up asks for (checked again on the server)
+    [].forEach.call(f.querySelectorAll('[data-f],[name=name][data-req]'), function (n) { var v = n.type === 'checkbox' ? (n.checked ? 'yes' : '') : (n.value || '').trim(); if (n.getAttribute('data-f')) extra[n.getAttribute('data-f')] = v; if (n.getAttribute('data-req') && !v && !bad) bad = n.getAttribute('data-label') || 'this field'; });
+    if (bad) { say('Please fill in: ' + bad + '.', 'is-err'); return; }
     btn.disabled = true; say('Sending…');
     window.apToken().then(function (tk) {
       if (!tk && window.apTokenStuck) return { ok: false, j: { error: VERIFY_MSG } };
-      return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, via: via, name: ((f.elements['name'] && f.elements['name'].value) || '').trim().slice(0, 60), cf: tk }) }).then(asResult);
+      return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, hp: f.hp.value, ts: T0, page: location.pathname, via: via, fields: extra, name: ((f.elements['name'] && f.elements['name'].value) || '').trim().slice(0, 60), cf: tk }) }).then(asResult);
     })
       .then(function (x) {
         btn.disabled = false;
@@ -394,53 +397,50 @@
   };
 })();
 
-/* ---- email pop-ups: one small, dismissible offer, set from the admin desk (Pop-ups tab) ----
-   window.apPop is shared by this file (the "reading card" on blog, services and case-study pages) and tools.js (the corner card and the after-use offer on tool pages).
-   Settings come from /api/config?a=popups (cached at the edge for 5 minutes). If that call fails or is slow, the built-in defaults below apply, so a pop-up never depends on it.
-   Never a modal: no overlay, no focus taken, nothing blocks the page, "No thanks" or Escape closes it, reduced motion switches the animation off, and it waits for the cookie notice,
-   an open menu and typing. Storage (all in the visitor's own browser, listed in the cookie policy): apNlX = when "No thanks" was said (and which settings version), apNlDone = subscribed, apNlSeen = pop-ups shown this visit. */
+/* ---- pop-ups: built in the admin desk (Pop-ups tab) ----
+   This file decides IF and WHEN a pop-up shows (rules, triggers, how often); assets/popups.js draws it and is only fetched at the moment one is about to show.
+   Settings come from /api/config?a=popups (cached at the edge for 5 minutes). If that call fails or is slow, the built-in newsletter card below applies, so a pop-up never depends on the network.
+   Whatever the layout, a pop-up can always be closed (the cross, "No thanks" or Escape), takes no focus, never locks scrolling, waits for the cookie notice on phones,
+   for open menus and for typing, and phones get a bottom sheet instead of a blocking card. Storage (in the visitor's own browser, listed in the cookie policy):
+   apNlX = when each pop-up was closed (and the settings version), apNlDone = subscribed, apNlSeen = pop-ups shown this visit. */
 (function () {
-  var DEF = {
-    on: true, ver: 1, surfaces: { reading: true, tool: true, afterUse: true }, types: { blog: true, services: true, cases: true, tools: true, other: true },
-    include: [], exclude: ['/', '/portfolio'], devices: { desktop: true, phone: true }, limits: { delay: 8, perVisit: 1, quietDays: 60 },
-    triggers: { seconds: 12, scroll: 40, fallback: 45, afterUse: 12, toolFallback: 40, exit: false }, position: 'right',
-    style: { bg: '#0f1433', fg: '#f4efe6', mute: '#b9b3c6', line: '#f4efe62e', field: '#f4efe60d', accent: '#f5b867', ink: '#1a1420', link: '#f5b867' },
-    copy: { 'default': { head: 'New free tools, by email', body: 'At most one email a month, plus one practical tip. Unsubscribe in one click.', button: 'Subscribe', success: '', dismiss: 'No thanks' } },
-    doneHead: 'Done. Want the next free tool too?',
-    never: ['/contact', '/privacy', '/terms', '/cookies', '/image-license', '/newsletter', '/api', '/kd2ozfuew9n4uaciyl1j']
+  var DEFBLOCKS = [{ t: 'heading', text: 'New free tools, by email' }, { t: 'text', text: 'At most one email a month, plus one practical tip. Unsubscribe in one click.' }, { t: 'email', placeholder: 'you@example.com' }, { t: 'button', text: 'Subscribe', action: 'subscribe' }, { t: 'links' }];
+  var DEFPOP = {
+    id: 'news', name: 'Newsletter card', on: true, layout: 'corner-right', look: { theme: 'dusk', accent: 'amber', radius: 'soft', width: 'normal', backdrop: false }, blocks: DEFBLOCKS, success: '', dismiss: 'No thanks',
+    rules: { types: { blog: true, services: true, cases: true, tools: true, other: true }, include: [], exclude: ['/', '/portfolio'], devices: { desktop: true, phone: true } },
+    triggers: [{ k: 'scroll', n: 40, min: 12 }, { k: 'use', n: 12 }, { k: 'delay', n: 45 }], freq: { perVisit: 1, quietDays: 60, again: 0 },
+    style: { bg: '#0f1433', fg: '#f4efe6', mute: '#b9b3c6', line: '#f4efe62e', field: '#f4efe60d', accent: '#f5b867', ink: '#1a1420', link: '#f5b867' }
   };
+  var DEF = { on: true, ver: 1, inline: { on: true, head: 'Done. Want the next free tool too?' }, popups: [DEFPOP], never: ['/contact', '/privacy', '/terms', '/cookies', '/image-license', '/newsletter', '/api', '/kd2ozfuew9n4uaciyl1j'] };
+  var RV = 1;   // version of assets/popups.js (it is cached for a long time, so bump it when that file changes)
   var ls = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }, del: function (k) { try { localStorage.removeItem(k); } catch (e) {} } };
   var ss = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }, del: function (k) { try { sessionStorage.removeItem(k); } catch (e) {} } };
   var path = (location.pathname.replace(/\/+$/, '') || '/').toLowerCase();
-  var force = /[?&]nl=show\b/.test(location.search);   // ?nl=show clears this browser's "already asked / subscribed" memory and shows the offer after a moment (for testing it yourself)
+  var m0 = /[?&]nl=([a-z0-9]+)/.exec(location.search), force = !!m0, forceId = m0 && m0[1] !== 'show' ? m0[1] : '';   // ?nl=show (or ?nl=<pop-up id>) clears this browser's memory and shows a pop-up after a moment, for testing
   if (force) { ls.del('apNlX'); ls.del('apNlDone'); ss.del('apNlSeen'); }
   var num = function (v, lo, hi, d) { v = Math.round(Number(v)); return isFinite(v) ? Math.min(hi, Math.max(lo, v)) : d; };
-  var hex = function (v, d) { return typeof v === 'string' && /^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(v) ? v : d; };
-  var str = function (v, d, n) { return typeof v === 'string' && v ? v.replace(/[<>]/g, '').slice(0, n) : d; };
-  function merge(c) {   // the answer from the server, checked again here, over the built-in defaults
-    c = c && typeof c === 'object' ? c : {};
-    var o = JSON.parse(JSON.stringify(DEF)), g = function (k) { return c[k] && typeof c[k] === 'object' ? c[k] : {}; };
-    if (c.on === false) o.on = false;
-    o.ver = num(c.ver, 1, 1e6, 1);
-    Object.keys(o.surfaces).forEach(function (k) { if (g('surfaces')[k] === false) o.surfaces[k] = false; });
-    Object.keys(o.types).forEach(function (k) { if (g('types')[k] === false) o.types[k] = false; });
-    ['desktop', 'phone'].forEach(function (k) { if (g('devices')[k] === false) o.devices[k] = false; });
-    var list = function (a, d) { return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string' && /^\/[a-z0-9\-_.~\/%]*$/.test(x); }).slice(0, 40) : d; };
-    o.include = list(c.include, []); o.exclude = list(c.exclude, DEF.exclude);
-    var L = g('limits'), T = g('triggers');
-    o.limits.delay = num(L.delay, 5, 120, 8); o.limits.perVisit = num(L.perVisit, 1, 3, 1); o.limits.quietDays = num(L.quietDays, 1, 365, 60);
-    var d = o.limits.delay;
-    o.triggers.seconds = Math.max(d, num(T.seconds, 5, 300, 12)); o.triggers.fallback = Math.max(o.triggers.seconds, num(T.fallback, 15, 600, 45));
-    o.triggers.scroll = num(T.scroll, 10, 90, 40); o.triggers.afterUse = num(T.afterUse, 5, 300, 12); o.triggers.toolFallback = Math.max(d, num(T.toolFallback, 15, 600, 40)); o.triggers.exit = T.exit === true;
-    o.position = c.position === 'left' || c.position === 'bar' ? c.position : 'right';
-    var S = g('style'); Object.keys(o.style).forEach(function (k) { o.style[k] = hex(S[k], o.style[k]); });
-    var C = g('copy'), cd = DEF.copy['default'];
-    o.copy = {};
-    ['default', 'blog', 'services', 'cases', 'tools', 'other'].forEach(function (t) {
-      var s = C[t] && typeof C[t] === 'object' ? C[t] : {}, r = t === 'default' ? cd : { head: '', body: '', button: '', success: '', dismiss: '' };
-      o.copy[t] = { head: str(s.head, r.head, 80), body: str(s.body, r.body, 220), button: str(s.button, r.button, 24), success: str(s.success, r.success, 120), dismiss: str(s.dismiss, r.dismiss, 24) };
+  var okUrl = function (u) { return typeof u === 'string' && /^(https:\/\/|\/(?!\/))[^\s<>"'\\]{0,300}$/.test(u); };
+  var txt = function (v, d, n) { return typeof v === 'string' ? v.replace(/[<>]/g, '').slice(0, n) : d; };
+  var list = function (a) { return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string' && /^\/[a-z0-9\-_.~\/%]*$/.test(x); }).slice(0, 40) : []; };
+  function cleanPopup(p) {   // the server's answer, checked again here
+    if (!p || typeof p !== 'object' || !/^[a-z0-9]{3,12}$/.test(p.id || '')) return null;
+    var R = p.rules || {}, F = p.freq || {}, L = p.look || {};
+    var blocks = (Array.isArray(p.blocks) ? p.blocks : []).slice(0, 14).filter(function (b) { return b && typeof b.t === 'string'; }).map(function (b) {
+      var o = { t: b.t, text: txt(b.text, '', 300), placeholder: txt(b.placeholder, '', 40), kind: b.kind, label: txt(b.label, '', 40), required: b.required === true, action: b.action === 'link' ? 'link' : 'subscribe', id: /^f\d$/.test(b.id || '') ? b.id : '', alt: txt(b.alt, '', 120) };
+      o.options = Array.isArray(b.options) ? b.options.slice(0, 10).map(function (x) { return txt(x, '', 40); }) : [];
+      o.href = okUrl(b.href) ? b.href : ''; o.src = okUrl(b.src) ? b.src : '';
+      return o;
     });
-    o.doneHead = str(c.doneHead, DEF.doneHead, 80);
+    var trig = (Array.isArray(p.triggers) ? p.triggers : []).slice(0, 5).filter(function (t) { return t && /^(load|delay|scroll|exit|use|idle)$/.test(t.k); }).map(function (t) { return { k: t.k, n: num(t.n, 0, 3600, 0), min: num(t.min, 0, 3600, 0) }; });
+    if (!blocks.length || !trig.length) return null;
+    return { id: p.id, name: txt(p.name, '', 40), on: p.on !== false, layout: p.layout, look: { theme: L.theme, accent: L.accent, radius: L.radius, width: L.width, backdrop: L.backdrop === true }, blocks: blocks, success: txt(p.success, '', 160), dismiss: txt(p.dismiss, 'No thanks', 24) || 'No thanks', style: p.style && typeof p.style === 'object' ? p.style : DEFPOP.style,
+      rules: { types: R.types || {}, include: list(R.include), exclude: list(R.exclude), devices: { desktop: !R.devices || R.devices.desktop !== false, phone: !R.devices || R.devices.phone !== false } }, triggers: trig,
+      freq: { perVisit: num(F.perVisit, 0, 50, 1), quietDays: num(F.quietDays, 0, 365, 60), again: num(F.again, 0, 3600, 0) } };
+  }
+  function merge(c) {
+    if (!c || typeof c !== 'object' || !Array.isArray(c.popups)) return JSON.parse(JSON.stringify(DEF));   // nothing saved yet, or the call failed: the built-in card
+    var o = { on: c.on !== false, ver: num(c.ver, 1, 1e6, 1), inline: { on: !c.inline || c.inline.on !== false, head: txt(c.inline && c.inline.head, DEF.inline.head, 100) || DEF.inline.head }, never: DEF.never, popups: [] };
+    o.popups = c.popups.map(cleanPopup).filter(Boolean);
     return o;
   }
   var cur = null, waiting = null;
@@ -455,125 +455,138 @@
   function typeOf(p) { return /^\/tools(\/|$)/.test(p) ? 'tools' : /^\/blog(\/|$)/.test(p) ? 'blog' : /^\/(services|freelance|full-stack|seo-|shopify|tech-consult|ui-ux|wordpress)/.test(p) ? 'services' : /^\/(case-studies|work(-[a-z0-9-]+)?)(\/|$)/.test(p) ? 'cases' : 'other'; }
   function covers(rule, p) { return rule === '/' ? p === '/' : p === rule || p.indexOf(rule + '/') === 0; }
   var phone = function () { return innerWidth < 760; };
-  // is the page, the device and the switch allowed for this surface? (not about this visitor's history)
-  function allowed(c, surface) {
-    if (!c.on || !c.surfaces[surface]) return false;
-    if (c.never.some(function (r) { return covers(r, path); }) || c.exclude.some(function (r) { return covers(r, path); })) return false;
-    if (phone() ? !c.devices.phone : !c.devices.desktop) return false;
-    return !!c.types[typeOf(path)] || c.include.some(function (r) { return covers(r, path); });
+  var toolPage = /^\/tools\/[^/]+(\/build)?$/.test(path) && !/^\/tools\/(resume-maker|sop-maker)$/.test(path);
+  var json = function (v) { try { var o = JSON.parse(v); return o && typeof o === 'object' ? o : null; } catch (e) { return null; } };
+  function dismissed() {   // { id: time, _v: settings version }, also reading the older "time" and "time:version" forms
+    var raw = ls.get('apNlX'), o = json(raw), m;
+    if (o) return o;
+    if (raw && (m = /^(\d+)(?::(\d+))?$/.exec(raw))) { var r = { _v: +(m[2] || 1) }; r.news = +m[1]; return r; }
+    return {};
   }
-  function quiet(c) {   // subscribed, or said "No thanks" recently (a settings reset makes older answers stop counting)
-    if (ls.get('apNlDone') === '1') return true;
-    var m = /^(\d+)(?::(\d+))?$/.exec(ls.get('apNlX') || ''), c0 = c || cur || DEF;
-    if (!m) return false;
-    return +(m[2] || 1) >= c0.ver && Date.now() - +m[1] < c0.limits.quietDays * 864e5;
+  function seenMap() { var raw = ss.get('apNlSeen'), o = json(raw); if (o) return o; return raw && /^\d+$/.test(raw) ? { news: +raw } : {}; }
+  var seenN = function (id) { return Number(seenMap()[id]) || 0; };
+  var hasEmail = function (p) { return p.blocks.some(function (b) { return b.t === 'email'; }); };
+  // the page, the device and the rules allow this pop-up (nothing about this visitor's history)
+  function allowed(c, p) {
+    if (!c.on || !p.on) return false;
+    if (c.never.some(function (r) { return covers(r, path); })) return false;
+    if (forceId === p.id) return true;
+    if (p.rules.exclude.some(function (r) { return covers(r, path); })) return false;
+    if (phone() ? !p.rules.devices.phone : !p.rules.devices.desktop) return false;
+    var inc = p.rules.include.some(function (r) { return covers(r, path); });
+    return p.rules.types[typeOf(path)] !== false || inc;
   }
-  var seen = function () { return Number(ss.get('apNlSeen')) || 0; };
-  function can(c, surface) { return allowed(c, surface) && !quiet(c) && seen() < c.limits.perVisit && !(window.matchMedia && matchMedia('print').matches); }
-  function ev(k, s) {
-    try { var d = JSON.stringify({ k: k, s: s, p: path }); if (!(navigator.sendBeacon && navigator.sendBeacon('/api/config?a=pev', d))) fetch('/api/config?a=pev', { method: 'POST', body: d, keepalive: true }); } catch (e) { /* counting must never break a page */ }
+  function quiet(c, id, q) {
+    var d = dismissed(), t = d[id];
+    return !!t && (d._v || 1) >= c.ver && Date.now() - t < (q === undefined ? 60 : q) * 864e5;
   }
-  function copyOf(c, type, f) { var v = c.copy[type] && c.copy[type][f]; return v || c.copy['default'][f]; }
-  function mark(c, surface) { ss.set('apNlSeen', String(seen() + 1)); ev('shown', surface); }
-  function dismiss(c, surface) { ls.set('apNlX', Date.now() + ':' + c.ver); ev('dismiss', surface); }
-
-  function css(c) {
-    var old = document.getElementById('ap-rc-css'); if (old) old.remove();
-    var s = c.style, bar = c.position === 'bar', left = c.position === 'left', rm = '@media(prefers-reduced-motion:reduce){#ap-rc{transition:none;transform:none}}';
-    var el = document.createElement('style'); el.id = 'ap-rc-css';
-    el.textContent = '#ap-rc{position:fixed;z-index:90;bottom:16px;' + (bar ? 'left:0;right:0;width:auto;border-radius:0;border-width:1px 0 0;padding:14px max(16px,calc((100vw - 1100px)/2)) calc(14px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px' : (left ? 'left' : 'right') + ':16px;width:min(360px,calc(100vw - 32px));padding:16px 16px 12px;border-radius:18px') + ';box-sizing:border-box;background:' + s.bg + ';border:1px solid ' + s.line + ';box-shadow:0 20px 60px rgba(0,0,0,.45);color:' + s.fg + ';font:400 14px/1.5 Geist,system-ui,sans-serif;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s}'
-      + (bar ? '#ap-rc{bottom:0}' : '')
-      + '#ap-rc.is-on{opacity:1;transform:none}#ap-rc *{box-sizing:border-box}#ap-rc .apr-t{' + (bar ? 'flex:1 1 320px;min-width:0' : '') + '}#ap-rc b{display:block;margin:0 ' + (bar ? '0' : '28px') + ' 2px 0;font:600 15px/1.3 Geist,system-ui,sans-serif;letter-spacing:-.01em}#ap-rc p.apr-s{margin:0 ' + (bar ? '0' : '0 10px') + ';font-size:13px;color:' + s.mute + '}#ap-rc a{color:' + s.link + ';text-decoration:underline;text-underline-offset:3px}'
-      + '#ap-rc form{display:flex;flex-wrap:wrap;gap:8px;' + (bar ? 'flex:1 1 360px;max-width:520px;margin-right:36px' : '') + '}#ap-rc input[type=email]{flex:1 1 150px;min-width:0;height:44px;padding:0 12px;border-radius:12px;border:1px solid ' + s.line + ';background:' + s.field + ';color:' + s.fg + ';font:400 15px Geist,system-ui,sans-serif}#ap-rc input:focus{outline:none;border-color:' + s.link + ';box-shadow:0 0 0 3px ' + s.link + '2e}'
-      + '#ap-rc button[type=submit]{height:44px;padding:0 16px;border-radius:999px;border:0;background:' + s.accent + ';color:' + s.ink + ';font:600 14px Geist,system-ui,sans-serif;cursor:pointer}#ap-rc button[disabled]{opacity:.6;cursor:wait}'
-      + '#ap-rc [data-news-msg]{flex-basis:100%;margin:0;font-size:12.5px;color:' + s.mute + '}#ap-rc [data-news-msg]:empty{display:none}#ap-rc [data-news-msg].is-ok{color:' + s.link + ';font-size:14px}#ap-rc [data-news-msg].is-err{color:#e0674a}'
-      + '#ap-rc .apr-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}#ap-rc .apr-x{position:absolute;top:4px;right:4px;width:44px;height:44px;border:0;background:none;color:' + s.mute + ';font-size:22px;line-height:1;cursor:pointer}#ap-rc .apr-x:hover{color:' + s.fg + '}'
-      + '#ap-rc .apr-no{' + (bar ? 'display:none' : 'display:block;margin:6px 0 0 auto') + ';min-height:32px;padding:0 4px;border:0;background:none;color:' + s.mute + ';font:500 12.5px Geist,system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}'
-      + '@media(max-width:640px){#ap-rc{' + (bar ? '' : 'right:12px;left:12px;bottom:12px;width:auto') + '}#ap-rc .apr-no{display:block;margin:2px 0 0 auto}}@media(max-width:899px){#ap-rc.apr--tool{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}'
-      + rm + '@media print{#ap-rc{display:none!important}}';
-    document.head.appendChild(el);
+  function can(c, p, again) {
+    if (!allowed(c, p) || (window.matchMedia && matchMedia('print').matches)) return false;
+    if (hasEmail(p) && ls.get('apNlDone') === '1') return false;   // already subscribed: only pop-ups with no sign-up box (announcements) can still show
+    if (!again && quiet(c, p.id, p.freq.quietDays)) return false;
+    return !p.freq.perVisit || seenN(p.id) < p.freq.perVisit;
   }
-  function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; }
-  var openCard = null;
-  function closeCard(c, surface, remember) {
-    var k = document.getElementById('ap-rc'); if (k) k.remove(); document.body.style.paddingBottom = '';
-    if (remember) dismiss(c, surface);
-    document.removeEventListener('keydown', openCard && openCard.esc); openCard = null;
-  }
-  // builds the card from the settings. Every word the admin set goes in with textContent, never as HTML.
-  function render(c, surface) {
-    var type = typeOf(path), via = surface === 'tool' ? 'card' : 'reading';
-    css(c);
-    var k = el('aside', 'apr--' + surface); k.id = 'ap-rc'; k.setAttribute('aria-label', 'New tools by email');
-    var x = el('button', 'apr-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Close'); k.appendChild(x);
-    var t = el('div', 'apr-t'); t.appendChild(el('b', '', copyOf(c, type, 'head')));
-    var p = el('p', 'apr-s', copyOf(c, type, 'body') + ' ');
-    var a1 = el('a', '', 'What you get'); a1.href = '/newsletter'; var a2 = el('a', '', 'Privacy'); a2.href = '/privacy';
-    p.appendChild(a1); p.appendChild(document.createTextNode(' · ')); p.appendChild(a2); t.appendChild(p); k.appendChild(t);
-    var f = el('form'); f.setAttribute('data-news', via); f.noValidate = true; var ok = copyOf(c, type, 'success'); if (ok) f.setAttribute('data-ok', ok);
-    var hp = el('input', 'apr-hp'); hp.name = 'hp'; hp.tabIndex = -1; hp.autocomplete = 'off'; hp.setAttribute('aria-hidden', 'true');
-    var em = document.createElement('input'); em.name = 'email'; em.type = 'email'; em.placeholder = 'you@example.com'; em.autocomplete = 'email'; em.inputMode = 'email'; em.setAttribute('aria-label', 'Email address'); em.required = true; em.maxLength = 254;
-    var sb = el('button', '', copyOf(c, type, 'button')); sb.type = 'submit';
-    var m = el('p'); m.setAttribute('data-news-msg', ''); m.setAttribute('role', 'status'); m.setAttribute('aria-live', 'polite');
-    [hp, em, sb, m].forEach(function (n) { f.appendChild(n); }); k.appendChild(f);
-    var no = el('button', 'apr-no', copyOf(c, type, 'dismiss')); no.type = 'button'; k.appendChild(no);
-    document.body.appendChild(k);
-    var cc = document.getElementById('ap-cc');
-    if (cc) { var r = cc.getBoundingClientRect(); k.style.bottom = Math.max(c.position === 'bar' ? 0 : 16, innerHeight - r.top + 12) + 'px'; }   // wide screens: just above the cookie notice
-    var esc = function (e) { if (e.key === 'Escape') closeCard(c, surface, true); };
-    openCard = { esc: esc };
-    var go = function () { closeCard(c, surface, true); };
-    x.addEventListener('click', go); no.addEventListener('click', go); document.addEventListener('keydown', esc);
-    new MutationObserver(function () { if (k.querySelector('[data-news-msg].is-ok')) setTimeout(function () { closeCard(c, surface, false); }, 3500); }).observe(k, { subtree: true, attributes: true, attributeFilter: ['class'] });
-    if (c.position === 'bar') document.body.style.paddingBottom = Math.ceil(k.getBoundingClientRect().height) + 'px';   // the bar never hides the end of the page
-    requestAnimationFrame(function () { k.classList.add('is-on'); });
-  }
-  var lastKey = 0;   // typing: a pop-up never appears while someone is in the middle of it (a text field in focus and a key pressed in the last 3 seconds)
+  function ev(k, id) { try { var d = JSON.stringify({ k: k, s: id, p: path }); if (!(navigator.sendBeacon && navigator.sendBeacon('/api/config?a=pev', d))) fetch('/api/config?a=pev', { method: 'POST', body: d, keepalive: true }); } catch (e) { /* counting must never break a page */ } }
+  function mark(c, id) { var m = seenMap(); m[id] = (Number(m[id]) || 0) + 1; ss.set('apNlSeen', JSON.stringify(m)); ev('shown', id); }
+  function dismiss(c, id) { var d = dismissed(); if ((d._v || 1) < c.ver) d = {}; d[id] = Date.now(); d._v = c.ver; ls.set('apNlX', JSON.stringify(d)); }
+  var lastKey = 0;   // typing: nothing appears while someone is in the middle of it (a text field in focus and a key pressed in the last 3 seconds)
   document.addEventListener('keydown', function () { lastKey = Date.now(); }, true);
   var busy = function () { var a = document.activeElement; return !!(a && (/^(INPUT|TEXTAREA)$/.test(a.tagName) || a.isContentEditable) && !(a.closest && a.closest('#ap-rc')) && Date.now() - lastKey < 3000); };
+  var open = null;   // the pop-up on screen: only one at a time
 
-  // surface: 'reading' (this file) or 'tool' (tools.js). Returns { use() } for tool pages, or null when nothing will be shown.
-  function start(surface, opt) {
-    opt = opt || {};
-    if (surface === 'reading' && (typeOf(path) === 'tools' || path === '/')) return null;   // tools have their own card; the 3D home stays clean (it is also in the default "never" list)
-    if (ls.get('apNlDone') === '1' && !force) return null;
-    var ctl = { use: function () {} };
-    load(function (c) {
-      if (!can(c, surface)) return;
-      var T = c.triggers, t0 = Date.now(), shown = false, tries = 0, tm = null;
-      function show() {
-        if (shown) return;
-        if (!can(c, surface) || (opt.guard && !opt.guard())) return;
-        var cc = document.getElementById('ap-cc');
-        // wait (a few seconds at a time) for: the cookie notice on phones, an open menu, typing, a hidden tab
-        if (++tries < 20 && ((cc && innerWidth < 900) || document.querySelector('.ap-nav__dd[open], .ap-nav [aria-expanded="true"]') || busy() || document.hidden)) return void (tm = setTimeout(show, 4000));
-        shown = true; mark(c, surface); render(c, surface);
-        removeEventListener('scroll', check); document.removeEventListener('mouseout', leave);
-      }
-      function check() {
-        if (shown || surface !== 'reading') return;
-        var d = document.documentElement, max = d.scrollHeight - innerHeight;
-        if (max < 300) return;   // a short page: nothing worth waiting for
-        var deep = (window.pageYOffset || d.scrollTop) / max >= T.scroll / 100 + (innerWidth < 640 ? .1 : 0), left = T.seconds * 1000 - (Date.now() - t0);
-        if (deep && left <= 0) show(); else if (deep) setTimeout(check, left + 50);
-      }
-      function leave(e) {   // exit intent: the pointer leaves through the top of the window (desktop only), after the minimum time on the page
-        if (!T.exit || shown || e.relatedTarget || e.clientY > 0 || phone() || !(window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches)) return;
-        if (Date.now() - t0 >= c.limits.delay * 1000) show();
-      }
-      if (surface === 'reading') {
-        addEventListener('scroll', check, { passive: true });
-        setTimeout(function () { if (!shown && document.documentElement.scrollHeight - innerHeight >= 300) show(); }, force ? 1500 : T.fallback * 1000);   // someone who reads without scrolling still gets one quiet offer
-      } else {
-        ctl.use = function () { ctl.use = function () {}; setTimeout(show, Math.max(T.afterUse * 1000, c.limits.delay * 1000 - (Date.now() - t0))); };
-        setTimeout(show, force ? 1500 : T.toolFallback * 1000);
-      }
-      if (T.exit) document.addEventListener('mouseout', leave);
+  function loadRenderer(cb) {
+    if (window.apPopRender) return cb();
+    var s = document.createElement('script'); s.src = '/assets/popups.js?v=' + RV; s.async = true; s.onload = function () { if (window.apPopRender) cb(); }; document.head.appendChild(s);
+  }
+  function closeNow(c, p, remember) {
+    if (!open || open.p !== p) return;
+    var o = open; open = null; document.removeEventListener('keydown', o.esc);
+    if (o.root.parentNode) o.root.parentNode.removeChild(o.root);
+    document.body.style.paddingBottom = o.pad; document.body.style.paddingTop = o.padTop;
+    if (remember) { dismiss(c, p.id); ev('dismiss', p.id); }
+  }
+  function render(c, p, again) {
+    loadRenderer(function () {
+      if (open || !can(c, p, again)) return;
+      var ph = phone(), lay = window.apPopRender.layoutOf(p, ph), tool = toolPage && innerWidth < 900;
+      var r = window.apPopRender.build(p, { phone: ph, lift: tool && (lay === 'corner-right' || lay === 'corner-left' || lay === 'sheet'), onClose: function (rem) { closeNow(c, p, rem !== false); if (rem !== false && p.freq.again) later(c, p, p.freq.again * 1000); }, onClick: function () { ev('click', p.id); dismiss(c, p.id); } });
+      document.body.appendChild(r.root);
+      var cc = document.getElementById('ap-cc');
+      if (cc && (lay === 'corner-right' || lay === 'corner-left' || lay === 'sheet' || lay === 'bar-bottom')) { var b = cc.getBoundingClientRect(); r.card.style.bottom = Math.max(lay === 'bar-bottom' ? 0 : 16, innerHeight - b.top + 12) + 'px'; }   // wide screens: just above the cookie notice
+      var esc = function (e) { if (e.key === 'Escape') { closeNow(c, p, true); if (p.freq.again) later(c, p, p.freq.again * 1000); } };
+      document.addEventListener('keydown', esc);
+      open = { p: p, root: r.root, esc: esc, pad: document.body.style.paddingBottom, padTop: document.body.style.paddingTop };
+      if (lay === 'bar-bottom') document.body.style.paddingBottom = Math.ceil(r.card.getBoundingClientRect().height) + 'px';   // a bar never hides the end of the page
+      if (lay === 'bar-top') document.body.style.paddingTop = Math.ceil(r.card.getBoundingClientRect().height) + 'px';
+      mark(c, p.id);
+      new MutationObserver(function () { if (r.card.querySelector('[data-news-msg].is-ok')) setTimeout(function () { closeNow(c, p, false); }, 3500); }).observe(r.card, { subtree: true, attributes: true, attributeFilter: ['class'] });
+      requestAnimationFrame(function () { r.card.classList.add('is-on'); if (r.bd) r.bd.classList.add('is-on'); });
     });
-    return ctl;
+  }
+  // try to show it now; if the visitor is busy (cookie notice on a phone, an open menu, typing, a hidden tab), try again in a few seconds
+  function fire(c, p, again, tries) {
+    tries = tries || 0;
+    if (open || !can(c, p, again)) return;
+    var cc = document.getElementById('ap-cc');
+    if (tries < 20 && ((cc && innerWidth < 900) || document.querySelector('.ap-nav__dd[open], .ap-nav [aria-expanded="true"]') || busy() || document.hidden)) return void setTimeout(function () { fire(c, p, again, tries + 1); }, 4000);
+    render(c, p, again);
+  }
+  function later(c, p, ms) { setTimeout(function () { fire(c, p, true); }, ms); }
+
+  // wire the triggers of every pop-up that may show on this page
+  var signals = {};
+  function arm(c, p) {
+    var t0 = Date.now(), done = false, at = function (min) { return Math.max(0, (min || 0) * 1000 - (Date.now() - t0)); };
+    var go = function () { if (done) return; done = true; fire(c, p, false); };
+    p.triggers.forEach(function (t) {
+      if (t.k === 'load') setTimeout(go, at(t.min));
+      else if (t.k === 'delay') setTimeout(go, at(t.n));
+      else if (t.k === 'scroll') {
+        var chk = function () {
+          if (done) return;
+          var d = document.documentElement, max = d.scrollHeight - innerHeight;
+          if (max < 300) return;   // a short page: nothing to scroll
+          var deep = (window.pageYOffset || d.scrollTop) / max >= Math.min(100, t.n + (innerWidth < 640 && t.n < 90 ? 10 : 0)) / 100, wait = at(t.min);
+          if (deep && wait <= 0) go(); else if (deep) setTimeout(chk, wait + 50);
+        };
+        addEventListener('scroll', chk, { passive: true });
+      } else if (t.k === 'exit') {
+        document.addEventListener('mouseout', function (e) {   // the pointer leaves through the top of the window (desktop only)
+          if (done || e.relatedTarget || e.clientY > 0 || phone() || !(window.matchMedia && matchMedia('(hover:hover) and (pointer:fine)').matches)) return;
+          if (at(t.min) <= 0) go();
+        });
+      } else if (t.k === 'use') {
+        if (toolPage) (signals.use = signals.use || []).push(function () { setTimeout(go, Math.max(t.n * 1000, at(t.min))); });
+      } else if (t.k === 'idle') {
+        var it = null, rearm = function () { clearTimeout(it); if (!done) it = setTimeout(go, Math.max(t.n * 1000, at(t.min))); };
+        ['keydown', 'pointerdown', 'mousemove', 'scroll', 'touchstart'].forEach(function (k) { addEventListener(k, rearm, { passive: true }); }); rearm();
+      }
+    });
+    if (force && (!forceId || forceId === p.id)) { done = false; setTimeout(go, 1500); }
+  }
+  // the first use of a tool: a click on a control, or typing (not the menu, footer or the pop-up itself)
+  if (toolPage) {
+    var onUse = function (e) {
+      var t = e.target; if (!t || !t.closest || t.closest('.ap-nav, .ap-foot, .ap-close, .ap-quotes, .ap-notice, #ap-cc, header, footer, .tl-next, #ap-rc')) return;
+      if (e.type === 'pointerdown' && !t.closest('button, input, select, textarea, label, a[download], [role=button], canvas')) return;
+      ['pointerdown', 'input', 'change'].forEach(function (k) { document.removeEventListener(k, onUse, true); });
+      (signals.use || []).forEach(function (f) { f(); });
+    };
+    ['pointerdown', 'input', 'change'].forEach(function (k) { document.addEventListener(k, onUse, true); });
+  }
+  function start() {
+    if (/^\/api\//.test(path)) return;
+    load(function (c) {
+      var ps = c.popups.filter(function (p) { return forceId ? p.id === forceId && allowed(c, p) : can(c, p); });
+      if (force && !forceId) ps = ps.slice(0, 1);
+      ps.forEach(function (p) { arm(c, p); });
+    });
   }
 
-  window.apPop = { cfg: load, can: can, quiet: quiet, mark: mark, dismiss: dismiss, ev: ev, copy: copyOf, type: function () { return typeOf(path); }, start: start, now: function () { return cur || DEF; }, force: force };
-  if (/^\/api\//.test(path)) return;
-  start('reading');
+  window.apPop = {
+    cfg: load, ev: ev, mark: mark, dismiss: dismiss, force: force,
+    // the small offer inside a tool page after copy, download or print (assets/tools.js): once per visit, only where pop-ups are allowed at all
+    inlineOk: function (c) { return !!c.on && c.inline.on && ls.get('apNlDone') !== '1' && !open && !quiet(c, 'inline', 60) && !seenN('inline') && !c.never.some(function (r) { return covers(r, path); }); }
+  };
+  start();
 })();

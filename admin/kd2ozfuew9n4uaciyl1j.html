@@ -321,21 +321,30 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
 /* ---- Pop-ups tab ---- */
 .ppmaster{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}.ppmaster .sub{margin-top:2px}
 .ppbig{font-size:18px;margin:0}.ppbig input{width:22px;height:22px;min-height:0}
+.pplist{display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:900px){.pplist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ppit{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}.ppit.sel{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber) inset}
+.ppit .t{display:flex;align-items:center;gap:10px;justify-content:space-between}.ppit b{font-size:16px;overflow-wrap:anywhere}.ppit .m{color:var(--mute);font-size:13px}.ppit .st{font-size:13px;color:var(--dim)}.ppit .st b{font-size:13px;color:var(--ink)}
+.ppit .acts{display:flex;flex-wrap:wrap;gap:6px}.ppit .acts button{min-height:36px;padding:0 12px;border-radius:99px;border:1px solid var(--line2);background:rgba(244,239,230,.04);cursor:pointer;font-size:13px;font-weight:600}.ppit .acts button:hover{border-color:var(--amber)}.ppit .acts .dng{color:var(--red)}
+.ppit .badge{font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid var(--line2);color:var(--dim);white-space:nowrap}.ppit .badge.on{color:var(--green);border-color:rgba(111,214,168,.4)}
 .ppwrap{display:grid;grid-template-columns:minmax(0,1fr);gap:0 18px;align-items:start}.ppcol{min-width:0}
-@media(min-width:1100px){.ppwrap{grid-template-columns:minmax(0,1fr) minmax(340px,430px)}.ppside{position:sticky;top:calc(var(--head) + 14px)}}
-.ppsm{display:block;font-weight:400;font-size:13px;color:var(--dim);margin-left:0}.switch{flex-wrap:wrap}
+@media(min-width:1100px){.ppwrap{grid-template-columns:minmax(0,1fr) minmax(360px,460px)}.ppside{position:sticky;top:calc(var(--head) + 14px)}}
+.ppsm{display:block;font-weight:400;font-size:13px;color:var(--dim)}.switch{flex-wrap:wrap}
 .ppchk{display:flex;flex-wrap:wrap;gap:4px 22px}
 .ppacc{display:flex;gap:10px;flex-wrap:wrap}.ppacc button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px 0 10px;border-radius:99px;border:1px solid var(--line2);background:rgba(244,239,230,.04);cursor:pointer;font-weight:600;font-size:14px}.ppacc button i{width:20px;height:20px;border-radius:50%;display:block}.ppacc button[aria-checked=true]{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber) inset}
-.ppst{position:relative;margin-top:12px;height:300px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0b0e28}
-.ppst[data-d=phone]{width:260px;height:420px;margin-left:auto;margin-right:auto}
+.ppblocks{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.ppb{border:1px solid var(--line);border-radius:12px;background:rgba(244,239,230,.03);padding:8px 10px 10px}.ppb.over{border-color:var(--amber);box-shadow:0 -3px 0 var(--amber)}.ppb.drag{opacity:.45}
+.ppb .h{display:flex;align-items:center;gap:6px;margin-bottom:6px}.ppb .h b{flex:1;font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.ppb .h button,.ppb .pph{min-width:34px;min-height:34px;border-radius:9px;border:1px solid var(--line);background:none;color:var(--body);cursor:pointer;font-size:14px}.ppb .pph{cursor:grab;display:inline-flex;align-items:center;justify-content:center;touch-action:none}.ppb .h button:hover{border-color:var(--amber)}
+.ppb input,.ppb textarea,.ppb select{min-height:40px;font-size:15px;margin:0 0 6px}.ppb .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ppb small{color:var(--dim);display:block;font-size:12.5px}
+.ppadd{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.ppadd button{min-height:38px;padding:0 14px;border-radius:99px;border:1px dashed var(--line2);background:none;cursor:pointer;font-size:13.5px;font-weight:600}.ppadd button:hover{border-color:var(--amber);color:var(--amber)}
+.pptrig .r{display:grid;grid-template-columns:minmax(0,2fr) 88px 88px 40px;gap:8px;align-items:end;margin-bottom:8px}.pptrig .r label{font-size:12px;color:var(--dim);display:block;margin:0 0 3px}.pptrig .r input,.pptrig .r select{min-height:42px}
+@media(max-width:560px){.pptrig .r{grid-template-columns:1fr 1fr}.pptrig .r>:first-child{grid-column:1/-1}}
+.ppst{position:relative;margin-top:12px;height:340px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0b0e28}
+.ppst[data-d=phone]{width:270px;height:480px;margin-left:auto;margin-right:auto}
 .ppfake{padding:18px 18px}.ppfake i{display:block;height:9px;border-radius:5px;background:rgba(244,239,230,.1);margin:0 0 12px}.ppfake i:nth-child(1){width:55%;height:14px;background:rgba(244,239,230,.2)}.ppfake i:nth-child(3){width:90%}.ppfake i:nth-child(5){width:70%}
-.ppcardw{position:absolute;inset:auto 0 0 0;pointer-events:none}
-.ppc{position:absolute;bottom:12px;width:min(300px,calc(100% - 24px));padding:13px 13px 8px;border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.45);font-size:12.5px;line-height:1.45}
-.ppc.r{right:12px}.ppc.l{left:12px}.ppc.bar{left:0;right:0;bottom:0;width:auto;border-radius:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:10px 14px}
-.ppc b{display:block;font-size:13.5px;margin:0 22px 2px 0}.ppc p{margin:0 0 8px}.ppc a{text-decoration:underline}
-.ppc .f{display:flex;gap:6px}.ppc .e{flex:1;height:32px;border-radius:9px;padding:0 9px;display:flex;align-items:center;opacity:.8}.ppc .s{height:32px;border-radius:99px;padding:0 13px;display:flex;align-items:center;font-weight:600;white-space:nowrap}
-.ppc .x{position:absolute;top:5px;right:9px;opacity:.7;font-size:16px}.ppc .n{display:block;text-align:right;text-decoration:underline;opacity:.75;margin-top:5px;font-size:11.5px}.ppc.bar .t{flex:1 1 200px}.ppc.bar .f{flex:1 1 220px;max-width:340px;margin-right:22px}.ppc.bar .n{display:none}.ppc.bar p{margin:0}
-.ppst[data-d=phone] .ppc.bar .n{display:block}
+.ppst .aprw-pv .apr{font-size:12.5px}
+.tplg{display:grid;gap:10px;grid-template-columns:1fr;margin-top:10px;max-height:60vh;overflow:auto}.tplg button{text-align:left;border:1px solid var(--line2);border-radius:12px;background:rgba(244,239,230,.04);padding:12px 14px;cursor:pointer;display:flex;flex-direction:column;gap:3px}.tplg button:hover{border-color:var(--amber)}.tplg b{font-size:15px}.tplg span{font-size:13px;color:var(--mute)}.tplg em{font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-style:normal}
 .prevq{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(7,9,22,.4);font-size:14px;color:var(--body)}.prevq small{display:block;color:var(--dim);margin-top:4px}
 /* ===== v3: one design system for the whole dashboard ===== */
 :root{--ok:#6fd6a8;--info:#8db4ff;--vio:#b9a2ff;--r-xs:8px}
@@ -707,6 +716,7 @@ main:focus{outline:none}
 @media(prefers-reduced-motion:reduce){.navh::after{transition:none}}
 </style>
 <link rel="stylesheet" href="/assets/blog.css?v=v1">
+<script src="/assets/popups.js" defer></script>
 </head>
 <body>
 <section id="login" class="hide">
@@ -953,69 +963,78 @@ main:focus{outline:none}
     <div class="card ppmaster">
       <div class="ppm-l"><label class="switch ppbig"><input type="checkbox" id="ppOn"> <span id="ppOnT">Pop-ups are on</span></label>
         <p class="sub" id="ppState">Loading…</p></div>
-      <div class="row"><a class="btn" id="ppTest" href="/blog?nl=show" target="_blank" rel="noopener">Try it on the site</a></div>
+      <div class="row"><button class="btn pri" id="ppSave">Save all changes</button><span id="ppMsg" class="sub"></span></div>
     </div>
-    <div class="ppwrap">
-      <div class="ppcol">
-        <div class="card"><h2>Where they show</h2>
-          <p class="sub">Pick the kinds of pop-up, then the pages. Never on the contact form, legal pages, the newsletter page or the admin, whatever you choose.</p>
-          <p class="meta" style="margin-top:14px">Kinds</p>
-          <label class="switch"><input type="checkbox" id="ppS_reading"> Reading card<small class="ppsm">on blog, services and case-study pages</small></label>
-          <label class="switch"><input type="checkbox" id="ppS_tool"> Tool corner card<small class="ppsm">on tool pages, after someone uses the tool</small></label>
-          <label class="switch"><input type="checkbox" id="ppS_afterUse"> After-use offer<small class="ppsm">inside the tool page, after copy, download or print</small></label>
-          <p class="meta" style="margin-top:18px">Page types</p>
-          <div class="ppchk"><label class="switch"><input type="checkbox" id="ppT_blog"> Blog</label><label class="switch"><input type="checkbox" id="ppT_services"> Services</label><label class="switch"><input type="checkbox" id="ppT_cases"> Case studies</label><label class="switch"><input type="checkbox" id="ppT_tools"> Tools</label><label class="switch"><input type="checkbox" id="ppT_other"> Other pages</label></div>
-          <label class="lbl" for="ppExc">Never show on these pages (one per line)</label>
-          <textarea id="ppExc" rows="3" placeholder="/&#10;/portfolio"></textarea>
-          <p class="sub">A path also covers the pages under it. <b>/</b> alone means the home page only.</p>
-          <label class="lbl" for="ppInc">Always show on these pages, even if their type is off</label>
-          <textarea id="ppInc" rows="2" placeholder="/tools/qr-code-generator"></textarea>
-          <p class="meta" style="margin-top:18px">Devices</p>
-          <div class="ppchk"><label class="switch"><input type="checkbox" id="ppDevD"> Desktop and tablet</label><label class="switch"><input type="checkbox" id="ppDevP"> Phones</label></div>
+    <p class="meta">Your pop-ups</p>
+    <div id="ppList" class="pplist"></div>
+    <div class="row" style="margin:10px 0 18px"><button class="btn" id="ppAdd">+ Add a pop-up</button><span class="sub" id="ppAddNote"></span></div>
+    <div id="ppEd" class="hide">
+      <div class="seg" id="ppSeg" role="tablist" style="margin:0 0 14px"><button data-p="design" class="on">Design</button><button data-p="content">Content</button><button data-p="where">Where</button><button data-p="when">When</button></div>
+      <div class="ppwrap">
+        <div class="ppcol">
+          <div class="card ppPane" id="ppPane-design"><h2>Design</h2>
+            <p class="sub">Pick a ready-made look drawn from the site's design, or set each part yourself.</p>
+            <div class="row" style="margin:8px 0 4px"><button class="btn" id="ppTpl">Start from a template…</button></div>
+            <label class="lbl" for="ppName">Name (only you see it)</label><input id="ppName" maxlength="40">
+            <div class="two"><div><label class="lbl" for="ppLay">Layout</label><select id="ppLay"></select></div><div><label class="lbl" for="ppTheme">Theme</label><select id="ppTheme"></select></div></div>
+            <div class="two"><div><label class="lbl" for="ppRad">Corners</label><select id="ppRad"></select></div><div><label class="lbl" for="ppWid">Width</label><select id="ppWid"></select></div></div>
+            <label class="lbl">Accent colour</label><div class="ppacc" id="ppAcc" role="radiogroup" aria-label="Accent colour"></div>
+            <label class="switch" style="margin-top:14px" id="ppBdW"><input type="checkbox" id="ppBd"> Dim the page behind it<small class="ppsm">centred and full-screen layouts</small></label>
+            <p class="sub" id="ppLayNote" style="margin-top:10px"></p>
+          </div>
+          <div class="card ppPane hide" id="ppPane-content"><h2>Content</h2>
+            <p class="sub">Drag the handle (or use the arrows) to reorder. The email box, extra fields and Subscribe button always sit together as one form.</p>
+            <div id="ppBlocks" class="ppblocks"></div>
+            <p class="meta" style="margin-top:14px">Add a block</p>
+            <div class="ppadd" id="ppAddB"></div>
+            <div class="two"><div><label class="lbl" for="ppDis">Close link text</label><input id="ppDis" maxlength="24" placeholder="No thanks"></div><div><label class="lbl" for="ppOk">Thank-you line after subscribing</label><input id="ppOk" maxlength="160" placeholder="Leave empty for the built-in one"></div></div>
+          </div>
+          <div class="card ppPane hide" id="ppPane-where"><h2>Where it shows</h2>
+            <p class="sub">Never on the contact form, legal pages, the newsletter page or the admin, whatever you choose. Pop-ups never show on a page when the visitor has already subscribed (unless it has no email box).</p>
+            <p class="meta" style="margin-top:14px">Page types</p>
+            <div class="ppchk" id="ppTypes"></div>
+            <label class="lbl" for="ppExc">Never show on these pages (one per line)</label>
+            <textarea id="ppExc" rows="3" placeholder="/&#10;/portfolio"></textarea>
+            <p class="sub">A path also covers the pages under it. <b>/</b> alone means the home page only.</p>
+            <label class="lbl" for="ppInc">Always show on these pages, even if their type is off</label>
+            <textarea id="ppInc" rows="2" placeholder="/tools/qr-code-generator"></textarea>
+            <p class="meta" style="margin-top:18px">Devices</p>
+            <div class="ppchk"><label class="switch"><input type="checkbox" id="ppDevD"> Desktop and tablet</label><label class="switch"><input type="checkbox" id="ppDevP"> Phones</label></div>
+          </div>
+          <div class="card ppPane hide" id="ppPane-when"><h2>When it shows</h2>
+            <p class="sub">It shows the first time any of these happens. Add as many as you like (up to five).</p>
+            <div id="ppTrig" class="pptrig"></div>
+            <div class="row" style="margin:8px 0 4px"><button class="btn" id="ppAddT">+ Add a trigger</button></div>
+            <p class="meta" style="margin-top:18px">How often</p>
+            <div class="two"><div><label class="lbl" for="ppPer">Most times per visit (0 = no limit)</label><input id="ppPer" type="number" inputmode="numeric" min="0" max="50"></div><div><label class="lbl" for="ppQuiet">Quiet days after it is closed (0 = ask again on the next page)</label><input id="ppQuiet" type="number" inputmode="numeric" min="0" max="365"></div></div>
+            <label class="lbl" for="ppAgain">Show again on the same page after closing, after this many seconds (0 = never)</label><input id="ppAgain" type="number" inputmode="numeric" min="0" max="3600" style="max-width:240px">
+            <p class="err" id="ppFreqNote" style="min-height:0;margin-top:8px"></p>
+          </div>
         </div>
-        <div class="card"><h2>When they show</h2>
-          <p class="sub">Slow and rare is the point. Nothing can appear sooner than the minimum below, and nothing covers the page: a pop-up can always be closed, and it waits for the cookie notice, open menus and typing.</p>
-          <div class="two"><div><label class="lbl" for="ppDelay">Minimum seconds on the page</label><input id="ppDelay" type="number" inputmode="numeric" min="5" max="120"></div><div><label class="lbl" for="ppPer">Most pop-ups per visit</label><select id="ppPer"><option>1</option><option>2</option><option>3</option></select></div></div>
-          <div class="two"><div><label class="lbl" for="ppQuiet">Quiet days after "No thanks"</label><input id="ppQuiet" type="number" inputmode="numeric" min="1" max="365"></div><div><label class="lbl" for="ppSec">Reading card: seconds on the page</label><input id="ppSec" type="number" inputmode="numeric" min="5" max="300"></div></div>
-          <div class="two"><div><label class="lbl" for="ppScroll">…and scrolled this far (%)</label><input id="ppScroll" type="number" inputmode="numeric" min="10" max="90"></div><div><label class="lbl" for="ppFb">Or after this many seconds, without scrolling</label><input id="ppFb" type="number" inputmode="numeric" min="15" max="600"></div></div>
-          <div class="two"><div><label class="lbl" for="ppUse">Tools: seconds after the tool is used</label><input id="ppUse" type="number" inputmode="numeric" min="5" max="300"></div><div><label class="lbl" for="ppTfb">Tools: or after this many seconds, unused</label><input id="ppTfb" type="number" inputmode="numeric" min="15" max="600"></div></div>
-          <label class="switch" style="margin-top:14px"><input type="checkbox" id="ppExit"> Also when a desktop visitor moves to leave the page<small class="ppsm">exit intent: only with a mouse, only after the minimum time, once</small></label>
-          <p class="err" id="ppAdj" style="min-height:0"></p>
+        <div class="ppcol ppside">
+          <div class="card ppprev"><h2>Live preview</h2>
+            <p class="sub">Exactly what visitors get. Nothing is saved until you press Save.</p>
+            <div class="two" style="margin-top:8px"><div><label class="lbl" for="ppPD">Device</label><select id="ppPD"><option value="desk">Desktop</option><option value="phone">Phone</option></select></div><div class="row" style="align-items:flex-end"><a class="btn" id="ppTry" target="_blank" rel="noopener">Try it on the site</a></div></div>
+            <div class="ppst" id="ppStage" data-d="desk"><div class="ppfake"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+            <p class="sub" id="ppTryNote" style="margin-top:8px"></p>
+          </div>
         </div>
-        <div class="card"><h2>Look</h2>
-          <p class="sub">Colours come from the site's own set, so a pop-up always fits the design. The after-use offer sits inside the page and keeps the page's style.</p>
-          <div class="two"><div><label class="lbl" for="ppPos">Position</label><select id="ppPos"></select></div><div><label class="lbl" for="ppTheme">Theme</label><select id="ppTheme"></select></div></div>
-          <label class="lbl">Accent</label><div class="ppacc" id="ppAcc" role="radiogroup" aria-label="Accent colour"></div>
-        </div>
-        <div class="card"><h2>Words</h2>
-          <p class="sub">Plain text only. Leave a page type's boxes empty to use the main wording. A link to what they get and to the privacy page always follows the text.</p>
-          <label class="lbl" for="ppVar">Edit the words for</label><select id="ppVar"></select>
-          <label class="lbl" for="ppHead">Headline</label><input id="ppHead" maxlength="80">
-          <label class="lbl" for="ppBody">Line under it</label><textarea id="ppBody" rows="2" maxlength="220"></textarea>
-          <div class="two"><div><label class="lbl" for="ppBtn">Button</label><input id="ppBtn" maxlength="24"></div><div><label class="lbl" for="ppNo">Close link</label><input id="ppNo" maxlength="24"></div></div>
-          <label class="lbl" for="ppOk">Thank-you line after subscribing (optional)</label><input id="ppOk" maxlength="120" placeholder="Leave empty for: You are subscribed. A welcome email is on its way.">
-          <label class="lbl" for="ppDone">After-use offer headline</label><input id="ppDone" maxlength="80">
-        </div>
-        <div class="row" style="margin-bottom:22px"><button class="btn pri" id="ppSave">Save pop-up settings</button><button class="btn" id="ppDef" type="button">Fill in the built-in defaults</button><span id="ppMsg" class="sub"></span></div>
       </div>
-      <div class="ppcol ppside">
-        <div class="card ppprev"><h2>Live preview</h2>
-          <p class="sub">Follows the form as you type. Nothing is saved until you press Save.</p>
-          <div class="two" style="margin-top:8px"><div><label class="lbl" for="ppPT">Page type</label><select id="ppPT"></select></div><div><label class="lbl" for="ppPD">Device</label><select id="ppPD"><option value="desk">Desktop</option><option value="phone">Phone</option></select></div></div>
-          <div class="ppst" id="ppStage" data-d="desk"><div class="ppfake"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="ppcardw" id="ppCard"></div></div>
-        </div>
-        <div class="card"><h2>Ask everyone again</h2>
-          <p class="sub" id="ppResetT">Visitors who said "No thanks" are left alone for the quiet days you set. If you change the offer a lot, you can ask them all again. People who already subscribed are never asked again.</p>
-          <div class="row" style="margin-top:10px"><button class="btn" id="ppReset">Ask everyone again</button><span id="ppResetM" class="sub"></span></div>
-        </div>
-      </div>
+    </div>
+    <div class="card"><h2>After-use offer</h2>
+      <p class="sub">The small offer inside a tool page after someone copies, downloads or prints a result. It sits in the page, once per visit, and follows the master switch.</p>
+      <label class="switch"><input type="checkbox" id="ppInOn"> Show it</label>
+      <label class="lbl" for="ppInHead">Headline</label><input id="ppInHead" maxlength="100"></div>
+    <div class="card"><h2>Ask everyone again</h2>
+      <p class="sub" id="ppResetT">Visitors who closed a pop-up are left alone for its quiet days. If you change the offer a lot, you can ask them all again. People who already subscribed are never asked again.</p>
+      <div class="row" style="margin-top:10px"><button class="btn" id="ppReset">Ask everyone again</button><span id="ppResetM" class="sub"></span></div>
     </div>
     <p class="meta" style="margin-top:8px">How they are doing</p>
     <div class="row" style="margin-bottom:10px"><div class="seg" id="ppRange" role="group" aria-label="Period"><button data-d="7">7 days</button><button data-d="30" class="on">30 days</button><button data-d="90">90 days</button></div></div>
     <div class="chips" id="ppChips"></div>
-    <div class="card"><h2>Shown per day</h2><p class="sub">Counted without cookies, IP addresses or ids: one tick when a pop-up appears, one when it is closed with No thanks, the cross or Escape. Sign-ups are counted from the subscriber list.</p><svg class="bars" id="ppChart" viewBox="0 0 600 170" preserveAspectRatio="none"></svg></div>
+    <div class="card"><h2>Shown per day</h2><p class="sub">Counted without cookies, IP addresses or ids: one tick when a pop-up appears, one when it is closed, one for a link button. Sign-ups are counted from the subscriber list.</p><svg class="bars" id="ppChart" viewBox="0 0 600 170" preserveAspectRatio="none"></svg></div>
     <div class="grid2">
-      <div class="card"><h2>By kind</h2><div class="tblw"><table class="tbl" id="ppTblS"></table></div></div>
+      <div class="card"><h2>By pop-up</h2><div class="tblw"><table class="tbl" id="ppTblS"></table></div></div>
       <div class="card"><h2>By page type</h2><div class="tblw"><table class="tbl" id="ppTblT"></table></div></div>
     </div>
     <div class="card"><h2>Pages</h2><p class="sub">The pages where a pop-up appeared most, with the sign-ups that came from them.</p><div class="tblw"><table class="tbl" id="ppTblP"></table></div></div>
@@ -2978,73 +2997,132 @@ var applyRole5=applyRole;
 applyRole=function(u){applyRole5(u);drawViews();if(!lsGet('adm.tour.v1',0))setTimeout(function(){if(!$('app').classList.contains('hide')&&!document.querySelector('.modal'))tourStart(false)},1600)};
 $('usrBtn').onclick=function(){menu($('usrBtn'),[{l:'My profile',f:function(){openTab('set');setTimeout(function(){setGroup('acct')},200)}},{l:'Take the tour',f:function(){tourStart(true)}},{l:'Keyboard shortcuts',f:showShortcuts},{sep:1},{l:'Sign out',f:function(){$('out').click()},cls:'danger'}])};
 
-/* ---------- pop-ups: settings, live preview, stats ---------- */
-var PP={cfg:null,meta:null,def:null,copy:null,variant:'default',days:30,ready:false};
-var PPF={ppOn:'on'};
+/* ---------- pop-ups: builder, live preview, stats ---------- */
+var PP={cfg:null,meta:null,sel:-1,days:30,stats:null,pane:'design',ready:false,drag:-1,dirty:false};
+function ppCur(){return PP.cfg&&PP.cfg.popups[PP.sel]||null}
 function ppv(id){return $(id).value}
-function ppLoad(){api('popups_get').then(function(x){if(!x.ok)return;PP.meta=x.j.meta;PP.def=x.j.defaults;PP.cfg=x.j.popups;PP.last=x.j.lastReset;ppInit();ppFill(PP.cfg);ppResetNote();ppPrev()});ppStats();ppLog()}
+function ppDirty(){PP.dirty=true;$('ppMsg').textContent='Unsaved changes';$('ppMsg').className='sub'}
+function ppLoad(){
+  if(PP.cfg&&PP.dirty){ppStats();return}
+  api('popups_get').then(function(x){if(!x.ok)return;PP.meta=x.j.meta;PP.cfg=x.j.popups;PP.def=x.j.defaults;PP.last=x.j.lastReset;PP.dirty=false;
+    if(PP.sel<0||PP.sel>=PP.cfg.popups.length)PP.sel=PP.cfg.popups.length?0:-1;ppInit();ppRender();ppResetNote()});
+  ppStats();ppLog()}
+function ppOpts(sel,tbl){return Object.keys(tbl).map(function(k){return '<option value="'+k+'">'+esc(typeof tbl[k]==='string'?tbl[k]:tbl[k].name)+'</option>'}).join('')}
 function ppInit(){if(PP.ready)return;PP.ready=true;var m=PP.meta;
-  $('ppPos').innerHTML=Object.keys(m.positions).map(function(k){return '<option value="'+k+'">'+esc(m.positions[k])+'</option>'}).join('');
-  $('ppTheme').innerHTML=Object.keys(m.themes).map(function(k){return '<option value="'+k+'">'+esc(m.themes[k].name)+'</option>'}).join('');
+  $('ppLay').innerHTML=ppOpts(0,m.layouts);$('ppTheme').innerHTML=ppOpts(0,m.themes);$('ppRad').innerHTML=ppOpts(0,m.radii);$('ppWid').innerHTML=ppOpts(0,m.widths);
   $('ppAcc').innerHTML=Object.keys(m.accents).map(function(k){return '<button type="button" role="radio" aria-checked="false" data-a="'+k+'"><i style="background:'+m.accents[k].bg+'"></i>'+esc(m.accents[k].name)+'</button>'}).join('');
-  var vs=[['default','Everyone (the main wording)']].concat(Object.keys(m.types).map(function(k){return [k,m.types[k]]}));
-  $('ppVar').innerHTML=vs.map(function(v){return '<option value="'+v[0]+'">'+esc(v[1])+'</option>'}).join('');
-  $('ppPT').innerHTML=Object.keys(m.types).map(function(k){return '<option value="'+k+'">'+esc(m.types[k])+'</option>'}).join('');
-  $('ppAcc').onclick=function(e){var b=e.target.closest&&e.target.closest('button[data-a]');if(!b)return;ppAccent(b.getAttribute('data-a'));ppPrev()};
-  $('ppVar').onchange=function(){PP.variant=this.value;ppWords();ppPrev()};
-  ['ppHead','ppBody','ppBtn','ppNo','ppOk'].forEach(function(id){$(id).addEventListener('input',function(){ppKeepWords();ppPrev()})});
-  document.querySelectorAll('#tab-popups input,#tab-popups select,#tab-popups textarea').forEach(function(el){el.addEventListener('input',ppPrev);el.addEventListener('change',ppPrev)});
-  $('ppPT').onchange=ppPrev;$('ppPD').onchange=ppPrev;
-  $('ppOn').addEventListener('change',function(){ppStateText()});
+  $('ppTypes').innerHTML=Object.keys(m.types).map(function(k){return '<label class="switch"><input type="checkbox" id="ppT_'+k+'"> '+esc(m.types[k])+'</label>'}).join('');
+  $('ppAddB').innerHTML=Object.keys(m.blocks).map(function(k){return '<button type="button" data-b="'+k+'">+ '+esc(m.blocks[k])+'</button>'}).join('');
+  $('ppSeg').onclick=function(e){var p=e.target.dataset&&e.target.dataset.p;if(p)ppPane(p)};
+  $('ppOn').addEventListener('change',function(){PP.cfg.on=this.checked;ppDirty();ppStateText()});
+  $('ppInOn').addEventListener('change',function(){PP.cfg.inline.on=this.checked;ppDirty()});$('ppInHead').addEventListener('input',function(){PP.cfg.inline.head=this.value;ppDirty()});
+  $('ppList').onclick=ppListClick;$('ppAdd').onclick=function(){if(PP.cfg.popups.length>=m.limits.maxPopups){toast('At most '+m.limits.maxPopups+' pop-ups');return}ppTemplates(function(t){var p=ppFromTpl(t);PP.cfg.popups.push(p);PP.sel=PP.cfg.popups.length-1;ppDirty();ppRender();ppPane('content')})};
+  $('ppTpl').onclick=function(){ppTemplates(function(t){var c=ppCur(),n=ppFromTpl(t);n.id=c.id;n.on=c.on;PP.cfg.popups[PP.sel]=n;ppDirty();ppRender()})};
+  // design and rules fields write straight into the pop-up being edited
+  var bind=function(id,fn,ev){$(id).addEventListener(ev||'input',function(){var p=ppCur();if(!p)return;fn(p,this);ppDirty();ppPrev();ppListDraw();ppNotes()});$(id).addEventListener('change',function(){var p=ppCur();if(!p)return;fn(p,this);ppDirty();ppPrev();ppNotes()})};
+  bind('ppName',function(p,e){p.name=e.value});bind('ppLay',function(p,e){p.layout=e.value});bind('ppTheme',function(p,e){p.look.theme=e.value});bind('ppRad',function(p,e){p.look.radius=e.value});bind('ppWid',function(p,e){p.look.width=e.value});bind('ppBd',function(p,e){p.look.backdrop=e.checked});
+  bind('ppDis',function(p,e){p.dismiss=e.value});bind('ppOk',function(p,e){p.success=e.value});
+  bind('ppExc',function(p,e){p.rules.exclude=e.value.split(/[\n,]+/).map(function(s){return s.trim()}).filter(Boolean)});bind('ppInc',function(p,e){p.rules.include=e.value.split(/[\n,]+/).map(function(s){return s.trim()}).filter(Boolean)});
+  bind('ppDevD',function(p,e){p.rules.devices.desktop=e.checked});bind('ppDevP',function(p,e){p.rules.devices.phone=e.checked});
+  Object.keys(m.types).forEach(function(k){bind('ppT_'+k,function(p,e){p.rules.types[k]=e.checked})});
+  bind('ppPer',function(p,e){p.freq.perVisit=e.value});bind('ppQuiet',function(p,e){p.freq.quietDays=e.value});bind('ppAgain',function(p,e){p.freq.again=e.value});
+  $('ppAcc').onclick=function(e){var b=e.target.closest&&e.target.closest('button[data-a]');if(!b)return;var p=ppCur();p.look.accent=b.getAttribute('data-a');ppAccent(p.look.accent);ppDirty();ppPrev()};
+  $('ppPD').onchange=ppPrev;
+  $('ppAddB').onclick=function(e){var k=e.target.dataset&&e.target.dataset.b;if(!k)return;ppAddBlock(k)};
+  var bl=$('ppBlocks');
+  bl.addEventListener('input',function(e){var t=e.target,row=t.closest('.ppb'),k=t.getAttribute('data-k');if(!row||!k)return;var b=ppCur().blocks[+row.getAttribute('data-i')];if(k==='options')b.options=t.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);else if(k==='required')b.required=t.checked;else b[k]=t.value;if(k==='kind'||k==='action'){ppBlocksDraw()}ppDirty();ppPrev()});
+  bl.addEventListener('change',function(e){var t=e.target;if(t.getAttribute&&(t.getAttribute('data-k')==='kind'||t.getAttribute('data-k')==='action')){var b=ppCur().blocks[+t.closest('.ppb').getAttribute('data-i')];b[t.getAttribute('data-k')]=t.value;ppBlocksDraw();ppDirty();ppPrev()}});
+  bl.addEventListener('click',function(e){var bt=e.target.closest&&e.target.closest('button[data-a]');if(!bt)return;var i=+bt.closest('.ppb').getAttribute('data-i'),a=bt.getAttribute('data-a'),bs=ppCur().blocks;
+    if(a==='rm')bs.splice(i,1);else if(a==='up'&&i>0){var t=bs[i];bs[i]=bs[i-1];bs[i-1]=t}else if(a==='dn'&&i<bs.length-1){var t2=bs[i];bs[i]=bs[i+1];bs[i+1]=t2}ppBlocksDraw();ppDirty();ppPrev()});
+  bl.addEventListener('dragstart',function(e){var h=e.target.closest&&e.target.closest('.pph');if(!h){e.preventDefault();return}var row=h.closest('.ppb');PP.drag=+row.getAttribute('data-i');e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',String(PP.drag));e.dataTransfer.setDragImage(row,20,20)}catch(x){}row.classList.add('drag')});
+  bl.addEventListener('dragover',function(e){if(PP.drag<0)return;e.preventDefault();var row=e.target.closest('.ppb');[].forEach.call(bl.children,function(r){r.classList.toggle('over',r===row)})});
+  bl.addEventListener('drop',function(e){if(PP.drag<0)return;e.preventDefault();var row=e.target.closest('.ppb');if(!row)return;var to=+row.getAttribute('data-i'),bs=ppCur().blocks,mv=bs.splice(PP.drag,1)[0];bs.splice(to,0,mv);PP.drag=-1;ppBlocksDraw();ppDirty();ppPrev()});
+  bl.addEventListener('dragend',function(){PP.drag=-1;[].forEach.call(bl.children,function(r){r.classList.remove('drag','over')})});
+  $('ppTrig').addEventListener('input',function(e){var t=e.target,r=t.closest('.r'),k=t.getAttribute('data-k');if(!r||!k)return;ppCur().triggers[+r.getAttribute('data-i')][k]=t.value;ppDirty();ppNotes()});
+  $('ppTrig').addEventListener('change',function(e){var t=e.target,r=t.closest('.r');if(r&&t.getAttribute('data-k')==='k'){var tr=ppCur().triggers[+r.getAttribute('data-i')];tr.k=t.value;if(tr.k==='delay')tr.n=tr.n||12;if(tr.k==='scroll'){tr.n=tr.n||40}if(tr.k==='use')tr.n=tr.n||12;if(tr.k==='idle')tr.n=tr.n||20;ppTrigDraw();ppDirty()}});
+  $('ppTrig').addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('button[data-rm]');if(!b)return;ppCur().triggers.splice(+b.closest('.r').getAttribute('data-i'),1);ppTrigDraw();ppDirty();ppNotes()});
+  $('ppAddT').onclick=function(){var p=ppCur();if(p.triggers.length>=5){toast('At most five triggers');return}p.triggers.push({k:'delay',n:15,min:0});ppTrigDraw();ppDirty();ppNotes()};
   $('ppRange').onclick=function(e){var d=e.target.dataset&&e.target.dataset.d;if(!d)return;PP.days=Number(d);[].forEach.call(this.children,function(b){b.classList.toggle('on',b.dataset.d===d)});ppStats()};
   $('ppSave').onclick=ppSave;
-  $('ppDef').onclick=function(){ppFill(PP.def);toast('Built-in defaults filled in. Press Save to keep them.');ppPrev()};
-  $('ppReset').onclick=function(){ask({title:'Ask everyone again?',text:'Everyone who said "No thanks" will see the pop-up again, once, after the usual delay. People who already subscribed are not asked. You will be asked to confirm it is you.',ok:'Ask everyone again'}).then(function(v){if(!v)return;post('popups_reset',{}).then(function(x){if(x.ok){PP.cfg=x.j.popups;PP.last=Date.now();toast('Everyone will be asked again');ppResetNote();ppLog()}else toast(x.j.error)})})}
+  $('ppReset').onclick=function(){ask({title:'Ask everyone again?',text:'Everyone who closed a pop-up will see it again, once, after the usual delay. People who already subscribed are not asked. You will be asked to confirm it is you.',ok:'Ask everyone again'}).then(function(v){if(!v)return;post('popups_reset',{}).then(function(x){if(x.ok){PP.cfg.ver=x.j.popups.ver;PP.last=Date.now();toast('Everyone will be asked again');ppResetNote();ppLog()}else toast(x.j.error)})})}
 }
-function ppAccent(k){document.querySelectorAll('#ppAcc button').forEach(function(b){b.setAttribute('aria-checked',b.getAttribute('data-a')===k?'true':'false')});PP.accent=k}
-function ppWords(){var c=PP.copy[PP.variant]||{},d=PP.copy['default'];['head','body','button','success','dismiss'].forEach(function(f){var id={head:'ppHead',body:'ppBody',button:'ppBtn',success:'ppOk',dismiss:'ppNo'}[f];$(id).value=c[f]||'';$(id).placeholder=PP.variant==='default'?(f==='success'?'Leave empty for: You are subscribed. A welcome email is on its way.':''):('Same as the main wording'+(d[f]?': '+d[f]:''))})}
-function ppKeepWords(){var c=PP.copy[PP.variant]=PP.copy[PP.variant]||{};c.head=ppv('ppHead');c.body=ppv('ppBody');c.button=ppv('ppBtn');c.dismiss=ppv('ppNo');c.success=ppv('ppOk')}
-function ppFill(c){
-  $('ppOn').checked=!!c.on;
-  ['reading','tool','afterUse'].forEach(function(k){$('ppS_'+k).checked=!!c.surfaces[k]});
-  ['blog','services','cases','tools','other'].forEach(function(k){$('ppT_'+k).checked=!!c.types[k]});
-  $('ppExc').value=c.exclude.join('\n');$('ppInc').value=c.include.join('\n');
-  $('ppDevD').checked=!!c.devices.desktop;$('ppDevP').checked=!!c.devices.phone;
-  $('ppDelay').value=c.limits.delay;$('ppPer').value=String(c.limits.perVisit);$('ppQuiet').value=c.limits.quietDays;
-  $('ppSec').value=c.triggers.seconds;$('ppScroll').value=c.triggers.scroll;$('ppFb').value=c.triggers.fallback;$('ppUse').value=c.triggers.afterUse;$('ppTfb').value=c.triggers.toolFallback;$('ppExit').checked=!!c.triggers.exit;
-  $('ppPos').value=c.look.position;$('ppTheme').value=c.look.theme;ppAccent(c.look.accent);
-  PP.copy=JSON.parse(JSON.stringify(c.copy));$('ppDone').value=c.doneHead;ppWords();ppStateText()}
-function ppCollect(){ppKeepWords();return{on:$('ppOn').checked,
-  surfaces:{reading:$('ppS_reading').checked,tool:$('ppS_tool').checked,afterUse:$('ppS_afterUse').checked},
-  types:{blog:$('ppT_blog').checked,services:$('ppT_services').checked,cases:$('ppT_cases').checked,tools:$('ppT_tools').checked,other:$('ppT_other').checked},
-  exclude:ppv('ppExc'),include:ppv('ppInc'),devices:{desktop:$('ppDevD').checked,phone:$('ppDevP').checked},
-  limits:{delay:ppv('ppDelay'),perVisit:ppv('ppPer'),quietDays:ppv('ppQuiet')},
-  triggers:{seconds:ppv('ppSec'),scroll:ppv('ppScroll'),fallback:ppv('ppFb'),afterUse:ppv('ppUse'),toolFallback:ppv('ppTfb'),exit:$('ppExit').checked},
-  look:{position:ppv('ppPos'),theme:ppv('ppTheme'),accent:PP.accent||'amber'},copy:PP.copy,doneHead:ppv('ppDone')}}
-function ppSave(){var b=ppCollect();$('ppSave').disabled=true;
-  post('popups_save',b).then(function(x){$('ppSave').disabled=false;
+function ppTemplates(cb){var m=PP.meta;ask({title:'Choose a starting point',text:'All of them use the site\'s own colours and can be changed afterwards.',ok:false,wide:true,body:'<div class="tplg">'+m.templates.map(function(t){return '<button type="button" data-t="'+t.key+'"><em>'+esc(m.layouts[t.popup.layout])+'</em><b>'+esc(t.name)+'</b><span>'+esc(t.note)+'</span></button>'}).join('')+'</div>',onOpen:function(el,done){el.querySelector('.tplg').onclick=function(e){var b=e.target.closest&&e.target.closest('button[data-t]');if(b)done(b.getAttribute('data-t'))}}}).then(function(k){if(!k)return;cb(m.templates.filter(function(t){return t.key===k})[0])})}
+function ppFromTpl(t){var p=JSON.parse(JSON.stringify(t.popup));p.id='';p.on=true;p.success=p.success||'';p.dismiss=p.dismiss||'No thanks';return p}
+function ppAddBlock(k){var p=ppCur(),bs=p.blocks,mk={heading:{t:'heading',text:'Your headline'},text:{t:'text',text:'A line of text'},image:{t:'image',src:'',alt:''},email:{t:'email',placeholder:'you@example.com'},field:{t:'field',kind:'text',label:'Your role',required:false,options:[]},button:{t:'button',text:'Subscribe',action:'subscribe'},links:{t:'links'},note:{t:'note',text:'Small print'},divider:{t:'divider'}};
+  if(bs.length>=PP.meta.limits.maxBlocks){toast('At most '+PP.meta.limits.maxBlocks+' blocks');return}
+  if(k==='field'&&bs.filter(function(b){return b.t==='field'}).length>=PP.meta.limits.maxFields){toast('At most '+PP.meta.limits.maxFields+' extra fields');return}
+  bs.push(mk[k]);
+  var has=function(t,f){return bs.some(function(b){return b.t===t&&(!f||f(b))})};
+  if(k==='email'&&!has('button',function(b){return b.action!=='link'}))bs.push(mk.button);
+  if(k==='button'&&!has('email'))bs.splice(bs.length-1,0,mk.email);
+  ppBlocksDraw();ppDirty();ppPrev()}
+function ppAccent(k){document.querySelectorAll('#ppAcc button').forEach(function(b){b.setAttribute('aria-checked',b.getAttribute('data-a')===k?'true':'false')})}
+function ppPane(p){PP.pane=p;[].forEach.call($('ppSeg').children,function(b){b.classList.toggle('on',b.dataset.p===p)});['design','content','where','when'].forEach(function(k){$('ppPane-'+k).classList.toggle('hide',k!==p)})}
+function ppStateText(){var on=PP.cfg.on;$('ppOn').checked=on;$('ppOnT').textContent=on?'Pop-ups are on':'Pop-ups are off';$('ppState').textContent=on?'Visitors can see the pop-ups that are switched on below, following their rules.':'Nothing is shown anywhere. Your pop-ups below are kept for when you switch this on.'}
+function ppRender(){if(!PP.cfg)return;ppStateText();$('ppInOn').checked=!!PP.cfg.inline.on;$('ppInHead').value=PP.cfg.inline.head;ppListDraw();
+  var p=ppCur();$('ppEd').classList.toggle('hide',!p);if(p){ppFill(p);ppPane(PP.pane)}
+  $('ppAddNote').textContent=PP.cfg.popups.length+' of '+PP.meta.limits.maxPopups+' used'}
+function ppListDraw(){var st={};((PP.stats&&PP.stats.popups)||[]).forEach(function(s){st[s.id]=s});
+  $('ppList').innerHTML=PP.cfg.popups.length?PP.cfg.popups.map(function(p,i){var s=st[p.id]||{shown:0,subscribed:0,clicked:0};
+    return '<div class="ppit'+(i===PP.sel?' sel':'')+'" data-i="'+i+'"><div class="t"><b>'+esc(p.name||'Pop-up')+'</b><span class="badge'+(p.on&&PP.cfg.on?' on':'')+'">'+(p.on?(PP.cfg.on?'On':'Paused'):'Off')+'</span></div><div class="m">'+esc(PP.meta.layouts[p.layout]||p.layout)+' &middot; '+esc((PP.meta.themes[p.look.theme]||{name:''}).name.split(' (')[0])+'</div><div class="st"><b>'+s.shown+'</b> shown &middot; <b>'+(hasEm(p)?s.subscribed:s.clicked)+'</b> '+(hasEm(p)?'subscribed':'clicks')+' <span>('+PP.days+' days)</span></div><div class="acts"><button data-a="edit">'+(i===PP.sel?'Editing':'Edit')+'</button><button data-a="tog">'+(p.on?'Switch off':'Switch on')+'</button><button data-a="dup">Duplicate</button><button data-a="up" aria-label="Move earlier">&uarr;</button><button data-a="dn" aria-label="Move later">&darr;</button><button data-a="del" class="dng">Delete</button></div></div>'}).join(''):'<p class="sub">No pop-ups yet. Add one to start.</p>'}
+function hasEm(p){return p.blocks.some(function(b){return b.t==='email'})}
+function ppListClick(e){var b=e.target.closest&&e.target.closest('button[data-a]');if(!b)return;var i=+b.closest('.ppit').getAttribute('data-i'),a=b.getAttribute('data-a'),ps=PP.cfg.popups;
+  if(a==='edit'){PP.sel=i;ppRender();$('ppEd').scrollIntoView({behavior:'smooth',block:'start'});return}
+  if(a==='tog'){ps[i].on=!ps[i].on;ppDirty();ppListDraw();return}
+  if(a==='dup'){if(ps.length>=PP.meta.limits.maxPopups){toast('At most '+PP.meta.limits.maxPopups+' pop-ups');return}var c=JSON.parse(JSON.stringify(ps[i]));c.id='';c.name=(c.name+' copy').slice(0,40);ps.splice(i+1,0,c);PP.sel=i+1;ppDirty();ppRender();return}
+  if(a==='up'&&i>0){var t=ps[i];ps[i]=ps[i-1];ps[i-1]=t;PP.sel=i-1;ppDirty();ppRender();return}
+  if(a==='dn'&&i<ps.length-1){var t2=ps[i];ps[i]=ps[i+1];ps[i+1]=t2;PP.sel=i+1;ppDirty();ppRender();return}
+  if(a==='del'){ask({title:'Delete "'+ps[i].name+'"?',text:'It stops showing as soon as you save. Its numbers stay in the stats.',ok:'Delete',danger:true}).then(function(v){if(!v)return;ps.splice(i,1);PP.sel=Math.min(PP.sel,ps.length-1);ppDirty();ppRender()})}}
+function ppFill(p){
+  $('ppName').value=p.name;$('ppLay').value=p.layout;$('ppTheme').value=p.look.theme;$('ppRad').value=p.look.radius;$('ppWid').value=p.look.width;$('ppBd').checked=!!p.look.backdrop;ppAccent(p.look.accent);
+  $('ppDis').value=p.dismiss||'';$('ppOk').value=p.success||'';
+  Object.keys(PP.meta.types).forEach(function(k){$('ppT_'+k).checked=p.rules.types[k]!==false});
+  $('ppExc').value=p.rules.exclude.join('\n');$('ppInc').value=p.rules.include.join('\n');$('ppDevD').checked=p.rules.devices.desktop!==false;$('ppDevP').checked=p.rules.devices.phone!==false;
+  $('ppPer').value=p.freq.perVisit;$('ppQuiet').value=p.freq.quietDays;$('ppAgain').value=p.freq.again;
+  ppBlocksDraw();ppTrigDraw();ppNotes();ppPrev()}
+function ppBlockHtml(b,i){var M=PP.meta,k=function(n,v,ph,ml,tag){return '<input data-k="'+n+'" value="'+esc(v||'')+'" placeholder="'+esc(ph||'')+'"'+(ml?' maxlength="'+ml+'"':'')+'>'},f='';
+  if(b.t==='heading')f=k('text',b.text,'Headline',100);
+  else if(b.t==='text'||b.t==='note')f='<textarea data-k="text" rows="2" maxlength="'+(b.t==='note'?200:300)+'">'+esc(b.text||'')+'</textarea>';
+  else if(b.t==='image')f=k('src',b.src,'/assets/me-ride.webp or https://…',300)+k('alt',b.alt,'Describe the picture (for screen readers)',120);
+  else if(b.t==='email')f=k('placeholder',b.placeholder,'you@example.com',40)+'<small>Visitors type their email here.</small>';
+  else if(b.t==='field')f='<div class="two"><select data-k="kind">'+Object.keys(M.fieldKinds).map(function(x){return '<option value="'+x+'"'+(b.kind===x?' selected':'')+'>'+esc(M.fieldKinds[x])+'</option>'}).join('')+'</select>'+k('label',b.label,'Label',40)+'</div>'+(b.kind==='select'?'<textarea data-k="options" rows="3" placeholder="One choice per line (at least two)">'+esc((b.options||[]).join('\n'))+'</textarea>':'')+'<label class="switch"><input type="checkbox" data-k="required"'+(b.required?' checked':'')+'> Required</label><small>'+(b.kind==='name'?'Saved as the subscriber\'s name.':'The answer is saved with the subscriber.')+'</small>';
+  else if(b.t==='button')f='<div class="two">'+k('text',b.text,'Button text',30)+'<select data-k="action"><option value="subscribe"'+(b.action!=='link'?' selected':'')+'>Subscribes the visitor</option><option value="link"'+(b.action==='link'?' selected':'')+'>Opens a link</option></select></div>'+(b.action==='link'?k('href',b.href,'/contact or https://…',300):'');
+  else if(b.t==='links')f='<small>&ldquo;What you get&rdquo; and &ldquo;Privacy&rdquo; links. A sign-up form always shows them, even without this block.</small>';
+  else f='<small>A thin line.</small>';
+  return '<div class="ppb" data-i="'+i+'"><div class="h"><span class="pph" draggable="true" title="Drag to reorder" aria-hidden="true">&#8942;&#8942;</span><b>'+esc(M.blocks[b.t]||b.t)+'</b><button type="button" data-a="up" aria-label="Move up">&uarr;</button><button type="button" data-a="dn" aria-label="Move down">&darr;</button><button type="button" data-a="rm" aria-label="Remove">&times;</button></div>'+f+'</div>'}
+function ppBlocksDraw(){var p=ppCur();$('ppBlocks').innerHTML=p.blocks.map(ppBlockHtml).join('')||'<p class="sub">No blocks yet.</p>'}
+function ppTrigDraw(){var p=ppCur(),T=PP.meta.triggers;$('ppTrig').innerHTML=p.triggers.map(function(t,i){var hasN=/^(delay|scroll|use|idle)$/.test(t.k),hasMin=/^(scroll|exit|load)$/.test(t.k);
+  return '<div class="r" data-i="'+i+'"><div><label>Trigger</label><select data-k="k">'+Object.keys(T).map(function(k){return '<option value="'+k+'"'+(t.k===k?' selected':'')+'>'+esc(T[k])+'</option>'}).join('')+'</select></div><div>'+(hasN?'<label>'+(t.k==='scroll'?'Percent':'Seconds')+'</label><input data-k="n" type="number" inputmode="numeric" min="0" max="3600" value="'+(t.n==null?'':t.n)+'">':'')+'</div><div>'+(hasMin?'<label title="Not before this many seconds on the page">Not before (s)</label><input data-k="min" type="number" inputmode="numeric" min="0" max="3600" value="'+(t.min||0)+'">':'')+'</div><button type="button" class="btn" data-rm aria-label="Remove trigger" style="min-height:42px;padding:0">&times;</button></div>'}).join('')}
+function ppNotes(){var p=ppCur();if(!p)return;
+  var l=p.layout,n=[];if(l==='center'||l==='takeover')n.push('On phones this becomes a bottom sheet: full-screen pop-ups on mobile can hurt search ranking, and they are hard to close with a thumb.');if(l==='takeover')n.push('A full-screen pop-up covers the page. Use it sparingly and keep the trigger gentle (leaving the page, or after a while).');
+  $('ppLayNote').textContent=n.join(' ');$('ppBdW').classList.toggle('hide',!(l==='center'||l==='takeover'));
+  var warn=[],noLimit=!Number(p.freq.perVisit),instant=p.triggers.some(function(t){return t.k==='load'&&!Number(t.min)});
+  if(noLimit&&instant)warn.push('It shows on every page the moment it loads, with no limit. Most visitors will find that annoying.');else if(noLimit)warn.push('No limit per visit: it can show on every page. Set a quiet period so people are not asked again and again.');
+  if(Number(p.freq.again)>0&&Number(p.freq.again)<30)warn.push('Coming back after less than 30 seconds feels pushy.');
+  $('ppFreqNote').textContent=warn.join(' ')}
+function ppStyle(look){var m=PP.meta,t=m.themes[look.theme]||m.themes.dusk,a=m.accents[look.accent]||m.accents.amber;return{bg:t.bg,fg:t.fg,mute:t.mute,line:t.line,field:t.field,accent:a.bg,ink:a.ink,link:t.light?a.linkOnLight:a.link}}
+function ppPrev(){var p=ppCur();if(!p||!window.apPopRender||!PP.meta)return;var st=$('ppStage'),phone=ppv('ppPD')==='phone';st.setAttribute('data-d',phone?'phone':'desk');
+  var old=st.querySelector('.aprw-pv');if(old)old.remove();
+  var c=JSON.parse(JSON.stringify(p));c.id='pv';c.style=ppStyle(p.look);
+  var r=window.apPopRender.build(c,{preview:true,phone:phone});st.appendChild(r.root);r.card.classList.add('is-on');if(r.bd)r.bd.classList.add('is-on');
+  var a=$('ppTry');if(p.id){a.href='/about?nl='+p.id;a.classList.remove('hide');$('ppTryNote').textContent='Opens the live site and shows this pop-up (even if the page rules would not).'}else{a.removeAttribute('href');$('ppTryNote').textContent='Save first, then you can try it on the live site.'}}
+function ppSave(){$('ppSave').disabled=true;
+  post('popups_save',PP.cfg).then(function(x){$('ppSave').disabled=false;
     if(!x.ok){say('ppMsg',x.j.error||'Could not save.',false);return}
-    var before=JSON.stringify(PP.cfg);PP.cfg=x.j.popups;ppFill(PP.cfg);ppPrev();
-    say('ppMsg',x.j.changed?'Saved. The site picks it up within about 5 minutes.':'Nothing had changed.',true);if(x.j.changed){toast('Pop-up settings saved');ppLog()}
-    var c=PP.cfg;$('ppAdj').textContent=(Number(b.limits.delay)!==c.limits.delay||Number(b.triggers.seconds)!==c.triggers.seconds||Number(b.triggers.toolFallback)!==c.triggers.toolFallback)?'Some timings were raised to respect the minimum delay of '+c.limits.delay+' seconds.':''})}
-function ppStateText(){var on=$('ppOn').checked;$('ppOnT').textContent=on?'Pop-ups are on':'Pop-ups are off';$('ppState').textContent=on?'Visitors can see the pop-ups that are switched on below, following the rules.':'Nothing is shown anywhere. Saved settings below are kept for when you switch them on.'}
+    var id=ppCur()&&ppCur().id;PP.cfg=x.j.popups;PP.dirty=false;PP.sel=Math.max(0,Math.min(PP.sel,PP.cfg.popups.length-1));if(!PP.cfg.popups.length)PP.sel=-1;ppRender();
+    say('ppMsg',x.j.changed?'Saved. The site picks it up within about 5 minutes.':'Nothing had changed.',true);if(x.j.changed){toast('Pop-ups saved');ppLog()}ppStats()})}
 function ppResetNote(){var v=PP.cfg?PP.cfg.ver:1;$('ppResetM').textContent=PP.last?'Last asked again '+ist(PP.last)+' (version '+v+').':'Never reset (version '+v+').'}
-function ppStyle(){var m=PP.meta,t=m.themes[ppv('ppTheme')]||m.themes.dusk,a=m.accents[PP.accent||'amber']||m.accents.amber;return{bg:t.bg,fg:t.fg,mute:t.mute,line:t.line,field:t.field,accent:a.bg,ink:a.ink,link:t.light?a.linkOnLight:a.link}}
-function ppPrev(){if(!PP.meta||!$('ppCard'))return;var s=ppStyle(),type=ppv('ppPT')||'blog',cp=PP.copy||{},d=cp['default']||{},c=cp[type]||{},w=function(f){return c[f]||d[f]||''},pos=ppv('ppPos');
-  $('ppStage').setAttribute('data-d',ppv('ppPD'));
-  var cls=pos==='bar'?'bar':pos==='left'?'l':'r',phone=ppv('ppPD')==='phone';
-  $('ppCard').innerHTML='<div class="ppc '+cls+'" style="background:'+s.bg+';color:'+s.fg+';border:1px solid '+s.line+'"><span class="x" style="color:'+s.mute+'">&times;</span><div class="t"><b>'+esc(w('head'))+'</b><p style="color:'+s.mute+'">'+esc(w('body'))+' <a style="color:'+s.link+'">What you get</a> &middot; <a style="color:'+s.link+'">Privacy</a></p></div><div class="f"><span class="e" style="background:'+s.field+';border:1px solid '+s.line+';color:'+s.mute+'">you@example.com</span><span class="s" style="background:'+s.accent+';color:'+s.ink+'">'+esc(w('button'))+'</span></div><span class="n" style="color:'+s.mute+'">'+esc(w('dismiss'))+'</span></div>';
-  if(phone&&pos!=='bar'){var k=$('ppCard').firstChild;k.classList.remove('l');k.classList.add('r');k.style.left='12px';k.style.right='12px';k.style.width='auto'}}
-function ppStats(){api('popups_stats',null,'&days='+PP.days).then(function(x){if(!x.ok)return;var j=x.j,t=j.total,pc=function(a,b){return b?Math.round(a/b*1000)/10+'%':'–'};
-  $('ppChips').innerHTML=[['Shown',t.shown],['Closed with No thanks',t.dismissed],['Subscribed',t.subscribed],['Sign-up rate',t.shown?Math.round(Math.min(t.subscribed,t.shown)/t.shown*1000)/10+'%':'–']].map(function(c){return '<div class="chip static"><b>'+c[1]+'</b><span>'+c[0]+'</span></div>'}).join('');
+function ppStats(){api('popups_stats',null,'&days='+PP.days).then(function(x){if(!x.ok)return;var j=x.j;PP.stats=j;var t=j.total,pc=function(a,b){return b?Math.round(Math.min(a,b)/b*1000)/10+'%':'–'};
+  if(PP.cfg)ppListDraw();
+  $('ppChips').innerHTML=[['Shown',t.shown],['Closed',t.dismissed],['Link clicks',t.clicked],['Subscribed',t.subscribed],['Sign-up rate',pc(t.subscribed,t.shown)]].map(function(c){return '<div class="chip static"><b>'+c[1]+'</b><span>'+c[0]+'</span></div>'}).join('');
   barChart('ppChart',j.trend,j.labels.map(function(d){return d.slice(6)+'/'+d.slice(4,6)}));
-  var head='<tr><th>{0}</th><th class="n">Shown</th><th class="n">No thanks</th><th class="n">Subscribed</th><th class="n">Rate</th></tr>',row=function(n,v){return '<tr><td class="k"><b>'+esc(n)+'</b></td><td class="n">'+v.shown+'</td><td class="n">'+v.dismissed+'</td><td class="n">'+v.subscribed+'</td><td class="n">'+pc(Math.min(v.subscribed,v.shown||v.subscribed),v.shown)+'</td></tr>'};
-  var M=PP.meta||{surfaces:{reading:'Reading card',tool:'Tool corner card',afterUse:'After-use offer'},types:{blog:'Blog',services:'Services',cases:'Case studies',tools:'Tools',other:'Other pages'}};
-  $('ppTblS').innerHTML=head.replace('{0}','Kind')+Object.keys(M.surfaces).map(function(k){return row(M.surfaces[k],j.surfaces[k]||{shown:0,dismissed:0,subscribed:0})}).join('');
-  $('ppTblT').innerHTML=head.replace('{0}','Page type')+Object.keys(M.types).map(function(k){return row(M.types[k],j.types[k]||{shown:0,dismissed:0,subscribed:0})}).join('');
+  var head='<tr><th>{0}</th><th class="n">Shown</th><th class="n">Closed</th><th class="n">Clicks</th><th class="n">Subscribed</th><th class="n">Rate</th></tr>',row=function(n,v){return '<tr><td class="k"><b>'+esc(n)+'</b></td><td class="n">'+v.shown+'</td><td class="n">'+v.dismissed+'</td><td class="n">'+v.clicked+'</td><td class="n">'+v.subscribed+'</td><td class="n">'+pc(v.subscribed,v.shown)+'</td></tr>'};
+  var M=(PP.meta||{types:{blog:'Blog',services:'Services',cases:'Case studies',tools:'Tools',other:'Other pages'}}).types;
+  $('ppTblS').innerHTML=head.replace('{0}','Pop-up')+j.popups.map(function(p){return row(p.name,p)}).join('');
+  $('ppTblT').innerHTML=head.replace('{0}','Page type')+Object.keys(M).map(function(k){return row(M[k],j.types[k]||{shown:0,dismissed:0,clicked:0,subscribed:0})}).join('');
   $('ppTblP').innerHTML=j.pages.length?head.replace('{0}','Page')+j.pages.map(function(r){return row(r.path,r)}).join(''):'<tr><td class="sub">Nothing yet. Counts start with the first pop-up shown after this is live.</td></tr>'})}
 function ppLog(){api('popups_log').then(function(x){if(!x.ok)return;var it=x.j.items;
-  $('ppHist').innerHTML=it.length?it.map(function(h){return '<div class="h"><b>'+esc(h.field)+'</b>: <s>'+esc(h.before||'empty')+'</s> &rarr; <u>'+esc(h.after||'empty')+'</u><small>'+esc(h.by||'Unknown')+' &middot; '+esc(ist(h.t))+'</small></div>'}).join(''):'<span class="sub">No changes yet. Edits you save from now on appear here.</span>'})}
+  $('ppHist').innerHTML=it.length?it.map(function(h){return '<div class="h"><b>'+esc(h.field)+'</b>'+(h.before||h.after?': <s>'+esc(h.before||'empty')+'</s> &rarr; <u>'+esc(h.after||'empty')+'</u>':'')+'<small>'+esc(h.by||'Unknown')+' &middot; '+esc(ist(h.t))+'</small></div>'}).join(''):'<span class="sub">No changes yet. Edits you save from now on appear here.</span>'})}
 var openTabPP=openTab;openTab=function(t){openTabPP(t);if(t==='popups')ppLoad()};
 
 start();

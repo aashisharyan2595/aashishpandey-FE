@@ -143,28 +143,27 @@
     if (winShown || !P || !/^\/tools\//.test(location.pathname)) return;
     winShown = true;
     P.cfg(function (c) {
-      if (!P.can(c, 'afterUse')) return;
+      if (!P.inlineOk(c)) return;
       setTimeout(function () {
-        if (!P.can(c, 'afterUse') || doc.querySelector('#ap-rc')) return;   // the corner card is already asking
+        if (!P.inlineOk(c) || doc.querySelector('#ap-rc')) return;   // a pop-up is already asking
         var at = winAnchor(src); if (!at) return;
         // when the tool ends right above the "Try next" email box, light that box up instead of adding a second form
         var nl = doc.querySelector('.tl-next__nl'), nf = nl && nl.querySelector('form');
         if (nf && nl.getBoundingClientRect().top - at.getBoundingClientRect().bottom < 240) {
-          nl.classList.add('tl-next__nl--hot'); nf.setAttribute('data-news', 'after-use'); P.mark(c, 'afterUse');
-          var b = nl.querySelector('.tl-next__t b'); if (b) b.textContent = c.doneHead;
+          nl.classList.add('tl-next__nl--hot'); nf.setAttribute('data-news', 'after-use'); P.mark(c, 'inline');
+          var b = nl.querySelector('.tl-next__t b'); if (b) b.textContent = c.inline.head;
           return;
         }
         var w = doc.createElement('aside'); w.className = 'tl-win'; w.setAttribute('aria-label', 'New tools by email');
         var t = doc.createElement('div'); t.className = 'tl-win__t';
-        var h = doc.createElement('b'); h.textContent = c.doneHead; var sp = doc.createElement('span'); sp.textContent = P.copy(c, 'tools', 'body') + ' ';
+        var h = doc.createElement('b'); h.textContent = c.inline.head; var sp = doc.createElement('span'); sp.textContent = 'At most one email a month, plus one practical tip. Unsubscribe in one click. ';
         var lk = doc.createElement('a'); lk.href = '/newsletter'; lk.textContent = 'What you get'; sp.appendChild(lk); t.appendChild(h); t.appendChild(sp); w.appendChild(t);
         var f = doc.createElement('form'); f.setAttribute('data-news', 'after-use'); f.noValidate = true;
-        var ok = P.copy(c, 'tools', 'success'); if (ok) f.setAttribute('data-ok', ok);
         f.innerHTML = '<input name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="tl-nl__hp"><input name="email" type="email" class="tl-input" placeholder="you@example.com" autocomplete="email" inputmode="email" aria-label="Email address" required maxlength="254"><button class="tl-btn tl-btn--p" type="submit"></button><p data-news-msg role="status"></p>';
-        f.querySelector('button').textContent = P.copy(c, 'tools', 'button'); w.appendChild(f);
-        var x = doc.createElement('button'); x.type = 'button'; x.className = 'tl-win__x'; x.textContent = P.copy(c, 'tools', 'dismiss'); w.appendChild(x);
-        at.parentNode.insertBefore(w, at.nextSibling); P.mark(c, 'afterUse');
-        x.addEventListener('click', function () { P.dismiss(c, 'afterUse'); w.remove(); });
+        f.querySelector('button').textContent = 'Subscribe'; w.appendChild(f);
+        var x = doc.createElement('button'); x.type = 'button'; x.className = 'tl-win__x'; x.textContent = 'No thanks'; w.appendChild(x);
+        at.parentNode.insertBefore(w, at.nextSibling); P.mark(c, 'inline');
+        x.addEventListener('click', function () { P.dismiss(c, 'inline'); P.ev('dismiss', 'inline'); w.remove(); });
         requestAnimationFrame(function () { w.classList.add('is-on'); });
       }, 1400);   // after the toast has had its moment
     });
@@ -219,22 +218,7 @@
       m.forEach(function (r) { var t = r.target; if (t.matches && t.matches('[data-news-msg].is-ok') && t.closest('.tl-next, .tl-nl, .tl-win')) { store.set('apNlDone', '1'); setTimeout(function () { var c = doc.querySelector('.tl-nl'); if (c) c.remove(); var x = doc.querySelector('.tl-win__x'); if (x) x.remove(); }, 3500); } });
     }).observe(doc.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
 
-    // the floating card: after real use, never with the cookie notice up. Look, words, timing and limits come from the admin desk through window.apPop (site.js).
-    if (done) return;
-    var armTries = 0;
-    (function arm() {
-      var P = window.apPop;   // site.js loads right after this file, so it can still be a moment away
-      if (!P) return void (++armTries < 40 && setTimeout(arm, 150));
-      var pop = P.start('tool', { guard: function () { return !doc.querySelector('.tl-win'); } });   // the inline offer, if it is already asking, takes the place of the card
-      if (!pop) return;
-      function onUse(e) {
-        var t = e.target; if (!t || !t.closest || t.closest('.ap-nav, .ap-foot, .ap-close, .ap-quotes, .ap-notice, #ap-cc, header, footer, .tl-next, #ap-rc')) return;
-        if (e.type === 'pointerdown' && !t.closest('button, input, select, textarea, label, a[download], [role=button], canvas')) return;
-        ['pointerdown', 'input', 'change'].forEach(function (k) { doc.removeEventListener(k, onUse, true); });
-        pop.use();
-      }
-      ['pointerdown', 'input', 'change'].forEach(function (k) { doc.addEventListener(k, onUse, true); });
-    })();
+    // The floating pop-ups are built in the admin desk and drawn by site.js and popups.js; this page only has the inline offers above.
   }
   if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', initNext); else initNext();
 })();

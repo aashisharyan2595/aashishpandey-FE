@@ -3,6 +3,7 @@ const { env, sendMail, clean, validEmail, parseBody, clientIp, limited, link } =
 const T = require('./_templates');
 const store = require('./_store');
 const turnstile = require('./_turnstile');
+const popups = require('./_adm/popups');
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -10,7 +11,7 @@ module.exports = async (req, res) => {
   const b = parseBody(req), email = clean(b.email, 254).toLowerCase();
   // where they signed up decides which welcome email they get (only these two are told apart)
   let name = clean(b.name, 60); if (/https?:|www\.|@|[<>]/i.test(name)) name = '';   // a name is a name: no links or addresses in it
-  const VIA = ['footer', 'after-use', 'card', 'inline', 'page', 'reading'], via = VIA.includes(b.via) ? b.via : 'form';   // which sign-up place was used, so the list shows what works
+  const VIA = ['footer', 'after-use', 'card', 'inline', 'page', 'reading'], via = VIA.includes(b.via) || /^pop-[a-z0-9]{3,12}$/.test(String(b.via)) ? String(b.via) : 'form';   // which sign-up place was used, so the list shows what works
   const pg = clean(b.page, 80), src = /^\/tools/.test(pg) ? 'tools' : /^\/(portfolio|case-studies|work-)/.test(pg) ? 'portfolio' : '';
   const age = Date.now() - Number(b.ts || 0);
   if (clean(b.hp, 200) || !(age >= 2000 && age <= 864e5)) return res.status(200).json({ ok: true, message: 'You are subscribed. A welcome email is on its way.' });
@@ -22,7 +23,9 @@ module.exports = async (req, res) => {
   if (!env().key || !store.enabled()) return res.status(503).json({ error: 'The newsletter is not connected yet. Please try again later.' });
   // No confirmation step: the address is subscribed straight away, and the welcome email carries the unsubscribe link.
   let prior = null;
-  try { prior = await store.byEmail(email); await store.subscriber(email, { status: 'subscribed', confirmed: Date.now(), via, page: pg, source: src, ...(name ? { name } : {}) }); }
+  let fields = {};   // answers to the extra fields a pop-up asks for, checked against what that pop-up defines
+  if (via.startsWith('pop-')) { try { fields = await popups.readFields(via.slice(4), b.fields); } catch (e) { /* the sign-up still counts */ } }
+  try { prior = await store.byEmail(email); await store.subscriber(email, { status: 'subscribed', confirmed: Date.now(), via, page: pg, source: src, ...(name ? { name } : {}), ...(Object.keys(fields).length ? { fields } : {}) }); }
   catch (e) { console.error('subscribe: could not save', e.message); return res.status(502).json({ error: 'Could not sign you up right now. Please try again in a minute.' }); }
   if (prior && prior.status === 'subscribed') return res.status(200).json({ ok: true, message: 'You are already subscribed. Thank you.' });   // no second email to an address that is already on the list
   try {
