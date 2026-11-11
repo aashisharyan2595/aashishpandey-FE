@@ -1,0 +1,64 @@
+# The blog desk (scripts/blog-bot): reads the news, keeps a 30-day topic plan, publishes breaking news, and every evening writes tomorrow's post,
+# schedules it for 9:00 am IST and emails the draft for 9:00 pm IST. Details: docs/BLOG-DESK.md
+# Secrets live under Settings > Secrets and variables > Actions. Nothing here runs on pull requests, so a fork can never reach them.
+name: Blog desk
+
+on:
+  schedule:
+    - cron: '7 */2 * * *'      # every 2 hours: read feeds, update the plan, breaking news, tell search engines about new posts
+    - cron: '30 13 * * *'      # 7:00 pm IST: write tomorrow's post (the email is held by Resend until 9:00 pm IST)
+    - cron: '45 14 * * *'      # 8:15 pm IST: second try if the first did not produce a post
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'What to run'
+        type: choice
+        options: [scan, draft, plan, ping]
+        default: scan
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blog-desk
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    if: github.repository == 'aashisharyan2595/aashishpandey-FE'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: scripts/blog-bot/package-lock.json
+      - name: Install
+        working-directory: scripts/blog-bot
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Pick the job
+        id: job
+        run: |
+          case "${{ github.event.schedule }}" in
+            '30 13 * * *'|'45 14 * * *') echo "name=draft" >> "$GITHUB_OUTPUT" ;;
+            '') echo "name=${{ inputs.job }}" >> "$GITHUB_OUTPUT" ;;
+            *) echo "name=scan" >> "$GITHUB_OUTPUT" ;;
+          esac
+      - name: Run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          COPYSCAPE_USER: ${{ secrets.COPYSCAPE_USER }}
+          COPYSCAPE_KEY: ${{ secrets.COPYSCAPE_KEY }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_FROM: ${{ secrets.RESEND_FROM }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          BLOG_BUDGET_USD: ${{ vars.BLOG_BUDGET_USD }}
+          NODE_PATH: ${{ github.workspace }}/scripts/blog-bot/node_modules
+        run: node scripts/blog-bot/run.js "${{ steps.job.outputs.name }}"

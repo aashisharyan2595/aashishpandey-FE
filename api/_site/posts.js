@@ -70,6 +70,14 @@ function moveError(a, p, to) {
 }
 
 /* ---------- normalising what the editor sends ---------- */
+// extra facts the blog desk (scripts/blog-bot) attaches to a post: questions and answers, the sources it cites, what kind of post it is.
+// The admin editor does not send this, so an edit there keeps what was saved.
+function cleanExtra(x) {
+  if (!x || typeof x !== 'object') return undefined;
+  const faq = (Array.isArray(x.faq) ? x.faq : []).slice(0, 8).map((f) => ({ q: str(f && f.q, 200), a: str(f && f.a, 1200) })).filter((f) => f.q && f.a);
+  const sources = (Array.isArray(x.sources) ? x.sources : []).slice(0, 24).map((s) => ({ url: url(s && s.url), title: str(s && s.title, 200), outlet: str(s && s.outlet, 80) })).filter((s) => s.url);
+  return { faq, sources, kind: ['news', 'breaking', 'review', 'explainer'].includes(x.kind) ? x.kind : '', about: list(x.about, 6, 60), auto: !!x.auto };
+}
 function normalise(b, cur, a) {
   b = b || {}; const type = TYPES.includes(b.type) ? b.type : (cur && cur.type) || 'post';
   const o = {
@@ -80,6 +88,7 @@ function normalise(b, cur, a) {
     tags: list(b.tags, LIMITS.tags, LIMITS.tag), category: str(b.category, LIMITS.category),
     featured: !!b.featured, publishAt: Number(b.publishAt) > 0 ? Number(b.publishAt) : 0, unpublishAt: Number(b.unpublishAt) > 0 ? Number(b.unpublishAt) : 0,
     due: day(b.due), assignee: str(b.assignee, 20),
+    extra: type === 'post' ? cleanExtra(b.extra !== undefined ? b.extra : cur && cur.extra) : undefined,
     seo: { title: str(b.seo && b.seo.title, LIMITS.seoTitle), description: str(b.seo && b.seo.description, LIMITS.seoDesc), canonical: url(b.seo && b.seo.canonical), noindex: !!(b.seo && b.seo.noindex), ogImage: img(b.seo && b.seo.ogImage) },
   };
   if (type === 'case') o.case = {
