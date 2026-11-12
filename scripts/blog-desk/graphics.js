@@ -168,4 +168,6 @@ async function makeImages(post) {
   if (post.kind === 'review' && (post.pros || []).length >= 2 && (post.cons || []).length >= 2) { htmls.push(prosConsHtml({ name: post.product || post.title, pros: post.pros, cons: post.cons, post: meta })); roles.push('proscons'); sizes.push([1200, 630]); }
   const bufs = await render(htmls, sizes); return bufs.map((buf, i) => ({ role: roles[i], buf, w: sizes[i][0], h: sizes[i][1] }));
 }
-module.exports = { makeImages, coverHtml, prosConsHtml };
+// one scene as a standalone svg (used by the video maker): name is one of the ART keys, accent one of the ACC keys
+const artSvg = (name, accent) => { const c = (ACC[accent] || ACC.amber)[0]; return `<svg viewBox="0 0 400 300" fill="none">${DEFS(c)}${STAGE(c)}${(ART[name] || ART.robot)(c)}</svg>`; };
+module.exports = { makeImages, coverHtml, prosConsHtml, artSvg, ART, ACC };
