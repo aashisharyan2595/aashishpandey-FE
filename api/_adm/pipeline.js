@@ -34,21 +34,26 @@ function build(rows) {
 }
 async function sendDigest(rows) {
   const d = build(rows), n = d.overdue.length + d.soon.length + d.follow.length + d.quoteWait.length;
-  if (!n) return { sent: false, none: true };
+  // the audience in the last 24 hours: new subscribers and unsubscribes (sent even on a day with no briefs to chase)
+  const now = Date.now(), subs = rows.filter((r) => r.type === 'subscriber'), joinedAt = (r) => r.confirmed || r.created;
+  const fresh = subs.filter((r) => r.status !== 'pending' && joinedAt(r) > now - 864e5), gone = subs.filter((r) => r.unsubscribed && r.unsubscribed > now - 864e5);
+  const listNow = subs.filter((r) => r.status === 'subscribed').length, aud = fresh.length + gone.length;
+  if (!n && !aud) return { sent: false, none: true };
+  const audHtml = aud ? `<p style="margin:18px 0 6px;font-family:'Courier New',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#5c566a;">Audience, last 24 hours</p><p style="margin:0 0 8px;line-height:1.6;">${fresh.length} new subscriber${fresh.length === 1 ? '' : 's'}${fresh.length ? ' (' + fresh.slice(0, 5).map((r) => esc(r.name || r.email)).join(', ') + (fresh.length > 5 ? ', and more' : '') + ')' : ''}, ${gone.length} unsubscribed. ${listNow} on the list now.</p>` : '';
   const line = (r, extra) => `<li style="margin:0 0 6px;"><strong>${esc(r.name || r.email)}</strong>${r.service ? ' · ' + esc(r.service) : ''}${r.budget ? ' · ' + esc(r.budget) : ''} <span style="color:#5c566a;">(${extra})</span></li>`;
   const sec = (title, list, f) => (list.length ? `<p style="margin:18px 0 6px;font-family:'Courier New',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#5c566a;">${esc(title)}</p><ul style="margin:0 0 8px;padding-left:20px;line-height:1.6;">${list.map(f).join('')}</ul>` : '');
-  const subject = `Morning digest: ${d.overdue.length ? d.overdue.length + ' overdue' : n + ' to look at'}`;
+  const subject = `Morning digest: ${d.overdue.length ? d.overdue.length + ' overdue' : n ? n + ' to look at' : fresh.length + ' new subscriber' + (fresh.length === 1 ? '' : 's')}`;
   const html = T.shell({
     title: subject, preheader: `${d.overdue.length} overdue, ${d.soon.length} due soon, ${d.follow.length} follow-ups.`,
-    eyebrow: 'Morning digest', headline: `${n} ${n === 1 ? 'thing needs' : 'things need'} ${T.accent('you.')}`,
+    eyebrow: 'Morning digest', headline: n ? `${n} ${n === 1 ? 'thing needs' : 'things need'} ${T.accent('you.')}` : `Your list ${T.accent('moved.')}`,
     body: sec('Overdue: past your 48 hour promise', d.overdue, (r) => line(r, 'waiting ' + age(r.created))) + sec('Due soon: under 12 hours left', d.soon, (r) => line(r, 'waiting ' + age(r.created)))
-      + sec('Follow-ups due', d.follow, (r) => line(r, 'follow up ' + r.followUp)) + sec('Quotes with no answer for a week', d.quoteWait, (r) => line(r, 'quoted ' + age(r.updated || r.created) + ' ago'))
+      + sec('Follow-ups due', d.follow, (r) => line(r, 'follow up ' + r.followUp)) + sec('Quotes with no answer for a week', d.quoteWait, (r) => line(r, 'quoted ' + age(r.updated || r.created) + ' ago')) + audHtml
       + `<p style="margin:18px 0 4px;">${T.button(SITE + ADMIN_PATH, 'Open the admin')}</p>`,
     footer: 'Sent each morning when there is something to do. Turn it off in Settings.',
   });
-  const text = `Morning digest\n\nOverdue: ${d.overdue.length}\nDue soon: ${d.soon.length}\nFollow-ups due: ${d.follow.length}\nQuotes with no answer for a week: ${d.quoteWait.length}\n\n${d.overdue.concat(d.soon).slice(0, 8).map((r) => `- ${r.name || r.email} (${r.service || 'brief'}), waiting ${age(r.created)}`).join('\n')}\n\n${SITE}${ADMIN_PATH}`;
+  const text = `Morning digest\n\nOverdue: ${d.overdue.length}\nDue soon: ${d.soon.length}\nFollow-ups due: ${d.follow.length}\nQuotes with no answer for a week: ${d.quoteWait.length}\nNew subscribers (24 h): ${fresh.length}, unsubscribed: ${gone.length}, on the list: ${listNow}\n\n${d.overdue.concat(d.soon).slice(0, 8).map((r) => `- ${r.name || r.email} (${r.service || 'brief'}), waiting ${age(r.created)}`).join('\n')}\n\n${SITE}${ADMIN_PATH}`;
   await sendMail({ to: env().admins, subject, html, text, kind: 'digest' });
-  await notify.send(`${d.overdue.length} overdue · ${d.soon.length} due soon · ${d.follow.length} follow-ups${d.quoteWait.length ? ' · ' + d.quoteWait.length + ' quotes waiting' : ''}`, { title: 'Morning digest', urgency: 'normal', tag: 'digest' });
-  return { sent: true, overdue: d.overdue.length, soon: d.soon.length, follow: d.follow.length, quoteWait: d.quoteWait.length };
+  await notify.send(`${d.overdue.length} overdue · ${d.soon.length} due soon · ${d.follow.length} follow-ups${d.quoteWait.length ? ' · ' + d.quoteWait.length + ' quotes waiting' : ''}${aud ? ' · +' + fresh.length + ' subscribers' : ''}`, { title: 'Morning digest', urgency: 'normal', tag: 'digest' });
+  return { sent: true, newSubs: fresh.length, unsubs: gone.length, overdue: d.overdue.length, soon: d.soon.length, follow: d.follow.length, quoteWait: d.quoteWait.length };
 }
 module.exports = { STAGES, OPEN, stageOf, overdue, dueSoon, followDue, quoteWaiting, stats, sendDigest, build };
