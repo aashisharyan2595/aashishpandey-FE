@@ -2,6 +2,16 @@
 
 > Aashish Pandey (also written Ashish Pandey, Aashish Kumar Pandey) is a Project Manager and Creative Technologist in Bangalore, India. Project Manager at Langoor (an LS Digital company). 7+ years and 50+ websites and platforms shipped since 2018 for Unilever, Reliance, Marriott and others. Open to Program Manager roles and taking freelance briefs.
 
+## Quick facts
+
+- Full name: Aashish Kumar Pandey. Also written Ashish Pandey. Same person, one site: aashishpandey.com.
+- Role: Project Manager at Langoor (an LS Digital company) since November 2025. Before that: Project Manager and Sr Web Developer at Knowledge Units Solutions (2022-2025), CMS Developer and Project Lead at 0TO1 Media (2020-2022), freelance web developer (2018-2020).
+- Based in: Bengaluru (Bangalore), Karnataka, India.
+- Known for: the Liquid I.V. (Unilever) Shopify rollout (15 markets in scope, 12+ live), the Talenti Canada site in 20 days, StoryNest growth from 100K to 400K users, and a zero-downtime AEM vendor transition for CEAT Specialty.
+- Skills: program and project delivery, Shopify, WordPress, Webflow, Adobe Experience Manager, custom CMS, technical SEO, CI/CD.
+- Available for: full-time Program and Project Manager roles, and freelance briefs.
+- Quick answers page: https://aashishpandey.com/portfolio#pf-answers
+
 ## Pages
 
 - [Portfolio](https://aashishpandey.com/portfolio): client sites, career, toolkit and contact.
@@ -19,6 +29,13 @@
 - [Free tools](https://aashishpandey.com/tools): small tools that run in the browser, listed roughly by how often people search for them: a free ATS resume maker with templates for engineers, designers and project managers (private, no sign-up, PDF and Word), a QR code generator (static codes that never expire), an invoice generator with 15 templates, tax set-ups by country and a signature, an SOP maker with 116 standard operating procedure templates for startups and small businesses (Word, PDF and Markdown), peer-to-peer file sharing that sends files of any size straight between two browsers with nothing stored on a server, a password generator, an image resizer and converter, a URL shortener with QR codes, a lorem ipsum generator, an online notepad, a time zone meeting planner, a file hash checker, a photo metadata (EXIF) remover, a project estimate calculator, a QR code checker that shows whether a code is dynamic, and website launch checklists.
 - [Resume maker](https://aashishpandey.com/tools/resume-maker): a free ATS-friendly resume builder that runs in the browser with no account and no upload. 54 templates (including FAANG-style, LaTeX-style, consulting and distinct-layout formats), eight job-based examples, a template gallery, an ATS resume guide, PDF and Word export. Pages: /tools/resume-maker/templates, /tools/resume-maker/examples, /tools/resume-maker/guide.
 - [SOP maker](https://aashishpandey.com/tools/sop-maker): a free standard operating procedure builder with 116 templates across 13 departments, a starter draft for any topic, and Word, PDF and Markdown export. Pages: /tools/sop-maker/templates, /tools/sop-maker/guide.
+- [Resume examples](https://aashishpandey.com/tools/resume-maker/examples): eight resume examples by job (software engineer, UX and UI designer, project manager, data analyst, marketing manager, sales, mechanical engineer, graduate).
+- [Resume templates](https://aashishpandey.com/tools/resume-maker/templates): every ATS-friendly resume template in the resume maker.
+- [Resume writing guide](https://aashishpandey.com/tools/resume-maker/guide): how to write each section of a resume that gets past ATS.
+- [SOP templates](https://aashishpandey.com/tools/sop-maker/templates): 116 standard operating procedure templates by department.
+- [How to write an SOP](https://aashishpandey.com/tools/sop-maker/guide): a step-by-step guide to writing standard operating procedures.
+- [Newsletter](https://aashishpandey.com/newsletter): new free tools, at most one email a month.
+- [Contact](https://aashishpandey.com/contact): hire Aashish or send a freelance brief.
 
 ## Free tools
 
