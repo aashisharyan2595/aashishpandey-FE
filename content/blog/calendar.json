@@ -1,5 +1,362 @@
 {
-  "slots": {},
+  "slots": {
+    "2026-11-13": {
+      "title": "Critical Apache HTTP Server flaw: what to patch now",
+      "kind": "news",
+      "angle": "Who is affected, fixed versions, how a small business or its web host checks exposure. Needs the Apache security advisory and a second outlet before writing.",
+      "urls": [
+        "https://www.wiz.io/blog/cve-2026-119618-rce-apache-http-server-vulnerability"
+      ],
+      "score": 8,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "apache-httpd-rce"
+    },
+    "2026-11-14": {
+      "title": "Gemini Decisions API review: pros and cons",
+      "kind": "review",
+      "angle": "What it does, calibrated yes/no decisions, pricing, where it fits for small teams, limits.",
+      "urls": [
+        "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/"
+      ],
+      "score": 7,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "gemini-decisions-api"
+    },
+    "2026-11-15": {
+      "title": "Nvidia board reportedly moves to replace Jensen Huang",
+      "kind": "news",
+      "angle": "Governance angle only: what the board has confirmed vs what is reported, what a CEO change could mean for AI chip buyers and Nvidia shareholders. Stick to official statements; attribute every allegation; no detail on private life beyond what the board says. Re-check for confirmation before writing.",
+      "urls": [
+        "https://techcrunch.com/2026/11/11/nvidias-stock-drops-as-board-reportedly-preps-to-oust-ceo-jensen-huang/",
+        "https://www.wsj.com/business/nvidia-is-preparing-to-oust-nvidia-ceo-jensen-huang-30f421ad",
+        "https://investor.nvidia.com/news/press-release-details/2026/Statement-from-NVIDIA-Board-of-Directors/",
+        "https://techcrunch.com/2026/11/11/congress-to-call-jensen-huang-in-to-answer-for-alleged-chinese-spy-affair/"
+      ],
+      "score": 8,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "nvidia-board-huang"
+    },
+    "2026-11-16": {
+      "title": "Yogurt review: free open-source meeting notes vs Granola",
+      "kind": "review",
+      "angle": "Private, local meeting notes; setup effort; compare with Granola; who should use it.",
+      "urls": [
+        "https://github.com/FrigadeHQ/yogurt"
+      ],
+      "score": 6,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "yogurt-open-source-notes"
+    },
+    "2026-11-17": {
+      "title": "How AI voice cloning scams work and how to stay safe",
+      "kind": "explainer",
+      "angle": "From the NPR swatting report to everyday family and office voice scams; practical checks, India relevance.",
+      "urls": [
+        "https://www.npr.org/2026/11/11/nx-s1-6034449/ai-911-calls-swatting"
+      ],
+      "score": 6,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "ai-voice-scams"
+    },
+    "2026-11-18": {
+      "title": "Google Tabletop review: shared AI spaces for groups",
+      "kind": "review",
+      "angle": "What it is, who it is for (teams, families), pros and cons, availability.",
+      "urls": [
+        "https://blog.google/innovation-and-ai/models-and-research/google-labs/tabletop/"
+      ],
+      "score": 6,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "google-tabletop"
+    },
+    "2026-11-19": {
+      "title": "United Airlines bans AI agents from booking flights",
+      "kind": "news",
+      "angle": "What the ban covers, why airlines push back on agent bookings, what it means for people using AI assistants for travel.",
+      "urls": [
+        "https://www.cbsnews.com/news/united-airlines-bans-ai-agents-booking-flights/"
+      ],
+      "score": 7,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "united-ai-agent-ban"
+    },
+    "2026-11-20": {
+      "title": "ChatGPT vs Claude vs Gemini for everyday office work",
+      "kind": "review",
+      "angle": "Side by side for email, documents, spreadsheets, meetings; pros and cons, prices in India.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "chatgpt-claude-gemini-office"
+    },
+    "2026-11-21": {
+      "title": "Why you should pin your GitHub Actions",
+      "kind": "explainer",
+      "angle": "Supply-chain risk in plain English, how pinning works, simple steps for small dev teams.",
+      "urls": [
+        "https://hugovk.dev/blog/2026/lock-github-actions/"
+      ],
+      "score": 6,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "github-actions-pinning"
+    },
+    "2026-11-22": {
+      "title": "OpenAI tops $10B in a quarter: what it tells us",
+      "kind": "news",
+      "angle": "Reported figure (attribute it), where the money comes from, what it means for AI prices for businesses.",
+      "urls": [
+        "https://techcrunch.com/2026/11/11/openais-quarterly-revenue-reportedly-crosses-10b-for-the-first-time/"
+      ],
+      "score": 7,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "openai-revenue-10b"
+    },
+    "2026-11-23": {
+      "title": "Microsoft 365 Copilot review: is it worth it for small teams?",
+      "kind": "review",
+      "angle": "Features, pricing, pros and cons, who should skip it.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "microsoft-365-copilot"
+    },
+    "2026-11-24": {
+      "title": "What is an AI agent, really?",
+      "kind": "explainer",
+      "angle": "Plain-English explainer: agents vs chatbots, where they fail, how to try one safely.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "what-is-an-ai-agent"
+    },
+    "2026-11-25": {
+      "title": "NotebookLM review: pros and cons for research and study",
+      "kind": "review",
+      "angle": "What it does well, limits, privacy, who it is for.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "notebooklm-review"
+    },
+    "2026-11-26": {
+      "title": "Instagram uses AI to catch teens lying about age",
+      "kind": "news",
+      "angle": "How the age check works, privacy questions, what parents should know.",
+      "urls": [
+        "https://www.foxnews.com/tech/instagrams-ai-may-catch-teens-lying-about-age"
+      ],
+      "score": 6,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "instagram-ai-age-check"
+    },
+    "2026-11-27": {
+      "title": "What India’s DPDP rules mean for a small business",
+      "kind": "explainer",
+      "angle": "Consent, notices, breach reporting, timelines; practical checklist.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "dpdp-rules-small-business"
+    },
+    "2026-11-28": {
+      "title": "Perplexity review: pros and cons as a work search tool",
+      "kind": "review",
+      "angle": "Accuracy, citations, pricing, when Google is still better.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "perplexity-review"
+    },
+    "2026-11-29": {
+      "title": "Cursor vs GitHub Copilot: which AI coding tool to pick",
+      "kind": "review",
+      "angle": "Features, pricing, team fit, pros and cons.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "cursor-vs-github-copilot"
+    },
+    "2026-11-30": {
+      "title": "How to use AI to write project status reports",
+      "kind": "explainer",
+      "angle": "Practical prompts and checks for project managers; what not to paste in.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "ai-project-status-reports"
+    },
+    "2026-12-01": {
+      "title": "CoreWeave prepayments and Fractile $720M: AI compute money",
+      "kind": "news",
+      "angle": "How AI infrastructure is being financed and what it signals for cloud AI prices.",
+      "urls": [
+        "https://techcrunch.com/2026/11/11/coreweave-turns-to-customer-prepayments-shorter-contracts-to-fund-ai-growth/",
+        "https://techcrunch.com/2026/11/11/with-720m-round-britains-fractile-gets-a-leg-up-in-the-race-for-ai-chips/"
+      ],
+      "score": 6,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "ai-compute-funding"
+    },
+    "2026-12-02": {
+      "title": "Canva AI review: pros and cons for small business design",
+      "kind": "review",
+      "angle": "Magic tools, pricing, limits, who should use it.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "canva-ai-review"
+    },
+    "2026-12-03": {
+      "title": "RAG explained: why your company chatbot needs it",
+      "kind": "explainer",
+      "angle": "Retrieval in plain English, where it goes wrong, what to ask vendors.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "rag-explained"
+    },
+    "2026-12-04": {
+      "title": "Zoho Zia review: AI inside Zoho for small business",
+      "kind": "review",
+      "angle": "Features, pricing in India, pros and cons.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "zoho-zia-review"
+    },
+    "2026-12-05": {
+      "title": "Gamma review: AI presentations, pros and cons",
+      "kind": "review",
+      "angle": "Quality, editing control, pricing, vs PowerPoint Copilot.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "gamma-presentations-review"
+    },
+    "2026-12-06": {
+      "title": "How AI pricing works: tokens, seats and credits",
+      "kind": "explainer",
+      "angle": "How to estimate monthly cost for a small team.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "ai-pricing-explained"
+    },
+    "2026-12-07": {
+      "title": "Notion AI review: pros and cons for teams",
+      "kind": "review",
+      "angle": "Search, writing, meeting notes, pricing.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "notion-ai-review"
+    },
+    "2026-12-08": {
+      "title": "Sarvam AI review: Indian-language models, pros and cons",
+      "kind": "review",
+      "angle": "Languages covered, quality, pricing, who should use it.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "sarvam-ai-review"
+    },
+    "2026-12-09": {
+      "title": "How to check if a photo or video is AI-made",
+      "kind": "explainer",
+      "angle": "Practical checks, tools, limits of detectors.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "spot-ai-images-video"
+    },
+    "2026-12-10": {
+      "title": "Grammarly vs ChatGPT for work writing",
+      "kind": "review",
+      "angle": "Editing quality, privacy, pricing, pros and cons.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "grammarly-vs-chatgpt"
+    },
+    "2026-12-11": {
+      "title": "How to write an AI use policy for a small team",
+      "kind": "explainer",
+      "angle": "What to allow, what to ban, data rules, a simple template outline.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "ai-use-policy-small-team"
+    },
+    "2026-12-12": {
+      "title": "ElevenLabs review: AI voices, pros and cons",
+      "kind": "review",
+      "angle": "Quality, pricing, consent and misuse safeguards, who it is for.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "elevenlabs-review"
+    }
+  },
   "backlog": [],
   "covered": []
 }
