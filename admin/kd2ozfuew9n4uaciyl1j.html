@@ -318,6 +318,20 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
 .hist{display:flex;flex-direction:column;gap:2px;margin-top:10px}
 .hist .h{padding:10px 0;border-top:1px solid var(--line);font-size:14px;overflow-wrap:anywhere}.hist .h:first-child{border-top:0}
 .hist .h small{color:var(--dim);display:block}.hist .h s{color:var(--dim)}.hist .h u{text-decoration:none;color:var(--green)}
+
+/* ---- Blog plan tab ---- */
+.bpn{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:0 0 14px}
+.bpn .nx{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}.bpn .nx:first-child{border-color:rgba(245,184,103,.45)}
+.bpn .nx small{display:block;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin:0 0 6px}.bpn .nx b{display:block;font-size:16px;line-height:1.35}.bpn .nx a{color:inherit}.bpn .nx span{display:block;margin-top:8px;color:var(--mute);font-size:13px}
+.bpg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.bpd{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm,10px);padding:12px 14px;min-width:0}.bpd.today{border-color:rgba(127,243,225,.5)}
+.bpd .dt{display:flex;justify-content:space-between;gap:8px;align-items:center;font:500 12px var(--mono);letter-spacing:.06em;color:var(--mute)}
+.bpd b{display:block;margin:8px 0 4px;font-size:14px;line-height:1.35;overflow-wrap:anywhere}.bpd b a{color:inherit}.bpd p{margin:0;color:var(--dim);font-size:12.5px;line-height:1.45}
+.bpst{font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid var(--line2);white-space:nowrap}
+.bpst.live{color:var(--teal);border-color:rgba(127,243,225,.4)}.bpst.written{color:var(--green);border-color:rgba(111,214,168,.4)}.bpst.planned{color:var(--amber);border-color:rgba(245,184,103,.4)}.bpst.open,.bpst.stopped{color:var(--dim)}.bpst.stopped{color:var(--red)}
+.bpk{display:inline-block;margin-top:8px;font:500 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.bplist{display:grid;gap:8px;margin:10px 0 0}.bplist div{display:flex;justify-content:space-between;gap:12px;align-items:baseline;border-top:1px solid var(--line);padding-top:8px;font-size:13.5px}.bplist div span:last-child{color:var(--mute);font-size:12.5px;white-space:nowrap;text-align:right}.bplist a{color:inherit}
+.bpcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px}
 /* ---- Pop-ups tab ---- */
 .ppmaster{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}.ppmaster .sub{margin-top:2px}
 .ppbig{font-size:18px;margin:0}.ppbig input{width:22px;height:22px;min-height:0}
@@ -384,7 +398,7 @@ kbd{font:500 10.5px var(--mono);padding:2px 6px;border-radius:6px;border:1px sol
 .usr{display:flex;align-items:center;gap:10px;background:none;border:0;color:var(--ink);cursor:pointer;text-align:left;min-width:0;padding:0;flex:1}.usr .un{display:flex;flex-direction:column;min-width:0;line-height:1.25}.usr b{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.usr small{font-size:11.5px;color:var(--mute)}
 @media(min-width:700px){
   .navh{display:block;height:1px;margin:8px 6px;background:var(--line);font-size:0;overflow:hidden}
-  .tab[data-tab=home]{order:1}.navh[data-g=content]{order:2}.tab[data-tab=posts]{order:3}.tab[data-tab=cases]{order:4}.tab[data-tab=calendar]{order:5}.tab[data-tab=media]{order:6}.tab[data-tab=tax]{order:7}.tab[data-tab=content]{order:8}.tab[data-tab=popups]{order:8}
+  .tab[data-tab=home]{order:1}.navh[data-g=content]{order:2}.tab[data-tab=posts]{order:3}.tab[data-tab=cases]{order:4}.tab[data-tab=calendar]{order:5}.tab[data-tab=blogplan]{order:5}.tab[data-tab=media]{order:6}.tab[data-tab=tax]{order:7}.tab[data-tab=content]{order:8}.tab[data-tab=popups]{order:8}
   .navh[data-g=audience]{order:9}.tab[data-tab=sub]{order:10}.tab[data-tab=news]{order:11}.tab[data-tab=mail]{order:12}.tab[data-tab=spam]{order:13}
   .navh[data-g=growth]{order:14}.tab[data-tab=seo]{order:15}.tab[data-tab=tools]{order:16}.tab[data-tab=links]{order:17}
   .navh[data-g=manage]{order:18}.tab[data-tab=health]{order:19}.tab[data-tab=team]{order:20}.tab[data-tab=privacy]{order:21}.tab[data-tab=set]{order:22;margin-top:0}
@@ -761,7 +775,7 @@ main:focus{outline:none}
   <nav class="nav" id="tabs" aria-label="Sections">
     <button class="tab on" data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>Overview</button>
     <p class="navh" data-g="content">Content</p>
-    <button class="tab" data-tab="posts"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Posts<span class="cnt" id="cntPosts"></span></button><button class="tab" data-tab="cases"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>Case studies</button><button class="tab" data-tab="calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Calendar</button><button class="tab" data-tab="media"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>Media</button><button class="tab" data-tab="tax"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V4h9l8.6 8.6a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg>Categories and tags</button><button class="tab" data-tab="content"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>Site text</button><button class="tab" data-tab="popups"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M14 13h4M14 9h4M7 9h3v4H7zM8 21h8"/></svg>Pop-ups</button>
+    <button class="tab" data-tab="posts"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Posts<span class="cnt" id="cntPosts"></span></button><button class="tab" data-tab="cases"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>Case studies</button><button class="tab" data-tab="calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Calendar</button><button class="tab" data-tab="blogplan"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 9h8M8 13h8M8 17h5"/><path d="M16 2v4"/></svg>Blog plan</button><button class="tab" data-tab="media"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>Media</button><button class="tab" data-tab="tax"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V4h9l8.6 8.6a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg>Categories and tags</button><button class="tab" data-tab="content"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>Site text</button><button class="tab" data-tab="popups"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M14 13h4M14 9h4M7 9h3v4H7zM8 21h8"/></svg>Pop-ups</button>
     <p class="navh" data-g="audience">Audience</p>
     <button class="tab" data-tab="sub"><svg viewBox="0 0 24 24"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M4 13 6.5 5h11L20 13v6H4z"/></svg>Inbox<span class="dot hide" id="newDot"></span></button><button class="tab" data-tab="news"><svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></svg>Newsletter</button><button class="tab" data-tab="mail"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Mail log<span class="dot hide" id="mailDot"></span></button><button class="tab" data-tab="spam"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z"/></svg>Spam rules</button>
     <p class="navh" data-g="growth">Growth</p>
@@ -805,6 +819,7 @@ main:focus{outline:none}
   <section id="tab-posts" class="hide"></section>
   <section id="tab-cases" class="hide"></section>
   <section id="tab-calendar" class="hide"></section>
+  <section id="tab-blogplan" class="hide"></section>
   <section id="tab-tax" class="hide"></section>
   <section id="tab-media" class="hide">
     <div id="mUpWrap"><div class="drop" id="mDrop" tabindex="0" role="button">Drop images here or tap to choose. They are shrunk to WebP in your browser first.</div><input id="mFile" type="file" accept="image/*" multiple hidden></div>
@@ -1674,6 +1689,7 @@ var TABS={
   posts:{l:'Posts',g:'Content',d:'Write, review and publish blog posts.',perm:['content.view']},
   cases:{l:'Case studies',g:'Content',d:'Case studies beyond the first four.',perm:['content.view']},
   calendar:{l:'Calendar',g:'Content',d:'What goes live when, and what is due.',perm:['content.view']},
+  blogplan:{l:'Blog plan',g:'Content',d:'Which blog posts go live next, and the plan for the next 30 days.',perm:['content.view']},
   media:{l:'Media',g:'Content',d:'Images for posts and case studies.',perm:['media.view']},
   tax:{l:'Categories and tags',g:'Content',d:'Keep topics tidy: rename, merge and remove.',perm:['content.view']},
   content:{l:'Site text',g:'Content',d:'The availability line, notice bar, closing panel and testimonials.',perm:['site.edit']},
@@ -1690,7 +1706,7 @@ var TABS={
   privacy:{l:'Privacy requests',g:'Manage',d:'Find, hand over or erase everything held about one person.',perm:['privacy.manage']},
   set:{l:'Settings',g:'Manage',d:'Your profile and device, alerts, email templates and security.',perm:[]}
 };
-ALLTABS=['home','posts','cases','calendar','media','tax','content','popups','sub','news','mail','spam','seo','tools','links','health','team','privacy','set'];
+ALLTABS=['home','posts','cases','calendar','blogplan','media','tax','content','popups','sub','news','mail','spam','seo','tools','links','health','team','privacy','set'];
 ALLTABS.forEach(function(t){LABELS[t]=TABS[t].l;DESC[t]=TABS[t].d});
 var GROUPS=['Overview','Content','Audience','Growth','Manage'];
 function tabAllowed(t){var d=TABS[t];return !!d&&(!d.perm.length||canAny.apply(null,d.perm))}
@@ -1781,7 +1797,7 @@ openTab=function(t){
   ALLTABS.forEach(function(x){$('tab-'+x).classList.toggle('hide',x!==t)});
   window.scrollTo(0,0);
   if(t==='sub'&&!loaded.sub){loaded.sub=1;load()}
-  if(t==='home')loadHome();if(t==='posts')loadCms('post');if(t==='cases')loadCms('case');if(t==='calendar')loadCalendar();if(t==='media')loadMediaTab();if(t==='tax')loadTax();
+  if(t==='home')loadHome();if(t==='posts')loadCms('post');if(t==='cases')loadCms('case');if(t==='calendar')loadCalendar();if(t==='blogplan')loadBlogPlan();if(t==='media')loadMediaTab();if(t==='tax')loadTax();
   if(t==='news')loadNews();if(t==='mail')loadMail();if(t==='spam')loadSpam();if(t==='links')loadLinks();if(t==='team')loadTeam();if(t==='set')loadSettings();if(t==='seo')loadGsc();if(t==='tools')loadTools();if(t==='content'){loadContent();loadContentLog()}if(t==='health')loadHealth();if(t==='privacy'&&window.__loadPrivacy)window.__loadPrivacy();
   document.querySelectorAll('#tabs .tab').forEach(function(b){if(b.dataset.tab===t)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
 };
@@ -2453,6 +2469,28 @@ function bkHasFiles(e){var t=e.dataTransfer&&e.dataTransfer.types;return !!t&&[]
   $('edUndo').onclick=bkUndo;
   bkBuildPalette();
 })();
+
+
+/* ---- Blog plan: what goes live next and the 30-day calendar (read from the repo by blog_plan) ---- */
+function bpWhen(ms){return new Date(ms).toLocaleString('en-GB',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Asia/Kolkata'})+' IST'}
+function bpDay(d){var p=d.split('-');return new Date(Date.UTC(+p[0],+p[1]-1,+p[2])).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'})}
+function bpIn(ms){var m=Math.round((ms-Date.now())/60000);if(m<1)return 'any moment';if(m<60)return 'in '+m+' min';var h=Math.round(m/60);return h<48?'in '+h+' h':'in '+Math.round(h/24)+' days'}
+var BPST={live:'Live',written:'Written',planned:'Planned',open:'Open',stopped:'Stopped'},BPKIND={review:'Review',news:'News',explainer:'Explainer',breaking:'Breaking'};
+function loadBlogPlan(){var t=$('tab-blogplan');if(!t.innerHTML)t.innerHTML='<div class="card"><p class="sub">Loading the plan&hellip;</p></div>';
+  api('blog_plan').then(function(x){if(!x.ok){t.innerHTML='<div class="card"><p class="sub">The plan could not be loaded.</p></div>';return}drawBlogPlan(x.j)})}
+function drawBlogPlan(j){
+  var h='<h2 style="margin:0 0 10px">Going live next</h2>';
+  h+=j.next.length?'<div class="bpn">'+j.next.slice(0,3).map(function(p,i){return '<div class="nx"><small>'+(i?'After that':'Next')+' &middot; '+esc(bpIn(p.publishAt))+'</small><b>'+esc(p.title)+'</b><span>'+esc(bpWhen(p.publishAt))+(BPKIND[p.kind]?' &middot; '+BPKIND[p.kind]:'')+'</span></div>'}).join('')+'</div>'
+    :'<div class="card"><p class="sub">Nothing is written and waiting. The evening writer drafts tomorrow&rsquo;s post at 5:47 pm IST.</p></div>';
+  h+='<div class="card" style="margin-top:14px"><h2>Next 30 days</h2><p class="sub">'+j.planned+' of 30 days have a topic or a written post. '+j.open+' are open and get filled from the news backlog. Times are India time.</p><div class="bpg" style="margin-top:12px">'
+    +j.days.map(function(d){var ttl=d.title?(d.slug?'<a href="/blog/'+esc(d.slug)+'" target="_blank" rel="noopener">'+esc(d.title)+'</a>':esc(d.title)):'<span style="color:var(--dim);font-weight:400">Open: filled from the backlog</span>';
+      return '<div class="bpd'+(d.today?' today':'')+'"><div class="dt"><span>'+esc(bpDay(d.date))+(d.today?' &middot; today':'')+'</span><span class="bpst '+esc(d.state)+'">'+esc(BPST[d.state]||d.state)+'</span></div><b>'+ttl+'</b>'
+      +(d.goesLive?'<p>'+(d.state==='live'?'Went live ':'Goes live ')+esc(bpWhen(d.goesLive))+'</p>':d.angle?'<p>'+esc(d.angle.length>150?d.angle.slice(0,147)+'...':d.angle)+'</p>':'')
+      +((BPKIND[d.kind]||d.locked)?'<span class="bpk">'+(BPKIND[d.kind]||'')+(d.locked?(BPKIND[d.kind]?' &middot; ':'')+'Locked':'')+'</span>':'')+'</div>'}).join('')+'</div></div>';
+  h+='<div class="bpcols"><div class="card"><h2>Recently live</h2><div class="bplist">'+(j.recent.length?j.recent.map(function(p){return '<div><span><a href="/blog/'+esc(p.slug)+'" target="_blank" rel="noopener">'+esc(p.title)+'</a></span><span>'+esc(bpWhen(p.publishAt))+'</span></div>'}).join(''):'<p class="sub">Nothing yet.</p>')+'</div></div>'
+    +'<div class="card"><h2>Waiting in the backlog</h2><p class="sub">Ideas scored by the news watch, best first.</p><div class="bplist">'+(j.backlog.length?j.backlog.map(function(b){return '<div><span>'+esc(b.title)+'</span><span>'+esc(BPKIND[b.kind]||b.kind)+' &middot; '+b.score+'/10</span></div>'}).join(''):'<p class="sub">Empty. The news watch adds ideas four times a day.</p>')+'</div></div></div>'
+  +'<p class="sub" style="margin-top:14px">This view is read-only and as fresh as the last deploy. To hold, change or swap a post, tell Claude in the project thread, for example &ldquo;stop tomorrow&rsquo;s post&rdquo;.</p>';
+  $('tab-blogplan').innerHTML=h}
 
 /* ================= v3: calendar, categories and tags, media ================= */
 var calY=null,calM=0;

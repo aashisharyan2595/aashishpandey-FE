@@ -16,27 +16,33 @@ const str = (v, n) => String(v == null ? '' : v).replace(/[\u0000-\u0008\u000b\u
 const list = (a, n, len) => (Array.isArray(a) ? a : String(a || '').split(',')).map((x) => str(x, len)).filter(Boolean).filter((x, i, arr) => arr.indexOf(x) === i).slice(0, n);
 const slugify = (s) => String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
 const newId = () => Date.now().toString(36) + crypto.randomBytes(3).toString('hex');
-const img = (v) => { v = str(v, 400); return /^(\/media\/[a-z0-9]+|https:\/\/[^\s"<>]+)$/i.test(v) ? v : ''; };
+const img = (v) => { v = str(v, 400); return /^(\/media\/[a-z0-9]+|\/assets\/blog\/[a-z0-9-]+\.(?:jpe?g|png|webp)|https:\/\/[^\s"<>]+)$/i.test(v) ? v : ''; };
 const url = (v) => { v = str(v, 300); return /^https:\/\/[^\s"<>]+$/i.test(v) ? v : ''; };
 const day = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v : '');
 const err = (msg, code, extra) => Object.assign(new Error(msg), { code: code || 400 }, extra || {});
 const has = (a, p) => !!(a && a.perms && a.perms.has(p));
 const mine = (a, p) => !!(a && p.createdBy && p.createdBy === a.id);
 
-async function get(id) { if (!/^[a-z0-9]{6,20}$/.test(String(id || ''))) return null; const raw = await redis('GET', 'post:' + id); return raw ? JSON.parse(raw) : null; }
-async function bySlug(type, slug) { const id = await redis('GET', `slug:${type}:${slug}`); return id ? get(id) : filePosts.bySlug(type, slug); }
+// A post written by the blog desk lives as a file in the repo. The first time anyone edits, moves or comments on it here, a full copy is saved
+// in the database under the same id; from then on that copy wins, so the desk's file is only the starting version.
+async function getStored(id) { if (!/^[a-z0-9]{6,20}$/.test(String(id || ''))) return null; const raw = await redis('GET', 'post:' + id); return raw ? JSON.parse(raw) : null; }
+async function get(id) { return (await getStored(id)) || filePosts.byId(id); }
+async function bySlug(type, slug) {
+  const id = await redis('GET', `slug:${type}:${slug}`); if (id) return get(id);
+  const f = filePosts.bySlug(type, slug); return f ? (await getStored(f.id)) || f : null;
+}
 async function all() {
   const ids = (await redis('ZREVRANGE', 'posts:idx', 0, 1999)) || [];
-  if (!ids.length) return [];
-  const rows = await redis('MGET', ...ids.map((i) => 'post:' + i));
-  return rows.map((r) => { try { return r ? JSON.parse(r) : null; } catch (e) { return null; } }).filter(Boolean);
+  const stored = ids.length ? (await redis('MGET', ...ids.map((i) => 'post:' + i))).map((r) => { try { return r ? JSON.parse(r) : null; } catch (e) { return null; } }).filter(Boolean) : [];
+  const seen = new Set(stored.map((p) => p.id));
+  return stored.concat(filePosts.list().filter((p) => !seen.has(p.id)));   // desk posts nobody has edited yet
 }
 const isLive = (p, now) => { now = now || Date.now(); return p.status === 'published' && (!p.publishAt || p.publishAt <= now) && (!p.unpublishAt || p.unpublishAt > now); };
 const stateOf = (p, now) => { now = now || Date.now(); if (p.status !== 'published') return p.status; if (p.unpublishAt && p.unpublishAt <= now) return 'expired'; return p.publishAt && p.publishAt > now ? 'scheduled' : 'published'; };
 
 let cache = null;
 async function live(type) {
-  if (!cache || Date.now() - cache.t > 20000) cache = { t: Date.now(), rows: (await all()).concat(filePosts.list()).filter((p) => isLive(p)).sort((a, b) => (b.publishAt || b.updated) - (a.publishAt || a.updated)) };
+  if (!cache || Date.now() - cache.t > 20000) cache = { t: Date.now(), rows: (await all()).filter((p) => isLive(p)).sort((a, b) => (b.publishAt || b.updated) - (a.publishAt || a.updated)) };
   return type ? cache.rows.filter((p) => p.type === type) : cache.rows;
 }
 const dropCache = () => { cache = null; };
@@ -149,6 +155,9 @@ async function save(input, actor) {
   dropCache(); return o;
 }
 
+// save one entry (a desk post's first save makes its database copy, so it also needs its list and slug entries)
+async function keep(p) { await redis('SET', 'post:' + p.id, JSON.stringify(p)); await redis('SET', `slug:${p.type}:${p.slug}`, p.id); await redis('ZADD', 'posts:idx', p.updated || Date.now(), p.id); }
+
 /* ---------- moving through the workflow ---------- */
 async function move(id, to, actor, opts) {
   opts = opts || {};
@@ -166,7 +175,7 @@ async function move(id, to, actor, opts) {
   const note = str(opts.note, 1000);
   if (note) p.comments = (p.comments || []).concat([{ id: newId(), t: Date.now(), by: actor.id, name: actor.name, kind: to === 'approved' ? 'approve' : from === 'review' && to === 'draft' && has(actor, 'content.review') ? 'changes' : 'comment', text: note }]).slice(-200);
   stamp(p, event(actor, { a: 'moved', from, to, note: note ? note.slice(0, 120) : undefined }));
-  await redis('SET', 'post:' + p.id, JSON.stringify(p)); await redis('ZADD', 'posts:idx', p.updated, p.id);
+  await keep(p);
   dropCache(); return { post: p, from };
 }
 
@@ -175,14 +184,14 @@ async function comment(id, actor, text) {
   text = str(text, 1500); if (!text) throw err('Write a comment first.');
   const c = { id: newId(), t: Date.now(), by: actor.id, name: actor.name, kind: 'comment', text };
   p.comments = (p.comments || []).concat([c]).slice(-200);
-  await redis('SET', 'post:' + p.id, JSON.stringify(p)); return { post: p, comment: c };
+  await keep(p); return { post: p, comment: c };
 }
 async function setAssignee(id, actor, assignee, due) {
   const p = await get(id); if (!p) throw err('Not found.', 404);
   if (!has(actor, 'content.edit_any') && !has(actor, 'content.review') && !has(actor, 'content.publish')) throw err('You do not have permission to assign work.', 403);
   p.assignee = str(assignee, 20); if (due !== undefined) p.due = day(due); p.updated = Date.now();
   stamp(p, event(actor, { a: 'assigned', note: p.assignee ? 'Assigned' : 'Unassigned' }));
-  await redis('SET', 'post:' + p.id, JSON.stringify(p)); dropCache(); return p;
+  await keep(p); dropCache(); return p;
 }
 
 // delete for good: only from the trash
@@ -190,6 +199,7 @@ async function purge(id, actor) {
   const p = await get(id); if (!p) throw err('Not found.', 404);
   if (p.status !== 'trash') throw err('Move it to the trash first.', 400);
   if (!has(actor, 'content.delete')) throw err('You do not have permission to delete for good.', 403);
+  if (filePosts.byId(p.id)) { dropCache(); return true; }   // the desk's file stays in the repo, so the copy in the trash is what keeps it off the site
   for (const s of [p.slug].concat(p.oldSlugs || [])) await redis('DEL', `slug:${p.type}:${s}`);
   await redis('DEL', 'post:' + p.id); await redis('ZREM', 'posts:idx', p.id); await redis('DEL', 'post:rev:' + p.id); await redis('DEL', 'lock:' + p.id); await require('./stats').forget(p.id);
   dropCache(); return true;

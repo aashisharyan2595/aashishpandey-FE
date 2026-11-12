@@ -30,14 +30,15 @@ function pickSources(pages, max) {
   pages.forEach(add);
   return chosen;
 }
-function diversity(sources, kind) {
+function diversity(sources, kind, trade) {
   const outlets = new Set(sources.map((s) => s.meta.outlet)), leans = new Set(sources.map((s) => s.meta.lean).filter(Boolean)), primary = sources.some((s) => s.meta.primary), nonUs = sources.some((s) => s.meta.region && s.meta.region !== 'US');
   const need = kind === 'breaking' ? { n: 3, o: 2, l: 1 } : { n: 5, o: 3, l: kind === 'review' ? 1 : 2 };
+  if (trade) { need.n = 4; need.o = 3; need.l = 0; }   // technical, security or developer-tool topics only trade outlets cover: official source + 3 independent outlets, no political spread
   const problems = [];
   if (sources.length < need.n) problems.push(`only ${sources.length} readable sources (need ${need.n})`);
   if (outlets.size < need.o) problems.push(`only ${outlets.size} different outlets (need ${need.o})`);
   if (leans.size < need.l) problems.push(`viewpoint spread too narrow (${[...leans].join('/') || 'none'})`);
-  if (kind === 'review' && !primary) problems.push('no primary source (the maker\'s own page, a paper or a filing)');
+  if ((kind === 'review' || trade) && !primary) problems.push('no primary source (the maker\'s own page, a paper or a filing)');
   return { ok: !problems.length, problems, outlets: outlets.size, leans: [...leans].sort().join(''), primary, nonUs, count: sources.length };
 }
 
