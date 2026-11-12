@@ -1,0 +1,20 @@
+{
+  "title": "The AI that can't write",
+  "accent": "teal",
+  "label": "AI tool review",
+  "topic": "tech",
+  "pack": "gemini-anime",
+  "speed": 0.97,
+  "pronounce": { "Mujasauraus": "Moo-jah-sore-us" },
+  "scenes": [
+    { "say": "Most AI apps use a writing machine to answer yes or no questions. Google just built one that can't write at all." },
+    { "say": "Say your app gets a thousand support emails. For each one, it needs three answers. Is it angry? Is it urgent? Who should handle it?" },
+    { "say": "Today, the app asks a chatbot. The chatbot writes back a paragraph. Then your code has to dig the answer out of it. Slow, and messy." },
+    { "say": "The Gemini Decisions API skips the writing. You send the email and your questions. It sends back numbers. Like, ninety four percent angry." },
+    { "say": "Ask yes or no, pick one, or score it. Up to a thousand questions in one call. And it can read text, images, audio, video and PDFs." },
+    { "say": "Google says it answers in about a quarter of a second, for ten cents per million input tokens. Output costs nothing, because there is nothing to write." },
+    { "say": "But here is the catch. Those tests came from Google itself. It leads seven of nine, and a rival, Jev, wins two." },
+    { "say": "Use it when your app makes the same small decision thousands of times. Skip it if you need writing, the lowest price, or your own servers." },
+    { "say": "Full sources are on my blog. Follow for a new AI tool every day." }
+  ]
+}

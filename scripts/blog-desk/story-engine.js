@@ -41,7 +41,7 @@
   const DMOUTH = { calm: 'M-24 -252 Q0 -244 24 -252', happy: 'M-38 -258 Q0 -222 38 -258', worried: 'M-26 -240 Q0 -262 26 -240', smirk: 'M-24 -250 Q10 -242 34 -262', flat: 'M-24 -250 L24 -250', shock: 'M-24 -250 L24 -250', curious: 'M-24 -250 Q0 -240 24 -252' };
   // pose Mujasauraus. p: x y s flip T mood look lookY armL armR head talk bob wag wagA eyeS sweat
   function dino(id, p) {
-    p = p || {}; const s = p.s || 1, T = p.T || 0, mood = p.mood || 'calm', br = BROWS[mood] || BROWS.calm;
+    p = p || {}; const s = p.s === undefined ? 1 : p.s, T = p.T || 0, mood = p.mood || 'calm', br = BROWS[mood] || BROWS.calm;
     put(id, { x: p.x || 0, y: (p.y || 0) + (p.bob || 0), sx: s * (p.flip ? -1 : 1), sy: s });
     put(id + 'body', { sy: 1 + 0.014 * Math.sin(T * 2.4), ox: 0, oy: -60 });
     put(id + 'armL', { r: p.armL || 0, ox: -110, oy: -190 }); put(id + 'armR', { r: -(p.armR || 0), ox: 110, oy: -190 });
@@ -65,13 +65,14 @@
       W: (re, frac) => { const w = words.find((x) => re.test(x.w.replace(/[^\w']/g, ''))); return w ? w.t0 : (frac || 0) * d; },
       speak: (t) => { const w = words.find((x) => t >= x.t0 && t < x.t1); return w ? 0.55 + 0.45 * Math.abs(Math.sin(t * 17)) : 0; },
       clamp, eo, ei, eio, back, elastic, lerp, rn, put, show, text, bot, dino, K, P,
+      path: (t, keys) => { let i = 0; while (i < keys.length - 2 && t >= keys[i + 1][0]) i++; const a = keys[i], b = keys[i + 1], p = eio((t - a[0]) / Math.max(0.001, b[0] - a[0])); return { z: lerp(a[1], b[1], p), cx: lerp(a[2], b[2], p), cy: lerp(a[3], b[3], p), shake: 0 }; },
       tw: (t, a, b, f) => (f || eo)((t - a) / Math.max(0.001, b - a)),
     };
   }
   window.boot = (cfg) => {
     CFG = cfg; SC = window.PACK.scenes[cfg.sceneIndex]; C = mkC(cfg);
     const stars = Array.from({ length: 60 }, (_, i) => `<circle cx="${(rn(i, 1) * 1080).toFixed(0)}" cy="${(rn(i, 2) * 1000).toFixed(0)}" r="${rn(i, 3) < 0.15 ? 2.6 : 1.4}" fill="#fff" opacity="${(0.25 + rn(i, 4) * 0.5).toFixed(2)}"/>`).join('');
-    document.getElementById('world').innerHTML = K.DEFS(cfg.acc) + (window.PACK.room ? window.PACK.room(cfg.acc, stars) : K.room(cfg.acc, stars)) + SC.build(C);
+    document.getElementById('world').innerHTML = K.DEFS(cfg.acc) + (SC.room ? SC.room(cfg.acc, stars, C) : window.PACK.room ? window.PACK.room(cfg.acc, stars) : K.room(cfg.acc, stars)) + SC.build(C);
     Object.keys(ids).forEach((k) => delete ids[k]);
   };
   window.sfxList = () => (SC.sfx ? SC.sfx(C) : []);
@@ -81,11 +82,16 @@
     put('clkM', { r: T * 40, ox: 905, oy: 350 }); put('clkH', { r: T * 3.3, ox: 905, oy: 350 });
     // camera: a slow push-in on the focus point, scenes can steer it
     const u = t / d, cam = SC.cam ? SC.cam(t, C) : {}, z = cam.z || 1 + 0.07 * u, cx = cam.cx === undefined ? 540 : cam.cx, cy = cam.cy === undefined ? 930 : cam.cy;
-    const inP = SC.noFade ? 1 : eo(t / 0.4), sh = cam.shake || 0;
+    const inP = SC.noFade || window.PACK.noFade ? 1 : eo(t / 0.4), sh = cam.shake || 0;
     document.getElementById('cam').setAttribute('transform', `translate(${540 + (sh ? Math.sin(T * 63) * sh : 0)} ${960 + (sh ? Math.cos(T * 71) * sh : 0)}) scale(${(z * 1.12 * (1.07 - 0.07 * inP)).toFixed(4)}) translate(${-cx} ${-cy})`);
-    document.getElementById('world').style.opacity = SC.noFade ? 1 : clamp(t / 0.25);
+    document.getElementById('world').style.opacity = SC.noFade || window.PACK.noFade ? 1 : clamp(t / 0.25);
     if (window.PACK.tick) window.PACK.tick(t, C);
     SC.draw(t, C);
+    // anime finish: film grain and the swipe between scenes
+    { const g = document.querySelector('.grain'); g.style.display = window.PACK.anime ? 'block' : 'none'; g.style.transform = `translate(${((T * 977) % 160).toFixed(0)}px,${((T * 613) % 160).toFixed(0)}px)`;
+      const w = document.querySelector('.wipe'), dd = 0.5; let x = -4000;
+      if (window.PACK.anime) { if (!CFG.first && t < dd) x = lerp(-660, 1500, eio(t / dd)); else if (!CFG.last && t > d - dd) x = lerp(-2900, -660, eio((t - (d - dd)) / dd)); }
+      w.style.transform = `translateX(${x.toFixed(0)}px) skewX(-14deg)`; }
     // chrome around the picture
     document.querySelector('.bar i').style.width = ((CFG.p0 + (CFG.p1 - CFG.p0) * clamp(u)) * 100).toFixed(2) + '%';
     const ch = CFG.chunks.find((c) => t >= c.t0 && t < c.t1) || CFG.chunks[CFG.chunks.length - 1], cap = document.querySelector('.cap');
