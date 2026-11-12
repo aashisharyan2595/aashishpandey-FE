@@ -119,7 +119,7 @@ function hookText(post) {
 }
 function coverHtml(post, W, H) {
   W = W || 1200; H = H || 630; const k = W / 1280, o = look(post), c = o.acc[0], text = hookText(post), kind = post.kind;
-  setSeed(o.h + 7); const art = `<svg viewBox="0 0 400 300" fill="none">${DEFS(c)}${STAGE(c)}${ART[o.art](c)}</svg>`;
+  setSeed(o.h + 7); const ph = post.photo && post.photo.file, art = `<svg viewBox="0 0 400 300" fill="none">${DEFS(c)}${STAGE(c)}${ART[o.art](c)}</svg>`;
   const n = text.length, layout = o.layout === 'wide' ? 'side' : o.layout, fs = Math.round((n <= 14 ? 170 : n <= 22 ? 148 : 124) * (layout === 'stage' ? 0.72 : 1) * k);
   // the first number or the last word gets the accent colour so one thing pops
   const words = esc(text).split(' '), numAt = words.findIndex((w) => /\d/.test(w)), hi = numAt > -1 ? numAt : words.length - 1;
@@ -130,13 +130,15 @@ function coverHtml(post, W, H) {
 .main{position:absolute;left:${52 * k}px;right:${52 * k}px;top:${118 * k}px;bottom:${150 * k}px;display:flex;align-items:center;gap:${30 * k}px;z-index:2}
 h1{font-weight:900;word-break:keep-all;font-size:${fs}px;line-height:.98;letter-spacing:-.04em;text-wrap:balance;-webkit-text-stroke:${Math.max(4, 9 * k)}px #05060f;paint-order:stroke fill;text-shadow:0 ${8 * k}px ${22 * k}px rgba(0,0,0,.55);flex:1;min-width:0}h1 em{font-style:normal;color:${c};text-shadow:0 0 ${46 * k}px rgba(${o.acc[1]},.55),0 ${8 * k}px ${22 * k}px rgba(0,0,0,.55)}
 .mo{flex:none;width:${(layout === 'stage' ? 400 : 480) * k}px}.mo svg{display:block;width:100%;height:auto;filter:drop-shadow(0 ${6 * k}px ${16 * k}px rgba(0,0,0,.5))}
-.flip{flex-direction:row-reverse}.stage{flex-direction:column;justify-content:center;text-align:center;gap:${8 * k}px}.stage .mo{order:-1}.stage h1{flex:none}`;
+.flip{flex-direction:row-reverse}.stage{flex-direction:column;justify-content:center;text-align:center;gap:${8 * k}px}.stage .mo,.stage .ph{order:-1}.stage h1{flex:none}
+.ph{flex:none;width:${(layout === 'stage' ? 330 : 400) * k}px;height:${(layout === 'stage' ? 230 : 360) * k}px;border-radius:${24 * k}px;overflow:hidden;border:${3 * k}px solid ${c};box-shadow:0 0 ${60 * k}px rgba(${o.acc[1]},.45),0 ${14 * k}px ${34 * k}px rgba(0,0,0,.55)}.ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+.cr{position:absolute;left:${52 * k}px;bottom:${24 * k}px;max-width:${W * 0.62}px;font:500 ${15 * k}px Geist,sans-serif;color:rgba(244,239,230,.6);z-index:3}`;
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS()}${css}
 .bg{position:absolute;inset:0;background:radial-gradient(70% 60% at ${o.gx}% 100%,rgba(${o.acc[1]},.46),rgba(196,106,74,.18) 45%,transparent 75%),radial-gradient(45% 55% at ${o.sx}% ${o.sy}%,rgba(${o.acc[1]},.14),transparent 70%),linear-gradient(180deg,#070916 0%,#0b1030 62%,#1a1640 100%)}
 .stars{position:absolute;inset:0}.hz{position:absolute;left:0;right:0;bottom:0;height:${H * 0.33}px;background:url(${b64('assets/nr/horizon.svg', 'image/svg+xml')}) center bottom/${W}px ${H * 0.33}px no-repeat}</style></head>
 <body><div class="c"><div class="bg"></div><svg class="stars" width="${W}" height="${H}" viewBox="0 0 1200 630" preserveAspectRatio="none">${stars(60, 380)}</svg><div class="hz"></div>
 <div class="badge"><img src="${b64('assets/logo-mark.svg', 'image/svg+xml')}" alt="">Aashish Pandey <span>${esc(KIND[kind] || 'Blog')}</span></div>
-<div class="main ${layout}"><h1>${hl}</h1><div class="mo">${art}</div></div></div></body></html>`;
+<div class="main ${layout}"><h1>${hl}</h1>${ph ? `<div class="ph"><img src="${b64(ph, 'image/jpeg')}" alt=""></div>` : `<div class="mo">${art}</div>`}</div>${ph ? `<div class="cr">${esc(post.photo.credit || '')}</div>` : ''}</div></body></html>`;
 }
 function prosConsHtml({ name, pros, cons, post }) {
   const o = look(post || { slug: name, kind: 'review' });
@@ -163,7 +165,7 @@ async function render(htmls, sizes) {
 }
 // returns [{ role, buf, w, h }]
 async function makeImages(post) {
-  const meta = { slug: post.slug, category: post.category, tags: post.tags, kind: post.kind, title: post.image_headline || post.title, thumb_text: post.thumb_text };
+  const meta = { slug: post.slug, category: post.category, tags: post.tags, kind: post.kind, title: post.image_headline || post.title, thumb_text: post.thumb_text, photo: post.photo };
   const htmls = [coverHtml(meta, 1200, 630), coverHtml(meta, 1280, 720)], roles = ['cover', 'thumb'], sizes = [[1200, 630], [1280, 720]];
   if (post.kind === 'review' && (post.pros || []).length >= 2 && (post.cons || []).length >= 2) { htmls.push(prosConsHtml({ name: post.product || post.title, pros: post.pros, cons: post.cons, post: meta })); roles.push('proscons'); sizes.push([1200, 630]); }
   const bufs = await render(htmls, sizes); return bufs.map((buf, i) => ({ role: roles[i], buf, w: sizes[i][0], h: sizes[i][1] }));
