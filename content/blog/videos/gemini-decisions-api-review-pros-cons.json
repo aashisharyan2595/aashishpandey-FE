@@ -3,6 +3,7 @@
   "url": "aashishpandey.com/blog",
   "accent": "green",
   "label": "AI tool review",
+  "topic": "tech",
   "scenes": [
     { "art": "robot", "head": "It can't write a word", "say": "Google just launched an AI that cannot write a single word. So why are developers excited?" },
     { "art": "cards", "head": "1 input. 1,000 questions.", "say": "It's called the Gemini Decisions API. You hand it one input, and up to a thousand questions." },

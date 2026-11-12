@@ -3,7 +3,7 @@
 Setup once:  pip install kokoro-onnx soundfile
              then put model.onnx and voices.npz in $KOKORO_DIR (default ~/.cache/kokoro); see docs/blog-desk-runbook.md for the download commands.
 Usage: tts.py <video.json> <outdir>   writes <outdir>/voice.wav and <outdir>/timeline.json
-Each sentence is spoken on its own so the pauses between thoughts are real, and two voices are blended so the voice is a unique one."""
+Each sentence is spoken on its own so the pauses between thoughts are real, and the tech voice is a blend of two voices so it is a unique one."""
 import json, os, re, sys
 import numpy as np, soundfile as sf
 from kokoro_onnx import Kokoro
@@ -11,7 +11,9 @@ video, out = sys.argv[1], sys.argv[2]
 V = json.load(open(video)); os.makedirs(out, exist_ok=True)
 d = os.environ.get('KOKORO_DIR', os.path.expanduser('~/.cache/kokoro'))
 k = Kokoro(os.path.join(d, 'model.onnx'), os.path.join(d, 'voices.npz'))
-voices = V.get('voice') or {'am_michael': 0.6, 'am_adam': 0.4}
+# Aashish's choice (2026-11-12): Voice A (a blend of two male voices) for tech topics, Voice B (warm female, af_heart) for everything else
+PRESETS = {'tech': {'am_michael': 0.6, 'am_adam': 0.4}, 'other': {'af_heart': 1.0}}
+voices = V.get('voice') or PRESETS['other' if V.get('topic') == 'other' else 'tech']
 style = sum(np.asarray(k.get_voice_style(n)) * w for n, w in voices.items())
 speed = float(V.get('speed', 0.96)); SR = 24000
 audio, t, scenes = [], 0.0, []
