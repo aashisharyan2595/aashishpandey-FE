@@ -8,8 +8,8 @@
         "https://www.wiz.io/blog/cve-2026-119618-rce-apache-http-server-vulnerability"
       ],
       "score": 8,
-      "status": "planned",
-      "slug": "",
+      "status": "written",
+      "slug": "apache-http-server-http2-flaw-patch",
       "locked": false,
       "key": "apache-httpd-rce"
     },
@@ -346,6 +346,7 @@
   },
   "backlog": [],
   "covered": [
-    "gemini-decisions-api"
+    "gemini-decisions-api",
+    "apache-httpd-rce"
   ]
 }
