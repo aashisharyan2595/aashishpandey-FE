@@ -62,7 +62,7 @@
 <rect id="${id}bL" x="-72" y="-376" width="52" height="9" rx="4.5" fill="${INK}"/><rect id="${id}bR" x="20" y="-376" width="52" height="9" rx="4.5" fill="${INK}"/>
 <path id="${id}mouth" d="M-24 -252 Q0 -244 24 -252" fill="none" stroke="${INK}" stroke-width="7" stroke-linecap="round"/><ellipse id="${id}mouthO" cx="0" cy="-248" rx="22" ry="4" fill="#5a1f3a" stroke="${INK}" stroke-width="4" opacity="0"/>
 <path id="${id}sweat" d="M118 -380 q16 26 0 40 q-16 -14 0 -40z" fill="#9fe0ff" opacity="0"/></g></g>`;
-  K.dino = dino2;
+  K.dinoFlat = K.dino; K.dino = dino2;
   window.PACK = window.PACK || {};
   K.A = { INK, defs, dusk, tech, dawn, title, card, burst, spark, dino2, cloud, skyline, rn };
 })();

@@ -68,3 +68,6 @@ Aashish's brief (2026-11-12): the quality of Kurzgesagt and The Infographics Sho
 
 ### Story videos, take 2 (Mujasauraus, Reels craft)
 Pack `stories/gemini-mujasaurus.js` (JSON `pronounce` map makes the voice say "Moo-jah-sore-us" while captions keep the spelling). Rules baked in, from creator research: the payoff is on screen in frame 1 (big hook text, no fade-in), full hook inside 2.5 s, a new picture or hard camera cut every 2-3 s, one idea per scene, a re-hook at about the 60% mark ("the catch"), the last line loops back to the first, sound-off safe, captions 62 px, 2 lines max, centre third (clear of the top 20% and bottom 25% app UI), short stroke, current word lit. Mujasauraus is the dino from the live home page (violet, cream belly, teal glowing spikes).
+
+### Style clips (2-second looks to choose from)
+`node scripts/blog-desk/style-reel.js <outdir> [--only anime,paper,neon,flat,pop,ink]` renders six 2-second 1080x1920 clips of one tiny scene in six art styles (anime dusk, paper-cut, neon synthwave, flat geometric, pop-art comic, ink and watercolour). Life tricks used: stepped 8-12 fps for hand-made styles, boiling line and edge noise, squash and stretch with anticipation, overlapping tail and arm motion, handheld sway, paper grain.

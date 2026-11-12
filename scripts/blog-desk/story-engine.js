@@ -56,6 +56,7 @@
     const sw = clamp(p.sweat || 0), sweat = $id(id + 'sweat'); if (sweat) { sweat.setAttribute('opacity', sw > 0 ? 0.9 : 0); sweat.setAttribute('transform', `translate(0 ${(((T * 1.1) % 1) * 36 * sw).toFixed(1)})`); }
     put(id + 'spk', { s: 1 + 0.05 * Math.sin(T * 3), ox: 0, oy: -300 });
   }
+  window.ENGINE = { dino, bot, put, show, text, clamp, eo, ei, eio, back, elastic, lerp, rn };
   let CFG, SC, C;
   // C: what a scene's draw() gets
   function mkC(cfg) {
