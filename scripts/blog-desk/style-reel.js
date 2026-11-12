@@ -9,7 +9,7 @@ const b64 = (f, mime) => 'data:' + mime + ';base64,' + fs.readFileSync(path.join
 const arg = (n) => { const i = process.argv.indexOf('--' + n); return i > -1 ? process.argv[i + 1] : ''; };
 const out = process.argv[2]; if (!out || out.startsWith('--')) { console.error('usage: style-reel.js <outdir> [--only a,b] [--seconds 2]'); process.exit(2); }
 const SECONDS = +(arg('seconds') || 2), FPS = 30, N = Math.round(SECONDS * FPS);
-const ONLY = (arg('only') || 'anime,paper,neon,flat,pop,ink').split(',');
+const ONLY = (arg('only') || (arg('set') === '2' ? 'board,cine,shadow,stick,pixel,kinetic' : 'anime,paper,neon,flat,pop,ink')).split(',');
 const sh = (c) => cp.execSync(c, { stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 1 << 28 }).toString();
 const SRC = ['story-kit.js', 'anime-kit.js', 'story-engine.js'].map((f) => fs.readFileSync(path.join(__dirname, f), 'utf8')).join('\n');
 const FONTS = `@font-face{font-family:Geist;font-weight:100 900;src:url(${b64('assets/vendor/fonts/geist-normal-latin.woff2', 'font/woff2')})}`;
@@ -66,9 +66,11 @@ const STY = {
     title: (id, t, s) => '<g id="' + id + '" filter="url(#fWob)"><text id="' + id + 'a" x="0" y="0" text-anchor="middle" font-family="Geist" font-weight="800" font-style="italic" font-size="' + s + '" fill="#2a1850">' + t + '</text></g>', title2: (id, t, s) => '<g id="' + id + '" filter="url(#fWob)"><text id="' + id + 'a" x="0" y="0" text-anchor="middle" font-family="Geist" font-weight="800" font-style="italic" font-size="' + s + '" fill="#c2335f">' + t + '</text></g>',
     extra(t, q) { const k = Math.floor(q * 8); ['iA', 'iB', 'iC', 'iD'].forEach((id, i) => put(id, { x: 8 * sin(q + i) + (rn(k, i) - 0.5) * 10, y: 8 * sin(q * 1.3 + i) + (rn(k, i + 5) - 0.5) * 10 })); ['tbW', 'tbT'].forEach((id, i) => { const e = document.getElementById(id); if (e) e.setAttribute('seed', 1 + (k + i * 3) % 7); }); } },
 };
-window.setup = (name) => { const s = STY[name]; root.innerHTML = FILT + s.build() + '<g id="dw" filter="' + s.filt + '">' + (s.dino === 'flat' ? K.dinoFlat('mj') : K.dino('mj')) + '</g>' + s.title('t1', 'NEW AI TOOL', 128) + s.title2('t2', 'EVERY DAY', 150) + A.spark('s1', '#fff', 34) + A.spark('s2', '#ffe36b', 26) + A.spark('s3', '#fff', 22); document.getElementById('dw').setAttribute('filter', s.filt || 'none'); };
+window.__STY = STY; window.__pop = pop;
+window.setup = (name) => { const s = STY[name]; if (s.custom) { root.innerHTML = FILT + s.build(); document.getElementById('cam').setAttribute('transform', ''); return; } root.innerHTML = FILT + s.build() + '<g id="dw" filter="' + s.filt + '">' + (s.dino === 'flat' ? K.dinoFlat('mj') : K.dino('mj')) + '</g>' + s.title('t1', 'NEW AI TOOL', 128) + s.title2('t2', 'EVERY DAY', 150) + A.spark('s1', '#fff', 34) + A.spark('s2', '#ffe36b', 26) + A.spark('s3', '#fff', 22); document.getElementById('dw').setAttribute('filter', s.filt || 'none'); };
 window.frame = (name, t) => {
   const s = STY[name], q = s.fps ? Math.floor(t * s.fps) / s.fps : t, k = s.fps ? Math.floor(t * s.fps) : 0;
+  if (s.custom) { s.frame(t, q); return; }
   const jit = s.fps ? (rn(k, 3) - 0.5) * 6 : 0;
   s.extra && s.extra(t, q);
   const ts = (a) => 1 + 0.28 * (1 - eo((q - a) / 0.3));
@@ -79,7 +81,8 @@ window.frame = (name, t) => {
   [['s1', 190, 760], ['s2', 900, 1040], ['s3', 820, 560]].forEach((a, i) => put(a[0], { x: a[1], y: a[2] + 16 * sin(q * 3 + i), s: 0.8 * pop(q, 0.6 + i * 0.12, 0.4) * (0.7 + 0.4 * Math.abs(sin(q * 5 + i))), r: q * 90 }));
   const sway = s.fps ? 0 : 1; document.getElementById('cam').setAttribute('transform', 'translate(' + (540 + sin(q * 2.3) * 5 * sway) + ' ' + (960 + sin(q * 1.7) * 4 * sway) + ') scale(' + (1.04 + 0.05 * (q / 2)) + ') translate(-540 -960)');
 };`;
-const html = () => `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}*{margin:0}html,body{width:1080px;height:1920px;overflow:hidden;background:#000}svg{display:block}</style></head><body><svg id="root" width="1080" height="1920" viewBox="0 0 1080 1920"><g id="cam"><g id="world"></g></g></svg><script>${SRC}</script><script>${PAGE}</script></body></html>`;
+const EXTRA = fs.readFileSync(path.join(__dirname, 'style-pack2.js'), 'utf8');
+const html = () => `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}*{margin:0}html,body{width:1080px;height:1920px;overflow:hidden;background:#000}svg{display:block}</style></head><body><svg id="root" width="1080" height="1920" viewBox="0 0 1080 1920"><g id="cam"><g id="world"></g></g></svg><script>${SRC}</script><script>${PAGE}</script><script>${EXTRA}</script></body></html>`;
 
 (async () => {
   let chromium; try { ({ chromium } = require('playwright')); } catch (e) { ({ chromium } = require(sh('npm root -g').trim() + '/playwright')); }

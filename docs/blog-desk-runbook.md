@@ -71,3 +71,5 @@ Pack `stories/gemini-mujasaurus.js` (JSON `pronounce` map makes the voice say "M
 
 ### Style clips (2-second looks to choose from)
 `node scripts/blog-desk/style-reel.js <outdir> [--only anime,paper,neon,flat,pop,ink]` renders six 2-second 1080x1920 clips of one tiny scene in six art styles (anime dusk, paper-cut, neon synthwave, flat geometric, pop-art comic, ink and watercolour). Life tricks used: stepped 8-12 fps for hand-made styles, boiling line and edge noise, squash and stretch with anticipation, overlapping tail and arm motion, handheld sway, paper grain.
+
+Set 2 (story-channel looks): `node scripts/blog-desk/style-reel.js <outdir> --set 2` renders whiteboard doodle, cinematic parallax, silhouette theatre, stick-figure cartoon, pixel art and kinetic typography (`style-pack2.js`). `node scripts/blog-desk/style-3d.js <outdir>` renders a real 3D low-poly CGI clip with three.js (software WebGL, about 25 seconds).
