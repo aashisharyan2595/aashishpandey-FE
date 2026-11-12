@@ -38,6 +38,24 @@
     const sw = clamp(p.sweat || 0), sweat = $id(id + 'sweat'); if (sweat) { sweat.setAttribute('opacity', sw > 0 ? 0.9 : 0); sweat.setAttribute('transform', `translate(0 ${(((T * 1.1) % 1) * 36 * sw).toFixed(1)})`); }
     put(id + 'ant', { s: 1 + 0.12 * Math.sin(T * 4), ox: 0, oy: -466 });
   }
+  const DMOUTH = { calm: 'M-24 -252 Q0 -244 24 -252', happy: 'M-38 -258 Q0 -222 38 -258', worried: 'M-26 -240 Q0 -262 26 -240', smirk: 'M-24 -250 Q10 -242 34 -262', flat: 'M-24 -250 L24 -250', shock: 'M-24 -250 L24 -250', curious: 'M-24 -250 Q0 -240 24 -252' };
+  // pose Mujasauraus. p: x y s flip T mood look lookY armL armR head talk bob wag wagA eyeS sweat
+  function dino(id, p) {
+    p = p || {}; const s = p.s || 1, T = p.T || 0, mood = p.mood || 'calm', br = BROWS[mood] || BROWS.calm;
+    put(id, { x: p.x || 0, y: (p.y || 0) + (p.bob || 0), sx: s * (p.flip ? -1 : 1), sy: s });
+    put(id + 'body', { sy: 1 + 0.014 * Math.sin(T * 2.4), ox: 0, oy: -60 });
+    put(id + 'armL', { r: p.armL || 0, ox: -110, oy: -190 }); put(id + 'armR', { r: -(p.armR || 0), ox: 110, oy: -190 });
+    put(id + 'head', { r: p.head || 0, ox: 0, oy: -215, y: Math.sin(T * 2.4 + 0.6) * 3 });
+    put(id + 'tail', { r: Math.sin(T * (p.wag || 5)) * (p.wagA === undefined ? 9 : p.wagA), ox: 60, oy: -150 });
+    const blink = (T % 3.3) < 0.13 ? 0.1 : 1, es = p.eyeS || (mood === 'shock' ? 1.18 : mood === 'happy' ? 0.82 : 1);
+    put(id + 'eL', { sy: blink * es, ox: -46, oy: -318 }); put(id + 'eR', { sy: blink * es, ox: 46, oy: -318 });
+    const lx = (p.look || 0) * 9, ly = (p.lookY || 0) * 7; put(id + 'pL', { x: lx, y: ly }); put(id + 'pR', { x: lx, y: ly });
+    put(id + 'bL', { r: br[0], ox: -46, oy: -368, y: mood === 'shock' || mood === 'curious' ? -10 : 0 }); put(id + 'bR', { r: br[1], ox: 46, oy: -368, y: mood === 'shock' ? -10 : 0 }); show(id + 'bL', br[2]); show(id + 'bR', br[2]);
+    const talk = p.talk || 0, m = $id(id + 'mouth'); if (m) { m.setAttribute('d', DMOUTH[mood] || DMOUTH.calm); m.setAttribute('opacity', talk > 0.15 || mood === 'shock' ? 0 : 1); }
+    const mo = $id(id + 'mouthO'); if (mo) { const open = mood === 'shock' ? 0.85 : talk; mo.setAttribute('opacity', open > 0.15 ? 1 : 0); mo.setAttribute('ry', (4 + 19 * open).toFixed(1)); mo.setAttribute('rx', mood === 'shock' ? 17 : 22); mo.setAttribute('cy', (-248 + 4 * open).toFixed(1)); }
+    const sw = clamp(p.sweat || 0), sweat = $id(id + 'sweat'); if (sweat) { sweat.setAttribute('opacity', sw > 0 ? 0.9 : 0); sweat.setAttribute('transform', `translate(0 ${(((T * 1.1) % 1) * 36 * sw).toFixed(1)})`); }
+    put(id + 'spk', { s: 1 + 0.05 * Math.sin(T * 3), ox: 0, oy: -300 });
+  }
   let CFG, SC, C;
   // C: what a scene's draw() gets
   function mkC(cfg) {
@@ -46,14 +64,14 @@
       d, T0: cfg.T0, idx: cfg.idx, words,
       W: (re, frac) => { const w = words.find((x) => re.test(x.w.replace(/[^\w']/g, ''))); return w ? w.t0 : (frac || 0) * d; },
       speak: (t) => { const w = words.find((x) => t >= x.t0 && t < x.t1); return w ? 0.55 + 0.45 * Math.abs(Math.sin(t * 17)) : 0; },
-      clamp, eo, ei, eio, back, elastic, lerp, rn, put, show, text, bot, K, P,
+      clamp, eo, ei, eio, back, elastic, lerp, rn, put, show, text, bot, dino, K, P,
       tw: (t, a, b, f) => (f || eo)((t - a) / Math.max(0.001, b - a)),
     };
   }
   window.boot = (cfg) => {
     CFG = cfg; SC = window.PACK.scenes[cfg.sceneIndex]; C = mkC(cfg);
     const stars = Array.from({ length: 60 }, (_, i) => `<circle cx="${(rn(i, 1) * 1080).toFixed(0)}" cy="${(rn(i, 2) * 1000).toFixed(0)}" r="${rn(i, 3) < 0.15 ? 2.6 : 1.4}" fill="#fff" opacity="${(0.25 + rn(i, 4) * 0.5).toFixed(2)}"/>`).join('');
-    document.getElementById('world').innerHTML = K.DEFS(cfg.acc) + K.room(cfg.acc, stars) + SC.build(C);
+    document.getElementById('world').innerHTML = K.DEFS(cfg.acc) + (window.PACK.room ? window.PACK.room(cfg.acc, stars) : K.room(cfg.acc, stars)) + SC.build(C);
     Object.keys(ids).forEach((k) => delete ids[k]);
   };
   window.sfxList = () => (SC.sfx ? SC.sfx(C) : []);
@@ -63,9 +81,10 @@
     put('clkM', { r: T * 40, ox: 905, oy: 350 }); put('clkH', { r: T * 3.3, ox: 905, oy: 350 });
     // camera: a slow push-in on the focus point, scenes can steer it
     const u = t / d, cam = SC.cam ? SC.cam(t, C) : {}, z = cam.z || 1 + 0.07 * u, cx = cam.cx === undefined ? 540 : cam.cx, cy = cam.cy === undefined ? 930 : cam.cy;
-    const inP = eo(t / 0.4), sh = cam.shake || 0;
+    const inP = SC.noFade ? 1 : eo(t / 0.4), sh = cam.shake || 0;
     document.getElementById('cam').setAttribute('transform', `translate(${540 + (sh ? Math.sin(T * 63) * sh : 0)} ${960 + (sh ? Math.cos(T * 71) * sh : 0)}) scale(${(z * 1.12 * (1.07 - 0.07 * inP)).toFixed(4)}) translate(${-cx} ${-cy})`);
-    document.getElementById('world').style.opacity = clamp(t / 0.25);
+    document.getElementById('world').style.opacity = SC.noFade ? 1 : clamp(t / 0.25);
+    if (window.PACK.tick) window.PACK.tick(t, C);
     SC.draw(t, C);
     // chrome around the picture
     document.querySelector('.bar i').style.width = ((CFG.p0 + (CFG.p1 - CFG.p0) * clamp(u)) * 100).toFixed(2) + '%';

@@ -1,0 +1,20 @@
+{
+  "title": "The AI that can't write",
+  "accent": "teal",
+  "label": "AI tool review",
+  "topic": "tech",
+  "pack": "gemini-mujasaurus",
+  "speed": 0.97,
+  "pronounce": { "Mujasauraus": "Moo-jah-sore-us" },
+  "scenes": [
+    { "say": "Google just built an AI that cannot write. Not one word. And that is the whole point." },
+    { "say": "Meet Mujasauraus, my ride buddy on the night road. Tonight, he hits a thousand junctions. And at every one, he needs an answer. Fast." },
+    { "say": "A normal AI is a chatty passenger. At every turn, it gives him a paragraph. By the time it finishes, he has missed the turn." },
+    { "say": "The Gemini Decisions API is a co-pilot that just says: left. Ninety four percent sure. No essay." },
+    { "say": "It says yes or no, picks one option, or scores it. Up to a thousand questions in one call." },
+    { "say": "And it is fast. Google says about a quarter of a second. At ten cents per million input tokens." },
+    { "say": "But here is the catch. Those tests came from Google itself. And a rival called Jev wins two of the nine." },
+    { "say": "So it is great for the same small decision, thousands of times a day. But it can't write, it isn't the cheapest, and you can't host it yourself." },
+    { "say": "Full sources are on my blog. Follow for a new AI tool every day. Because sometimes, the smartest AI is the one that can't write." }
+  ]
+}

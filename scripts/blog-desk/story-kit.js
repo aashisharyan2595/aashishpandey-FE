@@ -67,5 +67,23 @@ ${Array.from({ length: 12 }, (_, i) => `<rect x="-4" y="-122" width="8" height="
   const desk = () => `<g id="desk"><rect x="250" y="918" width="580" height="34" rx="12" fill="#c68a4c"/><rect x="262" y="952" width="556" height="108" rx="10" fill="#8d5a2e"/><rect x="262" y="952" width="556" height="12" fill="#000" opacity=".2"/><rect x="300" y="976" width="200" height="64" rx="8" fill="#a56d3a"/><circle cx="400" cy="1008" r="8" fill="${P.yellow}"/></g>`;
   const conveyor = (id) => `<g id="${id}"><rect x="-60" y="0" width="1200" height="64" rx="20" fill="#2b3290"/><rect x="-60" y="0" width="1200" height="14" rx="7" fill="#4a56c9"/><g id="${id}ticks">${Array.from({ length: 24 }, (_, i) => `<rect x="${i * 60 - 60}" y="24" width="30" height="10" rx="5" fill="#161c63"/>`).join('')}</g>${[60, 300, 540, 780, 1020].map((x) => `<circle cx="${x}" cy="84" r="20" fill="#161c63"/><circle cx="${x}" cy="84" r="9" fill="#4a56c9"/>`).join('')}</g>`;
   const scanner = (id) => `<g id="${id}"><path d="M-130 0 v-190 q0 -50 50 -50 h160 q50 0 50 50 v190 h-50 v-170 h-160 v170z" fill="#4150c9"/><rect x="-80" y="-182" width="160" height="12" rx="6" fill="${P.teal}"/><circle cx="0" cy="-214" r="14" fill="${P.yellow}"/></g>`;
-  window.KIT = { P, DEFS, room, robot, envelope, sheet, chip, label, gadget, stopwatch, coin, magnifier, check, cross, desk, conveyor, scanner, G, esc };
+  // Mujasauraus: Aashish's ride companion, a round violet baby dino with a cream belly, glowing teal spikes, blush cheeks and big eyes. Origin is the middle of the feet, about 430 tall.
+  const dino = (id) => `<g id="${id}">
+<ellipse cx="0" cy="8" rx="160" ry="18" fill="#000" opacity=".3"/>
+<g id="${id}tail"><path d="M70 -150 Q200 -150 226 -70 Q232 -28 196 -30 Q178 -70 112 -84Z" fill="#8c72f0"/><path d="M150 -140 l10 -30 l16 26z M196 -118 l22 -22 l6 32z" fill="${P.teal}"/></g>
+<g id="${id}legL"><rect x="-92" y="-84" width="66" height="84" rx="32" fill="#8c72f0"/><ellipse cx="-58" cy="-8" rx="46" ry="21" fill="#7a60e0"/><circle cx="-84" cy="-6" r="7" fill="#fff3c4"/><circle cx="-58" cy="-2" r="7" fill="#fff3c4"/><circle cx="-32" cy="-6" r="7" fill="#fff3c4"/></g>
+<g id="${id}legR"><rect x="26" y="-84" width="66" height="84" rx="32" fill="#8c72f0"/><ellipse cx="58" cy="-8" rx="46" ry="21" fill="#7a60e0"/><circle cx="32" cy="-6" r="7" fill="#fff3c4"/><circle cx="58" cy="-2" r="7" fill="#fff3c4"/><circle cx="84" cy="-6" r="7" fill="#fff3c4"/></g>
+<g id="${id}body"><g id="${id}spk"><circle cx="0" cy="-300" r="190" fill="url(#gGlow)" opacity=".5"/><path d="M-120 -230 l-34 -44 l52 8z M-80 -262 l-18 -56 l50 22z M120 -230 l34 -44 l-52 8z M80 -262 l18 -56 l-50 22z" fill="${P.teal}"/></g>
+<ellipse cx="0" cy="-160" rx="128" ry="112" fill="#a48cff"/><ellipse cx="0" cy="-138" rx="84" ry="80" fill="#fff3c4"/><path d="M-60 -170 Q0 -154 60 -170 M-66 -136 Q0 -118 66 -136 M-56 -102 Q0 -88 56 -102" fill="none" stroke="#f0dfa0" stroke-width="8" stroke-linecap="round"/></g>
+<g id="${id}armL"><rect x="-150" y="-206" width="46" height="96" rx="23" fill="#8c72f0"/><circle cx="-127" cy="-112" r="26" fill="#a48cff"/></g>
+<g id="${id}armR"><rect x="104" y="-206" width="46" height="96" rx="23" fill="#8c72f0"/><circle cx="127" cy="-112" r="26" fill="#a48cff"/></g>
+<g id="${id}head"><path d="M-46 -404 l-14 -52 l44 30z M0 -412 l0 -60 l30 46z M46 -404 l14 -52 l-44 30z" fill="${P.teal}"/><path d="M-70 -392 l-18 -56 l50 14z M70 -392 l18 -56 l-50 14z" fill="#fff3c4"/>
+<circle cx="0" cy="-306" r="116" fill="#a48cff"/><ellipse cx="0" cy="-268" rx="74" ry="48" fill="#b9a6ff"/><circle cx="-26" cy="-278" r="5" fill="#6a52c9"/><circle cx="26" cy="-278" r="5" fill="#6a52c9"/>
+<ellipse cx="-88" cy="-270" rx="24" ry="15" fill="#ff8fb0" opacity=".85"/><ellipse cx="88" cy="-270" rx="24" ry="15" fill="#ff8fb0" opacity=".85"/>
+<g id="${id}eL"><ellipse cx="-46" cy="-318" rx="32" ry="38" fill="#fff"/><g id="${id}pL"><ellipse cx="-42" cy="-314" rx="19" ry="24" fill="#16321f"/><circle cx="-36" cy="-324" r="7" fill="#fff"/><circle cx="-48" cy="-304" r="3.5" fill="#fff"/></g></g>
+<g id="${id}eR"><ellipse cx="46" cy="-318" rx="32" ry="38" fill="#fff"/><g id="${id}pR"><ellipse cx="50" cy="-314" rx="19" ry="24" fill="#16321f"/><circle cx="56" cy="-324" r="7" fill="#fff"/><circle cx="44" cy="-304" r="3.5" fill="#fff"/></g></g>
+<rect id="${id}bL" x="-72" y="-372" width="52" height="9" rx="4.5" fill="#16321f"/><rect id="${id}bR" x="20" y="-372" width="52" height="9" rx="4.5" fill="#16321f"/>
+<path id="${id}mouth" d="M-24 -252 Q0 -244 24 -252" fill="none" stroke="#16321f" stroke-width="7" stroke-linecap="round"/><ellipse id="${id}mouthO" cx="0" cy="-248" rx="22" ry="4" fill="#5a1f3a" opacity="0"/>
+<path id="${id}sweat" d="M118 -380 q16 26 0 40 q-16 -14 0 -40z" fill="#7fd0ff" opacity="0"/></g></g>`;
+  window.KIT = { P, DEFS, room, robot, dino, envelope, sheet, chip, label, gadget, stopwatch, coin, magnifier, check, cross, desk, conveyor, scanner, G, esc };
 })();
