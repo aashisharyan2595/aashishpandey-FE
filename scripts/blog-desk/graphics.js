@@ -120,7 +120,7 @@ function hookText(post) {
 function coverHtml(post, W, H) {
   W = W || 1200; H = H || 630; const k = W / 1280, o = look(post), c = o.acc[0], text = hookText(post), kind = post.kind;
   setSeed(o.h + 7); const ph = post.photo && post.photo.file, art = `<svg viewBox="0 0 400 300" fill="none">${DEFS(c)}${STAGE(c)}${ART[o.art](c)}</svg>`;
-  const n = text.length, layout = o.layout === 'wide' ? 'side' : o.layout, fs = Math.round((n <= 14 ? 170 : n <= 22 ? 148 : 124) * (layout === 'stage' ? 0.72 : 1) * k);
+  const n = text.length, layout = o.layout === 'wide' ? 'side' : o.layout, fs0 = Math.round((n <= 14 ? 170 : n <= 22 ? 148 : 124) * (layout === 'stage' ? 0.72 : 1) * k), fs = ph ? Math.round(Math.min(fs0, (n <= 14 ? 112 : n <= 22 ? 100 : 88) * k)) : fs0; // with a photo the headline gets smaller so three lines fit beside it without touching the badge
   // the first number or the last word gets the accent colour so one thing pops
   const words = esc(text).split(' '), numAt = words.findIndex((w) => /\d/.test(w)), hi = numAt > -1 ? numAt : words.length - 1;
   const hl = words.map((w, i) => (i === hi ? `<em>${w}</em>` : w)).join(' ');
@@ -131,7 +131,7 @@ function coverHtml(post, W, H) {
 h1{font-weight:900;word-break:keep-all;font-size:${fs}px;line-height:.98;letter-spacing:-.04em;text-wrap:balance;-webkit-text-stroke:${Math.max(4, 9 * k)}px #05060f;paint-order:stroke fill;text-shadow:0 ${8 * k}px ${22 * k}px rgba(0,0,0,.55);flex:1;min-width:0}h1 em{font-style:normal;color:${c};text-shadow:0 0 ${46 * k}px rgba(${o.acc[1]},.55),0 ${8 * k}px ${22 * k}px rgba(0,0,0,.55)}
 .mo{flex:none;width:${(layout === 'stage' ? 400 : 480) * k}px}.mo svg{display:block;width:100%;height:auto;filter:drop-shadow(0 ${6 * k}px ${16 * k}px rgba(0,0,0,.5))}
 .flip{flex-direction:row-reverse}.stage{flex-direction:column;justify-content:center;text-align:center;gap:${8 * k}px}.stage .mo,.stage .ph{order:-1}.stage h1{flex:none}
-.ph{flex:none;width:${(layout === 'stage' ? 330 : 400) * k}px;height:${(layout === 'stage' ? 230 : 360) * k}px;border-radius:${24 * k}px;overflow:hidden;border:${3 * k}px solid ${c};box-shadow:0 0 ${60 * k}px rgba(${o.acc[1]},.45),0 ${14 * k}px ${34 * k}px rgba(0,0,0,.55)}.ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+.ph{flex:none;width:${(layout === 'stage' ? 330 : 440) * k}px;height:${(layout === 'stage' ? 230 : 350) * k}px;border-radius:${24 * k}px;overflow:hidden;border:${3 * k}px solid ${c};box-shadow:0 0 ${60 * k}px rgba(${o.acc[1]},.45),0 ${14 * k}px ${34 * k}px rgba(0,0,0,.55)}.ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
 .cr{position:absolute;left:${52 * k}px;bottom:${24 * k}px;max-width:${W * 0.62}px;font:500 ${15 * k}px Geist,sans-serif;color:rgba(244,239,230,.6);z-index:3}`;
   return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS()}${css}
 .bg{position:absolute;inset:0;background:radial-gradient(70% 60% at ${o.gx}% 100%,rgba(${o.acc[1]},.46),rgba(196,106,74,.18) 45%,transparent 75%),radial-gradient(45% 55% at ${o.sx}% ${o.sy}%,rgba(${o.acc[1]},.14),transparent 70%),linear-gradient(180deg,#070916 0%,#0b1030 62%,#1a1640 100%)}
