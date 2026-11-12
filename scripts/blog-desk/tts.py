@@ -22,10 +22,10 @@ for si, s in enumerate(V['scenes']):
     sents = [x for x in re.split(r'(?<=[.!?])\s+', s['say'].strip()) if x]; rows = []
     for i, text in enumerate(sents):
         a, sr = k.create(text, voice=style, speed=speed, lang='en-us'); assert sr == SR
-        a = np.asarray(a, dtype=np.float32); start = t; add(a)
+        a = np.asarray(a, dtype=np.float32); start = t; add(a); vend = t
         # a breath between sentences, longer at the end of a scene; questions and exclamations breathe a little more
         gap = (0.42 if i == len(sents) - 1 else 0.26) + (0.08 if text[-1] in '?!' else 0)
-        add(np.zeros(int(SR * gap), dtype=np.float32)); rows.append({'text': text, 'start': start, 'end': t})
+        add(np.zeros(int(SR * gap), dtype=np.float32)); rows.append({'text': text, 'start': start, 'vend': vend, 'end': t})
     scenes.append({'sentences': rows})
 sf.write(os.path.join(out, 'voice.wav'), np.concatenate(audio), SR)
 json.dump({'total': t, 'scenes': scenes}, open(os.path.join(out, 'timeline.json'), 'w'))
