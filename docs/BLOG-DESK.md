@@ -4,7 +4,7 @@ One AI and tech post a day, researched, written and checked by scheduled Claude 
 
 | Scheduled task | When (IST) | What it does |
 |---|---|---|
-| Blog desk: news | 7:13 am, 11:13 am, 3:13 pm, 10:13 pm | reads about 20 news feeds, keeps the 30-day topic plan, publishes breaking news (max 2 a day, 2+ outlets) and emails it |
+| Blog desk: news | 7:13 am, 11:13 am, 3:13 pm, 10:13 pm | reads about 20 news feeds plus a keyless 30-day trend radar (`scripts/blog-desk/trends.sh`: Hacker News, GitHub, web search), keeps the 30-day topic plan, publishes breaking news (max 2 a day, 2+ outlets) and emails it |
 | Blog desk: evening | 6:00 pm | researches and writes tomorrow's post, runs the checks, schedules it for 9:00 am |
 | Blog desk: mailer | 9:00 pm | emails Aashish the draft |
 
