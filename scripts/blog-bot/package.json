@@ -1,7 +1,0 @@
-{
-  "name": "blog-bot",
-  "private": true,
-  "description": "The blog desk: writes, checks and schedules the daily AI and tech post. Run by .github/workflows/blog-bot.yml.",
-  "engines": { "node": ">=20" },
-  "dependencies": { "@anthropic-ai/sdk": "1.8.0", "playwright": "1.63.0" }
-}

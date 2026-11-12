@@ -4,7 +4,6 @@
 const pulse = require('./_pulse');
 module.exports = (req, res) => {
   if ((req.query || {}).a === 'site') return require('./_site/render').handle(req, res);   // /blog, /work, /media and their feeds (see vercel.json)
-  if ((req.query || {}).a === 'blog') return require('./_site/desk').handle(req, res);   // stop / publish-now buttons from the nightly blog draft email
   if ((req.query || {}).a) return pulse(req, res);
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.status(200).json({ turnstile: process.env.TURNSTILE_SITEKEY || '' });

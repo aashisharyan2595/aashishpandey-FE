@@ -7,6 +7,7 @@
 const crypto = require('crypto');
 const { redis } = require('../_lib');
 const md = require('./md');
+const filePosts = require('./fileposts');   // posts kept as files in content/blog (see fileposts.js)
 
 const TYPES = ['post', 'case'];
 const STATUSES = ['draft', 'review', 'approved', 'published', 'archived', 'trash'];
@@ -23,7 +24,7 @@ const has = (a, p) => !!(a && a.perms && a.perms.has(p));
 const mine = (a, p) => !!(a && p.createdBy && p.createdBy === a.id);
 
 async function get(id) { if (!/^[a-z0-9]{6,20}$/.test(String(id || ''))) return null; const raw = await redis('GET', 'post:' + id); return raw ? JSON.parse(raw) : null; }
-async function bySlug(type, slug) { const id = await redis('GET', `slug:${type}:${slug}`); return id ? get(id) : null; }
+async function bySlug(type, slug) { const id = await redis('GET', `slug:${type}:${slug}`); return id ? get(id) : filePosts.bySlug(type, slug); }
 async function all() {
   const ids = (await redis('ZREVRANGE', 'posts:idx', 0, 1999)) || [];
   if (!ids.length) return [];
@@ -35,7 +36,7 @@ const stateOf = (p, now) => { now = now || Date.now(); if (p.status !== 'publish
 
 let cache = null;
 async function live(type) {
-  if (!cache || Date.now() - cache.t > 20000) cache = { t: Date.now(), rows: (await all()).filter((p) => isLive(p)).sort((a, b) => (b.publishAt || b.updated) - (a.publishAt || a.updated)) };
+  if (!cache || Date.now() - cache.t > 20000) cache = { t: Date.now(), rows: (await all()).concat(filePosts.list()).filter((p) => isLive(p)).sort((a, b) => (b.publishAt || b.updated) - (a.publishAt || a.updated)) };
   return type ? cache.rows.filter((p) => p.type === type) : cache.rows;
 }
 const dropCache = () => { cache = null; };

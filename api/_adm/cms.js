@@ -12,7 +12,7 @@ const { ADMIN_PATH } = require('./path');
 
 const SITE = 'https://aashishpandey.com';
 const ACTIONS = new Set(['posts_list', 'post_get', 'post_save', 'post_move', 'post_comment', 'post_assign', 'post_lock', 'post_unlock', 'post_delete', 'post_duplicate', 'post_restore', 'post_bulk', 'post_diff', 'post_revisions', 'post_preview', 'post_preview_url',
-  'blog_plan_get', 'blog_plan_set', 'blog_plan_skip', 'blog_plan_pause', 'tax_list', 'tax_rename', 'tax_delete', 'authors_list', 'profile_get', 'profile_save', 'roles_list', 'roles_save', 'roles_delete', 'roles_reset', 'media_list', 'media_upload', 'media_update', 'media_delete']);
+  'tax_list', 'tax_rename', 'tax_delete', 'authors_list', 'profile_get', 'profile_save', 'roles_list', 'roles_save', 'roles_delete', 'roles_reset', 'media_list', 'media_upload', 'media_update', 'media_delete']);
 const ok = (json) => ({ code: 200, json });
 const bad = (e) => ({ code: e.code && e.code >= 400 && e.code < 600 ? e.code : 400, json: { error: e.message, ...(e.code === 409 ? { conflict: true, by: e.by, at: e.at } : {}), ...(e.problems ? { problems: e.problems } : {}) } });
 const deep = (p) => `${SITE}${ADMIN_PATH}#post=${p.id}`;
@@ -75,17 +75,6 @@ async function handle(a, c) {
     if (a === 'post_preview_url') {
       const p = await posts.get(String(q.id || '')); if (!p) return { code: 404, json: { error: 'Not found.' } };
       return ok({ url: `${c.origin}${p.type === 'case' ? '/work/' : '/blog/'}${p.slug}?preview=${posts.previewToken(p.id)}` });
-    }
-    // the blog desk (scripts/blog-bot): its 30-day topic plan, a pause switch, and edits to a day. A day you change is locked, so news never replaces it.
-    if (a === 'blog_plan_get') { const { redis } = require('../_lib'); let cal = { slots: {} }, paused = false; try { cal = JSON.parse((await redis('GET', 'blog:cal')) || '{"slots":{}}'); paused = !!(await redis('GET', 'blog:paused')); } catch (e) { /* nothing planned yet */ } return ok({ slots: cal.slots, paused }); }
-    if (a === 'blog_plan_pause') { const { redis } = require('../_lib'); if (b.paused) await redis('SET', 'blog:paused', '1'); else await redis('DEL', 'blog:paused'); return ok({ ok: true, paused: !!b.paused }); }
-    if (a === 'blog_plan_set' || a === 'blog_plan_skip') {
-      const { redis } = require('../_lib'), day = String(b.day || ''); if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return bad(posts.err('Pick a day.'));
-      const cal = JSON.parse((await redis('GET', 'blog:cal')) || '{"slots":{}}'), cur = cal.slots[day];
-      if (cur && (cur.status === 'drafted' || cur.status === 'held')) return bad(posts.err('That day already has a post. Open it under Posts.'));
-      if (a === 'blog_plan_skip') delete cal.slots[day];
-      else { const title = clean(b.title, 120); if (!title) return bad(posts.err('Write the topic.')); cal.slots[day] = { key: posts.slugify(title).split('-').slice(0, 6).join('-'), title, kind: ['review', 'news', 'explainer'].includes(b.kind) ? b.kind : 'news', angle: clean(b.angle, 300), urls: [], score: 10, status: 'planned', locked: true }; }
-      await redis('SET', 'blog:cal', JSON.stringify(cal)); return ok({ ok: true, slots: cal.slots });
     }
     if (a === 'tax_list') return ok(await posts.taxonomy());
     if (a === 'authors_list') return ok({ items: await authorsList() });

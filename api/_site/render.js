@@ -108,15 +108,16 @@ async function withImages(p) {
   const swap = (t) => String(t || '').replace(MEDIA_RE, (x, id) => (map[id] ? keywordUrl(map[id]) : x));
   const q = { ...p, body: swap(p.body), cover: { ...(p.cover || {}), src: swap(p.cover && p.cover.src) }, seo: { ...(p.seo || {}), ogImage: swap(p.seo && p.seo.ogImage) } };
   const imgs = [];
-  if (q.cover.src) imgs.push({ url: q.cover.src, alt: q.cover.alt || p.title, id: ((q.cover.src.match(/\/media\/([a-z0-9]+)/) || [])[1]) });
+  if (q.cover.src) imgs.push({ url: q.cover.src, alt: q.cover.alt || p.title, id: ((q.cover.src.match(/\/media\/([a-z0-9]+)/) || [])[1]), ...(/^\/assets\/blog\//.test(q.cover.src) ? { w: 1200, h: 630 } : {}) });
   for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/media\/([a-z0-9]+)[^)\s]*)/g)) imgs.push({ url: m[2], alt: m[1], id: m[3] });
+  for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/assets\/blog\/[^)\s]+)/g)) imgs.push({ url: m[2], alt: m[1], w: 1200, h: 630 });
   imgs.forEach((i) => { const m = map[i.id]; if (m) { i.w = m.w; i.h = m.h; } });
   q.images = imgs.filter((x, k) => imgs.findIndex((y) => y.url === x.url) === k).slice(0, 12); q.mediaMap = map;
   return q;
 }
 // width and height on every body image; the first picture on the page is not lazy-loaded when there is no cover
 function sized(html, map) {
-  return html.replace(/<img src="(\/media\/([a-z0-9]+)\/[^"]*)"/g, (x, src, id) => (map[id] && map[id].w && map[id].h ? `<img src="${src}" width="${map[id].w}" height="${map[id].h}"` : x));
+  return html.replace(/<img src="(\/media\/([a-z0-9]+)\/[^"]*)"/g, (x, src, id) => (map[id] && map[id].w && map[id].h ? `<img src="${src}" width="${map[id].w}" height="${map[id].h}"` : x)).replace(/<img src="(\/assets\/blog\/[^"]*)"/g, '<img src="$1" width="1200" height="630"');   // images the blog desk draws are always 1200 x 630
 }
 const coverAttrs = (p) => { const i = p.images && p.images[0]; return i && i.url === (p.cover && p.cover.src) && i.w && i.h ? ` width="${i.w}" height="${i.h}" fetchpriority="high"` : ' fetchpriority="high"'; };
 const imageLd = (list) => list.map((i) => ({ '@type': 'ImageObject', url: abs(i.url), contentUrl: abs(i.url), caption: i.alt || undefined, width: i.w || undefined, height: i.h || undefined, license: SITE + '/image-license', acquireLicensePage: SITE + '/image-license#request', creditText: 'Aashish Pandey', copyrightNotice: '© ' + new Date().getFullYear() + ' Aashish Pandey' }));
