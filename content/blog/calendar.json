@@ -13,19 +13,6 @@
       "locked": false,
       "key": "apache-httpd-rce"
     },
-    "2026-11-14": {
-      "title": "Gemini Decisions API review: pros and cons",
-      "kind": "review",
-      "angle": "What it does, calibrated yes/no decisions, pricing, where it fits for small teams, limits.",
-      "urls": [
-        "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/"
-      ],
-      "score": 7,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "gemini-decisions-api"
-    },
     "2026-11-15": {
       "title": "Nvidia board reportedly moves to replace Jensen Huang",
       "kind": "news",
@@ -358,5 +345,7 @@
     }
   },
   "backlog": [],
-  "covered": []
+  "covered": [
+    "gemini-decisions-api"
+  ]
 }
