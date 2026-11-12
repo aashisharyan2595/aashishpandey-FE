@@ -1,0 +1,18 @@
+{
+  "title": "Jensen Huang resigns as Nvidia CEO",
+  "accent": "amber",
+  "label": "Breaking news",
+  "topic": "tech",
+  "pack": "generic-3d",
+  "speed": 0.97,
+  "pronounce": { "Nvidia": "en-vid-ee-uh", "Kress": "Kress" },
+  "scenes": [
+    { "type": "photo", "say": "Nvidia's founder and CEO, Jensen Huang, just resigned. Effective immediately.", "src": "/assets/blog/jensen-huang-resigns-nvidia-ceo-photo.jpg", "credit": "Photo: Peter Dasilva, CC BY 4.0, via Wikimedia Commons", "title": ["NVIDIA'S CEO", "RESIGNED"] },
+    { "type": "stat", "say": "He co-founded the company in nineteen ninety three, and ran it for thirty three years.", "value": "33 years", "label": "leading Nvidia", "sub": "co-founded 1993", "accent": "amber" },
+    { "type": "steps", "say": "Colette Kress, the chief financial officer, is now interim CEO. Harvey Jones becomes the company's first ever board chair. And the search for a permanent CEO has started.", "title": ["WHO'S IN CHARGE"], "steps": [ { "title": "Colette Kress", "text": "Interim CEO, keeps CFO job", "at": "Colette" }, { "title": "Harvey C. Jones", "text": "First-ever board chair", "at": "Harvey" }, { "title": "CEO search", "text": "Inside and outside the firm", "at": "search" } ] },
+    { "type": "chips", "say": "Nvidia has not said why. Reports point to a week of pressure, and Huang has agreed to answer Congress by Thanksgiving, according to the House Foreign Affairs chair. Those details are reported, not confirmed.", "title": ["CONFIRMED", "VS REPORTED"], "chips": [ { "text": "REASON: NOT GIVEN", "accent": "pink", "at": "reason" }, { "text": "REPORTS: A WEEK OF PRESSURE", "accent": "amber", "at": "Reports" }, { "text": "CONGRESS BY THANKSGIVING", "accent": "teal", "at": "Congress" } ] },
+    { "type": "bars", "say": "Shares fell more than ten percent in early trading, then recovered to about four percent down, according to CNBC.", "tag": "PER CNBC", "rows": [ { "label": "Early", "value": 10, "max": 12, "suffix": "%", "text": "10%+ down", "accent": "pink", "at": "fell" }, { "label": "Later", "value": 4, "max": 12, "suffix": "%", "text": "~4% down", "accent": "amber", "at": "recovered" } ] },
+    { "type": "stat", "say": "Third quarter results are still due on Tuesday, the seventeenth of November. That call is the first test for the interim CEO.", "title": ["WHAT TO WATCH"], "value": "Nov 17", "label": "Earnings call, the interim CEO's first", "accent": "teal" },
+    { "type": "outro", "say": "My take: hold off on big hardware decisions until after that call. Full sources are on my blog. Follow for the news that matters, every day.", "url": "aashishpandey.com/blog", "title": ["NEWS THAT MATTERS", "EVERY DAY"] }
+  ]
+}

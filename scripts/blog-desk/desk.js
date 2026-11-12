@@ -6,8 +6,11 @@
 //   node scripts/blog-desk/desk.js fetch <dir> <url> [url...]     read pages into <dir> and label each outlet (left/centre/right, region, primary)
 //   node scripts/blog-desk/desk.js pick <dir> <kind> [--trade]              choose the spread of sources and say whether it is enough (kind: review|news|explainer|breaking)
 //   node scripts/blog-desk/desk.js check <draft.json> <dir>       clean the draft, then report style, copy overlap and unsupported numbers or quotes
-//   node scripts/blog-desk/desk.js build <draft.json> <dir> --kind K --at <ISO time|now> [--email <file>]
+//   node scripts/blog-desk/desk.js build <draft.json> <dir> --kind K --at <ISO time|now> [--email <file>] [--photo <photo.json>]
 //                                                                 draw the images, assemble the page, write content/blog/<slug>.json and assets/blog/*
+//   node scripts/blog-desk/desk.js rephoto <slug> --photo <photo.json> --caption "who, where"   add a free-licence photo (see photo.js) to a post that exists
+//   node scripts/blog-desk/desk.js videos [--days 14]                  live posts that still have no video
+//   node scripts/blog-desk/desk.js yt <slug>                           the YouTube title, description, tags and settings for a post's Short
 //   node scripts/blog-desk/desk.js ping                           tell IndexNow search engines about posts that went live (optional, free, no account)
 //   node scripts/blog-desk/desk.js days                           what the calendar holds, and what is live
 const fs = require('fs'), path = require('path');
@@ -105,6 +108,31 @@ function check(draftFile, dir) {
   console.log('cleaned draft written to', draftFile.replace(/\.json$/, '') + '.clean.json');
   console.log('RESULT:', !a.lint.issues.length && a.overlap.pct < 10 && !a.unsupported.length ? 'PASS' : a.overlap.pct >= 10 || a.unsupported.length ? 'FIX NEEDED' : 'STYLE NOTES (one rewrite pass advised)');
 }
+// a free-licence photo from photo.js: copy it into assets/blog and describe it. The photo is shown in the banner and as a captioned figure near the top of the post.
+function usePhoto(file, slug) {
+  if (!file) return null; const j = readJ(file, null), jpg = file.replace(/\.json$/, '.jpg'); if (!j || !fs.existsSync(jpg)) throw new Error('--photo needs the .json and .jpg that photo.js fetch wrote');
+  const f = `${slug}-photo.jpg`; fs.mkdirSync(path.join(ROOT, 'assets', 'blog'), { recursive: true }); fs.copyFileSync(jpg, path.join(ROOT, 'assets', 'blog', f));
+  return { src: '/assets/blog/' + f, credit: j.credit, license: j.license, licenseUrl: j.licenseUrl, artist: j.artist, page: j.page, title: j.title };
+}
+function addFigure(body, photo, caption) {
+  const cap = `${String(caption || '').replace(/["\n]/g, ' ').trim().replace(/\.$/, '')}. ${photo.credit}`.replace(/^\. /, ''), fig = `![${String(caption || 'Photo').replace(/[\[\]\n]/g, ' ').slice(0, 140)}](${photo.src} "${cap}")`;
+  const m = /^##\s/m.exec(body); return m ? body.slice(0, m.index) + fig + '\n\n' + body.slice(m.index) : body.replace(/\n\n/, '\n\n' + fig + '\n\n');
+}
+// add or change the photo on a post that already exists: desk.js rephoto <slug> --photo <photo.json> --caption "who, where" [--thumb-text "hook words"]
+async function rephoto(slug) {
+  const f = path.join(CONTENT, slug + '.json'), p = readJ(f, null); if (!p) throw new Error('no such post file: ' + f);
+  const photo = usePhoto(arg('photo'), slug), caption = arg('caption') || '', th = p.extra && p.extra.thumb || {};
+  const graphics = require('./graphics'), imgs = await graphics.makeImages({ slug, title: p.title, category: p.category, tags: p.tags, kind: (p.extra || {}).kind || 'news', thumb_text: arg('thumb-text') || th.text, image_headline: th.headline, photo: { file: photo.src.slice(1), credit: photo.credit } });
+  for (const im of imgs) if (im.role !== 'proscons') fs.writeFileSync(path.join(ROOT, 'assets', 'blog', `${slug}-${im.role}.jpg`), im.buf);
+  let body = p.body.replace(/\n*!\[[^\]]*\]\(\/assets\/blog\/[^)\s]*-photo\.jpg[^)]*\)\n*/g, '\n\n');
+  const quick = /^(>[^\n]*\n)+/.exec(body); const head = quick ? quick[0] : '', rest = quick ? body.slice(head.length) : body;
+  body = head + addFigure(rest.replace(/^\n+/, '\n\n'), photo, caption).replace(/^\n+/, '\n');
+  body = body.replace(/^\d+\. \[[^\]]*\]\(https:\/\/commons\.wikimedia\.org[^\n]*\n?/gm, '');
+  body = body.replace(/\n*$/, '\n') + `${(body.match(/^\d+\. /gm) || []).length + 1}. [${photo.title}](${photo.page}), ${photo.credit.replace(/^Photo: /, 'photo by ')}\n`;
+  if (false) body = body.replace(/\n*$/, '\n') + `${(body.match(/^\d+\. /gm) || []).length + 1}. [${photo.title}](${photo.page}), ${photo.credit.replace(/^Photo: /, 'photo by ')}\n`;
+  p.body = body; p.updated = Date.now(); p.extra = { ...(p.extra || {}), photo }; p.cover = { src: `/assets/blog/${slug}-cover.jpg`, alt: p.cover && p.cover.alt || p.title };
+  const r = require(path.join(ROOT, 'api/_site/md')).render(body, { noWords: false }); p.words = r.words; writeJ(f, p); console.log('photo added to', f, '\n' + photo.credit);
+}
 async function build(draftFile, dir) {
   const kind = arg('kind') || 'news', at = arg('at'), pages = pickedPages(dir), a = analyse(readJ(draftFile), pages), d = a.draft;
   if (a.overlap.pct >= 10) throw new Error(`copy overlap is ${a.overlap.pct}%, rewrite first`);
@@ -113,16 +141,17 @@ async function build(draftFile, dir) {
   const slug = slugify(d.slug || d.title), publishAt = at === 'now' || !at ? Date.now() : Date.parse(at);
   if (!Number.isFinite(publishAt)) throw new Error('--at must be an ISO time or "now"');
   if (fs.existsSync(path.join(CONTENT, slug + '.json')) && process.argv.indexOf('--overwrite') < 0) throw new Error('content/blog/' + slug + '.json exists (use --overwrite to replace)');
-  const graphics = require('./graphics'), imgs = await graphics.makeImages({ ...d, kind }), ref = {};
-  fs.mkdirSync(path.join(ROOT, 'assets', 'blog'), { recursive: true });
+  const graphics = require('./graphics'); fs.mkdirSync(path.join(ROOT, 'assets', 'blog'), { recursive: true });
+  const photo = usePhoto(arg('photo'), slug), imgs = await graphics.makeImages({ ...d, kind, photo: photo && { file: photo.src.slice(1), credit: photo.credit } }), ref = {};
   for (const im of imgs) { const f = `${slug}-${im.role}.jpg`; fs.writeFileSync(path.join(ROOT, 'assets', 'blog', f), im.buf); ref[im.role] = { src: '/assets/blog/' + f, alt: (im.role === 'cover' ? d.image_alt : im.role === 'thumb' ? d.image_alt + ' (video thumbnail)' : `Pros and cons of ${d.product || d.title}: ${d.pros.slice(0, 3).join(', ')} versus ${d.cons.slice(0, 3).join(', ')}`).slice(0, 160) }; }
   let body = d.body_markdown;
   if (ref.proscons) { const fig = `![${ref.proscons.alt}](${ref.proscons.src} "Pros and cons at a glance")`, m = /^##\s+(pros|the pros|what works)/im.exec(body); body = m ? body.slice(0, m.index) + fig + '\n\n' + body.slice(m.index) : body.replace(/\n\n/, '\n\n' + fig + '\n\n'); }
+  if (photo) body = addFigure(body, photo, d.photo_caption || d.image_alt);
   const cite = pages.map((p, i) => `${i + 1}. [${(p.title || p.meta.outlet).replace(/\s*[|\-–—:]\s*[^|\-–—:]{2,40}$/, '').slice(0, 110)}](${p.url}), ${p.meta.outlet}`);
-  const full = `> **Quick answer.** ${d.tldr}\n\n${body.trim()}\n\n## Frequently asked questions\n\n${d.faq.map((f) => `### ${f.q}\n\n${f.a}`).join('\n\n')}\n\n## Sources\n\n${cite.join('\n')}\n`;
+  const full = `> **Quick answer.** ${d.tldr}\n\n${body.trim()}\n\n## Frequently asked questions\n\n${d.faq.map((f) => `### ${f.q}\n\n${f.a}`).join('\n\n')}\n\n## Sources\n\n${cite.join('\n')}${photo ? `\n${cite.length + 1}. [${photo.title}](${photo.page}), ${photo.credit.replace(/^Photo: /, 'photo by ')}` : ''}\n`;
   const md = require(path.join(ROOT, 'api/_site/md')), r = md.render(full, { noWords: false });
   const post = { title: d.title.slice(0, 120), slug, excerpt: d.excerpt.slice(0, 300), body: full, cover: { src: ref.cover.src, alt: ref.cover.alt }, category: d.category, tags: d.tags.slice(0, 8), publishAt, updated: Date.now(), words: r.words, mins: Math.max(1, Math.round(r.words / 200)),
-    seo: { title: d.seo_title.slice(0, 70), description: d.seo_description.slice(0, 180), ogImage: ref.cover.src }, extra: { faq: d.faq, sources: pages.map((p) => ({ url: p.url, title: (p.title || '').slice(0, 200), outlet: p.meta.outlet })), kind, about: d.about, auto: true } };
+    seo: { title: d.seo_title.slice(0, 70), description: d.seo_description.slice(0, 180), ogImage: ref.cover.src }, extra: { faq: d.faq, sources: pages.map((p) => ({ url: p.url, title: (p.title || '').slice(0, 200), outlet: p.meta.outlet })), kind, about: d.about, auto: true, thumb: { text: d.thumb_text, headline: d.image_headline }, ...(photo ? { photo } : {}) } };
   writeJ(path.join(CONTENT, slug + '.json'), post);
   const report = { sources: `${div.count} pages from ${div.outlets} outlets (viewpoints: ${div.leans.split('').map((c) => ({ L: 'left', C: 'centre', R: 'right' }[c])).join(', ') || 'none'}${div.primary ? ', plus a primary source' : ''}${div.nonUs ? ', non-US included' : ''})`, overlap: `${a.overlap.pct}% against its sources`, words: r.words, notes: a.lint.issues };
   const emailFile = arg('email');
@@ -142,6 +171,21 @@ ${rep.notes.length ? `<p style="font-size:14px"><b>Notes:</b> ${rep.notes.map(es
 ${html.replace(/<img /g, '<img style="max-width:100%;height:auto" ').replace(/src="\//g, `src="${SITE}/`).replace(/href="\//g, `href="${SITE}/`)}</div>`;
 }
 
+/* ---------- videos: which live posts still need one, and the YouTube fields for each ---------- */
+const livePosts = () => fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && n !== 'calendar.json' && n !== 'state.json').map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.slug && p.publishAt <= Date.now());
+function videos() {
+  const days = Number(arg('days') || 14), need = livePosts().filter((p) => Date.now() - p.publishAt < days * 864e5 && !fs.existsSync(path.join(CONTENT, 'videos', p.slug + '-3d.json'))).sort((a, b) => a.publishAt - b.publishAt);
+  console.log(need.length ? `posts live in the last ${days} days that have no video yet (oldest first):` : 'every live post has a video'); need.forEach((p) => console.log(' ', p.slug, '|', (p.extra || {}).kind || '', '|', p.title, p.extra && p.extra.photo ? '| has photo: ' + p.extra.photo.src : ''));
+}
+// the YouTube upload fields for a post's Short, as markdown: desk.js yt <slug> [--title "..."]
+function yt(slug) {
+  const p = readJ(path.join(CONTENT, slug + '.json'), null); if (!p) throw new Error('no such post: ' + slug); const v = readJ(path.join(CONTENT, 'videos', slug + '-3d.json'), {}), x = p.extra || {}, url = `${SITE}/blog/${slug}`;
+  const title = (arg('title') || (v.yt_title || p.title)).replace(/\s*#shorts$/i, '').slice(0, 90) + ' #Shorts', tags = [...new Set([...(p.tags || []), ...(x.about || []), 'Aashish Pandey'])]; let tl = []; for (const t of tags) if ((tl.join(', ') + ', ' + t).length < 480) tl.push(t);
+  const hash = [...new Set((p.tags || []).slice(0, 4).map((t) => '#' + t.replace(/[^A-Za-z0-9]/g, '')).concat(['#Shorts']))].filter((h) => h.length > 2).join(' ');
+  const desc = [p.excerpt, '', `Full sources and details: ${url}`, 'More from the blog: https://aashishpandey.com/blog', ...(x.photo ? ['', x.photo.credit + (x.photo.licenseUrl ? ` (${x.photo.licenseUrl})` : '')] : []), '', hash].join('\n');
+  console.log(`# YouTube fields: ${p.title}\n\n**Title** (${title.length} chars)\n${title}\n\n**Description**\n${desc}\n\n**Tags** (${tl.join(', ').length} chars)\n${tl.join(', ')}\n\n**Other fields**\n- Visibility: Public (or schedule it)\n- Audience: No, not made for kids\n- Category: ${/news|breaking/.test(x.kind || '') ? 'News & Politics' : 'Science & Technology'}\n- Language: English (India)\n- Altered or synthetic content: Yes (synthetic voice, generated visuals)\n- Comments: allowed; pin a comment with ${url}\n- Captions: upload the .srt as English\n- Thumbnail: pick the title frame, or upload the poster\n- Location: India\n\nWhen it is up, send the link in the project thread and Claude embeds it in the post.`);
+}
+
 /* ---------- search engines and a glance at the calendar ---------- */
 async function ping() {
   const st = readJ(path.join(CONTENT, 'state.json'), { seen: {} }), done = new Set(st.pinged || []), now = Date.now();
@@ -159,6 +203,6 @@ function days() {
 }
 
 const cmd = process.argv[2], a1 = process.argv[3], a2 = process.argv[4];
-const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), ping, days };
+const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days };
 if (!run[cmd]) { console.error('usage: desk.js feeds | fetch <dir> <urls> | pick <dir> <kind> | check <draft> <dir> | build <draft> <dir> --kind K --at T | ping | days'); process.exit(2); }
 Promise.resolve(run[cmd]()).then(() => process.exit(0), (e) => { console.error('desk:', e.message); process.exit(1); });
