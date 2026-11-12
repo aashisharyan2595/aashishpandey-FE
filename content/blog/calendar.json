@@ -14,20 +14,14 @@
       "key": "apache-httpd-rce"
     },
     "2026-11-15": {
-      "title": "Nvidia board reportedly moves to replace Jensen Huang",
-      "kind": "news",
-      "angle": "Governance angle only: what the board has confirmed vs what is reported, what a CEO change could mean for AI chip buyers and Nvidia shareholders. Stick to official statements; attribute every allegation; no detail on private life beyond what the board says. Re-check for confirmation before writing.",
-      "urls": [
-        "https://techcrunch.com/2026/11/11/nvidias-stock-drops-as-board-reportedly-preps-to-oust-ceo-jensen-huang/",
-        "https://www.wsj.com/business/nvidia-is-preparing-to-oust-nvidia-ceo-jensen-huang-30f421ad",
-        "https://investor.nvidia.com/news/press-release-details/2026/Statement-from-NVIDIA-Board-of-Directors/",
-        "https://techcrunch.com/2026/11/11/congress-to-call-jensen-huang-in-to-answer-for-alleged-chinese-spy-affair/"
-      ],
-      "score": 8,
+      "title": "Claude Meetings review: turning meetings into plans and tasks",
+      "kind": "review",
+      "angle": "Pros and cons vs Granola, Otter and Zoom AI for project teams",
+      "urls": [],
+      "score": 7,
       "status": "planned",
       "slug": "",
-      "locked": false,
-      "key": "nvidia-board-huang"
+      "locked": false
     },
     "2026-11-16": {
       "title": "Yogurt review: free open-source meeting notes vs Granola",
@@ -56,17 +50,17 @@
       "key": "ai-voice-scams"
     },
     "2026-11-18": {
-      "title": "Google Tabletop review: shared AI spaces for groups",
-      "kind": "review",
-      "angle": "What it is, who it is for (teams, families), pros and cons, availability.",
+      "title": "Nvidia after Huang: what Tuesday's earnings tell us",
+      "kind": "news",
+      "angle": "Follow-up after the 17 Nov earnings call: guidance, CEO search, China export stance",
       "urls": [
-        "https://blog.google/innovation-and-ai/models-and-research/google-labs/tabletop/"
+        "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+        "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html"
       ],
-      "score": 6,
+      "score": 8,
       "status": "planned",
       "slug": "",
-      "locked": false,
-      "key": "google-tabletop"
+      "locked": false
     },
     "2026-11-19": {
       "title": "United Airlines bans AI agents from booking flights",
@@ -82,15 +76,16 @@
       "key": "united-ai-agent-ban"
     },
     "2026-11-20": {
-      "title": "ChatGPT vs Claude vs Gemini for everyday office work",
+      "title": "Perplexity Teammates review: AI agents for ongoing work",
       "kind": "review",
-      "angle": "Side by side for email, documents, spreadsheets, meetings; pros and cons, prices in India.",
-      "urls": [],
-      "score": 5,
+      "angle": "What the agents do, pricing, who should try it",
+      "urls": [
+        "https://www.perplexity.ai/en-GB/hub/blog/teammates-are-agents-for-complex-ongoing-work"
+      ],
+      "score": 7,
       "status": "planned",
       "slug": "",
-      "locked": false,
-      "key": "chatgpt-claude-gemini-office"
+      "locked": false
     },
     "2026-11-21": {
       "title": "Why you should pin your GitHub Actions",
@@ -342,11 +337,81 @@
       "slug": "",
       "locked": false,
       "key": "elevenlabs-review"
+    },
+    "2026-11-12": {
+      "title": "Jensen Huang resigns as Nvidia CEO: what we know",
+      "kind": "breaking",
+      "angle": "Breaking: confirmed facts vs reported allegations",
+      "urls": [
+        "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
+      ],
+      "score": 9,
+      "status": "written",
+      "slug": "jensen-huang-resigns-nvidia-ceo",
+      "locked": false
+    },
+    "2026-11-14": {
+      "title": "Anthropic IPO: what it means for Claude users and AI pricing",
+      "kind": "news",
+      "angle": "What the listing changes for businesses that use Claude; confirm details from the S-1 and mainstream outlets before writing",
+      "urls": [
+        "https://ipo.anthropic.com/us/",
+        "https://www.opb.org/article/2026/10/26/ai-giant-anthropic-files-for-an-ipo-that-could-break-records/"
+      ],
+      "score": 8,
+      "status": "planned",
+      "slug": "",
+      "locked": false
+    },
+    "2026-12-13": {
+      "title": "Google Tabletop review: shared AI spaces for groups",
+      "kind": "review",
+      "angle": "Pros and cons for teams",
+      "urls": [
+        "https://blog.google/innovation-and-ai/models-and-research/google-labs/tabletop/"
+      ],
+      "score": 6,
+      "status": "planned",
+      "slug": "",
+      "locked": false
     }
   },
-  "backlog": [],
+  "backlog": [
+    {
+      "key": "fireworks-ai-breach-notion",
+      "title": "Fireworks AI breach exposed Notion AI chat transcripts",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
+      ],
+      "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
+      "added": "2026-11-12"
+    },
+    {
+      "key": "github-ceo-agent-forge",
+      "title": "Former GitHub CEO launches a Git forge built for AI agents",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.geekwire.com/2026/former-github-ceo-launches-rival-platform-built-for-ai-coding-agents/"
+      ],
+      "angle": "What a forge for coding agents changes for dev teams",
+      "added": "2026-11-12"
+    },
+    {
+      "key": "chatgpt-claude-gemini-office",
+      "title": "ChatGPT vs Claude vs Gemini for everyday office work",
+      "kind": "review",
+      "score": 5,
+      "urls": [],
+      "angle": "Evergreen comparison",
+      "added": "2026-11-12"
+    }
+  ],
   "covered": [
     "gemini-decisions-api",
-    "apache-httpd-rce"
+    "apache-httpd-rce",
+    "nvidia-huang-exit"
   ]
 }

@@ -40,6 +40,28 @@
     "https://openai.com/index/chatgpt-plus-for-veterans": 1794486618738,
     "https://techcrunch.com/2026/11/10/nvidias-crisis-has-corporate-governance-experts-reaching-for-the-popcorn/": 1794486618738,
     "https://discuss.python.org/t/in-memoriam-tim-peters-1952-2026/110028": 1794486618738,
-    "https://huggingface.co/blog/qvac/botpsy": 1794486618738
-  }
+    "https://huggingface.co/blog/qvac/botpsy": 1794486618738,
+    "https://techcrunch.com/2026/11/12/jensen-huang-agrees-to-testify-before-congress/": 1794501845484,
+    "https://techcrunch.com/2026/11/12/five-ways-jensen-huangs-ouster-from-nvidia-could-damage-the-ai-industry/": 1794501845484,
+    "https://techcrunch.com/2026/11/12/trump-floats-apple-chairman-tim-cook-as-jensen-huangs-successor/": 1794501845484,
+    "https://techcrunch.com/2026/11/12/jensen-huang-is-out-at-nvidia-who-is-colette-kress-his-interim-replacement/": 1794501845484,
+    "https://techcrunch.com/2026/11/12/norwest-pushes-deeper-into-ai-with-new-4b-fund/": 1794501845484,
+    "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/": 1794501845484,
+    "https://www.foxnews.com/tech/nonprofit-offers-veterans-second-career-through-commercial-drone-pilot-training": 1794501845484,
+    "https://techcrunch.com/2026/11/12/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/": 1794501845484,
+    "https://www.foxnews.com/tech/cop-fired-over-fake-facebook-page-targeting-mom": 1794501845484,
+    "https://www.npr.org/2026/11/12/nx-s1-6037833/jensen-huang-nvidia-stepped-down": 1794501845484,
+    "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition": 1794501845484,
+    "https://techcrunch.com/2026/11/12/nine-korean-startups-vie-for-a-spot-in-disrupt-2027s-startup-battlefield-200-competition/": 1794501845484,
+    "https://www.technologyreview.com/2026/11/12/1148444/the-download-cop31-climate-talks-cognitive-immortality/": 1794501845484,
+    "https://www.foxnews.com/tech/5-myths-about-data-broker-opt-outs-expose-retirees": 1794501845484,
+    "https://www.foxnews.com/tech/sound-off-what-happen-jensen-huang-amid-nvidia-scandals": 1794501845484,
+    "https://ipo.anthropic.com/us/": 1794501845484,
+    "https://pron.github.io/posts/correctness-and-complexity": 1794501845484,
+    "https://huggingface.co/blog/3d-lora-finetuning": 1794501845484
+  },
+  "pinged": [
+    "gemini-decisions-api-review-pros-cons",
+    "jensen-huang-resigns-nvidia-ceo"
+  ]
 }
