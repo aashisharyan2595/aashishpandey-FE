@@ -53,6 +53,7 @@ const policy = require('./_adm/policy');
 const privacy = require('./_adm/privacy');
 const audience = require('./_adm/audience');
 const sender = require('./_adm/sender');
+const outbox = require('./_adm/outbox');
 
 const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
@@ -190,10 +191,11 @@ module.exports = async (req, res) => {
       if (!process.env.CRON_SECRET) return out(503, { error: 'Set CRON_SECRET in Vercel to enable scheduled jobs.' });
       if (!eq(String(req.headers.authorization || ''), 'Bearer ' + process.env.CRON_SECRET)) return out(401, { error: 'Not allowed.' });
       const health = await siteHealth.run(siteOrigin(req), { alert: true, via: a }).then((r) => ({ ok: r.ok, fails: r.fails })).catch((e) => ({ error: e.message }));   // twice a day, with an alert if anything fails
-      if (a === 'cron') { const r = await sec.backup(); await attention.noteRun('cron', r.ok, r.error); return out(200, { ...r, health }); }
+      const mail = await outbox.run().catch((e) => ({ sent: 0, error: e.message }));   // the blog desk's emails, sent through Resend on each scheduled run
+      if (a === 'cron') { const r = await sec.backup(); await attention.noteRun('cron', r.ok, r.error); return out(200, { ...r, health, mail }); }
       if ((await cfg.get('digest', { on: true })).on === false) return out(200, { sent: false, off: true, health });
       const sent = await pipeline.sendDigest(await store.all()); await attention.noteRun('digest', true);
-      return out(200, sent);
+      return out(200, { ...sent, mail });
     }
 
     /* ----- signed in from here ----- */
