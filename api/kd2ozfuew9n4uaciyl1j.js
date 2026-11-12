@@ -11,6 +11,7 @@
 //   Security:    sec_get, totp_setup, totp_enable, totp_disable, signout_all, backup_now
 //   Short links: links_list, links_act
 //   Site:        health_get, health_run, tools_stats, gsc_get, content_get, content_save, tm_list, tm_act, tm_add, tm_request
+//   Blog plan:   blog_plan (read-only: next posts and the 30-day calendar from content/blog)
 //   Pop-ups:     popups_get, popups_stats, popups_log, popups_save, popups_reset
 //   Policy:      reauth, reauth_state, policy_get, policy_save, posture_get, audit_export, audit_verify
 //   Privacy:     privacy_find, privacy_export, privacy_erase, privacy_log
@@ -40,6 +41,7 @@ const toolStats = require('./_adm/toolstats');
 const gsc = require('./_adm/gsc');
 const content = require('./_adm/content');
 const popups = require('./_adm/popups');
+const blogplan = require('./_adm/blogplan');
 const guard = require('./_adm/guard');
 const desk = require('./_adm/desk');
 const perms = require('./_adm/perms');
@@ -268,6 +270,7 @@ module.exports = async (req, res) => {
     if (a === 'gsc_get') { try { return out(200, await gsc.get(q.refresh === '1')); } catch (e) { return out(502, { error: e.message }); } }
     if (a === 'content_get') return out(200, { content: await content.get(), defaults: content.DEFAULTS });
     if (a === 'content_log') return out(200, { items: await content.history(100) });
+    if (a === 'blog_plan') return out(200, blogplan.get(Date.now()));
     if (a === 'popups_get') return out(200, { popups: await popups.get(), defaults: popups.DEFAULTS, meta: popups.meta(), lastReset: await popups.lastReset() });
     if (a === 'popups_stats') return out(200, await popups.stats(q.days, await store.all()));
     if (a === 'popups_log') return out(200, { items: await popups.history(100) });

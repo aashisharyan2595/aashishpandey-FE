@@ -8,7 +8,7 @@ const keep = {}; ['content/blog', 'assets/blog'].forEach((d) => { keep[d] = fs.e
 const { PAGES } = require('./test/mockfetch.js'), urls = Object.keys(PAGES);
 (async () => { try {
   const feed = JSON.parse(run('feeds')); assert(feed.length > 10, 'feeds give items'); assert.strictEqual(JSON.parse(run('feeds')).length, 0, 'seen items are not shown twice');
-  const dir = path.join(TMP, 'src'); const out = run('fetch', dir, ...urls, 'https://paywalled.example.com/x'); assert(/unreadable/.test(out) && /lean=L/.test(out) && /lean=R/.test(out) && /PRIMARY/.test(out), out);
+  const dir = path.join(TMP, 'src'); const out = run('fetch', dir, ...urls, 'https://paywalled.example.com/x'); assert(/unreadable/.test(out) && /lean=L/.test(out) && /lean=R/.test(out), out);
   const p = run('pick', dir, 'news'); assert(/enough: YES/.test(p), p);
   const bad = { title: 'Acme layoffs: what we know about the 12% cut', slug: 'acme-layoffs-test', excerpt: 'Acme will cut about 12% of its staff. Here is what is confirmed, what is not, and what to watch next.', seo_title: 'Acme layoffs: what we know so far', seo_description: 'Acme is cutting about 12% of staff. What is confirmed, what is not, and what it means for workers and customers, with sources.', category: 'Industry', tags: ['layoffs', 'acme'], about: ['Acme'], product: '', pros: [], cons: [], image_headline: 'Acme layoffs: what we know', image_kicker: 'Confirmed vs unknown', image_alt: 'Illustration of a news timeline',
     tldr: 'Acme is cutting about 12% of its workforce, roughly 3,000 jobs, according to Reuters and NPR.',

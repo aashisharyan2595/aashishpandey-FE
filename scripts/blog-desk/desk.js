@@ -4,7 +4,7 @@
 //
 //   node scripts/blog-desk/desk.js feeds                          new items from the news feeds (JSON on stdout); remembers what it has shown
 //   node scripts/blog-desk/desk.js fetch <dir> <url> [url...]     read pages into <dir> and label each outlet (left/centre/right, region, primary)
-//   node scripts/blog-desk/desk.js pick <dir> <kind>              choose the spread of sources and say whether it is enough (kind: review|news|explainer|breaking)
+//   node scripts/blog-desk/desk.js pick <dir> <kind> [--trade]              choose the spread of sources and say whether it is enough (kind: review|news|explainer|breaking)
 //   node scripts/blog-desk/desk.js check <draft.json> <dir>       clean the draft, then report style, copy overlap and unsupported numbers or quotes
 //   node scripts/blog-desk/desk.js build <draft.json> <dir> --kind K --at <ISO time|now> [--email <file>]
 //                                                                 draw the images, assemble the page, write content/blog/<slug>.json and assets/blog/*
@@ -65,7 +65,7 @@ async function fetchPages(dir, urls) {
 }
 const loadPages = (dir) => fs.readdirSync(dir).filter((f) => /^\d+\.json$/.test(f)).sort().map((f) => ({ file: f, ...readJ(path.join(dir, f)) }));
 function pick(dir, kind) {
-  const pages = loadPages(dir), chosen = checks.pickSources(pages), div = checks.diversity(chosen, kind || 'news');
+  const pages = loadPages(dir), chosen = checks.pickSources(pages), div = checks.diversity(chosen, kind || 'news', process.argv.indexOf('--trade') > -1);
   writeJ(path.join(dir, 'picked.json'), chosen.map((p) => p.file));
   console.log('picked:'); chosen.forEach((p) => console.log(`  ${p.file} ${p.meta.outlet} (${p.meta.lean || 'primary'}${p.meta.region ? ', ' + p.meta.region : ''})`));
   console.log('enough:', div.ok ? 'YES' : 'NO', div.ok ? '' : '- ' + div.problems.join('; '));
@@ -106,7 +106,7 @@ async function build(draftFile, dir) {
   const kind = arg('kind') || 'news', at = arg('at'), pages = pickedPages(dir), a = analyse(readJ(draftFile), pages), d = a.draft;
   if (a.overlap.pct >= 10) throw new Error(`copy overlap is ${a.overlap.pct}%, rewrite first`);
   if (a.unsupported.length) throw new Error('unsupported numbers or quotes remain, fix first');
-  const div = checks.diversity(pages, kind); if (!div.ok && process.argv.indexOf('--allow-thin-sources') < 0) throw new Error('sources are not enough: ' + div.problems.join('; '));
+  const div = checks.diversity(pages, kind, process.argv.indexOf('--trade') > -1); if (!div.ok && process.argv.indexOf('--allow-thin-sources') < 0) throw new Error('sources are not enough: ' + div.problems.join('; '));
   const slug = slugify(d.slug || d.title), publishAt = at === 'now' || !at ? Date.now() : Date.parse(at);
   if (!Number.isFinite(publishAt)) throw new Error('--at must be an ISO time or "now"');
   if (fs.existsSync(path.join(CONTENT, slug + '.json')) && process.argv.indexOf('--overwrite') < 0) throw new Error('content/blog/' + slug + '.json exists (use --overwrite to replace)');
