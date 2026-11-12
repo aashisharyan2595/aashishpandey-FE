@@ -7,6 +7,7 @@
 const crypto = require('crypto');
 const { redis } = require('../_lib');
 const md = require('./md');
+const filePosts = require('./fileposts');   // posts kept as files in content/blog (see fileposts.js)
 
 const TYPES = ['post', 'case'];
 const STATUSES = ['draft', 'review', 'approved', 'published', 'archived', 'trash'];
@@ -23,7 +24,7 @@ const has = (a, p) => !!(a && a.perms && a.perms.has(p));
 const mine = (a, p) => !!(a && p.createdBy && p.createdBy === a.id);
 
 async function get(id) { if (!/^[a-z0-9]{6,20}$/.test(String(id || ''))) return null; const raw = await redis('GET', 'post:' + id); return raw ? JSON.parse(raw) : null; }
-async function bySlug(type, slug) { const id = await redis('GET', `slug:${type}:${slug}`); return id ? get(id) : null; }
+async function bySlug(type, slug) { const id = await redis('GET', `slug:${type}:${slug}`); return id ? get(id) : filePosts.bySlug(type, slug); }
 async function all() {
   const ids = (await redis('ZREVRANGE', 'posts:idx', 0, 1999)) || [];
   if (!ids.length) return [];
@@ -35,7 +36,7 @@ const stateOf = (p, now) => { now = now || Date.now(); if (p.status !== 'publish
 
 let cache = null;
 async function live(type) {
-  if (!cache || Date.now() - cache.t > 20000) cache = { t: Date.now(), rows: (await all()).filter((p) => isLive(p)).sort((a, b) => (b.publishAt || b.updated) - (a.publishAt || a.updated)) };
+  if (!cache || Date.now() - cache.t > 20000) cache = { t: Date.now(), rows: (await all()).concat(filePosts.list()).filter((p) => isLive(p)).sort((a, b) => (b.publishAt || b.updated) - (a.publishAt || a.updated)) };
   return type ? cache.rows.filter((p) => p.type === type) : cache.rows;
 }
 const dropCache = () => { cache = null; };
@@ -70,6 +71,14 @@ function moveError(a, p, to) {
 }
 
 /* ---------- normalising what the editor sends ---------- */
+// extra facts the blog desk (scripts/blog-bot) attaches to a post: questions and answers, the sources it cites, what kind of post it is.
+// The admin editor does not send this, so an edit there keeps what was saved.
+function cleanExtra(x) {
+  if (!x || typeof x !== 'object') return undefined;
+  const faq = (Array.isArray(x.faq) ? x.faq : []).slice(0, 8).map((f) => ({ q: str(f && f.q, 200), a: str(f && f.a, 1200) })).filter((f) => f.q && f.a);
+  const sources = (Array.isArray(x.sources) ? x.sources : []).slice(0, 24).map((s) => ({ url: url(s && s.url), title: str(s && s.title, 200), outlet: str(s && s.outlet, 80) })).filter((s) => s.url);
+  return { faq, sources, kind: ['news', 'breaking', 'review', 'explainer'].includes(x.kind) ? x.kind : '', about: list(x.about, 6, 60), auto: !!x.auto };
+}
 function normalise(b, cur, a) {
   b = b || {}; const type = TYPES.includes(b.type) ? b.type : (cur && cur.type) || 'post';
   const o = {
@@ -80,6 +89,7 @@ function normalise(b, cur, a) {
     tags: list(b.tags, LIMITS.tags, LIMITS.tag), category: str(b.category, LIMITS.category),
     featured: !!b.featured, publishAt: Number(b.publishAt) > 0 ? Number(b.publishAt) : 0, unpublishAt: Number(b.unpublishAt) > 0 ? Number(b.unpublishAt) : 0,
     due: day(b.due), assignee: str(b.assignee, 20),
+    extra: type === 'post' ? cleanExtra(b.extra !== undefined ? b.extra : cur && cur.extra) : undefined,
     seo: { title: str(b.seo && b.seo.title, LIMITS.seoTitle), description: str(b.seo && b.seo.description, LIMITS.seoDesc), canonical: url(b.seo && b.seo.canonical), noindex: !!(b.seo && b.seo.noindex), ogImage: img(b.seo && b.seo.ogImage) },
   };
   if (type === 'case') o.case = {

@@ -1,5 +1,6 @@
 {
   "framework": null,
+  "functions": { "api/config.js": { "includeFiles": "content/blog/**" } },
   "buildCommand": "node scripts/chrome.cjs && node scripts/prerender.cjs && node scripts/externalize.cjs && node scripts/inline-css.cjs",
   "outputDirectory": ".",
   "cleanUrls": false,
@@ -103,6 +104,11 @@
     },
     {
       "source": "/scripts/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/content/:path*",
       "destination": "/",
       "permanent": false
     },

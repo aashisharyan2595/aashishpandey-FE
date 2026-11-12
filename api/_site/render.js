@@ -108,15 +108,16 @@ async function withImages(p) {
   const swap = (t) => String(t || '').replace(MEDIA_RE, (x, id) => (map[id] ? keywordUrl(map[id]) : x));
   const q = { ...p, body: swap(p.body), cover: { ...(p.cover || {}), src: swap(p.cover && p.cover.src) }, seo: { ...(p.seo || {}), ogImage: swap(p.seo && p.seo.ogImage) } };
   const imgs = [];
-  if (q.cover.src) imgs.push({ url: q.cover.src, alt: q.cover.alt || p.title, id: ((q.cover.src.match(/\/media\/([a-z0-9]+)/) || [])[1]) });
+  if (q.cover.src) imgs.push({ url: q.cover.src, alt: q.cover.alt || p.title, id: ((q.cover.src.match(/\/media\/([a-z0-9]+)/) || [])[1]), ...(/^\/assets\/blog\//.test(q.cover.src) ? { w: 1200, h: 630 } : {}) });
   for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/media\/([a-z0-9]+)[^)\s]*)/g)) imgs.push({ url: m[2], alt: m[1], id: m[3] });
+  for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/assets\/blog\/[^)\s]+)/g)) imgs.push({ url: m[2], alt: m[1], w: 1200, h: 630 });
   imgs.forEach((i) => { const m = map[i.id]; if (m) { i.w = m.w; i.h = m.h; } });
   q.images = imgs.filter((x, k) => imgs.findIndex((y) => y.url === x.url) === k).slice(0, 12); q.mediaMap = map;
   return q;
 }
 // width and height on every body image; the first picture on the page is not lazy-loaded when there is no cover
 function sized(html, map) {
-  return html.replace(/<img src="(\/media\/([a-z0-9]+)\/[^"]*)"/g, (x, src, id) => (map[id] && map[id].w && map[id].h ? `<img src="${src}" width="${map[id].w}" height="${map[id].h}"` : x));
+  return html.replace(/<img src="(\/media\/([a-z0-9]+)\/[^"]*)"/g, (x, src, id) => (map[id] && map[id].w && map[id].h ? `<img src="${src}" width="${map[id].w}" height="${map[id].h}"` : x)).replace(/<img src="(\/assets\/blog\/[^"]*)"/g, '<img src="$1" width="1200" height="630"');   // images the blog desk draws are always 1200 x 630
 }
 const coverAttrs = (p) => { const i = p.images && p.images[0]; return i && i.url === (p.cover && p.cover.src) && i.w && i.h ? ` width="${i.w}" height="${i.h}" fetchpriority="high"` : ' fetchpriority="high"'; };
 const imageLd = (list) => list.map((i) => ({ '@type': 'ImageObject', url: abs(i.url), contentUrl: abs(i.url), caption: i.alt || undefined, width: i.w || undefined, height: i.h || undefined, license: SITE + '/image-license', acquireLicensePage: SITE + '/image-license#request', creditText: 'Aashish Pandey', copyrightNotice: '© ' + new Date().getFullYear() + ' Aashish Pandey' }));
@@ -150,8 +151,8 @@ async function blogIndex(q) {
   const qs = (n) => '/blog?' + [tag ? 'tag=' + encodeURIComponent(tag) : '', find ? 'q=' + encodeURIComponent(find) : '', n > 1 ? 'page=' + n : ''].filter(Boolean).join('&');
   const body = `<header class="bl-hero"><div class="bl-wrap">${crumbs([{ t: 'Home', href: '/' }, { t: 'Blog' }])}
 <p class="bl-eyebrow">Blog</p>
-<h1>Notes on shipping <em>digital work</em></h1>
-<p class="bl-lead">What I learn running multi-market Shopify programs, building small tools and getting websites live. Short, practical, no fluff.</p>
+<h1>AI, tech and <em>shipping digital work</em></h1>
+<p class="bl-lead">New AI tools and models with honest pros and cons, the tech news that matters, and what I learn running digital programs. Every claim linked to its source.</p>
 ${all.length > 5 || find ? `<form class="bl-search" action="/blog" role="search"><input type="search" name="q" value="${esc(find)}" placeholder="Search the blog" aria-label="Search the blog" maxlength="60"><button type="submit">Search</button></form>` : ''}
 ${topTags.length ? `<div class="bl-filter" role="group" aria-label="Topics"><a class="bl-tag${tag ? '' : ' is-on'}" href="/blog">All</a>${topTags.map((t) => `<a class="bl-tag${t === tag ? ' is-on' : ''}" href="/blog?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>` : ''}
 </div></header>
@@ -162,7 +163,7 @@ ${pages > 1 ? `<nav class="bl-pager" aria-label="Pages">${pg > 1 ? `<a href="${q
 </div>`;
   const canonical = SITE + '/blog' + (tag ? '?tag=' + encodeURIComponent(tag) : '') + (pg > 1 ? (tag ? '&' : '?') + 'page=' + pg : '');
   return layout({
-    title: (tag ? tag + ': ' : find ? 'Search: ' + find + ' · ' : '') + 'Blog · Aashish Pandey', desc: 'Notes on running multi-market Shopify programs, building small web tools and shipping websites, by Aashish Pandey.', canonical, rss: true, noindex: !!find, body,
+    title: (tag ? tag + ': ' : find ? 'Search: ' + find + ' · ' : '') + 'Blog · Aashish Pandey', desc: 'AI tools and models reviewed with pros and cons, tech news explained with sources, and notes on shipping digital work, by Aashish Pandey.', canonical, rss: true, noindex: !!find, body,
     jsonld: [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'Blog', '@id': SITE + '/blog#blog', url: SITE + '/blog', name: 'Aashish Pandey: Blog', publisher: { '@id': SITE + '/#person' }, blogPost: rows.slice(0, 20).map((p) => ({ '@type': 'BlogPosting', headline: p.title, url: SITE + base(p), datePublished: isoDate(p.publishAt) })) }, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }])] }],
   });
 }
@@ -191,8 +192,16 @@ ${authorBox(au)}
 </div>${tocBlock(r.toc) ? `<aside class="bl-side">${tocBlock(r.toc)}</aside>` : ''}</div>
 ${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">Keep reading</h2><div class="bl-grid">${rel.map((x) => card(x)).join('')}</div></section>` : ''}
 </article>`;
-  const ld = [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, wordCount: p.words, inLanguage: 'en' }, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title, href: '/blog/' + p.slug }])] }];
-  return layout({ title: (seo.title || p.title) + ' · Aashish Pandey', desc: seo.description || trunc(p.excerpt, 155), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
+  const x = p.extra || {}, news = x.kind === 'news' || x.kind === 'breaking';
+  const art = { '@type': news ? 'NewsArticle' : 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, articleSection: p.category || undefined, wordCount: p.words, inLanguage: 'en', isAccessibleForFree: true };
+  // the sources a post cites and what it is about help search and answer engines trust and place it
+  if (x.sources && x.sources.length) art.citation = x.sources.map((s) => ({ '@type': 'CreativeWork', url: s.url, name: s.title || undefined, publisher: s.outlet ? { '@type': 'Organization', name: s.outlet } : undefined }));
+  if (x.about && x.about.length) art.about = x.about.map((n) => ({ '@type': 'Thing', name: n }));
+  const graph = [art, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title, href: '/blog/' + p.slug }])];
+  if (x.faq && x.faq.length) graph.push({ '@type': 'FAQPage', '@id': url + '#faq', mainEntity: x.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
+  const ld = [{ '@context': 'https://schema.org', '@graph': graph }];
+  const tt = seo.title || p.title;
+  return layout({ title: tt.length + 17 <= 66 ? tt + ' · Aashish Pandey' : tt, desc: seo.description || trunc(p.excerpt, 155), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
 }
 
 /* ---------- case studies ---------- */
@@ -233,7 +242,7 @@ function notFound() {
 /* ---------- feeds ---------- */
 async function rss() {
   const rows = (await posts.live('post')).slice(0, 30);
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aashish Pandey: blog</title><link>${SITE}/blog</link><description>Notes on shipping digital work.</description><language>en</language><atom:link href="${SITE}/blog/rss.xml" rel="self" type="application/rss+xml"/>`
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aashish Pandey: blog</title><link>${SITE}/blog</link><description>AI tools, tech news and notes on shipping digital work.</description><language>en</language><atom:link href="${SITE}/blog/rss.xml" rel="self" type="application/rss+xml"/>`
     + rows.map((p) => `<item><title>${esc(p.title)}</title><link>${SITE}/blog/${p.slug}</link><guid isPermaLink="true">${SITE}/blog/${p.slug}</guid><pubDate>${new Date(p.publishAt || p.updated).toUTCString()}</pubDate><description>${esc(p.excerpt)}</description>${(p.tags || []).map((t) => `<category>${esc(t)}</category>`).join('')}</item>`).join('') + '</channel></rss>';
 }
 async function sitemap() {
