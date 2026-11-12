@@ -79,3 +79,6 @@ Set 2 (story-channel looks): `node scripts/blog-desk/style-reel.js <outdir> --se
 
 ## Embedding the YouTube Short in a post
 After Aashish uploads the Short and sends the link, add `::short[VIDEO_ID]` on its own line under the quick-answer box in the post body (portrait 9:16 privacy embed) and set `extra.video = { id, name, description, uploadDate, duration }`. The post page then emits VideoObject schema (thumbnail from i.ytimg.com).
+
+## Video style (default from 2026-11-12)
+Every new Short uses the cinematic 3D low-poly look (`story3d.js`, packs in `scripts/blog-desk/stories3d/`). Text and pills must stay professional: white bold titles with one gradient accent line, dark glass panels and pills with a small accent dot (see `glass`, `chip`, `TT` in `gemini-3d.js`). No candy colours, no bright pastel boxes. Concept first, Muja only as a helper.
