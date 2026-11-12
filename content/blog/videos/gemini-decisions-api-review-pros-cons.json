@@ -1,0 +1,18 @@
+{
+  "title": "Google's AI that can't write",
+  "accent": "green",
+  "label": "AI tool review",
+  "topic": "tech",
+  "scenes": [
+    { "beat": "The hook", "art": "robot", "head": "It can't write a word", "say": "Google just launched an AI that cannot write a single word. So why does it matter?" },
+    { "beat": "The setup", "art": "cards", "head": "1 input. 1,000 questions.", "say": "It's the Gemini Decisions API. You give it one input, and up to a thousand questions." },
+    { "beat": "The idea", "type": "stats", "head": "Three kinds of answers", "stats": [{ "v": "Yes / No", "l": "is it true?" }, { "v": "Pick one", "l": "2 to 255 options" }, { "v": "Score it", "l": "against a rubric" }], "say": "Yes or no. Pick one. Or score it. And every answer comes with a confidence number." },
+    { "beat": "The picture", "art": "globe", "head": "A very fast sorting clerk", "say": "Picture a very fast sorting clerk. Is this email a complaint? Which team gets it? And how sure is it?" },
+    { "beat": "The proof", "type": "stats", "head": "Fast and cheap", "stats": [{ "v": "150-250 ms", "l": "end to end, Google says" }, { "v": "$0.10", "l": "per million input tokens" }], "say": "Google says it answers in about one hundred fifty to two hundred fifty milliseconds. And it costs ten cents per million input tokens, with nothing for output." },
+    { "beat": "The twist", "art": "pulse", "head": "Here's the catch", "say": "Here's the catch. Every benchmark number comes from Google itself." },
+    { "beat": "The twist", "type": "stats", "head": "It doesn't win everywhere", "stats": [{ "v": "7 of 9", "l": "benchmarks led, per Google" }, { "v": "2 of 9", "l": "won by rival Jev 1.14" }], "say": "Google says it leads seven of nine. A rival called Jev wins the other two, and it's cheaper." },
+    { "beat": "The verdict", "type": "proscons", "head": "Pros and cons", "pros": ["Numbers, not sentences", "Reads audio, video, PDFs", "Built-in doubt score"], "cons": ["Not the cheapest", "No self-hosting", "Cannot write text"], "say": "The good: numbers instead of sentences, and it reads audio, video and PDFs. The bad: it's not the cheapest, it can't be self-hosted, and it can't write text." },
+    { "beat": "Takeaway", "art": "server", "head": "Who it's for", "say": "So who is it for? Teams making the same small decision thousands of times a day." },
+    { "beat": "Next", "art": "robot", "head": "Full breakdown on my blog", "say": "Full pros and cons, with sources, are on my blog. Follow for a new AI tool every day." }
+  ]
+}

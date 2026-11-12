@@ -36,7 +36,7 @@ const { PAGES } = require('./test/mockfetch.js'), urls = Object.keys(PAGES);
   console.log('title tag:', /<title>(.*?)<\/title>/.exec(html)[1]); console.log('all checks passed');
   if (process.argv.includes('--keep')) { fs.mkdirSync('/tmp/blog-test', { recursive: true }); fs.copyFileSync(email, '/tmp/blog-test/email.html'); fs.writeFileSync('/tmp/blog-test/post.html', html); fs.copyFileSync(path.join(ROOT, 'assets/blog/acme-layoffs-test-cover.jpg'), '/tmp/blog-test/cover.jpg'); }
 } finally {
-  fs.rmSync(path.join(ROOT, 'assets/blog/acme-layoffs-test-cover.jpg'), { force: true });
+  for (const r of ['cover', 'thumb']) fs.rmSync(path.join(ROOT, 'assets/blog/acme-layoffs-test-' + r + '.jpg'), { force: true });
   fs.rmSync(path.join(ROOT, 'content/blog/acme-layoffs-test.json'), { force: true }); fs.rmSync(path.join(ROOT, 'content/blog/state.json'), { force: true });
   if (!keep['assets/blog']) fs.rmSync(path.join(ROOT, 'assets/blog'), { recursive: true, force: true }); if (!keep['content/blog']) fs.rmSync(path.join(ROOT, 'content/blog'), { recursive: true, force: true });
   fs.rmSync(TMP, { recursive: true, force: true });

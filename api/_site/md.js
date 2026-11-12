@@ -2,6 +2,7 @@
 // editor can never put a script on the site. Supported: headings, paragraphs, lists (one level of nesting), quotes, callouts, code blocks,
 // tables, rules, links, images with captions, bold, italic, strike, inline code, a YouTube embed and a button.
 //   > [!NOTE] text   > [!TIP] text   > [!WARNING] text      callouts
+//   ::short[VIDEO_ID]                                          portrait (9:16) YouTube Short embed
 //   ::youtube[VIDEO_ID]                                        privacy-friendly embed (youtube-nocookie)
 //   ::button[Label](https://example.com)                       call-to-action button
 //   ![alt text](/media/abc "caption")                          figure with a caption
@@ -51,6 +52,7 @@ function render(src, opts) {
       words += text.split(/\s+/).length; out.push('<h' + lv + ' id="' + id + '">' + inline(text) + '</h' + lv + '>'); i++; continue;
     }
     if (/^\s*([-*_])(\s*\1){2,}\s*$/.test(l)) { flush(); out.push('<hr>'); i++; continue; }
+    if ((m = /^::short\[([\w-]{6,20})\]\s*$/.exec(l))) { flush(); out.push('<div class="md-video md-short"><iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="Short video summary" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>'); i++; continue; }
     if ((m = /^::youtube\[([\w-]{6,20})\]\s*$/.exec(l))) { flush(); out.push('<div class="md-video"><iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="Video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>'); i++; continue; }
     if ((m = /^::button\[([^\]]+)\]\(([^)\s]+)\)\s*$/.exec(l))) { flush(); const h = safeHref(m[2]); if (h) out.push('<p class="md-cta"><a class="md-btn" href="' + esc(h) + '">' + esc(m[1]) + '</a></p>'); i++; continue; }
     if ((m = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\s*$/.exec(l))) {   // an image on its own line is a figure

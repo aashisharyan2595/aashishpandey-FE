@@ -1,0 +1,19 @@
+{
+  "title": "Dex and the thousand questions",
+  "accent": "teal",
+  "label": "AI tool review",
+  "topic": "tech",
+  "pack": "gemini-dex",
+  "speed": 0.95,
+  "scenes": [
+    { "say": "Meet Dex. He works in the world's busiest mail room. And today, a thousand questions just landed on his desk." },
+    { "say": "Is this email a complaint? Which team gets it? How urgent is it? Every single answer is needed right now." },
+    { "say": "Most AIs reply with a paragraph. Every time. And your code has to read every one of them." },
+    { "say": "Then Google hands Dex a new tool. The Gemini Decisions API. It doesn't write. It decides." },
+    { "say": "Yes or no. Pick one. Or score it. One input, up to a thousand questions, in one call." },
+    { "say": "Google says the whole job takes about a quarter of a second. And it costs ten cents per million input tokens." },
+    { "say": "But here's the plot twist. Every benchmark number comes from Google itself. And a rival called Jev wins two of the nine tests." },
+    { "say": "So who is it for? Teams making the same small decision, thousands of times a day. It reads audio, video and PDFs. But it isn't the cheapest, you can't self-host it, and it can't write." },
+    { "say": "Full pros and cons, with sources, are on my blog. Follow, and Dex and I will be back tomorrow with another AI tool." }
+  ]
+}
