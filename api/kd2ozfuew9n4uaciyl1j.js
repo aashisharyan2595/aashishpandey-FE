@@ -15,6 +15,8 @@
 //   Pop-ups:     popups_get, popups_stats, popups_log, popups_save, popups_reset
 //   Policy:      reauth, reauth_state, policy_get, policy_save, posture_get, audit_export, audit_verify
 //   Privacy:     privacy_find, privacy_export, privacy_erase, privacy_log
+//   Sender:      sender_get, sender_save, sender_add, sender_domain, sender_verify (newsletter from-address and sending domains)
+//   Audience:    aud_overview, aud_people, aud_person, aud_camps, aud_camp, aud_health, aud_export, aud_tag, aud_unsub, aud_resub, aud_note, aud_import
 const crypto = require('crypto');
 const { env, sendMail, clean, parseBody, clientIp, limited, link } = require('./_mail');
 const T = require('./_templates');
@@ -49,12 +51,14 @@ const cms = require('./_adm/cms');
 const attention = require('./_adm/attention');
 const policy = require('./_adm/policy');
 const privacy = require('./_adm/privacy');
+const audience = require('./_adm/audience');
+const sender = require('./_adm/sender');
 
 const COOKIE = 'ap_admin', TTL = 12 * 3600;
 const STATUSES = ['new', 'replied', 'spam', 'archived', 'pending', 'subscribed', 'unsubscribed'];
 const CURRENCIES = ['USD', 'INR', 'EUR', 'GBP', 'AED', 'CAD', 'AUD'];
 // what goes in the activity log (reads are not recorded; a refused attempt always is)
-const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'popups_save', 'popups_reset', 'post_save', 'post_move', 'post_comment', 'post_assign', 'post_bulk', 'post_delete', 'post_duplicate', 'post_restore', 'media_upload', 'media_update', 'media_delete', 'tax_rename', 'tax_delete', 'roles_save', 'roles_delete', 'roles_reset', 'profile_save', 'tm_act', 'tm_add', 'tm_request', 'audit_export', 'audit_verify', 'policy_save', 'privacy_find', 'privacy_export', 'privacy_erase']);
+const AUDITED = new Set(['update', 'delete', 'resend', 'bulk', 'reply_send', 'thread_note', 'tpl_save', 'spam_save', 'alerts_save', 'alerts_test', 'news_test', 'news_start', 'news_retry', 'news_import', 'news_import_briefs', 'totp_enable', 'totp_disable', 'signout_all', 'backup_now', 'links_act', 'users_add', 'users_update', 'users_delete', 'pw_change', 'sessions_revoke', 'sessions_revoke_user', 'security_save', 'mail_unsuppress', 'mail_suppress', 'quote_send', 'quote_status', 'export', 'digest_save', 'digest_now', 'push_subscribe', 'push_unsubscribe', 'health_run', 'content_save', 'content_restore', 'popups_save', 'popups_reset', 'post_save', 'post_move', 'post_comment', 'post_assign', 'post_bulk', 'post_delete', 'post_duplicate', 'post_restore', 'media_upload', 'media_update', 'media_delete', 'tax_rename', 'tax_delete', 'roles_save', 'roles_delete', 'roles_reset', 'profile_save', 'tm_act', 'tm_add', 'tm_request', 'audit_export', 'audit_verify', 'policy_save', 'privacy_find', 'privacy_export', 'privacy_erase', 'aud_export', 'aud_tag', 'aud_unsub', 'aud_resub', 'aud_note', 'aud_import', 'sender_save', 'sender_add', 'sender_verify']);
 const secret = () => process.env.ADMIN_SECRET || crypto.createHash('sha256').update('ap-admin|' + (process.env.ADMIN_PASSWORD || '')).digest('hex');
 const b64 = (s) => Buffer.from(s).toString('base64url');
 const sig = (p) => crypto.createHmac('sha256', secret()).update(p).digest('base64url');
@@ -278,6 +282,30 @@ module.exports = async (req, res) => {
     if (a === 'search_all') return out(200, desk.search(await store.all(), q.q));
     if (a === 'attention_get') return out(200, await attention.build({ rows: await store.all(), now }));
     if (a === 'tm_list') return out(200, { items: await content.list() });
+    /* ----- newsletter sender and domains ----- */
+    if (a === 'sender_get') { const [c, d, w] = await Promise.all([sender.get(), sender.domains(), sender.newsletterFrom()]); return out(200, { sender: c, domains: d, using: w.from, custom: w.custom, site: env().from }); }
+    if (a === 'sender_domain') { try { return out(200, await sender.domain(clean(q.id, 80))); } catch (e) { return out(502, { error: e.message }); } }
+    if (a.startsWith('sender_') && post) {
+      try {
+        if (a === 'sender_save') return out(200, { ok: true, ...(await sender.save(b)) });
+        if (a === 'sender_add') return out(200, { ok: true, domain: await sender.add(b.name) });
+        if (a === 'sender_verify') return out(200, { ok: true, domain: await sender.verify(clean(b.id, 80)) });
+      } catch (e) { return out(400, { error: e.message }); }
+    }
+    /* ----- audience: subscribers like a mailing tool ----- */
+    if (a.startsWith('aud_') && !post) {
+      const L = await audience.load();
+      if (a === 'aud_overview') return out(200, audience.overview(L, now, q.days));
+      if (a === 'aud_people') return out(200, audience.people(L, q, now));
+      if (a === 'aud_person') { const p = audience.person(L, clean(q.id, 40), await audience.camps(), now); return p ? out(200, p) : out(404, { error: 'That subscriber is gone. They may have been erased.' }); }
+      if (a === 'aud_camps') return out(200, { items: audience.campaigns(L, await audience.camps(), now), webhook: !!process.env.RESEND_WEBHOOK_SECRET });
+      if (a === 'aud_camp') { const c = audience.campaign(L, await audience.camps(), clean(q.id, 20), now); return c ? out(200, c) : out(404, { error: 'Campaign not found.' }); }
+      if (a === 'aud_health') return out(200, audience.health(L, await audience.camps(), now));
+      if (a === 'aud_export') {
+        const list = q.ids ? audience.people(L, { status: 'all', limit: 500 }, now).items.filter((r) => String(q.ids).split(',').includes(r.id)) : audience.people(L, { ...q, offset: 0, limit: 500 }, now).items;
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8'); res.setHeader('Content-Disposition', `attachment; filename="subscribers-${new Date().toISOString().slice(0, 10)}.csv"`); return res.status(200).send(audience.csv(list));
+      }
+    }
     if (!post) return out(405, { error: 'Use POST.' });
 
     /* ----- inbox ----- */
@@ -378,18 +406,30 @@ module.exports = async (req, res) => {
     }
     if (a === 'quote_status') { try { const qt = await quotes.setStatus(clean(b.qid, 20), String(b.status || '')); return out(200, { ok: true, status: qt.status }); } catch (e) { return out(400, { error: e.message }); } }
 
+    /* ----- audience changes ----- */
+    if (a.startsWith('aud_')) {
+      const ids = (Array.isArray(b.ids) ? b.ids : [b.id]).map((x) => clean(x, 40)).filter(Boolean).slice(0, 500);
+      try {
+        if (a === 'aud_tag') return out(200, { ok: true, n: await audience.setTags(ids, [].concat(b.add || []), [].concat(b.remove || []), user.name) });
+        if (a === 'aud_unsub') return out(200, { ok: true, n: await audience.unsubscribe(ids, user.name) });
+        if (a === 'aud_resub') return out(200, { ok: true, ...(await audience.resubscribe(ids, user.name)) });
+        if (a === 'aud_note') { await audience.saveNote(clean(b.id, 40), b.note, user.name); return out(200, { ok: true }); }
+        if (a === 'aud_import') return out(200, { ok: true, ...(await audience.importList(String(b.text || ''), { consent: b.consent === true, tag: b.tag, note: b.note }, user.name)) });
+      } catch (e) { return out(400, { error: e.message }); }
+    }
+
     /* ----- newsletter ----- */
     if (a === 'news_preview') { const c = news.clean(b); return out(200, { html: news.render(c, SITE_UNSUB, 'Priya').html }); }
     if (a === 'news_test') {
       const c = news.clean(b); if (!c.subject || !c.body.trim()) return out(400, { error: 'Add a subject and a body first.' });
       const to = env().admins[0], un = link('unsubscribe', to), r = news.render(c, un);
-      try { await sendMail({ to, subject: '[Test] ' + c.subject, html: r.html, text: r.text, replyTo: env().admins, kind: 'newsletter-test' }); } catch (e) { return out(502, { error: 'Email failed: ' + e.message }); }
+      const who = await sender.newsletterFrom(); try { await sendMail({ to, subject: '[Test] ' + c.subject, html: r.html, text: r.text, replyTo: who.replyTo, from: who.from, kind: 'newsletter-test' }); } catch (e) { return out(502, { error: 'Email failed: ' + e.message }); }
       return out(200, { ok: true, to });
     }
     if (a === 'news_start') {
       const c = news.clean(b); if (!c.subject || !c.body.trim()) return out(400, { error: 'Add a subject and a body first.' });
       if (b.confirm !== 'SEND') return out(400, { error: 'Type SEND to confirm.' });
-      const camp = await news.start(c); return out(200, { id: camp.id, total: camp.total });
+      const camp = await news.start(c, { tag: audience.cleanTag(b.tag || '') }); return out(200, { id: camp.id, total: camp.total });
     }
     if (a === 'news_send') { try { return out(200, await news.sendChunk(clean(b.id, 20))); } catch (e) { return out(404, { error: e.message }); } }
     if (a === 'news_retry') { try { return out(200, await news.retryFailed(clean(b.id, 20))); } catch (e) { return out(404, { error: e.message }); } }

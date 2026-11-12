@@ -3,7 +3,7 @@
 const pipeline = require('./pipeline');
 
 const H = 3600e3, D = 24 * H;
-const SOURCE_LABEL = { footer: 'Footer form', 'after-use': 'After using a tool', card: 'Corner card', inline: 'Under a tool', page: 'Newsletter page', form: 'Other form', brief: 'Past brief senders', import: 'Imported', '': 'Not recorded' };
+const SOURCE_LABEL = { footer: 'Footer form', 'after-use': 'After using a tool', card: 'Corner card', inline: 'Under a tool', page: 'Newsletter page', reading: 'Reading card', form: 'Other form', brief: 'Past brief senders', import: 'Imported', '': 'Not recorded' };
 
 const brief = (r, now, extra) => ({ id: r.id, name: r.name || r.email || 'Someone', service: r.service || '', at: r.created, ageH: Math.floor((now - r.created) / H), ...(extra || {}) });
 
@@ -40,7 +40,7 @@ function sources(rows, now, days) {
     const k = r.via || (r.source === 'import' ? 'import' : '');
     m[k] = (m[k] || 0) + 1;
   }
-  return Object.entries(m).map(([via, n]) => ({ via, label: SOURCE_LABEL[via] || via, n })).sort((a, b) => b.n - a.n);
+  return Object.entries(m).map(([via, n]) => ({ via, label: SOURCE_LABEL[via] || (/^pop-/.test(via) ? 'Pop-up (' + via.slice(4) + ')' : via), n })).sort((a, b) => b.n - a.n);
 }
 
 // One box that finds a person in briefs and subscribers. Returns small rows; the desk opens the right place from them.

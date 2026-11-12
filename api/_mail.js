@@ -31,8 +31,8 @@ async function resend(path, method, body) {
 // kind says what the email is (shown in the delivery log); ref is the brief it belongs to.
 // A visitor address that bounced or reported spam before is not written to again: automated mail is skipped, an explicit reply or quote is refused with a reason.
 const AUTOMATED = new Set(['visitor-confirmation', 'welcome', 'subscribe-confirm']), EXPLICIT = new Set(['reply', 'quote']);
-async function sendMail({ to, subject, html, text, replyTo, headers, attachments, kind, ref }) {
-  const { from } = env(), list = Array.isArray(to) ? to : [to];
+async function sendMail({ to, subject, html, text, replyTo, headers, attachments, kind, ref, from: fromOverride }) {
+  const from = fromOverride || env().from, list = Array.isArray(to) ? to : [to];
   let log = null; try { log = require('./_adm/maillog'); } catch (e) { /* the log is optional */ }
   if (log && (AUTOMATED.has(kind) || EXPLICIT.has(kind)) && process.env.UPSTASH_REDIS_REST_URL) {
     let blocked = false; try { blocked = await log.isSuppressed(list[0]); } catch (e) { /* if the lookup fails, send */ }

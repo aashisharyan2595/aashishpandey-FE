@@ -220,7 +220,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--field);border:1px s
   .tab.on{background:rgba(245,184,103,.12);color:var(--amber)}
   .tab.on::before{top:14px;bottom:14px;left:-10px;right:auto;width:3px;height:auto;border-radius:0 3px 3px 0}
   .tab .dot{top:6px;left:calc(50% + 4px)}
-  .tab[data-tab=sub]{order:1}.tab[data-tab=news]{order:2}.tab[data-tab=mail]{order:3}.tab[data-tab=seo]{order:4}.tab[data-tab=tools]{order:5}.tab[data-tab=links]{order:6}.tab[data-tab=content]{order:7}.tab[data-tab=spam]{order:8}.tab[data-tab=health]{order:9}.tab[data-tab=team]{order:10}.tab[data-tab=set]{order:11;margin-top:auto}
+  .tab[data-tab=aud]{order:1}.tab[data-tab=sub]{order:1}.tab[data-tab=news]{order:2}.tab[data-tab=mail]{order:3}.tab[data-tab=seo]{order:4}.tab[data-tab=tools]{order:5}.tab[data-tab=links]{order:6}.tab[data-tab=content]{order:7}.tab[data-tab=spam]{order:8}.tab[data-tab=health]{order:9}.tab[data-tab=team]{order:10}.tab[data-tab=set]{order:11;margin-top:auto}
   .sfoot{display:flex;flex-direction:column;gap:8px;padding-top:12px;margin-top:10px;border-top:1px solid var(--line)}
   .sfoot .who{display:none}
   .sfoot .btn{width:100%;padding:0 6px;font-size:12.5px}
@@ -399,7 +399,7 @@ kbd{font:500 10.5px var(--mono);padding:2px 6px;border-radius:6px;border:1px sol
 @media(min-width:700px){
   .navh{display:block;height:1px;margin:8px 6px;background:var(--line);font-size:0;overflow:hidden}
   .tab[data-tab=home]{order:1}.navh[data-g=content]{order:2}.tab[data-tab=posts]{order:3}.tab[data-tab=cases]{order:4}.tab[data-tab=calendar]{order:5}.tab[data-tab=blogplan]{order:5}.tab[data-tab=media]{order:6}.tab[data-tab=tax]{order:7}.tab[data-tab=content]{order:8}.tab[data-tab=popups]{order:8}
-  .navh[data-g=audience]{order:9}.tab[data-tab=sub]{order:10}.tab[data-tab=news]{order:11}.tab[data-tab=mail]{order:12}.tab[data-tab=spam]{order:13}
+  .navh[data-g=audience]{order:9}.tab[data-tab=aud]{order:10}.tab[data-tab=sub]{order:10}.tab[data-tab=news]{order:11}.tab[data-tab=mail]{order:12}.tab[data-tab=spam]{order:13}
   .navh[data-g=growth]{order:14}.tab[data-tab=seo]{order:15}.tab[data-tab=tools]{order:16}.tab[data-tab=links]{order:17}
   .navh[data-g=manage]{order:18}.tab[data-tab=health]{order:19}.tab[data-tab=team]{order:20}.tab[data-tab=privacy]{order:21}.tab[data-tab=set]{order:22;margin-top:0}
   .tab .cnt{position:absolute;top:6px;left:calc(50% + 4px);margin:0;min-width:16px;height:16px;font-size:10px;padding:0 4px}
@@ -728,6 +728,57 @@ main:focus{outline:none}
 .tour .tact{display:flex;gap:8px;align-items:center;margin-top:14px}.tour .grow{flex:1}
 .tour-hl{outline:2px solid var(--amber)!important;outline-offset:3px;border-radius:12px;box-shadow:0 0 0 9999px rgba(3,5,18,.55);position:relative;z-index:119}
 @media(prefers-reduced-motion:reduce){.navh::after{transition:none}}
+/* ---------- Subscribers (audience) ---------- */
+.au-seg{margin:0 0 16px}
+.au-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+@media(min-width:700px){.au-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:1240px){.au-kpis{grid-template-columns:repeat(8,minmax(0,1fr))}}
+.au-kpis .kpi{cursor:default}.au-kpis .kpi b{font-size:26px}.au-kpis .kpi em{font-style:normal;font-size:12px;font-weight:600}.au-up{color:var(--green)}.au-dn{color:var(--red)}
+.au-chart{width:100%;height:210px;display:block;margin-top:10px}
+.au-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--mute);margin-top:6px}.au-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.au-hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}.au-hd h2{margin:0}
+.au-live{display:inline-flex;align-items:center;gap:7px;font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--green)}.au-live i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(111,214,168,.6);animation:auPulse 2s infinite}
+@keyframes auPulse{0%{box-shadow:0 0 0 0 rgba(111,214,168,.55)}70%{box-shadow:0 0 0 9px rgba(111,214,168,0)}100%{box-shadow:0 0 0 0 rgba(111,214,168,0)}}
+@media(prefers-reduced-motion:reduce){.au-live i{animation:none}}
+.au-feed{display:flex;flex-direction:column;margin-top:10px}
+.au-fi{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;padding:10px 6px;border-top:1px solid var(--line);background:none;border-left:0;border-right:0;border-bottom:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer;border-radius:0;min-height:52px}
+.au-fi:first-child{border-top:0}.au-fi:hover{background:rgba(244,239,230,.03)}
+.au-fi .av{width:36px;height:36px;font-size:13px}.au-fi b{display:block;font-weight:600;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.au-fi small{display:block;color:var(--mute);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.au-fi .t{font-size:12px;color:var(--dim);text-align:right;white-space:nowrap}
+.au-fi.is-new{background:linear-gradient(90deg,rgba(111,214,168,.10),transparent 60%)}
+.au-tiers{display:flex;height:14px;border-radius:99px;overflow:hidden;background:rgba(244,239,230,.08);margin:14px 0 12px}.au-tiers i{display:block;height:100%}
+.au-tl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.au-tl button{display:flex;gap:10px;align-items:center;background:rgba(7,9,22,.35);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-height:44px}.au-tl button:hover{border-color:var(--line2)}.au-tl b{font-size:18px;font-variant-numeric:tabular-nums}.au-tl span{font-size:12.5px;color:var(--mute);line-height:1.3}.au-tl i{width:10px;height:10px;border-radius:3px;flex:none}
+.au-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.au-tag{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid rgba(141,180,255,.45);color:var(--blue);background:rgba(141,180,255,.08);white-space:nowrap}
+button.au-tag{cursor:pointer;font-family:inherit;min-height:32px}button.au-tag b{color:var(--ink);font-weight:600}
+.au-tag .x{border:0;background:none;color:inherit;cursor:pointer;padding:0 0 0 2px;font-size:14px;line-height:1}
+.au-seglist{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding:2px}.au-seglist::-webkit-scrollbar{display:none}
+.au-seglist button{flex:0 0 auto;min-height:36px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:none;color:var(--mute);font:600 13px Geist,sans-serif;cursor:pointer}.au-seglist button.on{border-color:var(--amber);color:var(--amber);background:rgba(245,184,103,.08)}.au-seglist button b{color:var(--ink);margin-left:6px;font-weight:600}
+.au-filt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.au-filt select{width:100%}
+@media(min-width:900px){.au-filt{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.au-tbl{width:100%;border-collapse:collapse;font-size:14px}
+.au-tbl th{font:500 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.au-tbl td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.au-tbl tr.r{cursor:pointer}.au-tbl tr.r:hover td{background:rgba(244,239,230,.03)}.au-tbl tr.sel td{background:rgba(245,184,103,.06)}
+.au-tbl .who b{display:block;font-weight:600}.au-tbl .who small{color:var(--mute);font-size:12.5px;overflow-wrap:anywhere}.au-tbl .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.au-tbl .m{color:var(--mute);font-size:13px}
+.au-tbl input[type=checkbox]{width:18px;height:18px;accent-color:var(--amber)}
+.au-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.au-score{display:inline-flex;align-items:center;gap:8px}.au-score i{display:block;width:46px;height:6px;border-radius:99px;background:rgba(244,239,230,.1);overflow:hidden}.au-score i u{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--green))}
+.au-cards{display:none}
+@media(max-width:899px){.au-wrap .au-tbl{display:none}.au-cards{display:flex;flex-direction:column}}
+.au-card{display:grid;grid-template-columns:28px 1fr auto;gap:4px 10px;padding:14px;border-top:1px solid var(--line);align-items:start;cursor:pointer}.au-card:first-child{border-top:0}
+.au-card input{width:20px;height:20px;margin-top:2px;accent-color:var(--amber)}.au-card b{font-weight:600;display:block;overflow-wrap:anywhere}.au-card small{color:var(--mute);font-size:12.5px;display:block;overflow-wrap:anywhere}.au-card .meta2{grid-column:2/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px}
+.au-bulk{position:sticky;top:calc(var(--head,64px) + 8px);z-index:20;background:var(--panel2);border:1px solid var(--amber);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:12px;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+@media(max-width:899px){.au-bulk{position:fixed;left:10px;right:10px;top:auto;bottom:calc(var(--nav,64px) + var(--safe,0px) + 10px);z-index:35;margin:0}.au-bulk .row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.au-bulk .row>*{flex:none}.au-bulk .row::-webkit-scrollbar{display:none}}
+.au-tline{list-style:none;margin:6px 0 0;padding:0 0 0 18px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.au-tline li{position:relative}.au-tline li:before{content:"";position:absolute;left:-25px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--dim);border:2px solid var(--panel)}
+.au-tline li.join:before{background:var(--green)}.au-tline li.mail:before{background:var(--blue)}.au-tline li.open:before{background:var(--teal)}.au-tline li.unsub:before,.au-tline li.block:before{background:var(--red)}.au-tline li.note:before{background:var(--amber)}
+.au-tline b{display:block;font-weight:600;font-size:14.5px}.au-tline small{display:block;color:var(--mute);font-size:12.5px}
+.au-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.au-stats div{background:rgba(7,9,22,.4);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.au-stats b{display:block;font-size:20px;font-variant-numeric:tabular-nums}.au-stats span{font-size:12px;color:var(--mute)}
+.au-funnel{display:flex;flex-direction:column;gap:8px;margin-top:10px}.au-funnel .f{display:grid;grid-template-columns:110px 1fr 90px;gap:10px;align-items:center;font-size:13.5px}.au-funnel .f i{display:block;height:10px;border-radius:99px;background:rgba(244,239,230,.08);overflow:hidden}.au-funnel .f i u{display:block;height:100%;border-radius:99px}.au-funnel .f span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--mute)}
+.au-hscore{display:flex;gap:16px;align-items:center;margin-bottom:6px}
+.au-drop{border:1.5px dashed var(--line2);border-radius:var(--r-sm);padding:14px;text-align:center;color:var(--mute);font-size:13.5px;margin-top:10px}
+.au-empty{padding:28px 16px;text-align:center;color:var(--mute)}
+.tab .au-n{margin-left:auto;font:600 11px var(--mono);background:var(--green);color:#0b1a12;border-radius:99px;padding:1px 7px}
 </style>
 <link rel="stylesheet" href="/assets/blog.css?v=v1">
 <script src="/assets/popups.js" defer></script>
@@ -777,7 +828,7 @@ main:focus{outline:none}
     <p class="navh" data-g="content">Content</p>
     <button class="tab" data-tab="posts"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>Posts<span class="cnt" id="cntPosts"></span></button><button class="tab" data-tab="cases"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>Case studies</button><button class="tab" data-tab="calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Calendar</button><button class="tab" data-tab="blogplan"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 9h8M8 13h8M8 17h5"/><path d="M16 2v4"/></svg>Blog plan</button><button class="tab" data-tab="media"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg>Media</button><button class="tab" data-tab="tax"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V4h9l8.6 8.6a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg>Categories and tags</button><button class="tab" data-tab="content"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>Site text</button><button class="tab" data-tab="popups"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M14 13h4M14 9h4M7 9h3v4H7zM8 21h8"/></svg>Pop-ups</button>
     <p class="navh" data-g="audience">Audience</p>
-    <button class="tab" data-tab="sub"><svg viewBox="0 0 24 24"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M4 13 6.5 5h11L20 13v6H4z"/></svg>Inbox<span class="dot hide" id="newDot"></span></button><button class="tab" data-tab="news"><svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></svg>Newsletter</button><button class="tab" data-tab="mail"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Mail log<span class="dot hide" id="mailDot"></span></button><button class="tab" data-tab="spam"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z"/></svg>Spam rules</button>
+    <button class="tab" data-tab="aud"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M17 11l2 2 4-4"/></svg>Subscribers</button><button class="tab" data-tab="sub"><svg viewBox="0 0 24 24"><path d="M4 13h4l2 3h4l2-3h4"/><path d="M4 13 6.5 5h11L20 13v6H4z"/></svg>Inbox<span class="dot hide" id="newDot"></span></button><button class="tab" data-tab="news"><svg viewBox="0 0 24 24"><path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/></svg>Newsletter</button><button class="tab" data-tab="mail"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Mail log<span class="dot hide" id="mailDot"></span></button><button class="tab" data-tab="spam"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z"/></svg>Spam rules</button>
     <p class="navh" data-g="growth">Growth</p>
     <button class="tab" data-tab="seo"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M8 13l2-2 2 2 3-4"/></svg>Search</button><button class="tab" data-tab="tools"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Tools usage</button><button class="tab" data-tab="links"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Short links</button>
     <p class="navh" data-g="manage">Manage</p>
@@ -851,6 +902,58 @@ main:focus{outline:none}
     <div class="more"><button class="btn hide" id="more">Load more</button></div>
   </section>
 
+  <!-- SUBSCRIBERS (audience) -->
+  <section id="tab-aud" class="hide">
+    <div class="seg au-seg" id="auSeg" role="tablist" aria-label="Subscriber views"><button data-p="ov" class="on" role="tab">Overview</button><button data-p="pp" role="tab">People</button><button data-p="cp" role="tab">Campaigns</button><button data-p="hl" role="tab">List health</button></div>
+
+    <div id="auPane-ov">
+      <div class="au-kpis" id="auKpi"></div>
+      <div class="card"><div class="au-hd"><h2>Growth</h2><div class="seg sm" id="auRange"><button data-d="30" aria-pressed="true">30 days</button><button data-d="90">90 days</button><button data-d="365">12 months</button></div></div>
+        <p class="sub" id="auGrowSub">New subscribers, unsubscribes and the size of the list.</p>
+        <svg class="au-chart" id="auChart" viewBox="0 0 640 210" preserveAspectRatio="none" role="img" aria-label="Subscriber growth chart"></svg>
+        <div class="au-legend"><span><i style="background:var(--green)"></i>New</span><span><i style="background:var(--red)"></i>Unsubscribed</span><span><i style="background:var(--teal);height:3px;border-radius:2px"></i>On the list</span></div></div>
+      <div class="grid2">
+        <div class="card"><div class="au-hd"><h2>Latest sign-ups</h2><span class="au-live" title="Refreshes every minute while open"><i></i>Live</span></div><p class="sub" id="auFeedSub">Newest first. Tap a person to see their profile.</p><div class="au-feed" id="auFeed"></div></div>
+        <div class="card"><div class="au-hd"><h2>Where they sign up</h2><div class="seg sm" id="auSrcTog"><button data-m="month" aria-pressed="true">30 days</button><button data-m="all">All time</button></div></div><div id="auSrc" class="srcbox"></div>
+          <p class="meta" style="margin-top:16px">Top sign-up pages, 90 days</p><div id="auPages" class="srcbox"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h2>Engagement</h2><p class="sub" id="auEngSub">Opens and clicks over the last 90 days.</p><div class="au-tiers" id="auTierBar"></div><div class="au-tl" id="auTiers"></div><div class="au-stats" id="auRates" style="margin-top:12px"></div></div>
+        <div class="card"><h2>Tags</h2><p class="sub">Group people (for example "client", "beta tester") and send a newsletter to one group. Tap a tag to see who has it.</p><div class="au-tags" id="auTagList"></div>
+          <p class="meta" style="margin-top:18px">Recently unsubscribed</p><div class="au-feed" id="auGone"></div></div>
+      </div>
+    </div>
+
+    <div id="auPane-pp" class="hide">
+      <div class="au-seglist" id="auSegs" aria-label="Segments"></div>
+      <div class="bar"><input class="grow" type="search" id="auQ" placeholder="Search email, name, tag or page" aria-label="Search subscribers">
+        <button class="btn" id="auImp" data-perm="news.manage">Import</button><button class="btn pri" id="auExp" data-perm="inbox.export">Export CSV</button></div>
+      <div class="au-filt">
+        <select id="auSt" aria-label="Status"><option value="subscribed">Subscribed</option><option value="unsubscribed">Unsubscribed</option><option value="pending">Pending</option><option value="blocked">Blocked from email</option><option value="all">Everyone</option></select>
+        <select id="auTier" aria-label="Engagement"><option value="all">Any engagement</option><option value="engaged">Engaged (opened in 90 days)</option><option value="quiet">Quiet (no opens in 90 days)</option><option value="new">New, not judged yet</option><option value="nodata">No emails yet</option></select>
+        <select id="auVia" aria-label="Sign-up source"><option value="all">Any source</option><option value="footer">Footer form</option><option value="after-use">After using a tool</option><option value="inline">Under a tool</option><option value="card">Corner card</option><option value="reading">Reading card</option><option value="page">Newsletter page</option><option value="brief">Past brief senders</option><option value="import">Imported</option><option value="form">Other form</option><option value="unknown">Not recorded</option></select>
+        <select id="auTagF" aria-label="Tag"><option value="">Any tag</option></select>
+        <select id="auSort" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="engaged">Most engaged</option><option value="active">Recently active</option><option value="name">Name A to Z</option></select>
+      </div>
+      <div class="au-bulk hide" id="auBulk"><div class="row"><b id="auBulkN"></b><button class="btn sm" id="auSelAll">Select all matching</button>
+        <button class="btn sm pri" data-ab="tag">Add tag</button><button class="btn sm" data-ab="untag">Remove tag</button><button class="btn sm" data-ab="export" data-perm="inbox.export">Export</button><button class="btn sm" data-ab="unsub">Unsubscribe</button><button class="btn sm danger" data-ab="delete" data-perm="inbox.delete">Delete</button><button class="btn sm" data-ab="clear">Clear</button></div></div>
+      <p class="sub" id="auCount" style="margin:0 0 10px"></p>
+      <div class="au-wrap"><table class="au-tbl"><thead><tr><th style="width:36px"><input type="checkbox" id="auAll" aria-label="Select all shown"></th><th>Subscriber</th><th>Status</th><th>Source</th><th>Tags</th><th class="n">Emails</th><th class="n">Opened</th><th>Engagement</th><th class="n">Joined</th></tr></thead><tbody id="auRows"></tbody></table><div class="au-cards" id="auCards"></div></div>
+      <div class="more"><button class="btn hide" id="auMore">Load more</button></div>
+    </div>
+
+    <div id="auPane-cp" class="hide">
+      <div class="card hide" id="auCpNote"><p class="sub" style="margin:0">Opens, clicks, bounces and spam reports need the Resend webhook. Until it is connected, these reports show "sent" only. See Mail log for the two-minute setup.</p></div>
+      <div class="au-wrap"><table class="au-tbl"><thead><tr><th>Campaign</th><th>Sent to</th><th class="n">Recipients</th><th class="n">Delivered</th><th class="n">Opened</th><th class="n">Clicked</th><th class="n">Bounced</th><th class="n">Unsubscribed</th></tr></thead><tbody id="auCpRows"></tbody></table><div class="au-cards" id="auCpCards"></div></div>
+      <p class="sub" style="margin-top:12px">Open rates are a guide only: Apple Mail and some privacy tools open every email automatically, and some readers block tracking. Clicks are the stronger signal.</p>
+    </div>
+
+    <div id="auPane-hl" class="hide">
+      <div class="card"><div class="au-hscore" id="auHScore"></div><div id="auChecks"></div></div>
+      <div class="card"><h2>Consent and privacy</h2><p class="sub">Every sign-up stores when and where the person agreed, and every email has a one-click unsubscribe. Unsubscribes made by people themselves can never be undone from here. To hand over or erase everything about one person (GDPR Art. 15 and 17, DPDP Act s. 11 and 12), use Privacy requests.</p><div class="row" style="margin-top:12px"><button class="btn" data-go="privacy">Open Privacy requests</button><button class="btn" data-go="mail">Blocked addresses</button></div></div>
+    </div>
+  </section>
+
   <!-- NEWSLETTER -->
   <section id="tab-news" class="hide">
     <div class="chips" id="nchips"></div>
@@ -860,12 +963,21 @@ main:focus{outline:none}
         <div class="row" style="margin-top:12px"><button class="btn" id="subView">View list</button><button class="btn" data-exp="xlsx">Excel</button><button class="btn" data-exp="csv">CSV</button><button class="btn" id="imp">Import from Resend</button><button class="btn" id="impB">Add past form senders</button></div><div id="impMsg" class="sub" style="margin-top:8px"></div></div>
     </div>
     <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><h2>Where sign-ups come from</h2><div class="seg sm" id="srcTog"></div></div><p class="sub">Tap a row to see those people. Older sign-ups were not tracked, so they show as "Not recorded".</p><div id="srcBox" class="srcbox" data-m="month"></div></div>
+    <div class="card" id="snCard"><h2>Sender</h2><p class="sub" id="snState">Loading…</p>
+      <div class="grid2"><div><label class="lbl" for="snName">Sender name</label><input id="snName" maxlength="60" placeholder="Aashish Pandey"></div><div><label class="lbl" for="snFrom">From address</label><input id="snFrom" type="email" placeholder="hello@news.yourdomain.com" inputmode="email"></div></div>
+      <label class="lbl" for="snReply">Replies go to (optional)</label><input id="snReply" type="email" placeholder="Leave empty to use your admin inbox" inputmode="email">
+      <label class="switch hide" id="snTrustW" style="margin-top:12px"><input type="checkbox" id="snTrust"> It shows Verified in Resend</label>
+      <div class="row" style="margin-top:14px"><button class="btn pri" id="snSave">Save sender</button><span id="snMsg" class="sub"></span></div>
+      <p class="meta" style="margin-top:20px">Sending domains in Resend</p><div id="snDoms"></div>
+      <div class="row" id="snAddW" style="margin-top:12px"><input id="snDom" placeholder="news.yourdomain.com" style="flex:1;min-width:200px" aria-label="New domain"><button class="btn" id="snAdd">Add domain</button></div>
+      <p class="sub" style="margin-top:10px">Tip: a subdomain such as news.yourdomain.com keeps newsletter reputation apart from your everyday email. Uses the Resend key you already have; no new service.</p></div>
     <div class="card"><h2>Write a newsletter</h2>
       <p class="sub">Blank line = new paragraph. "- " starts a bullet. [text](https://...) is a link. **bold**. {first} becomes each subscriber's first name (or "there"). Resend's free plan allows 100 emails a day.</p>
       <label class="lbl" for="nSub">Subject</label><input id="nSub" maxlength="140">
       <label class="lbl" for="nPre">Preview text (optional)</label><input id="nPre" maxlength="140">
       <label class="lbl" for="nBody">Message</label><textarea id="nBody" rows="9"></textarea>
       <div class="grid2"><div><label class="lbl" for="nBl">Button label (optional)</label><input id="nBl" maxlength="40"></div><div><label class="lbl" for="nBu">Button link</label><input id="nBu" placeholder="https://" inputmode="url"></div></div>
+      <label class="lbl" for="nAud">Send to</label><select id="nAud"><option value="">Everyone subscribed</option></select>
       <div class="row" style="margin-top:16px"><button class="btn" id="nPrev">Preview</button><button class="btn" id="nTest">Send test to me</button><button class="btn pri" id="nSend">Send to subscribers</button></div>
       <div id="nMsg" class="sub" style="margin-top:10px"></div><iframe id="nFrame" class="preview hide" title="Preview" sandbox></iframe>
     </div>
@@ -1772,6 +1884,7 @@ function createItems(){
   if(can('content.create')){a.push({l:'New post',f:function(){openEditor('post')}});a.push({l:'New case study',f:function(){openEditor('case')}})}
   if(can('media.upload'))a.push({l:'Upload images',f:function(){openTab('media');setTimeout(function(){$('mFile').click()},250)}});
   if(can('news.manage'))a.push({l:'Write a newsletter',f:function(){openTab('news')}});
+  if(can('news.manage'))a.push({l:'Import subscribers',f:function(){openTab('aud');setTimeout(function(){auPane('pp');$('auImp').click()},300)}});
   if(can('team.manage'))a.push({l:'Invite a team member',f:function(){openTab('team');setTimeout(function(){teamPane('members');$('uName').focus()},250)}});
   return a;
 }
@@ -3162,6 +3275,201 @@ function ppStats(){api('popups_stats',null,'&days='+PP.days).then(function(x){if
 function ppLog(){api('popups_log').then(function(x){if(!x.ok)return;var it=x.j.items;
   $('ppHist').innerHTML=it.length?it.map(function(h){return '<div class="h"><b>'+esc(h.field)+'</b>'+(h.before||h.after?': <s>'+esc(h.before||'empty')+'</s> &rarr; <u>'+esc(h.after||'empty')+'</u>':'')+'<small>'+esc(h.by||'Unknown')+' &middot; '+esc(ist(h.t))+'</small></div>'}).join(''):'<span class="sub">No changes yet. Edits you save from now on appear here.</span>'})}
 var openTabPP=openTab;openTab=function(t){openTabPP(t);if(t==='popups')ppLoad()};
+
+/* ---------- Subscribers: a mailing-tool view of the audience ---------- */
+TABS.aud={l:'Subscribers',g:'Audience',d:'Everyone on your list: growth, who joined, what they open, tags, campaign results and list health.',perm:['inbox.view']};
+ALLTABS.splice(ALLTABS.indexOf('sub'),0,'aud');LABELS.aud=TABS.aud.l;DESC.aud=TABS.aud.d;
+var AU={pane:'ov',days:30,src:'month',ov:null,items:[],total:0,sel:{},seg:'all',tags:[],timer:0,lastFeed:0};
+var TIER={engaged:['Engaged','var(--green)','Opened or clicked in the last 90 days'],quiet:['Quiet','var(--amber)','Got emails, opened nothing in 90 days'],new:['New','var(--blue)','Joined in the last 30 days'],nodata:['No emails yet','var(--dim)','Nothing sent to them so far']};
+function auSeen(){try{return Number(localStorage.getItem('adm.aud.seen.'+((me&&me.id)||'owner'))||0)}catch(e){return 0}}
+function auMarkSeen(t){try{localStorage.setItem('adm.aud.seen.'+((me&&me.id)||'owner'),String(t||Date.now()))}catch(e){}}
+function auBadge(n){var b=tabBtn('aud');if(!b)return;var s=b.querySelector('.au-n');if(!n){if(s)s.remove();return}if(!s){s=document.createElement('span');s.className='au-n';b.appendChild(s)}s.textContent=n>99?'99+':'+'+n;s.title=n+' new since you last looked'}
+function pct(v){return v==null?'–':v+'%'}
+function auStatus(r){return r.blocked?'<span class="pill s-spam" title="'+esc(r.blocked)+'">blocked</span>':'<span class="pill s-'+esc(r.status)+'">'+esc(r.status)+'</span>'}
+function auTags(t){return (t||[]).map(function(x){return '<span class="au-tag">'+esc(x)+'</span>'}).join(' ')}
+function auScore(r){if(r.score==null)return '<span class="m">'+esc((TIER[r.tier]||[r.tier])[0])+'</span>';return '<span class="au-score" title="'+esc((TIER[r.tier]||[''])[2]||'')+'"><i><u style="width:'+r.score+'%"></u></i>'+r.score+'</span>'}
+function auPane(p){AU.pane=p;['ov','pp','cp','hl'].forEach(function(x){$('auPane-'+x).classList.toggle('hide',x!==p)});
+  [].forEach.call($('auSeg').children,function(b){b.classList.toggle('on',b.dataset.p===p);b.setAttribute('aria-selected',b.dataset.p===p)});
+  if(p==='ov')auOverview();if(p==='pp')auPeople();if(p==='cp')auCamps();if(p==='hl')auHealth()}
+$('auSeg').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-p]');if(b)auPane(b.dataset.p)};
+$('auRange').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-d]');if(!b)return;AU.days=+b.dataset.d;[].forEach.call(this.children,function(x){x.setAttribute('aria-pressed',x===b)});auOverview()};
+$('auSrcTog').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-m]');if(!b)return;AU.src=b.dataset.m;[].forEach.call(this.children,function(x){x.setAttribute('aria-pressed',x===b)});if(AU.ov)auSrcDraw()};
+document.querySelector('#tab-aud').addEventListener('click',function(e){var g=e.target.closest&&e.target.closest('[data-go]');if(g&&this.contains(g)&&!g.closest('#auChecks .att'))openTab(g.getAttribute('data-go'))});
+
+/* overview */
+function auOverview(){api('aud_overview',null,'&days='+AU.days).then(function(x){if(!x.ok){$('auKpi').innerHTML='<p class="err">'+esc(x.j.error||'Could not load.')+'</p>';return}
+  var j=AU.ov=x.j,k=j.kpi,ch=k.prevMonth?Math.round((k.month-k.prevMonth)/k.prevMonth*100):null;
+  var kp=[['On the list',k.active,(k.net30>=0?'<em class="au-up">+'+k.net30:'<em class="au-dn">'+k.net30)+'</em> net, 30 days'],['New today',k.today,'since midnight IST'],['New, 7 days',k.week,'sign-ups'],['New, 30 days',k.month,ch==null?'no earlier month':(ch>=0?'<em class="au-up">+'+ch+'%</em>':'<em class="au-dn">'+ch+'%</em>')+' vs the 30 before'],
+    ['Unsubscribed',k.unsub30,'30 days · churn '+pct(k.churn30)],['Open rate',pct(j.news.openRate),'newsletters, 90 days'],['Click rate',pct(j.news.clickRate),j.news.clickToOpen!=null?pct(j.news.clickToOpen)+' of openers':'newsletters, 90 days'],['Bounces',pct(j.all.bounceRate),j.all.complained+' spam report'+(j.all.complained===1?'':'s')+', 30 days']];
+  $('auKpi').innerHTML=kp.map(function(c,i){return '<div class="kpi'+(i===4&&k.churn30>5?' soon':'')+(i===7&&(j.all.bounceRate>=2||j.all.complained)?' warn':'')+'"><small>'+c[0]+'</small><b>'+c[1]+'</b><span>'+c[2]+'</span></div>'}).join('');
+  $('auGrowSub').textContent=(j.series.monthly?'Per month':'Per day')+': new subscribers, unsubscribes and the size of the list. '+k.ever+' people have ever signed up.';
+  auChart();auFeed(j);auSrcDraw();
+  var t=j.tiers,tot=Math.max(1,k.active);
+  $('auTierBar').innerHTML=['engaged','new','quiet','nodata'].map(function(n){return t[n]?'<i style="width:'+(t[n]/tot*100)+'%;background:'+TIER[n][1]+'" title="'+TIER[n][0]+': '+t[n]+'"></i>':''}).join('');
+  $('auTiers').innerHTML=['engaged','new','quiet','nodata'].map(function(n){return '<button data-tier="'+n+'"><i style="background:'+TIER[n][1]+'"></i><b>'+(t[n]||0)+'</b><span>'+TIER[n][0]+'<br>'+TIER[n][2]+'</span></button>'}).join('');
+  $('auEngSub').textContent=j.webhook?'Based on opens and clicks Resend reported in the last 90 days.':'Delivery tracking is off, so opens and clicks are not recorded yet. See List health.';
+  $('auRates').innerHTML=[['Delivered',pct(j.news.deliveredRate)],['Opened',pct(j.news.openRate)],['Clicked',pct(j.news.clickRate)]].map(function(r){return '<div><b>'+r[1]+'</b><span>'+r[0]+', newsletters</span></div>'}).join('');
+  $('auTagList').innerHTML=j.tags.length?j.tags.map(function(g){return '<button class="au-tag" data-tag="'+esc(g.tag)+'">'+esc(g.tag)+' <b>'+g.n+'</b></button>'}).join(''):'<span class="sub">No tags yet. In People, select some subscribers and press Add tag.</span>';
+  $('auGone').innerHTML=j.gone.length?j.gone.map(function(r){return auFi(r,r.unsubscribed)}).join(''):'<p class="sub">Nobody has unsubscribed.</p>';
+  var seen=auSeen();auBadge(0);if(!seen||j.latest.length&&j.latest[0].joined>seen)auMarkSeen(j.latest.length?j.latest[0].joined:Date.now());
+})}
+function auFi(r,at,fresh){return '<button class="au-fi'+(fresh?' is-new':'')+'" data-pid="'+esc(r.id)+'">'+avatar(r.name||r.email)+'<span style="min-width:0"><b>'+esc(r.name||r.email)+'</b><small>'+esc((r.name?r.email+' · ':'')+r.viaLabel+(r.page?' · '+r.page:''))+'</small></span><span class="t">'+esc(ago(at))+'<br>'+(r.status==='subscribed'?'':'<span class="pill s-'+esc(r.status)+'">'+esc(r.status)+'</span>')+'</span></button>'}
+function auFeed(j){var seen=auSeen();$('auFeed').innerHTML=j.latest.length?j.latest.map(function(r){return auFi(r,r.joined,seen&&r.joined>seen)}).join(''):'<p class="sub">No sign-ups yet.</p>'}
+function auSrcDraw(){var l=AU.ov.sources[AU.src],tot=l.reduce(function(s,x){return s+x.n},0)||1;
+  $('auSrc').innerHTML=l.length?l.map(function(s){return '<button class="srcrow" data-via="'+esc(s.via||'unknown')+'"><span>'+esc(s.label)+'</span><span class="bar"><i style="width:'+(s.n/tot*100)+'%"></i></span><b class="n">'+s.n+'</b><span class="sub">'+Math.round(s.n/tot*100)+'%</span></button>'}).join(''):'<p class="sub">No sign-ups in this period.</p>';
+  var pg=AU.ov.pages,pm=Math.max(1,pg.length?pg[0].n:1);$('auPages').innerHTML=pg.length?pg.map(function(p){return '<div class="srcrow" style="cursor:default"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(p.page)+'</span><span class="bar"><i style="width:'+(p.n/pm*100)+'%"></i></span><b class="n">'+p.n+'</b><span></span></div>'}).join(''):'<p class="sub">Not recorded yet.</p>'}
+function auChart(){var j=AU.ov;if(!j)return;var s=j.series,svg=$('auChart'),W=Math.max(300,Math.round(svg.clientWidth||640)),H=210,n=s.keys.length,top=14,mid=128,bot=172,gap=n>60?1:n>35?2:4,bw=(W-48)/n-gap;
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+  var mg=Math.max(1,Math.max.apply(null,s.gain)),ml=Math.max(1,Math.max.apply(null,s.lost)),mt=Math.max(1,Math.max.apply(null,s.total)),mn=Math.min.apply(null,s.total),h=[],every=Math.ceil(n/(W<500?4:8)),lab=function(k){if(s.monthly){return new Date(k+'-01T00:00:00').toLocaleDateString('en-GB',{month:'short'})}var d=new Date(k+'T00:00:00');return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})};
+  var span=Math.max(1,mt-Math.max(0,mn-Math.ceil((mt-mn)*.25||1))),base=mt-span;
+  h.push('<line x1="40" x2="'+W+'" y1="'+mid+'" y2="'+mid+'" stroke="rgba(244,239,230,.15)"/>');
+  h.push('<text x="0" y="'+(top+8)+'" font-size="10" fill="#8e89a0">'+mt+'</text><text x="0" y="'+(mid-4)+'" font-size="10" fill="#8e89a0">'+base+'</text>');
+  s.keys.forEach(function(k,i){var x=44+i*(bw+gap),gh=s.gain[i]/mg*(mid-top-40),lh=s.lost[i]/Math.max(mg,ml)*(bot-mid-10);
+    var tip=lab(k)+(s.monthly?'':' '+k.slice(0,4))+': +'+s.gain[i]+' new, '+s.lost[i]+' unsubscribed, '+s.total[i]+' on the list';
+    h.push('<g><title>'+esc(tip)+'</title><rect x="'+x.toFixed(1)+'" y="'+top+'" width="'+Math.max(1,bw+gap).toFixed(1)+'" height="'+(bot-top)+'" fill="transparent"/>'+(s.gain[i]?'<rect x="'+x.toFixed(1)+'" y="'+(mid-1-gh).toFixed(1)+'" width="'+Math.max(1,bw).toFixed(1)+'" height="'+gh.toFixed(1)+'" rx="'+(bw>8?3:1)+'" fill="#6fd6a8"/>':'')+(s.lost[i]?'<rect x="'+x.toFixed(1)+'" y="'+(mid+1)+'" width="'+Math.max(1,bw).toFixed(1)+'" height="'+lh.toFixed(1)+'" rx="'+(bw>8?3:1)+'" fill="#ff8f7a"/>':'')+'</g>');
+    if((i%every===0&&n-1-i>=every*.9)||i===n-1)h.push('<text x="'+(x+bw/2).toFixed(1)+'" y="'+(H-6)+'" font-size="10" fill="#8e89a0" text-anchor="'+(i===n-1?'end':'middle')+'">'+esc(lab(k))+'</text>')});
+  h.push('<polyline fill="none" stroke="#7ff3e1" stroke-width="2" stroke-linejoin="round" points="'+s.total.map(function(v,i){return (44+i*(bw+gap)+bw/2).toFixed(1)+','+(mid-6-(v-base)/span*(mid-top-6)).toFixed(1)}).join(' ')+'"/>');
+  svg.innerHTML=h.join('')}
+var auRT=0;window.addEventListener('resize',function(){clearTimeout(auRT);auRT=setTimeout(function(){if(curTab==='aud'&&AU.pane==='ov')auChart()},150)});
+$('auTiers').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-tier]');if(b)auGo({tier:b.dataset.tier})};
+$('auTagList').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-tag]');if(b)auGo({tag:b.dataset.tag})};
+$('auSrc').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-via]');if(b)auGo({via:b.dataset.via})};
+['auFeed','auGone'].forEach(function(id){$(id).onclick=function(e){var b=e.target.closest&&e.target.closest('[data-pid]');if(b)auOpen(b.dataset.pid)}});
+// live: refresh the feed every minute while the overview is open and the page is visible
+function auTick(){clearInterval(AU.timer);AU.timer=setInterval(function(){if(curTab!=='aud'||AU.pane!=='ov'||document.hidden)return;
+  api('aud_overview',null,'&days='+AU.days).then(function(x){if(!x.ok)return;var before=AU.ov&&AU.ov.latest[0]&&AU.ov.latest[0].id,j=x.j;
+    if(j.latest[0]&&j.latest[0].id!==before){AU.ov=j;auFeed(j);toast('New subscriber: '+(j.latest[0].name||j.latest[0].email))}})},60000)}
+
+/* people */
+var AUSEGS=[['all','All subscribed',{status:'subscribed'}],['engaged','Engaged',{status:'subscribed',tier:'engaged'}],['quiet','Quiet 90 days',{status:'subscribed',tier:'quiet'}],['new','New this month',{status:'subscribed',tier:'new'}],['unsub','Unsubscribed',{status:'unsubscribed'}],['blocked','Blocked',{status:'blocked'}],['everyone','Everyone',{status:'all'}]];
+function auSegDraw(){$('auSegs').innerHTML=AUSEGS.map(function(s){return '<button data-seg="'+s[0]+'" class="'+(AU.seg===s[0]?'on':'')+'">'+esc(s[1])+'</button>'}).join('')}
+$('auSegs').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-seg]');if(!b)return;var s=AUSEGS.filter(function(x){return x[0]===b.dataset.seg})[0];AU.seg=s[0];$('auSt').value=s[2].status;$('auTier').value=s[2].tier||'all';$('auVia').value='all';$('auTagF').value='';AU.sel={};auPeople()};
+function auGo(o){AU.seg='';$('auSt').value=o.status||'subscribed';$('auTier').value=o.tier||'all';$('auVia').value=o.via||'all';$('auQ').value='';AU.sel={};AU.wantTag=o.tag||'';auPane('pp')}
+function auQs(extra){var p=new URLSearchParams({status:$('auSt').value,tier:$('auTier').value,via:$('auVia').value,tag:$('auTagF').value||AU.wantTag||'',sort:$('auSort').value,q:$('auQ').value.trim()});for(var k in (extra||{}))p.set(k,extra[k]);return '&'+p.toString()}
+function auPeople(append){auSegDraw();var off=append?AU.items.length:0;
+  return api('aud_people',null,auQs({offset:off,limit:100})).then(function(x){if(!x.ok){$('auRows').innerHTML='<tr><td colspan="9" class="err">'+esc(x.j.error||'Could not load.')+'</td></tr>';return}
+    AU.items=append?AU.items.concat(x.j.items):x.j.items;AU.total=x.j.total;
+    var tf=$('auTagF'),cur=AU.wantTag||tf.value;tf.innerHTML='<option value="">Any tag</option>'+x.j.tags.map(function(t){return '<option value="'+esc(t)+'">'+esc(t)+'</option>'}).join('');tf.value=x.j.tags.indexOf(cur)>-1?cur:'';AU.tags=x.j.tags;AU.wantTag='';auDraw()})}
+function auDraw(){var it=AU.items;
+  $('auCount').textContent=AU.total+' '+(AU.total===1?'person':'people')+(it.length<AU.total?', showing '+it.length:'');
+  $('auRows').innerHTML=it.length?it.map(function(r){var on=!!AU.sel[r.id];return '<tr class="r'+(on?' sel':'')+'" data-pid="'+esc(r.id)+'"><td><input type="checkbox" data-ck="'+esc(r.id)+'"'+(on?' checked':'')+' aria-label="Select '+esc(r.email)+'"></td><td class="who"><b>'+esc(r.name||r.email)+'</b>'+(r.name?'<small>'+esc(r.email)+'</small>':'')+'</td><td>'+auStatus(r)+'</td><td class="m">'+esc(r.viaLabel)+'</td><td>'+auTags(r.tags)+'</td><td class="n">'+r.sent+'</td><td class="n">'+r.opened+(r.clicked?' <span class="m">· '+r.clicked+' click'+(r.clicked===1?'':'s')+'</span>':'')+'</td><td>'+auScore(r)+'</td><td class="n m" title="'+esc(ist(r.joined))+'">'+esc(ago(r.joined))+'</td></tr>'}).join(''):'<tr><td colspan="9"><div class="au-empty">Nobody matches. Try another segment or clear the search.</div></td></tr>';
+  $('auCards').innerHTML=it.length?it.map(function(r){var on=!!AU.sel[r.id];return '<div class="au-card" data-pid="'+esc(r.id)+'"><input type="checkbox" data-ck="'+esc(r.id)+'"'+(on?' checked':'')+' aria-label="Select '+esc(r.email)+'"><div style="min-width:0"><b>'+esc(r.name||r.email)+'</b>'+(r.name?'<small>'+esc(r.email)+'</small>':'')+'<small>'+esc(r.viaLabel)+' · joined '+esc(ago(r.joined))+'</small></div><div>'+auStatus(r)+'</div><div class="meta2">'+auScore(r)+'<span class="m sub">'+r.sent+' emails · '+r.opened+' opened</span>'+auTags(r.tags)+'</div></div>'}).join(''):'<div class="au-empty">Nobody matches.</div>';
+  $('auMore').classList.toggle('hide',it.length>=AU.total);auBulkDraw()}
+function auSelN(){return Object.keys(AU.sel).length}
+function auBulkDraw(){var n=auSelN();$('auBulk').classList.toggle('hide',!n);$('auBulkN').textContent=n+' selected';$('auSelAll').classList.toggle('hide',n>=AU.total||AU.total<=AU.items.length&&n>=AU.items.length);$('auSelAll').textContent='Select all '+AU.total;$('auAll').checked=AU.items.length&&AU.items.every(function(r){return AU.sel[r.id]})}
+['auSt','auTier','auVia','auTagF','auSort'].forEach(function(id){$(id).onchange=function(){if(id!=='auSort')AU.seg='';AU.sel={};auPeople()}});
+var auQT=0;$('auQ').oninput=function(){clearTimeout(auQT);auQT=setTimeout(function(){AU.sel={};auPeople()},250)};
+$('auMore').onclick=function(){auPeople(true)};
+$('auAll').onchange=function(){var on=this.checked;AU.items.forEach(function(r){if(on)AU.sel[r.id]=1;else delete AU.sel[r.id]});auDraw()};
+$('auSelAll').onclick=function(){api('aud_people',null,auQs({limit:1,allIds:'1'})).then(function(x){if(!x.ok)return;(x.j.ids||[]).forEach(function(id){AU.sel[id]=1});auDraw()})};
+function auRowClick(e){var c=e.target.closest&&e.target.closest('[data-ck]');if(c){var id=c.dataset.ck;if(c.checked)AU.sel[id]=1;else delete AU.sel[id];var tr=c.closest('tr');if(tr)tr.classList.toggle('sel',c.checked);auBulkDraw();return}
+  var r=e.target.closest&&e.target.closest('[data-pid]');if(r)auOpen(r.dataset.pid)}
+$('auRows').onclick=auRowClick;$('auCards').onclick=auRowClick;
+function auTagAsk(remove,ids,after){var opts=AU.tags.map(function(t){return '<option value="'+esc(t)+'">'}).join('');
+  return ask({title:remove?'Remove a tag':'Add a tag',text:(ids.length)+' '+(ids.length===1?'person':'people')+'. Letters, numbers and dashes; for example client, beta-tester, india.',fields:[{id:'t',label:'Tag',placeholder:remove?'Which tag':'New or existing tag',max:24}],ok:remove?'Remove':'Add tag',onOpen:function(el){var i=el.querySelector('#mf-t');i.setAttribute('list','auTagDl');var dl=document.createElement('datalist');dl.id='auTagDl';dl.innerHTML=opts;el.appendChild(dl)},check:function(v){return v.t.trim()?'':'Type a tag.'}})
+    .then(function(v){if(!v)return;var b={ids:ids};b[remove?'remove':'add']=[v.t];return post('aud_tag',b).then(function(x){toast(x.ok?(x.j.n?(remove?'Removed from ':'Tagged ')+x.j.n:'Nothing changed'):x.j.error);if(x.ok&&after)after()})})}
+$('auBulk').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-ab]');if(!b)return;var ids=Object.keys(AU.sel),act=b.dataset.ab;
+  if(act==='clear'){AU.sel={};auDraw();return}
+  if(act==='tag'||act==='untag'){auTagAsk(act==='untag',ids,function(){auPeople()});return}
+  if(act==='export'){window.__dl(API+'?a=aud_export&ids='+encodeURIComponent(ids.slice(0,500).join(',')));return}
+  if(act==='unsub'){ask({title:'Unsubscribe '+ids.length+' '+(ids.length===1?'person':'people')+'?',text:'They stop getting newsletters at once. You can undo this for a few seconds; after that only they can join again, by subscribing on the site.',ok:'Unsubscribe',danger:true}).then(function(v){if(!v)return;
+    post('aud_unsub',{ids:ids}).then(function(x){if(!x.ok){toast(x.j.error);return}AU.sel={};auPeople();showUndo('Unsubscribed '+x.j.n+'.',function(){post('aud_resub',{ids:ids}).then(function(y){toast(y.ok?'Put back '+y.j.n:y.j.error);auPeople()})})})});return}
+  if(act==='delete'){ask({title:'Delete '+ids.length+' record'+(ids.length===1?'':'s')+'?',text:'This removes them from the list for good, without telling them. To honour an erasure request, use Privacy requests instead: it also clears their email history.',ok:'Delete',danger:true}).then(function(v){if(!v)return;post('bulk',{ids:ids,action:'delete'}).then(function(x){toast(x.ok?'Deleted '+x.j.n:x.j.error);AU.sel={};auPeople()})})}};
+$('auExp').onclick=function(){window.__dl(API+'?a=aud_export'+auQs())};
+
+/* import */
+$('auImp').onclick=function(){ask({title:'Import subscribers',wide:true,html:true,text:'Paste a list or choose a CSV file. One person per line: <b>email</b>, then name and tags if you have them (a header row with "email" is fine). Nobody gets an email when you import.',
+  body:'<input type="file" id="auFile" accept=".csv,.txt,text/csv" style="margin-top:10px"><div class="au-drop" id="auDrop">or drop a CSV file here</div>',
+  fields:[{id:'text',label:'List',type:'textarea',rows:7,placeholder:'priya@example.com, Priya, client\nsam@example.com'},{id:'tag',label:'Tag everyone in this import (optional)',placeholder:'for example webinar-nov',max:24},{id:'note',label:'Where did they agree? (kept as the consent record)',placeholder:'for example "Signed up at my talk, 4 Nov"',max:200},{id:'consent',label:'Consent',type:'select',value:'',options:[['','Choose…'],['yes','Everyone on this list agreed to get my emails']]}],
+  ok:'Import',check:function(v){return !v.text.trim()?'Paste a list or choose a file.':v.consent!=='yes'?'Confirm that everyone agreed. Emailing people who did not is against GDPR and India\'s DPDP Act, and gets mail marked as spam.':''},
+  onOpen:function(el){var ta=el.querySelector('#mf-text'),rd=function(f){if(!f)return;if(f.size>400000){toast('That file is too big (400 KB max).');return}var r=new FileReader();r.onload=function(){ta.value=String(r.result)};r.readAsText(f)};
+    el.querySelector('#auFile').onchange=function(){rd(this.files[0])};var d=el.querySelector('#auDrop');d.ondragover=function(e){e.preventDefault()};d.ondrop=function(e){e.preventDefault();rd(e.dataTransfer.files[0])}}})
+  .then(function(v){if(!v)return;post('aud_import',{text:v.text,tag:v.tag,note:v.note,consent:v.consent==='yes'}).then(function(x){if(!x.ok){toast(x.j.error);return}var j=x.j;
+    ask({title:'Import finished',ok:false,cancel:'Close',html:true,text:'<b>'+j.added+'</b> added, <b>'+j.updated+'</b> already on the list (tags updated).'+(j.skippedUnsub?'<br>'+j.skippedUnsub+' skipped because they had unsubscribed.':'')+(j.skippedBlocked?'<br>'+j.skippedBlocked+' skipped because they bounced or reported spam.':'')+(j.invalid?'<br>'+j.invalid+' lines without a valid email.':'')+(j.dupes?'<br>'+j.dupes+' duplicates.':'')});auPeople()})})};
+
+/* one person */
+function auOpen(id){api('aud_person',null,'&id='+encodeURIComponent(id)).then(function(x){if(!x.ok){toast(x.j.error||'Could not open.');return}auSheet(x.j)})}
+function auSheet(p){var s=$('sheet'),manage=can('inbox.manage'),c=p.consent||{};
+  var kv=[['Email',{h:'<a href="mailto:'+esc(p.email)+'">'+esc(p.email)+'</a>'}],['Name',p.name],['Joined',ist(p.joined)],['Source',p.viaLabel],['Page',p.page],['Consent',(c.how==='import'?'Imported by '+(c.by||'admin')+(c.note?': '+c.note:''):'Signed up themselves'+(c.page?' on '+c.page:''))+' · '+ist(c.at||p.joined)],['Unsubscribed',p.unsubscribed?ist(p.unsubscribed)+(p.unsubBy?' (by '+p.unsubBy+')':' (their choice)'):''],['Blocked',p.blocked]].filter(function(x){return x[1]});
+  Object.keys(p.fields||{}).forEach(function(k){kv.push([k,String(p.fields[k])])});
+  var tl=p.timeline.map(function(t){var cls=t.k==='mail'&&(t.opened||t.clicked)?'open':t.k;
+    return '<li class="'+esc(cls)+'"><b>'+esc(t.t)+'</b><small>'+esc(ist(t.at))+(t.d?' · '+esc(t.d):'')+(t.k==='mail'?(t.opened?' · opened':'')+(t.clicked?' · clicked':''):'')+'</small></li>'}).join('');
+  s.innerHTML='<div class="head"><h1>'+esc(p.name||p.email)+'</h1><button class="btn sm" id="x">Close</button></div>'
+   +'<div class="row">'+auStatus(p)+' '+(p.score!=null?'<span class="pill">engagement '+p.score+'</span>':'<span class="pill">'+esc((TIER[p.tier]||[p.tier])[0])+'</span>')+'</div>'
+   +'<div class="au-stats"><div><b>'+p.sent+'</b><span>emails received</span></div><div><b>'+p.opened+'</b><span>opened</span></div><div><b>'+p.clicked+'</b><span>clicked</span></div></div>'
+   +'<dl class="kv">'+kv.map(function(x){return '<dt>'+esc(x[0])+'</dt><dd>'+(x[1]&&x[1].h?x[1].h:esc(x[1]))+'</dd>'}).join('')+'</dl>'
+   +'<div class="sect"><h2>Tags</h2><div class="au-tags" id="auPT">'+(p.tags.length?p.tags.map(function(t){return '<span class="au-tag">'+esc(t)+(manage?'<button class="x" data-rt="'+esc(t)+'" aria-label="Remove tag '+esc(t)+'">&times;</button>':'')+'</span>'}).join(''):'<span class="sub">No tags.</span>')+(manage?' <button class="btn sm" id="auPTa">+ Tag</button>':'')+'</div></div>'
+   +(p.briefs.length?'<div class="sect"><h2>Briefs from this address</h2>'+p.briefs.map(function(b){return '<button class="linkbtn" data-brief="'+esc(b.id)+'">'+esc(b.service||'Brief')+' · '+esc(ist(b.created))+' · '+esc(b.status)+'</button>'}).join('<br>')+'</div>':'')
+   +(manage?'<div class="sect"><label class="sub" style="display:block">Private note<textarea id="auNote" rows="2" style="margin-top:6px">'+esc(p.note)+'</textarea></label><div style="margin-top:8px"><button class="btn sm pri" id="auNoteS">Save note</button></div></div>':'')
+   +'<div class="sect"><h2>Activity</h2><ul class="au-tline">'+tl+'</ul></div>'
+   +'<div class="sect row">'+(manage&&p.status==='subscribed'?'<button class="btn sm" id="auPU">Unsubscribe</button>':'')+(manage&&p.status==='unsubscribed'&&p.unsubBy==='admin'?'<button class="btn sm" id="auPR">Undo the admin unsubscribe</button>':'')+(can('privacy.manage')?'<button class="btn sm" id="auPP">Privacy request…</button>':'')+'</div>';
+  $('drawer').classList.remove('hide');document.body.style.overflow='hidden';$('x').onclick=close;
+  var re=function(){auOpen(p.id);if(AU.pane==='pp')auPeople()};
+  s.onclick=function(e){var t=e.target.closest&&e.target.closest('[data-rt]');if(t){post('aud_tag',{ids:[p.id],remove:[t.dataset.rt]}).then(re);return}var bb=e.target.closest&&e.target.closest('[data-brief]');if(bb){close();openRecord(bb.dataset.brief)}};
+  if($('auPTa'))$('auPTa').onclick=function(){auTagAsk(false,[p.id],re)};
+  if($('auNoteS'))$('auNoteS').onclick=function(){post('aud_note',{id:p.id,note:$('auNote').value}).then(function(x){toast(x.ok?'Note saved':x.j.error)})};
+  if($('auPU'))$('auPU').onclick=function(){post('aud_unsub',{ids:[p.id]}).then(function(x){if(!x.ok){toast(x.j.error);return}re();showUndo('Unsubscribed.',function(){post('aud_resub',{ids:[p.id]}).then(re)})})};
+  if($('auPR'))$('auPR').onclick=function(){post('aud_resub',{ids:[p.id]}).then(function(x){toast(x.ok&&x.j.n?'Subscribed again':'Only an unsubscribe made from the admin can be undone.');re()})};
+  if($('auPP'))$('auPP').onclick=function(){close();openTab('privacy');setTimeout(function(){var i=document.querySelector('#tab-privacy input[type=email]');if(i){i.value=p.email;i.focus()}},300)};
+}
+
+/* campaigns */
+function auCamps(){api('aud_camps').then(function(x){if(!x.ok)return;var it=x.j.items;$('auCpNote').classList.toggle('hide',!!x.j.webhook);
+  var cell=function(n,r){return n==null?'–':n+(r!=null?' <span class="m">('+r+'%)</span>':'')};
+  $('auCpRows').innerHTML=it.length?it.map(function(c){return '<tr class="r" data-cid="'+esc(c.id)+'"><td class="who"><b>'+esc(c.subject)+'</b><small>'+esc(ist(c.sentAt))+(c.remaining?' · '+c.remaining+' still to send':'')+(c.failed?' · '+c.failed+' failed':'')+'</small></td><td class="m">'+(c.aud?'<span class="au-tag">'+esc(c.aud)+'</span>':'Everyone')+'</td><td class="n">'+c.sent+'</td><td class="n">'+cell(c.delivered,c.deliveredRate)+'</td><td class="n">'+cell(c.opened,c.openRate)+'</td><td class="n">'+cell(c.clicked,c.clickRate)+'</td><td class="n">'+cell(c.bounced+c.complained)+'</td><td class="n">'+cell(c.unsub,c.unsubRate)+'</td></tr>'}).join(''):'<tr><td colspan="8"><div class="au-empty">No newsletters sent yet. Write one under Newsletter.</div></td></tr>';
+  $('auCpCards').innerHTML=it.length?it.map(function(c){return '<div class="au-card" data-cid="'+esc(c.id)+'" style="grid-template-columns:1fr"><div><b>'+esc(c.subject)+'</b><small>'+esc(ist(c.sentAt))+' · '+(c.aud?'tag '+esc(c.aud):'everyone')+' · '+c.sent+' sent</small></div><div class="meta2" style="grid-column:1"><span class="pill">'+pct(c.openRate)+' opened</span><span class="pill">'+pct(c.clickRate)+' clicked</span><span class="pill">'+c.unsub+' unsubscribed</span>'+(c.bounced+c.complained?'<span class="pill s-spam">'+(c.bounced+c.complained)+' bounced or spam</span>':'')+'</div></div>'}).join(''):'<div class="au-empty">No newsletters sent yet.</div>'})}
+function auCampClick(e){var r=e.target.closest&&e.target.closest('[data-cid]');if(r)auCamp(r.dataset.cid)}
+$('auCpRows').onclick=auCampClick;$('auCpCards').onclick=auCampClick;
+function auCamp(id){api('aud_camp',null,'&id='+encodeURIComponent(id)).then(function(x){if(!x.ok){toast(x.j.error);return}var c=x.j,s=$('sheet'),base=Math.max(1,c.sent);
+  var f=[['Sent',c.sent,'var(--blue)'],['Delivered',c.delivered,'var(--teal)'],['Opened',c.opened,'var(--green)'],['Clicked',c.clicked,'var(--amber)'],['Unsubscribed',c.unsub,'var(--red)'],['Bounced',c.bounced,'var(--red)'],['Spam reports',c.complained,'var(--red)']];
+  var cm=Math.max(1,Math.max.apply(null,c.curve)),curve='<svg viewBox="0 0 288 60" style="width:100%;height:70px" preserveAspectRatio="none" role="img" aria-label="Opens by hour after sending">'+c.curve.map(function(v,i){var h=v/cm*52;return v?'<rect x="'+(i*4)+'" y="'+(56-h)+'" width="3" height="'+h+'" rx="1" fill="#7ff3e1"><title>Hour '+(i+1)+': '+v+'</title></rect>':''}).join('')+'<line x1="0" x2="288" y1="56.5" y2="56.5" stroke="rgba(244,239,230,.15)"/></svg>';
+  s.innerHTML='<div class="head"><h1>'+esc(c.subject)+'</h1><button class="btn sm" id="x">Close</button></div>'
+   +'<p class="sub">Sent '+esc(ist(c.sentAt))+' to '+(c.aud?'tag "'+esc(c.aud)+'"':'everyone subscribed')+'.'+(c.skipped?' '+c.skipped+' blocked addresses were skipped.':'')+'</p>'
+   +'<div class="au-stats"><div><b>'+pct(c.openRate)+'</b><span>open rate</span></div><div><b>'+pct(c.clickRate)+'</b><span>click rate</span></div><div><b>'+pct(c.unsubRate)+'</b><span>unsubscribed in 7 days</span></div></div>'
+   +'<div class="sect"><h2>Funnel</h2><div class="au-funnel">'+f.map(function(r){return '<div class="f"><span>'+r[0]+'</span><i><u style="width:'+(r[1]/base*100)+'%;background:'+r[2]+'"></u></i><span>'+r[1]+' · '+Math.round(r[1]/base*100)+'%</span></div>'}).join('')+'</div></div>'
+   +'<div class="sect"><h2>Opens in the first 72 hours</h2>'+curve+'<p class="sub">Each bar is one hour after sending. Use it to pick a better send time.</p></div>'
+   +'<div class="sect"><h2>Recipients</h2><div class="au-feed">'+(c.people.length?c.people.slice(0,300).map(function(r){return '<button class="au-fi" '+(r.id?'data-pid="'+esc(r.id)+'"':'')+'>'+avatar(r.name||r.email)+'<span style="min-width:0"><b>'+esc(r.name||r.email)+'</b>'+(r.name?'<small>'+esc(r.email)+'</small>':'')+'</span><span class="t">'+(r.clicked?'<span class="pill s-won">clicked</span>':r.opened?'<span class="pill s-subscribed">opened</span>':'<span class="pill">'+esc(r.status)+'</span>')+(r.unsub?'<br><span class="pill s-unsubscribed">left</span>':'')+'</span></button>'}).join(''):'<p class="sub">No delivery records. They expire after six months.</p>')+'</div></div>'
+   +(c.body?'<div class="sect"><h2>Message</h2><div class="msg">'+esc(c.body)+'</div></div>':'');
+  $('drawer').classList.remove('hide');document.body.style.overflow='hidden';$('x').onclick=close;
+  s.onclick=function(e){var b=e.target.closest&&e.target.closest('[data-pid]');if(b)auOpen(b.dataset.pid)}})}
+
+/* list health */
+function auHealth(){api('aud_health').then(function(x){if(!x.ok)return;var j=x.j,cls=j.score>=85?'ok':j.score>=60?'warn':'bad';
+  $('auHScore').innerHTML='<div class="secring '+cls+'" data-p="'+j.score+'" style="--p:'+j.score+'" role="img" aria-label="List health '+j.score+' out of 100"><b>'+j.score+'</b></div><div><h2 style="margin:0">'+(j.score>=85?'Healthy list':j.score>=60?'Good, with things to fix':'Needs attention')+'</h2><p class="sub">Checked against the Gmail and Yahoo rules for senders, and good list hygiene.</p></div>';
+  $('auChecks').innerHTML=j.checks.map(function(c){return '<div class="att"><span class="lamp '+(c.level==='bad'?'bad':c.level==='warn'?'warn':c.level==='ok'?'ok':'info')+'"></span><div><b>'+esc(c.title)+'</b><small>'+esc(c.detail)+'</small></div>'+(c.tab?'<button class="btn sm go" data-go="'+esc(c.tab)+'">Open</button>':'')+'</div>'}).join('')})}
+$('auChecks').onclick=function(e){var b=e.target.closest&&e.target.closest('[data-go]');if(!b)return;var t=b.getAttribute('data-go');if(t==='aud:quiet')auGo({tier:'quiet'});else if(t==='aud:blocked')auGo({status:'blocked'});else openTab(t)};
+
+$('subView').onclick=function(){AU.pane='pp';openTab('aud')};
+var openTabAU=openTab;openTab=function(t){openTabAU(t);if(t==='aud'){$('tab-aud').classList.remove('hide');auPane(AU.pane);auTick()}};
+// a small count on the menu: people who joined since you last opened Subscribers
+function auPeek(){if(!tabAllowed('aud'))return;api('aud_people',null,'&status=subscribed&sort=new&limit=50').then(function(x){if(!x.ok)return;var seen=auSeen();if(!seen){if(x.j.items[0])auMarkSeen(x.j.items[0].joined);return}auBadge(x.j.items.filter(function(r){return r.joined>seen}).length)})}
+setTimeout(auPeek,2500);
+
+/* ---------- newsletter: who it is sent to, and who it comes from ---------- */
+function nlAudDraw(){if(!$('nAud'))return;api('aud_people',null,'&status=subscribed&limit=1').then(function(x){if(!x.ok)return;var v=$('nAud').value;
+  $('nAud').innerHTML='<option value="">Everyone subscribed ('+x.j.total+')</option>'+x.j.tags.map(function(t){return '<option value="'+esc(t)+'">Only people tagged "'+esc(t)+'"</option>'}).join('');$('nAud').value=v||''})}
+var nlSend0=$('nSend').onclick;
+$('nSend').onclick=function(){var tag=$('nAud')?$('nAud').value:'';if(!tag)return nlSend0.call(this);
+  var d=draft();if(!d.subject||!d.body.trim()){say('nMsg','Add a subject and a message first.');return}
+  var c=prompt('This sends only to subscribers tagged "'+tag+'". It cannot be undone.\n\nType SEND to continue.');if(c!=='SEND')return;
+  var b=this;b.disabled=true;d.confirm='SEND';d.tag=tag;post('news_start',d).then(function(x){if(!x.ok){b.disabled=false;say('nMsg',x.j.error);return}if(!x.j.total){b.disabled=false;say('nMsg','Nobody subscribed has that tag.');return}return runCampaign(x.j.id,'nMsg').then(function(){b.disabled=false;loadNews()})})};
+$('camps').addEventListener('click',function(e){var r=e.target.closest&&e.target.closest('[data-rep]');if(r)auCamp(r.dataset.rep)});
+var loadNews0=loadNews;loadNews=function(){loadNews0();nlAudDraw();snLoad();setTimeout(function(){api('aud_camps').then(function(x){if(!x.ok)return;var rows=$('camps').querySelectorAll('.item');x.j.items.forEach(function(c,i){var row=rows[i];if(!row||row.querySelector('[data-rep]'))return;var s=row.querySelector('small');if(s)s.insertAdjacentHTML('beforeend',' · '+pct(c.openRate)+' opened · '+pct(c.clickRate)+' clicked');var last=row.lastElementChild;if(last)last.insertAdjacentHTML('afterbegin','<button class="btn sm" data-rep="'+esc(c.id)+'">Report</button> ')})})},400)};
+// sender: name, address, reply-to and the sending domains in Resend
+var SN={};
+function snLoad(){if(!$('snCard'))return;api('sender_get').then(function(x){if(!x.ok){$('snState').textContent=x.j.error||'';return}SN=x.j;var c=x.j.sender,d=x.j.domains;
+  $('snName').value=c.name||'';$('snFrom').value=c.from||'';$('snReply').value=c.replyTo||'';$('snTrustW').classList.toggle('hide',d.ok);
+  $('snState').innerHTML='Newsletters now go out from <b>'+esc(x.j.using)+'</b>'+(x.j.custom?' (your custom sender).':(c.from?'. Your saved address '+esc(c.from)+' is waiting for its domain to verify.':', the site\'s normal sender.'))+' Welcome emails and alerts stay on '+esc(x.j.site)+'.';
+  $('snDoms').innerHTML=d.ok?(d.items.length?d.items.map(function(m){var ok=m.status==='verified';return '<div class="att"><span class="lamp '+(ok?'ok':m.status==='failed'?'bad':'warn')+'"></span><div><b>'+esc(m.name)+'</b><small>'+esc(m.status)+(m.region?' · '+esc(m.region):'')+'</small></div><div class="row" style="margin-left:auto"><button class="btn sm" data-dr="'+esc(m.id)+'">DNS records</button>'+(ok?'':'<button class="btn sm pri" data-dv="'+esc(m.id)+'">Verify</button>')+'</div></div>'}).join(''):'<p class="sub">No domains yet.</p>'):'<p class="sub">'+esc(d.error)+'</p>';
+  $('snAddW').classList.toggle('hide',!d.ok)})}
+function snRecords(dom){ask({title:'DNS records for '+dom.name,wide:true,ok:false,cancel:'Close',html:true,text:'Add these at the company where you bought the domain (GoDaddy, Hostinger, Cloudflare…). The name is the part before the domain. Changes can take from a few minutes to a few hours; then press Verify.',
+  body:'<div style="overflow-x:auto;margin-top:10px"><table class="au-tbl"><thead><tr><th>Type</th><th>Name</th><th>Value</th><th>Status</th></tr></thead><tbody>'+dom.records.map(function(r,i){return '<tr><td>'+esc(r.type)+(r.priority?' <span class="m">'+esc(r.priority)+'</span>':'')+'<br><span class="m">'+esc(r.purpose)+'</span></td><td style="overflow-wrap:anywhere">'+esc(r.name)+'</td><td style="max-width:320px;overflow-wrap:anywhere;font-family:var(--mono);font-size:12px">'+esc(r.value)+' <button type="button" class="btn sm" data-cp="'+i+'">Copy</button></td><td>'+esc(r.status)+'</td></tr>'}).join('')+'</tbody></table></div>',
+  onOpen:function(el){el.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-cp]');if(!b)return;try{navigator.clipboard.writeText(dom.records[+b.dataset.cp].value);toast('Copied')}catch(x){}})}})}
+document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('#snDoms [data-dr],#snDoms [data-dv]');if(!t)return;
+  if(t.dataset.dr)api('sender_domain',null,'&id='+encodeURIComponent(t.dataset.dr)).then(function(x){if(x.ok)snRecords(x.j);else toast(x.j.error)});
+  else{t.disabled=true;post('sender_verify',{id:t.dataset.dv}).then(function(x){t.disabled=false;if(!x.ok){toast(x.j.error);return}toast(x.j.domain.status==='verified'?'Verified':'Resend is checking. Status: '+x.j.domain.status);snLoad()})}});
+if($('snSave'))$('snSave').onclick=function(){var b=this;b.disabled=true;post('sender_save',{name:$('snName').value,from:$('snFrom').value,replyTo:$('snReply').value,trust:$('snTrust').checked}).then(function(x){b.disabled=false;if(!x.ok){say('snMsg',x.j.error);return}say('snMsg',x.j.note||'Saved. The next newsletter uses this sender.',!x.j.note);snLoad()})};
+if($('snAdd'))$('snAdd').onclick=function(){var v=$('snDom').value.trim();if(!v)return;var b=this;b.disabled=true;post('sender_add',{name:v}).then(function(x){b.disabled=false;if(!x.ok){say('snMsg',x.j.error);return}$('snDom').value='';snLoad();snRecords(x.j.domain)})};
 
 start();
 })();

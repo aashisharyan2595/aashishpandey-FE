@@ -5,6 +5,7 @@ const store = require('../_store');
 const { redis } = require('../_lib');
 const { env, resend, esc, link, SITE } = require('../_mail');
 const maillog = require('./maillog');
+const sender = require('./sender');
 
 const CHUNK = 40;   // one Resend batch call per chunk, so a request stays well inside the function time limit
 const inline = (s) => esc(s)
@@ -32,12 +33,13 @@ function render(c, unsubUrl, first) {
 }
 
 const clean = (d) => ({ subject: String(d.subject || '').trim().slice(0, 140), preheader: String(d.preheader || '').trim().slice(0, 140), body: String(d.body || '').slice(0, 20000), button_label: String(d.button_label || '').trim().slice(0, 40), button_url: String(d.button_url || '').trim().slice(0, 500) });
-const subscribed = async () => (await store.all()).filter((r) => r.type === 'subscriber' && r.status === 'subscribed').map((r) => r.email);
+// everyone on the list, or only the people with one tag (a segment)
+const subscribed = async (tag) => (await store.all()).filter((r) => r.type === 'subscriber' && r.status === 'subscribed' && (!tag || (Array.isArray(r.tags) && r.tags.includes(tag)))).map((r) => r.email);
 
-async function start(draft) {
-  const c = clean(draft), to = await subscribed();
+async function start(draft, opt) {
+  const tag = (opt && opt.tag) || '', c = clean(draft), to = await subscribed(tag);
   const id = Date.now().toString(36);
-  const camp = { id, created: Date.now(), ...c, queue: to, total: to.length, sent: 0, failed: [], status: to.length ? 'sending' : 'sent' };
+  const camp = { id, created: Date.now(), ...c, aud: tag, queue: to, total: to.length, sent: 0, failed: [], status: to.length ? 'sending' : 'sent' };
   await redis('SET', `camp:${id}`, JSON.stringify(camp)); await redis('ZADD', 'camps', camp.created, id);
   return camp;
 }
@@ -48,11 +50,12 @@ async function sendChunk(id) {
   if (batch.length) {
     const blocked = await maillog.suppressed();   // addresses that bounced or reported spam are skipped
     c.skipped = c.skipped || 0;
+    const who = await sender.newsletterFrom();   // a custom newsletter sender once its domain is verified
     const names = new Map((await store.all()).filter((x) => x.type === 'subscriber' && x.name).map((x) => [x.email, String(x.name).split(/\s+/)[0]]));
     const sendTo = batch.filter((e) => !blocked[String(e).toLowerCase()]); c.skipped += batch.length - sendTo.length;
     const msgs = sendTo.map((email) => {
       const un = link('unsubscribe', email), r = render(c, un, names.get(email));
-      return { from: env().from, to: [email], subject: String(c.subject).replace(/\{first\}/g, names.get(email) || 'there'), html: r.html, text: r.text, reply_to: env().admins, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } };
+      return { from: who.from, to: [email], subject: String(c.subject).replace(/\{first\}/g, names.get(email) || 'there'), html: r.html, text: r.text, reply_to: who.replyTo, headers: { 'List-Unsubscribe': `<${un}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } };
     });
     try {
       const j = msgs.length ? await resend('/emails/batch', 'POST', msgs) : { data: [] }; c.sent += sendTo.length;

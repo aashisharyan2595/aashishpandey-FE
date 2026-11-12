@@ -65,6 +65,9 @@ const ACTIONS = {
   bulk: (b) => { const a = String((b && b.action) || ''); return a.startsWith('status:') || a === 'notspam' ? 'inbox.manage' : 'inbox.delete'; },
   delete: 'inbox.delete', export: 'inbox.export',
   // audience
+  sender_get: 'news.manage', sender_domain: 'news.manage', sender_save: 'news.manage', sender_add: 'news.manage', sender_verify: 'news.manage',
+  aud_overview: 'inbox.view', aud_people: 'inbox.view', aud_person: 'inbox.view', aud_camps: 'inbox.view', aud_camp: 'inbox.view', aud_health: 'inbox.view', aud_export: 'inbox.export',
+  aud_tag: 'inbox.manage', aud_note: 'inbox.manage', aud_unsub: 'inbox.manage', aud_resub: 'inbox.manage', aud_import: 'news.manage',
   news_overview: 'news.manage', news_preview: 'news.manage', news_test: 'news.manage', news_start: 'news.manage', news_send: 'news.manage', news_retry: 'news.manage', news_import: 'news.manage', news_import_briefs: 'news.manage',
   mail_list: 'mail.view', mail_suppress: 'mail.manage', mail_unsuppress: 'mail.manage', spam_get: 'spam.manage', spam_save: 'spam.manage', links_list: 'links.manage', links_act: 'links.manage',
   // insights and operations
