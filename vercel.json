@@ -5,7 +5,7 @@
   "outputDirectory": ".",
   "cleanUrls": false,
   "trailingSlash": false,
-  "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "30 21 * * *" }, { "path": "/api/kd2ozfuew9n4uaciyl1j?a=digest", "schedule": "0 3 * * *" } ],
+  "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "35 15 * * *" }, { "path": "/api/kd2ozfuew9n4uaciyl1j?a=digest", "schedule": "0 3 * * *" } ],
   "redirects": [
     { "source": "/api/:file((?:.*)\\.(?:js|cjs|mjs|json|ts|md))", "destination": "/", "permanent": false },
     { "source": "/:file(vercel\\.json|package\\.json|README\\.md|\\.editorconfig|\\.gitattributes|\\.gitignore|\\.vercelignore)", "destination": "/", "permanent": false },

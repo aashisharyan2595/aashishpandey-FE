@@ -18,11 +18,11 @@ You are given a JOB name. Do only that job.
 
 ## JOB evening (6:00 pm IST): write tomorrow's post
 1. Tomorrow's slot (IST date + 1). If it already has a written post file, stop. If empty, pick the best backlog item or an evergreen idea.
-2. WRITE (below) with `--at <tomorrow>T09:00:00+05:30`. Push to main. Save the email file to `content/blog/outbox/<date>.html` (the build writes it with `--email`) and push; the mailer sends it at 9:00 pm.
+2. WRITE (below) with `--at <tomorrow>T09:00:00+05:30`. Push to main. Save the email file to `content/blog/outbox/<date>.html` (the build writes it with `--email`) and push; the site's outbox sender emails it at 9:00 pm.
 3. If you cannot produce a post that passes every check, do not publish: write nothing live, put a one-line reason in `content/blog/outbox/<date>.txt`, and say so in your final message.
 
-## JOB mailer (9:00 pm IST): send the draft
-Send EVERY pending file in `content/blog/outbox/` (not in `sent/`) to Aashish with Gmail (`send_message`, `htmlBody`). Subject: if the first line is `<!-- subject: ... -->` use that text; otherwise `Goes live tomorrow 9:00 am: <title>` for a post draft (or `Held: ...` for a `.txt` note). Then `git mv` each sent file to `content/blog/outbox/sent/` and push once. If there is nothing to send, do nothing.
+## Mailer (no Claude job any more)
+The site sends the emails itself. `api/_adm/outbox.js` runs on the Vercel cron (21:05 IST) and the morning digest run (08:30 IST) and sends every file in `content/blog/outbox/` (`.html` or `.txt`, not in `sent/`) to the admin addresses through Resend, from hello@aashishpandey.online. Subject: the file's first line `<!-- subject: ... -->` if present, otherwise `Goes live tomorrow 9:00 am: <h1 title>` (a `.txt` note is sent as `Blog desk note: <name>`). It remembers what it sent in the database, so a file is never sent twice and no Claude job or Gmail is needed. Jobs just write the file and push it to main. Sent files may stay in `outbox/`; when you are already committing something, `git mv` old ones into `outbox/sent/` (the sender only reads the top folder).
 
 ## WRITE (shared by evening and breaking)
 1. **Research.** Use web search for: the primary source (the company's own announcement, paper, filing, docs); mainstream coverage from left-leaning, centre and right-leaning outlets and at least one Indian outlet where relevant; the sceptical view; for a tool or model, independent hands-on tests, benchmarks, pricing, availability. Collect URLs (use the labels in `scripts/blog-desk/sources.js`).
@@ -56,7 +56,7 @@ Aashish's rule (2026-11-12): make a video for every post once it is live, do not
 3. Check before the full render (about 20 seconds each): `node scripts/blog-desk/story3d.js content/blog/videos/<slug>-3d.json /tmp/x.mp4 --stills "<scene>:2,5" --stills-dir /tmp/s3d`, then Read a few stills: text must not be clipped, nothing overlapping, captions clear. Fix the JSON and re-check.
 4. Render in the background (Bash `run_in_background`; about 20 minutes for 75 s): `node scripts/blog-desk/story3d.js content/blog/videos/<slug>-3d.json /tmp/out/<slug>.mp4 --crf 25`. It writes the .mp4, `.srt` and `-poster.jpg`. Sample 3 or 4 frames with `ffmpeg -ss <t> -i ... -frames:v 1` and look; duration must be 60 to 95 s.
 5. `node scripts/blog-desk/desk.js yt <slug> > /tmp/out/youtube.md`, then `bash scripts/blog-desk/keep-video.sh <slug> /tmp/out` (pushes to the `blog-videos` branch, not main; Aashish authorised this branch). Commit `content/blog/videos/<slug>-3d.json` (the marker that the video exists) to main and push.
-6. Write the email as a file, because this job has no Gmail: `content/blog/outbox/<IST date>-video-<slug>.html` whose first line is `<!-- subject: Video ready: <title> -->`, then html with the raw link to the .mp4 printed by keep-video.sh (and the .srt and poster links beside it), the contents of youtube.md in full, and one line: "Upload to YouTube Shorts, then send the link in the project thread and Claude embeds it in the post". Push it to main with the marker file; the mailer sends it. No approval is needed to make the video; he uploads it himself (no account or key here).
+6. Write the email as a file, because this job has no Gmail: `content/blog/outbox/<IST date>-video-<slug>.html` whose first line is `<!-- subject: Video ready: <title> -->`, then html with the raw link to the .mp4 printed by keep-video.sh (and the .srt and poster links beside it), the contents of youtube.md in full, and one line: "Upload to YouTube Shorts, then send the link in the project thread and Claude embeds it in the post". Push it to main with the marker file; the site's outbox sender emails it. No approval is needed to make the video; he uploads it himself (no account or key here).
 7. When Aashish sends a YouTube link in the thread: see "Embedding the YouTube Short in a post" below.
 If anything fails (voice download, render, push), say so in the final message and leave the marker file out so the next run retries.
 
@@ -64,7 +64,7 @@ If anything fails (voice download, render, push), say so in the final message an
 `video.js` (slides, Piper voice) is retired. Use JOB video. The older 2D tools are described below under "Shorts and Reels" and "Story videos".
 
 ## EMAIL (breaking posts)
-Right after pushing, send the email file with Gmail `send_message` to Aashish: subject `Published now (breaking): <title>`.
+The email file (first line `<!-- subject: Published now (breaking): <title> -->`) is pushed to `content/blog/outbox/` with the post; the site's outbox sender emails it at the next scheduled run (21:05 or 08:30 IST), so there is no Gmail step.
 
 ## Posts edited in the admin
 Desk posts show in the admin Posts tab and the team can edit them there. The first edit, move or comment saves a copy in the database and from then on that copy wins on the site: later changes to the file in `content/blog/` are ignored for that post. Before changing a post file, check that it has not been edited in the admin (ask Aashish if unsure), and for "stop" or "change" requests tell him the admin can do it directly. The plan view reads the admin copy too.
