@@ -2,15 +2,17 @@
 // Claude sessions keep in the repo (content/blog/calendar.json and content/blog/<slug>.json), so it is as fresh as the last deploy.
 // Read-only: to change a day, tell Claude (see docs/BLOG-DESK.md).
 const fs = require('fs'), path = require('path');
-const filePosts = require('../_site/fileposts');
+const filePosts = require('../_site/fileposts'), posts_ = require('../_site/posts');
 const CAL = path.join(__dirname, '..', '..', 'content', 'blog', 'calendar.json');
 const IST = 5.5 * 3600 * 1000, DAY = 86400000;
 const istDate = (ms) => new Date(ms + IST).toISOString().slice(0, 10);
 const str = (v, n) => String(v == null ? '' : v).slice(0, n);
 
-function get(now) {
+async function get(now) {
   let cal = {}; try { cal = JSON.parse(fs.readFileSync(CAL, 'utf8')); } catch (e) { /* no plan yet */ }
-  const slots = cal.slots || {}, posts = filePosts.list().map((p) => ({
+  // the desk's posts, as they stand now: edits made in the admin win over the file, and a post moved to the trash or back to a draft is not "live"
+  const stored = (await posts_.all()).filter((p) => filePosts.isFileId(p.id) && p.status !== 'trash' && p.status !== 'draft');
+  const slots = cal.slots || {}, posts = stored.map((p) => ({
     slug: p.slug, title: str(p.title, 140), category: str(p.category, 40), publishAt: Number(p.publishAt) || Date.parse(p.publishAt) || 0,
     kind: str((p.extra && p.extra.kind) || '', 12), excerpt: str(p.excerpt, 200),
   })).filter((p) => p.publishAt);

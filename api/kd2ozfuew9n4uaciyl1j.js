@@ -270,7 +270,7 @@ module.exports = async (req, res) => {
     if (a === 'gsc_get') { try { return out(200, await gsc.get(q.refresh === '1')); } catch (e) { return out(502, { error: e.message }); } }
     if (a === 'content_get') return out(200, { content: await content.get(), defaults: content.DEFAULTS });
     if (a === 'content_log') return out(200, { items: await content.history(100) });
-    if (a === 'blog_plan') return out(200, blogplan.get(Date.now()));
+    if (a === 'blog_plan') return out(200, await blogplan.get(Date.now()));
     if (a === 'popups_get') return out(200, { popups: await popups.get(), defaults: popups.DEFAULTS, meta: popups.meta(), lastReset: await popups.lastReset() });
     if (a === 'popups_stats') return out(200, await popups.stats(q.days, await store.all()));
     if (a === 'popups_log') return out(200, { items: await popups.history(100) });

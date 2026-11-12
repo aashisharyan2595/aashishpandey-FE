@@ -36,6 +36,9 @@ Send `content/blog/outbox/<tomorrow-or-today IST date>.html` (or the `.txt` note
 ## EMAIL (breaking posts)
 Right after pushing, send the email file with Gmail `send_message` to Aashish: subject `Published now (breaking): <title>`.
 
+## Posts edited in the admin
+Desk posts show in the admin Posts tab and the team can edit them there. The first edit, move or comment saves a copy in the database and from then on that copy wins on the site: later changes to the file in `content/blog/` are ignored for that post. Before changing a post file, check that it has not been edited in the admin (ask Aashish if unsure), and for "stop" or "change" requests tell him the admin can do it directly. The plan view reads the admin copy too.
+
 ## When Aashish asks in the project thread
 - "stop <slug>" or "stop tomorrow's post": `git mv content/blog/<slug>.json content/blog/stopped/<slug>.json`, set the slot to `stopped`, push. "Resume": move it back (and move `publishAt` if it has passed).
 - "change <slug>": edit the JSON (`body`, `title`...), keeping the fields in sync, push.

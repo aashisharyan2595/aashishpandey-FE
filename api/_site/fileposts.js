@@ -20,5 +20,7 @@ function load() {
   return rows;
 }
 const list = () => load();
+const isFileId = (id) => /^f[0-9a-f]{9}$/.test(String(id || ''));
+const byId = (id) => (isFileId(id) ? load().find((p) => p.id === id) || null : null);
 const bySlug = (type, slug) => (type === 'post' ? load().find((p) => p.slug === slug) || null : null);
-module.exports = { list, bySlug };
+module.exports = { list, bySlug, byId, isFileId };
