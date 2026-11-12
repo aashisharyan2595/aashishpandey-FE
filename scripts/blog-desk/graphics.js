@@ -56,17 +56,37 @@ function look(post) {
   const pool = ['amber', 'teal', 'violet', 'green'], accent = post.kind === 'breaking' ? 'red' : rnd() < 0.45 ? byKind[post.kind] || 'amber' : pool[Math.floor(rnd() * pool.length)];
   return { acc: ACC[accent], accent, layout: ['side', 'wide', 'flip', 'stage'][Math.floor(rnd() * 4)], gx: [22, 50, 78][Math.floor(rnd() * 3)], sx: 20 + Math.floor(rnd() * 60), sy: 18 + Math.floor(rnd() * 30), art: pickArt(post), h };
 }
-function coverHtml(post) {
-  const o = look(post), t = String(post.title), kicker = post.kicker, kind = post.kind, c = o.acc[0];
+// The banner (also the share image) and the YouTube thumbnail are one design at two sizes, built on the explainer-thumbnail rules:
+//  - 3 to 5 words of big type that ADD to the title (a hook or a number), never the title itself
+//  - at most three things on it: the hook, one bold picture, and a small brand badge
+//  - heavy, high-contrast letters with an outline and shadow so it reads at 10% size on a phone
+//  - the bottom-right corner stays empty (YouTube's time stamp sits there)
+//  - it must promise only what the post or video delivers in its first seconds
+function hookText(post) {
+  const t = String(post.thumb_text || '').replace(/\s+/g, ' ').trim();
+  if (t) return t;
+  const words = String(post.title || '').replace(/[:|].*$/, '').split(/\s+/).filter(Boolean); return words.slice(0, 5).join(' ');
+}
+function coverHtml(post, W, H) {
+  W = W || 1200; H = H || 630; const k = W / 1280, o = look(post), c = o.acc[0], text = hookText(post), kind = post.kind;
   setSeed(o.h + 7); const art = `<svg viewBox="0 0 400 300" fill="none">${ART[o.art](c)}</svg>`;
-  const size0 = t.length > 70 ? 56 : t.length > 52 ? 64 : 74, size = o.layout === 'stage' ? Math.min(size0, 64) : o.layout === 'wide' ? size0 : Math.min(size0, 66);
-  const css = `.main{position:absolute;top:150px;display:flex;align-items:flex-start;z-index:2}.tx{min-width:0}.mo svg{display:block;width:100%;height:auto}
-h1{font-weight:600;font-size:${size}px;line-height:1.04;letter-spacing:-.035em;text-wrap:balance}.k{margin-top:22px;font:italic 42px 'Instrument Serif',serif;color:${o.acc[2]}}.url{position:absolute;left:64px;bottom:34px;font:500 20px Geist,sans-serif;color:#aaa4b8;z-index:3}
-.main.side{left:64px;right:64px;gap:48px}.side .tx{flex:1}.side .mo{flex:none;width:390px;margin-top:-10px}
-.main.flip{left:64px;right:64px;gap:48px;flex-direction:row-reverse}.flip .tx{flex:1}.flip .mo{flex:none;width:390px;margin-top:-10px}
-.main.wide{left:64px;right:64px}.wide .tx{width:760px}.wide .mo{position:absolute;right:-10px;top:-8px;width:420px;opacity:.28}
-.main.stage{left:64px;right:64px;top:132px;flex-direction:column;align-items:center;text-align:center}.stage .tx{width:900px}.stage .mo{order:-1;width:250px;margin:0 0 6px;opacity:.95}.stage .k{margin-top:16px}`;
-  return BASE(css, o) + `${TOP(KIND[kind] || 'Blog')}<div class="main ${o.layout}"><div class="tx"><h1>${esc(t)}</h1>${kicker ? `<div class="k">${esc(kicker)}</div>` : ''}</div><div class="mo">${art}</div></div><div class="url">aashishpandey.com/blog</div></div></body></html>`;
+  const n = text.length, fs = Math.round((n <= 14 ? 170 : n <= 22 ? 148 : 124) * k), layout = o.layout === 'wide' ? 'side' : o.layout;
+  // the first number or the last word gets the accent colour so one thing pops
+  const words = esc(text).split(' '), numAt = words.findIndex((w) => /\d/.test(w)), hi = numAt > -1 ? numAt : words.length - 1;
+  const hl = words.map((w, i) => (i === hi ? `<em>${w}</em>` : w)).join(' ');
+  const css = `*{margin:0;box-sizing:border-box}html,body{width:${W}px;height:${H}px;overflow:hidden;background:#070916}
+.c{position:relative;width:${W}px;height:${H}px;color:#fff;font-family:Geist,sans-serif;overflow:hidden}
+.badge{position:absolute;left:${48 * k}px;top:${40 * k}px;display:flex;align-items:center;gap:${14 * k}px;z-index:3;font-weight:700;font-size:${26 * k}px;background:rgba(7,9,22,.62);border:${1.5 * k}px solid rgba(${o.acc[1]},.5);border-radius:999px;padding:${8 * k}px ${22 * k}px ${8 * k}px ${10 * k}px}.badge img{width:${38 * k}px;height:${38 * k}px;border-radius:${9 * k}px}.badge span{color:${c};letter-spacing:.12em;text-transform:uppercase;font-size:${20 * k}px}
+.main{position:absolute;left:${52 * k}px;right:${52 * k}px;top:${118 * k}px;bottom:${150 * k}px;display:flex;align-items:center;gap:${30 * k}px;z-index:2}
+h1{font-weight:900;font-size:${fs}px;line-height:.98;letter-spacing:-.04em;text-wrap:balance;-webkit-text-stroke:${Math.max(4, 9 * k)}px #05060f;paint-order:stroke fill;text-shadow:0 ${8 * k}px ${22 * k}px rgba(0,0,0,.55);flex:1;min-width:0}h1 em{font-style:normal;color:${c}}
+.mo{flex:none;width:${(layout === 'stage' ? 300 : 430) * k}px}.mo svg{display:block;width:100%;height:auto;filter:drop-shadow(0 ${6 * k}px ${16 * k}px rgba(0,0,0,.5))}.mo svg *[stroke]{stroke-width:6px}
+.flip{flex-direction:row-reverse}.stage{flex-direction:column;justify-content:center;text-align:center;gap:${8 * k}px}.stage .mo{order:-1}.stage h1{flex:none}`;
+  return `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS()}${css}
+.bg{position:absolute;inset:0;background:radial-gradient(70% 60% at ${o.gx}% 100%,rgba(${o.acc[1]},.46),rgba(196,106,74,.18) 45%,transparent 75%),radial-gradient(45% 55% at ${o.sx}% ${o.sy}%,rgba(${o.acc[1]},.14),transparent 70%),linear-gradient(180deg,#070916 0%,#0b1030 62%,#1a1640 100%)}
+.stars{position:absolute;inset:0}.hz{position:absolute;left:0;right:0;bottom:0;height:${H * 0.33}px;background:url(${b64('assets/nr/horizon.svg', 'image/svg+xml')}) center bottom/${W}px ${H * 0.33}px no-repeat}</style></head>
+<body><div class="c"><div class="bg"></div><svg class="stars" width="${W}" height="${H}" viewBox="0 0 1200 630" preserveAspectRatio="none">${stars(60, 380)}</svg><div class="hz"></div>
+<div class="badge"><img src="${b64('assets/logo-mark.svg', 'image/svg+xml')}" alt="">Aashish Pandey <span>${esc(KIND[kind] || 'Blog')}</span></div>
+<div class="main ${layout}"><h1>${hl}</h1><div class="mo">${art}</div></div></div></body></html>`;
 }
 function prosConsHtml({ name, pros, cons, post }) {
   const o = look(post || { slug: name, kind: 'review' });
@@ -77,12 +97,13 @@ ul{list-style:none;padding:0;margin:0}li{display:flex;gap:14px;align-items:flex-
     + `${TOP('Pros and cons')}<div class="t">${esc(name)} at a glance</div><div class="cols"><div class="col"><h2 style="color:#7ee0a8">Pros</h2><ul>${li(pros, '#7ee0a8')}</ul></div><div class="col"><h2 style="color:#ff8f8f">Cons</h2><ul>${li(cons, '#ff8f8f')}</ul></div></div><div class="url">aashishpandey.com/blog</div></div></body></html>`;
 }
 
-async function render(htmls) {
+async function render(htmls, sizes) {
   let chromium; try { ({ chromium } = require('playwright')); } catch (e) { ({ chromium } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright')); }
   const browser = await chromium.launch(fs.existsSync('/opt/pw-browsers/chromium') ? { executablePath: '/opt/pw-browsers/chromium' } : {});
   try {
     const page = await browser.newPage({ viewport: { width: 1200, height: 630 } }), out = [];
-    for (const h of htmls) {
+    for (let hi = 0; hi < htmls.length; hi++) {
+      const h = htmls[hi], sz = (sizes && sizes[hi]) || [1200, 630]; await page.setViewportSize({ width: sz[0], height: sz[1] });
       await page.setContent(h); await page.evaluate(() => document.fonts.ready);
       let q = 84, buf; do { buf = await page.screenshot({ type: 'jpeg', quality: q }); q -= 10; } while (buf.length > 480 * 1024 && q > 40);
       out.push(buf);
@@ -92,8 +113,9 @@ async function render(htmls) {
 }
 // returns [{ role, buf, w, h }]
 async function makeImages(post) {
-  const meta = { slug: post.slug, category: post.category, tags: post.tags, kind: post.kind }, htmls = [coverHtml({ ...meta, title: post.image_headline || post.title, kicker: post.image_kicker })], roles = ['cover'];
-  if (post.kind === 'review' && (post.pros || []).length >= 2 && (post.cons || []).length >= 2) { htmls.push(prosConsHtml({ name: post.product || post.title, pros: post.pros, cons: post.cons, post: meta })); roles.push('proscons'); }
-  const bufs = await render(htmls); return bufs.map((buf, i) => ({ role: roles[i], buf, w: 1200, h: 630 }));
+  const meta = { slug: post.slug, category: post.category, tags: post.tags, kind: post.kind, title: post.image_headline || post.title, thumb_text: post.thumb_text };
+  const htmls = [coverHtml(meta, 1200, 630), coverHtml(meta, 1280, 720)], roles = ['cover', 'thumb'], sizes = [[1200, 630], [1280, 720]];
+  if (post.kind === 'review' && (post.pros || []).length >= 2 && (post.cons || []).length >= 2) { htmls.push(prosConsHtml({ name: post.product || post.title, pros: post.pros, cons: post.cons, post: meta })); roles.push('proscons'); sizes.push([1200, 630]); }
+  const bufs = await render(htmls, sizes); return bufs.map((buf, i) => ({ role: roles[i], buf, w: sizes[i][0], h: sizes[i][1] }));
 }
 module.exports = { makeImages, coverHtml, prosConsHtml };

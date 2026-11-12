@@ -96,6 +96,9 @@ function analyse(draft, pages) {
 }
 function check(draftFile, dir) {
   const a = analyse(readJ(draftFile), pickedPages(dir)); writeJ(draftFile.replace(/\.json$/, '') + '.clean.json', a.draft);
+  { const t = String(a.draft.thumb_text || '').trim(), w = t ? t.split(/\s+/).length : 0, ti = String(a.draft.title || '').toLowerCase();
+    if (w < 2 || w > 5 || t.length > 30) a.lint.issues.push('thumb_text must be 2 to 5 words and at most 30 characters (the hook on the banner and video thumbnail, not the title)');
+    else if (ti.includes(t.toLowerCase().replace(/[?.!]/g, ''))) a.lint.issues.push('thumb_text repeats the title: make it a hook or a number that adds something'); }
   console.log(`words: ${a.words}`); console.log(`style: ${a.lint.issues.length ? a.lint.issues.join('; ') : 'ok'} (sentence length spread ${a.lint.sd})`);
   console.log(`copy overlap with sources: ${a.overlap.pct}%  (limit 10%)${a.overlap.flagged.length ? '\n  passages to rewrite in your own words:\n   - ' + a.overlap.flagged.map((s) => s.slice(0, 150)).join('\n   - ') : ''}`);
   console.log(`unsupported numbers/quotes: ${a.unsupported.length ? '\n   - ' + a.unsupported.map((u) => u.claim.slice(0, 100) + ' => ' + u.why).join('\n   - ') : 'none'}`);
@@ -112,7 +115,7 @@ async function build(draftFile, dir) {
   if (fs.existsSync(path.join(CONTENT, slug + '.json')) && process.argv.indexOf('--overwrite') < 0) throw new Error('content/blog/' + slug + '.json exists (use --overwrite to replace)');
   const graphics = require('./graphics'), imgs = await graphics.makeImages({ ...d, kind }), ref = {};
   fs.mkdirSync(path.join(ROOT, 'assets', 'blog'), { recursive: true });
-  for (const im of imgs) { const f = `${slug}-${im.role}.jpg`; fs.writeFileSync(path.join(ROOT, 'assets', 'blog', f), im.buf); ref[im.role] = { src: '/assets/blog/' + f, alt: (im.role === 'cover' ? d.image_alt : `Pros and cons of ${d.product || d.title}: ${d.pros.slice(0, 3).join(', ')} versus ${d.cons.slice(0, 3).join(', ')}`).slice(0, 160) }; }
+  for (const im of imgs) { const f = `${slug}-${im.role}.jpg`; fs.writeFileSync(path.join(ROOT, 'assets', 'blog', f), im.buf); ref[im.role] = { src: '/assets/blog/' + f, alt: (im.role === 'cover' ? d.image_alt : im.role === 'thumb' ? d.image_alt + ' (video thumbnail)' : `Pros and cons of ${d.product || d.title}: ${d.pros.slice(0, 3).join(', ')} versus ${d.cons.slice(0, 3).join(', ')}`).slice(0, 160) }; }
   let body = d.body_markdown;
   if (ref.proscons) { const fig = `![${ref.proscons.alt}](${ref.proscons.src} "Pros and cons at a glance")`, m = /^##\s+(pros|the pros|what works)/im.exec(body); body = m ? body.slice(0, m.index) + fig + '\n\n' + body.slice(m.index) : body.replace(/\n\n/, '\n\n' + fig + '\n\n'); }
   const cite = pages.map((p, i) => `${i + 1}. [${(p.title || p.meta.outlet).replace(/\s*[|\-–—:]\s*[^|\-–—:]{2,40}$/, '').slice(0, 110)}](${p.url}), ${p.meta.outlet}`);
