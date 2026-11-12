@@ -76,3 +76,6 @@ Set 2 (story-channel looks): `node scripts/blog-desk/style-reel.js <outdir> --se
 
 ## Cinematic 3D story (story3d.js)
 `node scripts/blog-desk/story3d.js content/blog/videos/<video>.json out.mp4` renders a real three.js low-poly film (night city, glass UI slabs, dolly camera, letterbox, grade) with the same Kokoro voice, synthesized music and captions. The scene code lives in `scripts/blog-desk/stories3d/<pack>.js` (browser module); `--stills "<scene>:t1,t2" --stills-dir dir` checks frames fast (about 20 s per call). Full 77 s video: about 20 min in the cloud container with software WebGL.
+
+## Embedding the YouTube Short in a post
+After Aashish uploads the Short and sends the link, add `::short[VIDEO_ID]` on its own line under the quick-answer box in the post body (portrait 9:16 privacy embed) and set `extra.video = { id, name, description, uploadDate, duration }`. The post page then emits VideoObject schema (thumbnail from i.ytimg.com).

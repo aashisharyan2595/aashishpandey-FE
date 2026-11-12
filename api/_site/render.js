@@ -198,6 +198,7 @@ ${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 i
   if (x.sources && x.sources.length) art.citation = x.sources.map((s) => ({ '@type': 'CreativeWork', url: s.url, name: s.title || undefined, publisher: s.outlet ? { '@type': 'Organization', name: s.outlet } : undefined }));
   if (x.about && x.about.length) art.about = x.about.map((n) => ({ '@type': 'Thing', name: n }));
   const graph = [art, PERSON, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title, href: '/blog/' + p.slug }])];
+  if (x.video && x.video.id) graph.push({ '@type': 'VideoObject', '@id': url + '#video', name: x.video.name, description: x.video.description, thumbnailUrl: ['https://i.ytimg.com/vi/' + x.video.id + '/hqdefault.jpg'], uploadDate: x.video.uploadDate, duration: x.video.duration, embedUrl: 'https://www.youtube-nocookie.com/embed/' + x.video.id, contentUrl: 'https://www.youtube.com/shorts/' + x.video.id, inLanguage: 'en', publisher: { '@id': SITE + '/#person' } });
   if (x.faq && x.faq.length) graph.push({ '@type': 'FAQPage', '@id': url + '#faq', mainEntity: x.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
   const ld = [{ '@context': 'https://schema.org', '@graph': graph }];
   const tt = seo.title || p.title;
