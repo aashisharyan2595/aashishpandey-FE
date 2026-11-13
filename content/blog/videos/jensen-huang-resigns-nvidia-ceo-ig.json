@@ -1,0 +1,228 @@
+{
+ "slug": "jensen-huang-resigns-nvidia-ceo",
+ "title": "Jensen Huang resigns as Nvidia CEO",
+ "label": "Breaking news",
+ "topic": "tech",
+ "speed": 0.97,
+ "pronounce": {
+  "Nvidia": "en-vid-ee-uh",
+  "Muja": "Moo-jah",
+  "Kress": "Kress"
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "art": "ceo-exit",
+   "say": "Nvidia's CEO just walked out the door. Jensen Huang has resigned, effective immediately.",
+   "banner": {
+    "text": "NVIDIA'S CEO QUITS",
+    "color": "red",
+    "sub": "effective *immediately*"
+   }
+  },
+  {
+   "type": "stat",
+   "say": "He co-founded the company in nineteen ninety three, and ran it for thirty three years.",
+   "value": "33 years",
+   "label": "running Nvidia",
+   "sub": "co-founded in 1993",
+   "color": "navy",
+   "icon": "chip",
+   "banner": {
+    "text": "THE FOUNDER",
+    "color": "navy"
+   }
+  },
+  {
+   "type": "steps",
+   "who": "exec",
+   "say": "For now, finance chief Colette Kress is interim CEO. Harvey Jones becomes the company's first ever board chair. And the search for a permanent CEO has begun.",
+   "title": "WHO'S IN CHARGE",
+   "banner": {
+    "text": "WHAT CHANGES",
+    "color": "green"
+   },
+   "items": [
+    {
+     "text": "Colette Kress: interim CEO",
+     "at": "Colette"
+    },
+    {
+     "text": "Harvey Jones: board chair",
+     "at": "Harvey"
+    },
+    {
+     "text": "CEO search under way",
+     "at": "search"
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "say": "Nvidia hasn't said why. News reports point to a week of pressure, but those details are reported, not confirmed.",
+   "banner": {
+    "text": "WHAT WE KNOW",
+    "color": "navy"
+   },
+   "left": {
+    "title": "CONFIRMED",
+    "color": "green",
+    "items": [
+     "He resigned",
+     "Interim CEO|named",
+     "Earnings still|on Nov 17"
+    ]
+   },
+   "right": {
+    "title": "NOT CONFIRMED",
+    "color": "red",
+    "icon": "x",
+    "at": "reports",
+    "items": [
+     {
+      "text": "The reason",
+      "at": "why"
+     },
+     {
+      "text": "Reports of|pressure",
+      "at": "pressure"
+     }
+    ]
+   }
+  },
+  {
+   "type": "bars",
+   "say": "Shares fell more than ten percent in early trading, then recovered to about four percent down, according to CNBC.",
+   "title": "Nvidia shares, per CNBC",
+   "rows": [
+    {
+     "label": "Early trading",
+     "value": 10,
+     "max": 12,
+     "text": "\u221210%+",
+     "color": "red",
+     "at": "fell"
+    },
+    {
+     "label": "Later",
+     "value": 4,
+     "max": 12,
+     "text": "about \u22124%",
+     "color": "orange",
+     "at": "recovered"
+    }
+   ],
+   "banner": {
+    "text": "THE MARKET",
+    "color": "red"
+   }
+  },
+  {
+   "type": "cast",
+   "say": "Oh, hi Muja. So why does it matter? Nvidia supplies most of the chips behind advanced AI, and there was no succession plan in place, says TechCrunch.",
+   "banner": {
+    "text": "WHY IT MATTERS",
+    "color": "purple"
+   },
+   "props": [
+    {
+     "icon": "chip",
+     "x": 540,
+     "y": 860,
+     "s": 1.4,
+     "at": "chips"
+    },
+    {
+     "icon": "globe",
+     "x": 240,
+     "y": 1060,
+     "at": "advanced"
+    },
+    {
+     "icon": "spark",
+     "x": 840,
+     "y": 1060,
+     "at": "AI"
+    }
+   ],
+   "pills": [
+    {
+     "text": "Most AI chips",
+     "color": "green",
+     "x": 540,
+     "y": 1250,
+     "at": "supplies"
+    },
+    {
+     "text": "No succession plan",
+     "color": "red",
+     "x": 540,
+     "y": 1390,
+     "at": "succession"
+    }
+   ]
+  },
+  {
+   "type": "stat",
+   "say": "Third quarter results are still due on Tuesday, November seventeenth. That call is the first big test for the interim CEO.",
+   "value": "Nov 17",
+   "label": "earnings call",
+   "sub": "first test for the interim CEO",
+   "color": "blue",
+   "icon": "calendar",
+   "banner": {
+    "text": "WHAT TO WATCH",
+    "color": "navy"
+   }
+  },
+  {
+   "type": "outro",
+   "who": "exec",
+   "say": "My take: hold off on big hardware decisions until after that call. Full sources are on my blog.",
+   "banner": {
+    "text": "MY TAKE",
+    "color": "yellow"
+   },
+   "chips": [
+    {
+     "text": "Wait for the Nov 17 call",
+     "color": "yellow",
+     "at": "hold"
+    }
+   ],
+   "endAt": 1,
+   "endTitle": "FULL STORY ON MY BLOG"
+  }
+ ],
+ "thumbs": [
+  {
+   "text": [
+    "NVIDIA'S CEO",
+    "QUITS"
+   ],
+   "color": "red",
+   "scene": 0,
+   "f": 120
+  },
+  {
+   "text": [
+    "33 YEARS",
+    "THEN GONE"
+   ],
+   "color": "navy",
+   "scene": 1,
+   "f": 120,
+   "wy": 600
+  },
+  {
+   "text": [
+    "WHO RUNS",
+    "NVIDIA NOW?"
+   ],
+   "color": "green",
+   "scene": 2,
+   "f": 300,
+   "wy": 640
+  }
+ ]
+}
