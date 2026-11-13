@@ -1,0 +1,456 @@
+{
+ "slug": "gemini-decisions-api-review-pros-cons",
+ "title": "Gemini Decisions API: pros and cons",
+ "label": "AI review",
+ "topic": "tech",
+ "speed": 0.97,
+ "pronounce": {
+  "Gemini": "Jem-in-eye",
+  "Muja": "Moo-jah",
+  "$0.88": "eighty eight cents",
+  "$4.14": "four dollars fourteen",
+  "Jev": "Jev",
+  "API": "A P I",
+  "PDFs": "P D Fs"
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "art": "robot-sort",
+   "say": "What if you asked an AI a question, and it answered with a number instead of an essay?",
+   "banner": {
+    "text": "NUMBERS, NOT ESSAYS",
+    "color": "purple",
+    "sub": "Google's new *Decisions API*"
+   }
+  },
+  {
+   "type": "cast",
+   "who": "priya",
+   "say": "Meet Priya. Her shop gets hundreds of support emails, and each one needs sorting. Is it a complaint? Which team should get it?",
+   "banner": {
+    "text": "THE SORTING JOB",
+    "color": "green"
+   },
+   "props": [
+    {
+     "icon": "mail",
+     "x": 620,
+     "y": 900,
+     "at": "emails"
+    },
+    {
+     "icon": "mail",
+     "x": 820,
+     "y": 960,
+     "s": 0.8,
+     "at": "emails"
+    },
+    {
+     "icon": "mail",
+     "x": 720,
+     "y": 1100,
+     "s": 0.9,
+     "at": "sorting"
+    }
+   ],
+   "pills": [
+    {
+     "text": "Complaint?",
+     "color": "red",
+     "x": 720,
+     "y": 1290,
+     "at": "complaint"
+    },
+    {
+     "text": "Which team?",
+     "color": "blue",
+     "x": 720,
+     "y": 1420,
+     "at": "which"
+    }
+   ],
+   "muja": {
+    "react": "think",
+    "at": "sorting",
+    "bubble": "Hmm..."
+   }
+  },
+  {
+   "type": "chips",
+   "say": "Google's new Gemini Decisions API does exactly that. It doesn't write replies. It answers yes or no, picks one option from a list, or scores against a rubric.",
+   "banner": {
+    "text": "WHAT IT DOES",
+    "color": "purple",
+    "sub": "answers, not replies"
+   },
+   "items": [
+    {
+     "text": "Yes or no",
+     "color": "green",
+     "icon": "check",
+     "at": "yes"
+    },
+    {
+     "text": "Pick one option",
+     "color": "blue",
+     "icon": "tag",
+     "at": "picks"
+    },
+    {
+     "text": "Score on a rubric",
+     "color": "yellow",
+     "icon": "spark",
+     "at": "scores"
+    }
+   ]
+  },
+  {
+   "type": "muja",
+   "prop": "sign",
+   "sign": "YES",
+   "banner": {
+    "text": "MUJA VOTES",
+    "color": "purple"
+   },
+   "helloAt": "Muja",
+   "factAt": "Fun",
+   "backAt": "back",
+   "say": "Oh! Look who's voting. [chuckle] Muja says yes! Fun fact, Muja: the word robot comes from a Czech play, written in 1920. Right... back to our story.",
+   "fact": [
+    "The word “robot” comes from",
+    "a Czech play written in 1920"
+   ]
+  },
+  {
+   "type": "stat",
+   "say": "And it can check up to one thousand questions against one input, in a single call.",
+   "value": "1,000",
+   "label": "questions in one call",
+   "sub": "one shared input",
+   "color": "purple",
+   "icon": "spark",
+   "banner": {
+    "text": "ONE CALL",
+    "color": "navy"
+   },
+   "muja": {
+    "react": "wow",
+    "at": "thousand",
+    "bubble": "1,000?!"
+   }
+  },
+  {
+   "type": "bars",
+   "say": "It costs ten cents per million input tokens. [chuckle] Yes, Muja, that's cheap. On Google's own tests, that's nearly five times cheaper than Gemini 3.5 Flash-Lite.",
+   "title": "Cost on Google's 7 shared tests",
+   "rows": [
+    {
+     "label": "Decisions API",
+     "value": 0.88,
+     "max": 4.14,
+     "text": "$0.88",
+     "color": "green",
+     "at": "costs"
+    },
+    {
+     "label": "Flash-Lite",
+     "value": 4.14,
+     "max": 4.14,
+     "text": "$4.14",
+     "color": "red",
+     "at": "nearly"
+    }
+   ],
+   "note": "Google's own numbers",
+   "banner": {
+    "text": "CHEAP",
+    "color": "green",
+    "sub": "$0.10 per million input tokens"
+   },
+   "muja": {
+    "react": "interrupt",
+    "at": "ten",
+    "bubble": "So cheap!"
+   }
+  },
+  {
+   "type": "chips",
+   "say": "The good part: clean numbers your code can trust, and it reads audio, video and PDFs directly.",
+   "banner": {
+    "text": "THE GOOD",
+    "color": "green"
+   },
+   "items": [
+    {
+     "text": "Numbers your code can use",
+     "color": "green",
+     "icon": "check",
+     "at": "clean"
+    },
+    {
+     "text": "Reads audio, video, PDFs",
+     "color": "green",
+     "icon": "folder",
+     "at": "reads"
+    }
+   ]
+  },
+  {
+   "type": "compare",
+   "say": "Now the catch. TypeSafe's Jev is cheaper still, there's no caching or batch mode yet, and every benchmark comes from Google itself.",
+   "banner": {
+    "text": "THE CATCH",
+    "color": "red"
+   },
+   "left": {
+    "title": "GOOD",
+    "color": "green",
+    "items": [
+     "1,000 checks|per call",
+     "Reads audio,|video, PDFs",
+     "Built-in|confidence"
+    ]
+   },
+   "right": {
+    "title": "NOT SO GOOD",
+    "color": "red",
+    "icon": "x",
+    "at": "catch",
+    "items": [
+     {
+      "text": "Jev is|cheaper",
+      "at": "Jev"
+     },
+     {
+      "text": "No caching|or batch",
+      "at": "caching"
+     },
+     {
+      "text": "Google's own|benchmarks",
+      "at": "benchmark"
+     }
+    ]
+   },
+   "muja": {
+    "react": "worried",
+    "at": "catch"
+   }
+  },
+  {
+   "type": "steps",
+   "who": "priya",
+   "say": "My take: test it on your own data, run it side by side with what you use today for a week, and only then switch.",
+   "title": "MY TAKE",
+   "banner": {
+    "text": "TRY IT FIRST",
+    "color": "yellow"
+   },
+   "items": [
+    {
+     "text": "Test on your data",
+     "at": "test"
+    },
+    {
+     "text": "Side by side, 1 week",
+     "at": "side"
+    },
+    {
+     "text": "Then decide",
+     "at": "switch"
+    }
+   ]
+  },
+  {
+   "type": "outro",
+   "say": "It's a handy tool for one narrow job. The full pros and cons are on my blog.",
+   "banner": {
+    "text": "ONE NARROW JOB",
+    "color": "purple"
+   },
+   "chips": [
+    {
+     "text": "Great at sorting",
+     "color": "green"
+    },
+    {
+     "text": "Not a writer",
+     "color": "red",
+     "at": "narrow"
+    }
+   ],
+   "endAt": 1,
+   "endTitle": "FULL REVIEW ON MY BLOG",
+   "endColor": "purple"
+  }
+ ],
+ "thumbs": [
+  {
+   "text": [
+    "GEMINI DECIDES",
+    "FOR $0.10"
+   ],
+   "color": "purple",
+   "scene": 0,
+   "f": 110,
+   "mujaX": 120
+  },
+  {
+   "text": [
+    "1,000 QUESTIONS",
+    "ONE CALL"
+   ],
+   "color": "navy",
+   "scene": 4,
+   "f": 120,
+   "wy": 600
+  },
+  {
+   "text": [
+    "WORTH IT?",
+    "PROS + CONS"
+   ],
+   "color": "red",
+   "scene": 7,
+   "f": 260,
+   "wy": 620
+  }
+ ],
+ "narrator": {
+  "engine": "turbo",
+  "base": "A"
+ },
+ "posters": [
+  {
+   "bg": "yellow",
+   "side": "right",
+   "text": [
+    "AI FOR",
+    "10 CENTS"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "robot",
+     "x": 250,
+     "y": 690,
+     "s": 1.35,
+     "happy": 1,
+     "arm": 1
+    },
+    {
+     "c": "tag",
+     "text": "$0.10",
+     "x": 400,
+     "y": 170,
+     "r": -10,
+     "s": 0.95
+    }
+   ]
+  },
+  {
+   "bg": "teal",
+   "side": "left",
+   "text": [
+    "YES",
+    "OR NO?"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "muja",
+     "x": 290,
+     "y": 690,
+     "s": 1.55,
+     "hold": "sign",
+     "sign": "YES",
+     "happy": 1
+    },
+    {
+     "c": "check",
+     "x": 520,
+     "y": 200,
+     "s": 0.9
+    }
+   ]
+  },
+  {
+   "bg": "navy",
+   "side": "right",
+   "text": [
+    "1,000",
+    "IN 1 CALL"
+   ],
+   "hi": 1,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 300
+    },
+    {
+     "c": "card",
+     "text": "1,000",
+     "sub": "questions, one call",
+     "x": 330,
+     "y": 220,
+     "w": 480,
+     "h": 250,
+     "fs": 130,
+     "color": "#7b6cff"
+    },
+    {
+     "c": "robot",
+     "x": 250,
+     "y": 700,
+     "s": 0.9,
+     "happy": 1,
+     "arm": 0.8
+    }
+   ]
+  },
+  {
+   "bg": "purple",
+   "side": "left",
+   "text": [
+    "WORTH",
+    "IT?"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "check",
+     "x": 170,
+     "y": 180,
+     "s": 1.2
+    },
+    {
+     "c": "x",
+     "x": 470,
+     "y": 180,
+     "s": 1.2
+    },
+    {
+     "c": "robot",
+     "x": 320,
+     "y": 700,
+     "s": 1.05,
+     "happy": 0.2,
+     "arm": 0.3
+    }
+   ]
+  }
+ ]
+}

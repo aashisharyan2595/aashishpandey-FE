@@ -1,0 +1,3 @@
+{ "name": "blog-desk-explainer", "private": true, "version": "0.0.0",
+  "dependencies": { "remotion": "4.0.539", "@remotion/cli": "4.0.539", "@remotion/renderer": "4.0.539", "react": "19.1.1", "react-dom": "19.1.1" },
+  "devDependencies": { "typescript": "5.9.2", "@types/react": "19.1.12" } }

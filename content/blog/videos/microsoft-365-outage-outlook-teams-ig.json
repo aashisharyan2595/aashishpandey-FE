@@ -1,0 +1,442 @@
+{
+ "slug": "microsoft-365-outage-outlook-teams",
+ "title": "Microsoft 365 outage: what we know",
+ "label": "Breaking news",
+ "topic": "tech",
+ "speed": 0.97,
+ "pronounce": {
+  "Muja": "Moo-jah",
+  "SharePoint": "Share-point",
+  "Copilot": "Co-pilot",
+  "130,000": "a hundred and thirty thousand"
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "art": "cloud-down",
+   "say": "On Thursday, Outlook simply stopped working for people around the world.",
+   "banner": {
+    "text": "OUTLOOK WENT DARK",
+    "color": "red",
+    "sub": "a *worldwide* outage"
+   }
+  },
+  {
+   "type": "stat",
+   "say": "About 130,000 users had reported Outlook problems on Downdetector, CNBC said.",
+   "value": "130,000",
+   "label": "Outlook problem reports",
+   "sub": "on Downdetector, per CNBC",
+   "color": "red",
+   "icon": "mail",
+   "banner": {
+    "text": "HOW BIG",
+    "color": "navy"
+   }
+  },
+  {
+   "type": "muja",
+   "prop": "umbrella",
+   "banner": {
+    "text": "CAME PREPARED",
+    "color": "purple"
+   },
+   "helloAt": "Muja",
+   "factAt": "Fun",
+   "backAt": "back",
+   "say": "[laugh] Well, Muja came prepared! Fun fact, buddy: the first computer bug was a real moth, stuck inside a Harvard computer in 1947. Alright... back to our story.",
+   "fact": [
+    "The first computer bug",
+    "was a real moth, found in a",
+    "Harvard computer in 1947"
+   ]
+  },
+  {
+   "type": "chips",
+   "say": "And it wasn't just email. Teams, SharePoint, Copilot and Defender were on Microsoft's list too.",
+   "banner": {
+    "text": "NOT JUST EMAIL",
+    "color": "purple"
+   },
+   "items": [
+    {
+     "text": "Teams",
+     "color": "purple",
+     "icon": "chat",
+     "at": "Teams"
+    },
+    {
+     "text": "SharePoint",
+     "color": "teal",
+     "icon": "folder",
+     "at": "SharePoint"
+    },
+    {
+     "text": "Copilot",
+     "color": "blue",
+     "icon": "spark",
+     "at": "Copilot"
+    },
+    {
+     "text": "Defender",
+     "color": "navy",
+     "icon": "shieldx",
+     "at": "Defender"
+    }
+   ],
+   "muja": {
+    "react": "gasp",
+    "at": "Teams",
+    "bubble": "Teams too?!"
+   }
+  },
+  {
+   "type": "servers",
+   "say": "Microsoft says some servers unexpectedly went offline, and the rest got overloaded. It is now reverting a recent network change.",
+   "offAt": "offline",
+   "loadAt": "overloaded",
+   "revertAt": "reverting",
+   "banner": {
+    "text": "WHAT BROKE",
+    "color": "navy",
+    "sub": "servers went *offline*"
+   },
+   "muja": {
+    "react": "worried",
+    "at": "overloaded"
+   }
+  },
+  {
+   "type": "compare",
+   "say": "Microsoft says there's no sign of a cyber attack. But the root cause isn't confirmed, and at the time of writing there's no time for a full fix.",
+   "banner": {
+    "text": "WHAT WE KNOW",
+    "color": "navy"
+   },
+   "left": {
+    "title": "CONFIRMED",
+    "color": "green",
+    "items": [
+     {
+      "text": "Servers went|offline",
+      "at": "Microsoft"
+     },
+     {
+      "text": "No sign of|an attack",
+      "at": "attack"
+     }
+    ]
+   },
+   "right": {
+    "title": "NOT YET",
+    "color": "red",
+    "icon": "x",
+    "at": "root",
+    "items": [
+     {
+      "text": "The root|cause",
+      "at": "root"
+     },
+     {
+      "text": "Time for a|full fix",
+      "at": "time"
+     }
+    ]
+   }
+  },
+  {
+   "type": "steps",
+   "who": "priya",
+   "say": "So what should you do? [chuckle] No, Muja, don't reinstall Outlook. The problem is on Microsoft's side. Teams chat and SharePoint files mostly kept working.",
+   "title": "WHAT TO DO",
+   "banner": {
+    "text": "WHAT TO DO",
+    "color": "green"
+   },
+   "items": [
+    {
+     "text": "Don't reinstall Outlook",
+     "at": "reinstall",
+     "no": true,
+     "color": "red"
+    },
+    {
+     "text": "Use Teams chat",
+     "at": "Teams"
+    },
+    {
+     "text": "Files in SharePoint",
+     "at": "SharePoint"
+    }
+   ],
+   "muja": {
+    "react": "interrupt",
+    "at": "should",
+    "bubble": "Reinstall?"
+   }
+  },
+  {
+   "type": "chips",
+   "who": "priya",
+   "say": "My take: keep a plan B. A phone tree, a second chat app, and a contact list that lives outside the suite.",
+   "banner": {
+    "text": "KEEP A PLAN B",
+    "color": "yellow"
+   },
+   "items": [
+    {
+     "text": "A phone tree",
+     "color": "green",
+     "icon": "phone",
+     "at": "phone"
+    },
+    {
+     "text": "A second chat app",
+     "color": "blue",
+     "icon": "chat",
+     "at": "second"
+    },
+    {
+     "text": "Contacts outside the suite",
+     "color": "orange",
+     "icon": "folder",
+     "at": "contact"
+    }
+   ],
+   "muja": {
+    "react": "cheer",
+    "at": "plan",
+    "bubble": "Plan B!"
+   }
+  },
+  {
+   "type": "outro",
+   "say": "Microsoft says recovery will be gradual. Updates and the full story are on my blog.",
+   "banner": {
+    "text": "SLOW RECOVERY",
+    "color": "navy"
+   },
+   "chips": [
+    {
+     "text": "Recovery is gradual",
+     "color": "yellow",
+     "at": "recovery"
+    }
+   ],
+   "endAt": 1,
+   "endTitle": "UPDATES ON MY BLOG"
+  }
+ ],
+ "thumbs": [
+  {
+   "text": [
+    "OUTLOOK",
+    "WENT DARK"
+   ],
+   "color": "red",
+   "scene": 0,
+   "f": 110
+  },
+  {
+   "text": [
+    "130,000",
+    "REPORTS"
+   ],
+   "color": "red",
+   "scene": 1,
+   "f": 120,
+   "wy": 600
+  },
+  {
+   "text": [
+    "NOT JUST",
+    "EMAIL"
+   ],
+   "color": "purple",
+   "scene": 3,
+   "f": 200,
+   "wy": 620
+  }
+ ],
+ "narrator": {
+  "engine": "turbo",
+  "base": "A"
+ },
+ "posters": [
+  {
+   "bg": "dark",
+   "side": "right",
+   "text": [
+    "OUTLOOK",
+    "DOWN"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 300
+    },
+    {
+     "c": "cloud",
+     "x": 330,
+     "y": 230,
+     "s": 1.15
+    },
+    {
+     "c": "rain",
+     "x": 330,
+     "y": 400
+    },
+    {
+     "c": "icon",
+     "k": "mail",
+     "x": 200,
+     "y": 560,
+     "s": 1.3
+    },
+    {
+     "c": "x",
+     "x": 290,
+     "y": 500,
+     "s": 0.6
+    }
+   ]
+  },
+  {
+   "bg": "purple",
+   "side": "left",
+   "text": [
+    "130,000",
+    "REPORTS"
+   ],
+   "hi": 0,
+   "art": [
+    {
+     "c": "cloud",
+     "x": 320,
+     "y": 120,
+     "s": 0.9
+    },
+    {
+     "c": "rain",
+     "x": 320,
+     "y": 230
+    },
+    {
+     "c": "muja",
+     "x": 310,
+     "y": 700,
+     "s": 1.3,
+     "hold": "umbrella",
+     "happy": 1
+    }
+   ]
+  },
+  {
+   "bg": "red",
+   "side": "right",
+   "text": [
+    "NOT JUST",
+    "EMAIL"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "icon",
+     "k": "chat",
+     "x": 150,
+     "y": 150,
+     "s": 1.2
+    },
+    {
+     "c": "icon",
+     "k": "folder",
+     "x": 330,
+     "y": 110,
+     "s": 1.2
+    },
+    {
+     "c": "icon",
+     "k": "calendar",
+     "x": 500,
+     "y": 160,
+     "s": 1.2
+    },
+    {
+     "c": "x",
+     "x": 210,
+     "y": 95,
+     "s": 0.45
+    },
+    {
+     "c": "x",
+     "x": 390,
+     "y": 55,
+     "s": 0.45
+    },
+    {
+     "c": "x",
+     "x": 560,
+     "y": 105,
+     "s": 0.45
+    },
+    {
+     "c": "priya",
+     "x": 300,
+     "y": 710,
+     "s": 0.95,
+     "smile": -0.6
+    }
+   ]
+  },
+  {
+   "bg": "navy",
+   "side": "left",
+   "text": [
+    "WHAT",
+    "BROKE?"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "server",
+     "x": 330,
+     "y": 90,
+     "s": 0.68,
+     "door": 0,
+     "alarm": true
+    },
+    {
+     "c": "x",
+     "x": 530,
+     "y": 160,
+     "s": 0.9
+    },
+    {
+     "c": "muja",
+     "x": 180,
+     "y": 690,
+     "s": 1.25,
+     "happy": 0.2,
+     "look": -0.6
+    },
+    {
+     "c": "bubble",
+     "text": "?",
+     "x": 150,
+     "y": 340,
+     "fs": 80,
+     "color": "#7b6cff"
+    }
+   ]
+  }
+ ]
+}
