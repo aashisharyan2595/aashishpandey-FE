@@ -28,6 +28,7 @@ function captions(WS: any[], tl: any) {
 // gasp | worried | think | wow | cheer | interrupt (hand up, trying to cut in; the narrator answers him in the script)
 const BEAT: Record<string, { c: string; txt: string }> = { gasp: { c: '#ff5a5f', txt: '!?' }, worried: { c: '#ff8a3d', txt: 'Uh-oh' }, think: { c: '#7b6cff', txt: 'Hmm?' }, wow: { c: '#2f8ae0', txt: 'Wow!' }, cheer: { c: '#1fb5a0', txt: 'Yay!' }, interrupt: { c: '#7b6cff', txt: 'Me! Me!' } };
 export function mujaPlan(v: any, tl: any, WS?: any[]) {
+  if (v.noMuja) return [];
   const st = tl.scenes.map((s: any) => s.sentences[0].start), n = st.length, end = tl.total + 0.9, segs: any[] = [];
   const mi = v.scenes.findIndex((s: any) => s.type === 'muja'), m0 = mi >= 0 ? st[mi] - 0.1 : 1e9, m1 = mi >= 0 ? (st[mi + 1] ?? end) + 0.3 : -1;
   const wordT = (si: number, w?: string) => { if (!w || !WS) return st[si] + 0.8; const lw = w.toLowerCase(); const h = WS[si].flat().find((x: any) => x.w.toLowerCase().replace(/^[^a-z0-9$]+/, '').startsWith(lw)); return h ? h.t0 : st[si] + 0.8; };

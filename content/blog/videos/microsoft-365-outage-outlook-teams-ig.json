@@ -3,6 +3,7 @@
  "title": "Microsoft 365 outage: what we know",
  "label": "Breaking news",
  "topic": "tech",
+ "tone": "serious",
  "speed": 0.97,
  "pronounce": {
   "Muja": "Moo-jah",
@@ -259,8 +260,8 @@
   }
  ],
  "narrator": {
-  "engine": "turbo",
-  "base": "A"
+  "engine": "orpheus",
+  "voice": "auto"
  },
  "posters": [
   {

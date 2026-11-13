@@ -3,6 +3,7 @@
  "title": "Apache HTTP/2 flaw: patch now",
  "label": "Security",
  "topic": "tech",
+ "tone": "serious",
  "speed": 0.97,
  "pronounce": {
   "mod_http2": "mod H T T P two",
@@ -191,8 +192,8 @@
   }
  ],
  "narrator": {
-  "engine": "turbo",
-  "base": "A"
+  "engine": "orpheus",
+  "voice": "auto"
  },
  "posters": [
   {

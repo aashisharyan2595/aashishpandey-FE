@@ -3,6 +3,7 @@
  "title": "Jensen Huang resigns as Nvidia CEO",
  "label": "Breaking news",
  "topic": "tech",
+ "tone": "serious",
  "speed": 0.97,
  "pronounce": {
   "Nvidia": "en-vid-ee-uh",
@@ -263,8 +264,8 @@
   }
  ],
  "narrator": {
-  "engine": "turbo",
-  "base": "A"
+  "engine": "orpheus",
+  "voice": "auto"
  },
  "posters": [
   {
