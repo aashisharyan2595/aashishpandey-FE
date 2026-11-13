@@ -1,63 +1,79 @@
 1
-00:00:00,000 --> 00:00:04,487
+00:00:00,000 --> 00:00:04,408
 On Thursday, Outlook simply stopped working for people around the world.
 
 2
-00:00:04,537 --> 00:00:11,649
+00:00:04,458 --> 00:00:10,727
 About 130,000 users had reported Outlook problems on Downdetector, CNBC said.
 
 3
-00:00:11,699 --> 00:00:13,445
-And it wasn't just email.
+00:00:10,777 --> 00:00:13,239
+Well, Muja came prepared!
 
 4
-00:00:13,495 --> 00:00:18,409
-Teams, SharePoint, Copilot and Defender were on Microsoft's list too.
+00:00:13,289 --> 00:00:19,804
+Fun fact, buddy: the first computer bug was a real moth, stuck inside a Harvard computer in 1947.
 
 5
-00:00:18,459 --> 00:00:23,981
-Microsoft says some servers unexpectedly went offline, and the rest got overloaded.
+00:00:19,854 --> 00:00:20,776
+Alright...
 
 6
-00:00:24,031 --> 00:00:27,153
-It is now reverting a recent network change.
+00:00:20,826 --> 00:00:22,244
+back to our story.
 
 7
-00:00:27,203 --> 00:00:30,506
-Microsoft says there's no sign of a cyber attack.
+00:00:22,294 --> 00:00:23,670
+And it wasn't just email.
 
 8
-00:00:30,556 --> 00:00:36,622
-But the root cause isn't confirmed, and at the time of writing there's no time for a full fix.
+00:00:23,720 --> 00:00:29,289
+Teams, SharePoint, Copilot and Defender were on Microsoft's list too.
 
 9
-00:00:36,672 --> 00:00:38,119
-Oh, hi Muja.
+00:00:29,339 --> 00:00:34,360
+Microsoft says some servers unexpectedly went offline, and the rest got overloaded.
 
 10
-00:00:38,169 --> 00:00:39,803
-So what should you do?
+00:00:34,410 --> 00:00:37,244
+It is now reverting a recent network change.
 
 11
-00:00:39,853 --> 00:00:44,522
-Don't reinstall Outlook, because the problem is on Microsoft's side.
+00:00:37,294 --> 00:00:40,233
+Microsoft says there's no sign of a cyber attack.
 
 12
-00:00:44,572 --> 00:00:48,206
-Teams chat and SharePoint files mostly kept working.
+00:00:40,283 --> 00:00:45,577
+But the root cause isn't confirmed, and at the time of writing there's no time for a full fix.
 
 13
-00:00:48,256 --> 00:00:50,109
-My take: keep a plan B.
+00:00:45,627 --> 00:00:46,905
+So what should you do?
 
 14
-00:00:50,159 --> 00:00:55,563
-A phone tree, a second chat app, and a contact list that lives outside the suite.
+00:00:46,955 --> 00:00:49,990
+No, Muja, don't reinstall Outlook.
 
 15
-00:00:55,613 --> 00:00:58,554
-Microsoft says recovery will be gradual.
+00:00:50,040 --> 00:00:52,250
+The problem is on Microsoft's side.
 
 16
-00:00:58,604 --> 00:01:01,470
+00:00:52,300 --> 00:00:55,967
+Teams chat and SharePoint files mostly kept working.
+
+17
+00:00:56,017 --> 00:00:57,952
+My take: keep a plan B.
+
+18
+00:00:58,002 --> 00:01:03,055
+A phone tree, a second chat app, and a contact list that lives outside the suite.
+
+19
+00:01:03,105 --> 00:01:05,463
+Microsoft says recovery will be gradual.
+
+20
+00:01:05,513 --> 00:01:08,357
 Updates and the full story are on my blog.
