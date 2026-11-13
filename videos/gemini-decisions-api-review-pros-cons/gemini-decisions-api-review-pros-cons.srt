@@ -1,0 +1,71 @@
+1
+00:00:00,000 --> 00:00:05,399
+What if you asked an AI a question, and it answered with a number instead of an essay?
+
+2
+00:00:05,449 --> 00:00:06,619
+Meet Priya.
+
+3
+00:00:06,669 --> 00:00:11,167
+Her shop gets hundreds of support emails, and each one needs sorting.
+
+4
+00:00:11,217 --> 00:00:12,659
+Is it a complaint?
+
+5
+00:00:12,709 --> 00:00:14,461
+Which team should get it?
+
+6
+00:00:14,511 --> 00:00:18,582
+Google's new Gemini Decisions API does exactly that.
+
+7
+00:00:18,632 --> 00:00:20,335
+It doesn't write replies.
+
+8
+00:00:20,385 --> 00:00:25,833
+It answers yes or no, picks one option from a list, or scores against a rubric.
+
+9
+00:00:25,883 --> 00:00:31,095
+And it can check up to one thousand questions against one input, in a single call.
+
+10
+00:00:31,145 --> 00:00:34,065
+It costs ten cents per million input tokens.
+
+11
+00:00:34,115 --> 00:00:40,735
+On Google's own tests, that's nearly five times cheaper than Gemini 3.5 Flash-Lite.
+
+12
+00:00:40,785 --> 00:00:47,662
+The good part: clean numbers your code can trust, and it reads audio, video and PDFs directly.
+
+13
+00:00:47,712 --> 00:00:49,159
+Oh, hi Muja.
+
+14
+00:00:49,209 --> 00:00:50,443
+Now the catch.
+
+15
+00:00:50,493 --> 00:00:58,543
+TypeSafe's Jev is cheaper still, there's no caching or batch mode yet, and every benchmark comes from Google itself.
+
+16
+00:00:58,593 --> 00:01:06,153
+My take: test it on your own data, run it side by side with what you use today for a week, and only then switch.
+
+17
+00:01:06,203 --> 00:01:08,695
+It's a handy tool for one narrow job.
+
+18
+00:01:08,745 --> 00:01:11,654
+The full pros and cons are on my blog.
