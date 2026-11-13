@@ -1,0 +1,19 @@
+{
+  "title": "Microsoft 365 outage hits Outlook and Teams",
+  "accent": "teal",
+  "label": "Breaking news",
+  "topic": "tech",
+  "pack": "generic-3d",
+  "speed": 0.97,
+  "pronounce": { "Downdetector": "down detector", "SharePoint": "share point", "XDR": "X D R", "CNBC": "C N B C", "ABC": "A B C", "AWS": "A W S" },
+  "scenes": [
+    { "type": "hook", "say": "A hundred and thirty thousand Outlook reports, and still no time for a full fix. Microsoft three sixty five went down worldwide.", "title": ["130,000 REPORTS", "NO ETA"], "hero": "365", "chips": [ { "text": "OUTLOOK DOWN", "accent": "pink", "at": "Outlook" }, { "text": "WORLDWIDE", "accent": "teal", "at": "worldwide" } ] },
+    { "type": "stat", "say": "It started on Thursday, the twelfth of November, at one twenty six in the afternoon, Eastern time. That is per Microsoft's own incident record.", "title": ["WHEN IT BEGAN"], "value": "1:26 pm ET", "label": "Thursday, 12 November", "sub": "per Microsoft's incident record", "accent": "teal" },
+    { "type": "chips", "say": "Outlook took the worst of it. Microsoft also listed Teams, SharePoint, Copilot and Defender X D R as affected.", "title": ["WHAT BROKE"], "chips": [ { "text": "OUTLOOK AND EXCHANGE", "accent": "pink", "at": "Outlook" }, { "text": "TEAMS AND SHAREPOINT", "accent": "amber", "at": "Teams" }, { "text": "COPILOT AND DEFENDER XDR", "accent": "teal", "at": "Copilot" } ], "muja": { "side": "right", "mood": "worried" } },
+    { "type": "steps", "say": "Microsoft says it was not a traffic spike. Some servers went unexpectedly unavailable, and that strained the rest. It paused deployments, moved traffic, and is reverting a recent network change.", "title": ["MICROSOFT SAYS"], "steps": [ { "title": "Servers failed", "text": "Not a traffic spike", "at": "servers" }, { "title": "Deployments paused", "text": "Traffic moved away", "at": "paused" }, { "title": "Network change", "text": "A recent change reverted", "at": "reverting" } ] },
+    { "type": "compare", "say": "Microsoft says there's no indication of a cyber attack. The root cause is not confirmed yet, and there's no time for full recovery.", "left": { "title": "CONFIRMED", "items": ["No sign of an attack", "Servers being restored"], "accent": "teal" }, "right": { "title": "NOT YET", "items": ["Root cause", "Time for full fix"], "accent": "pink", "mark": "x" } },
+    { "type": "chips", "say": "If your email is on Microsoft three sixty five, the problem is on their side. Don't reinstall Outlook. Teams chat and meetings mostly worked. Expect apps to come back slowly.", "title": ["WHAT TO DO"], "chips": [ { "text": "DON'T REINSTALL OUTLOOK", "accent": "pink", "at": "reinstall" }, { "text": "TEAMS CHAT MOSTLY OK", "accent": "teal", "at": "chat" }, { "text": "SLOW RECOVERY", "accent": "amber", "at": "slowly" } ] },
+    { "type": "stat", "say": "Watch the Microsoft three sixty five status account for the all clear, then the post incident review for the real cause.", "title": ["WHAT TO WATCH"], "value": "All clear", "label": "then the root cause", "accent": "teal", "muja": { "side": "left", "mood": "curious", "prop": "magnifier" } },
+    { "type": "outro", "say": "My take: keep a plan B, a second chat channel and a contacts list outside the same suite. Full sources are on my blog. Follow for the news that matters, every day.", "url": "aashishpandey.com/blog", "title": ["NEWS THAT MATTERS", "EVERY DAY"] }
+  ]
+}
