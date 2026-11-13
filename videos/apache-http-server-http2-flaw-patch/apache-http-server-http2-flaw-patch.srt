@@ -1,0 +1,79 @@
+1
+00:00:00,000 --> 00:00:03,997
+One hidden door could let a stranger take over your web server.
+
+2
+00:00:04,047 --> 00:00:05,217
+Meet Priya.
+
+3
+00:00:05,267 --> 00:00:10,959
+Her online shop runs on Apache, one of the most popular web servers in the world.
+
+4
+00:00:11,009 --> 00:00:12,675
+Oh, hi Muja!
+
+5
+00:00:12,725 --> 00:00:16,370
+Every visitor talks to her server through HTTP/2.
+
+6
+00:00:16,420 --> 00:00:20,950
+Think of it as one fast lane that carries lots of requests at once.
+
+7
+00:00:21,000 --> 00:00:25,967
+The part of Apache that runs this lane is called mod_http2.
+
+8
+00:00:26,017 --> 00:00:27,902
+And it had a memory bug.
+
+9
+00:00:27,952 --> 00:00:31,682
+Send it the right messages, and the server gets confused.
+
+10
+00:00:31,732 --> 00:00:34,726
+Then an attacker could run their own code on it.
+
+11
+00:00:34,776 --> 00:00:36,778
+Apache rated it critical.
+
+12
+00:00:36,828 --> 00:00:45,625
+Versions 2.4.55 to 2.4.70 are affected, when HTTP/2 is switched on.
+
+13
+00:00:45,675 --> 00:00:47,015
+The fix is out.
+
+14
+00:00:47,065 --> 00:00:50,347
+Priya updates to 2.4.71.
+
+15
+00:00:50,397 --> 00:00:55,589
+Then she restarts the server, because the old code keeps running until she does.
+
+16
+00:00:55,639 --> 00:00:57,145
+Can't patch today?
+
+17
+00:00:57,195 --> 00:00:59,911
+Switch HTTP/2 off for now.
+
+18
+00:00:59,961 --> 00:01:04,438
+No attacks were reported yet, but a public test lab already exists.
+
+19
+00:01:04,488 --> 00:01:06,042
+So patch this week.
+
+20
+00:01:06,092 --> 00:01:08,339
+The full story is on my blog.
