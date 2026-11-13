@@ -1,79 +1,111 @@
 1
-00:00:00,000 --> 00:00:03,997
+00:00:00,000 --> 00:00:03,609
 One hidden door could let a stranger take over your web server.
 
 2
-00:00:04,047 --> 00:00:05,217
+00:00:03,659 --> 00:00:04,639
 Meet Priya.
 
 3
-00:00:05,267 --> 00:00:10,959
+00:00:04,689 --> 00:00:10,002
 Her online shop runs on Apache, one of the most popular web servers in the world.
 
 4
-00:00:11,009 --> 00:00:12,675
-Oh, hi Muja!
-
-5
-00:00:12,725 --> 00:00:16,370
+00:00:10,052 --> 00:00:13,395
 Every visitor talks to her server through HTTP/2.
 
-6
-00:00:16,420 --> 00:00:20,950
+5
+00:00:13,445 --> 00:00:17,339
 Think of it as one fast lane that carries lots of requests at once.
 
-7
-00:00:21,000 --> 00:00:25,967
+6
+00:00:17,389 --> 00:00:22,466
 The part of Apache that runs this lane is called mod_http2.
 
-8
-00:00:26,017 --> 00:00:27,902
+7
+00:00:22,516 --> 00:00:24,246
 And it had a memory bug.
 
-9
-00:00:27,952 --> 00:00:31,682
+8
+00:00:24,296 --> 00:00:27,397
 Send it the right messages, and the server gets confused.
 
-10
-00:00:31,732 --> 00:00:34,726
+9
+00:00:27,447 --> 00:00:30,372
 Then an attacker could run their own code on it.
 
+10
+00:00:30,422 --> 00:00:31,599
+Wait a second...
+
 11
-00:00:34,776 --> 00:00:36,778
-Apache rated it critical.
+00:00:31,649 --> 00:00:32,789
+Hey!
 
 12
-00:00:36,828 --> 00:00:45,625
-Versions 2.4.55 to 2.4.70 are affected, when HTTP/2 is switched on.
+00:00:32,839 --> 00:00:34,426
+Not you too, Muja!
 
 13
-00:00:45,675 --> 00:00:47,015
-The fix is out.
+00:00:34,476 --> 00:00:42,312
+Fun fact, buddy: the world's first web server, at CERN in 1990, had a sticker on it.
 
 14
-00:00:47,065 --> 00:00:50,347
-Priya updates to 2.4.71.
+00:00:42,362 --> 00:00:44,615
+It said, do not power it down!
 
 15
-00:00:50,397 --> 00:00:55,589
-Then she restarts the server, because the old code keeps running until she does.
+00:00:44,665 --> 00:00:45,944
+Okay, okay...
 
 16
-00:00:55,639 --> 00:00:57,145
-Can't patch today?
+00:00:45,994 --> 00:00:47,412
+back to our story.
 
 17
-00:00:57,195 --> 00:00:59,911
-Switch HTTP/2 off for now.
+00:00:47,462 --> 00:00:49,449
+Apache rated it critical.
 
 18
-00:00:59,961 --> 00:01:04,438
-No attacks were reported yet, but a public test lab already exists.
+00:00:49,498 --> 00:00:57,196
+Versions 2.4.55 to 2.4.70 are affected, when HTTP/2 is switched on.
 
 19
-00:01:04,488 --> 00:01:06,042
-So patch this week.
+00:00:57,246 --> 00:00:58,356
+The fix is out.
 
 20
-00:01:06,092 --> 00:01:08,339
+00:00:58,406 --> 00:01:01,284
+Priya updates to 2.4.71.
+
+21
+00:01:01,334 --> 00:01:03,216
+Then she restarts the server.
+
+22
+00:01:03,266 --> 00:01:05,794
+Yes, Muja, you can press it.
+
+23
+00:01:05,844 --> 00:01:08,426
+The old code keeps running until she does.
+
+24
+00:01:08,476 --> 00:01:09,666
+Can't patch today?
+
+25
+00:01:09,716 --> 00:01:12,658
+Switch HTTP/2 off for now.
+
+26
+00:01:12,708 --> 00:01:17,048
+No attacks were reported yet, but a public test lab already exists.
+
+27
+00:01:17,098 --> 00:01:18,647
+So patch this week.
+
+28
+00:01:18,697 --> 00:01:21,088
 The full story is on my blog.
