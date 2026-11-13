@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToyShot } from './Diorama';
 import { AbsoluteFill, interpolate } from 'remotion';
 import { C, pop, ease, Sneaker, Server, Priya, Banner, Sky, Ground, Card, Bug, Envelope, Shield, Exec, Robot, Icon, Muja } from './kit';
 
@@ -228,4 +229,5 @@ const MujaMoment: React.FC<P> = (p) => {
   </>);
 };
 
-export const TYPES: Record<string, React.FC<P>> = { muja: MujaMoment, hook: Hook, cast: Cast, stat: Stat, bars: Bars, chips: Chips, compare: Compare, steps: Steps, servers: Servers, outro: Outro, toggle: Toggle, lane: Lane, bug: ModBug, attack: Attack, versions: Versions, shop: Shop };
+export const Toy: React.FC<P> = (p) => <ToyShot f={p.f} dur={Math.round(p.dur * 30)} toy={p.sc.toy || {}} />;
+export const TYPES: Record<string, React.FC<P>> = { toy: Toy, muja: MujaMoment, hook: Hook, cast: Cast, stat: Stat, bars: Bars, chips: Chips, compare: Compare, steps: Steps, servers: Servers, outro: Outro, toggle: Toggle, lane: Lane, bug: ModBug, attack: Attack, versions: Versions, shop: Shop };
