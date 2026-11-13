@@ -1,3 +1,1 @@
-{ "name": "blog-desk-explainer", "private": true, "version": "0.0.0",
-  "dependencies": { "remotion": "4.0.539", "@remotion/cli": "4.0.539", "@remotion/renderer": "4.0.539", "react": "19.1.1", "react-dom": "19.1.1" },
-  "devDependencies": { "typescript": "5.9.2", "@types/react": "19.1.12" } }
+{"name":"blog-desk-explainer","private":true,"version":"0.0.0","dependencies":{"@remotion/cli":"4.0.539","@remotion/renderer":"4.0.539","@remotion/three":"4.0.539","@types/three":"0.170.0","react":"19.1.1","react-dom":"19.1.1","remotion":"4.0.539","three":"0.170.0"},"devDependencies":{"@types/react":"19.1.12","typescript":"5.9.2"}}

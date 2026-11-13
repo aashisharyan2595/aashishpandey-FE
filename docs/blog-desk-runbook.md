@@ -107,3 +107,7 @@ After Aashish uploads the Short and sends the link, add `::short[VIDEO_ID]` on i
 
 ## Video style (default from 2026-11-13)
 Every new Short uses the flat cartoon explainer (`scripts/blog-desk/explainer/`, see JOB video). Aashish chose it on 2026-11-13 after rejecting the stock-footage tool MoneyPrinterTurbo and setting aside every earlier look (3D low-poly, anime, slides). The older renderers described in the sections above stay for reference only.
+
+
+## Three.js look (test, 2026-11-13)
+`scripts/blog-desk/explainer/src/Diorama.tsx` (composition `Diorama`, 5 s) is a three.js toy night street built with `@remotion/three`: flat painted colours, black ink outlines (inverted hulls), fog matched to the sky, an eased camera push with a slow roll, and our flat SVG characters placed in the 3D scene by projecting ground points through the same camera. Render: `npx remotion render src/index.ts Diorama out.mp4 --gl=swangle` (about 1 minute for 5 s). Technique ideas came from a reference zip Aashish supplied (MIT code; its frames are style study only and are never reused). Not yet used for the scheduled videos until Aashish approves the look.
