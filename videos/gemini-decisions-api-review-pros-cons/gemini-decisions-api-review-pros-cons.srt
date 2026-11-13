@@ -1,71 +1,95 @@
 1
-00:00:00,000 --> 00:00:05,399
+00:00:00,000 --> 00:00:04,540
 What if you asked an AI a question, and it answered with a number instead of an essay?
 
 2
-00:00:05,449 --> 00:00:06,619
+00:00:04,590 --> 00:00:05,570
 Meet Priya.
 
 3
-00:00:06,669 --> 00:00:11,167
+00:00:05,620 --> 00:00:09,755
 Her shop gets hundreds of support emails, and each one needs sorting.
 
 4
-00:00:11,217 --> 00:00:12,659
+00:00:09,805 --> 00:00:11,084
 Is it a complaint?
 
 5
-00:00:12,709 --> 00:00:14,461
+00:00:11,134 --> 00:00:12,703
 Which team should get it?
 
 6
-00:00:14,511 --> 00:00:18,582
+00:00:12,753 --> 00:00:16,993
 Google's new Gemini Decisions API does exactly that.
 
 7
-00:00:18,632 --> 00:00:20,335
+00:00:17,043 --> 00:00:18,636
 It doesn't write replies.
 
 8
-00:00:20,385 --> 00:00:25,833
+00:00:18,686 --> 00:00:24,276
 It answers yes or no, picks one option from a list, or scores against a rubric.
 
 9
-00:00:25,883 --> 00:00:31,095
-And it can check up to one thousand questions against one input, in a single call.
+00:00:24,326 --> 00:00:24,946
+Oh!
 
 10
-00:00:31,145 --> 00:00:34,065
-It costs ten cents per million input tokens.
+00:00:24,996 --> 00:00:26,136
+Look who's voting.
 
 11
-00:00:34,115 --> 00:00:40,735
-On Google's own tests, that's nearly five times cheaper than Gemini 3.5 Flash-Lite.
+00:00:26,186 --> 00:00:28,429
+Muja says yes!
 
 12
-00:00:40,785 --> 00:00:47,662
-The good part: clean numbers your code can trust, and it reads audio, video and PDFs directly.
+00:00:28,479 --> 00:00:33,586
+Fun fact, Muja: the word robot comes from a Czech play, written in 1920.
 
 13
-00:00:47,712 --> 00:00:49,159
-Oh, hi Muja.
+00:00:33,636 --> 00:00:34,430
+Right...
 
 14
-00:00:49,209 --> 00:00:50,443
-Now the catch.
+00:00:34,480 --> 00:00:35,898
+back to our story.
 
 15
-00:00:50,493 --> 00:00:58,543
-TypeSafe's Jev is cheaper still, there's no caching or batch mode yet, and every benchmark comes from Google itself.
+00:00:35,948 --> 00:00:40,752
+And it can check up to one thousand questions against one input, in a single call.
 
 16
-00:00:58,593 --> 00:01:06,153
-My take: test it on your own data, run it side by side with what you use today for a week, and only then switch.
+00:00:40,802 --> 00:00:43,598
+It costs ten cents per million input tokens.
 
 17
-00:01:06,203 --> 00:01:08,695
-It's a handy tool for one narrow job.
+00:00:43,648 --> 00:00:46,246
+Yes, Muja, that's cheap.
 
 18
-00:01:08,745 --> 00:01:11,654
+00:00:46,296 --> 00:00:52,944
+On Google's own tests, that's nearly five times cheaper than Gemini 3.5 Flash-Lite.
+
+19
+00:00:52,994 --> 00:00:59,816
+The good part: clean numbers your code can trust, and it reads audio, video and PDFs directly.
+
+20
+00:00:59,866 --> 00:01:00,950
+Now the catch.
+
+21
+00:01:01,000 --> 00:01:08,716
+TypeSafe's Jev is cheaper still, there's no caching or batch mode yet, and every benchmark comes from Google itself.
+
+22
+00:01:08,766 --> 00:01:15,953
+My take: test it on your own data, run it side by side with what you use today for a week, and only then switch.
+
+23
+00:01:16,003 --> 00:01:18,442
+It's a handy tool for one narrow job.
+
+24
+00:01:18,492 --> 00:01:21,331
 The full pros and cons are on my blog.
