@@ -1,5 +1,6 @@
 {
   "framework": null,
+  "git": { "deploymentEnabled": { "blog-videos": false } },
   "functions": { "api/config.js": { "includeFiles": "content/blog/**" }, "api/kd2ozfuew9n4uaciyl1j.js": { "includeFiles": "content/blog/**" } },
   "buildCommand": "node scripts/chrome.cjs && node scripts/prerender.cjs && node scripts/externalize.cjs && node scripts/inline-css.cjs",
   "outputDirectory": ".",

@@ -8,6 +8,8 @@ slug="$1"; dir="$2"; origin="$(git remote get-url origin)"; T="$(mktemp -d)"
 for f in "$slug.mp4" "$slug.srt" "$slug-poster.jpg" youtube.md; do [ -s "$dir/$f" ] || { echo "missing $dir/$f"; exit 1; }; done
 if git ls-remote --exit-code --heads "$origin" blog-videos >/dev/null 2>&1; then git clone -q --depth 1 --branch blog-videos "$origin" "$T/r"
 else git clone -q --depth 1 "$origin" "$T/r"; (cd "$T/r" && git checkout -q --orphan blog-videos && git rm -rfq . && printf '# Blog videos\n\nOne folder per post: videos/<slug>/<slug>.mp4, .srt, -poster.jpg and youtube.md (the upload fields).\n' > README.md); fi
+# The branch holds only files, never a site: a vercel.json there tells Vercel not to build it (it failed with NEXT_NO_VERSION before).
+[ -f "$T/r/vercel.json" ] || printf '{ "git": { "deploymentEnabled": false } }\n' > "$T/r/vercel.json"
 mkdir -p "$T/r/videos/$slug"; cp "$dir/$slug.mp4" "$dir/$slug.srt" "$dir/$slug-poster.jpg" "$dir/youtube.md" "$T/r/videos/$slug/"
 cd "$T/r"; git add -A; git commit -q -m "Video for $slug${TRAILER:+
 
