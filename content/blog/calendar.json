@@ -59,7 +59,11 @@
       "urls": [
         "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
         "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
-        "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/"
+        "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/",
+        "https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/",
+        "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
+        "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidias-ceo-resigns-after-alleged-spy-scandal-whats-next-for-the-company",
+        "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/"
       ],
       "score": 8,
       "status": "planned",
@@ -92,17 +96,16 @@
       "locked": false
     },
     "2026-11-21": {
-      "title": "Why you should pin your GitHub Actions",
-      "kind": "explainer",
-      "angle": "Supply-chain risk in plain English, how pinning works, simple steps for small dev teams.",
+      "title": "ChatGPT Wallet review: AI agents that shop and pay for you",
+      "kind": "review",
+      "angle": "What Wallet does, how agent checkout works, safety and spending controls, pros and cons, who should try it and who should wait",
       "urls": [
-        "https://hugovk.dev/blog/2026/lock-github-actions/"
+        "https://openai.com/index/introducing-chatgpt-wallet",
+        "https://techcrunch.com/2026/11/13/chatgpts-new-wallet-lets-ai-agents-shop-and-check-out-for-you/"
       ],
-      "score": 6,
+      "score": 8,
       "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "github-actions-pinning"
+      "key": "chatgpt-wallet"
     },
     "2026-11-22": {
       "title": "OpenAI tops $10B in a quarter: what it tells us",
@@ -131,15 +134,16 @@
       "key": "fireworks-ai-breach-notion"
     },
     "2026-11-24": {
-      "title": "What is an AI agent, really?",
+      "title": "llama.cpp 1.0: running AI models on your own computer",
       "kind": "explainer",
-      "angle": "Plain-English explainer: agents vs chatbots, where they fail, how to try one safely.",
-      "urls": [],
-      "score": 5,
+      "angle": "Plain-English explainer of local AI: what llama.cpp 1.0 changes, what hardware you need, privacy and cost trade-offs, Apple local model app as context",
+      "urls": [
+        "https://huggingface.co/blog/ggml-org/llama-cpp-v1",
+        "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
+      ],
+      "score": 7,
       "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "what-is-an-ai-agent"
+      "key": "llama-cpp-v1"
     },
     "2026-11-25": {
       "title": "NotebookLM review: pros and cons for research and study",
@@ -336,8 +340,10 @@
     "2026-12-12": {
       "title": "ElevenLabs review: AI voices, pros and cons",
       "kind": "review",
-      "angle": "Quality, pricing, consent and misuse safeguards, who it is for.",
-      "urls": [],
+      "angle": "Quality, pricing, consent and misuse safeguards, who it is for. Include the new meeting notes and dictation app for teams (13 Nov 2026).",
+      "urls": [
+        "https://techcrunch.com/2026/11/13/elevenlabs-new-app-combines-meeting-note-taking-and-dictation-for-teams/"
+      ],
       "score": 5,
       "status": "planned",
       "slug": "",
@@ -401,7 +407,8 @@
       "kind": "news",
       "score": 6,
       "urls": [
-        "https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/"
+        "https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/",
+        "https://www.technologyreview.com/2026/11/13/1148551/the-download-silicon-valley-midterms-nvidia-chip-tracking/"
       ],
       "angle": "Chip location tracking vs public doubts; export controls; facts only, no personal-life angle",
       "added": "2026-11-13"
@@ -464,6 +471,26 @@
       "score": 5,
       "urls": [],
       "angle": "Features, pricing, pros and cons, who should skip it.",
+      "added": "2026-11-13"
+    },
+    {
+      "key": "github-actions-pinning",
+      "title": "Why you should pin your GitHub Actions",
+      "kind": "explainer",
+      "score": 6,
+      "urls": [
+        "https://hugovk.dev/blog/2026/lock-github-actions/"
+      ],
+      "angle": "Supply-chain risk in plain English, how pinning works, simple steps for small dev teams.",
+      "added": "2026-11-13"
+    },
+    {
+      "key": "what-is-an-ai-agent",
+      "title": "What is an AI agent, really?",
+      "kind": "explainer",
+      "score": 5,
+      "urls": [],
+      "angle": "Plain-English explainer: agents vs chatbots, where they fail, how to try one safely.",
       "added": "2026-11-13"
     }
   ],
