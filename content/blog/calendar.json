@@ -24,17 +24,20 @@
       "locked": false
     },
     "2026-11-16": {
-      "title": "Yogurt review: free open-source meeting notes vs Granola",
+      "title": "Gemini 4 Hydrogen review: Google’s fast new model, pros and cons",
       "kind": "review",
-      "angle": "Private, local meeting notes; setup effort; compare with Granola; who should use it.",
+      "angle": "Flash successor now in Search for all users and the Gemini app: speed, price, benchmarks vs Argon, what changes for everyday search and for developers",
       "urls": [
-        "https://github.com/FrigadeHQ/yogurt"
+        "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/",
+        "https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/",
+        "https://techcrunch.com/2026/11/12/googles-latest-search-upgrade-promises-better-answers-to-your-most-complicated-questions/",
+        "https://the-decoder.com/googles-gemini-4-hydrogen-outscores-the-bigger-argon-just-four-weeks-after-its-launch/",
+        "https://www.androidheadlines.com/2026/11/google-gemini-4-hydrogen-replaces-flash.html"
       ],
-      "score": 6,
+      "score": 8,
       "status": "planned",
       "slug": "",
-      "locked": false,
-      "key": "yogurt-open-source-notes"
+      "locked": false
     },
     "2026-11-17": {
       "title": "How AI voice cloning scams work and how to stay safe",
@@ -400,6 +403,59 @@
       "added": "2026-11-12"
     },
     {
+      "key": "nvidia-chip-tracking",
+      "title": "Nvidia could track its chips all along: what that means for export rules",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/"
+      ],
+      "angle": "Chip location tracking vs public doubts; export controls; facts only, no personal-life angle",
+      "added": "2026-11-13"
+    },
+    {
+      "key": "nebius-neocloud-40b",
+      "title": "Nebius plans $40B: the neocloud bet explained",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/12/nebius-tests-the-neocloud-playbook-with-40-billion-in-planned-spending/"
+      ],
+      "angle": "What neoclouds are and why AI compute money keeps flowing; tie to SoftBank loss",
+      "added": "2026-11-13"
+    },
+    {
+      "key": "tesla-cybertruck-wind-down",
+      "title": "Tesla winds down Cybertruck production: what happened",
+      "kind": "news",
+      "score": 6,
+      "urls": [],
+      "angle": "Trending on HN; confirm with real outlets before planning a slot",
+      "added": "2026-11-13"
+    },
+    {
+      "key": "postman-ai-plugins",
+      "title": "Postman auto-installs AI plugins: what developers should check",
+      "kind": "explainer",
+      "score": 6,
+      "urls": [
+        "https://github.com/postmanlabs/postman-app-support/issues/14370"
+      ],
+      "angle": "Trade topic (--trade); vendor response needed; privacy of API data",
+      "added": "2026-11-13"
+    },
+    {
+      "key": "yogurt-meeting-notes",
+      "title": "Yogurt review: free open-source meeting notes vs Granola",
+      "kind": "review",
+      "score": 6,
+      "urls": [
+        "https://github.com/FrigadeHQ/yogurt"
+      ],
+      "angle": "Private, local meeting notes; setup effort; compare with Granola; who should use it.",
+      "added": "2026-11-13"
+    },
+    {
       "key": "chatgpt-claude-gemini-office",
       "title": "ChatGPT vs Claude vs Gemini for everyday office work",
       "kind": "review",
@@ -412,6 +468,7 @@
   "covered": [
     "gemini-decisions-api",
     "apache-httpd-rce",
-    "nvidia-huang-exit"
+    "nvidia-huang-exit",
+    "microsoft-365-outage-nov-2026"
   ]
 }
