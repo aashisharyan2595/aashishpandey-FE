@@ -9,7 +9,9 @@ SLUG=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['slug'])" 
 if [ ! -s "$W/timeline.json" ] || [ "$J" -nt "$W/timeline.json" ]; then
   # Chatterbox (expressive, human-sounding) when the script names a narrator and its venv exists; Kokoro tts.py otherwise
   TPY="${TTS_PY:-$HOME/vt/venv/bin/python}"
-  if grep -q '"narrator"' "$J" && [ -x "$TPY" ]; then "$TPY" -I "$DESK/tts_cb.py" "$J" "$W" 2>/dev/null | tail -1; else python3 "$DESK/tts.py" "$J" "$W" >/dev/null; fi
+  OPY="${ORPHEUS_PY:-$HOME/ov/v/bin/python}"
+  if grep -q '"engine": *"orpheus"' "$J" && [ -x "$OPY" ]; then "$OPY" -I "$DESK/tts_orpheus.py" "$J" "$W" 2>/dev/null | tail -1
+  elif grep -q '"narrator"' "$J" && [ -x "$TPY" ]; then "$TPY" -I "$DESK/tts_cb.py" "$J" "$W" 2>/dev/null | tail -1; else python3 "$DESK/tts.py" "$J" "$W" >/dev/null; fi
   ffmpeg -loglevel error -y -i "$W/voice.wav" -af "highpass=f=70,equalizer=f=180:t=q:w=1:g=2,equalizer=f=3200:t=q:w=1.2:g=2.5,acompressor=threshold=-20dB:ratio=3:attack=12:release=180:makeup=3,loudnorm=I=-16:TP=-1.5:LRA=7" -ar 44100 -ac 1 "$HERE/public/$SLUG-voice.wav"
   python3 - "$J" "$W/timeline.json" "$W/sfx.json" <<'PY'
 import json,sys

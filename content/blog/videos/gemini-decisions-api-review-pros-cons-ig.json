@@ -3,6 +3,7 @@
  "title": "Gemini Decisions API: pros and cons",
  "label": "AI review",
  "topic": "tech",
+ "tone": "natural",
  "speed": 0.97,
  "pronounce": {
   "Gemini": "Jem-in-eye",
@@ -317,8 +318,8 @@
   }
  ],
  "narrator": {
-  "engine": "turbo",
-  "base": "A"
+  "engine": "orpheus",
+  "voice": "auto"
  },
  "posters": [
   {
