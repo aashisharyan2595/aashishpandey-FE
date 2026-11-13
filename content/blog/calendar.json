@@ -365,9 +365,10 @@
         "https://www.opb.org/article/2026/10/26/ai-giant-anthropic-files-for-an-ipo-that-could-break-records/"
       ],
       "score": 8,
-      "status": "planned",
-      "slug": "",
-      "locked": false
+      "status": "written",
+      "slug": "anthropic-ipo-claude-users-pricing",
+      "locked": false,
+      "key": "anthropic-ipo"
     },
     "2026-12-13": {
       "title": "Google Tabletop review: shared AI spaces for groups",
@@ -470,6 +471,7 @@
     "gemini-decisions-api",
     "apache-httpd-rce",
     "nvidia-huang-exit",
-    "microsoft-365-outage-nov-2026"
+    "microsoft-365-outage-nov-2026",
+    "anthropic-ipo"
   ]
 }
