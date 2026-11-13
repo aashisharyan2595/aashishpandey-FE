@@ -193,5 +193,151 @@
  "narrator": {
   "engine": "turbo",
   "base": "A"
- }
+ },
+ "posters": [
+  {
+   "bg": "red",
+   "side": "right",
+   "text": [
+    "PATCH",
+    "NOW!"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 420,
+     "y": 420,
+     "rad": 330
+    },
+    {
+     "c": "server",
+     "x": 330,
+     "y": 70,
+     "s": 0.74,
+     "door": 1,
+     "alarm": true
+    },
+    {
+     "c": "sneaker",
+     "x": 190,
+     "y": 700,
+     "s": 1.05,
+     "grin": 1
+    },
+    {
+     "c": "icon",
+     "k": "warn",
+     "x": 70,
+     "y": 90,
+     "s": 0.85
+    }
+   ]
+  },
+  {
+   "bg": "purple",
+   "side": "left",
+   "text": [
+    "APACHE",
+    "BUG!"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 300,
+     "y": 430
+    },
+    {
+     "c": "stamp",
+     "text": "CRITICAL",
+     "x": 330,
+     "y": 150,
+     "r": -8,
+     "fs": 84
+    },
+    {
+     "c": "muja",
+     "x": 270,
+     "y": 690,
+     "s": 1.7,
+     "happy": -0.7,
+     "look": -0.4
+    },
+    {
+     "c": "bubble",
+     "text": "!?",
+     "x": 110,
+     "y": 330,
+     "color": "#ff5a5f"
+    }
+   ]
+  },
+  {
+   "bg": "teal",
+   "side": "left",
+   "text": [
+    "IS YOUR",
+    "SITE SAFE?"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "server",
+     "x": 330,
+     "y": 110,
+     "s": 0.66,
+     "door": 1
+    },
+    {
+     "c": "priya",
+     "x": 200,
+     "y": 700,
+     "s": 1.05,
+     "smile": -0.6,
+     "look": 0.8
+    },
+    {
+     "c": "bubble",
+     "text": "?",
+     "x": 330,
+     "y": 110,
+     "fs": 80,
+     "color": "#1d2340"
+    }
+   ]
+  },
+  {
+   "bg": "yellow",
+   "side": "right",
+   "text": [
+    "FIXED IN",
+    "2.4.71"
+   ],
+   "hi": 0,
+   "art": [
+    {
+     "c": "glow",
+     "x": 330,
+     "y": 360
+    },
+    {
+     "c": "shield",
+     "x": 360,
+     "y": 330,
+     "s": 2.0
+    },
+    {
+     "c": "muja",
+     "x": 170,
+     "y": 690,
+     "s": 1.3,
+     "wave": true,
+     "happy": 1
+    }
+   ]
+  }
+ ]
 }

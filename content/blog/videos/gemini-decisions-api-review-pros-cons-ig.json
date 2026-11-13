@@ -319,5 +319,138 @@
  "narrator": {
   "engine": "turbo",
   "base": "A"
- }
+ },
+ "posters": [
+  {
+   "bg": "yellow",
+   "side": "right",
+   "text": [
+    "AI FOR",
+    "10 CENTS"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "robot",
+     "x": 250,
+     "y": 690,
+     "s": 1.35,
+     "happy": 1,
+     "arm": 1
+    },
+    {
+     "c": "tag",
+     "text": "$0.10",
+     "x": 400,
+     "y": 170,
+     "r": -10,
+     "s": 0.95
+    }
+   ]
+  },
+  {
+   "bg": "teal",
+   "side": "left",
+   "text": [
+    "YES",
+    "OR NO?"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "muja",
+     "x": 290,
+     "y": 690,
+     "s": 1.55,
+     "hold": "sign",
+     "sign": "YES",
+     "happy": 1
+    },
+    {
+     "c": "check",
+     "x": 520,
+     "y": 200,
+     "s": 0.9
+    }
+   ]
+  },
+  {
+   "bg": "navy",
+   "side": "right",
+   "text": [
+    "1,000",
+    "IN 1 CALL"
+   ],
+   "hi": 1,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 300
+    },
+    {
+     "c": "card",
+     "text": "1,000",
+     "sub": "questions, one call",
+     "x": 330,
+     "y": 220,
+     "w": 480,
+     "h": 250,
+     "fs": 130,
+     "color": "#7b6cff"
+    },
+    {
+     "c": "robot",
+     "x": 250,
+     "y": 700,
+     "s": 0.9,
+     "happy": 1,
+     "arm": 0.8
+    }
+   ]
+  },
+  {
+   "bg": "purple",
+   "side": "left",
+   "text": [
+    "WORTH",
+    "IT?"
+   ],
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "check",
+     "x": 170,
+     "y": 180,
+     "s": 1.2
+    },
+    {
+     "c": "x",
+     "x": 470,
+     "y": 180,
+     "s": 1.2
+    },
+    {
+     "c": "robot",
+     "x": 320,
+     "y": 700,
+     "s": 1.05,
+     "happy": 0.2,
+     "arm": 0.3
+    }
+   ]
+  }
+ ]
 }
