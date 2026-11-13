@@ -58,7 +58,8 @@
       "angle": "Follow-up after the 17 Nov earnings call: guidance, CEO search, China export stance",
       "urls": [
         "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
-        "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html"
+        "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
+        "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/"
       ],
       "score": 8,
       "status": "planned",
@@ -117,15 +118,17 @@
       "key": "openai-revenue-10b"
     },
     "2026-11-23": {
-      "title": "Microsoft 365 Copilot review: is it worth it for small teams?",
-      "kind": "review",
-      "angle": "Features, pricing, pros and cons, who should skip it.",
-      "urls": [],
-      "score": 5,
+      "title": "Fireworks AI breach exposed Notion AI chat transcripts",
+      "kind": "news",
+      "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
+      "urls": [
+        "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
+      ],
+      "score": 7,
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "microsoft-365-copilot"
+      "key": "fireworks-ai-breach-notion"
     },
     "2026-11-24": {
       "title": "What is an AI agent, really?",
@@ -381,17 +384,6 @@
   },
   "backlog": [
     {
-      "key": "fireworks-ai-breach-notion",
-      "title": "Fireworks AI breach exposed Notion AI chat transcripts",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
-      ],
-      "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
-      "added": "2026-11-12"
-    },
-    {
       "key": "github-ceo-agent-forge",
       "title": "Former GitHub CEO launches a Git forge built for AI agents",
       "kind": "news",
@@ -463,6 +455,15 @@
       "urls": [],
       "angle": "Evergreen comparison",
       "added": "2026-11-12"
+    },
+    {
+      "key": "microsoft-365-copilot",
+      "title": "Microsoft 365 Copilot review: is it worth it for small teams?",
+      "kind": "review",
+      "score": 5,
+      "urls": [],
+      "angle": "Features, pricing, pros and cons, who should skip it.",
+      "added": "2026-11-13"
     }
   ],
   "covered": [
