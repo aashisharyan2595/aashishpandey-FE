@@ -1,0 +1,235 @@
+1
+00:00:00,000 --> 00:00:01,271
+A hundred and thirty
+
+2
+00:00:01,311 --> 00:00:02,792
+thousand Outlook reports,
+
+3
+00:00:02,832 --> 00:00:03,946
+and still no time
+
+4
+00:00:03,986 --> 00:00:05,255
+for a full fix.
+
+5
+00:00:05,295 --> 00:00:07,118
+Microsoft three sixty five
+
+6
+00:00:07,158 --> 00:00:08,981
+went down worldwide.
+
+7
+00:00:09,021 --> 00:00:10,470
+It started on Thursday,
+
+8
+00:00:10,510 --> 00:00:12,011
+the twelfth of November,
+
+9
+00:00:12,051 --> 00:00:13,180
+at one twenty six
+
+10
+00:00:13,220 --> 00:00:14,296
+in the afternoon,
+
+11
+00:00:14,336 --> 00:00:15,407
+Eastern time.
+
+12
+00:00:15,447 --> 00:00:16,854
+That is per Microsoft's
+
+13
+00:00:16,894 --> 00:00:18,515
+own incident record.
+
+14
+00:00:18,555 --> 00:00:19,731
+Outlook took the worst
+
+15
+00:00:19,771 --> 00:00:20,396
+of it.
+
+16
+00:00:20,436 --> 00:00:22,628
+Microsoft also listed Teams,
+
+17
+00:00:22,668 --> 00:00:25,130
+SharePoint, Copilot and Defender
+
+18
+00:00:25,170 --> 00:00:26,009
+X D R as
+
+19
+00:00:26,049 --> 00:00:27,173
+affected.
+
+20
+00:00:27,213 --> 00:00:28,468
+Microsoft says it was
+
+21
+00:00:28,508 --> 00:00:29,972
+not a traffic spike.
+
+22
+00:00:30,012 --> 00:00:31,811
+Some servers went unexpectedly
+
+23
+00:00:31,851 --> 00:00:33,651
+unavailable, and that strained
+
+24
+00:00:33,691 --> 00:00:34,541
+the rest.
+
+25
+00:00:34,581 --> 00:00:36,006
+It paused deployments,
+
+26
+00:00:36,046 --> 00:00:36,964
+moved traffic,
+
+27
+00:00:37,004 --> 00:00:38,260
+and is reverting a
+
+28
+00:00:38,300 --> 00:00:40,145
+recent network change.
+
+29
+00:00:40,185 --> 00:00:41,770
+Microsoft says there's no
+
+30
+00:00:41,810 --> 00:00:43,178
+indication of a cyber
+
+31
+00:00:43,218 --> 00:00:44,851
+attack. The root cause
+
+32
+00:00:44,891 --> 00:00:46,189
+is not confirmed yet,
+
+33
+00:00:46,229 --> 00:00:47,423
+and there's no time
+
+34
+00:00:47,463 --> 00:00:48,975
+for full recovery.
+
+35
+00:00:49,015 --> 00:00:50,131
+If your email is
+
+36
+00:00:50,171 --> 00:00:51,727
+on Microsoft three sixty
+
+37
+00:00:51,767 --> 00:00:53,104
+five, the problem is
+
+38
+00:00:53,144 --> 00:00:54,355
+on their side.
+
+39
+00:00:54,395 --> 00:00:56,257
+Don't reinstall Outlook.
+
+40
+00:00:56,297 --> 00:00:57,638
+Teams chat and meetings
+
+41
+00:00:57,678 --> 00:00:58,736
+mostly worked.
+
+42
+00:00:58,776 --> 00:00:59,931
+Expect apps to come
+
+43
+00:00:59,971 --> 00:01:01,097
+back slowly.
+
+44
+00:01:01,137 --> 00:01:02,670
+Watch the Microsoft three
+
+45
+00:01:02,710 --> 00:01:04,243
+sixty five status account
+
+46
+00:01:04,283 --> 00:01:05,449
+for the all clear,
+
+47
+00:01:05,489 --> 00:01:06,865
+then the post incident
+
+48
+00:01:06,905 --> 00:01:08,123
+review for the real
+
+49
+00:01:08,163 --> 00:01:08,963
+cause.
+
+50
+00:01:09,003 --> 00:01:09,571
+My take:
+
+51
+00:01:09,611 --> 00:01:10,622
+keep a plan B,
+
+52
+00:01:10,662 --> 00:01:12,060
+a second chat channel
+
+53
+00:01:12,100 --> 00:01:13,387
+and a contacts list
+
+54
+00:01:13,427 --> 00:01:15,196
+outside the same suite.
+
+55
+00:01:15,236 --> 00:01:16,556
+Full sources are on
+
+56
+00:01:16,596 --> 00:01:17,440
+my blog.
+
+57
+00:01:17,480 --> 00:01:18,628
+Follow for the news
+
+58
+00:01:18,668 --> 00:01:19,420
+that matters,
+
+59
+00:01:19,460 --> 00:01:20,484
+every day.
