@@ -1,6 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, interpolate } from 'remotion';
-import { C, pop, ease, Sneaker, Server, Priya, Banner, Sky, Ground, Card, Bug, Envelope, Shield, Exec, Robot, Icon } from './kit';
+import { C, pop, ease, Sneaker, Server, Priya, Banner, Sky, Ground, Card, Bug, Envelope, Shield, Exec, Robot, Icon, Muja } from './kit';
 
 export type P = { f: number; t: number; dur: number; S: number[]; W: (w: string, n?: number) => number; sc: any; noBanner?: boolean };
 const FPS = 30;
@@ -191,4 +191,41 @@ export const Shop: React.FC<P> = (p) => { const { f, t, S, W } = p; const shop =
     <g transform="translate(250 1610) scale(0.86)"><Priya wave={wave} look={0.6} /></g>
   </Svg><BannerOf {...p} /></>); };
 
-export const TYPES: Record<string, React.FC<P>> = { hook: Hook, cast: Cast, stat: Stat, bars: Bars, chips: Chips, compare: Compare, steps: Steps, servers: Servers, outro: Outro, toggle: Toggle, lane: Lane, bug: ModBug, attack: Attack, versions: Versions, shop: Shop };
+
+// ---------- Muja's moment: the narrator steps aside, greets Muja, shares a fun fact, then "back to our story"
+// fields: prop sneak|sign|jacket|umbrella, fact: [lines], factAt / helloAt / backAt: word that triggers each beat, sign: sign text
+const MujaMoment: React.FC<P> = (p) => {
+  const { f, t, sc, W } = p;
+  const hello = W(sc.helloAt || 'Muja'), fact = W(sc.factAt || 'fact'), back = W(sc.backAt || 'back');
+  const prop = sc.prop || 'sign', lines: string[] = sc.fact || [];
+  let x = 540, walk = 0, face = 1, wave = 0, hop = 0, happy = 1, look = 0.3;
+  if (prop === 'sneak') {
+    // tiptoes toward the open server door, freezes when the narrator catches him, turns round sheepishly
+    const stop = Math.max(hello || 60, 40); x = interpolate(f, [0, stop], [200, 600], { extrapolateRight: 'clamp' }); walk = f < stop ? t * 6 : 0;
+    if (f >= stop) { face = -1; happy = f < stop + 30 ? 0.2 : 1; hop = f > stop + 30 && f < stop + 60 ? 0.5 : 0; }
+  } else {
+    x = interpolate(f, [0, 28], [1250, 540], { extrapolateRight: 'clamp', easing: (v) => 1 - Math.pow(1 - v, 3) }); walk = f < 28 ? t * 10 : 0; face = f < 28 ? -1 : 1;
+    if (hello && f >= hello && f < hello + 40) { wave = 1; hop = 0.6; }
+  }
+  if (back && f >= back) { wave = f < back + 24 ? 1 : 0; const o = ease(f, back + 12, back + 40); x = x + (1300 - x) * o; walk = o > 0 && o < 1 ? t * 10 : walk; face = o > 0 ? 1 : face; }
+  const card = fact ? pop(f, fact, 30, 12) : 0, rain = prop === 'umbrella';
+  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : '';
+  return (<>
+    <BG k={sc.bg || (rain ? 'dusk' : 'mint')} t={t} />
+    <Svg>
+      {prop === 'sneak' && <g transform="translate(640 760)"><Server doorOpen={1} t={t} /></g>}
+      {rain && <g><g transform={`translate(${540 + Math.sin(t) * 20} 470)`}><ellipse cx={0} cy={0} rx={260} ry={110} fill="#6d7391" /><ellipse cx={-150} cy={30} rx={150} ry={90} fill="#7a809e" /><ellipse cx={160} cy={30} rx={160} ry={90} fill="#7a809e" /></g>
+        {Array.from({ length: 26 }).map((_, i) => { const y = ((t * 900 + i * 137) % 900) + 560; return <path key={i} d={`M${200 + (i * 53) % 700},${y} l-10,34`} stroke="#9fb4ff" strokeWidth={5} strokeLinecap="round" opacity={0.8} />; })}</g>}
+      <g transform={`translate(${x} 1600) scale(${1.45 * face} 1.45)`}><Muja t={t} walk={walk} wave={wave} hop={hop} happy={happy} look={look} wear={wear} hold={hold} signText={sc.sign || 'YES'} /></g>
+      {card > 0.01 && <g transform={`translate(540 ${rain ? 880 : 640}) scale(${card})`}>
+        <rect x={-450} y={-150} width={900} height={110 + lines.length * 70} rx={36} fill="rgba(29,35,64,.16)" transform="translate(0 10)" />
+        <rect x={-450} y={-150} width={900} height={110 + lines.length * 70} rx={36} fill="#fff" />
+        <rect x={-150} y={-188} width={300} height={76} rx={38} fill={C.yellow} /><T x={0} y={-136} s={38} c={C.ink}>FUN FACT</T>
+        {lines.map((l, i) => <T key={i} x={0} y={-50 + i * 70} s={l.length > 26 ? 46 : 52}>{l}</T>)}
+      </g>}
+    </Svg>
+    <BannerOf {...p} />
+  </>);
+};
+
+export const TYPES: Record<string, React.FC<P>> = { muja: MujaMoment, hook: Hook, cast: Cast, stat: Stat, bars: Bars, chips: Chips, compare: Compare, steps: Steps, servers: Servers, outro: Outro, toggle: Toggle, lane: Lane, bug: ModBug, attack: Attack, versions: Versions, shop: Shop };

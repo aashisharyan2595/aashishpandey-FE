@@ -69,7 +69,12 @@
      "y": 1420,
      "at": "which"
     }
-   ]
+   ],
+   "muja": {
+    "react": "think",
+    "at": "sorting",
+    "bubble": "Hmm..."
+   }
   },
   {
    "type": "chips",
@@ -101,6 +106,23 @@
    ]
   },
   {
+   "type": "muja",
+   "prop": "sign",
+   "sign": "YES",
+   "banner": {
+    "text": "MUJA VOTES",
+    "color": "purple"
+   },
+   "helloAt": "Muja",
+   "factAt": "Fun",
+   "backAt": "back",
+   "say": "Oh! Look who's voting. [chuckle] Muja says yes! Fun fact, Muja: the word robot comes from a Czech play, written in 1920. Right... back to our story.",
+   "fact": [
+    "The word “robot” comes from",
+    "a Czech play written in 1920"
+   ]
+  },
+  {
    "type": "stat",
    "say": "And it can check up to one thousand questions against one input, in a single call.",
    "value": "1,000",
@@ -111,11 +133,16 @@
    "banner": {
     "text": "ONE CALL",
     "color": "navy"
+   },
+   "muja": {
+    "react": "wow",
+    "at": "thousand",
+    "bubble": "1,000?!"
    }
   },
   {
    "type": "bars",
-   "say": "It costs ten cents per million input tokens. On Google's own tests, that's nearly five times cheaper than Gemini 3.5 Flash-Lite.",
+   "say": "It costs ten cents per million input tokens. [chuckle] Yes, Muja, that's cheap. On Google's own tests, that's nearly five times cheaper than Gemini 3.5 Flash-Lite.",
    "title": "Cost on Google's 7 shared tests",
    "rows": [
     {
@@ -140,6 +167,11 @@
     "text": "CHEAP",
     "color": "green",
     "sub": "$0.10 per million input tokens"
+   },
+   "muja": {
+    "react": "interrupt",
+    "at": "ten",
+    "bubble": "So cheap!"
    }
   },
   {
@@ -166,7 +198,7 @@
   },
   {
    "type": "compare",
-   "say": "Oh, hi Muja. Now the catch. TypeSafe's Jev is cheaper still, there's no caching or batch mode yet, and every benchmark comes from Google itself.",
+   "say": "Now the catch. TypeSafe's Jev is cheaper still, there's no caching or batch mode yet, and every benchmark comes from Google itself.",
    "banner": {
     "text": "THE CATCH",
     "color": "red"
@@ -199,6 +231,10 @@
       "at": "benchmark"
      }
     ]
+   },
+   "muja": {
+    "react": "worried",
+    "at": "catch"
    }
   },
   {
@@ -265,7 +301,7 @@
     "ONE CALL"
    ],
    "color": "navy",
-   "scene": 3,
+   "scene": 4,
    "f": 120,
    "wy": 600
   },
@@ -275,9 +311,13 @@
     "PROS + CONS"
    ],
    "color": "red",
-   "scene": 6,
+   "scene": 7,
    "f": 260,
    "wy": 620
   }
- ]
+ ],
+ "narrator": {
+  "engine": "turbo",
+  "base": "A"
+ }
 }

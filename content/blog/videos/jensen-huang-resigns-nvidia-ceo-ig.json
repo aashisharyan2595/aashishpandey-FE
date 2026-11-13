@@ -31,7 +31,29 @@
    "banner": {
     "text": "THE FOUNDER",
     "color": "navy"
+   },
+   "muja": {
+    "react": "wow",
+    "at": "thirty",
+    "bubble": "33 years!"
    }
+  },
+  {
+   "type": "muja",
+   "prop": "jacket",
+   "banner": {
+    "text": "SHARP, MUJA!",
+    "color": "purple"
+   },
+   "helloAt": "Muja",
+   "factAt": "Fun",
+   "backAt": "back",
+   "say": "Oh, hey Muja! [chuckle] Sharp jacket. Fun fact: Nvidia was planned over breakfast, at a Denny's diner, back in 1993. Okay... back to our story.",
+   "fact": [
+    "Nvidia was planned",
+    "over breakfast at a",
+    "Denny's diner in 1993"
+   ]
   },
   {
    "type": "steps",
@@ -88,6 +110,11 @@
       "at": "pressure"
      }
     ]
+   },
+   "muja": {
+    "react": "think",
+    "at": "why",
+    "bubble": "Why?"
    }
   },
   {
@@ -99,7 +126,7 @@
      "label": "Early trading",
      "value": 10,
      "max": 12,
-     "text": "\u221210%+",
+     "text": "−10%+",
      "color": "red",
      "at": "fell"
     },
@@ -107,7 +134,7 @@
      "label": "Later",
      "value": 4,
      "max": 12,
-     "text": "about \u22124%",
+     "text": "about −4%",
      "color": "orange",
      "at": "recovered"
     }
@@ -115,11 +142,16 @@
    "banner": {
     "text": "THE MARKET",
     "color": "red"
+   },
+   "muja": {
+    "react": "worried",
+    "at": "fell",
+    "bubble": "Yikes"
    }
   },
   {
    "type": "cast",
-   "say": "Oh, hi Muja. So why does it matter? Nvidia supplies most of the chips behind advanced AI, and there was no succession plan in place, says TechCrunch.",
+   "say": "So why does it matter? Nvidia supplies most of the chips behind advanced AI, and there was no succession plan in place, says TechCrunch.",
    "banner": {
     "text": "WHY IT MATTERS",
     "color": "purple"
@@ -164,7 +196,7 @@
   },
   {
    "type": "stat",
-   "say": "Third quarter results are still due on Tuesday, November seventeenth. That call is the first big test for the interim CEO.",
+   "say": "Third quarter results are still due on Tuesday, November seventeenth. Yes, Muja, mark your calendar. That call is the first big test for the interim CEO.",
    "value": "Nov 17",
    "label": "earnings call",
    "sub": "first test for the interim CEO",
@@ -173,6 +205,11 @@
    "banner": {
     "text": "WHAT TO WATCH",
     "color": "navy"
+   },
+   "muja": {
+    "react": "interrupt",
+    "at": "Tuesday",
+    "bubble": "Tuesday?"
    }
   },
   {
@@ -220,9 +257,13 @@
     "NVIDIA NOW?"
    ],
    "color": "green",
-   "scene": 2,
+   "scene": 3,
    "f": 300,
    "wy": 640
   }
- ]
+ ],
+ "narrator": {
+  "engine": "turbo",
+  "base": "A"
+ }
 }

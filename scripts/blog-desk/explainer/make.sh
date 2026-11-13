@@ -7,7 +7,9 @@ J="$1"; OUT="$2"; MODE="${3:-}"; ARG="${4:-}"
 HERE="$(cd "$(dirname "$0")" && pwd)"; DESK="$(cd "$HERE/.." && pwd)"; ROOT="$(cd "$DESK/../.." && pwd)"; mkdir -p "$HERE/public"; cp -n "$ROOT/assets/vendor/fonts/geist-normal-latin.woff2" "$HERE/public/geist.woff2" 2>/dev/null || true; [ -d "$HERE/node_modules/remotion" ] || (cd "$HERE" && npm ci --ignore-scripts --no-audit --no-fund >/dev/null)
 SLUG=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['slug'])" "$J"); W="$HERE/build/$SLUG"; mkdir -p "$W" "$OUT" "$HERE/public"
 if [ ! -s "$W/timeline.json" ] || [ "$J" -nt "$W/timeline.json" ]; then
-  python3 "$DESK/tts.py" "$J" "$W" >/dev/null
+  # Chatterbox (expressive, human-sounding) when the script names a narrator and its venv exists; Kokoro tts.py otherwise
+  TPY="${TTS_PY:-$HOME/vt/venv/bin/python}"
+  if grep -q '"narrator"' "$J" && [ -x "$TPY" ]; then "$TPY" -I "$DESK/tts_cb.py" "$J" "$W" 2>/dev/null | tail -1; else python3 "$DESK/tts.py" "$J" "$W" >/dev/null; fi
   ffmpeg -loglevel error -y -i "$W/voice.wav" -af "highpass=f=70,equalizer=f=180:t=q:w=1:g=2,equalizer=f=3200:t=q:w=1.2:g=2.5,acompressor=threshold=-20dB:ratio=3:attack=12:release=180:makeup=3,loudnorm=I=-16:TP=-1.5:LRA=7" -ar 44100 -ac 1 "$HERE/public/$SLUG-voice.wav"
   python3 - "$J" "$W/timeline.json" "$W/sfx.json" <<'PY'
 import json,sys
@@ -38,7 +40,7 @@ v=json.load(open(sys.argv[1])); tl=json.load(open(sys.argv[2]))
 ts=lambda x:'%02d:%02d:%02d,%03d'%(x//3600,(x%3600)//60,x%60,round((x-int(x))*1000)%1000)
 n=0;o=[]
 for sc,sv in zip(tl['scenes'],v['scenes']):
-  for sn,tx in zip(sc['sentences'],[x for x in re.split(r'(?<=[.!?])\s+',sv['say'].strip()) if x]): n+=1;o.append(f"{n}\n{ts(sn['start'])} --> {ts(sn['end']-0.05)}\n{tx}\n")
+  for sn,tx in zip(sc['sentences'],[re.sub(r'\[[a-z ]+\]\s*','',x,flags=re.I).strip() for x in re.split(r'(?<=[.!?])\s+',sv['say'].strip()) if x]): n+=1;o.append(f"{n}\n{ts(sn['start'])} --> {ts(sn['end']-0.05)}\n{tx}\n")
 open(sys.argv[3],'w').write('\n'.join(o))
 PY
 [ -s "$OUT/$SLUG-thumb1-shorts.png" ] && ffmpeg -loglevel error -y -i "$OUT/$SLUG-thumb1-shorts.png" -q:v 3 "$OUT/$SLUG-poster.jpg"

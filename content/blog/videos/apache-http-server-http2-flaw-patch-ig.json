@@ -1,18 +1,197 @@
-{"slug":"apache-http-server-http2-flaw-patch","title":"Apache HTTP/2 flaw: patch now","label":"Security","topic":"tech","speed":0.97,
- "pronounce":{"mod_http2":"mod H T T P two","HTTP/2":"H T T P two","2.4.55 to 2.4.70":"two point four point fifty five, to two point four point seventy","2.4.71":"two point four point seventy one","Apache":"uh-patchy","Muja":"Moo-jah"},
- "scenes":[
-  {"type":"hook","art":"server-door","say":"One hidden door could let a stranger take over your web server.","banner":{"text":"ONE HIDDEN DOOR","color":"red","sub":"could hand over *your server*"}},
-  {"type":"shop","say":"Meet Priya. Her online shop runs on Apache, one of the most popular web servers in the world. Oh, hi Muja!","banner":{"text":"MEET PRIYA","color":"green","sub":"her shop runs on Apache"}},
-  {"type":"lane","say":"Every visitor talks to her server through HTTP/2. Think of it as one fast lane that carries lots of requests at once.","banner":{"text":"HTTP/2","color":"navy","sub":"the fast lane to the server"}},
-  {"type":"bug","say":"The part of Apache that runs this lane is called mod_http2. And it had a memory bug.","banner":{"text":"THE WEAK SPOT","color":"yellow","sub":"inside *mod_http2*"}},
-  {"type":"attack","say":"Send it the right messages, and the server gets confused. Then an attacker could run their own code on it.","banner":{"text":"CONFUSE IT...","color":"red"},"banner2":"...then *take over*"},
-  {"type":"versions","say":"Apache rated it critical. Versions 2.4.55 to 2.4.70 are affected, when HTTP/2 is switched on."},
-  {"type":"steps","who":"priya","say":"The fix is out. Priya updates to 2.4.71. Then she restarts the server, because the old code keeps running until she does.","banner":{"text":"THE FIX","color":"green","sub":"update, then restart"},"items":[{"text":"Update to 2.4.71","at":"updates"},{"text":"Restart Apache","at":"restarts"}]},
-  {"type":"toggle","say":"Can't patch today? Switch HTTP/2 off for now.","offAt":"off","code":"Protocols http/1.1","banner":{"text":"CAN'T PATCH YET?","color":"navy","sub":"switch *HTTP/2 off* for now"}},
-  {"type":"outro","say":"No attacks were reported yet, but a public test lab already exists. So patch this week. The full story is on my blog.","banner":{"text":"STAY AHEAD","color":"green"},"chips":[{"text":"No attacks reported yet","color":"green"},{"text":"Public test lab exists","color":"red","at":"public"}],"endAt":1,"endTitle":"PATCH THIS WEEK"}
+{
+ "slug": "apache-http-server-http2-flaw-patch",
+ "title": "Apache HTTP/2 flaw: patch now",
+ "label": "Security",
+ "topic": "tech",
+ "speed": 0.97,
+ "pronounce": {
+  "mod_http2": "mod H T T P two",
+  "HTTP/2": "H T T P two",
+  "2.4.55 to 2.4.70": "two point four point fifty five, to two point four point seventy",
+  "2.4.71": "two point four point seventy one",
+  "Apache": "uh-patchy",
+  "Muja": "Moo-jah"
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "art": "server-door",
+   "say": "One hidden door could let a stranger take over your web server.",
+   "banner": {
+    "text": "ONE HIDDEN DOOR",
+    "color": "red",
+    "sub": "could hand over *your server*"
+   }
+  },
+  {
+   "type": "shop",
+   "say": "Meet Priya. Her online shop runs on Apache, one of the most popular web servers in the world.",
+   "banner": {
+    "text": "MEET PRIYA",
+    "color": "green",
+    "sub": "her shop runs on Apache"
+   }
+  },
+  {
+   "type": "lane",
+   "say": "Every visitor talks to her server through HTTP/2. Think of it as one fast lane that carries lots of requests at once.",
+   "banner": {
+    "text": "HTTP/2",
+    "color": "navy",
+    "sub": "the fast lane to the server"
+   },
+   "muja": {
+    "react": "wow",
+    "at": "fast",
+    "bubble": "Zoom!"
+   }
+  },
+  {
+   "type": "bug",
+   "say": "The part of Apache that runs this lane is called mod_http2. And it had a memory bug.",
+   "banner": {
+    "text": "THE WEAK SPOT",
+    "color": "yellow",
+    "sub": "inside *mod_http2*"
+   },
+   "muja": {
+    "react": "think",
+    "at": "bug",
+    "bubble": "A bug?"
+   }
+  },
+  {
+   "type": "attack",
+   "say": "Send it the right messages, and the server gets confused. Then an attacker could run their own code on it.",
+   "banner": {
+    "text": "CONFUSE IT...",
+    "color": "red"
+   },
+   "banner2": "...then *take over*",
+   "muja": {
+    "react": "gasp",
+    "at": "attacker"
+   }
+  },
+  {
+   "type": "muja",
+   "prop": "sneak",
+   "bg": "sky",
+   "banner": {
+    "text": "HEY, MUJA!",
+    "color": "purple"
+   },
+   "helloAt": "Hey",
+   "factAt": "Fun",
+   "backAt": "back",
+   "say": "Wait a second... [gasp] Hey! Not you too, Muja! [chuckle] Fun fact, buddy: the world's first web server, at CERN in 1990, had a sticker on it. It said, do not power it down! Okay, okay... back to our story.",
+   "fact": [
+    "The first web server (CERN, 1990)",
+    "had a sticker on it:",
+    "“DO NOT POWER IT DOWN!”"
+   ]
+  },
+  {
+   "type": "versions",
+   "say": "Apache rated it critical. Versions 2.4.55 to 2.4.70 are affected, when HTTP/2 is switched on."
+  },
+  {
+   "type": "steps",
+   "who": "priya",
+   "say": "The fix is out. Priya updates to 2.4.71. Then she restarts the server. [chuckle] Yes, Muja, you can press it. The old code keeps running until she does.",
+   "banner": {
+    "text": "THE FIX",
+    "color": "green",
+    "sub": "update, then restart"
+   },
+   "items": [
+    {
+     "text": "Update to 2.4.71",
+     "at": "updates"
+    },
+    {
+     "text": "Restart Apache",
+     "at": "restarts"
+    }
+   ],
+   "muja": {
+    "react": "interrupt",
+    "at": "restarts",
+    "bubble": "Can I press it?"
+   }
+  },
+  {
+   "type": "toggle",
+   "say": "Can't patch today? Switch HTTP/2 off for now.",
+   "offAt": "off",
+   "code": "Protocols http/1.1",
+   "banner": {
+    "text": "CAN'T PATCH YET?",
+    "color": "navy",
+    "sub": "switch *HTTP/2 off* for now"
+   },
+   "muja": {
+    "react": "cheer",
+    "at": "off",
+    "bubble": "Easy!"
+   }
+  },
+  {
+   "type": "outro",
+   "say": "No attacks were reported yet, but a public test lab already exists. So patch this week. The full story is on my blog.",
+   "banner": {
+    "text": "STAY AHEAD",
+    "color": "green"
+   },
+   "chips": [
+    {
+     "text": "No attacks reported yet",
+     "color": "green"
+    },
+    {
+     "text": "Public test lab exists",
+     "color": "red",
+     "at": "public"
+    }
+   ],
+   "endAt": 1,
+   "endTitle": "PATCH THIS WEEK"
+  }
  ],
- "thumbs":[
-  {"text":["APACHE FLAW","PATCH NOW"],"color":"red","scene":0,"f":120},
-  {"text":["CRITICAL","2.4.55 – 2.4.70"],"color":"red","scene":5,"f":200,"zoom":1.0,"wy":560},
-  {"text":["ONE HIDDEN","DOOR"],"color":"yellow","scene":4,"f":150,"wy":700}
- ]}
+ "thumbs": [
+  {
+   "text": [
+    "APACHE FLAW",
+    "PATCH NOW"
+   ],
+   "color": "red",
+   "scene": 0,
+   "f": 120
+  },
+  {
+   "text": [
+    "CRITICAL",
+    "2.4.55 – 2.4.70"
+   ],
+   "color": "red",
+   "scene": 6,
+   "f": 200,
+   "zoom": 1.0,
+   "wy": 560
+  },
+  {
+   "text": [
+    "ONE HIDDEN",
+    "DOOR"
+   ],
+   "color": "yellow",
+   "scene": 4,
+   "f": 150,
+   "wy": 700
+  }
+ ],
+ "narrator": {
+  "engine": "turbo",
+  "base": "A"
+ }
+}

@@ -11,10 +11,11 @@ export const FPS = 30; const OV = 9;
 export type Props = { v: any; tl: any; voice?: string; bed?: string };
 export const calcMeta: CalculateMetadataFunction<Props> = ({ props }) => ({ durationInFrames: Math.ceil((props.tl.total + 1.0) * FPS) });
 
-const split = (s: string) => s.trim().split(/(?<=[.!?])\s+/).filter(Boolean);
+// [chuckle]-style voice cues are spoken by the narrator but never shown in captions
+const split = (s: string) => s.trim().split(/(?<=[.!?])\s+/).filter(Boolean).map((x) => x.replace(/\[[a-z ]+\]\s*/gi, '').trim());
 export function wordsOf(v: any, tl: any) {
   // per scene: list of {w, t0 (absolute)} using the same split as tts.py
-  return tl.scenes.map((sc: any, si: number) => { const sents = split(v.scenes[si].say); return sc.sentences.map((sn: any, k: number) => { const ws = (sents[k] || sn.text).split(/\s+/); const tot = ws.reduce((a: number, w: string) => a + w.length + 2, 0); let tt = sn.start; return ws.map((w: string) => { const d = ((sn.vend - sn.start) * (w.length + 2)) / tot; const r = { w, t0: tt, t1: tt + d }; tt += d; return r; }); }); });
+  return tl.scenes.map((sc: any, si: number) => { const sents = split(v.scenes[si].say); return sc.sentences.map((sn: any, k: number) => { const ws = (sents[k] || sn.text).split(/\s+/); if (sn.words && sn.words.length === ws.length) return ws.map((w: string, j: number) => ({ w, t0: sn.words[j][0], t1: sn.words[j][1] })); const tot = ws.reduce((a: number, w: string) => a + w.length + 2, 0); let tt = sn.start; return ws.map((w: string) => { const d = ((sn.vend - sn.start) * (w.length + 2)) / tot; const r = { w, t0: tt, t1: tt + d }; tt += d; return r; }); }); });
 }
 function captions(WS: any[], tl: any) {
   const out: any[] = [];
@@ -23,25 +24,43 @@ function captions(WS: any[], tl: any) {
   return out;
 }
 // Muja's guest route: wanders in early, waves when the narrator greets him, peeks once mid-video, and waves goodbye at the end
-export function mujaPlan(v: any, tl: any) {
+// Where the roaming Muja is. Scenes can carry muja: {react, at, bubble, side} and he comes on to react to the story:
+// gasp | worried | think | wow | cheer | interrupt (hand up, trying to cut in; the narrator answers him in the script)
+const BEAT: Record<string, { c: string; txt: string }> = { gasp: { c: '#ff5a5f', txt: '!?' }, worried: { c: '#ff8a3d', txt: 'Uh-oh' }, think: { c: '#7b6cff', txt: 'Hmm?' }, wow: { c: '#2f8ae0', txt: 'Wow!' }, cheer: { c: '#1fb5a0', txt: 'Yay!' }, interrupt: { c: '#7b6cff', txt: 'Me! Me!' } };
+export function mujaPlan(v: any, tl: any, WS?: any[]) {
   const st = tl.scenes.map((s: any) => s.sentences[0].start), n = st.length, end = tl.total + 0.9, segs: any[] = [];
-  let hi: any = null; tl.scenes.forEach((sc: any, si: number) => split(v.scenes[si].say).forEach((x: string, k: number) => { if (!hi && /muja/i.test(x)) hi = { ...sc.sentences[k], si }; }));
-  if (n > 2 && (!hi || hi.si > 2)) segs.push({ t0: st[1] + 0.6, t1: Math.min(st[2] + 1.6, st[1] + 7), side: 'r', x: 905 });
-  if (hi) segs.push({ t0: hi.start - 1.5, t1: hi.vend + 2.4, side: 'r', x: 880, w0: hi.start - 0.2, w1: hi.vend + 0.7 });
-  const pk = Math.max(2, Math.round(n * 0.6)); if (pk < n - 1 && (!hi || hi.si !== pk)) segs.push({ t0: st[pk] + 1.0, t1: st[pk] + 4.6, side: 'l', x: 110 });
+  const mi = v.scenes.findIndex((s: any) => s.type === 'muja'), m0 = mi >= 0 ? st[mi] - 0.1 : 1e9, m1 = mi >= 0 ? (st[mi + 1] ?? end) + 0.3 : -1;
+  const wordT = (si: number, w?: string) => { if (!w || !WS) return st[si] + 0.8; const lw = w.toLowerCase(); const h = WS[si].flat().find((x: any) => x.w.toLowerCase().replace(/^[^a-z0-9$]+/, '').startsWith(lw)); return h ? h.t0 : st[si] + 0.8; };
+  const reacts = v.scenes.map((s: any, i: number) => s.muja ? { i, ...s.muja } : null).filter(Boolean);
+  if (reacts.length) {
+    // one stay on stage per run of neighbouring scenes, so he does not walk off and on again
+    reacts.forEach((r: any) => {
+      const t0 = st[r.i] + 0.35, t1 = (st[r.i + 1] ?? end) - 0.15, side = r.side || 'r', beat = { t: wordT(r.i, r.at), k: r.react || 'wow', txt: r.bubble };
+      const last = segs[segs.length - 1];
+      if (last && last.side === side && Math.abs(last.t1 - t0) < 0.8) { last.t1 = t1; last.beats.push(beat); }
+      else segs.push({ t0, t1, side, x: side === 'r' ? 945 : 140, beats: [beat] });
+    });
+  } else if (n > 2) segs.push({ t0: st[1] + 0.6, t1: Math.min(st[2] + 1.6, st[1] + 7), side: 'r', x: 905 });
   segs.push({ t0: st[n - 1] + 0.8, t1: end + 1, side: 'r', x: 860, w0: end - 2.6, w1: end + 1 });
-  return segs.filter((s, i) => !segs.some((o, j) => j !== i && o.w0 && !s.w0 && s.t0 < o.t1 && o.t0 < s.t1));
+  return segs.filter((s) => !(s.t0 < m1 && m0 < s.t1));
 }
 const MujaLayer: React.FC<{ t: number; segs: any[] }> = ({ t, segs }) => {
   const s = segs.find((x) => t >= x.t0 && t < x.t1); if (!s) return null;
-  const off = s.side === 'r' ? 1220 : -160, inE = ease(t * FPS, s.t0 * FPS, (s.t0 + 1.4) * FPS), outE = s.t1 > 1e3 ? 0 : ease(t * FPS, (s.t1 - 1.4) * FPS, s.t1 * FPS);
-  const x = off + (s.x - off) * inE + (off - s.x) * outE, moving = (inE > 0 && inE < 1) || (outE > 0 && outE < 1);
+  const off = s.side === 'r' ? 1220 : -160, inE = ease(t * FPS, s.t0 * FPS, (s.t0 + 1.2) * FPS), outE = s.t1 > 1e3 ? 0 : ease(t * FPS, (s.t1 - 1.2) * FPS, s.t1 * FPS);
+  const bt = (s.beats || []).find((b: any) => t >= b.t - 0.15 && t < b.t + 2.3), k = bt?.k;
+  const shake = k === 'worried' ? Math.sin(t * 40) * 5 : 0;
+  const x = off + (s.x - off) * inE + (off - s.x) * outE + shake, moving = (inE > 0 && inE < 1) || (outE > 0 && outE < 1);
   const toRight = (s.side === 'l' && inE < 1) || (s.side === 'r' && outE > 0);
-  const waving = s.w0 !== undefined && t >= s.w0 && t < s.w1;
-  const face = moving ? (toRight ? 1 : -1) : waving ? (s.side === 'r' ? -1 : 1) : (Math.sin(t * 0.9) > 0.6 ? -1 : 1) * (s.side === 'r' ? -1 : 1);
-  const bub = waving ? pop(t * FPS, s.w0 * FPS + 4) : 0;
-  return <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute', inset: 0 }}><g transform={`translate(${x} 1606) scale(${0.72 * face} 0.72)`}><Muja t={t} walk={moving ? t * 10 : 0} wave={waving ? 1 : 0} hop={waving ? 0.6 : 0} look={waving ? 0.2 : 0.6} /></g>
-    {bub > 0.01 && <g transform={`translate(${x + (s.side === 'r' ? -120 : 120)} 1400) scale(${bub})`}><rect x={-70} y={-44} width={140} height={84} rx={30} fill="#fff" /><path d={s.side === 'r' ? 'M30,36 L62,64 L52,30 Z' : 'M-30,36 L-62,64 L-52,30 Z'} fill="#fff" /><text x={0} y={14} textAnchor="middle" fontWeight={900} fontSize={44} fill="#7b6cff" fontFamily="Geist">hi!</text></g>}
+  const waving = (s.w0 !== undefined && t >= s.w0 && t < s.w1) || k === 'interrupt' || k === 'cheer';
+  const inward = s.side === 'r' ? -1 : 1;
+  const face = moving ? (toRight ? 1 : -1) : inward;
+  const happy = k === 'gasp' || k === 'worried' ? -0.7 : k === 'think' ? 0.2 : 1, hop = k === 'cheer' || k === 'interrupt' ? 0.7 : k === 'gasp' ? 0.35 : k === 'wow' ? 0.3 : waving ? 0.6 : 0;
+  const look = k === 'think' ? -0.6 : 0.6;
+  const txt = bt ? (bt.txt || BEAT[k].txt) : s.w0 !== undefined && waving ? 'bye!' : '';
+  const bub = bt ? pop(t * FPS, (bt.t - 0.15) * FPS) * (1 - ease(t * FPS, (bt.t + 2.0) * FPS, (bt.t + 2.3) * FPS)) : waving ? pop(t * FPS, s.w0 * FPS + 4) : 0;
+  const col = bt ? BEAT[k].c : '#7b6cff', bw = Math.max(140, txt.length * 26 + 60), bx = Math.min(1060 - bw / 2, Math.max(20 + bw / 2, x)), tx = x - bx;
+  return <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: 'absolute', inset: 0 }}><g transform={`translate(${x} 1606) scale(${0.72 * face} 0.72)`}><Muja t={t} walk={moving ? t * 10 : 0} wave={waving ? 1 : 0} hop={hop} look={look} happy={happy} /></g>
+    {bub > 0.01 && txt && <g transform={`translate(${bx} 1318) scale(${bub}) rotate(${k === 'gasp' ? -4 : 0})`}><rect x={-bw / 2} y={-44} width={bw} height={84} rx={30} fill="#fff" stroke={col} strokeWidth={5} /><path d={`M${tx - 16},38 L${tx},66 L${tx + 16},38 Z`} fill="#fff" stroke={col} strokeWidth={5} strokeLinejoin="round" /><rect x={tx - 20} y={30} width={40} height={10} fill="#fff" /><text x={0} y={14} textAnchor="middle" fontWeight={900} fontSize={42} fill={col} fontFamily="Geist">{txt}</text></g>}
   </svg>;
 };
 
@@ -56,7 +75,7 @@ const Scene: React.FC<{ v: any; i: number; dur: number; rel: number[]; WS: any[]
 export const Video: React.FC<Props> = ({ v, tl, voice = 'voice.wav', bed = 'bed.wav' }) => {
   const f = useCurrentFrame(); const t = f / FPS;
   const st = tl.scenes.map((s: any) => s.sentences[0].start), WS = React.useMemo(() => wordsOf(v, tl), [v, tl]);
-  const CH = React.useMemo(() => captions(WS, tl), [WS, tl]), segs = React.useMemo(() => mujaPlan(v, tl), [v, tl]);
+  const CH = React.useMemo(() => captions(WS, tl), [WS, tl]), segs = React.useMemo(() => mujaPlan(v, tl, WS), [v, tl, WS]);
   const DUR = Math.ceil((tl.total + 1.0) * FPS), cap = CH.find((c: any) => t >= c.t0 && t < c.t1);
   return (
     <AbsoluteFill style={{ background: C.sky1, fontFamily: 'Geist, sans-serif' }}>

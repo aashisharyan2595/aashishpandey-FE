@@ -149,7 +149,8 @@ export const Shield: React.FC<{ check?: number }> = ({ check = 1 }) => (
 );
 
 // Mujasauraus, flat 2D guest (lavender dino, teal spikes, cream belly). Origin = feet centre, faces right. walk phase, wave 0..1, look -1..1, blink handled by t
-export const Muja: React.FC<{ t: number; walk?: number; wave?: number; hop?: number; look?: number; happy?: number }> = ({ t, walk = 0, wave = 0, hop = 0, look = 0.3, happy = 1 }) => {
+// wear: 'jacket' | 'shades' | 'jacket shades'; hold: 'sign' | 'umbrella' (signText on the sign)
+export const Muja: React.FC<{ t: number; walk?: number; wave?: number; hop?: number; look?: number; happy?: number; wear?: string; hold?: string; signText?: string }> = ({ t, walk = 0, wave = 0, hop = 0, look = 0.3, happy = 1, wear = '', hold = '', signText = 'YES' }) => {
   const sw = Math.sin(walk) * 16, bob = walk ? Math.abs(Math.cos(walk)) * 8 : Math.sin(t * 2.4) * 3;
   const jump = hop * Math.abs(Math.sin(t * 7)) * 34, tail = Math.sin(t * 5) * 10, blink = (t % 3.1) < 0.12 ? 0.12 : 1;
   const P = '#a48cff', P2 = '#8c72f0', CR = '#fff3c4', TE = '#3fe0c5', INK = '#1d2340';
@@ -163,6 +164,9 @@ export const Muja: React.FC<{ t: number; walk?: number; wave?: number; hop?: num
         {[-46, -14, 18].map((x, i) => <path key={i} d={`M${x - 16},${-150 + i * 4} L${x},${-186 + i * 2} L${x + 16},${-148 + i * 4} Z`} fill={TE} />)}
         <ellipse cx={0} cy={-92} rx={82} ry={64} fill={P} />
         <ellipse cx={14} cy={-76} rx={48} ry={38} fill={CR} />
+        {wear.includes('jacket') && <g><path d="M-84,-96 Q-82,-150 -26,-160 L-2,-108 L-12,-30 Q-66,-30 -82,-62 Z" fill="#262a36" /><path d="M36,-152 Q86,-132 84,-92 Q82,-44 30,-30 L20,-104 Z" fill="#262a36" /><path d="M-26,-160 L-2,-108 L-30,-118 Z M36,-152 L20,-104 L44,-118 Z" fill="#3a4050" /><circle cx={-6} cy={-70} r={5} fill="#c9ced8" /><circle cx={-8} cy={-48} r={5} fill="#c9ced8" /></g>}
+        {hold === 'umbrella' && <g><path d="M30,-110 L14,-400" stroke="#5b4636" strokeWidth={9} strokeLinecap="round" /><path d="M-170,-388 Q14,-560 198,-388 Q152,-410 106,-388 Q60,-410 14,-388 Q-32,-410 -78,-388 Q-124,-410 -170,-388 Z" fill={C.red} /><path d="M14,-388 Q-10,-470 14,-524 Q38,-470 14,-388 Z M-78,-388 Q-80,-460 14,-524 M106,-388 Q108,-460 14,-524" fill={C.yellow} stroke={C.yellow} strokeWidth={3} /><circle cx={14} cy={-530} r={9} fill={C.ink} /></g>}
+        {hold === 'sign' && <g transform={`rotate(${Math.sin(t * 3) * 4} 60 -120)`}><path d="M60,-110 L70,-300" stroke="#8a6a4a" strokeWidth={10} strokeLinecap="round" /><rect x={-40} y={-410} width={220} height={120} rx={18} fill={C.green} stroke="#fff" strokeWidth={8} /><text x={70} y={-330} textAnchor="middle" fontWeight={900} fontSize={60} fill="#fff" fontFamily="Geist">{signText}</text></g>}
         <circle cx={58} cy={-170} r={58} fill={P} />
         <ellipse cx={104} cy={-152} rx={36} ry={26} fill="#b9a6ff" />
         <circle cx={124} cy={-160} r={4} fill={INK} />
@@ -170,6 +174,7 @@ export const Muja: React.FC<{ t: number; walk?: number; wave?: number; hop?: num
         <ellipse cx={72} cy={-182} rx={19} ry={21 * blink} fill="#fff" />
         <circle cx={76 + look * 6} cy={-180} r={10 * Math.max(blink, 0.3)} fill={INK} /><circle cx={80 + look * 6} cy={-185} r={3.4} fill="#fff" opacity={blink} />
         <path d="M56,-218 Q72,-230 88,-220" stroke={INK} strokeWidth={5} fill="none" strokeLinecap="round" />
+        {wear.includes('shades') && <g><path d="M10,-188 L52,-186" stroke={INK} strokeWidth={6} /><rect x={50} y={-198} width={52} height={30} rx={10} fill="#11131c" /><rect x={58} y={-194} width={16} height={6} rx={3} fill="#fff" opacity={0.5} /></g>}
         <ellipse cx={40} cy={-150} rx={12} ry={7} fill="#ff8fb0" opacity={0.75} />
         <path d={`M86,-136 Q104,${-136 + 12 * happy} 122,-140`} stroke={INK} strokeWidth={5} fill="none" strokeLinecap="round" />
         <g transform={`rotate(${-20 - wave * (125 + Math.sin(t * 12) * 30)} 52 -110)`}><rect x={42} y={-118} width={26} height={wave ? 74 : 52} rx={13} fill={P2} /><circle cx={55} cy={wave ? -46 : -68} r={wave ? 15 : 0} fill={P} /></g>
