@@ -24,7 +24,7 @@ Nvidia, Jensen Huang, AI chips, Leadership, Breaking, Colette Kress, Harvey C. J
 - Altered or synthetic content: Yes (synthetic voice, generated visuals)
 - Comments: allowed; pin a comment with https://aashishpandey.com/blog/jensen-huang-resigns-nvidia-ceo
 - Captions: upload the .srt as English
-- Thumbnail: pick the title frame, or upload the poster
+- Thumbnail: upload one of the <slug>-thumbN-youtube.png files (16:9); for Shorts pick the frame or use a -shorts.png
 - Location: India
 
 When it is up, send the link in the project thread and Claude embeds it in the post.

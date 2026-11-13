@@ -1,179 +1,63 @@
 1
-00:00:00,000 --> 00:00:01,961
-Nvidia's founder and CEO,
+00:00:00,000 --> 00:00:03,005
+Nvidia's CEO just walked out the door.
 
 2
-00:00:02,001 --> 00:00:03,029
-Jensen Huang,
+00:00:03,055 --> 00:00:06,667
+Jensen Huang has resigned, effective immediately.
 
 3
-00:00:03,069 --> 00:00:04,423
-just resigned.
+00:00:06,717 --> 00:00:12,186
+He co-founded the company in nineteen ninety three, and ran it for thirty three years.
 
 4
-00:00:04,463 --> 00:00:06,293
-Effective immediately.
+00:00:12,236 --> 00:00:16,201
+For now, finance chief Colette Kress is interim CEO.
 
 5
-00:00:06,333 --> 00:00:07,793
-He co-founded the company
+00:00:16,251 --> 00:00:19,917
+Harvey Jones becomes the company's first ever board chair.
 
 6
-00:00:07,833 --> 00:00:09,293
-in nineteen ninety three,
+00:00:19,967 --> 00:00:23,025
+And the search for a permanent CEO has begun.
 
 7
-00:00:09,333 --> 00:00:10,242
-and ran it for
+00:00:23,075 --> 00:00:25,034
+Nvidia hasn't said why.
 
 8
-00:00:10,282 --> 00:00:11,812
-thirty three years.
+00:00:25,084 --> 00:00:31,235
+News reports point to a week of pressure, but those details are reported, not confirmed.
 
 9
-00:00:11,852 --> 00:00:12,822
-Colette Kress,
+00:00:31,285 --> 00:00:39,335
+Shares fell more than ten percent in early trading, then recovered to about four percent down, according to CNBC.
 
 10
-00:00:12,862 --> 00:00:14,781
-the chief financial officer,
+00:00:39,385 --> 00:00:40,833
+Oh, hi Muja.
 
 11
-00:00:14,821 --> 00:00:16,467
-is now interim CEO.
+00:00:40,883 --> 00:00:42,581
+So why does it matter?
 
 12
-00:00:16,507 --> 00:00:17,941
-Harvey Jones becomes the
+00:00:42,631 --> 00:00:50,745
+Nvidia supplies most of the chips behind advanced AI, and there was no succession plan in place, says TechCrunch.
 
 13
-00:00:17,981 --> 00:00:19,516
-company's first ever board
+00:00:50,795 --> 00:00:55,271
+Third quarter results are still due on Tuesday, November seventeenth.
 
 14
-00:00:19,556 --> 00:00:21,025
-chair. And the search
+00:00:55,321 --> 00:00:59,190
+That call is the first big test for the interim CEO.
 
 15
-00:00:21,065 --> 00:00:22,148
-for a permanent CEO
+00:00:59,240 --> 00:01:03,781
+My take: hold off on big hardware decisions until after that call.
 
 16
-00:00:22,188 --> 00:00:23,269
-has started.
-
-17
-00:00:23,309 --> 00:00:24,737
-Nvidia has not said
-
-18
-00:00:24,777 --> 00:00:26,377
-why. Reports point to
-
-19
-00:00:26,417 --> 00:00:27,593
-a week of pressure,
-
-20
-00:00:27,633 --> 00:00:28,859
-and Huang has agreed
-
-21
-00:00:28,899 --> 00:00:30,176
-to answer Congress by
-
-22
-00:00:30,216 --> 00:00:31,949
-Thanksgiving, according to the
-
-23
-00:00:31,989 --> 00:00:33,880
-House Foreign Affairs chair.
-
-24
-00:00:33,920 --> 00:00:35,691
-Those details are reported,
-
-25
-00:00:35,731 --> 00:00:37,073
-not confirmed.
-
-26
-00:00:37,113 --> 00:00:38,575
-Shares fell more than
-
-27
-00:00:38,615 --> 00:00:40,018
-ten percent in early
-
-28
-00:00:40,058 --> 00:00:41,808
-trading, then recovered to
-
-29
-00:00:41,848 --> 00:00:43,483
-about four percent down,
-
-30
-00:00:43,523 --> 00:00:45,173
-according to CNBC.
-
-31
-00:00:45,213 --> 00:00:46,683
-Third quarter results are
-
-32
-00:00:46,723 --> 00:00:47,992
-still due on Tuesday,
-
-33
-00:00:48,032 --> 00:00:49,913
-the seventeenth of November.
-
-34
-00:00:49,953 --> 00:00:50,999
-That call is the
-
-35
-00:00:51,039 --> 00:00:52,188
-first test for the
-
-36
-00:00:52,228 --> 00:00:53,384
-interim CEO.
-
-37
-00:00:53,424 --> 00:00:53,987
-My take:
-
-38
-00:00:54,027 --> 00:00:55,083
-hold off on big
-
-39
-00:00:55,123 --> 00:00:57,002
-hardware decisions until after
-
-40
-00:00:57,042 --> 00:00:57,975
-that call.
-
-41
-00:00:58,015 --> 00:00:59,335
-Full sources are on
-
-42
-00:00:59,375 --> 00:01:00,219
-my blog.
-
-43
-00:01:00,259 --> 00:01:01,407
-Follow for the news
-
-44
-00:01:01,447 --> 00:01:02,199
-that matters,
-
-45
-00:01:02,239 --> 00:01:03,263
-every day.
+00:01:03,831 --> 00:01:06,185
+Full sources are on my blog.
