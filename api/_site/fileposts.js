@@ -19,8 +19,19 @@ function load() {
   }
   return rows;
 }
+// A Short added to a desk post's file must also show on a post that was edited in the admin desk (the saved copy wins over the file otherwise).
+// Only when the saved copy has no video of its own: it then gets the file's video details and the ::short embed under the quick-answer box.
+// Once a copy has its own video (or the owner removed the embed and saved), nothing is added again.
+function withFileVideo(stored) {
+  if (!stored || !stored.id) return stored;
+  const f = byId(stored.id), v = f && f.extra && f.extra.video;
+  if (!v || !v.id || (stored.extra && stored.extra.video)) return stored;
+  const out = Object.assign({}, stored, { extra: Object.assign({}, stored.extra || {}, { video: v }) });
+  if (typeof out.body === 'string' && !/::short\[/.test(out.body)) { const parts = out.body.split('\n\n'); parts.splice(/^\s*>/.test(parts[0]) ? 1 : 0, 0, '::short[' + v.id + ']'); out.body = parts.join('\n\n'); }
+  return out;
+}
 const list = () => load();
 const isFileId = (id) => /^f[0-9a-f]{9}$/.test(String(id || ''));
 const byId = (id) => (isFileId(id) ? load().find((p) => p.id === id) || null : null);
 const bySlug = (type, slug) => (type === 'post' ? load().find((p) => p.slug === slug) || null : null);
-module.exports = { list, bySlug, byId, isFileId };
+module.exports = { list, bySlug, byId, isFileId, withFileVideo };

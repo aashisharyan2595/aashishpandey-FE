@@ -25,7 +25,7 @@ const mine = (a, p) => !!(a && p.createdBy && p.createdBy === a.id);
 
 // A post written by the blog desk lives as a file in the repo. The first time anyone edits, moves or comments on it here, a full copy is saved
 // in the database under the same id; from then on that copy wins, so the desk's file is only the starting version.
-async function getStored(id) { if (!/^[a-z0-9]{6,20}$/.test(String(id || ''))) return null; const raw = await redis('GET', 'post:' + id); return raw ? JSON.parse(raw) : null; }
+async function getStored(id) { if (!/^[a-z0-9]{6,20}$/.test(String(id || ''))) return null; const raw = await redis('GET', 'post:' + id); return raw ? filePosts.withFileVideo(JSON.parse(raw)) : null; }
 async function get(id) { return (await getStored(id)) || filePosts.byId(id); }
 async function bySlug(type, slug) {
   const id = await redis('GET', `slug:${type}:${slug}`); if (id) return get(id);
@@ -33,7 +33,7 @@ async function bySlug(type, slug) {
 }
 async function all() {
   const ids = (await redis('ZREVRANGE', 'posts:idx', 0, 1999)) || [];
-  const stored = ids.length ? (await redis('MGET', ...ids.map((i) => 'post:' + i))).map((r) => { try { return r ? JSON.parse(r) : null; } catch (e) { return null; } }).filter(Boolean) : [];
+  const stored = ids.length ? (await redis('MGET', ...ids.map((i) => 'post:' + i))).map((r) => { try { return r ? filePosts.withFileVideo(JSON.parse(r)) : null; } catch (e) { return null; } }).filter(Boolean) : [];
   const seen = new Set(stored.map((p) => p.id));
   return stored.concat(filePosts.list().filter((p) => !seen.has(p.id)));   // desk posts nobody has edited yet
 }
