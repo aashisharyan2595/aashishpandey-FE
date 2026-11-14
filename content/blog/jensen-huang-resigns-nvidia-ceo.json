@@ -104,6 +104,12 @@
       "description": "A 78-second explainer: Jensen Huang has resigned as Nvidia CEO after 33 years. Who is in charge now, what Nvidia has and hasn't said, and why the November 17 results matter.",
       "uploadDate": "2026-11-13",
       "duration": "PT1M18S"
+    },
+    "thumb": {
+      "text": "Nvidia CEO steps down",
+      "headline": "Jensen Huang resigns as Nvidia CEO",
+      "tag": "Breaking",
+      "sub": "What we know so far"
     }
   }
 }

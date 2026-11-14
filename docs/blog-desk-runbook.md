@@ -106,3 +106,7 @@ After Aashish uploads the Short and sends the link, add `::short[VIDEO_ID]` on i
 
 ## Video style (default from 2026-11-13)
 Every new Short uses the flat cartoon explainer (`scripts/blog-desk/explainer/`, see JOB video). Aashish chose it on 2026-11-13 after rejecting the stock-footage tool MoneyPrinterTurbo and setting aside every earlier look (3D low-poly, anime, slides). The older renderers described in the sections above stay for reference only.
+
+
+## Banner style (since 2026-11-14)
+Covers and thumbnails use style C, Isometric Night (`scripts/blog-desk/banner-c.js`). Draft fields: `thumb_text` (2 to 4 words, a hook not the title), optional `banner_tag` (amber tag up to 24 chars such as a CVE id or date) and `banner_sub` (grey line up to 60 chars with the key fact). Security posts get an isometric server scene, money posts an isometric bar chart, others the illustrated scenes; posts with a photo show it framed. Redraw existing posts with `node scripts/blog-desk/desk.js rebanner [slug]`.

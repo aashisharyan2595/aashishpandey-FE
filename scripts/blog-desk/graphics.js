@@ -165,8 +165,9 @@ async function render(htmls, sizes) {
 }
 // returns [{ role, buf, w, h }]
 async function makeImages(post) {
-  const meta = { slug: post.slug, category: post.category, tags: post.tags, kind: post.kind, title: post.image_headline || post.title, thumb_text: post.thumb_text, photo: post.photo };
-  const htmls = [coverHtml(meta, 1200, 630), coverHtml(meta, 1280, 720)], roles = ['cover', 'thumb'], sizes = [[1200, 630], [1280, 720]];
+  const meta = { slug: post.slug, category: post.category, tags: post.tags, kind: post.kind, title: post.image_headline || post.title, thumb_text: post.thumb_text, photo: post.photo, banner_tag: post.banner_tag, banner_sub: post.banner_sub };
+  const G = { esc, b64, FONTS, look, pickArt, ART, DEFS, STAGE, KIND, hookText }, C = require('./banner-c').coverHtmlC; // style C (Isometric Night) since 2026-11-14; coverHtml is the old style
+  const htmls = [C(meta, 1200, 630, G), C(meta, 1280, 720, G)], roles = ['cover', 'thumb'], sizes = [[1200, 630], [1280, 720]];
   if (post.kind === 'review' && (post.pros || []).length >= 2 && (post.cons || []).length >= 2) { htmls.push(prosConsHtml({ name: post.product || post.title, pros: post.pros, cons: post.cons, post: meta })); roles.push('proscons'); sizes.push([1200, 630]); }
   const bufs = await render(htmls, sizes); return bufs.map((buf, i) => ({ role: roles[i], buf, w: sizes[i][0], h: sizes[i][1] }));
 }

@@ -91,7 +91,9 @@
     "auto": true,
     "thumb": {
       "text": "130,000 reports. No ETA.",
-      "headline": "Microsoft 365 outage: what we know"
+      "headline": "Microsoft 365 outage: what we know",
+      "tag": "Outage",
+      "sub": "Outlook and Teams hit"
     },
     "video": {
       "id": "itRfibkv_OU",

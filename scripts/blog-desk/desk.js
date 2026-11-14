@@ -8,6 +8,7 @@
 //   node scripts/blog-desk/desk.js check <draft.json> <dir>       clean the draft, then report style, copy overlap and unsupported numbers or quotes
 //   node scripts/blog-desk/desk.js build <draft.json> <dir> --kind K --at <ISO time|now> [--email <file>] [--photo <photo.json>]
 //                                                                 draw the images, assemble the page, write content/blog/<slug>.json and assets/blog/*
+//   node scripts/blog-desk/desk.js rebanner [slug]   redraw cover and thumbnail in the current banner style (style C)
 //   node scripts/blog-desk/desk.js rephoto <slug> --photo <photo.json> --caption "who, where"   add a free-licence photo (see photo.js) to a post that exists
 //   node scripts/blog-desk/desk.js videos [--days 14]                  live posts that still have no video
 //   node scripts/blog-desk/desk.js yt <slug>                           the YouTube title, description, tags and settings for a post's Short
@@ -118,6 +119,18 @@ function addFigure(body, photo, caption) {
   const cap = `${String(caption || '').replace(/["\n]/g, ' ').trim().replace(/\.$/, '')}. ${photo.credit}`.replace(/^\. /, ''), fig = `![${String(caption || 'Photo').replace(/[\[\]\n]/g, ' ').slice(0, 140)}](${photo.src} "${cap}")`;
   const m = /^##\s/m.exec(body); return m ? body.slice(0, m.index) + fig + '\n\n' + body.slice(m.index) : body.replace(/\n\n/, '\n\n' + fig + '\n\n');
 }
+
+// redraw the cover and thumbnail of existing posts in the current banner style: desk.js rebanner [slug] (no slug = every post file)
+async function rebanner(slug) {
+  const graphics = require('./graphics'), slugs = slug ? [slug] : fs.readdirSync(CONTENT).filter((f) => f.endsWith('.json') && !['calendar.json', 'state.json'].includes(f)).map((f) => f.replace(/\.json$/, ''));
+  for (const sl of slugs) {
+    const p = readJ(path.join(CONTENT, sl + '.json'), null); if (!p || !p.title) continue;
+    const x = p.extra || {}, th = x.thumb || {}, ph = x.photo && x.photo.src ? { file: x.photo.src.slice(1), credit: x.photo.credit } : undefined;
+    const imgs = await graphics.makeImages({ slug: sl, title: p.title, category: p.category, tags: p.tags, kind: x.kind || 'news', thumb_text: th.text, image_headline: th.headline, banner_tag: th.tag, banner_sub: th.sub, photo: ph });
+    for (const im of imgs) if (im.role === 'cover' || im.role === 'thumb') fs.writeFileSync(path.join(ROOT, 'assets', 'blog', `${sl}-${im.role}.jpg`), im.buf);
+    console.log('banner redrawn:', sl);
+  }
+}
 // add or change the photo on a post that already exists: desk.js rephoto <slug> --photo <photo.json> --caption "who, where" [--thumb-text "hook words"]
 async function rephoto(slug) {
   const f = path.join(CONTENT, slug + '.json'), p = readJ(f, null); if (!p) throw new Error('no such post file: ' + f);
@@ -151,7 +164,7 @@ async function build(draftFile, dir) {
   const full = `> **Quick answer.** ${d.tldr}\n\n${body.trim()}\n\n## Frequently asked questions\n\n${d.faq.map((f) => `### ${f.q}\n\n${f.a}`).join('\n\n')}\n\n## Sources\n\n${cite.join('\n')}${photo ? `\n${cite.length + 1}. [${photo.title}](${photo.page}), ${photo.credit.replace(/^Photo: /, 'photo by ')}` : ''}\n`;
   const md = require(path.join(ROOT, 'api/_site/md')), r = md.render(full, { noWords: false });
   const post = { title: d.title.slice(0, 120), slug, excerpt: d.excerpt.slice(0, 300), body: full, cover: { src: ref.cover.src, alt: ref.cover.alt }, category: d.category, tags: d.tags.slice(0, 8), publishAt, updated: Date.now(), words: r.words, mins: Math.max(1, Math.round(r.words / 200)),
-    seo: { title: d.seo_title.slice(0, 70), description: d.seo_description.slice(0, 180), ogImage: ref.cover.src }, extra: { faq: d.faq, sources: pages.map((p) => ({ url: p.url, title: (p.title || '').slice(0, 200), outlet: p.meta.outlet })), kind, about: d.about, auto: true, thumb: { text: d.thumb_text, headline: d.image_headline }, ...(photo ? { photo } : {}) } };
+    seo: { title: d.seo_title.slice(0, 70), description: d.seo_description.slice(0, 180), ogImage: ref.cover.src }, extra: { faq: d.faq, sources: pages.map((p) => ({ url: p.url, title: (p.title || '').slice(0, 200), outlet: p.meta.outlet })), kind, about: d.about, auto: true, thumb: { text: d.thumb_text, headline: d.image_headline, tag: d.banner_tag, sub: d.banner_sub }, ...(photo ? { photo } : {}) } };
   writeJ(path.join(CONTENT, slug + '.json'), post);
   const report = { sources: `${div.count} pages from ${div.outlets} outlets (viewpoints: ${div.leans.split('').map((c) => ({ L: 'left', C: 'centre', R: 'right' }[c])).join(', ') || 'none'}${div.primary ? ', plus a primary source' : ''}${div.nonUs ? ', non-US included' : ''})`, overlap: `${a.overlap.pct}% against its sources`, words: r.words, notes: a.lint.issues };
   const emailFile = arg('email');
@@ -203,6 +216,6 @@ function days() {
 }
 
 const cmd = process.argv[2], a1 = process.argv[3], a2 = process.argv[4];
-const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days };
+const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days };
 if (!run[cmd]) { console.error('usage: desk.js feeds | fetch <dir> <urls> | pick <dir> <kind> | check <draft> <dir> | build <draft> <dir> --kind K --at T | ping | days'); process.exit(2); }
 Promise.resolve(run[cmd]()).then(() => process.exit(0), (e) => { console.error('desk:', e.message); process.exit(1); });

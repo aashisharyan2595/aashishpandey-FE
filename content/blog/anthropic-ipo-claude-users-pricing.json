@@ -99,8 +99,10 @@
     ],
     "auto": true,
     "thumb": {
-      "text": "$70 to $78 a share",
-      "headline": "Anthropic goes public: what Claude users should watch"
+      "text": "Anthropic goes public",
+      "headline": "Anthropic IPO: what it means for Claude users",
+      "tag": "Listing 19 Nov",
+      "sub": "$70 to $78 a share · Nasdaq: ANT"
     }
   }
 }

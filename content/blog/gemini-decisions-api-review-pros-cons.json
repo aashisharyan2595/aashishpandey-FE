@@ -99,6 +99,12 @@
       "description": "A 77-second explainer: the Gemini Decisions API returns numbers instead of paragraphs, so one call can sort 1,000 support emails. Price, speed, and the catch in Google's own benchmarks.",
       "uploadDate": "2026-11-12",
       "duration": "PT1M17S"
+    },
+    "thumb": {
+      "text": "Gemini API: worth it?",
+      "headline": "Gemini Decisions API review",
+      "tag": "AI tool review",
+      "sub": "Decisions API: pros and cons"
     }
   }
 }
