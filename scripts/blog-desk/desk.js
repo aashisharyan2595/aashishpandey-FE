@@ -13,6 +13,7 @@
 //   node scripts/blog-desk/desk.js videos [--days 14]                  live posts that still have no video
 //   node scripts/blog-desk/desk.js yt <slug>                           the YouTube title, description, tags and settings for a post's Short
 //   node scripts/blog-desk/desk.js ping                           tell IndexNow search engines about posts that went live (optional, free, no account)
+//   node scripts/blog-desk/desk.js rank [--apply]                      priority = score + intrigue + daily - 1.5*niche; shows the order, --apply reshuffles planned slots (see runbook)
 //   node scripts/blog-desk/desk.js days                           what the calendar holds, and what is live
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
@@ -217,7 +218,35 @@ function days() {
   console.log(`\n${files.length} post file(s):`); files.forEach((n) => { const p = readJ(path.join(CONTENT, n)); console.log(' ', new Date(p.publishAt).toISOString(), p.publishAt > Date.now() ? 'scheduled' : 'live     ', p.slug); });
 }
 
+/* ---------- topic priority (Aashish, 2026-11-14: readers like intrigue and everyday-life stories) ----------
+   Every calendar slot and backlog item carries score (1-10 importance), intrigue (0-3), daily (0-3), niche (0-2).
+   priority = score + intrigue + daily - 1.5*niche. Higher priority gets the earlier day. Never touches written, locked or fixed slots, today, or tomorrow. */
+const priority = (x) => Math.round((Number(x.score || 0) + Number(x.intrigue || 0) + Number(x.daily || 0) - 1.5 * Number(x.niche || 0)) * 2) / 2;
+function rank() {
+  const f = path.join(CONTENT, 'calendar.json'), cal = readJ(f, { slots: {}, backlog: [] }), apply = process.argv.includes('--apply');
+  const ist = (ms) => new Date(ms + 330 * 60000).toISOString().slice(0, 10), tomorrow = ist(Date.now() + 864e5);
+  const dates = Object.keys(cal.slots).sort(), free = dates.filter((d) => d > tomorrow && (cal.slots[d].status || 'planned') === 'planned' && !cal.slots[d].locked && !cal.slots[d].fixed);
+  const pool = free.map((d) => ({ ...cal.slots[d], key: slugify(cal.slots[d].title) })).concat((cal.backlog || []).map((b) => ({ ...b })));
+  pool.forEach((x) => { x.priority = priority(x); });
+  const missing = pool.filter((x) => x.intrigue == null || x.daily == null || x.niche == null); if (missing.length) console.log('no intrigue/daily/niche yet (counted as 0):', missing.map((x) => x.title).join(' | '));
+  pool.sort((a, b) => b.priority - a.priority || b.score - a.score);
+  const chosen = [], rest = pool.slice();
+  const kindAt = (d) => (cal.slots[d] || {}).kind;
+  free.forEach((d) => { // best remaining item that does not make three of one kind in a row
+    const i = rest.findIndex((x) => { const prev = [dates[dates.indexOf(d) - 1], dates[dates.indexOf(d) - 2]].map((p) => (chosen.find((c) => c.date === p) || {}).kind || kindAt(p)); return !(prev[0] === x.kind && prev[1] === x.kind); });
+    const pick = rest.splice(i < 0 ? 0 : i, 1)[0]; if (pick) chosen.push({ ...pick, date: d });
+  });
+  console.log('date       prio  s/i/d/n  kind      title');
+  chosen.forEach((c) => console.log(c.date, String(c.priority).padStart(5), `${c.score}/${c.intrigue || 0}/${c.daily || 0}/${c.niche || 0}`.padEnd(8), c.kind.padEnd(9), c.title));
+  console.log('\nback to the backlog:'); rest.forEach((x) => console.log(' ', String(x.priority).padStart(4), x.title));
+  if (!apply) return console.log('\n(dry run: add --apply to rewrite content/blog/calendar.json)');
+  chosen.forEach((c) => { const { date, key, ...slot } = c; cal.slots[date] = { ...slot, status: 'planned', slug: '', locked: false }; });
+  const today = ist(Date.now());
+  cal.backlog = rest.map((x) => ({ key: x.key || slugify(x.title), title: x.title, kind: x.kind, score: x.score, intrigue: x.intrigue || 0, daily: x.daily || 0, niche: x.niche || 0, urls: x.urls || [], angle: x.angle || '', added: x.added || today }));
+  writeJ(f, cal); console.log('\ncalendar.json rewritten');
+}
+
 const cmd = process.argv[2], a1 = process.argv[3], a2 = process.argv[4];
-const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days };
+const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days, rank };
 if (!run[cmd]) { console.error('usage: desk.js feeds | fetch <dir> <urls> | pick <dir> <kind> | check <draft> <dir> | build <draft> <dir> --kind K --at T | ping | days'); process.exit(2); }
 Promise.resolve(run[cmd]()).then(() => process.exit(0), (e) => { console.error('desk:', e.message); process.exit(1); });
