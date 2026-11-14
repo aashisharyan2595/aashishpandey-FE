@@ -1,0 +1,397 @@
+{
+ "slug": "anthropic-ipo-claude-users-pricing",
+ "title": "Anthropic IPO: what it means for Claude users and pricing",
+ "label": "AI news",
+ "topic": "tech",
+ "speed": 0.97,
+ "pronounce": {
+  "Muja": "Moo-jah",
+  "ANT": "A N T",
+  "Nasdaq": "Naz-dak",
+  "Anthropic": "An-throp-ik"
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "art": "ipo",
+   "say": "Claude's maker is about to go public. Anthropic plans to start trading on the Nasdaq on the nineteenth of November.",
+   "banner": {
+    "text": "CLAUDE GOES PUBLIC",
+    "color": "purple",
+    "sub": "its maker is *listing*"
+   }
+  },
+  {
+   "type": "stat",
+   "say": "The filing sets a price of seventy to seventy-eight dollars a share, under the ticker A N T.",
+   "value": "$70-$78",
+   "label": "price range per share",
+   "sub": "ticker ANT, trading from 19 Nov",
+   "color": "purple",
+   "icon": "tag",
+   "banner": {
+    "text": "THE PRICE TAG",
+    "color": "navy"
+   }
+  },
+  {
+   "type": "bars",
+   "say": "The growth is huge. Seventeen billion dollars of revenue in one quarter, and reports say about eighty-one billion in run-rate by the end of October.",
+   "title": "REVENUE",
+   "rows": [
+    {
+     "label": "Third quarter",
+     "value": 17,
+     "max": 81,
+     "text": "$17B",
+     "color": "blue",
+     "at": "seventeen"
+    },
+    {
+     "label": "Run-rate, end Oct",
+     "value": 81,
+     "max": 81,
+     "text": "~$81B",
+     "color": "green",
+     "at": "eighty"
+    }
+   ],
+   "note": "run-rate per TechCrunch",
+   "banner": {
+    "text": "HUGE GROWTH",
+    "color": "green"
+   },
+   "muja": {
+    "react": "gasp",
+    "at": "seventeen",
+    "bubble": "Whoa!"
+   }
+  },
+  {
+   "type": "muja",
+   "prop": "bell",
+   "banner": {
+    "text": "RING THE BELL",
+    "color": "orange"
+   },
+   "helloAt": "Muja",
+   "factAt": "Fun",
+   "backAt": "back",
+   "say": "[chuckle] Muja, you brought a bell? Fun fact, buddy: the Dutch East India Company sold shares to the public in Amsterdam in 1602. It's often called the first big listed company. Alright... back to our story.",
+   "fact": [
+    "The Dutch East India Company",
+    "sold shares to the public",
+    "in Amsterdam in 1602"
+   ]
+  },
+  {
+   "type": "stat",
+   "say": "But the bills are huge too. Anthropic has committed to about nine hundred billion dollars of future spending, mostly on computing.",
+   "value": "$900B",
+   "label": "committed spending",
+   "sub": "mostly computing, per CNBC",
+   "color": "orange",
+   "icon": "chip",
+   "stamp": "BIG BILLS",
+   "banner": {
+    "text": "THE BILLS",
+    "color": "red",
+    "sub": "mostly *compute*"
+   },
+   "muja": {
+    "react": "wow",
+    "at": "nine",
+    "bubble": "$900B?!"
+   }
+  },
+  {
+   "type": "compare",
+   "say": "Here is what we know. The price range and the date are set. The final price isn't, and neither is any change to Claude's prices.",
+   "banner": {
+    "text": "WHAT WE KNOW",
+    "color": "navy"
+   },
+   "left": {
+    "title": "CONFIRMED",
+    "color": "green",
+    "items": [
+     {
+      "text": "Price range|$70-$78",
+      "at": "range"
+     },
+     {
+      "text": "Trading date|19 Nov",
+      "at": "date"
+     }
+    ]
+   },
+   "right": {
+    "title": "NOT YET",
+    "color": "red",
+    "icon": "x",
+    "at": "final",
+    "items": [
+     {
+      "text": "The final|price",
+      "at": "final"
+     },
+     {
+      "text": "Claude price|changes",
+      "at": "neither"
+     }
+    ]
+   }
+  },
+  {
+   "type": "steps",
+   "who": "priya",
+   "say": "So what should you do? [chuckle] Yes, Muja, I know, you want cheaper Claude. But nothing says prices will drop. So don't assume a cut. Measure your usage, and keep a second model tested.",
+   "title": "WHAT TO DO",
+   "banner": {
+    "text": "WHAT TO DO",
+    "color": "green"
+   },
+   "items": [
+    {
+     "text": "Don't assume a cut",
+     "at": "assume",
+     "no": true,
+     "color": "red"
+    },
+    {
+     "text": "Measure your usage",
+     "at": "Measure"
+    },
+    {
+     "text": "Test a second model",
+     "at": "second"
+    }
+   ],
+   "muja": {
+    "react": "interrupt",
+    "at": "should",
+    "bubble": "Cheaper?"
+   }
+  },
+  {
+   "type": "chips",
+   "who": "priya",
+   "say": "My take: watch the margin and the compute costs in the first two reports. They tell you more than any press release.",
+   "banner": {
+    "text": "MY TAKE",
+    "color": "yellow"
+   },
+   "items": [
+    {
+     "text": "The margin",
+     "color": "green",
+     "icon": "up",
+     "at": "margin"
+    },
+    {
+     "text": "Compute costs",
+     "color": "orange",
+     "icon": "chip",
+     "at": "compute"
+    },
+    {
+     "text": "First two reports",
+     "color": "blue",
+     "icon": "folder",
+     "at": "reports"
+    }
+   ],
+   "muja": {
+    "react": "cheer",
+    "at": "margin",
+    "bubble": "Eyes on it!"
+   }
+  },
+  {
+   "type": "outro",
+   "say": "Anthropic expects to start trading from the nineteenth of November. The full story is on my blog.",
+   "banner": {
+    "text": "TRADING 19 NOV",
+    "color": "purple"
+   },
+   "chips": [
+    {
+     "text": "Trades 19 Nov",
+     "color": "purple",
+     "at": "nineteenth"
+    }
+   ],
+   "endAt": 1,
+   "endTitle": "FULL STORY ON MY BLOG"
+  }
+ ],
+ "thumbs": [
+  {
+   "text": [
+    "CLAUDE'S MAKER",
+    "GOES PUBLIC"
+   ],
+   "color": "purple",
+   "scene": 0,
+   "f": 110
+  },
+  {
+   "text": [
+    "$70-$78",
+    "A SHARE"
+   ],
+   "color": "purple",
+   "scene": 1,
+   "f": 120,
+   "wy": 600
+  },
+  {
+   "text": [
+    "$900B",
+    "IN BILLS"
+   ],
+   "color": "orange",
+   "scene": 4,
+   "f": 150,
+   "wy": 620
+  }
+ ],
+ "narrator": {
+  "engine": "turbo",
+  "base": "A"
+ },
+ "posters": [
+  {
+   "bg": "purple",
+   "side": "right",
+   "text": [
+    "CLAUDE",
+    "GOES PUBLIC"
+   ],
+   "hi": 1,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "tag",
+     "x": 320,
+     "y": 200,
+     "s": 1.25,
+     "text": "ANT"
+    },
+    {
+     "c": "muja",
+     "x": 330,
+     "y": 690,
+     "s": 1.35,
+     "hold": "bell",
+     "happy": 1
+    }
+   ]
+  },
+  {
+   "bg": "navy",
+   "side": "left",
+   "text": [
+    "$70-$78",
+    "A SHARE"
+   ],
+   "hi": 0,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 400
+    },
+    {
+     "c": "arrow",
+     "x": 330,
+     "y": 200,
+     "s": 0.9,
+     "dir": "up"
+    },
+    {
+     "c": "muja",
+     "x": 320,
+     "y": 700,
+     "s": 1.3,
+     "wear": "jacket shades",
+     "happy": 1
+    }
+   ]
+  },
+  {
+   "bg": "red",
+   "side": "right",
+   "text": [
+    "$900B",
+    "IN BILLS"
+   ],
+   "hi": 0,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "icon",
+     "k": "chip",
+     "x": 330,
+     "y": 230,
+     "s": 1.5
+    },
+    {
+     "c": "muja",
+     "x": 320,
+     "y": 700,
+     "s": 1.25,
+     "happy": 0.1,
+     "look": -0.6
+    }
+   ]
+  },
+  {
+   "bg": "yellow",
+   "side": "left",
+   "text": [
+    "IPO",
+    "FOR CLAUDE?"
+   ],
+   "hi": 0,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 400
+    },
+    {
+     "c": "icon",
+     "k": "spark",
+     "x": 330,
+     "y": 220,
+     "s": 1.4
+    },
+    {
+     "c": "bubble",
+     "text": "ANT",
+     "x": 500,
+     "y": 130,
+     "fs": 80,
+     "color": "#7b6cff"
+    },
+    {
+     "c": "muja",
+     "x": 320,
+     "y": 700,
+     "s": 1.3,
+     "hold": "bell",
+     "happy": 1
+    }
+   ]
+  }
+ ]
+}

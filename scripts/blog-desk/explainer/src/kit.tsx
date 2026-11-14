@@ -149,7 +149,7 @@ export const Shield: React.FC<{ check?: number }> = ({ check = 1 }) => (
 );
 
 // Mujasauraus, flat 2D guest (lavender dino, teal spikes, cream belly). Origin = feet centre, faces right. walk phase, wave 0..1, look -1..1, blink handled by t
-// wear: 'jacket' | 'shades' | 'jacket shades'; hold: 'sign' | 'umbrella' (signText on the sign)
+// wear: 'jacket' | 'shades' | 'jacket shades'; hold: 'sign' | 'umbrella' | 'bell' (signText on the sign)
 export const Muja: React.FC<{ t: number; walk?: number; wave?: number; hop?: number; look?: number; happy?: number; wear?: string; hold?: string; signText?: string }> = ({ t, walk = 0, wave = 0, hop = 0, look = 0.3, happy = 1, wear = '', hold = '', signText = 'YES' }) => {
   const sw = Math.sin(walk) * 16, bob = walk ? Math.abs(Math.cos(walk)) * 8 : Math.sin(t * 2.4) * 3;
   const jump = hop * Math.abs(Math.sin(t * 7)) * 34, tail = Math.sin(t * 5) * 10, blink = (t % 3.1) < 0.12 ? 0.12 : 1;
@@ -166,6 +166,7 @@ export const Muja: React.FC<{ t: number; walk?: number; wave?: number; hop?: num
         <ellipse cx={14} cy={-76} rx={48} ry={38} fill={CR} />
         {wear.includes('jacket') && <g><path d="M-84,-96 Q-82,-150 -26,-160 L-2,-108 L-12,-30 Q-66,-30 -82,-62 Z" fill="#262a36" /><path d="M36,-152 Q86,-132 84,-92 Q82,-44 30,-30 L20,-104 Z" fill="#262a36" /><path d="M-26,-160 L-2,-108 L-30,-118 Z M36,-152 L20,-104 L44,-118 Z" fill="#3a4050" /><circle cx={-6} cy={-70} r={5} fill="#c9ced8" /><circle cx={-8} cy={-48} r={5} fill="#c9ced8" /></g>}
         {hold === 'umbrella' && <g><path d="M30,-110 L14,-400" stroke="#5b4636" strokeWidth={9} strokeLinecap="round" /><path d="M-170,-388 Q14,-560 198,-388 Q152,-410 106,-388 Q60,-410 14,-388 Q-32,-410 -78,-388 Q-124,-410 -170,-388 Z" fill={C.red} /><path d="M14,-388 Q-10,-470 14,-524 Q38,-470 14,-388 Z M-78,-388 Q-80,-460 14,-524 M106,-388 Q108,-460 14,-524" fill={C.yellow} stroke={C.yellow} strokeWidth={3} /><circle cx={14} cy={-530} r={9} fill={C.ink} /></g>}
+        {hold === 'bell' && <g transform={`rotate(${Math.sin(t * 13) * 14 * happy} 64 -300)`}><path d="M60,-232 L64,-300" stroke="#8a6a4a" strokeWidth={10} strokeLinecap="round" /><path d="M-20,-300 Q-20,-420 64,-430 Q148,-420 148,-300 Q164,-286 168,-270 L-40,-270 Q-24,-286 -20,-300 Z" fill="#ffc83d" stroke="#fff" strokeWidth={8} strokeLinejoin="round" /><path d="M10,-330 Q12,-396 54,-408" stroke="#fff" strokeWidth={9} fill="none" strokeLinecap="round" opacity={0.7} /><circle cx={64} cy={-256} r={16} fill="#b8860b" /><circle cx={64} cy={-440} r={11} fill="#b8860b" /></g>}
         {hold === 'sign' && <g transform={`rotate(${Math.sin(t * 3) * 4} 60 -120)`}><path d="M60,-110 L70,-300" stroke="#8a6a4a" strokeWidth={10} strokeLinecap="round" /><rect x={-40} y={-410} width={220} height={120} rx={18} fill={C.green} stroke="#fff" strokeWidth={8} /><text x={70} y={-330} textAnchor="middle" fontWeight={900} fontSize={60} fill="#fff" fontFamily="Geist">{signText}</text></g>}
         <circle cx={58} cy={-170} r={58} fill={P} />
         <ellipse cx={104} cy={-152} rx={36} ry={26} fill="#b9a6ff" />

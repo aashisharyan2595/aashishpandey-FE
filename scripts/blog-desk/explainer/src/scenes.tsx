@@ -74,7 +74,23 @@ const ArtCloudDown: React.FC<P> = ({ f, t }) => {
     {[['mail', 230, 1180, 20], ['calendar', 540, 1300, 32], ['chat', 850, 1180, 44]].map(([k, x, y, a]: any) => <g key={k} transform={`translate(${x} ${y}) scale(${pop(f, a)})`}><Icon k={k} s={0.9} /><g transform="translate(60 -50)" opacity={f > a + 14 ? 1 : 0}><Icon k="x" s={0.8} /></g></g>)}
   </>);
 };
-const ARTS: Record<string, React.FC<P>> = { 'server-door': ArtServerDoor, 'robot-sort': ArtRobotSort, 'ceo-exit': ArtCeoExit, 'cloud-down': ArtCloudDown };
+const ArtIpo: React.FC<P> = ({ f, t }) => {
+  const d = ease(f, 20, 90), pts = [[-230, 120], [-130, 60], [-60, 90], [30, -10], [110, 20], [230, -110]];
+  const path = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0]},${p[1]}`).join(' ');
+  return (<>
+    <g transform={`translate(540 930) scale(${0.9 + 0.1 * pop(f, 0)})`}>
+      <rect x={-330} y={-230} width={660} height={460} rx={40} fill="rgba(29,35,64,.18)" transform="translate(0 14)" />
+      <rect x={-330} y={-230} width={660} height={460} rx={40} fill="#1d2340" />
+      <rect x={-330} y={-230} width={660} height={96} rx={40} fill="#2b3566" />
+      <T x={-290} y={-160} s={64} c={C.yellow} a="start">ANT</T><T x={290} y={-160} s={44} c="#fff" a="end">NASDAQ</T>
+      <path d={path} stroke={C.green} strokeWidth={22} fill="none" strokeLinecap="round" strokeLinejoin="round" strokeDasharray={800} strokeDashoffset={800 * (1 - d)} />
+      <g transform={`translate(${230} ${-110}) scale(${pop(f, 85)})`}><circle r={30} fill={C.green} stroke="#fff" strokeWidth={8} /></g>
+    </g>
+    <g transform={`translate(840 1330) scale(${pop(f, 70)})`}><Icon k="spark" s={0.8} /></g>
+    <g transform="translate(340 1610) scale(0.95)"><Robot t={t} happy={1} arm={(Math.sin(t * 5) + 1) / 2} /></g>
+  </>);
+};
+const ARTS: Record<string, React.FC<P>> = { 'server-door': ArtServerDoor, 'robot-sort': ArtRobotSort, 'ceo-exit': ArtCeoExit, 'cloud-down': ArtCloudDown, ipo: ArtIpo };
 export const Hook: React.FC<P> = (p) => { const A = ARTS[p.sc.art] || ArtServerDoor; return <><AbsoluteFill style={{ transform: `scale(${interpolate(p.f, [0, 140], [1, 1.08], { extrapolateRight: 'clamp' })})`, transformOrigin: '55% 62%' }}><Svg><BG k={p.sc.bg} t={p.t} /><A {...p} /></Svg></AbsoluteFill><BannerOf {...p} /></>; };
 
 // ---------- generic types
@@ -193,7 +209,7 @@ export const Shop: React.FC<P> = (p) => { const { f, t, S, W } = p; const shop =
 
 
 // ---------- Muja's moment: the narrator steps aside, greets Muja, shares a fun fact, then "back to our story"
-// fields: prop sneak|sign|jacket|umbrella, fact: [lines], factAt / helloAt / backAt: word that triggers each beat, sign: sign text
+// fields: prop sneak|sign|jacket|umbrella|bell, fact: [lines], factAt / helloAt / backAt: word that triggers each beat, sign: sign text
 const MujaMoment: React.FC<P> = (p) => {
   const { f, t, sc, W } = p;
   const hello = W(sc.helloAt || 'Muja'), fact = W(sc.factAt || 'fact'), back = W(sc.backAt || 'back');
@@ -209,7 +225,7 @@ const MujaMoment: React.FC<P> = (p) => {
   }
   if (back && f >= back) { wave = f < back + 24 ? 1 : 0; const o = ease(f, back + 12, back + 40); x = x + (1300 - x) * o; walk = o > 0 && o < 1 ? t * 10 : walk; face = o > 0 ? 1 : face; }
   const card = fact ? pop(f, fact, 30, 12) : 0, rain = prop === 'umbrella';
-  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : '';
+  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : prop === 'bell' ? 'bell' : '';
   return (<>
     <BG k={sc.bg || (rain ? 'dusk' : 'mint')} t={t} />
     <Svg>
@@ -217,6 +233,7 @@ const MujaMoment: React.FC<P> = (p) => {
       {rain && <g><g transform={`translate(${540 + Math.sin(t) * 20} 470)`}><ellipse cx={0} cy={0} rx={260} ry={110} fill="#6d7391" /><ellipse cx={-150} cy={30} rx={150} ry={90} fill="#7a809e" /><ellipse cx={160} cy={30} rx={160} ry={90} fill="#7a809e" /></g>
         {Array.from({ length: 26 }).map((_, i) => { const y = ((t * 900 + i * 137) % 900) + 560; return <path key={i} d={`M${200 + (i * 53) % 700},${y} l-10,34`} stroke="#9fb4ff" strokeWidth={5} strokeLinecap="round" opacity={0.8} />; })}</g>}
       <g transform={`translate(${x} 1600) scale(${1.45 * face} 1.45)`}><Muja t={t} walk={walk} wave={wave} hop={hop} happy={happy} look={look} wear={wear} hold={hold} signText={sc.sign || 'YES'} /></g>
+      {prop === 'bell' && hello > 0 && f > hello && f < hello + 90 && <g transform={`translate(${x + 190 * face} 1090) scale(${pop(f, hello, 20, 10)})`}><T x={0} y={0} s={84} c={C.orange}>DING!</T><T x={0} y={90} s={84} c={C.orange}>DING!</T></g>}
       {card > 0.01 && <g transform={`translate(540 ${rain ? 880 : 640}) scale(${card})`}>
         <rect x={-450} y={-150} width={900} height={110 + lines.length * 70} rx={36} fill="rgba(29,35,64,.16)" transform="translate(0 10)" />
         <rect x={-450} y={-150} width={900} height={110 + lines.length * 70} rx={36} fill="#fff" />
