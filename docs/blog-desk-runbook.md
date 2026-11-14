@@ -106,3 +106,12 @@ After Aashish uploads the Short and sends the link, add `::short[VIDEO_ID]` on i
 
 ## Video style (default from 2026-11-13)
 Every new Short uses the flat cartoon explainer (`scripts/blog-desk/explainer/`, see JOB video). Aashish chose it on 2026-11-13 after rejecting the stock-footage tool MoneyPrinterTurbo and setting aside every earlier look (3D low-poly, anime, slides). The older renderers described in the sections above stay for reference only.
+
+
+## Banner style (since 2026-11-14)
+Covers and thumbnails use style D2, Paper (`scripts/blog-desk/banner-d.js`): cream left with the hook, slanted navy dot-matrix panel on the right with one main illustration and small supporting icons. Draft fields: `thumb_text` (2 to 4 words, a hook not the title), optional `banner_tag` (amber tag up to 24 chars such as a CVE id or date) and `banner_sub` (grey line up to 60 chars with the key fact). Security posts get a server and broken-shield scene, money posts a bar chart, others the illustrated scenes; posts with a photo show it framed; supporting icons follow the topic. Redraw existing posts with `node scripts/blog-desk/desk.js rebanner [slug]`.
+
+Hook wording rules (cross-checked against thumbnail studies, mostly vendor data): 2 to 3 words is best (0-2 words averaged the highest CTR, 6+ the lowest); never repeat the title; add what the title does not say: stakes (SERVERS AT RISK), a number (130,000 REPORTS), a question (WORTH IT?) or a price. Use `|` in `thumb_text` to force a line break. Words that still work: NOW, WHY, NEW, a number plus a friction word. Avoid vague hype and sentences.
+
+## Image metadata (every blog image)
+Each cover and thumbnail is written with EXIF (description, artist, copyright, software) and an XMP packet (title, description, keywords, creator, rights, source URL, accessibility alt text) by `scripts/blog-desk/imgmeta.js`, filled from the post's own SEO: title = seo title, description = seo description, keywords = tags + about, URL = the post page. The `alt` is one plain sentence under 125 chars with the main keyword and what the picture shows (never "image of"); the thumbnail alt adds "(video thumbnail)". Filenames stay `<slug>-cover.jpg` / `<slug>-thumb.jpg`. Photos keep their credit and licence. `desk.js build` and `desk.js rebanner` do this automatically; when editing a post's SEO, run `desk.js rebanner <slug>` to refresh the image metadata and alt.
