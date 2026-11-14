@@ -24,7 +24,7 @@
       "locked": false
     },
     "2026-11-16": {
-      "title": "Gemini 4 Hydrogen review: Google\u2019s fast new model, pros and cons",
+      "title": "Gemini 4 Hydrogen review: Google’s fast new model, pros and cons",
       "kind": "review",
       "angle": "Flash successor now in Search for all users and the Gemini app: speed, price, benchmarks vs Argon, what changes for everyday search and for developers",
       "urls": [
@@ -63,7 +63,8 @@
         "https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/",
         "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
         "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidias-ceo-resigns-after-alleged-spy-scandal-whats-next-for-the-company",
-        "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/"
+        "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/",
+        "https://techcrunch.com/2026/11/14/asian-governments-react-to-nvidia-ceo-jensen-huangs-exit/"
       ],
       "score": 8,
       "status": "planned",
@@ -170,7 +171,7 @@
       "key": "instagram-ai-age-check"
     },
     "2026-11-27": {
-      "title": "What India\u2019s DPDP rules mean for a small business",
+      "title": "What India’s DPDP rules mean for a small business",
       "kind": "explainer",
       "angle": "Consent, notices, breach reporting, timelines; practical checklist.",
       "urls": [],
@@ -504,7 +505,7 @@
     },
     {
       "key": "china-banned-nvidia-chips",
-      "title": "Export-banned Nvidia chips behind China\u2019s top AI models",
+      "title": "Export-banned Nvidia chips behind China’s top AI models",
       "kind": "news",
       "score": 6,
       "urls": [
@@ -515,7 +516,7 @@
     },
     {
       "key": "apple-local-ai-app",
-      "title": "Apple\u2019s coming Mac app for running local AI models: what it means",
+      "title": "Apple’s coming Mac app for running local AI models: what it means",
       "kind": "news",
       "score": 6,
       "urls": [
