@@ -523,6 +523,17 @@
       ],
       "angle": "Local AI made easy on Mac; pairs with the llama.cpp explainer",
       "added": "2026-11-14"
+    },
+    {
+      "key": "nvidia-engineered-scarcity",
+      "title": "Nvidia accused of engineering GPU scarcity: what is alleged and what is not",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.techpowerup.com/354814/nvidia-allegedly-engineered-scarcity-by-funding-ai-startups-to-buy-its-gpus"
+      ],
+      "angle": "Allegation only, attribute carefully; need a second outlet and Nvidia's response before writing. Fits the Nvidia coverage after Huang exit.",
+      "added": "2026-11-14"
     }
   ],
   "covered": [
