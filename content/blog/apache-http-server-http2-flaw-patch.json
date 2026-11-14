@@ -106,10 +106,10 @@
       "duration": "PT1M22S"
     },
     "thumb": {
-      "text": "Patch Apache now",
+      "text": "Servers at risk",
       "headline": "Apache HTTP Server flaw: what to patch",
       "tag": "CVE-2026-119618",
-      "sub": "Critical HTTP/2 flaw · fixed in 2.4.71"
+      "sub": "Critical HTTP/2 flaw · patch to 2.4.71"
     }
   }
 }

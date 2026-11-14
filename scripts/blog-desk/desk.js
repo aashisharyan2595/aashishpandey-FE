@@ -100,7 +100,7 @@ function analyse(draft, pages) {
 }
 function check(draftFile, dir) {
   const a = analyse(readJ(draftFile), pickedPages(dir)); writeJ(draftFile.replace(/\.json$/, '') + '.clean.json', a.draft);
-  { const t = String(a.draft.thumb_text || '').trim(), w = t ? t.split(/\s+/).length : 0, ti = String(a.draft.title || '').toLowerCase();
+  { const t = String(a.draft.thumb_text || '').replace(/\|/g, ' ').trim(), w = t ? t.split(/\s+/).length : 0, ti = String(a.draft.title || '').toLowerCase();
     if (w < 2 || w > 5 || t.length > 30) a.lint.issues.push('thumb_text must be 2 to 5 words and at most 30 characters (the hook on the banner and video thumbnail, not the title)');
     else if (ti.includes(t.toLowerCase().replace(/[?.!]/g, ''))) a.lint.issues.push('thumb_text repeats the title: make it a hook or a number that adds something'); }
   console.log(`words: ${a.words}`); console.log(`style: ${a.lint.issues.length ? a.lint.issues.join('; ') : 'ok'} (sentence length spread ${a.lint.sd})`);

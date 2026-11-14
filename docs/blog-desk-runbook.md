@@ -110,3 +110,5 @@ Every new Short uses the flat cartoon explainer (`scripts/blog-desk/explainer/`,
 
 ## Banner style (since 2026-11-14)
 Covers and thumbnails use style C, Isometric Night (`scripts/blog-desk/banner-c.js`). Draft fields: `thumb_text` (2 to 4 words, a hook not the title), optional `banner_tag` (amber tag up to 24 chars such as a CVE id or date) and `banner_sub` (grey line up to 60 chars with the key fact). Security posts get an isometric server scene, money posts an isometric bar chart, others the illustrated scenes; posts with a photo show it framed. Redraw existing posts with `node scripts/blog-desk/desk.js rebanner [slug]`.
+
+Hook wording rules (cross-checked against thumbnail studies, mostly vendor data): 2 to 3 words is best (0-2 words averaged the highest CTR, 6+ the lowest); never repeat the title; add what the title does not say: stakes (SERVERS AT RISK), a number (130,000 REPORTS), a question (WORTH IT?) or a price. Use `|` in `thumb_text` to force a line break. Words that still work: NOW, WHY, NEW, a number plus a friction word. Avoid vague hype and sentences.

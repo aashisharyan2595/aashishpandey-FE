@@ -42,6 +42,7 @@ function pickIso(post) {
 }
 // hook text split into up to 3 lines; the first number, else the last line, gets the accent colour
 function hookLines(text) {
+  if (text.includes('|')) return text.split('|').map((x) => x.trim()).filter(Boolean).slice(0, 3);
   const sent = text.split(/(?<=[.!?])\s+/).filter(Boolean); if (sent.length >= 2 && sent.length <= 3) return sent;
   const w = text.split(/\s+/).filter(Boolean); if (w.length <= 1) return [w.join(' ')];
   let lines; if (w.length === 2) lines = [w[0], w[1]]; else if (w.length === 3) lines = w.map((x) => x); else if (w.length === 4) lines = [w[0] + ' ' + w[1], w[2] + ' ' + w[3]]; else lines = [w[0] + ' ' + w[1], w.slice(2, w.length - 1).join(' '), w[w.length - 1]].filter(Boolean);
