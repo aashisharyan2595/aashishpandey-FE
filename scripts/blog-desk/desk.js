@@ -126,8 +126,10 @@ async function rebanner(slug) {
   for (const sl of slugs) {
     const p = readJ(path.join(CONTENT, sl + '.json'), null); if (!p || !p.title) continue;
     const x = p.extra || {}, th = x.thumb || {}, ph = x.photo && x.photo.src ? { file: x.photo.src.slice(1), credit: x.photo.credit } : undefined;
-    const imgs = await graphics.makeImages({ slug: sl, title: p.title, category: p.category, tags: p.tags, kind: x.kind || 'news', thumb_text: th.text, image_headline: th.headline, banner_tag: th.tag, banner_sub: th.sub, photo: ph });
+    const seo = p.seo || {}, hook = String(th.text || '').replace(/\|/g, ' '), alt = `${seo.title || p.title}: ${hook}. ${th.sub || ''}`.replace(/\s+/g, ' ').trim().slice(0, 125), meta = { title: seo.title || p.title, alt, description: seo.description || p.excerpt, keywords: [...(p.tags || []), ...(x.about || [])], url: SITE + '/blog/' + sl };
+    const imgs = await graphics.makeImages({ slug: sl, title: p.title, category: p.category, tags: p.tags, kind: x.kind || 'news', thumb_text: th.text, image_headline: th.headline, banner_tag: th.tag, banner_sub: th.sub, photo: ph, meta });
     for (const im of imgs) if (im.role === 'cover' || im.role === 'thumb') fs.writeFileSync(path.join(ROOT, 'assets', 'blog', `${sl}-${im.role}.jpg`), im.buf);
+    p.cover = { ...(p.cover || {}), src: `/assets/blog/${sl}-cover.jpg`, alt: meta.alt }; writeJ(path.join(CONTENT, sl + '.json'), p);
     console.log('banner redrawn:', sl);
   }
 }
@@ -155,7 +157,7 @@ async function build(draftFile, dir) {
   if (!Number.isFinite(publishAt)) throw new Error('--at must be an ISO time or "now"');
   if (fs.existsSync(path.join(CONTENT, slug + '.json')) && process.argv.indexOf('--overwrite') < 0) throw new Error('content/blog/' + slug + '.json exists (use --overwrite to replace)');
   const graphics = require('./graphics'); fs.mkdirSync(path.join(ROOT, 'assets', 'blog'), { recursive: true });
-  const photo = usePhoto(arg('photo'), slug), imgs = await graphics.makeImages({ ...d, kind, photo: photo && { file: photo.src.slice(1), credit: photo.credit } }), ref = {};
+  const photo = usePhoto(arg('photo'), slug), imgs = await graphics.makeImages({ ...d, kind, photo: photo && { file: photo.src.slice(1), credit: photo.credit }, meta: { title: d.seo_title || d.title, alt: d.image_alt, description: d.seo_description, keywords: [...(d.tags || []), ...(d.about || [])], url: SITE + '/blog/' + slug } }), ref = {};
   for (const im of imgs) { const f = `${slug}-${im.role}.jpg`; fs.writeFileSync(path.join(ROOT, 'assets', 'blog', f), im.buf); ref[im.role] = { src: '/assets/blog/' + f, alt: (im.role === 'cover' ? d.image_alt : im.role === 'thumb' ? d.image_alt + ' (video thumbnail)' : `Pros and cons of ${d.product || d.title}: ${d.pros.slice(0, 3).join(', ')} versus ${d.cons.slice(0, 3).join(', ')}`).slice(0, 160) }; }
   let body = d.body_markdown;
   if (ref.proscons) { const fig = `![${ref.proscons.alt}](${ref.proscons.src} "Pros and cons at a glance")`, m = /^##\s+(pros|the pros|what works)/im.exec(body); body = m ? body.slice(0, m.index) + fig + '\n\n' + body.slice(m.index) : body.replace(/\n\n/, '\n\n' + fig + '\n\n'); }
