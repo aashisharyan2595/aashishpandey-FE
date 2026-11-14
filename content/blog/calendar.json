@@ -146,15 +146,15 @@
       "key": "llama-cpp-v1"
     },
     "2026-11-25": {
-      "title": "NotebookLM review: pros and cons for research and study",
-      "kind": "review",
-      "angle": "What it does well, limits, privacy, who it is for.",
-      "urls": [],
-      "score": 5,
+      "title": "Android TV box malware: 1.3M devices turned into a botnet",
+      "kind": "news",
+      "angle": "What Google says Videostrong installed, how to check your box, what to do",
+      "urls": [
+        "https://www.foxnews.com/tech/android-tv-box-malware-found-devices"
+      ],
+      "score": 7,
       "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "notebooklm-review"
+      "locked": false
     },
     "2026-11-26": {
       "title": "Instagram uses AI to catch teens lying about age",
@@ -492,6 +492,26 @@
       "urls": [],
       "angle": "Plain-English explainer: agents vs chatbots, where they fail, how to try one safely.",
       "added": "2026-11-13"
+    },
+    {
+      "key": "notebooklm-review",
+      "title": "NotebookLM review: pros and cons for research and study",
+      "kind": "review",
+      "score": 5,
+      "urls": [],
+      "angle": "What it does well, limits, privacy, who it is for.",
+      "added": "2026-11-14"
+    },
+    {
+      "key": "china-banned-nvidia-chips",
+      "title": "Export-banned Nvidia chips behind China’s top AI models",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/13/export-banned-nvidia-chips-are-behind-chinas-most-powerful-ai-models-uh-oh-jensen/"
+      ],
+      "angle": "What the research found and what it means for export rules",
+      "added": "2026-11-14"
     }
   ],
   "covered": [
