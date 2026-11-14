@@ -512,6 +512,17 @@
       ],
       "angle": "What the research found and what it means for export rules",
       "added": "2026-11-14"
+    },
+    {
+      "key": "apple-local-ai-app",
+      "title": "Apple’s coming Mac app for running local AI models: what it means",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
+      ],
+      "angle": "Local AI made easy on Mac; pairs with the llama.cpp explainer",
+      "added": "2026-11-14"
     }
   ],
   "covered": [
