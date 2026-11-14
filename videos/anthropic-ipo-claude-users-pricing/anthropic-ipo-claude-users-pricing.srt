@@ -1,0 +1,95 @@
+1
+00:00:00,000 --> 00:00:02,269
+Claude's maker is about to go public.
+
+2
+00:00:02,319 --> 00:00:07,016
+Anthropic plans to start trading on the Nasdaq on the nineteenth of November.
+
+3
+00:00:07,066 --> 00:00:12,898
+The filing sets a price of seventy to seventy-eight dollars a share, under the ticker A N T.
+
+4
+00:00:12,948 --> 00:00:14,487
+The growth is huge.
+
+5
+00:00:14,537 --> 00:00:22,078
+Seventeen billion dollars of revenue in one quarter, and reports say about eighty-one billion in run-rate by the end of October.
+
+6
+00:00:22,128 --> 00:00:24,967
+Muja, you brought a bell?
+
+7
+00:00:25,017 --> 00:00:31,704
+Fun fact, buddy: the Dutch East India Company sold shares to the public in Amsterdam in 1602.
+
+8
+00:00:31,754 --> 00:00:34,467
+It's often called the first big listed company.
+
+9
+00:00:34,517 --> 00:00:35,439
+Alright...
+
+10
+00:00:35,489 --> 00:00:36,908
+back to our story.
+
+11
+00:00:36,958 --> 00:00:38,744
+But the bills are huge too.
+
+12
+00:00:38,794 --> 00:00:44,899
+Anthropic has committed to about nine hundred billion dollars of future spending, mostly on computing.
+
+13
+00:00:44,949 --> 00:00:46,326
+Here is what we know.
+
+14
+00:00:46,376 --> 00:00:48,505
+The price range and the date are set.
+
+15
+00:00:48,555 --> 00:00:53,313
+The final price isn't, and neither is any change to Claude's prices.
+
+16
+00:00:53,363 --> 00:00:54,641
+So what should you do?
+
+17
+00:00:54,691 --> 00:00:58,895
+Yes, Muja, I know, you want cheaper Claude.
+
+18
+00:00:58,945 --> 00:01:00,962
+But nothing says prices will drop.
+
+19
+00:01:01,012 --> 00:01:02,498
+So don't assume a cut.
+
+20
+00:01:02,548 --> 00:01:05,743
+Measure your usage, and keep a second model tested.
+
+21
+00:01:05,793 --> 00:01:10,059
+My take: watch the margin and the compute costs in the first two reports.
+
+22
+00:01:10,109 --> 00:01:12,431
+They tell you more than any press release.
+
+23
+00:01:12,481 --> 00:01:16,001
+Anthropic expects to start trading from the nineteenth of November.
+
+24
+00:01:16,051 --> 00:01:18,442
+The full story is on my blog.
