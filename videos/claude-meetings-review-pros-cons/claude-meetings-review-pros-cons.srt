@@ -1,0 +1,103 @@
+1
+00:00:00,000 --> 00:00:04,304
+Claude can now join your Google Meet call and start building the plan while you talk.
+
+2
+00:00:04,354 --> 00:00:06,693
+It's called Claude Meetings.
+
+3
+00:00:06,743 --> 00:00:10,540
+Say, Claude, start a doc, and teammates edit it live.
+
+4
+00:00:10,590 --> 00:00:14,010
+Ask for a timeline, and it draws one on a whiteboard.
+
+5
+00:00:14,060 --> 00:00:15,096
+The best part?
+
+6
+00:00:15,146 --> 00:00:19,540
+During the beta, notes and transcripts are free on Team and Enterprise plans.
+
+7
+00:00:19,590 --> 00:00:23,205
+Docs and whiteboards are free until February twenty twenty-seven.
+
+8
+00:00:23,255 --> 00:00:25,395
+A coffee pot, Muja?
+
+9
+00:00:25,445 --> 00:00:31,785
+Fun fact: the first webcam, as it's often called, watched a coffee pot at Cambridge in 1991.
+
+10
+00:00:31,835 --> 00:00:32,757
+Alright...
+
+11
+00:00:32,807 --> 00:00:34,225
+back to our story.
+
+12
+00:00:34,275 --> 00:00:35,360
+Now the catch.
+
+13
+00:00:35,410 --> 00:00:38,407
+It's Google Meet only, on Team and Enterprise plans.
+
+14
+00:00:38,457 --> 00:00:41,540
+Zoom, Teams and personal plans must wait.
+
+15
+00:00:41,590 --> 00:00:43,120
+Privacy matters too.
+
+16
+00:00:43,170 --> 00:00:48,214
+It keeps a transcript, not the audio, and posts a notice in the chat when it joins.
+
+17
+00:00:48,264 --> 00:00:49,833
+Is it a secret agent?
+
+18
+00:00:49,883 --> 00:00:51,237
+No, Muja.
+
+19
+00:00:51,287 --> 00:00:53,643
+Still, ask everyone first.
+
+20
+00:00:53,693 --> 00:00:54,971
+So what should you do?
+
+21
+00:00:55,021 --> 00:00:56,476
+Tell your team first.
+
+22
+00:00:56,526 --> 00:00:58,247
+Skip client calls.
+
+23
+00:00:58,297 --> 00:01:00,071
+Pilot one weekly meeting.
+
+24
+00:01:00,121 --> 00:01:04,968
+My take: a faster first draft, not someone who will own the actions.
+
+25
+00:01:05,018 --> 00:01:08,662
+Handy for internal Google Meet calls, wait-and-see for the rest.
+
+26
+00:01:08,712 --> 00:01:11,103
+The full review is on my blog.
