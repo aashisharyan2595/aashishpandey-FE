@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v4';   // ?v= for assets/blog.css and blog.js
+const BL = 'v5';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
@@ -192,9 +192,29 @@ const authorBox = (a) => `<aside class="bl-author">${a.avatar ? `<img class="bl-
 const shareBlock = (p, url) => `<div class="bl-share" aria-label="Share"><span>Share</span><button type="button" data-copy="${esc(url)}">Copy link</button><a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(p.title)}" target="_blank" rel="noopener noreferrer">X</a></div>`;
 const tocBlock = (toc) => (toc.length > 2 ? `<nav class="bl-toc" aria-label="On this page"><b>On this page</b><ol>${toc.map((t) => `<li class="l${t.level}"><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ol></nav>` : '');
 
+// FAQ questions and the Sources list fold away so long posts stay short to scroll. Everything stays in the HTML as native details/summary
+// (keyboard and screen-reader friendly, found by in-page search, read in full by crawlers), and the FAQPage data is built from post.extra, not from this markup.
+function collapse(html) {
+  const parts = html.split(/(<h[23] id="[^"]*">[\s\S]*?<\/h[23]>)/), out = [];
+  let mode = '', open = false;   // mode: 'faq' or 'src' while inside that h2 section
+  const close = () => { if (open) { out.push('</div></details>'); open = false; } };
+  for (let i = 0; i < parts.length; i++) {
+    const t = parts[i], h = /^<h([23]) id="[^"]*">([\s\S]*?)<\/h[23]>$/.exec(t);
+    if (!h) { out.push(t); continue; }
+    const text = h[2].replace(/<[^>]+>/g, '').trim();
+    if (h[1] === '2') {
+      close(); mode = /^(frequently asked questions|faqs?)$/i.test(text) ? 'faq' : /^sources?$/i.test(text) ? 'src' : '';
+      if (mode === 'src') { out.push('<details class="bl-acc bl-acc--src"><summary>' + t + '</summary><div class="bl-acc__b">'); open = true; } else out.push(t);
+    } else if (mode === 'faq') {
+      close(); out.push('<details class="bl-acc"><summary>' + t + '</summary><div class="bl-acc__b">'); open = true;
+    } else out.push(t);
+  }
+  close();
+  return out.join('');
+}
 async function postPage(p0, preview) {
   const p = await withImages(p0), r = md.render(p.body), url = SITE + '/blog/' + p.slug, seo = p.seo || {}, au = await authorOf(p);
-  r.html = sized(r.html, p.mediaMap).replace(/<blockquote>(\s*<p>\s*<strong>Quick answer\.)/, '<blockquote class="bl-qa">$1');
+  r.html = collapse(sized(r.html, p.mediaMap)).replace(/<blockquote>(\s*<p>\s*<strong>Quick answer\.)/, '<blockquote class="bl-qa">$1');
   const live = await posts.live('post');
   const rel = live.filter((x) => x.id !== p.id).map((x) => ({ x, n: (x.tags || []).filter((t) => (p.tags || []).includes(t)).length })).sort((a, b) => b.n - a.n || (b.x.publishAt - a.x.publishAt)).slice(0, 3).map((a) => a.x);
   const sid = shortOf(p.body), tocItems = tocBlock(r.toc);

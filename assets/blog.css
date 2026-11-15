@@ -178,3 +178,17 @@ a.bl-tag:hover{border-color:var(--bl-amber);color:var(--bl-ink)!important}.bl-ta
 
 .bl-top .bl-eyebrow{display:none}
 @media(max-width:640px){.bl-feat .bl-kick{letter-spacing:.06em}.bl-kick{letter-spacing:.1em}}
+
+/* collapsible FAQ questions and Sources (native details/summary) */
+.bl-md .bl-acc{margin:0;border-top:1px solid var(--bl-line);background:transparent}.bl-md .bl-acc:last-of-type{border-bottom:1px solid var(--bl-line)}
+.bl-md .bl-acc>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 4px;min-height:48px;border-radius:10px;-webkit-tap-highlight-color:transparent}
+.bl-md .bl-acc>summary::-webkit-details-marker{display:none}
+.bl-md .bl-acc>summary h2,.bl-md .bl-acc>summary h3{margin:0;font-size:clamp(17px,1.9vw,20px);font-weight:600;letter-spacing:-.02em;line-height:1.3;text-wrap:pretty}
+.bl-md .bl-acc--src>summary h2{font-size:clamp(22px,2.6vw,28px)}
+.bl-md .bl-acc>summary::after{content:"";flex:none;width:10px;height:10px;border-right:2px solid var(--bl-teal);border-bottom:2px solid var(--bl-teal);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s ease}
+.bl-md .bl-acc[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.bl-md .bl-acc>summary:hover h2,.bl-md .bl-acc>summary:hover h3{color:var(--bl-amber)}
+.bl-md .bl-acc>summary:focus-visible{outline:2px solid var(--bl-teal);outline-offset:2px}
+.bl-md .bl-acc__b{padding:0 4px 18px}.bl-md .bl-acc__b>:first-child{margin-top:0}.bl-md .bl-acc__b>:last-child{margin-bottom:0}
+.bl-md .bl-acc--src{margin-top:2.2em}
+@media(prefers-reduced-motion:reduce){.bl-md .bl-acc>summary::after{transition:none}}
