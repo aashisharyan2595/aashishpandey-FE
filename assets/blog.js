@@ -23,6 +23,15 @@
   // count a view after the page has been open for a few seconds; the server ignores crawlers and repeat visits
   var art2 = document.querySelector('[data-pid]');
   if (art2 && navigator.sendBeacon) setTimeout(function () { try { navigator.sendBeacon('/api/config?a=site&p=hit&id=' + art2.getAttribute('data-pid')); } catch (e) { /* views are best effort */ } }, 4000);
+  // Short: the YouTube player is only fetched when the reader presses play
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.md-play'), box = b && b.parentNode, id = box && box.getAttribute('data-yt');
+    if (!id || !/^[\w-]{6,20}$/.test(id)) return;
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1'; f.title = 'Short video summary';
+    f.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture'; f.allowFullscreen = true; f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    box.textContent = ''; box.appendChild(f); f.focus();
+  });
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-copy]'); if (!b) return;
     var url = b.getAttribute('data-copy'), done = function () { var t = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = t; }, 1600); };
