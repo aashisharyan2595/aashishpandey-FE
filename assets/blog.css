@@ -125,3 +125,56 @@ a.bl-tag:hover{border-color:var(--bl-amber);color:var(--bl-ink)!important}.bl-ta
 @media(prefers-reduced-motion:reduce){.bl-card__img{transition:none}.bl-progress i{transition:none}html{scroll-behavior:auto}}
 
 .bl-search{display:flex;gap:8px;margin:22px 0 0;max-width:460px}.bl-search input{flex:1;min-width:0;height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--bl-line);background:rgba(244,239,230,.04);color:var(--bl-ink);font:inherit;font-size:15px}.bl-search input::placeholder{color:var(--bl-dim)}.bl-search button{height:44px;padding:0 18px;border-radius:10px;border:0;background:var(--bl-amber);color:#0b1030;font:inherit;font-size:14px;font-weight:600;cursor:pointer}.bl-search button:hover{background:var(--bl-teal)}
+
+/* ---------- v4 audit pass (2026-11-15) ---------- */
+/* whole card is one tap target (the title link stretches over the card); the image link stays for pointer users */
+.bl-card,.bl-feat{position:relative}.bl-card__a::after{content:"";position:absolute;inset:0;z-index:1}
+.bl-card__img{position:relative;z-index:0}
+/* labels were 10.5px mono: raise to a readable minimum */
+.bl-kick,.bl-box__h,.bl-toc b,.bl-facts dt{font-size:11.5px}.bl-meta{font-size:12px}.bl-crumbs ol{font-size:11.5px}
+.bl-meta time{font:inherit}
+/* topic chips: one row you can swipe, never four wrapped rows; 40px tall for thumbs */
+.bl-top .bl-filter{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-left:calc(-1*clamp(18px,4vw,44px));margin-right:calc(-1*clamp(18px,4vw,44px));padding-left:clamp(18px,4vw,44px);padding-right:clamp(18px,4vw,44px);-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent)}
+.bl-top .bl-filter::-webkit-scrollbar{display:none}.bl-top .bl-filter .bl-tag{flex:none;height:38px;white-space:nowrap}
+@media(min-width:1000px){.bl-top .bl-filter{flex-wrap:wrap;overflow:visible;margin-left:0;margin-right:0;padding-left:0;padding-right:0;-webkit-mask-image:none;mask-image:none}.bl-top .bl-filter .bl-tag{height:34px}}
+@media(max-width:640px){
+ .bl-top{padding-top:22px}.bl-top .bl-crumbs,.bl-top .bl-eyebrow{display:none}
+ .bl-top__row{gap:16px}.bl-top .bl-search{flex:1 1 100%}
+ .bl-lead-p{margin-top:14px;font-size:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+ .bl-top .bl-filter{margin-top:16px;padding-bottom:16px}
+ .bl-feat h2{font-size:28px}
+}
+/* the featured post gets a clear "start here" weight */
+.bl-feat .bl-kick{font-size:12px}
+.bl-feat__b{gap:10px}
+/* post header: a category kicker replaces the row of tag chips above the headline */
+.bl-eyebrow a{color:inherit}.bl-eyebrow a:hover{color:var(--bl-ink)}
+.bl-tags--end{margin:0 0 20px}
+@media(max-width:860px){.bl-ah--split .bl-crumbs{display:none}.bl-ah--split{padding-top:16px;gap:18px}}
+/* quick answer: a clear boxed answer in the body font, not a long italic quote */
+.bl-md blockquote.bl-qa{margin:0 0 2em;padding:18px 22px 18px 24px;border:1px solid rgba(245,184,103,.28);border-left:4px solid var(--bl-amber);border-radius:14px;background:rgba(245,184,103,.06);font-family:inherit;font-style:normal;font-size:1em;line-height:1.65;color:var(--bl-ink)}
+.bl-qa strong:first-child{display:block;margin-bottom:6px;font:600 11.5px 'Geist Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--bl-amber)}
+/* Short: poster first, player on tap */
+.md-play{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:#0b1030;cursor:pointer;display:block;color:#fff}
+.md-play img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.md-play::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,22,0) 55%,rgba(7,9,22,.85))}
+.md-play i{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;background:var(--bl-amber);box-shadow:0 8px 28px rgba(0,0,0,.5);transition:transform .2s}
+.md-play i::after{content:"";position:absolute;left:23px;top:18px;border-left:19px solid #1a1420;border-top:12px solid transparent;border-bottom:12px solid transparent}
+.md-play:hover i{transform:scale(1.08)}
+.md-play span{position:absolute;left:12px;right:12px;bottom:12px;font:500 11.5px 'Geist Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;text-align:left}
+.md-video noscript a{position:absolute;inset:auto 12px 12px;color:#fff}
+/* rail: the Short and share stay in view; the newsletter moved to the end of the article so the sticky rail always fits the screen */
+@media(max-width:1100px){.bl-rail{display:none}}
+.bl-nl-end{margin:30px 0 0}.bl-nl-end .bl-nl{padding:26px}
+@media(min-width:700px){.bl-nl-end .bl-nl{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px;align-items:center}.bl-nl-end .bl-nl .bl-kick,.bl-nl-end .bl-nl h3,.bl-nl-end .bl-nl p{grid-column:1}.bl-nl-end .bl-nl form{grid-column:2;grid-row:1/span 3}}
+/* tap targets */
+.bl-share a,.bl-share button{height:40px}
+.bl-tp{padding:13px 0}
+/* related cards: keep the three in one tidy row from tablet up */
+@media(min-width:900px){.bl-rel .bl-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* long-form reading rhythm */
+.bl-md h2{margin-top:2.2em}.bl-md li{margin:.5em 0}
+.bl-md>h2:first-of-type{margin-top:1.6em}
+
+.bl-top .bl-eyebrow{display:none}
+@media(max-width:640px){.bl-feat .bl-kick{letter-spacing:.06em}.bl-kick{letter-spacing:.1em}}

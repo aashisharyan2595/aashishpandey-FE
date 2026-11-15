@@ -13,6 +13,10 @@ const slug = (s) => String(s).toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a
 const safeHref = (u) => { u = String(u || '').trim(); return /^(https?:\/\/|mailto:|\/(?!\/)|#)/i.test(u) && !/[\s"<>]/.test(u) ? u : ''; };
 const safeSrc = (u) => { u = String(u || '').trim(); return /^(https:\/\/|\/(?!\/))/i.test(u) && !/[\s"<>]/.test(u) ? u : ''; };
 
+// A Short loads as a poster with a play button; the YouTube player (about 1 MB of scripts) is only fetched when the reader presses play (assets/blog.js swaps in the iframe).
+function shortFacade(id) {
+  return '<div class="md-video md-short" data-yt="' + id + '"><button type="button" class="md-play" aria-label="Play the short video summary"><img src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async"><i aria-hidden="true"></i><span>Watch · about a minute</span></button><noscript><a href="https://www.youtube.com/shorts/' + id + '">Watch the video on YouTube</a></noscript></div>';
+}
 function inline(t) {
   const keep = [];
   const hold = (h) => { keep.push(h); return '\u0000' + (keep.length - 1) + '\u0000'; };
@@ -52,7 +56,7 @@ function render(src, opts) {
       words += text.split(/\s+/).length; out.push('<h' + lv + ' id="' + id + '">' + inline(text) + '</h' + lv + '>'); i++; continue;
     }
     if (/^\s*([-*_])(\s*\1){2,}\s*$/.test(l)) { flush(); out.push('<hr>'); i++; continue; }
-    if ((m = /^::short\[([\w-]{6,20})\]\s*$/.exec(l))) { flush(); out.push('<div class="md-video md-short"><iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="Short video summary" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>'); i++; continue; }
+    if ((m = /^::short\[([\w-]{6,20})\]\s*$/.exec(l))) { flush(); out.push(shortFacade(m[1])); i++; continue; }
     if ((m = /^::youtube\[([\w-]{6,20})\]\s*$/.exec(l))) { flush(); out.push('<div class="md-video"><iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="Video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>'); i++; continue; }
     if ((m = /^::button\[([^\]]+)\]\(([^)\s]+)\)\s*$/.exec(l))) { flush(); const h = safeHref(m[2]); if (h) out.push('<p class="md-cta"><a class="md-btn" href="' + esc(h) + '">' + esc(m[1]) + '</a></p>'); i++; continue; }
     if ((m = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\s*$/.exec(l))) {   // an image on its own line is a figure
@@ -90,4 +94,4 @@ function render(src, opts) {
   flush();
   return { html: out.join('\n'), toc, words: opts.noWords ? 0 : words };
 }
-module.exports = { render, esc, slug, inline, safeHref, safeSrc };
+module.exports = { render, esc, slug, inline, safeHref, safeSrc, shortFacade };

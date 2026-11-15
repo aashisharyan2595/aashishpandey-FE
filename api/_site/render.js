@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v3';   // ?v= for assets/blog.css and blog.js
+const BL = 'v4';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
@@ -55,6 +55,7 @@ ${o.ogType === 'article' && o.published ? `<meta property="article:published_tim
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc}">
 <meta name="twitter:image" content="${esc(og)}">
+${o.imageAlt ? `<meta property="og:image:alt" content="${esc(o.imageAlt)}">\n<meta name="twitter:image:alt" content="${esc(o.imageAlt)}">\n` : ''}${o.section_ ? `<meta property="article:section" content="${esc(o.section_)}">\n` : ''}${(o.articleTags || []).map((t) => `<meta property="article:tag" content="${esc(t)}">`).join('\n')}
 ${o.rss ? '<link rel="alternate" type="application/rss+xml" title="Aashish Pandey: blog" href="/blog/rss.xml">\n' : ''}<link rel="preload" as="font" type="font/woff2" href="/assets/vendor/fonts/geist-normal-latin.woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css?v=1">
 <link rel="stylesheet" href="/assets/nav.css?v=${chrome.navCss}">
@@ -134,9 +135,9 @@ function card(p, big) {
 <a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}" alt="" loading="lazy" decoding="async"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
 <div class="bl-card__b">
 ${p.category || (p.tags && p.tags[0]) ? `<span class="bl-kick">${esc(p.category || p.tags[0])}</span>` : ''}
-<h3><a href="${base(p)}">${esc(p.title)}</a></h3>
+<h3><a class="bl-card__a" href="${base(p)}">${esc(p.title)}</a></h3>
 <p>${esc(trunc(p.excerpt, big ? 220 : 150))}</p>
-<span class="bl-meta">${esc(meta)}</span>
+<span class="bl-meta">${p.type === 'case' ? esc(meta) : `<time datetime="${isoDate(p.publishAt)}">${esc(fmtDate(p.publishAt))}</time> · ${p.mins || 1} min read`}</span>
 </div></article>`;
 }
 
@@ -145,8 +146,8 @@ function leadCard(p) {
   const meta = [fmtDate(p.publishAt), (p.mins || 1) + ' min read'].join(' · ');
   return `<article class="bl-feat">
 <a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}" alt="" decoding="async" fetchpriority="high"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
-<div class="bl-feat__b"><span class="bl-kick"><em class="bl-kick__new">Latest</em>${p.category || (p.tags && p.tags[0]) ? ' · ' + esc(p.category || p.tags[0]) : ''} <span>· ${esc(meta)}</span></span>
-<h2><a href="${base(p)}">${esc(p.title)}</a></h2>
+<div class="bl-feat__b"><span class="bl-kick"><em class="bl-kick__new">Latest</em>${p.category || (p.tags && p.tags[0]) ? ' · ' + esc(p.category || p.tags[0]) : ''} <span>· <time datetime="${isoDate(p.publishAt)}">${esc(fmtDate(p.publishAt))}</time> · ${p.mins || 1} min read</span></span>
+<h2><a class="bl-card__a" href="${base(p)}">${esc(p.title)}</a></h2>
 <p>${esc(trunc(p.excerpt, 240))}</p></div></article>`;
 }
 // sign-up card for the blog side rails (same form the footer uses, handled by site.js)
@@ -166,7 +167,6 @@ async function blogIndex(q) {
   const searchForm = `<form class="bl-search" action="/blog" role="search"><input type="search" name="q" value="${esc(find)}" placeholder="Search the blog" aria-label="Search the blog" maxlength="60"><button type="submit">Search</button></form>`;
   const withShort = all.find((p) => shortOf(p.body));
   const side = `<aside class="bl-lay__side" aria-label="Blog sidebar">
-${topTags.length ? `<div class="bl-box"><b class="bl-box__h">Topics</b><nav aria-label="Topics"><a class="bl-tp${tag ? '' : ' is-on'}" href="/blog">All posts<i>${all.length}</i></a>${topTags.map((t) => `<a class="bl-tp${t === tag ? ' is-on' : ''}" href="/blog?tag=${encodeURIComponent(t)}">${esc(t)}<i>${tags[t]}</i></a>`).join('')}</nav></div>` : ''}
 ${newsCard('blog-side')}
 ${withShort ? `<a class="bl-box bl-watch" href="${base(withShort)}"><b class="bl-box__h">Watch · under a minute</b><span class="bl-watch__row"><span class="bl-watch__tile" aria-hidden="true"><i></i></span><span class="bl-watch__t">${esc(trunc(withShort.title, 70))}</span></span></a>` : ''}
 </aside>`;
@@ -194,28 +194,29 @@ const tocBlock = (toc) => (toc.length > 2 ? `<nav class="bl-toc" aria-label="On 
 
 async function postPage(p0, preview) {
   const p = await withImages(p0), r = md.render(p.body), url = SITE + '/blog/' + p.slug, seo = p.seo || {}, au = await authorOf(p);
-  r.html = sized(r.html, p.mediaMap);
+  r.html = sized(r.html, p.mediaMap).replace(/<blockquote>(\s*<p>\s*<strong>Quick answer\.)/, '<blockquote class="bl-qa">$1');
   const live = await posts.live('post');
   const rel = live.filter((x) => x.id !== p.id).map((x) => ({ x, n: (x.tags || []).filter((t) => (p.tags || []).includes(t)).length })).sort((a, b) => b.n - a.n || (b.x.publishAt - a.x.publishAt)).slice(0, 3).map((a) => a.x);
   const sid = shortOf(p.body), tocItems = tocBlock(r.toc);
-  const shortEmbed = sid ? `<div class="md-video md-short"><iframe src="https://www.youtube-nocookie.com/embed/${sid}" title="Short video summary" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>` : '';
+  const shortEmbed = sid ? md.shortFacade(sid) : '';
   const tocMobile = r.toc.length > 2 ? `<details class="bl-tocm"><summary>On this page</summary><ol>${r.toc.map((t) => `<li><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ol></details>` : '';
   const body = `<article class="bl-article bl-post" itemscope itemtype="https://schema.org/BlogPosting"${preview ? '' : ' data-pid="' + p.id + '"'}>
 <header class="bl-wrap bl-ah bl-ah--split"><div class="bl-ah__t">${crumbs([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }, { t: p.title }])}
-${p.tags && p.tags.length ? `<div class="bl-tags">${tagChips(p.tags, '/blog')}</div>` : ''}
+${p.category ? `<p class="bl-eyebrow"><a href="/blog">${esc(p.category)}</a></p>` : ''}
 <h1 itemprop="headline">${esc(p.title)}</h1>
 <p class="bl-lead">${esc(p.excerpt)}</p>
-<p class="bl-by"><span itemprop="author">${esc(au.name)}</span><span aria-hidden="true">·</span><time datetime="${isoDate(p.publishAt || p.updated)}" itemprop="datePublished">${fmtDate(p.publishAt || p.updated)}</time><span aria-hidden="true">·</span><span>${p.mins || 1} min read</span></p></div>
+<p class="bl-by"><span itemprop="author">${esc(au.name)}</span><span aria-hidden="true">·</span><time datetime="${isoDate(p.publishAt || p.updated)}" itemprop="datePublished">${fmtDate(p.publishAt || p.updated)}</time><span aria-hidden="true">·</span><span>${p.mins || 1} min read</span>${p.updated && p.publishAt && p.updated - p.publishAt > 36e5 * 36 ? `<span aria-hidden="true">·</span><span>Updated <time datetime="${isoDate(p.updated)}" itemprop="dateModified">${fmtDate(p.updated)}</time></span>` : ''}</p></div>
 ${p.cover && p.cover.src ? `<figure class="bl-ah__img"><img src="${esc(p.cover.src)}"${coverAttrs(p)} alt="${esc(p.cover.alt || '')}" itemprop="image" decoding="async"></figure>` : ''}
 </header>
 <div class="bl-wrap bl-cols bl-cols--post">${tocItems ? `<aside class="bl-side">${tocItems}</aside>` : '<span></span>'}<div class="bl-md" itemprop="articleBody">${tocMobile}${r.html}
-<hr class="bl-end">${shareBlock(p, url)}
+<hr class="bl-end">${p.tags && p.tags.length ? `<div class="bl-tags bl-tags--end" aria-label="Topics">${tagChips(p.tags, '/blog')}</div>` : ''}${shareBlock(p, url)}
+<div class="bl-nl-end">${newsCard('post-end')}</div>
 ${authorBox(au)}
-</div><aside class="bl-rail">${shortEmbed}${shareBlock(p, url)}${newsCard('post-rail')}</aside></div>
+</div><aside class="bl-rail">${shortEmbed}${shareBlock(p, url)}</aside></div>
 ${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">Keep reading</h2><div class="bl-grid">${rel.map((x) => card(x)).join('')}</div></section>` : ''}
 </article>`;
   const x = p.extra || {}, news = x.kind === 'news' || x.kind === 'breaking';
-  const art = { '@type': news ? 'NewsArticle' : 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, articleSection: p.category || undefined, wordCount: p.words, inLanguage: 'en', isAccessibleForFree: true };
+  const art = { '@type': news ? 'NewsArticle' : 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, articleSection: p.category || undefined, wordCount: p.words, inLanguage: 'en', isAccessibleForFree: true, speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.bl-qa', 'h1'] } };
   // the sources a post cites and what it is about help search and answer engines trust and place it
   if (x.sources && x.sources.length) art.citation = x.sources.map((s) => ({ '@type': 'CreativeWork', url: s.url, name: s.title || undefined, publisher: s.outlet ? { '@type': 'Organization', name: s.outlet } : undefined }));
   if (x.about && x.about.length) art.about = x.about.map((n) => ({ '@type': 'Thing', name: n }));
@@ -224,7 +225,7 @@ ${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 i
   if (x.faq && x.faq.length) graph.push({ '@type': 'FAQPage', '@id': url + '#faq', mainEntity: x.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
   const ld = [{ '@context': 'https://schema.org', '@graph': graph }];
   const tt = seo.title || p.title;
-  return layout({ title: tt.length + 17 <= 66 ? tt + ' · Aashish Pandey' : tt, desc: seo.description || trunc(p.excerpt, 155), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
+  return layout({ title: tt.length + 17 <= 66 ? tt + ' · Aashish Pandey' : tt, desc: seo.description || trunc(p.excerpt, 155), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', imageAlt: p.cover && p.cover.alt, section_: p.category, articleTags: p.tags, published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
 }
 
 /* ---------- case studies ---------- */
