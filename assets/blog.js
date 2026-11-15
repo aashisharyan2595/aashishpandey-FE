@@ -20,6 +20,11 @@
     }, { rootMargin: '-90px 0px -65% 0px' });
     Object.keys(map).forEach(function (id) { var h = document.getElementById(id); if (h) io.observe(h); });
   }
+  // FAQ and Sources fold away; open the one a link, the contents list or a search lands in, and open all of them when printing
+  var openFor = function (el) { for (var n = el; n; n = n.parentNode) if (n.tagName === 'DETAILS') n.open = true; };
+  var hashOpen = function () { if (location.hash.length > 1) { var t = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (t) { openFor(t); t.scrollIntoView(); } } };
+  hashOpen(); addEventListener('hashchange', hashOpen);
+  addEventListener('beforeprint', function () { [].forEach.call(document.querySelectorAll('.bl-acc'), function (d) { d.open = true; }); });
   // count a view after the page has been open for a few seconds; the server ignores crawlers and repeat visits
   var art2 = document.querySelector('[data-pid]');
   if (art2 && navigator.sendBeacon) setTimeout(function () { try { navigator.sendBeacon('/api/config?a=site&p=hit&id=' + art2.getAttribute('data-pid')); } catch (e) { /* views are best effort */ } }, 4000);
