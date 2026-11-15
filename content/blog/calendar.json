@@ -35,8 +35,8 @@
         "https://www.androidheadlines.com/2026/11/google-gemini-4-hydrogen-replaces-flash.html"
       ],
       "score": 8,
-      "status": "planned",
-      "slug": "",
+      "status": "written",
+      "slug": "gemini-4-hydrogen-review-pros-cons",
       "locked": false
     },
     "2026-11-17": {
@@ -574,6 +574,7 @@
     "nvidia-huang-exit",
     "microsoft-365-outage-nov-2026",
     "anthropic-ipo",
-    "claude-meetings"
+    "claude-meetings",
+    "gemini-4-hydrogen"
   ]
 }
