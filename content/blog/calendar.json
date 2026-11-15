@@ -182,15 +182,17 @@
       "key": "dpdp-rules-small-business"
     },
     "2026-11-28": {
-      "title": "Perplexity review: pros and cons as a work search tool",
-      "kind": "review",
-      "angle": "Accuracy, citations, pricing, when Google is still better.",
-      "urls": [],
-      "score": 5,
+      "title": "Lovable-built apps exposed passport details and 200K private messages",
+      "kind": "news",
+      "angle": "Researcher report (single source so far); need Lovable's response and a second outlet. What vibe-coded apps get wrong and what a small business should check. Trade-only rule likely.",
+      "urls": [
+        "https://www.crissyfield.de/research/lovable-en/"
+      ],
+      "score": 7,
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "perplexity-review"
+      "key": "lovable-exposed-data"
     },
     "2026-11-29": {
       "title": "Cursor vs GitHub Copilot: which AI coding tool to pick",
@@ -535,6 +537,37 @@
       ],
       "angle": "Allegation only, attribute carefully; need a second outlet and Nvidia's response before writing. Fits the Nvidia coverage after Huang exit.",
       "added": "2026-11-14"
+    },
+    {
+      "key": "italy-meta-android-fine",
+      "title": "Italy fines Meta $887M over Android users' data access",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.reuters.com/world/italy-fines-meta-887-million-over-android-users-data-access-2026-11-14/"
+      ],
+      "angle": "What the regulator says, Meta's response, what it means for privacy rules",
+      "added": "2026-11-15"
+    },
+    {
+      "key": "spacex-starship-catch",
+      "title": "SpaceX catches Starship on Flight 15",
+      "kind": "news",
+      "score": 4,
+      "urls": [
+        "https://www.npr.org/2026/11/14/nx-s1-6041089/spacex-makes-history-with-starship-catch"
+      ],
+      "angle": "Off-topic for AI/tech-for-work audience; only if the desk runs thin",
+      "added": "2026-11-15"
+    },
+    {
+      "key": "perplexity-work-search",
+      "title": "Perplexity review: pros and cons as a work search tool",
+      "kind": "review",
+      "score": 5,
+      "urls": [],
+      "angle": "Accuracy, citations, pricing, when Google is still better.",
+      "added": "2026-11-15"
     }
   ],
   "covered": [
