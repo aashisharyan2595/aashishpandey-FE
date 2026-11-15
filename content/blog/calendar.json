@@ -390,20 +390,29 @@
       "status": "planned",
       "slug": "",
       "locked": false
-    }
-  },
-  "backlog": [
-    {
-      "key": "github-ceo-agent-forge",
+    },
+    "2026-12-14": {
       "title": "Former GitHub CEO launches a Git forge built for AI agents",
       "kind": "news",
-      "score": 6,
+      "angle": "What a forge for coding agents changes for dev teams",
       "urls": [
         "https://www.geekwire.com/2026/former-github-ceo-launches-rival-platform-built-for-ai-coding-agents/"
       ],
-      "angle": "What a forge for coding agents changes for dev teams",
-      "added": "2026-11-12"
+      "score": 6,
+      "status": "planned"
     },
+    "2026-12-15": {
+      "title": "Why you should pin your GitHub Actions",
+      "kind": "explainer",
+      "angle": "Supply-chain risk in plain English, how pinning works, simple steps for small dev teams.",
+      "urls": [
+        "https://hugovk.dev/blog/2026/lock-github-actions/"
+      ],
+      "score": 6,
+      "status": "planned"
+    }
+  },
+  "backlog": [
     {
       "key": "nvidia-chip-tracking",
       "title": "Nvidia could track its chips all along: what that means for export rules",
@@ -474,17 +483,6 @@
       "score": 5,
       "urls": [],
       "angle": "Features, pricing, pros and cons, who should skip it.",
-      "added": "2026-11-13"
-    },
-    {
-      "key": "github-actions-pinning",
-      "title": "Why you should pin your GitHub Actions",
-      "kind": "explainer",
-      "score": 6,
-      "urls": [
-        "https://hugovk.dev/blog/2026/lock-github-actions/"
-      ],
-      "angle": "Supply-chain risk in plain English, how pinning works, simple steps for small dev teams.",
       "added": "2026-11-13"
     },
     {

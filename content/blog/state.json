@@ -143,13 +143,16 @@
     "https://techcrunch.com/2026/11/14/the-ai-graveyard-a-running-list-of-projects-and-startups-that-didnt-make-it/": 1794707052045,
     "https://www.reuters.com/world/italy-fines-meta-887-million-over-android-users-data-access-2026-11-14/": 1794707052045,
     "https://tube.kockatoo.org/w/fFinNHfanLT7aBEb2B8y4c": 1794707052045,
-    "https://www.eff.org/deeplinks/2026/11/tech-companies-are-trying-shift-entire-concept-privacy-again": 1794707052045
+    "https://www.eff.org/deeplinks/2026/11/tech-companies-are-trying-shift-entire-concept-privacy-again": 1794707052045,
+    "https://www.techspot.com/news/114558-nvidia-deliberately-kept-gpu-prices-high-through-circular.html": 1794721430891,
+    "https://zwischenzugs.com/2026/11/03/a-family-tree-of-software-job-titles/": 1794721430891
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
     "jensen-huang-resigns-nvidia-ceo",
     "microsoft-365-outage-outlook-teams",
     "apache-http-server-http2-flaw-patch",
-    "anthropic-ipo-claude-users-pricing"
+    "anthropic-ipo-claude-users-pricing",
+    "claude-meetings-review-pros-cons"
   ]
 }
