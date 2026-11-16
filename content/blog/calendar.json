@@ -589,6 +589,39 @@
       ],
       "angle": "What AI-assisted proofs mean for science, and what is still unverified",
       "added": "2026-11-16"
+    },
+    {
+      "key": "qwen4-max",
+      "title": "Alibaba Qwen4-Max review: what's new and pros and cons",
+      "kind": "review",
+      "score": 7,
+      "urls": [
+        "https://qwen.ai/blog?id=qwen4-max"
+      ],
+      "angle": "New Alibaba flagship model; 483 HN points. Needs independent outlets and tests before writing.",
+      "added": "2026-11-16"
+    },
+    {
+      "key": "ubo-element-picker-xss",
+      "title": "uBlock Origin universal XSS in the element picker: what to do",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://iter.ca/post/ubo-uxss/"
+      ],
+      "angle": "Security write-up; check vendor fix and trade coverage (use --trade).",
+      "added": "2026-11-16"
+    },
+    {
+      "key": "bitly-old-links-hijack",
+      "title": "Old Bitly links are being hijacked: what small businesses should check",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://ransomnews.com/burger-king-tweet-bitly-link-hijack-2026/"
+      ],
+      "angle": "Expired short-link takeover tied to a Burger King tweet; verify with outlets.",
+      "added": "2026-11-16"
     }
   ],
   "covered": [

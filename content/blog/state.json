@@ -159,7 +159,14 @@
     "https://techcrunch.com/2026/11/15/snl-gathers-all-the-tech-tycoons-for-a-lesson-in-dating-and-spycraft/": 1794797007164,
     "https://www1.wdr.de/nrw/rheinland/rhein-erft-kreis/technischer-defekt-chlor-phantasialand-100.html": 1794797007164,
     "https://www.foxnews.com/tech/ai-mosquito-trap-targets-deadly-dengue-outbreak": 1794797007164,
-    "https://macanorak.com/the-macbook-pros-oled-pwm-problem-when-a-better-display-becomes-worse-to-use/": 1794797007164
+    "https://macanorak.com/the-macbook-pros-oled-pwm-problem-when-a-better-display-becomes-worse-to-use/": 1794797007164,
+    "https://pub.cba.mit.edu/863.26/site/": 1794822269883,
+    "https://qwen.ai/blog?id=qwen4-max": 1794822269883,
+    "https://iter.ca/post/ubo-uxss/": 1794822269883,
+    "https://steveblank.com/2026/11/15/whats-next-for-nvidia/": 1794822269883,
+    "https://ransomnews.com/burger-king-tweet-bitly-link-hijack-2026/": 1794822269883,
+    "https://ductus.sorenblank.com/": 1794822269883,
+    "https://bruceroettgers.eu/blog/protomaps/": 1794822269883
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -167,6 +174,7 @@
     "microsoft-365-outage-outlook-teams",
     "apache-http-server-http2-flaw-patch",
     "anthropic-ipo-claude-users-pricing",
-    "claude-meetings-review-pros-cons"
+    "claude-meetings-review-pros-cons",
+    "gemini-4-hydrogen-review-pros-cons"
   ]
 }
