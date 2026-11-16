@@ -103,7 +103,23 @@ const ArtMeet: React.FC<P> = ({ f, t }) => {
     <g transform={`translate(880 1350) scale(${pop(f, 80)})`}><Icon k="chat" s={0.9} /></g>
   </>);
 };
-const ARTS: Record<string, React.FC<P>> = { 'server-door': ArtServerDoor, 'robot-sort': ArtRobotSort, 'ceo-exit': ArtCeoExit, 'cloud-down': ArtCloudDown, ipo: ArtIpo, meet: ArtMeet };
+const ArtSpeed: React.FC<P> = ({ f, t }) => {
+  const a = -95 + 190 * ease(f, 14, 70);
+  return (<>
+    <g transform={`translate(540 900) scale(${0.9 + 0.1 * pop(f, 0)})`}>
+      <rect x={-330} y={-330} width={660} height={640} rx={44} fill="rgba(29,35,64,.18)" transform="translate(0 14)" />
+      <rect x={-330} y={-330} width={660} height={640} rx={44} fill="#1d2340" />
+      <path d="M-230,120 A230,230 0 0 1 230,120" stroke="#2b3566" strokeWidth={46} fill="none" strokeLinecap="round" />
+      <path d="M-230,120 A230,230 0 0 1 230,120" stroke={C.green} strokeWidth={46} fill="none" strokeLinecap="round" strokeDasharray={725} strokeDashoffset={725 * (1 - ease(f, 14, 70))} />
+      <g transform={`translate(0 120) rotate(${a})`}><path d="M-14,0 L0,-210 L14,0 Z" fill="#fff" /><circle r={26} fill={C.yellow} stroke="#fff" strokeWidth={8} /></g>
+      <g transform={`translate(0 -150) scale(${pop(f, 40)})`}><T x={0} y={0} s={120} c={C.yellow}>2.5x</T></g>
+      <g transform={`translate(0 230) scale(${pop(f, 60)})`}><rect x={-250} y={-40} width={500} height={76} rx={38} fill="#fff" /><T x={0} y={14} s={36} c={C.ink}>Gemini 4 Hydrogen</T></g>
+    </g>
+    <g transform={`translate(880 1380) scale(${pop(f, 80)})`}><Icon k="spark" s={0.9} /></g>
+    <g transform="translate(240 1610) scale(0.95)"><Robot t={t} happy={1} arm={(Math.sin(t * 6) + 1) / 2} /></g>
+  </>);
+};
+const ARTS: Record<string, React.FC<P>> = { 'server-door': ArtServerDoor, 'robot-sort': ArtRobotSort, 'ceo-exit': ArtCeoExit, 'cloud-down': ArtCloudDown, ipo: ArtIpo, meet: ArtMeet, speed: ArtSpeed };
 export const Hook: React.FC<P> = (p) => { const A = ARTS[p.sc.art] || ArtServerDoor; return <><AbsoluteFill style={{ transform: `scale(${interpolate(p.f, [0, 140], [1, 1.08], { extrapolateRight: 'clamp' })})`, transformOrigin: '55% 62%' }}><Svg><BG k={p.sc.bg} t={p.t} /><A {...p} /></Svg></AbsoluteFill><BannerOf {...p} /></>; };
 
 // ---------- generic types
@@ -238,7 +254,7 @@ const MujaMoment: React.FC<P> = (p) => {
   }
   if (back && f >= back) { wave = f < back + 24 ? 1 : 0; const o = ease(f, back + 12, back + 40); x = x + (1300 - x) * o; walk = o > 0 && o < 1 ? t * 10 : walk; face = o > 0 ? 1 : face; }
   const card = fact ? pop(f, fact, 30, 12) : 0, rain = prop === 'umbrella';
-  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : prop === 'bell' ? 'bell' : prop === 'pot' ? 'pot' : '';
+  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : prop === 'bell' ? 'bell' : prop === 'pot' ? 'pot' : prop === 'balloon' ? 'balloon' : '';
   return (<>
     <BG k={sc.bg || (rain ? 'dusk' : 'mint')} t={t} />
     <Svg>
@@ -247,7 +263,7 @@ const MujaMoment: React.FC<P> = (p) => {
         {Array.from({ length: 26 }).map((_, i) => { const y = ((t * 900 + i * 137) % 900) + 560; return <path key={i} d={`M${200 + (i * 53) % 700},${y} l-10,34`} stroke="#9fb4ff" strokeWidth={5} strokeLinecap="round" opacity={0.8} />; })}</g>}
       <g transform={`translate(${x} 1600) scale(${1.45 * face} 1.45)`}><Muja t={t} walk={walk} wave={wave} hop={hop} happy={happy} look={look} wear={wear} hold={hold} signText={sc.sign || 'YES'} /></g>
       {prop === 'bell' && hello > 0 && f > hello && f < hello + 90 && <g transform={`translate(${x + 190 * face} 1090) scale(${pop(f, hello, 20, 10)})`}><T x={0} y={0} s={84} c={C.orange}>DING!</T><T x={0} y={90} s={84} c={C.orange}>DING!</T></g>}
-      {card > 0.01 && <g transform={`translate(540 ${rain ? 880 : 640}) scale(${card})`}>
+      {card > 0.01 && <g transform={`translate(540 ${rain ? 880 : prop === 'balloon' ? 995 : 640}) scale(${card})`}>
         <rect x={-450} y={-150} width={900} height={110 + lines.length * 70} rx={36} fill="rgba(29,35,64,.16)" transform="translate(0 10)" />
         <rect x={-450} y={-150} width={900} height={110 + lines.length * 70} rx={36} fill="#fff" />
         <rect x={-150} y={-188} width={300} height={76} rx={38} fill={C.yellow} /><T x={0} y={-136} s={38} c={C.ink}>FUN FACT</T>

@@ -1,0 +1,364 @@
+{
+ "slug": "gemini-4-hydrogen-review-pros-cons",
+ "title": "Gemini 4 Hydrogen review: pros, cons and who it's for",
+ "label": "AI review",
+ "topic": "tech",
+ "speed": 0.97,
+ "pronounce": {
+  "Muja": "Moo-jah",
+  "Gemini": "Jem-in-eye",
+  "Argon": "Are-gon",
+  "Sonnet": "Sonnet",
+  "API": "A P I",
+  "Hydrogen": "Hy-dro-jen"
+ },
+ "scenes": [
+  {
+   "type": "hook",
+   "art": "speed",
+   "say": "Google just launched a cheaper AI that edges out its own bigger model. It's called Gemini 4 Hydrogen.",
+   "banner": {
+    "text": "FASTER AND CHEAPER",
+    "color": "teal",
+    "sub": "Google's *Gemini 4 Hydrogen*"
+   }
+  },
+  {
+   "type": "chips",
+   "who": "priya",
+   "say": "Priya writes and searches all day. Google says Hydrogen runs two and a half times faster than its older Flash model. Free app users get it, and the API starts at a dollar fifty.",
+   "banner": {
+    "text": "WHAT YOU GET",
+    "color": "blue"
+   },
+   "items": [
+    {
+     "text": "2.5x faster, Google says",
+     "color": "teal",
+     "icon": "up",
+     "at": "faster"
+    },
+    {
+     "text": "Free app users too",
+     "color": "green",
+     "icon": "check",
+     "at": "Free"
+    },
+    {
+     "text": "$1.50 per million in",
+     "color": "yellow",
+     "icon": "tag",
+     "at": "dollar"
+    }
+   ],
+   "muja": {
+    "react": "wow",
+    "at": "faster",
+    "bubble": "Zoom!"
+   }
+  },
+  {
+   "type": "bars",
+   "title": "AI INTELLIGENCE INDEX",
+   "say": "On one independent index, Hydrogen scores fifty-one. Its bigger sibling, Argon, scores fifty. That's close to a tie. Best model ever, Muja? Not quite.",
+   "banner": {
+    "text": "51 VS 50",
+    "color": "purple",
+    "sub": "a lead, or *a tie*?"
+   },
+   "rows": [
+    {
+     "label": "Argon",
+     "value": 50,
+     "max": 60,
+     "text": "50",
+     "color": "blue",
+     "at": "Argon"
+    },
+    {
+     "label": "Hydrogen",
+     "value": 51,
+     "max": 60,
+     "text": "51",
+     "color": "teal",
+     "at": "Hydrogen"
+    }
+   ],
+   "note": "Artificial Analysis, default setting",
+   "muja": {
+    "react": "interrupt",
+    "at": "point",
+    "bubble": "Best ever?"
+   }
+  },
+  {
+   "type": "muja",
+   "prop": "balloon",
+   "banner": {
+    "text": "BALLOON BREAK",
+    "color": "orange"
+   },
+   "helloAt": "Muja",
+   "factAt": "Fun",
+   "backAt": "back",
+   "say": "[chuckle] A hydrogen balloon, Muja? Fun fact: hydrogen is the lightest element, and about three quarters of all normal matter. Okay... back to our story.",
+   "fact": [
+    "Hydrogen is the lightest element,",
+    "about 75% of normal matter",
+    "in the whole universe"
+   ]
+  },
+  {
+   "type": "compare",
+   "say": "Now the catch. On terminal work, Claude Sonnet five point five beats it. The weights are closed, and most big scores are Google's own.",
+   "banner": {
+    "text": "THE CATCH",
+    "color": "red",
+    "sub": "mostly *Google's own* scores"
+   },
+   "left": {
+    "title": "STRONG AT",
+    "color": "green",
+    "items": [
+     {
+      "text": "Everyday|work",
+      "at": "terminal"
+     },
+     {
+      "text": "Speed and|price",
+      "at": "terminal"
+     }
+    ]
+   },
+   "right": {
+    "title": "WEAKER AT",
+    "color": "red",
+    "icon": "x",
+    "at": "Sonnet",
+    "items": [
+     {
+      "text": "Long terminal|jobs",
+      "at": "Sonnet"
+     },
+     {
+      "text": "Open|weights",
+      "at": "closed"
+     }
+    ]
+   },
+   "muja": {
+    "react": "worried",
+    "at": "closed",
+    "bubble": "Uh-oh"
+   }
+  },
+  {
+   "type": "steps",
+   "who": "priya",
+   "title": "WHAT TO DO",
+   "say": "So what should you do? For everyday work and Search, just use it. Developers, try it first, and move up when it gets stuck. My take: a strong default, not the new best.",
+   "banner": {
+    "text": "WHAT TO DO",
+    "color": "green"
+   },
+   "items": [
+    {
+     "text": "Everyday work: use it",
+     "at": "everyday"
+    },
+    {
+     "text": "Developers: try it first",
+     "at": "Developers"
+    },
+    {
+     "text": "Stuck? Move up a model",
+     "at": "stuck"
+    }
+   ],
+   "muja": {
+    "react": "think",
+    "at": "best",
+    "bubble": "Hmm?"
+   }
+  },
+  {
+   "type": "outro",
+   "say": "Before you build anything big on it, wait for independent tests. The full review is on my blog.",
+   "banner": {
+    "text": "STRONG DEFAULT",
+    "color": "teal"
+   },
+   "chips": [
+    {
+     "text": "Wait for tests",
+     "color": "teal",
+     "at": "independent"
+    }
+   ],
+   "endAt": 1,
+   "endTitle": "FULL REVIEW ON MY BLOG"
+  }
+ ],
+ "thumbs": [
+  {
+   "text": [
+    "2.5X FASTER",
+    "THAN FLASH"
+   ],
+   "color": "teal",
+   "scene": 0,
+   "f": 110
+  },
+  {
+   "text": [
+    "51 VS 50",
+    "A TIE?"
+   ],
+   "color": "purple",
+   "scene": 2,
+   "f": 150,
+   "wy": 620
+  },
+  {
+   "text": [
+    "THE CATCH",
+    "TERMINAL WORK"
+   ],
+   "color": "red",
+   "scene": 4,
+   "f": 150,
+   "wy": 620
+  }
+ ],
+ "narrator": {
+  "engine": "turbo",
+  "base": "A"
+ },
+ "posters": [
+  {
+   "bg": "teal",
+   "side": "right",
+   "text": [
+    "2.5X",
+    "FASTER"
+   ],
+   "hi": 0,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "icon",
+     "k": "up",
+     "x": 320,
+     "y": 210,
+     "s": 1.5
+    },
+    {
+     "c": "muja",
+     "x": 330,
+     "y": 690,
+     "s": 1.35,
+     "hold": "balloon",
+     "happy": 1
+    }
+   ]
+  },
+  {
+   "bg": "navy",
+   "side": "left",
+   "text": [
+    "BEATS",
+    "ARGON?"
+   ],
+   "hi": 1,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 400
+    },
+    {
+     "c": "icon",
+     "k": "spark",
+     "x": 330,
+     "y": 210,
+     "s": 1.4
+    },
+    {
+     "c": "muja",
+     "x": 320,
+     "y": 700,
+     "s": 1.3,
+     "wear": "jacket shades",
+     "happy": 1
+    }
+   ]
+  },
+  {
+   "bg": "purple",
+   "side": "right",
+   "text": [
+    "51 VS 50",
+    "A TIE?"
+   ],
+   "hi": 1,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 420
+    },
+    {
+     "c": "bubble",
+     "text": "1 POINT",
+     "x": 330,
+     "y": 200,
+     "fs": 80,
+     "color": "#ffc83d"
+    },
+    {
+     "c": "muja",
+     "x": 320,
+     "y": 700,
+     "s": 1.3,
+     "happy": 0.3,
+     "look": -0.6
+    }
+   ]
+  },
+  {
+   "bg": "yellow",
+   "side": "left",
+   "text": [
+    "FREE",
+    "IN SEARCH"
+   ],
+   "hi": 0,
+   "art": [
+    {
+     "c": "glow",
+     "x": 320,
+     "y": 400
+    },
+    {
+     "c": "icon",
+     "k": "globe",
+     "x": 330,
+     "y": 220,
+     "s": 1.4
+    },
+    {
+     "c": "muja",
+     "x": 320,
+     "y": 700,
+     "s": 1.3,
+     "hold": "balloon",
+     "happy": 1
+    }
+   ]
+  }
+ ]
+}
