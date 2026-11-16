@@ -126,7 +126,7 @@ async function rebanner(slug) {
   for (const sl of slugs) {
     const p = readJ(path.join(CONTENT, sl + '.json'), null); if (!p || !p.title) continue;
     const x = p.extra || {}, th = x.thumb || {}, ph = x.photo && x.photo.src ? { file: x.photo.src.slice(1), credit: x.photo.credit } : undefined;
-    const seo = p.seo || {}, hook = String(th.text || '').replace(/\|/g, ' '), alt = `${seo.title || p.title}: ${hook}. ${th.sub || ''}`.replace(/\s+/g, ' ').trim().slice(0, 125), meta = { title: seo.title || p.title, alt, description: seo.description || p.excerpt, keywords: [...(p.tags || []), ...(x.about || [])], url: SITE + '/blog/' + sl };
+    const seo = p.seo || {}, hook = String(th.text || '').replace(/\|/g, ' '), alt = (p.cover && p.cover.alt) || `${seo.title || p.title}: ${hook}. ${th.sub || ''}`.replace(/\s+/g, ' ').trim().slice(0, 125), meta = { title: seo.title || p.title, alt, description: seo.description || p.excerpt, keywords: [...(p.tags || []), ...(x.about || [])], url: SITE + '/blog/' + sl };
     const imgs = await graphics.makeImages({ slug: sl, title: p.title, category: p.category, tags: p.tags, kind: x.kind || 'news', thumb_text: th.text, image_headline: th.headline, banner_tag: th.tag, banner_sub: th.sub, photo: ph, meta });
     for (const im of imgs) if (im.role === 'cover' || im.role === 'thumb') fs.writeFileSync(path.join(ROOT, 'assets', 'blog', `${sl}-${im.role}.jpg`), im.buf);
     p.cover = { ...(p.cover || {}), src: `/assets/blog/${sl}-cover.jpg`, alt: meta.alt }; writeJ(path.join(CONTENT, sl + '.json'), p);

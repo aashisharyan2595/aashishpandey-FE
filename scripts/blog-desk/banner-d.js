@@ -7,6 +7,12 @@ const star = (x, y, r, c = CREAM) => `<path transform="translate(${x},${y})" d="
 const pill = (x, y, w, h, fill, txt, fs) => `<g transform="translate(${x},${y})"><rect x="7" y="7" width="${w}" height="${h}" rx="${h / 2}" fill="${PAPER}"/><rect width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/><text x="${w / 2}" y="${h / 2 + fs * 0.35}" text-anchor="middle" font-family="Geist" font-weight="900" font-size="${fs}" fill="${NAVY}" letter-spacing="1">${txt}</text></g>`;
 const badge = (x, y, r, inner) => `<g transform="translate(${x},${y})"><circle cx="7" cy="7" r="${r}" fill="${PAPER}"/><circle r="${r}" fill="${CREAM}"/>${inner}</g>`;
 const ICON = {
+  mic: `<rect x="-14" y="-32" width="28" height="46" rx="14" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><path d="M-26 -2 a26 26 0 0 0 52 0 M0 24 V36 M-12 36 H12" fill="none" stroke="${NAVY}" stroke-width="6" stroke-linecap="round"/>`,
+  video: `<rect x="-34" y="-20" width="44" height="40" rx="9" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><path d="M16 -6 L36 -18 V18 L16 6Z" fill="${NAVY}" stroke="${NAVY}" stroke-width="4" stroke-linejoin="round"/>`,
+  doc: `<path d="M-22 -32 H8 L24 -16 V32 H-22Z" fill="${TEAL}" stroke="${NAVY}" stroke-width="5" stroke-linejoin="round"/><path d="M-12 -4 H14 M-12 8 H14 M-12 20 H4" stroke="${NAVY}" stroke-width="5" stroke-linecap="round"/>`,
+  tag: `<path d="M-28 -6 L-6 -28 H26 V4 L4 28 Z" fill="${TEAL}" stroke="${NAVY}" stroke-width="5" stroke-linejoin="round"/><circle cx="12" cy="-12" r="5" fill="${NAVY}"/>`,
+  scale: `<path d="M0 -32 V30 M-18 32 H18 M-30 -16 H30" stroke="${NAVY}" stroke-width="6" stroke-linecap="round"/><path d="M-30 -16 L-42 10 H-18Z M30 -16 L18 10 H42Z" fill="${TEAL}" stroke="${NAVY}" stroke-width="4" stroke-linejoin="round"/>`,
+  phone: `<rect x="-17" y="-32" width="34" height="64" rx="9" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><circle cy="22" r="3.5" fill="${NAVY}"/>`,
   lock: `<rect x="-24" y="-6" width="48" height="38" rx="9" fill="${TEAL}"/><path d="M-14 -6 V-18 a14 14 0 0 1 28 0 V-6" fill="none" stroke="${NAVY}" stroke-width="8" stroke-linecap="round"/><circle cy="12" r="5" fill="${NAVY}"/>`,
   bug: `<ellipse cy="6" rx="20" ry="26" fill="${TEAL}"/><circle cy="-24" r="12" fill="${TEAL}"/><g stroke="${NAVY}" stroke-width="5" stroke-linecap="round"><path d="M-20 -4 L-38 -12 M-20 10 L-40 14 M20 -4 L38 -12 M20 10 L40 14 M-8 -34 L-16 -48 M8 -34 L16 -48"/></g><circle cx="-7" cy="2" r="4" fill="${NAVY}"/><circle cx="8" cy="12" r="4" fill="${NAVY}"/>`,
   bell: `<path d="M0 -30 C-20 -30 -24 -10 -24 4 L-30 20 H30 L24 4 C24 -10 20 -30 0 -30Z" fill="${NAVY}"/><circle cy="30" r="7" fill="${NAVY}"/><circle cy="-34" r="5" fill="${NAVY}"/>`,
@@ -18,6 +24,10 @@ const ICON = {
   chip: `<rect x="-22" y="-22" width="44" height="44" rx="8" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><rect x="-10" y="-10" width="20" height="20" rx="3" fill="${NAVY}"/><g stroke="${NAVY}" stroke-width="5" stroke-linecap="round"><path d="M-12 -30 V-22 M0 -30 V-22 M12 -30 V-22 M-12 22 V30 M0 22 V30 M12 22 V30 M-30 -12 H-22 M-30 0 H-22 M-30 12 H-22 M22 -12 H30 M22 0 H30 M22 12 H30"/></g>`,
 };
 function pickIcons(t) {
+  if (/voice clon|deepfake|cloned voice/.test(t)) return ['phone', 'mic', 'lock'];
+  if (/meeting|google meet|zoom|video call/.test(t)) return ['video', 'doc', 'chat'];
+  if (/decisions api|decision api/.test(t)) return ['scale', 'tag', 'check'];
+  if (/hydrogen|argon/.test(t)) return ['bolt', 'tag', 'chip'];
   if (/secur|vulnerab|cve|patch|breach|flaw|exploit|privacy|scam/.test(t)) return ['lock', 'bug', 'bolt'];
   if (/outage|incident|down|latency|uptime/.test(t)) return ['clock', 'bolt', 'chat'];
   if (/gemini|gpt|openai|claude|model|llm|chatbot|agent|\bai\b/.test(t)) return ['chat', 'chip', 'check'];
@@ -41,6 +51,35 @@ function flatBars() {
   g += `<g transform="translate(380,330)"><circle r="78" fill="${PAPER}" cx="12" cy="12"/><circle r="78" fill="${CREAM}" stroke="${CREAM}" stroke-width="9"/><circle r="56" fill="none" stroke="${NAVY}" stroke-width="5" stroke-dasharray="4 9"/><text y="26" text-anchor="middle" font-family="Geist" font-weight="900" font-size="80" fill="${NAVY}">$</text></g>`;
   return g;
 }
+
+// topic illustrations added 2026-11-16 so posts on different subjects no longer share the same picture
+const T = (x, y, a, fs, fill, t, w = 900) => `<text x="${x}" y="${y}" text-anchor="${a}" font-family="Geist" font-weight="${w}" font-size="${fs}" fill="${fill}">${t}</text>`;
+function flatVoice() {
+  const bars = [30, 70, 110, 60, 150, 90, 40, 120, 70, 30], hs = bars.map((h, i) => `<rect x="${40 + i * 52}" y="${470 - h / 2 - 20}" width="30" height="${h}" rx="15" fill="${i % 3 === 1 ? TEAL : CREAM}" stroke="${NAVY}" stroke-width="3"/>`).join('');
+  return `<g stroke="${CREAM}" stroke-width="9" stroke-linejoin="round"><rect x="30" y="30" width="190" height="330" rx="38" fill="${PAPER}" transform="translate(14,14)"/><rect x="30" y="30" width="190" height="330" rx="38" fill="${CREAM}"/></g>
+<rect x="52" y="76" width="146" height="236" rx="20" fill="${NAVY}"/><circle cx="125" cy="148" r="34" fill="${TEAL}"/><path d="M70 262 C74 200 176 200 180 262Z" fill="${TEAL}"/><rect x="95" y="46" width="60" height="9" rx="4" fill="${NAVY}"/><circle cx="125" cy="336" r="9" fill="${NAVY}"/>
+<g fill="none" stroke="${CREAM}" stroke-width="12" stroke-linecap="round"><path d="M285 150 a60 60 0 0 1 0 90"/><path d="M335 112 a115 115 0 0 1 0 166"/><path d="M385 76 a170 170 0 0 1 0 240"/></g>
+<g transform="translate(470,60)"><circle r="46" fill="${PAPER}" cx="9" cy="9"/><circle r="46" fill="#e5383b" stroke="${CREAM}" stroke-width="8"/>${T(0, 20, 'middle', 58, CREAM, '!')}</g>
+<rect x="20" y="395" width="540" height="130" rx="26" fill="${NAVY}" stroke="${CREAM}" stroke-width="7" stroke-dasharray="3 14" stroke-linecap="round"/>${hs}`;
+}
+function flatMeeting() {
+  const tile2 = (x, y, c, face) => `<rect x="${x + 12}" y="${y + 12}" width="230" height="170" rx="22" fill="${PAPER}"/><rect x="${x}" y="${y}" width="230" height="170" rx="22" fill="${c}" stroke="${CREAM}" stroke-width="8"/>` + face;
+  const person = (x, y) => `<circle cx="${x + 115}" cy="${y + 66}" r="28" fill="${NAVY}"/><path d="M${x + 55} ${y + 160} C${x + 60} ${y + 104} ${x + 170} ${y + 104} ${x + 175} ${y + 160}Z" fill="${NAVY}"/>`;
+  return tile2(20, 30, CREAM, person(20, 30)) + tile2(300, 30, CREAM, person(300, 30)) + tile2(20, 240, CREAM, person(20, 240))
+    + tile2(300, 240, TEAL, `<g transform="translate(415,325)">${star(0, 0, 46, NAVY)}${star(40, -38, 18, CREAM)}${star(-44, 34, 14, CREAM)}</g>`)
+    + `<g transform="translate(20,455)"><rect x="12" y="12" width="520" height="86" rx="22" fill="${PAPER}"/><rect width="520" height="86" rx="22" fill="${NAVY}" stroke="${CREAM}" stroke-width="8"/><circle cx="42" cy="43" r="12" fill="#e5383b"/><g fill="${CREAM}"><rect x="76" y="26" width="300" height="12" rx="6"/><rect x="76" y="50" width="220" height="12" rx="6"/></g><rect x="396" y="24" width="100" height="40" rx="20" fill="${TEAL}"/>${T(446, 53, 'middle', 22, NAVY, 'NOTES')}</g>`;
+}
+function flatGauge() {
+  return `<path d="M60 380 A240 240 0 0 1 540 380" fill="none" stroke="${PAPER}" stroke-width="64" stroke-linecap="round" transform="translate(12,12)"/><path d="M60 380 A240 240 0 0 1 540 380" fill="none" stroke="${CREAM}" stroke-width="64" stroke-linecap="round"/><path d="M60 380 A240 240 0 0 1 400 160" fill="none" stroke="${TEAL}" stroke-width="64" stroke-linecap="round"/>
+<g stroke="${NAVY}" stroke-width="6" stroke-linecap="round"><path d="M150 214 L168 232 M300 112 V138 M450 214 L432 232"/></g>
+<path d="M300 380 L420 220" stroke="${CREAM}" stroke-width="22" stroke-linecap="round"/><circle cx="300" cy="380" r="36" fill="${CREAM}"/><circle cx="300" cy="380" r="14" fill="${NAVY}"/>
+<g transform="translate(90,430)"><rect x="10" y="10" width="420" height="96" rx="26" fill="${PAPER}"/><rect width="420" height="96" rx="26" fill="${CREAM}" stroke="${CREAM}" stroke-width="6"/>${T(34, 66, 'start', 52, NAVY, '$1.50')}<rect x="236" y="22" width="2" height="52" fill="${NAVY}" opacity=".3"/>${T(262, 66, 'start', 40, TEALD, '/ 1M')}</g>`;
+}
+function flatDecide() {
+  const row = (y, w, ok) => `<rect x="${32}" y="${y + 12}" width="470" height="92" rx="22" fill="${PAPER}"/><rect x="20" y="${y}" width="470" height="92" rx="22" fill="${CREAM}" stroke="${CREAM}" stroke-width="6"/><g fill="${NAVY}"><rect x="46" y="${y + 20}" width="${150 + (w % 3) * 40}" height="12" rx="6"/></g><rect x="46" y="${y + 50}" width="300" height="22" rx="11" fill="${NAVY}" opacity=".15"/><rect x="46" y="${y + 50}" width="${w}" height="22" rx="11" fill="${ok ? TEAL : NAVY}"/><circle cx="430" cy="${y + 46}" r="28" fill="${ok ? TEAL : '#e5383b'}"/><path d="${ok ? `M416 ${y + 46} l10 11 l20 -22` : `M418 ${y + 34} l24 24 M442 ${y + 34} l-24 24`}" fill="none" stroke="${ok ? NAVY : CREAM}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return row(20, 270, true) + row(140, 120, false) + row(260, 230, true) + row(380, 180, true)
+    + `<g transform="translate(430,426)"><circle r="44" cx="8" cy="8" fill="${PAPER}"/><circle r="44" fill="${TEAL}" stroke="${CREAM}" stroke-width="7"/>${T(0, 6, 'middle', 26, NAVY, '1,000')}${T(0, 26, 'middle', 12, NAVY, 'PER CALL', 800)}</g>`;
+}
 function hookLines(text) {
   if (text.includes('|')) return text.split('|').map((x) => x.trim()).filter(Boolean).slice(0, 3);
   const sent = text.split(/(?<=[.!?])\s+/).filter(Boolean); if (sent.length >= 2 && sent.length <= 3) return sent;
@@ -50,6 +89,10 @@ function hookLines(text) {
 }
 function pickMain(post) {
   const t = [post.slug, post.category, (post.tags || []).join(' '), post.title].join(' ').toLowerCase();
+  if (/voice clon|deepfake|cloned voice/.test(t)) return 'voice';
+  if (/meeting|google meet|zoom|video call/.test(t)) return 'meeting';
+  if (/decisions api|decision api/.test(t)) return 'decide';
+  if (/hydrogen|argon|flash model|fast.*cheap/.test(t)) return 'gauge';
   if (/secur|vulnerab|cve|patch|breach|privacy|dpdp|gdpr|scam|fraud|flaw|exploit/.test(t)) return 'server';
   if (/\bipo\b|stock|share price|earnings|revenue|funding|valuation|pricing|market|layoff|nasdaq/.test(t)) return 'bars';
   return null;
@@ -66,6 +109,10 @@ function coverHtmlD(post, W, H, G) {
   const mt = Math.round((SH - 504) / 2);
   if (ph) main = `<div class="ph"><img src="${b64(ph, 'image/jpeg')}" alt=""></div>`;
   else if (kind === 'server') main = `<svg class="art" viewBox="0 0 600 560">${flatServer()}</svg>`;
+  else if (kind === 'voice') main = `<svg class="art" viewBox="0 0 600 560">${flatVoice()}</svg>`;
+  else if (kind === 'meeting') main = `<svg class="art" viewBox="0 0 600 560">${flatMeeting()}</svg>`;
+  else if (kind === 'gauge') main = `<svg class="art" viewBox="0 0 600 560">${flatGauge()}</svg>`;
+  else if (kind === 'decide') main = `<svg class="art" viewBox="0 0 600 560">${flatDecide()}</svg>`;
   else if (kind === 'bars') main = `<svg class="art" viewBox="0 0 600 560">${flatBars()}</svg>`;
   else main = `<svg class="art2" viewBox="0 0 400 300" fill="none">${DEFS(ACC.teal[0])}${STAGE(ACC.teal[0])}${ART[pickArt(post)](ACC.teal[0])}</svg>`;
   const kk = (KIND[post.kind] || 'Blog').toUpperCase();
@@ -73,7 +120,7 @@ function coverHtmlD(post, W, H, G) {
   sat = ''; // top row: a tag pill and an icon badge
   sat += pill(1040, 104, Math.max(150, 30 + (tag || kk).length * 22), 58, TEAL, esc(tag || kk), 28);
   sat += badge(1480, 130, 56, ICON[icons[0]]);
-  sat += `<g transform="translate(0,${dy})">${badge(1075, 790, 56, ICON[icons[1]])}${badge(1470, 790, 56, ICON[icons[2]])}${bot ? pill(1180, 764, Math.max(150, 40 + bot.length * 17), 56, CREAM, esc(bot), 24) : ''}</g>`;
+  sat += `<g transform="translate(0,${dy})">${badge(1075, 790, 56, ICON[icons[1]])}${badge(1470, 790, 56, ICON[icons[2]])}${bot ? pill(1150, 764, Math.min(250, Math.max(130, 34 + bot.length * 15)), 56, CREAM, esc(bot), 22) : ''}</g>`;
   [[1300, 70, 16, CREAM], [1545, 270, 12, TEAL], [990, 430, 12, TEAL], [1560, 660 + dy, 14, CREAM], [1260, 330, 8, CREAM]].forEach(([x, y, r, c]) => { sat += star(x, y, r, c); });
   sat += `<g fill="${CREAM}" opacity=".7"><circle cx="1010" cy="${650 + dy}" r="6"/><circle cx="1545" cy="190" r="6"/><circle cx="1345" cy="${745 + dy}" r="5"/></g>`;
   const css = `*{margin:0;box-sizing:border-box}html,body{width:${W}px;height:${H}px;overflow:hidden;background:${PAPER}}
