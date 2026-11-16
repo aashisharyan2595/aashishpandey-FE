@@ -1,0 +1,91 @@
+1
+00:00:00,000 --> 00:00:03,824
+Google just launched a cheaper AI that edges out its own bigger model.
+
+2
+00:00:03,874 --> 00:00:07,117
+It's called Gemini 4 Hydrogen.
+
+3
+00:00:07,167 --> 00:00:09,502
+Priya writes and searches all day.
+
+4
+00:00:09,552 --> 00:00:14,746
+Google says Hydrogen runs two and a half times faster than its older Flash model.
+
+5
+00:00:14,796 --> 00:00:19,219
+Free app users get it, and the API starts at a dollar fifty.
+
+6
+00:00:19,269 --> 00:00:23,703
+On one independent index, Hydrogen scores fifty-one.
+
+7
+00:00:23,753 --> 00:00:26,454
+Its bigger sibling, Argon, scores fifty.
+
+8
+00:00:26,504 --> 00:00:27,983
+That's close to a tie.
+
+9
+00:00:28,033 --> 00:00:29,758
+Best model ever, Muja?
+
+10
+00:00:29,808 --> 00:00:30,932
+Not quite.
+
+11
+00:00:30,982 --> 00:00:33,892
+A hydrogen balloon, Muja?
+
+12
+00:00:33,942 --> 00:00:40,016
+Fun fact: hydrogen is the lightest element, and about three quarters of all normal matter.
+
+13
+00:00:40,066 --> 00:00:40,992
+Okay...
+
+14
+00:00:41,042 --> 00:00:42,460
+back to our story.
+
+15
+00:00:42,510 --> 00:00:43,595
+Now the catch.
+
+16
+00:00:43,645 --> 00:00:47,423
+On terminal work, Claude Sonnet five point five beats it.
+
+17
+00:00:47,473 --> 00:00:51,151
+The weights are closed, and most big scores are Google's own.
+
+18
+00:00:51,201 --> 00:00:52,479
+So what should you do?
+
+19
+00:00:52,529 --> 00:00:55,236
+For everyday work and Search, just use it.
+
+20
+00:00:55,286 --> 00:00:58,783
+Developers, try it first, and move up when it gets stuck.
+
+21
+00:00:58,833 --> 00:01:02,178
+My take: a strong default, not the new best.
+
+22
+00:01:02,228 --> 00:01:06,079
+Before you build anything big on it, wait for independent tests.
+
+23
+00:01:06,129 --> 00:01:08,520
+The full review is on my blog.
