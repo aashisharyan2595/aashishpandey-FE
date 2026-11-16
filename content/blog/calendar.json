@@ -47,8 +47,8 @@
         "https://www.npr.org/2026/11/11/nx-s1-6034449/ai-911-calls-swatting"
       ],
       "score": 6,
-      "status": "planned",
-      "slug": "",
+      "status": "written",
+      "slug": "ai-voice-cloning-scams-how-to-stay-safe",
       "locked": false,
       "key": "ai-voice-scams"
     },
@@ -631,6 +631,7 @@
     "microsoft-365-outage-nov-2026",
     "anthropic-ipo",
     "claude-meetings",
-    "gemini-4-hydrogen"
+    "gemini-4-hydrogen",
+    "ai-voice-scams"
   ]
 }
