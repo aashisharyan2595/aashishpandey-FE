@@ -577,6 +577,18 @@
       ],
       "angle": "Fake OpenAI event pages promise free ChatGPT Pro, then harvest Microsoft/Google credentials; what to check before you click",
       "added": "2026-11-15"
+    },
+    {
+      "key": "openai-gpt6-astra-science",
+      "title": "OpenAI says GPT-6 Astra helped prove a physics result",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://openai.com/index/step-toward-defining-the-standard-model",
+        "https://openai.com/index/our-new-blog-for-science"
+      ],
+      "angle": "What AI-assisted proofs mean for science, and what is still unverified",
+      "added": "2026-11-16"
     }
   ],
   "covered": [
