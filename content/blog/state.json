@@ -209,7 +209,9 @@
     "https://masnick.com/posts/the-secret-thinkpad-powerbutton-code-to-bring-dead-laptops-back-to-life/": 1794879884778,
     "https://openai.com/index/our-first-phase-of-embedded-assessments": 1794879884778,
     "https://huggingface.co/blog/openrouter": 1794879884778,
-    "https://openai.com/business/customer-stories/holiday-extras-dots": 1794879884778
+    "https://openai.com/business/customer-stories/holiday-extras-dots": 1794879884778,
+    "https://xusheng.dev/posts/windows-coding-agent-telemetry/": 1794894255728,
+    "https://www.theregister.com/saas/2026/11/16/microsoft-blames-monster-email-outage-on-software-defect-introduced-in-july-fix/5310026": 1794894255728
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -218,6 +220,7 @@
     "apache-http-server-http2-flaw-patch",
     "anthropic-ipo-claude-users-pricing",
     "claude-meetings-review-pros-cons",
-    "gemini-4-hydrogen-review-pros-cons"
+    "gemini-4-hydrogen-review-pros-cons",
+    "ai-voice-cloning-scams-how-to-stay-safe"
   ]
 }
