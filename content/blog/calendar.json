@@ -688,9 +688,21 @@
         "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
         "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidias-ceo-resigns-after-alleged-spy-scandal-whats-next-for-the-company",
         "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/",
-        "https://techcrunch.com/2026/11/14/asian-governments-react-to-nvidia-ceo-jensen-huangs-exit/"
+        "https://techcrunch.com/2026/11/14/asian-governments-react-to-nvidia-ceo-jensen-huangs-exit/",
+        "https://techcrunch.com/2026/11/17/nvidias-first-big-move-after-jensen-huangs-exit-targets-national-security/"
       ],
       "angle": "Follow-up after the 17 Nov earnings call: guidance, CEO search, China export stance (earnings were due after the US close on 17 Nov, so results did not exist when the 18 Nov post was written; write once results are out)",
+      "added": "2026-11-17"
+    },
+    {
+      "key": "isomorphic-labs-5b",
+      "title": "Isomorphic Labs raises $5B: what AI drug discovery means beyond the hype",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/17/isomorphic-labs-raises-5b-as-it-looks-to-take-drug-candidates-to-clinical-trials/"
+      ],
+      "angle": "Single outlet so far; needs a second source and company statement.",
       "added": "2026-11-17"
     }
   ],
