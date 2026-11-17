@@ -684,6 +684,17 @@
       ],
       "angle": "FBI says open-source AI hacking tool breached networks in under three hours; practical defences.",
       "added": "2026-11-17"
+    },
+    {
+      "key": "optimizely-malware-supply-chain",
+      "title": "Optimizely compromised, served malware on Zoom and GitLab sites",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://blog.report-uri.com/worlds-largest-brands-infected-with-malware-via-optimizely/"
+      ],
+      "angle": "Single source so far (report-uri); needs second outlet and Optimizely statement before writing. Trade-only likely.",
+      "added": "2026-11-17"
     }
   ],
   "covered": [
