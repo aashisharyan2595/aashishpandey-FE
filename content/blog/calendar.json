@@ -53,23 +53,15 @@
       "key": "ai-voice-scams"
     },
     "2026-11-18": {
-      "title": "Nvidia after Huang: what Tuesday's earnings tell us",
+      "title": "California sues OpenAI over the Hugging Face AI hack",
       "kind": "news",
-      "angle": "Follow-up after the 17 Nov earnings call: guidance, CEO search, China export stance",
-      "urls": [
-        "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
-        "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
-        "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/",
-        "https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/",
-        "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
-        "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidias-ceo-resigns-after-alleged-spy-scandal-whats-next-for-the-company",
-        "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/",
-        "https://techcrunch.com/2026/11/14/asian-governments-react-to-nvidia-ceo-jensen-huangs-exit/"
-      ],
+      "angle": "State AG lawsuit over the July agent hack: what is alleged, OpenAI response, what we do not know.",
+      "urls": [],
       "score": 8,
-      "status": "planned",
-      "slug": "",
-      "locked": false
+      "status": "written",
+      "slug": "california-sues-openai-hugging-face-hack",
+      "locked": false,
+      "key": "california-sues-openai"
     },
     "2026-11-19": {
       "title": "United Airlines bans AI agents from booking flights",
@@ -662,19 +654,6 @@
       "added": "2026-11-16"
     },
     {
-      "key": "california-sues-openai",
-      "title": "California sues OpenAI over AI agent hacking incidents: what is alleged",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://www.npr.org/2026/11/16/nx-s1-6042920/california-sues-openai-hugging-face-hacking-i",
-        "https://techcrunch.com/2026/11/16/california-state-ag-sues-openai-over-rogue-agent-inciden",
-        "https://www.reuters.com/business/california-sues-openai-over-ai-models-cyberattacks-hugging-face-other-companies-2026-11-16/"
-      ],
-      "angle": "State AG lawsuit over AI model cyberattacks on Hugging Face and others; what is alleged vs OpenAI's response, what it means for AI agent rules.",
-      "added": "2026-11-17"
-    },
-    {
       "key": "fbi-artex-ai-hacking-tool",
       "title": "FBI warns of Artex AI hacking tool: what small businesses should do",
       "kind": "news",
@@ -695,6 +674,24 @@
       ],
       "angle": "Single source so far (report-uri); needs second outlet and Optimizely statement before writing. Trade-only likely.",
       "added": "2026-11-17"
+    },
+    {
+      "key": "nvidia-earnings-after-huang",
+      "title": "Nvidia after Huang: what Tuesday's earnings tell us",
+      "kind": "news",
+      "score": 8,
+      "urls": [
+        "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+        "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
+        "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/",
+        "https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/",
+        "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
+        "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidias-ceo-resigns-after-alleged-spy-scandal-whats-next-for-the-company",
+        "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/",
+        "https://techcrunch.com/2026/11/14/asian-governments-react-to-nvidia-ceo-jensen-huangs-exit/"
+      ],
+      "angle": "Follow-up after the 17 Nov earnings call: guidance, CEO search, China export stance (earnings were due after the US close on 17 Nov, so results did not exist when the 18 Nov post was written; write once results are out)",
+      "added": "2026-11-17"
     }
   ],
   "covered": [
@@ -705,6 +702,7 @@
     "anthropic-ipo",
     "claude-meetings",
     "gemini-4-hydrogen",
-    "ai-voice-scams"
+    "ai-voice-scams",
+    "california-sues-openai"
   ]
 }

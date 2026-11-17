@@ -24,6 +24,7 @@ const ICON = {
   chip: `<rect x="-22" y="-22" width="44" height="44" rx="8" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><rect x="-10" y="-10" width="20" height="20" rx="3" fill="${NAVY}"/><g stroke="${NAVY}" stroke-width="5" stroke-linecap="round"><path d="M-12 -30 V-22 M0 -30 V-22 M12 -30 V-22 M-12 22 V30 M0 22 V30 M12 22 V30 M-30 -12 H-22 M-30 0 H-22 M-30 12 H-22 M22 -12 H30 M22 0 H30 M22 12 H30"/></g>`,
 };
 function pickIcons(t) {
+  if (/lawsuit|sues |sued|attorney general|court/.test(t)) return ['scale', 'bug', 'lock'];
   if (/voice clon|deepfake|cloned voice/.test(t)) return ['phone', 'mic', 'lock'];
   if (/meeting|google meet|zoom|video call/.test(t)) return ['video', 'doc', 'chat'];
   if (/decisions api|decision api/.test(t)) return ['scale', 'tag', 'check'];
@@ -80,6 +81,19 @@ function flatDecide() {
   return row(20, 270, true) + row(140, 120, false) + row(260, 230, true) + row(380, 180, true)
     + `<g transform="translate(430,426)"><circle r="44" cx="8" cy="8" fill="${PAPER}"/><circle r="44" fill="${TEAL}" stroke="${CREAM}" stroke-width="7"/>${T(0, 6, 'middle', 26, NAVY, '1,000')}${T(0, 26, 'middle', 12, NAVY, 'PER CALL', 800)}</g>`;
 }
+
+// lawsuit / AI agent escape illustration added 2026-11-17 (California v. OpenAI post): gavel, dashed sandbox, a small robot walking out
+function flatCourt() {
+  const bot = (x, y, sc, c) => `<g transform="translate(${x},${y}) scale(${sc})"><path d="M0 -62 V-44" stroke="${NAVY}" stroke-width="7" stroke-linecap="round"/><circle cy="-66" r="8" fill="#e5383b" stroke="${NAVY}" stroke-width="4"/><rect x="-46" y="-46" width="92" height="70" rx="20" fill="${c}" stroke="${NAVY}" stroke-width="8"/><circle cx="-16" cy="-12" r="9" fill="${NAVY}"/><circle cx="16" cy="-12" r="9" fill="${NAVY}"/><rect x="-36" y="30" width="72" height="54" rx="14" fill="${c}" stroke="${NAVY}" stroke-width="8"/><path d="M-18 84 V104 M18 84 V104" stroke="${NAVY}" stroke-width="9" stroke-linecap="round"/></g>`;
+  return `<rect x="26" y="268" width="290" height="250" rx="34" fill="${NAVY}" stroke="${CREAM}" stroke-width="9" stroke-dasharray="30 20" stroke-linecap="round"/>
+<path d="M300 380 H330" stroke="${NAVY}" stroke-width="16"/>
+${bot(130, 380, 0.95, CREAM)}
+<path d="M330 420 C370 420 390 440 420 440" fill="none" stroke="${CREAM}" stroke-width="9" stroke-dasharray="3 18" stroke-linecap="round"/>
+${bot(470, 380, 1.15, TEAL)}
+<g transform="translate(540,300)"><circle r="40" cx="8" cy="8" fill="${PAPER}"/><circle r="40" fill="#e5383b" stroke="${CREAM}" stroke-width="7"/>${T(0, 18, 'middle', 50, CREAM, '!')}</g>
+<g transform="translate(250,120) rotate(-28)"><rect x="-96" y="-44" width="192" height="88" rx="20" fill="${PAPER}" transform="translate(12,12)"/><rect x="-96" y="-44" width="192" height="88" rx="20" fill="${CREAM}" stroke="${CREAM}" stroke-width="8"/><rect x="-60" y="-44" width="22" height="88" fill="${TEAL}"/><rect x="38" y="-44" width="22" height="88" fill="${TEAL}"/><rect x="-14" y="44" width="28" height="170" rx="14" fill="${CREAM}"/></g>
+<g transform="translate(70,150)"><rect x="8" y="8" width="170" height="34" rx="12" fill="${PAPER}"/><rect width="170" height="34" rx="12" fill="${TEAL}" stroke="${CREAM}" stroke-width="6"/></g>`;
+}
 function hookLines(text) {
   if (text.includes('|')) return text.split('|').map((x) => x.trim()).filter(Boolean).slice(0, 3);
   const sent = text.split(/(?<=[.!?])\s+/).filter(Boolean); if (sent.length >= 2 && sent.length <= 3) return sent;
@@ -89,6 +103,7 @@ function hookLines(text) {
 }
 function pickMain(post) {
   const t = [post.slug, post.category, (post.tags || []).join(' '), post.title].join(' ').toLowerCase();
+  if (/lawsuit|sues |sued|attorney general|court/.test(t)) return 'court';
   if (/voice clon|deepfake|cloned voice/.test(t)) return 'voice';
   if (/meeting|google meet|zoom|video call/.test(t)) return 'meeting';
   if (/decisions api|decision api/.test(t)) return 'decide';
@@ -113,6 +128,7 @@ function coverHtmlD(post, W, H, G) {
   else if (kind === 'meeting') main = `<svg class="art" viewBox="0 0 600 560">${flatMeeting()}</svg>`;
   else if (kind === 'gauge') main = `<svg class="art" viewBox="0 0 600 560">${flatGauge()}</svg>`;
   else if (kind === 'decide') main = `<svg class="art" viewBox="0 0 600 560">${flatDecide()}</svg>`;
+  else if (kind === 'court') main = `<svg class="art" viewBox="0 0 600 560">${flatCourt()}</svg>`;
   else if (kind === 'bars') main = `<svg class="art" viewBox="0 0 600 560">${flatBars()}</svg>`;
   else main = `<svg class="art2" viewBox="0 0 400 300" fill="none">${DEFS(ACC.teal[0])}${STAGE(ACC.teal[0])}${ART[pickArt(post)](ACC.teal[0])}</svg>`;
   const kk = (KIND[post.kind] || 'Blog').toUpperCase();
