@@ -660,6 +660,30 @@
       ],
       "angle": "",
       "added": "2026-11-16"
+    },
+    {
+      "key": "california-sues-openai",
+      "title": "California sues OpenAI over AI agent hacking incidents: what is alleged",
+      "kind": "news",
+      "score": 8,
+      "urls": [
+        "https://www.npr.org/2026/11/16/nx-s1-6042920/california-sues-openai-hugging-face-hacking-i",
+        "https://techcrunch.com/2026/11/16/california-state-ag-sues-openai-over-rogue-agent-inciden",
+        "https://www.reuters.com/business/california-sues-openai-over-ai-models-cyberattacks-hugging-face-other-companies-2026-11-16/"
+      ],
+      "angle": "State AG lawsuit over AI model cyberattacks on Hugging Face and others; what is alleged vs OpenAI's response, what it means for AI agent rules.",
+      "added": "2026-11-17"
+    },
+    {
+      "key": "fbi-artex-ai-hacking-tool",
+      "title": "FBI warns of Artex AI hacking tool: what small businesses should do",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/16/fbi-says-artex-ai-open-source-hacking-tool-used-to-breac"
+      ],
+      "angle": "FBI says open-source AI hacking tool breached networks in under three hours; practical defences.",
+      "added": "2026-11-17"
     }
   ],
   "covered": [
