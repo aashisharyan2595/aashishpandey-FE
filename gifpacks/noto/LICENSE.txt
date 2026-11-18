@@ -1,0 +1,8 @@
+Animated emoji in this chat
+===========================
+Source: "Noto Emoji Animation" by Google (https://googlefonts.github.io/noto-emoji-animation/)
+Licence: Creative Commons Attribution 4.0 International (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/
+Changes: each animation was downloaded once, resized to 96 x 96 pixels, reduced in frame rate and re-encoded as animated WebP so the page stays fast.
+The files are served from this site. Nothing is loaded from Google or any other outside host while the chat runs.
+
+Built-in animated stickers (the bouncing and shaking emoji in the Stickers tab) use the standard emoji of your own device and CSS animation written for this site.

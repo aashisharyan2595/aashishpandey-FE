@@ -116,6 +116,7 @@ audio{height:36px;width:240px;display:block}
 @keyframes a-pop{0%{transform:scale(.2);opacity:0}60%{transform:scale(1.25);opacity:1}100%{transform:scale(1)}}
 .a-bounce{animation:a-bounce 1.1s ease infinite}.a-shake{animation:a-shake .9s ease infinite}.a-spin{animation:a-spin 1.6s linear infinite}.a-pulse{animation:a-pulse 1s ease-in-out infinite}.a-wiggle{animation:a-wiggle .8s ease-in-out infinite}.a-float{animation:a-float 2s ease-in-out infinite}.a-pop{animation:a-pop .7s ease-out 1}
 @media (prefers-reduced-motion:reduce){.stk{animation:none!important}}
+.gifs select{width:100%;margin-top:6px;padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
 .gtabs{display:flex;gap:6px;margin-bottom:8px}.gtabs button{padding:4px 10px;border-radius:14px;border:1px solid var(--line);background:none;color:var(--ink);font:inherit;cursor:pointer}.gtabs button.on{background:var(--hover);font-weight:600}
 .stg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px;max-height:240px;overflow:auto}.stg button{font-size:34px;background:none;border:0;border-radius:6px;padding:4px;cursor:pointer;position:relative}.stg button:hover{background:var(--hover)}.stg button span.x{position:absolute;top:0;right:2px;font-size:13px;color:var(--sub)}.stg img{width:100%;height:64px;object-fit:cover;border-radius:4px;display:block}
 /* Workplace look: purple top bar, section headings, colleague chats */
@@ -257,6 +258,13 @@ body.blur .scroll{filter:blur(14px)}
   <div class="dlg">
     <h2 id="gTitle">Private room</h2>
     <p id="gText">Messages go straight from one browser to another, encrypted, and are saved only on your own device. Pick a name the other person will see.</p>
+    <div id="lock" hidden>
+      <label for="gCode">Access code</label>
+      <input type="password" id="gCode" autocomplete="off" placeholder="Enter your access code" aria-label="Access code">
+      <label class="sw" style="font-weight:400"><input type="checkbox" id="gStay"><span>Keep this device unlocked for 8 hours</span></label>
+      <p class="note" id="gLockN" style="margin:6px 0 0"></p>
+      <div class="acts"><button class="btn" id="gUnlock">Unlock</button></div>
+    </div>
     <div id="lobby" hidden>
       <div id="gRooms"></div>
       <label for="gLabel">New link, who is it for?</label>
@@ -321,6 +329,14 @@ const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
   const saveRooms=()=>{try{localStorage.setItem('room.rooms',JSON.stringify(rooms))}catch(e){}};
   const linkOf=sec=>location.origin+location.pathname+'#'+sec;
   try{$('gName').value=sessionStorage.getItem('room.name')||$('gName').value||''}catch(e){}
+  /* Access code for the base page: only a salted PBKDF2 hash is stored here, never the code. Friends with a room link skip this. */
+  const LOCK={"salt": "70ee49b1b24c93b5ad5f18aa24121865", "hash": "d0365755115ab4fc909869f174105a4aaaafbe01103d6d3a461ba6656121db45", "it": 1000000};
+  const unlockedNow=()=>{try{if(sessionStorage.getItem('room.ok')==='1')return true;const t=+localStorage.getItem('room.okUntil')||0;return t>Date.now()}catch(e){return false}};
+  async function checkCode(code){
+    const k=await cr.importKey('raw',enc.encode(code.normalize('NFKC').trim().toLowerCase().replace(/\s+/g,'-')),'PBKDF2',false,['deriveBits']);
+    const bits=new Uint8Array(await cr.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:Uint8Array.from(LOCK.salt.match(/../g).map(x=>parseInt(x,16))),iterations:LOCK.it},k,256));
+    return hex(bits)===LOCK.hash;
+  }
   const known=joining?rooms.find(r=>r.secret===frag):null;
   const go=(secret,role)=>{
     const n=$('gName').value.trim();if(!n){$('gName').focus();toast('Enter your name first.');return}
@@ -337,9 +353,23 @@ const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
     $('gTitle').textContent=known?'Open room: '+known.label:'Join private room';$('gGo').textContent=known?'Open room':'Join room';
     $('gGo').onclick=()=>go(frag,known?known.role:'joiner');
   }else{
-    $('gTitle').textContent='Your rooms';
-    $('gText').textContent='Make a separate link for each person. Messages go straight between browsers, encrypted, and are saved only on your own device.';
-    $('lobby').hidden=false;$('gGo').hidden=true;$('gKeepL').hidden=true;
+    $('gGo').hidden=true;$('gKeepL').hidden=true;
+    const lobbyEls=['lobby'];const nameBlock=[...document.querySelectorAll('#gate .dlg > label, #gate .dlg > input, #gate .dlg > .note, #gate .dlg > .acts')].filter(e=>e.closest('#lock')===null);
+    const showLobby=()=>{$('lock').hidden=true;$('lobby').hidden=false;nameBlock.forEach(e=>e.style.display='');$('gTitle').textContent='Your rooms';$('gText').textContent='Make a separate link for each person. Messages go straight between browsers, encrypted, and are saved only on your own device.';$('gLabel').focus()};
+    if(unlockedNow())showLobby();
+    else{
+      $('gTitle').textContent='Locked';$('gText').textContent='Enter your access code to continue.';$('lock').hidden=false;$('lobby').hidden=true;nameBlock.forEach(e=>e.style.display='none');$('gCode').focus();
+      let fails=0,until=0;
+      const tryUnlock=async()=>{
+        if(Date.now()<until){$('gLockN').textContent='Too many tries. Wait a moment.';return}
+        const v=$('gCode').value;if(!v.trim())return;$('gUnlock').disabled=true;$('gLockN').textContent='Checking…';
+        let ok=false;try{ok=await checkCode(v)}catch(e){}
+        $('gUnlock').disabled=false;
+        if(ok){try{if($('gStay').checked)localStorage.setItem('room.okUntil',String(Date.now()+8*3600*1000));else sessionStorage.setItem('room.ok','1')}catch(e){}$('gCode').value='';showLobby()}
+        else{fails++;$('gLockN').textContent='That code is not right.';$('gCode').select();if(fails>=5){until=Date.now()+60000;fails=0}}
+      };
+      $('gUnlock').onclick=tryUnlock;$('gCode').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
+    }
     const list=$('gRooms');
     const draw=()=>{
       list.innerHTML='';
@@ -362,7 +392,7 @@ const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
     $('gLabel').addEventListener('keydown',e=>{if(e.key==='Enter')$('gNew').click()});
   }
   $('gName').addEventListener('keydown',e=>{if(e.key==='Enter'&&joining)$('gGo').click()});
-  (joining?$('gName'):$('gLabel')).focus();
+  if(joining)$('gName').focus();
 })();
 
 
@@ -885,16 +915,33 @@ async function gifSave(f){
   const sb=await sealLocal(k,new Uint8Array(await f.arrayBuffer()));await idbReq(st('meta','readwrite').put(sb,k));
 }
 async function gifDel(k){if(!db){S.gifMem=S.gifMem.filter(x=>x.k!==k);return}try{await idbReq(st('meta','readwrite').delete(k))}catch(e){}}
+let ANI=null;
+async function aniMeta(){if(ANI)return ANI;try{const r=await fetch('/gifpacks/noto/index.json');if(r.ok)ANI=await r.json()}catch(e){}return ANI}
+async function aniDraw(g,q,cat){
+  const m=await aniMeta();g.innerHTML='';
+  if(!m){g.textContent='Animated emoji are not available right now.';return}
+  const hit=m.items.filter(it=>(!cat||String(it[2])===cat)&&(!q||it[1].includes(q)));
+  if(!hit.length){g.textContent='Nothing matches.';return}
+  let shown=0;const more=document.createElement('button');more.textContent='More…';more.style.cssText='grid-column:1/-1;font-size:13px';
+  const add=()=>{hit.slice(shown,shown+60).forEach(it=>{const b=document.createElement('button');const im=document.createElement('img');im.loading='lazy';im.decoding='async';im.width=64;im.height=64;im.alt=it[1].split(' ')[0];im.src='/gifpacks/noto/'+it[0]+'.webp';b.appendChild(im);b.title=it[1].split(' ').slice(0,3).join(' ');b.setAttribute('aria-label',it[1].split(' ')[0]);
+      b.onclick=async()=>{if(S.state!=='ready')return toast('Animated emoji send once you are connected.');try{const r=await fetch(im.src);const bl=await r.blob();closePop();await sendFile(new File([bl],'animated.webp',{type:'image/webp'}),{kind:'gif'})}catch(e){toast('Could not load that one.')}};g.insertBefore(b,more)});
+    shown+=60;more.hidden=shown>=hit.length};
+  more.onclick=add;g.appendChild(more);add();
+}
 function gifPop(tabName){
   const p=pop('gifs');p.classList.add('gifs');
   const tabs=document.createElement('div');tabs.className='gtabs';
   const inp=document.createElement('input');inp.placeholder='Search stickers (try: lol, love, boss, coffee)';inp.setAttribute('aria-label','Search stickers');
   const g=document.createElement('div');g.className='stg';
+  const cats=document.createElement('select');cats.setAttribute('aria-label','Category');cats.style.display='none';cats.onchange=()=>draw();
   let tab=tabName||'stk';
   const mk=(id,l)=>{const b=document.createElement('button');b.textContent=l;b.dataset.t=id;b.onclick=()=>{tab=id;draw()};tabs.appendChild(b)};
-  mk('stk','Stickers');mk('mine','My GIFs');
+  mk('stk','Stickers');mk('ani','Animated');mk('mine','My GIFs');
   const draw=async()=>{
     [...tabs.children].forEach(b=>b.classList.toggle('on',b.dataset.t===tab));g.innerHTML='';
+    cats.style.display=tab==='ani'?'':'none';
+    if(tab==='ani'){inp.style.display='';inp.placeholder='Search animated emoji (try: party, cat, fire)';await aniDraw(g,inp.value.trim().toLowerCase(),cats.value);return}
+    inp.placeholder='Search stickers (try: lol, love, boss, coffee)';
     if(tab==='stk'){inp.style.display='';const q=inp.value.trim().toLowerCase();
       STK.forEach((k,i)=>{if(q&&!k[1].includes(q))return;const b=document.createElement('button');b.textContent=k[0];b.title=k[1].split(' ')[0];b.setAttribute('aria-label',k[1]);b.onclick=()=>sendSticker(i);g.appendChild(b)});
       if(!g.children.length)g.textContent='No stickers match.';}
@@ -907,7 +954,9 @@ function gifPop(tabName){
   };
   inp.oninput=draw;
   const n=document.createElement('div');n.className='note';n.textContent='Everything here stays on your own site and device. Add GIFs you like to My GIFs and send them any time.';
-  p.append(tabs,inp,g,n);draw();inp.focus();
+  n.innerHTML='';n.append('Animated emoji: Noto Emoji Animation by Google, CC BY 4.0, hosted on this site. ');{const a=document.createElement('a');a.href='/gifpacks/CREDITS.txt';a.target='_blank';a.rel='noopener noreferrer';a.textContent='Credits';n.appendChild(a)}
+  aniMeta().then(m=>{if(!m)return;cats.innerHTML='';const all=document.createElement('option');all.value='';all.textContent='All categories';cats.appendChild(all);m.cats.forEach((c,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=c;cats.appendChild(o)})});
+  p.append(tabs,inp,cats,g,n);draw();inp.focus();
   p._redraw=()=>{tab='mine';draw()};
 }
 $('bGif').onclick=()=>popEl?closePop():gifPop();

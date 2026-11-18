@@ -9,7 +9,7 @@
   "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "35 15 * * *" }, { "path": "/api/kd2ozfuew9n4uaciyl1j?a=digest", "schedule": "0 3 * * *" } ],
   "redirects": [
     { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0", "destination": "/flint-cosmos-bridge-fern", "permanent": false },
-    { "source": "/:p((?!flint-cosmos-bridge-fern|api/config|api/p2p-ice|private/|robots).*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "https://aashishpandey.com/", "permanent": false },
+    { "source": "/:p((?!flint-cosmos-bridge-fern|api/config|api/p2p-ice|private/|gifpacks/|robots).*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "https://aashishpandey.com/", "permanent": false },
     { "source": "/api/:file((?:.*)\\.(?:js|cjs|mjs|json|ts|md))", "destination": "/", "permanent": false },
     { "source": "/:file(vercel\\.json|package\\.json|README\\.md|\\.editorconfig|\\.gitattributes|\\.gitignore|\\.vercelignore)", "destination": "/", "permanent": false },
     { "source": "/.github/:path*", "destination": "/", "permanent": false },
@@ -607,6 +607,7 @@
     }
   ],
   "headers": [
+    { "source": "/gifpacks/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }, { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
     { "source": "/(.*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" } ] },
     { "source": "/flint-cosmos-bridge-fern(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
     { "source": "/private/(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
