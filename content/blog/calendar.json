@@ -400,6 +400,41 @@
       ],
       "score": 6,
       "status": "planned"
+    },
+    "2026-12-16": {
+      "title": "Microsoft 365 Copilot review: is it worth it for small teams?",
+      "kind": "review",
+      "angle": "Features, pricing, pros and cons, who should skip it.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "microsoft-365-copilot"
+    },
+    "2026-12-17": {
+      "title": "Java4Shell: RCE flaw in OpenJDK Base64 handling",
+      "kind": "news",
+      "angle": "What the flaw is, who is affected, patch status; trade-only sourcing",
+      "urls": [
+        "https://calif.io/java4shell/"
+      ],
+      "score": 7,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "java4shell-openjdk-rce"
+    },
+    "2026-12-18": {
+      "title": "What is an AI agent, really?",
+      "kind": "explainer",
+      "angle": "Plain-English explainer: agents vs chatbots, where they fail, how to try one safely.",
+      "urls": [],
+      "score": 5,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "what-is-an-ai-agent"
     }
   },
   "backlog": [
@@ -465,24 +500,6 @@
       "urls": [],
       "angle": "Evergreen comparison",
       "added": "2026-11-12"
-    },
-    {
-      "key": "microsoft-365-copilot",
-      "title": "Microsoft 365 Copilot review: is it worth it for small teams?",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Features, pricing, pros and cons, who should skip it.",
-      "added": "2026-11-13"
-    },
-    {
-      "key": "what-is-an-ai-agent",
-      "title": "What is an AI agent, really?",
-      "kind": "explainer",
-      "score": 5,
-      "urls": [],
-      "angle": "Plain-English explainer: agents vs chatbots, where they fail, how to try one safely.",
-      "added": "2026-11-13"
     },
     {
       "key": "notebooklm-review",
@@ -719,17 +736,6 @@
       "added": "2026-11-18"
     },
     {
-      "key": "java4shell-openjdk-rce",
-      "title": "Java4Shell: RCE flaw in OpenJDK Base64 handling",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://calif.io/java4shell/"
-      ],
-      "angle": "What the flaw is, who is affected, patch status; trade-only sourcing",
-      "added": "2026-11-18"
-    },
-    {
       "key": "nvidia-sec-probe",
       "title": "SEC reportedly investigating Nvidia after Huang exit",
       "kind": "news",
@@ -795,6 +801,15 @@
         "https://www.faa.gov/newsroom/nationwide-ground-stop-questions-and-answers"
       ],
       "angle": "13-14 Nov FAA nationwide ground stop: what failed, what is confirmed, what travellers can do.",
+      "added": "2026-11-18"
+    },
+    {
+      "key": "meta-project-gryffindor",
+      "title": "Meta's Project Gryffindor: getting more school kids on Instagram",
+      "kind": "news",
+      "score": 6,
+      "urls": [],
+      "angle": "What reporting says, Meta response, what parents should know; confirm with real outlets first.",
       "added": "2026-11-18"
     }
   ],
