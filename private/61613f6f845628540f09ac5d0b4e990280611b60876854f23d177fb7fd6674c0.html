@@ -10,7 +10,9 @@
 <link rel="icon" href="data:,">
 <style>
 :root{--bg:#f5f5f5;--rail:#ebebeb;--panel:#fff;--pane:#f5f5f5;--line:#e0e0e0;--ink:#242424;--sub:#616161;--acc:#5b5fc7;--acc-ink:#fff;--acc-soft:#e8ebfa;--bub-me:#e8ebfa;--bub-you:#fff;--ok:#237b4b;--warn:#c4314b;--hover:#f0f0f0;--shadow:0 2px 8px rgba(0,0,0,.14);--bar:#fff}
-@media (prefers-color-scheme:dark){:root{--bg:#1f1f1f;--rail:#141414;--panel:#292929;--pane:#1f1f1f;--line:#3d3d3d;--ink:#f5f5f5;--sub:#adadad;--acc:#7f85f5;--acc-ink:#101028;--acc-soft:#2f3263;--bub-me:#3a3d7a;--bub-you:#333;--ok:#6bcf9a;--warn:#ff8a9c;--hover:#383838;--shadow:0 2px 12px rgba(0,0,0,.5);--bar:#292929}}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1f1f1f;--rail:#141414;--panel:#292929;--pane:#1f1f1f;--line:#3d3d3d;--ink:#f5f5f5;--sub:#adadad;--acc:#7f85f5;--acc-ink:#101028;--acc-soft:#2f3263;--bub-me:#3a3d7a;--bub-you:#333;--ok:#6bcf9a;--warn:#ff8a9c;--hover:#383838;--shadow:0 2px 12px rgba(0,0,0,.5);--bar:#292929}}
+:root[data-theme=dark]{--bg:#1f1f1f;--rail:#141414;--panel:#292929;--pane:#1f1f1f;--line:#3d3d3d;--ink:#f5f5f5;--sub:#adadad;--acc:#7f85f5;--acc-ink:#101028;--acc-soft:#2f3263;--bub-me:#3a3d7a;--bub-you:#333;--ok:#6bcf9a;--warn:#ff8a9c;--hover:#383838;--shadow:0 2px 12px rgba(0,0,0,.5);--bar:#292929}
+:root[data-theme=dark]{color-scheme:dark}:root[data-theme=light]{color-scheme:light}
 *{box-sizing:border-box}[hidden]{display:none!important}
 html,body{height:100%;margin:0}
 body{font:14px/1.45 "Segoe UI","Segoe UI Variable",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
@@ -138,14 +140,26 @@ body.blur .scroll{filter:blur(14px)}
  .msg{max-width:92%}.scroll{padding:12px}.comp{margin:0 8px 8px}.reply{margin:0 8px}
 }
 @media(prefers-reduced-motion:reduce){.gone{animation:none;display:none}.rec i{animation:none}}
+
+.brand{color:inherit;text-decoration:none}.brand:hover span{text-decoration:underline}
+.out{color:var(--sub);text-decoration:none;font-size:12px;display:inline-flex;gap:4px;align-items:center}.out:hover{color:var(--acc);text-decoration:underline}
+.listfoot{flex-direction:column}.listfoot .r{display:flex;gap:8px}
+.pop-in{animation:pin .22s ease-out}@keyframes pin{from{opacity:0;transform:translateY(6px)}}
+.dot.wait{animation:pulse 1.4s infinite}
+.chipsrow{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:14px}.chipsrow span{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:2px 10px;font-size:12px}
+.msg .bub{transition:box-shadow .15s}.msg:hover .bub{box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.top .ic{width:32px;height:32px}
+.row:focus-visible,.rail button:focus-visible,.tabs button:focus-visible{outline-offset:-2px}
+.jump{position:absolute;right:20px;bottom:150px;background:var(--acc);color:var(--acc-ink);border-radius:16px;padding:4px 12px;box-shadow:var(--shadow);z-index:5;font-weight:600}
+@media(prefers-reduced-motion:reduce){.pop-in,.dot.wait{animation:none}}
 </style>
 </head>
 <body>
 <div class="app" id="app">
   <header class="top">
-    <div class="brand"><i></i><span>Room</span></div>
+    <a class="brand" href="https://aashishpandey.com/" rel="noopener noreferrer" title="Back to aashishpandey.com"><i></i><span>Room</span></a>
     <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="find" placeholder="Search this conversation" autocomplete="off" aria-label="Search this conversation"></label>
-    <div class="me"><span id="meName" style="color:var(--sub);font-size:12px"></span><div class="av" id="meAv">?</div></div>
+    <div class="me"><button class="ic" id="bTheme" title="Switch theme" aria-label="Switch theme"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M2 12h2M20 12h2M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg></button><span id="meName" style="color:var(--sub);font-size:12px"></span><div class="av" id="meAv">?</div></div>
   </header>
   <nav class="rail" aria-label="Apps">
     <button disabled title="Not available"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Activity</button>
@@ -163,7 +177,7 @@ body.blur .scroll{filter:blur(14px)}
       <div class="t"><b id="rowName">Waiting for someone…</b><small id="rowPrev">Nothing sent yet</small></div>
       <div class="meta"><span id="rowTime"></span><span class="badge" id="rowBadge" hidden>0</span></div>
     </button>
-    <div class="listfoot"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Nothing is saved. Closing this tab erases the conversation and its keys.</span></div>
+    <div class="listfoot"><div class="r"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Nothing is saved. Closing this tab erases the conversation and its keys.</span></div><a class="out" href="https://aashishpandey.com/" rel="noopener noreferrer">← aashishpandey.com</a></div>
   </aside>
   <main class="pane" id="pane">
     <div class="head">
@@ -289,7 +303,8 @@ function renderEmpty(){
   inv.append(inp,cp);
   const m=document.createElement('button');m.className='btn ghost';m.textContent='Pair manually (no relay)';m.onclick=()=>manualDialog();m.style.marginTop='10px';
   const n=document.createElement('div');n.className='note';n.textContent='Keep this tab open until they join. Anyone with the full link can enter, so do not post it anywhere public.';
-  e.append(h,t,p,inv,n,m);
+  const ch=document.createElement('div');ch.className='chipsrow';for(const x of['End-to-end encrypted','Nothing stored','Disappearing messages','View-once photos'])ch.appendChild(Object.assign(document.createElement('span'),{textContent:x}));
+  e.append(h,t,p,inv,n,m,ch);
 }
 function setStatus(kind,text){
   $('hdSub').textContent=text;
@@ -530,13 +545,28 @@ async function finishIncoming(inc){
 }
 function progress(id,p){const m=findMsg(id);if(!m||!m.file)return;m.file.prog=p;const e=document.querySelector(`[data-id="${id}"] .prog i`);if(e)e.style.width=(p*100).toFixed(0)+'%'}
 
+
+/* ---------- theme ---------- */
+(function(){
+  const root=document.documentElement;let t='';
+  try{t=localStorage.getItem('room.theme')||''}catch(e){}
+  if(t==='light'||t==='dark')root.dataset.theme=t;
+  $('bTheme').onclick=()=>{
+    const cur=root.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    const n=cur==='dark'?'light':'dark';root.dataset.theme=n;try{localStorage.setItem('room.theme',n)}catch(e){}
+  };
+})();
+const dayKey=(t)=>new Date(t).toDateString();
+const dayLabel=(t)=>{const d=new Date(t),n=new Date(),y=new Date(Date.now()-864e5);return d.toDateString()===n.toDateString()?'Today':d.toDateString()===y.toDateString()?'Yesterday':d.toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'})};
+function dayEl(t){const d=document.createElement('div');d.className='day';d.textContent=dayLabel(t);return d}
 /* ---------- rendering ---------- */
 let lastDay='';
 function renderAll(newest){
   const sc=$('scroll');const e=$('empty');if(e&&(S.msgs.length)){e.remove()}
   const stick=sc.scrollHeight-sc.scrollTop-sc.clientHeight<80;
-  if(newest){sc.appendChild(build(newest));fixCont()}
-  else{sc.innerHTML='';lastDay='';for(const m of S.msgs)sc.appendChild(build(m));fixCont()}
+  const add=(m,fresh)=>{if(!m.sys&&dayKey(m.ts)!==lastDay){lastDay=dayKey(m.ts);sc.appendChild(dayEl(m.ts))}const el=build(m);if(fresh)el.classList.add('pop-in');sc.appendChild(el)};
+  if(newest){add(newest,true);fixCont()}
+  else{sc.innerHTML='';lastDay='';for(const m of S.msgs)add(m,false);fixCont()}
   if(stick||(newest&&newest.from==='me'))sc.scrollTop=sc.scrollHeight;
   updRow();
 }
