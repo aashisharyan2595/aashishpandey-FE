@@ -8,7 +8,8 @@
   "trailingSlash": false,
   "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "35 15 * * *" }, { "path": "/api/kd2ozfuew9n4uaciyl1j?a=digest", "schedule": "0 3 * * *" } ],
   "redirects": [
-    { "source": "/:p((?!61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0|api/config|api/p2p-ice|private/|robots).*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "https://aashishpandey.com/", "permanent": false },
+    { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0", "destination": "/flint-cosmos-bridge-fern", "permanent": false },
+    { "source": "/:p((?!flint-cosmos-bridge-fern|api/config|api/p2p-ice|private/|robots).*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "https://aashishpandey.com/", "permanent": false },
     { "source": "/api/:file((?:.*)\\.(?:js|cjs|mjs|json|ts|md))", "destination": "/", "permanent": false },
     { "source": "/:file(vercel\\.json|package\\.json|README\\.md|\\.editorconfig|\\.gitattributes|\\.gitignore|\\.vercelignore)", "destination": "/", "permanent": false },
     { "source": "/.github/:path*", "destination": "/", "permanent": false },
@@ -338,7 +339,7 @@
     { "source": "/kd2ozfuew9n4uaciyl1j", "destination": "/admin/kd2ozfuew9n4uaciyl1j.html" },
     { "source": "/kd2ozfuew9n4uaciyl1j-sw.js", "destination": "/admin/kd2ozfuew9n4uaciyl1j-sw.js" },
     { "source": "/kd2ozfuew9n4uaciyl1j.webmanifest", "destination": "/admin/kd2ozfuew9n4uaciyl1j.webmanifest" },
-    { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0", "destination": "/private/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0.html" },
+    { "source": "/flint-cosmos-bridge-fern", "destination": "/private/flint-cosmos-bridge-fern.html" },
     { "source": "/robots.txt", "destination": "/seo/robots.txt" },
     { "source": "/llms.txt", "destination": "/seo/llms.txt" },
     { "source": "/favicon.ico", "destination": "/assets/favicon.ico" },
@@ -607,7 +608,7 @@
   ],
   "headers": [
     { "source": "/(.*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" } ] },
-    { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
+    { "source": "/flint-cosmos-bridge-fern(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
     { "source": "/private/(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
     { "source": "/kd2ozfuew9n4uaciyl1j(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" } ] },
     {
@@ -695,7 +696,7 @@
 ,
     { "source": "/kd2ozfuew9n4uaciyl1j(.*)", "headers": [ { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; worker-src 'self'; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'" }, { "key": "X-Frame-Options", "value": "DENY" } ] }
 ,
-    { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0(.*)", "headers": [
+    { "source": "/flint-cosmos-bridge-fern(.*)", "headers": [
       { "key": "Content-Security-Policy", "value": "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" },
       { "key": "Permissions-Policy", "value": "camera=(), microphone=(self), geolocation=()" },
       { "key": "Referrer-Policy", "value": "no-referrer" },
