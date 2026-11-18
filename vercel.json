@@ -325,6 +325,8 @@
     { "source": "/audio-v3.js", "destination": "/assets/js/audio-v3.js", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/robots.txt", "has": [{ "type": "host", "value": "stage.aashishpandey.com" }], "destination": "/seo/robots-stage.txt" },
+    { "source": "/:p((?!61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0|api/config|api/p2p-ice|private/|robots).*)", "has": [{ "type": "host", "value": "stage.aashishpandey.com" }], "destination": "/404.html" },
     { "source": "/blog", "destination": "/api/config?a=site&p=blog" },
     { "source": "/blog/rss.xml", "destination": "/api/config?a=site&p=rss" },
     { "source": "/blog/:slug", "destination": "/api/config?a=site&p=post&slug=:slug" },
@@ -336,7 +338,7 @@
     { "source": "/kd2ozfuew9n4uaciyl1j", "destination": "/admin/kd2ozfuew9n4uaciyl1j.html" },
     { "source": "/kd2ozfuew9n4uaciyl1j-sw.js", "destination": "/admin/kd2ozfuew9n4uaciyl1j-sw.js" },
     { "source": "/kd2ozfuew9n4uaciyl1j.webmanifest", "destination": "/admin/kd2ozfuew9n4uaciyl1j.webmanifest" },
-    { "source": "/a0d8a98a49983b3492fb", "destination": "/private/a0d8a98a49983b3492fb.html" },
+    { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0", "destination": "/private/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0.html" },
     { "source": "/robots.txt", "destination": "/seo/robots.txt" },
     { "source": "/llms.txt", "destination": "/seo/llms.txt" },
     { "source": "/favicon.ico", "destination": "/assets/favicon.ico" },
@@ -604,7 +606,8 @@
     }
   ],
   "headers": [
-    { "source": "/a0d8a98a49983b3492fb(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "stage.aashishpandey.com" }], "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" } ] },
+    { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
     { "source": "/private/(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
     { "source": "/kd2ozfuew9n4uaciyl1j(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" } ] },
     {
@@ -692,7 +695,7 @@
 ,
     { "source": "/kd2ozfuew9n4uaciyl1j(.*)", "headers": [ { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; worker-src 'self'; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'" }, { "key": "X-Frame-Options", "value": "DENY" } ] }
 ,
-    { "source": "/a0d8a98a49983b3492fb(.*)", "headers": [
+    { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0(.*)", "headers": [
       { "key": "Content-Security-Policy", "value": "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://upload.wikimedia.org https://thumb.wikimedia.org; media-src 'self' blob:; connect-src 'self' https://commons.wikimedia.org https://upload.wikimedia.org https://thumb.wikimedia.org; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" },
       { "key": "Permissions-Policy", "value": "camera=(), microphone=(self), geolocation=()" },
       { "key": "Referrer-Policy", "value": "no-referrer" },
