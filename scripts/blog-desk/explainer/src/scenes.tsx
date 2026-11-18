@@ -134,7 +134,17 @@ const ArtVoice: React.FC<P> = ({ f, t }) => {
     <g transform={`translate(190 1600) scale(0.95)`}><Muja t={t} happy={0.4} look={0.6} /></g>
   </>);
 };
-const ARTS: Record<string, React.FC<P>> = { voice: ArtVoice, 'server-door': ArtServerDoor, 'robot-sort': ArtRobotSort, 'ceo-exit': ArtCeoExit, 'cloud-down': ArtCloudDown, ipo: ArtIpo, meet: ArtMeet, speed: ArtSpeed };
+const ArtCourt: React.FC<P> = ({ f, t }) => (<>
+  <g transform={`translate(540 900) scale(${0.9 + 0.1 * pop(f, 0)})`}>
+    <rect x={-380} y={-300} width={760} height={640} rx={44} fill="rgba(29,35,64,.18)" transform="translate(0 14)" />
+    <rect x={-380} y={-300} width={760} height={640} rx={44} fill="#1d2340" />
+    <g transform={`translate(0 -190) scale(${pop(f, 10)})`}><path d="M-230,60 L0,-80 L230,60 Z" fill="#e9f4ff" /><rect x={-210} y={70} width={420} height={26} rx={8} fill="#e9f4ff" />{[-160, -60, 40, 140].map((x) => <rect key={x} x={x} y={100} width={34} height={190} rx={8} fill="#cfe0ff" />)}<rect x={-250} y={296} width={500} height={34} rx={10} fill="#e9f4ff" /></g>
+    <g transform={`translate(0 120) scale(${pop(f, 36)})`}><g transform={`rotate(${Math.sin(t * 2.4) * 5})`}><path d="M0,-90 L0,70" stroke="#ffc83d" strokeWidth={14} strokeLinecap="round" /><path d="M-170,-70 L170,-70" stroke="#ffc83d" strokeWidth={14} strokeLinecap="round" /><path d="M-170,-70 L-215,20 L-125,20 Z M170,-70 L125,20 L215,20 Z" fill="none" stroke="#ffc83d" strokeWidth={8} strokeLinejoin="round" /></g></g>
+    <g transform={`translate(0 250) scale(${pop(f, 60)})`}><rect x={-250} y={-40} width={500} height={76} rx={38} fill="#fff" /><T x={0} y={14} s={36} c={C.ink}>California v. OpenAI</T></g>
+  </g>
+  <g transform={`translate(880 1380) scale(${pop(f, 80)})`}><Icon k="warn" s={0.9} /></g>
+</>);
+const ARTS: Record<string, React.FC<P>> = { court: ArtCourt, voice: ArtVoice, 'server-door': ArtServerDoor, 'robot-sort': ArtRobotSort, 'ceo-exit': ArtCeoExit, 'cloud-down': ArtCloudDown, ipo: ArtIpo, meet: ArtMeet, speed: ArtSpeed };
 export const Hook: React.FC<P> = (p) => { const A = ARTS[p.sc.art] || ArtServerDoor; return <><AbsoluteFill style={{ transform: `scale(${interpolate(p.f, [0, 140], [1, 1.08], { extrapolateRight: 'clamp' })})`, transformOrigin: '55% 62%' }}><Svg><BG k={p.sc.bg} t={p.t} /><A {...p} /></Svg></AbsoluteFill><BannerOf {...p} /></>; };
 
 // ---------- generic types
@@ -253,7 +263,7 @@ export const Shop: React.FC<P> = (p) => { const { f, t, S, W } = p; const shop =
 
 
 // ---------- Muja's moment: the narrator steps aside, greets Muja, shares a fun fact, then "back to our story"
-// fields: prop sneak|sign|jacket|umbrella|bell|pot|balloon|phone, fact: [lines], factAt / helloAt / backAt: word that triggers each beat, sign: sign text
+// fields: prop sneak|sign|jacket|umbrella|bell|pot|balloon|phone|hug, fact: [lines], factAt / helloAt / backAt: word that triggers each beat, sign: sign text
 const MujaMoment: React.FC<P> = (p) => {
   const { f, t, sc, W } = p;
   const hello = W(sc.helloAt || 'Muja'), fact = W(sc.factAt || 'fact'), back = W(sc.backAt || 'back');
@@ -269,7 +279,7 @@ const MujaMoment: React.FC<P> = (p) => {
   }
   if (back && f >= back) { wave = f < back + 24 ? 1 : 0; const o = ease(f, back + 12, back + 40); x = x + (1300 - x) * o; walk = o > 0 && o < 1 ? t * 10 : walk; face = o > 0 ? 1 : face; }
   const card = fact ? pop(f, fact, 30, 12) : 0, rain = prop === 'umbrella';
-  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : prop === 'bell' ? 'bell' : prop === 'pot' ? 'pot' : prop === 'balloon' ? 'balloon' : prop === 'phone' ? 'phone' : '';
+  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : prop === 'bell' ? 'bell' : prop === 'pot' ? 'pot' : prop === 'balloon' ? 'balloon' : prop === 'phone' ? 'phone' : prop === 'hug' ? 'hug' : '';
   return (<>
     <BG k={sc.bg || (rain ? 'dusk' : 'mint')} t={t} />
     <Svg>

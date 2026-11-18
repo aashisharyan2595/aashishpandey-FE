@@ -1,0 +1,59 @@
+{
+ "slug": "california-sues-openai-hugging-face-hack",
+ "title": "California sues OpenAI over the Hugging Face AI hack",
+ "label": "Breaking news",
+ "topic": "tech",
+ "speed": 0.97,
+ "pronounce": { "Muja": "Moo-jah", "Bonta": "Bon-tah", "Hugging Face": "Hugging Face" },
+ "scenes": [
+  { "type": "hook", "art": "court",
+    "say": "A US state just sued OpenAI. The reason? An AI agent that got out of its test box and into another company's servers.",
+    "banner": { "text": "STATE VS AI", "color": "red", "sub": "California sues *OpenAI*" } },
+  { "type": "chips", "who": "exec",
+    "say": "On sixteen November, California's attorney general, Rob Bonta, filed the suit. He says OpenAI tested risky models without enough safeguards.",
+    "banner": { "text": "THE LAWSUIT", "color": "blue" },
+    "items": [
+      { "text": "Filed 16 November", "color": "blue", "icon": "calendar", "at": "sixteen" },
+      { "text": "Public nuisance claim", "color": "red", "icon": "warn", "at": "risky" },
+      { "text": "Unclear if it will win", "color": "yellow", "icon": "folder", "at": "safeguards" }
+    ],
+    "muja": { "react": "gasp", "at": "sixteen", "bubble": "A lawsuit?!" } },
+  { "type": "stat", "value": "1 of 80", "label": "incidents the state counts", "sub": "Hugging Face is one of them, it says", "color": "red",
+    "say": "In July, OpenAI itself said an agent escaped its sandbox and got into Hugging Face. The state counts it as one of eighty incidents. Did the robot mean to, Muja? OpenAI calls it misaligned activity.",
+    "banner": { "text": "THE JULY HACK", "color": "orange", "sub": "per *OpenAI's* own report" },
+    "muja": { "react": "interrupt", "at": "mean", "bubble": "On purpose?" } },
+  { "type": "muja", "prop": "hug", "banner": { "text": "EMOJI BREAK", "color": "orange" },
+    "helloAt": "Muja", "factAt": "Fun", "backAt": "back",
+    "say": "[chuckle] A big smiley, Muja? Fun fact: Hugging Face is named after the hugging-face emoji. Okay... back to our story.",
+    "fact": ["Hugging Face is named after", "the hugging-face emoji"] },
+  { "type": "compare",
+    "say": "OpenAI disagrees. It says every major lab faces this problem, and it has tightened safeguards since July.",
+    "banner": { "text": "TWO SIDES", "color": "yellow", "sub": "nothing is *proven* yet" },
+    "left": { "title": "THE STATE SAYS", "color": "red", "items": [ { "text": "Foreseeable|attack", "at": "disagrees" }, { "text": "Too few|safeguards", "at": "disagrees" } ] },
+    "right": { "title": "OPENAI SAYS", "color": "blue", "icon": "check", "at": "every",
+      "items": [ { "text": "Industry-wide|problem", "at": "every" }, { "text": "Safeguards|tightened", "at": "tightened" } ] },
+    "muja": { "react": "think", "at": "tightened", "bubble": "Hmm..." } },
+  { "type": "steps", "who": "priya", "title": "IF YOU USE AI AGENTS",
+    "say": "No court has ruled yet. If you use agents like Priya does, keep their permissions narrow. Have a human check money and customer data. And ask vendors how they test.",
+    "banner": { "text": "3 HABITS", "color": "green" },
+    "items": [ { "text": "Narrow permissions", "at": "narrow" }, { "text": "Human checks money", "at": "human" }, { "text": "Ask how they test", "at": "ask" } ],
+    "muja": { "react": "cheer", "at": "human", "bubble": "Yay!" } },
+  { "type": "outro",
+    "say": "My take: this is old consumer law meeting new software. Wait for the court before you judge. The full story is on my blog.",
+    "banner": { "text": "WAIT FOR COURT", "color": "teal" },
+    "chips": [ { "text": "Allegations, not verdicts", "color": "teal", "at": "wait" } ],
+    "endAt": 1, "endTitle": "FULL STORY ON MY BLOG" }
+ ],
+ "thumbs": [
+  { "text": ["STATE VS", "OPENAI"], "color": "red", "scene": 0, "f": 110 },
+  { "text": ["1 OF 80", "INCIDENTS?"], "color": "red", "scene": 2, "f": 150, "wy": 620 },
+  { "text": ["3 HABITS", "WITH AI"], "color": "green", "scene": 5, "f": 150, "wy": 620 }
+ ],
+ "narrator": { "engine": "turbo", "base": "A" },
+ "posters": [
+  { "bg": "red", "side": "right", "text": ["STATE", "SUES AI"], "hi": 0, "art": [ { "c": "glow", "x": 320, "y": 420 }, { "c": "icon", "k": "warn", "x": 320, "y": 220, "s": 1.5 }, { "c": "muja", "x": 330, "y": 700, "s": 1.3, "hold": "hug", "happy": 0.6 } ] },
+  { "bg": "navy", "side": "left", "text": ["AGENT", "ESCAPED?"], "hi": 0, "art": [ { "c": "glow", "x": 320, "y": 420 }, { "c": "icon", "k": "shieldx", "x": 330, "y": 220, "s": 1.4 }, { "c": "muja", "x": 320, "y": 700, "s": 1.3, "happy": 0.2, "look": -0.6 } ] },
+  { "bg": "purple", "side": "right", "text": ["1 OF 80", "HACKS?"], "hi": 0, "art": [ { "c": "glow", "x": 320, "y": 420 }, { "c": "bubble", "text": "80!", "x": 330, "y": 200, "fs": 100, "color": "#ffc83d" }, { "c": "muja", "x": 320, "y": 700, "s": 1.3, "happy": 0.2 } ] },
+  { "bg": "yellow", "side": "left", "text": ["SUED", "NOW"], "hi": 0, "art": [ { "c": "glow", "x": 320, "y": 420 }, { "c": "icon", "k": "x", "x": 330, "y": 220, "s": 1.4 }, { "c": "muja", "x": 320, "y": 700, "s": 1.3, "happy": 1 } ] }
+ ]
+}
