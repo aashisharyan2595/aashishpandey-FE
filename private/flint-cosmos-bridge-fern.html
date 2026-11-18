@@ -131,7 +131,7 @@ audio{height:36px;width:240px;display:block}
 .row .av.big{font-size:13px}
 .row.dec .av{color:#fff}
 #decoy{position:absolute;inset:0;background:var(--pane);display:flex;flex-direction:column;z-index:15}
-#decoy .scroll{flex:1}
+#decoy .scroll{flex:1}#decoy .msg{align-items:flex-start}
 .dcomp{background:var(--panel);border-top:1px solid var(--line);padding:10px 14px}
 .dcomp .box{border:1px solid var(--line);border-radius:6px;background:var(--bg);padding:6px 10px;display:flex;gap:8px;align-items:flex-end}
 .dcomp textarea{flex:1;border:0;background:none;color:var(--ink);font:inherit;resize:none;outline:0;min-height:24px;max-height:120px}
@@ -184,9 +184,58 @@ body.blur .scroll{filter:blur(14px)}
 .row:focus-visible,.rail button:focus-visible,.tabs button:focus-visible{outline-offset:-2px}
 .jump{position:absolute;right:20px;bottom:150px;background:var(--acc);color:var(--acc-ink);border-radius:16px;padding:4px 12px;box-shadow:var(--shadow);z-index:5;font-weight:600}
 @media(prefers-reduced-motion:reduce){.pop-in,.dot.wait{animation:none}}
+
+.rb{position:absolute;top:0;right:8px;background:#c4314b;color:#fff;border-radius:8px;min-width:16px;height:16px;font:700 10px/16px "Segoe UI",system-ui,sans-serif;text-align:center;padding:0 4px;font-style:normal}
+.row.unr b{font-weight:700}.row.unr small{color:var(--ink)}.row.unr .meta{color:var(--ink)}
+.empty-s{padding:24px 16px;color:var(--sub);text-align:center}
+.fcard{display:flex;gap:10px;align-items:center;margin-top:6px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);cursor:pointer;min-width:200px}
+.fcard svg{color:var(--acc);width:24px;height:24px}.fcard b{display:block;font-weight:600}.fcard small{color:var(--sub)}
+.reacts{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}.reacts span{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:0 7px;font-size:12px}
+.sysl{align-self:center;color:var(--sub);font-size:12px;margin:8px 0}
+.flist,.ftab{display:flex;flex-direction:column}
+.frow{display:grid;grid-template-columns:28px 1fr 140px 90px;gap:10px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer}
+.flist .frow{grid-template-columns:28px 1fr auto}
+.frow:hover:not(.fh){background:var(--hover)}.frow svg{color:var(--acc)}.frow b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.frow small{color:var(--sub)}.frow .by,.frow .sz{color:var(--sub);font-size:12.5px}.frow.fh{cursor:default;color:var(--sub);font-size:12px}.frow.fh b{font-weight:600;color:var(--sub)}
+.frow .ft{min-width:0}
+.notec{padding:8px 4px}.notec h3{margin:0 0 6px}.notec li{margin:4px 0}
+.teamh{display:flex;align-items:center;gap:8px;padding:12px 16px 4px;font-size:13px}.av.tm{width:26px;height:26px;border-radius:6px;font-size:12px;color:#fff}
+.row.ch{padding:6px 16px 6px 50px}.row.ch b{font-weight:500}
+.av.huge{width:84px;height:84px;font-size:28px;color:#fff}
+.cdet{display:flex;flex-direction:column;align-items:center;gap:6px;padding:36px 16px;text-align:center}.cdet h3{margin:8px 0 0;font-size:20px}.cdet p{margin:0;color:var(--sub)}
+.cacts{display:flex;gap:12px;margin-top:18px}.cact{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 18px;border:1px solid var(--line);border-radius:8px;background:var(--panel);font-size:12px}.cact:hover{background:var(--hover)}
+.calhead{display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);min-height:56px;flex-wrap:wrap}.calhead b{font-size:18px;font-weight:600}.calhead .rng{color:var(--sub);flex:1}.calhead .chips{padding:0}
+.caldet{padding:8px 16px;background:var(--acc-soft);color:var(--ink);display:flex;gap:10px;flex-wrap:wrap;font-size:13px}
+.cal{flex:1;overflow:auto;position:relative;background:var(--panel)}
+.cal-d{display:grid;grid-template-columns:56px repeat(5,1fr);position:sticky;top:0;z-index:3;background:var(--panel);border-bottom:1px solid var(--line)}
+.cal-d .dh{text-align:center;padding:6px 0}.cal-d .dh small{display:block;color:var(--sub)}.cal-d .dh b{font-size:16px;font-weight:600}.cal-d .dh.today b{color:var(--acc)}
+.cal-b{margin-top:8px;display:grid;grid-template-columns:56px repeat(5,1fr)}
+.gut .hl{white-space:nowrap;height:56px;font-size:11px;color:var(--sub);text-align:right;padding-right:8px;transform:translateY(-7px)}
+.col{position:relative;border-left:1px solid var(--line);background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% 56px}.col.today{background-color:var(--acc-soft)}
+.ev{position:absolute;left:3px;right:3px;border-radius:5px;padding:3px 6px;text-align:left;overflow:hidden;background:hsl(var(--h),55%,90%);color:hsl(var(--h),50%,22%);border-left:4px solid hsl(var(--h),55%,45%);font-size:12px;line-height:1.25}
+.ev b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ev small{opacity:.85}.ev.on{outline:2px solid var(--acc)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .ev{background:hsl(var(--h),30%,24%);color:hsl(var(--h),60%,88%)}}
+:root[data-theme=dark] .ev{background:hsl(var(--h),30%,24%);color:hsl(var(--h),60%,88%)}
+.nowl{position:absolute;left:0;right:0;height:2px;background:#c4314b;z-index:2}
+#altList,#altPane{display:none}
+body[data-sec=activity] #list,body[data-sec=teams] #list,body[data-sec=calls] #list,body[data-sec=cal] #list,body[data-sec=files] #list{display:none}
+body[data-sec=activity] #altList,body[data-sec=teams] #altList,body[data-sec=calls] #altList{display:flex}
+body[data-sec=activity] #altPane,body[data-sec=calls] #altPane,body[data-sec=cal] #altPane,body[data-sec=files] #altPane{display:flex}
+body[data-sec=activity] #pane,body[data-sec=calls] #pane,body[data-sec=cal] #pane,body[data-sec=files] #pane{display:none}
+body[data-sec=cal] #altPane,body[data-sec=files] #altPane{grid-column:2/-1}
+@media(max-width:900px){
+ .app{grid-template-rows:48px 1fr 58px}body.open .app{grid-template-rows:48px 1fr}
+ .rail{display:flex;flex-direction:row;grid-row:3;grid-column:1;justify-content:space-around;align-items:stretch;padding:3px 4px;border-right:0;border-top:1px solid var(--line)}
+ .rail button{width:auto;flex:1;padding:4px 0}.rail button.on::before{display:none}.rb{right:50%;margin-right:-22px}
+ body.open .rail{display:none}
+ body[data-sec=cal] #altPane,body[data-sec=files] #altPane{grid-column:1}
+ body[data-sec=activity] #altPane,body[data-sec=calls] #altPane{display:none}
+ body.open[data-sec=calls] #altPane{display:flex}body.open[data-sec=calls] #altList,body.open[data-sec=teams] #altList{display:none}
+ .frow{grid-template-columns:28px 1fr 70px}.frow .by{display:none}.cal-d,.cal-b{grid-template-columns:40px repeat(5,1fr)}.ev small{display:none}.ev{padding:2px 3px;font-size:10.5px}
+ .cacts{gap:8px}
+}
 </style>
 </head>
-<body>
+<body data-sec="chat">
 <div class="app" id="app">
   <header class="top">
     <a class="brand" href="https://aashishpandey.com/" rel="noopener noreferrer" title="Back to aashishpandey.com"><i></i><span>Room</span></a>
@@ -194,12 +243,12 @@ body.blur .scroll{filter:blur(14px)}
     <div class="me"><button class="ic" id="bTheme" title="Switch theme" aria-label="Switch theme"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M2 12h2M20 12h2M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg></button><span id="meName" style="color:var(--sub);font-size:12px"></span><div class="av" id="meAv">?</div></div>
   </header>
   <nav class="rail" aria-label="Apps">
-    <button disabled title="Not available"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Activity</button>
-    <button class="on" id="rChat"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5A8 8 0 1 1 21 12Z"/></svg>Chat</button>
-    <button disabled title="Not available"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 14c3 0 5 2 5 5"/></svg>Teams</button>
-    <button disabled title="Not available"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Calendar</button>
-    <button disabled title="Not available"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>Calls</button>
-    <button id="rFiles"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></svg>Files</button>
+    <button data-sec="activity"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Activity<i class="rb" id="rActB" hidden></i></button>
+    <button class="on" id="rChat" data-sec="chat"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5A8 8 0 1 1 21 12Z"/></svg>Chat<i class="rb" id="rChatB" hidden></i></button>
+    <button data-sec="teams"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 14c3 0 5 2 5 5"/></svg>Teams</button>
+    <button data-sec="cal"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Calendar</button>
+    <button data-sec="calls"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>Calls</button>
+    <button data-sec="files"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></svg>Files</button>
   </nav>
   <aside class="list" id="list">
     <h2>Chat</h2>
@@ -213,12 +262,13 @@ body.blur .scroll{filter:blur(14px)}
     <div id="decRows"></div>
     <div class="listfoot"><div class="r"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Chats are saved encrypted on this device. Reopen this page to resume.</span></div><a class="out" href="https://aashishpandey.com/" rel="noopener noreferrer">← aashishpandey.com</a></div>
   </aside>
+  <aside class="list" id="altList"></aside>
   <main class="pane" id="pane">
     <div id="decoy" hidden>
-      <div class="head"><button class="ic back" id="dBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><div class="av big" id="dAv"></div><div class="t"><b id="dName"></b><small id="dSub"></small></div></div>
-      <div class="tabs"><button class="on">Chat</button><button>Files</button><button>Notes</button></div>
+      <div class="head"><button class="ic back" id="dBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><div class="av big" id="dAv"></div><div class="t"><b id="dName"></b><small id="dSub"></small></div><button class="ic" id="dVid" aria-label="Video call"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg></button><button class="ic" id="dCall" aria-label="Audio call"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg></button></div>
+      <div class="tabs" id="dTabs"></div>
       <div class="scroll" id="dScroll"></div>
-      <div class="dcomp"><div class="tb"><span><b>B</b></span><span><i>I</i></span><span><u>U</u></span><span>☺</span><span>＋</span></div><div class="box"><textarea id="dTxt" rows="1" placeholder="Type a new message" aria-label="Type a new message"></textarea></div></div>
+      <div class="dcomp" id="dComp"><div class="tb"><span><b>B</b></span><span><i>I</i></span><span><u>U</u></span><span>☺</span><span>＋</span></div><div class="box"><textarea id="dTxt" rows="1" placeholder="Type a new message" aria-label="Type a new message"></textarea></div></div>
     </div>
     <div class="head">
       <button class="ic back" id="back" aria-label="Back to chats"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
@@ -252,6 +302,7 @@ body.blur .scroll{filter:blur(14px)}
     <section id="vFiles" class="panel" hidden></section>
     <section id="vInfo" class="panel" hidden></section>
   </main>
+  <main class="pane" id="altPane"></main>
 </div>
 
 <div class="over" id="gate">
@@ -1104,70 +1155,270 @@ S.tab='chat';
 function tab(t){
   S.tab=t;document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
   $('vChat').style.display=t==='chat'?'flex':'none';$('vFiles').hidden=t!=='files';$('vInfo').hidden=t!=='info';
-  $('rChat').classList.toggle('on',t!=='files');$('rFiles').classList.toggle('on',t==='files');
   if(t==='files')renderFiles();if(t==='info')renderInfo();if(t==='chat')markRead();
 }
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
-$('rChat').onclick=()=>tab('chat');$('rFiles').onclick=()=>tab('files');
 $('bShield').onclick=()=>tab('info');
 $('rowMain').onclick=()=>{document.body.classList.add('open');tab('chat');markRead()};
 $('back').onclick=()=>document.body.classList.remove('open');
-/* Colleague chats: made-up, local only, never sent anywhere */
+/* Workspace shell: made-up colleagues, teams, calendar, calls and files. Local only, never sent anywhere. */
+const M=(w,x,off,o)=>Object.assign({w,x,off},o||{});
 const DEC=[
- {n:'Priya Nair',st:'on',t:35,m:[['them','Morning! Did you get a chance to look at the vendor deck?',-190],['me','Yes, going through it now. I will send comments before lunch.',-185],['them','Perfect, thanks 🙏',-184]]},
- {n:'Platform Standup',g:1,st:'',t:140,m:[['Marcus Webb','Standup moved to 10:30 today, room is booked.',-300],['Sarah Collins','Works for me. I will have the release notes ready.',-290],['Marcus Webb','Great. Please update the board before we start.',-285]]},
- {n:'Marcus Webb',st:'wait',t:1500,m:[['them','Can you review my PR when you have a minute?',-1800],['me','Sure, I will take a look this afternoon.',-1780],['them','Thanks, no rush.',-1779]]},
- {n:'Finance Ops',g:1,st:'',t:1600,m:[['Elena Rossi','Reminder: expense reports are due Friday.',-2000],['Tom Alvarez','Submitted mine already.',-1990]]},
- {n:'Sarah Collins',st:'on',t:2900,m:[['them','Agenda for tomorrow is in the shared folder.',-3500],['me','Got it, thanks for putting it together.',-3490]]},
- {n:'Tom Alvarez',st:'',t:4300,m:[['me','Invoice numbers match now, closing the ticket.',-5600],['them','Appreciated. Have a good weekend.',-5590]]},
- {n:'Q4 Planning',g:1,st:'',t:5800,m:[['Priya Nair','Draft roadmap is attached. Comments welcome until Thursday.',-7600],['Elena Rossi','Looks solid overall. A few notes on timelines.',-7500]]},
- {n:'Elena Rossi',st:'on',t:9000,m:[['them','Thanks for the quick turnaround on that report.',-11000],['me','Anytime.',-10990]]}
+ {n:'Priya Nair',st:'on',u:2,m:[M('them','Morning! Did you get a chance to look at the vendor deck?',-190),M('me','Yes, going through it now. I will send comments before lunch.',-185),M('them','Perfect, thanks 🙏',-184),M('them','Also, procurement wants the final numbers by Thursday.',-22),M('them','No pressure, just flagging.',-21)]},
+ {n:'Platform Standup',g:1,u:0,m:[M('Marcus Webb','Standup moved to 10:30 today, room is booked.',-300),M('Sarah Collins','Works for me. I will have the release notes ready.',-290,{re:['👍 3']}),M('Marcus Webb','Great. Please update the board before we start.',-285),M('Daniel Okafor','Board is updated. Two items carried over from yesterday.',-62)]},
+ {n:'Engineering › Releases',g:2,u:3,m:[M('Daniel Okafor','Release 4.18 is cut. Changelog attached, please skim before we promote.',-420,{f:['release-4.18-changelog.pdf','212 KB']}),M('Marcus Webb','Smoke tests are green on staging.',-400,{re:['✅ 4']}),M('Meera Iyer','One flaky test in the billing suite, re-running now.',-380),M('Meera Iyer','Re-run passed. Good to go from my side.',-360),M('Sarah Collins','Promoting at 4 pm unless anyone objects.',-45),M('Daniel Okafor','No objections. I will watch the dashboards after.',-12)]},
+ {n:'Marcus Webb',st:'wait',u:0,m:[M('them','Can you review my PR when you have a minute?',-1800),M('me','Sure, I will take a look this afternoon.',-1780),M('them','Thanks, no rush.',-1779),M('me','Left a few small comments. Nothing blocking.',-1500),M('them','Fixed, thanks for the quick review 👍',-1496)]},
+ {n:'Meera Iyer',st:'on',u:1,m:[M('them','Quick question on the onboarding doc, is the access form still the old one?',-95),M('me','I think they updated it last week. Let me check.',-90),M('them','Thanks! I will hold off sending it to the new joiners.',-88),M('them','Any luck?',-14)]},
+ {n:'Finance Ops',g:1,u:0,m:[M('Elena Rossi','Reminder: expense reports are due Friday.',-2000),M('Tom Alvarez','Submitted mine already.',-1990),M('Hannah Brooks','Same here. The new template is much faster.',-1985,{re:['🙌 2']})]},
+ {n:'Sarah Collins',st:'on',u:0,m:[M('them','Agenda for tomorrow is in the shared folder.',-3500),M('me','Got it, thanks for putting it together.',-3490),M('them','Can you take the first ten minutes on the status update?',-3485),M('me','Sure.',-3480)]},
+ {n:'Q4 Planning',g:1,u:0,m:[M('Priya Nair','Draft roadmap is attached. Comments welcome until Thursday.',-7600,{f:['Q4-roadmap-draft.xlsx','486 KB']}),M('Elena Rossi','Looks solid overall. A few notes on timelines.',-7500),M('Rahul Menon','Can we pull the reporting work into the first sprint?',-7460),M('Priya Nair','Reasonable. I will adjust and recirculate.',-7440,{re:['👍 2']})]},
+ {n:'Tom Alvarez',st:'',u:0,m:[M('me','Invoice numbers match now, closing the ticket.',-5600),M('them','Appreciated. Have a good weekend.',-5590)]},
+ {n:'Vendor Review',g:1,u:0,m:[M('Priya Nair','Three vendors shortlisted. Scorecard attached.',-9700,{f:['vendor-scorecard.xlsx','128 KB']}),M('Rahul Menon','Vendor B has the best support terms, in my view.',-9650),M('Elena Rossi','Agree, but their pricing needs another look.',-9600)]},
+ {n:'Elena Rossi',st:'on',u:0,m:[M('them','Thanks for the quick turnaround on that report.',-11000),M('me','Anytime.',-10990)]},
+ {n:'Weekly Sync',g:3,u:0,m:[M('Sarah Collins','Joined the meeting',-1500,{sys:1}),M('Sarah Collins','Notes and action items are in the shared doc. Please add yours.',-1440,{f:['weekly-sync-notes.docx','64 KB']}),M('Rahul Menon','Added mine. Two follow-ups for next week.',-1400),M('Sarah Collins','Meeting ended: 42 min',-1395,{sys:1})]},
+ {n:'Daniel Okafor',st:'',u:0,m:[M('them','Are you joining the architecture review on Friday?',-13000),M('me','Yes, I will be there.',-12990)]},
+ {n:'Hannah Brooks',st:'wait',u:0,m:[M('them','Can you share the template you used for the monthly summary?',-15000),M('me','Sending it now.',-14990,{f:['monthly-summary-template.xlsx','54 KB']}),M('them','Lovely, thank you!',-14985)]},
+ {n:'Engineering › Incidents',g:2,u:0,m:[M('Meera Iyer','Resolved: elevated latency on the reporting API. Root cause was a slow query.',-5200),M('Daniel Okafor','Post-incident review is scheduled for Thursday. Notes will go in the wiki.',-5150),M('Marcus Webb','Thanks both. Adding a dashboard alert for this.',-5100,{re:['👍 5']})]},
+ {n:'Finance › Month-end close',g:2,u:0,m:[M('Elena Rossi','Close calendar is posted. Accruals are due on day 2.',-8800,{f:['month-end-calendar.pdf','96 KB']}),M('Tom Alvarez','Reconciliations are on track.',-8700),M('Hannah Brooks','Two intercompany items still open, working on them.',-8650)]},
+ {n:'Company › Announcements',g:2,u:1,m:[M('Rahul Menon','The office will close early on Friday for the quarterly all-hands. Details in your calendar.',-600,{re:['👍 12','🎉 4']})]},
+ {n:'Jordan Lee',st:'',u:0,m:[M('them','Thanks for covering for me last week.',-20000),M('me','No problem at all.',-19990)]}
 ];
-(function decoys(){
+const CHANNELS=[{team:'Engineering',ch:['General','Releases','Incidents']},{team:'Finance',ch:['General','Month-end close']},{team:'Company',ch:['Announcements','Social']}];
+const ACT=[
+ {k:'at',who:'Priya Nair',x:'mentioned you in Q4 Planning',chat:'Q4 Planning',ago:25,u:1},
+ {k:'re',who:'Marcus Webb',x:'reacted 👍 to your message',chat:'Marcus Webb',ago:70,u:1},
+ {k:'rp',who:'Meera Iyer',x:'replied to your message in Engineering › Releases',chat:'Engineering › Releases',ago:95,u:1},
+ {k:'call',who:'Sarah Collins',x:'Missed call',chat:'Sarah Collins',ago:210,u:0},
+ {k:'file',who:'Elena Rossi',x:'shared month-end-calendar.pdf with you',chat:'Finance › Month-end close',ago:520,u:0},
+ {k:'at',who:'Rahul Menon',x:'mentioned you in Vendor Review',chat:'Vendor Review',ago:1560,u:0},
+ {k:'re',who:'Hannah Brooks',x:'reacted 🙌 to your message',chat:'Finance Ops',ago:2400,u:0}
+];
+const CALLS=[
+ {n:'Sarah Collins',d:'missed',ago:210},{n:'Priya Nair',d:'out',ago:520,dur:'12 min'},{n:'Platform Standup',d:'in',ago:1480,dur:'18 min'},
+ {n:'Marcus Webb',d:'in',ago:1900,dur:'6 min'},{n:'Elena Rossi',d:'out',ago:2900,dur:'9 min'},{n:'Weekly Sync',d:'in',ago:4400,dur:'42 min'},{n:'Tom Alvarez',d:'missed',ago:6100}
+];
+const FILES=[
+ ['Q4-roadmap-draft.xlsx','Priya Nair',180,'Q4 Planning'],['release-4.18-changelog.pdf','Daniel Okafor',420,'Engineering › Releases'],['vendor-scorecard.xlsx','Priya Nair',1700,'Vendor Review'],
+ ['weekly-sync-notes.docx','Sarah Collins',1440,'Weekly Sync'],['month-end-calendar.pdf','Elena Rossi',520,'Finance › Month-end close'],['monthly-summary-template.xlsx','You',2400,'Hannah Brooks'],
+ ['onboarding-checklist.docx','Meera Iyer',3100,'Meera Iyer'],['architecture-overview.pdf','Daniel Okafor',4300,'Engineering'],['expense-policy-2026.pdf','Finance',7200,'Finance Ops'],['team-offsite-agenda.docx','Rahul Menon',9800,'Company']
+];
+const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
+ [0,9,.5,'Platform standup','Room 4B',230],[0,11,1,'Vendor review','Online',150],[0,15,1,'1:1 with Priya','Room 2A',30],
+ [1,9,.5,'Platform standup','Room 4B',230],[1,10.5,1.5,'Q4 planning workshop','Room 7',280],[1,14,1,'Interview debrief','Online',340],
+ [2,9,.5,'Platform standup','Room 4B',230],[2,12,1,'Lunch with the finance team','Cafeteria',20],[2,16,1,'Release 4.18 go-live','Online',170],
+ [3,9,.5,'Platform standup','Room 4B',230],[3,11,1,'Post-incident review','Room 3C',350],[3,14,2,'Architecture review','Room 7',200],
+ [4,9,.5,'Platform standup','Room 4B',230],[4,10,1,'Weekly sync','Online',260],[4,15,1.5,'Quarterly all-hands','Auditorium',50]
+];
+(function shell(){
+  const $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+  const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
   const hue=n=>{let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))%360;return h};
-  const ini=n=>n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const ini=n=>n.replace(/[^A-Za-z ]/g,' ').split(' ').filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase();
   const when=min=>{const d=new Date(Date.now()-min*60000);const t=new Date();if(d.toDateString()===t.toDateString())return clock(d);const y=new Date(t-864e5);if(d.toDateString()===y.toDateString())return 'Yesterday';return d.toLocaleDateString([],{weekday:'short'})};
-  const mk=(n,st,g)=>{const a=document.createElement('div');a.className='av big';a.style.background='hsl('+hue(n)+',45%,42%)';a.textContent=g?'👥':ini(n);if(st&&!g){const d=document.createElement('span');d.className='dot '+st;a.appendChild(d)}return a};
+  const mk=(n,st,g)=>{const a=el('div','av big');a.style.background='hsl('+hue(n)+',45%,42%)';a.textContent=g===1?'👥':g===2?'#':g===3?'▣':ini(n);if(g===2)a.style.borderRadius='8px';if(st&&!g){a.appendChild(el('span','dot '+st))}return a};
+  const dName=d=>d.n;
+  const lastOf=d=>d.m[d.m.length-1];
+  const ago=d=>-lastOf(d).off;
+  const sub=d=>d.g===1?'Group chat':d.g===2?'Channel':d.g===3?'Meeting chat':(d.st==='on'?'Available':d.st==='wait'?'Away':'Offline');
   const rows=$('decRows'),mainRow=$('rowMain');
-  const all=[mainRow];
-  const show=(d,row)=>{
-    all.forEach(r=>r.classList.toggle('on',r===row));
-    $('decoy').hidden=false;document.body.classList.add('open');
-    const av=$('dAv');av.replaceWith(Object.assign(mk(d.n,d.st,d.g),{id:'dAv'}));
-    $('dName').textContent=d.n;$('dSub').textContent=d.g?'Group chat':(d.st==='on'?'Available':d.st==='wait'?'Away':'Offline');
+  let cur=null,sec='chat',filt='Chats',dtab='Chat';
+  const rowOf=new Map();
+  const icon=p=>{const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 24 24');s.innerHTML=p;return s};
+  const FI='<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/>';
+  const fileCard=(name,size)=>{const c=el('div','fcard');c.appendChild(icon(FI));const t=el('div','ft');t.appendChild(el('b',0,name));t.appendChild(el('small',0,size));c.appendChild(t);c.onclick=()=>toast('This file is not available offline');return c};
+  const total=()=>DEC.reduce((a,d)=>a+(d.u||0),0);
+  const syncBadges=()=>{
+    const n=total();const b=$('rChatB');b.hidden=!n;b.textContent=n;
+    const a=ACT.filter(x=>x.u).length;const ab=$('rActB');ab.hidden=!a;ab.textContent=a;
+  };
+  /* ---------- conversation view ---------- */
+  const bubbles=(d)=>{
     const sc=$('dScroll');sc.innerHTML='';let last='';
-    d.m.forEach(([w,x,off])=>{
-      const ts=Date.now()+off*60000,day=new Date(ts).toDateString();
-      if(day!==last){last=day;const dv=document.createElement('div');dv.className='day';dv.textContent=day===new Date().toDateString()?'Today':new Date(ts).toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'});sc.appendChild(dv)}
-      const me=w==='me',nm=me?'':(w==='them'?d.n:w);
-      const el=document.createElement('div');el.className='msg'+(me?' me':'');
-      if(!me)el.appendChild(mk(nm,'',0)).classList.remove('big');
-      const b=document.createElement('div');b.className='bub';
-      if(nm&&d.g){const wh=document.createElement('div');wh.className='who';wh.textContent=nm;b.appendChild(wh)}
-      b.appendChild(document.createTextNode(x));const ft=document.createElement('div');ft.className='foot';ft.textContent=clock(ts);b.appendChild(ft);
-      el.appendChild(b);sc.appendChild(el);
+    d.m.forEach(o=>{
+      const ts=Date.now()+o.off*60000,day=new Date(ts).toDateString();
+      if(day!==last){last=day;sc.appendChild(el('div','day',day===new Date().toDateString()?'Today':new Date(ts).toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'})))}
+      if(o.sys){sc.appendChild(el('div','sysl',o.x+' · '+clock(ts)));return}
+      const me=o.w==='me',nm=me?'':(o.w==='them'?d.n:o.w);
+      const e=el('div','msg'+(me?' me':''));
+      if(!me){const a=mk(nm,'',0);a.classList.remove('big');e.appendChild(a)}
+      const b=el('div','bub');
+      if(nm&&d.g){b.appendChild(el('div','who',nm))}
+      if(o.x)b.appendChild(document.createTextNode(o.x));
+      if(o.f)b.appendChild(fileCard(o.f[0],o.f[1]));
+      b.appendChild(el('div','foot',clock(ts)));
+      if(o.re){const r=el('div','reacts');o.re.forEach(x=>r.appendChild(el('span',0,x)));b.appendChild(r)}
+      e.appendChild(b);sc.appendChild(e);
     });
     sc.scrollTop=sc.scrollHeight;
-    d._row=row;
   };
-  DEC.forEach(d=>{
-    const r=document.createElement('button');r.className='row dec';
-    const last=d.m[d.m.length-1];
-    const who=last[0]==='me'?'You: ':(d.g?last[0].split(' ')[0]+': ':'');
-    const t=document.createElement('div');t.className='t';t.innerHTML='<b></b><small></small>';t.firstChild.textContent=d.n;t.lastChild.textContent=who+last[1];
-    const mt=document.createElement('div');mt.className='meta';mt.textContent=when(d.t);
-    r.append(mk(d.n,d.st,d.g),t,mt);r.onclick=()=>show(d,r);rows.appendChild(r);all.push(r);
-  });
-  let cur=null;
-  const orig=show;
-  rows.addEventListener('click',e=>{const r=e.target.closest('.row.dec');if(r)cur=DEC[[...rows.children].indexOf(r)]});
-  mainRow.addEventListener('click',()=>{$('decoy').hidden=true;all.forEach(r=>r.classList.toggle('on',r===mainRow))});
+  const fileList=(d)=>{
+    const sc=$('dScroll');sc.innerHTML='';
+    const fs=d.m.filter(o=>o.f);
+    const box=el('div','flist');
+    if(!fs.length)box.appendChild(el('div','empty-s','No files have been shared here yet.'));
+    fs.forEach(o=>{const r=el('div','frow');r.appendChild(icon(FI));const t=el('div','ft');t.appendChild(el('b',0,o.f[0]));t.appendChild(el('small',0,(o.w==='me'?'You':o.w==='them'?d.n:o.w)+' · '+when(-o.off)));r.append(t,el('span','sz',o.f[1]));r.onclick=()=>toast('This file is not available offline');box.appendChild(r)});
+    sc.appendChild(box);
+  };
+  const noteView=(d)=>{
+    const sc=$('dScroll');sc.innerHTML='';
+    const c=el('div','notec');c.appendChild(el('h3',0,'Notes'));
+    c.appendChild(el('p',0,d.g?'Pinned notes for '+d.n+' will appear here. Anyone in the conversation can add to them.':'Shared notes with '+d.n+' will appear here.'));
+    const ul=el('ul');['Agree owners before the next sync','Keep decisions in writing','Follow up on open items by Friday'].forEach(x=>ul.appendChild(el('li',0,x)));c.appendChild(ul);
+    sc.appendChild(c);
+  };
+  const drawTabs=()=>{
+    const t=$('dTabs');t.innerHTML='';
+    (cur&&cur.g===2?['Posts','Files','Notes']:['Chat','Files','Notes']).forEach((x,i)=>{const b=el('button',x===dtab?'on':'',x);b.onclick=()=>{dtab=x;drawTabs();paint()};t.appendChild(b)});
+  };
+  const paint=()=>{if(!cur)return;const k=dtab==='Files'?'f':dtab==='Notes'?'n':'c';$('dComp').hidden=k!=='c';k==='f'?fileList(cur):k==='n'?noteView(cur):bubbles(cur)};
+  const open=(d,fromAct)=>{
+    cur=d;dtab=d.g===2?'Posts':'Chat';
+    if(d.u){d.u=0;const r=rowOf.get(d);if(r){r.classList.remove('unr');const b=r.querySelector('.badge');if(b)b.remove()}ACT.forEach(a=>{if(a.chat===d.n)a.u=0});syncBadges()}
+    $$('.row',rows).forEach(r=>r.classList.toggle('on',rowOf.get(d)===r));mainRow.classList.remove('on');
+    $('decoy').hidden=false;document.body.classList.add('open');
+    const av=$('dAv');av.replaceWith(Object.assign(mk(d.n,d.st,d.g),{id:'dAv'}));
+    $('dName').textContent=d.n;$('dSub').textContent=sub(d);
+    drawTabs();paint();
+    if(sec==='teams')$$('#tmList .row').forEach(r=>r.classList.toggle('on',r.dataset.n===d.n));
+  };
+  const byName=n=>DEC.find(d=>d.n===n);
+  /* ---------- chat list ---------- */
+  const typeOf=d=>d.g===2?'Channels':d.g===3?'Meetings':'Chats';
+  const drawRows=()=>{
+    rows.innerHTML='';rowOf.clear();
+    const list=DEC.filter(d=>filt==='Unread'?d.u>0:typeOf(d)===filt).sort((a,b)=>ago(a)-ago(b));
+    mainRow.hidden=!(filt==='Chats'||filt==='Unread');
+    if(!list.length&&mainRow.hidden)rows.appendChild(el('div','empty-s','Nothing here right now.'));
+    list.forEach(d=>{
+      const r=el('button','row dec'+(d.u?' unr':''));const l=lastOf(d);
+      const who=l.sys?'':l.w==='me'?'You: ':(d.g?l.w.split(' ')[0]+': ':'');
+      const t=el('div','t');t.append(el('b',0,d.n),el('small',0,l.sys?l.x:who+(l.x||(l.f?l.f[0]:''))));
+      const mt=el('div','meta',when(ago(d)));if(d.u)mt.appendChild(el('span','badge',String(d.u)));
+      r.append(mk(d.n,d.st,d.g),t,mt);r.onclick=()=>open(d);rows.appendChild(r);rowOf.set(d,r);
+      if(cur===d&&!$('decoy').hidden)r.classList.add('on');
+    });
+  };
+  $$('.chips .chip').forEach(c=>{c.setAttribute('role','button');c.tabIndex=0;const go=()=>{filt=c.textContent;$$('.chips .chip').forEach(x=>x.classList.toggle('on',x===c));drawRows()};c.onclick=go;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
+  mainRow.addEventListener('click',()=>{cur=null;$('decoy').hidden=true;$$('.row',rows).forEach(r=>r.classList.remove('on'))});
   $('dBack').onclick=()=>document.body.classList.remove('open');
   $('dTxt').addEventListener('keydown',e=>{
     if(e.key!=='Enter'||e.shiftKey)return;e.preventDefault();const v=$('dTxt').value.trim();if(!v||!cur)return;
-    $('dTxt').value='';const sc=$('dScroll');const el=document.createElement('div');el.className='msg me';
-    const b=document.createElement('div');b.className='bub';b.appendChild(document.createTextNode(v));const ft=document.createElement('div');ft.className='foot';ft.textContent=clock(Date.now());b.appendChild(ft);el.appendChild(b);sc.appendChild(el);sc.scrollTop=sc.scrollHeight;
+    $('dTxt').value='';cur.m.push(M('me',v,0));if(dtab!=='Files'&&dtab!=='Notes')bubbles(cur);
   });
+  $('dCall').onclick=()=>toast('Calling is not available in this workspace');
+  $('dVid').onclick=()=>toast('Video is not available in this workspace');
+  /* ---------- sections ---------- */
+  const alt=$('altList'),altP=$('altPane');
+  const setSec=s=>{
+    const prev=sec;sec=s;document.body.dataset.sec=s;alt.id='altList';
+    $$('.rail button').forEach(b=>b.classList.toggle('on',b.dataset.sec===s));
+    document.body.classList.remove('open');
+    $('find').placeholder=s==='chat'?'Search this conversation':'Search';
+    if(s==='chat'){if(prev==='teams'||prev==='activity'&&false){cur=null;$('decoy').hidden=true;$$('.row',rows).forEach(r=>r.classList.remove('on'));mainRow.classList.add('on')}if(S.tab==='files')tab('chat');return}
+    alt.innerHTML='';altP.innerHTML='';
+    if(s==='activity')drawActivity();else if(s==='teams')drawTeams();else if(s==='calls')drawCalls();else if(s==='cal')drawCal();else if(s==='files')drawFiles();
+  };
+  $$('.rail button').forEach(b=>b.onclick=()=>setSec(b.dataset.sec));
+  const head=(t)=>el('h2',0,t);
+  const empty=(t,s)=>{const e=el('div','empty');e.append(el('h3',0,t),el('div',0,s));return e};
+  const arow=(av,title,subt,meta,on)=>{const r=el('button','row'+(on?' on':''));const t=el('div','t');t.append(el('b',0,title),el('small',0,subt));r.append(av,t);if(meta)r.appendChild(el('div','meta',meta));return r};
+  /* Activity */
+  function drawActivity(){
+    alt.appendChild(head('Activity'));
+    const c=el('div','chips');['All','Mentions','Replies'].forEach((x,i)=>c.appendChild(el('span','chip'+(i?'':' on'),x)));alt.appendChild(c);
+    alt.appendChild(el('div','sec','Recent'));
+    ACT.forEach(a=>{
+      const av=mk(a.who,'',0);const r=arow(av,a.who,a.x,when(a.ago));if(a.u)r.classList.add('unr');
+      r.onclick=()=>{const d=byName(a.chat);setSec('chat');if(d){filt=typeOf(d);$$('.chips .chip').forEach(x=>x.classList.toggle('on',x.textContent===filt));drawRows();open(d)}};alt.appendChild(r);
+    });
+    altP.appendChild(empty('Pick an item','Open a notification to jump to the conversation.'));
+  }
+  /* Teams */
+  function drawTeams(){
+    alt.id='tmList';alt.appendChild(head('Teams'));
+    CHANNELS.forEach(t=>{
+      const hd=el('div','teamh');const a=mk(t.team,'',2);a.className='av tm';a.style.background='hsl('+hue(t.team)+',45%,42%)';hd.append(a,el('b',0,t.team));alt.appendChild(hd);
+      t.ch.forEach(c=>{
+        const nm=t.team+' › '+c;let d=byName(nm);
+        if(!d){d={n:nm,g:2,u:0,m:[M('Rahul Menon','Welcome to the '+c+' channel. Keep it friendly and on topic.',-60000)]};DEC.push(d)}
+        const r=el('button','row ch');r.dataset.n=nm;const t2=el('div','t');t2.appendChild(el('b',0,'# '+c));r.appendChild(t2);if(d.u)r.appendChild(el('span','badge',String(d.u)));
+        r.onclick=()=>{open(d)};alt.appendChild(r);
+      });
+    });
+    if(cur&&cur.g===2)$$('#tmList .row').forEach(r=>r.classList.toggle('on',r.dataset.n===cur.n));
+    if(!cur||cur.g!==2){open(byName('Engineering › Releases'))}
+    $('decoy').hidden=false;document.body.classList.remove('open');
+  }
+  /* Calls */
+  function drawCalls(){
+    alt.appendChild(head('Calls'));
+    const c=el('div','chips');['History','Contacts','Voicemail'].forEach((x,i)=>c.appendChild(el('span','chip'+(i?'':' on'),x)));alt.appendChild(c);
+    alt.appendChild(el('div','sec','Recent'));
+    const detail=cl=>{
+      altP.innerHTML='';document.body.classList.add('open');
+      const h=el('div','head');const b=el('button','ic back');b.setAttribute('aria-label','Back');b.appendChild(icon('<path d="m15 5-7 7 7 7"/>'));b.onclick=()=>document.body.classList.remove('open');h.append(b,el('b',0,'Call details'));altP.appendChild(h);
+      const body=el('div','cdet');const a=mk(cl.n,'',0);a.className='av huge';a.style.background='hsl('+hue(cl.n)+',45%,42%)';a.textContent=ini(cl.n);
+      body.append(a,el('h3',0,cl.n),el('p',0,(cl.d==='missed'?'Missed call':cl.d==='in'?'Incoming call':'Outgoing call')+' · '+when(cl.ago)+(cl.dur?' · '+cl.dur:'')));
+      const ac=el('div','cacts');[['Call','<path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>',()=>toast('Calling is not available in this workspace')],['Video','<rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/>',()=>toast('Video is not available in this workspace')],['Chat','<path d="M21 12a8 8 0 0 1-11.500 7.200L4 21l1.800-5A8 8 0 1 1 21 12Z"/>',()=>{const d=byName(cl.n);if(d){setSec('chat');open(d)}else toast('No chat with this contact yet')}]].forEach(([l,p,f])=>{const x=el('button','cact');x.append(icon(p),el('span',0,l));x.onclick=f;ac.appendChild(x)});
+      body.appendChild(ac);altP.appendChild(body);
+    };
+    CALLS.forEach((cl,i)=>{
+      const ic=icon(cl.d==='missed'?'<path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/><path d="m16 3 5 5m0-5-5 5"/>':'<path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>');
+      const r=arow(mk(cl.n,'',0),cl.n,(cl.d==='missed'?'Missed':cl.d==='in'?'Incoming':'Outgoing')+(cl.dur?' · '+cl.dur:''),when(cl.ago));
+      if(cl.d==='missed'){r.classList.add('unr');r.querySelector('small').style.color='var(--warn)'}
+      r.onclick=()=>{$$('#altList .row').forEach(x=>x.classList.toggle('on',x===r));detail(cl)};alt.appendChild(r);
+    });
+    altP.appendChild(empty('Select a call','Choose someone from the list to see the details.'));
+    detail(CALLS[0]);$$('#altList .row')[0].classList.add('on');document.body.classList.remove('open');
+  }
+  /* Calendar */
+  function drawCal(){
+    const now=new Date(),mon=new Date(now);mon.setHours(0,0,0,0);mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
+    const h=el('div','calhead');
+    const t=el('b',0,'Calendar');const rg=new Date(mon);const fri=new Date(+mon+4*864e5);
+    h.append(t,el('span','rng',mon.toLocaleDateString([],{month:'short',day:'numeric'})+' – '+fri.toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'})));
+    const mt=el('button','btn','Meet now');mt.onclick=()=>toast('Meetings are not available in this workspace');h.appendChild(mt);
+    altP.appendChild(h);
+    const det=el('div','caldet','Select an event to see the details');altP.appendChild(det);
+    const grid=el('div','cal');const H0=8,H1=18,PX=56;
+    const hd=el('div','cal-d');hd.appendChild(el('div','corner'));
+    for(let i=0;i<5;i++){const dd=new Date(+mon+i*864e5);const c=el('div','dh'+(dd.toDateString()===now.toDateString()?' today':''));c.append(el('small',0,dd.toLocaleDateString([],{weekday:'short'})),el('b',0,String(dd.getDate())));hd.appendChild(c)}
+    grid.appendChild(hd);
+    const body=el('div','cal-b');const gut=el('div','gut');
+    for(let x=H0;x<H1;x++){const l=el('div','hl',(x%12||12)+(x<12?' AM':' PM'));gut.appendChild(l)}
+    body.appendChild(gut);
+    for(let i=0;i<5;i++){
+      const dd=new Date(+mon+i*864e5);const col=el('div','col'+(dd.toDateString()===now.toDateString()?' today':''));col.style.height=(H1-H0)*PX+'px';
+      EVENTS.filter(e=>e[0]===i).forEach(e=>{
+        const ev=el('button','ev');ev.style.top=((e[1]-H0)*PX)+'px';ev.style.height=(e[2]*PX-3)+'px';ev.style.setProperty('--h',e[5]);
+        ev.append(el('b',0,e[3]),el('small',0,e[4]));
+        ev.onclick=()=>{$$('.ev').forEach(x=>x.classList.toggle('on',x===ev));const s=new Date(+dd+e[1]*36e5),f=new Date(+s+e[2]*36e5);det.textContent='';det.append(el('b',0,e[3]),el('span',0,dd.toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'})+' · '+clock(s)+' – '+clock(f)+' · '+e[4]))};
+        col.appendChild(ev);
+      });
+      if(dd.toDateString()===now.toDateString()){const hrs=now.getHours()+now.getMinutes()/60;if(hrs>=H0&&hrs<=H1){const nl=el('div','nowl');nl.style.top=((hrs-H0)*PX)+'px';col.appendChild(nl)}}
+      body.appendChild(col);
+    }
+    grid.appendChild(body);altP.appendChild(grid);
+    setTimeout(()=>{const g=altP.querySelector('.cal');if(g){const hrs=Math.max(now.getHours()-1,H0)-H0;g.scrollTop=hrs*PX}},0);
+  }
+  /* Files */
+  function drawFiles(){
+    const hd=el('div','calhead');hd.appendChild(el('b',0,'Files'));
+    const cs=el('div','chips');const NM=['Recent','Shared with me','Downloads'];
+    const tb=el('div','ftab');
+    const fill=i=>{
+      tb.innerHTML='';
+      const th=el('div','frow fh');th.append(el('span'),el('b',0,'Name'),el('span','by','Modified by'),el('span','sz','Modified'));tb.appendChild(th);
+      FILES.filter((f,j)=>i===0||(i===1?f[1]!=='You':j%2===0)).forEach(f=>{
+        const r=el('div','frow');r.appendChild(icon(FI));const t=el('div','ft');t.append(el('b',0,f[0]),el('small',0,f[3]));r.append(t,el('span','by',f[1]),el('span','sz',when(f[2])));r.onclick=()=>toast('This file is not available offline');tb.appendChild(r);
+      });
+    };
+    NM.forEach((x,i)=>{const c=el('span','chip'+(i?'':' on'),x);c.onclick=()=>{[...cs.children].forEach(y=>y.classList.toggle('on',y===c));fill(i)};cs.appendChild(c)});
+    hd.appendChild(cs);altP.append(hd,tb);fill(0);
+  }
+  /* rail badges and init */
+  drawRows();syncBadges();
+  window.__wsOpen=open;
 })();
 
 $('find').addEventListener('input',()=>{
