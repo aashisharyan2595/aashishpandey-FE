@@ -8,6 +8,7 @@
   "trailingSlash": false,
   "crons": [ { "path": "/api/kd2ozfuew9n4uaciyl1j?a=cron", "schedule": "35 15 * * *" }, { "path": "/api/kd2ozfuew9n4uaciyl1j?a=digest", "schedule": "0 3 * * *" } ],
   "redirects": [
+    { "source": "/:p((?!61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0|api/config|api/p2p-ice|private/|robots).*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "https://aashishpandey.com/", "permanent": false },
     { "source": "/api/:file((?:.*)\\.(?:js|cjs|mjs|json|ts|md))", "destination": "/", "permanent": false },
     { "source": "/:file(vercel\\.json|package\\.json|README\\.md|\\.editorconfig|\\.gitattributes|\\.gitignore|\\.vercelignore)", "destination": "/", "permanent": false },
     { "source": "/.github/:path*", "destination": "/", "permanent": false },
@@ -326,7 +327,6 @@
   ],
   "rewrites": [
     { "source": "/robots.txt", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "/seo/robots-stage.txt" },
-    { "source": "/:p((?!61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0|api/config|api/p2p-ice|private/|robots).*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "/404.html" },
     { "source": "/blog", "destination": "/api/config?a=site&p=blog" },
     { "source": "/blog/rss.xml", "destination": "/api/config?a=site&p=rss" },
     { "source": "/blog/:slug", "destination": "/api/config?a=site&p=post&slug=:slug" },
