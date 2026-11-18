@@ -243,6 +243,7 @@ const aes=(raw,use)=>cr.importKey('raw',raw,'AES-GCM',false,use);
 const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
 const fmtSize=(n)=>n<1024?n+' B':n<1048576?(n/1024).toFixed(0)+' KB':(n/1048576).toFixed(1)+' MB';
 const clock=(t)=>new Date(t).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+const stamp=(t)=>new Date(t).toDateString()===new Date().toDateString()?clock(t):new Date(t).toLocaleDateString([],{month:'short',day:'numeric'})+', '+clock(t);
 const initials=(n)=>(n||'?').trim().split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase()||'?';
 const ICON={clk:'<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.500 2"/></svg>',
   reply:'<svg viewBox="0 0 24 24"><path d="M9 7 4 12l5 5M4 12h10a6 6 0 0 1 6 6"/></svg>',
@@ -279,13 +280,70 @@ const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
 })();
 
 /* ---------- start: derive keys, open the relay mailbox ---------- */
+/* ---------- encrypted history on this device (IndexedDB, AES-GCM, key from the room secret) ---------- */
+let db=null,storeKey=null;const timers=new Map();
+const idbReq=(r)=>new Promise((res,rej)=>{r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+async function openStore(){
+  try{
+    storeKey=await aes(await hkdf(S.secretBytes,new Uint8Array(0),'room-store-v1',32),['encrypt','decrypt']);
+    db=await new Promise((res,rej)=>{const r=indexedDB.open('room-'+S.mailbox.slice(0,12),1);r.onupgradeneeded=()=>{for(const n of['m','b','meta'])r.result.createObjectStore(n)};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+  }catch(e){db=null}
+}
+const st=(name,mode)=>db.transaction(name,mode).objectStore(name);
+async function sealLocal(id,bytes){const iv=rnd(12);return cat(iv,new Uint8Array(await cr.encrypt({name:'AES-GCM',iv,additionalData:enc.encode(id)},storeKey,bytes)))}
+async function openLocal(id,u){return new Uint8Array(await cr.decrypt({name:'AES-GCM',iv:u.slice(0,12),additionalData:enc.encode(id)},storeKey,u.slice(12)))}
+function persist(m){
+  if(!db||m.sys||m.deleted||(m.file&&(m.file.once||!m.file.done)))return;
+  clearTimeout(timers.get(m.id));
+  timers.set(m.id,setTimeout(async()=>{
+    timers.delete(m.id);
+    try{
+      const o={id:m.id,from:m.from,kind:m.kind,text:m.text,ts:m.ts,ttl:m.ttl,exp:m.exp,status:m.status,reply:m.reply,react:m.react,read:!!m.sent_read};
+      if(m.file){o.file={name:m.file.name,size:m.file.size,mime:m.file.mime,k:m.file.k,dur:m.file.dur};
+        if(m.file.blob&&!m.saved){const sb=await sealLocal('b'+m.id,new Uint8Array(await m.file.blob.arrayBuffer()));await idbReq(st('b','readwrite').put(sb,m.id));m.saved=true}}
+      const sm=await sealLocal(m.id,enc.encode(JSON.stringify(o)));await idbReq(st('m','readwrite').put(sm,m.id));
+    }catch(e){}
+  },300));
+}
+async function unpersist(id){if(!db)return;clearTimeout(timers.get(id));try{await idbReq(st('m','readwrite').delete(id));await idbReq(st('b','readwrite').delete(id))}catch(e){}}
+async function saveMeta(){if(!db)return;try{const sm=await sealLocal('meta',enc.encode(JSON.stringify({peer:S.peerName,ttl:S.ttl})));await idbReq(st('meta','readwrite').put(sm,'meta'))}catch(e){}}
+async function loadHistory(){
+  if(!db)return;
+  try{
+    const mm=await idbReq(st('meta','readonly').get('meta'));
+    if(mm){const o=JSON.parse(dec.decode(await openLocal('meta',mm)));S.peerName=o.peer||'';S.ttl=+o.ttl||0}
+    const keys=await idbReq(st('m','readonly').getAllKeys()),now=Date.now(),out=[];
+    for(const k of keys){
+      try{
+        const raw=await idbReq(st('m','readonly').get(k)),o=JSON.parse(dec.decode(await openLocal(k,raw)));
+        if(o.exp&&o.exp<=now){await unpersist(k);continue}
+        const m={...o,sent_read:o.read,saved:true};
+        if(o.file){const b=await idbReq(st('b','readonly').get(k));if(!b){await unpersist(k);continue}
+          const bytes=await openLocal('b'+k,b);m.file={...o.file,done:true,opened:false,prog:1,blob:new Blob([bytes],{type:o.file.mime})};m.file.url=URL.createObjectURL(m.file.blob)}
+        out.push(m);
+      }catch(e){/* damaged or wrong key: skip */}
+    }
+    out.sort((a,b)=>a.ts-b.ts);S.msgs=out;
+    if(out.length)sysMsgQuiet('Earlier messages restored from this device (encrypted).');
+  }catch(e){}
+}
+function sysMsgQuiet(t){S.msgs.push({sys:true,text:t,id:newId(),ts:S.msgs.length?S.msgs[S.msgs.length-1].ts:Date.now()})}
+async function eraseHistory(){
+  if(!db)return;
+  for(const m of S.msgs)if(m.file&&m.file.url){try{URL.revokeObjectURL(m.file.url)}catch(e){}}
+  try{await idbReq(st('m','readwrite').clear());await idbReq(st('b','readwrite').clear());await idbReq(st('meta','readwrite').clear())}catch(e){}
+  S.msgs=[];$('scroll').innerHTML='';lastDay='';updRow();toast('Saved history erased from this device.');
+}
 async function start(){
   $('meName').textContent=S.name;$('meAv').textContent=initials(S.name);
   S.secretBytes=unb64(S.secret);
   S.mailbox=hex(await sha('room-mailbox-v1|',S.secretBytes)).slice(0,32);
   S.authKey=await hkdf(S.secretBytes,new Uint8Array(0),'room-auth-v1',32);
   S.sigKey=await aes(await hkdf(S.secretBytes,new Uint8Array(0),'room-sig-v1',32),['encrypt','decrypt']);
-  renderEmpty();setStatus('wait','Waiting for the other person');document.body.classList.add('open');
+  await openStore();await loadHistory();
+  if(S.peerName){$('hdName').textContent=$('rowName').textContent=S.peerName;$('hdAv').firstChild.textContent=$('rowAv').firstChild.textContent=initials(S.peerName)}
+  updTtlPill();renderEmpty();setStatus('wait','Waiting for the other person');document.body.classList.add('open');
+  if(S.msgs.length)renderAll();
   relayLoop();
 }
 const inviteLink=()=>location.origin+location.pathname+'#'+S.secret;
@@ -462,7 +520,7 @@ const newId=()=>hex(rnd(8));
 function addMsg(m){
   S.msgs.push(m);
   if(m.ttl)m.exp=Date.now()+m.ttl*1000;
-  renderAll(m);
+  renderAll(m);persist(m);
   updRow();
 }
 function sysMsg(t){S.msgs.push({sys:true,text:t,id:newId(),ts:Date.now()});renderAll()}
@@ -477,7 +535,7 @@ async function sendText(){
 }
 async function onCtl(c){
   switch(c.t){
-    case'hi':S.peerName=String(c.n||'Guest').slice(0,32);updHead();break;
+    case'hi':S.peerName=String(c.n||'Guest').slice(0,32);updHead();saveMeta();break;
     case'm':{const m={id:c.id,from:'peer',kind:'text',text:String(c.x||''),ts:Date.now(),ttl:+c.ttl||0,reply:c.r||null,react:{}};addMsg(m);gotMsg(m);break}
     case'f':{
       const m={id:c.id,from:'peer',kind:'file',ts:Date.now(),ttl:+c.ttl||0,reply:c.r||null,react:{},file:{name:String(c.name||'file').slice(0,120),size:+c.size||0,mime:String(c.mime||'application/octet-stream'),k:c.k,once:+c.once||0,dur:c.dur,url:null,done:false,opened:false,prog:0}};
@@ -490,7 +548,7 @@ async function onCtl(c){
     case'ty':showTyping(!!c.on);break;
     case'x':{const m=findMsg(c.id);if(m){if(c.e)m.react.peer=c.e;else delete m.react.peer;renderOne(m)}break}
     case'del':{const m=findMsg(c.id);if(m)removeMsg(m,true);break}
-    case'tm':S.ttl=+c.s||0;sysMsg(`${S.peerName||'They'} turned disappearing messages ${S.ttl?'on: '+ttlLabel(S.ttl):'off'}.`);updTtlPill();break;
+    case'tm':S.ttl=+c.s||0;saveMeta();sysMsg(`${S.peerName||'They'} turned disappearing messages ${S.ttl?'on: '+ttlLabel(S.ttl):'off'}.`);updTtlPill();break;
     case'op':{const m=findMsg(c.id);if(m&&m.from==='me'){m.file.opened=true;renderOne(m)}break}
     case'bye':ended(`${S.peerName||'The other person'} ended the session. Keys were erased.`);break;
   }
@@ -517,7 +575,7 @@ async function sendFile(file,{kind='file',once=0,dur=0,name}={}){
   if(file.size>MAX_FILE)return toast('That file is over '+fmtSize(MAX_FILE)+'. Browsers keep it all in memory, so the limit is small.');
   const id=newId(),fid=rnd(8),fkey=rnd(32),buf=new Uint8Array(await file.arrayBuffer()),h=b64(await sha(buf));
   const n=Math.ceil(buf.length/CHUNK);
-  const m={id,from:'me',kind:'file',ts:Date.now(),ttl:S.ttl,status:'sent',react:{},reply:S.reply,file:{name:name||file.name||'file',size:buf.length,mime:file.type||'application/octet-stream',k:kind,once,dur,url:once?null:URL.createObjectURL(file),done:true,opened:false,prog:0,sending:true}};
+  const m={id,from:'me',kind:'file',ts:Date.now(),ttl:S.ttl,status:'sent',react:{},reply:S.reply,file:{name:name||file.name||'file',size:buf.length,mime:file.type||'application/octet-stream',k:kind,once,dur,url:once?null:URL.createObjectURL(file),blob:once?null:file,done:true,opened:false,prog:0,sending:true}};
   const rep=S.reply;cancelReply();addMsg(m);
   await sendCtl({t:'f',id,name:m.file.name,size:buf.length,mime:m.file.mime,k:kind,once,dur,r:rep,ttl:S.ttl,fid:b64(fid),fk:b64(fkey),n,h});
   const key=await aes(fkey,['encrypt']);
@@ -578,6 +636,7 @@ function fixCont(){
   }
 }
 function renderOne(m){
+  persist(m);
   const old=document.querySelector(`[data-id="${m.id}"]`);
   if(!old){renderAll();return}
   const n=build(m);if(old.classList.contains('cont'))n.classList.add('cont');old.replaceWith(n);
@@ -603,7 +662,7 @@ function build(m){
   }else bub.appendChild(buildFile(m));
   const foot=document.createElement('div');foot.className='foot';
   if(m.ttl){const t=document.createElement('span');t.className='ttl';t.dataset.exp=m.exp||'';t.innerHTML=ICON.clk;const s=document.createElement('span');s.textContent=left(m);t.appendChild(s);foot.appendChild(t)}
-  const tm=document.createElement('span');tm.textContent=clock(m.ts);foot.appendChild(tm);
+  const tm=document.createElement('span');tm.textContent=stamp(m.ts);tm.title=new Date(m.ts).toLocaleString([],{dateStyle:'full',timeStyle:'medium'});foot.appendChild(tm);
   if(mine){const t=document.createElement('span');t.className='tick'+(m.status==='read'?' r':'');t.title=m.status==='sent'?'Sent':m.status==='delivered'?'Delivered':'Read';t.innerHTML=m.status==='sent'?ICON.tick:ICON.tick2;foot.appendChild(t)}
   if(!mine&&!m.cont){}
   if(!m.deleted)bub.appendChild(foot);
@@ -665,6 +724,7 @@ function viewOnce(m){
 }
 function react(m,e){if(m.react.me===e)delete m.react.me;else m.react.me=e;renderOne(m);sendCtl({t:'x',id:m.id,e:m.react.me||''})}
 function removeMsg(m,fromPeer){
+  unpersist(m.id);
   if(m.file&&m.file.url){try{URL.revokeObjectURL(m.file.url)}catch(e){}}
   if(fromPeer){m.deleted=true;m.file&&(m.file.blob=null,m.file.url=null);renderOne(m)}
   else{m.deleted=true;m.file&&(m.file.url=null);renderOne(m)}
@@ -672,7 +732,7 @@ function removeMsg(m,fromPeer){
 function expire(m){
   const i=S.msgs.indexOf(m);if(i<0)return;
   if(m.file){try{m.file.url&&URL.revokeObjectURL(m.file.url)}catch(e){}m.file.blob=null;m.file.url=null}
-  S.msgs.splice(i,1);
+  S.msgs.splice(i,1);unpersist(m.id);
   const el=document.querySelector(`[data-id="${m.id}"]`);if(el){el.classList.add('gone');setTimeout(()=>{el.remove();fixCont()},360)}
   updRow();if(S.tab==='files')renderFiles();
 }
@@ -746,7 +806,7 @@ $('bTimer').onclick=()=>{
   if(popEl)return closePop();
   const p=pop('menu');p.style.left='auto';p.style.right='0';p.style.position='fixed';const r=$('bTimer').getBoundingClientRect();p.style.top=(r.bottom+6)+'px';p.style.right=Math.max(8,innerWidth-r.right)+'px';p.style.bottom='auto';p.style.margin='0';$('app').appendChild(p);
   const h=document.createElement('div');h.style.cssText='padding:6px 10px;color:var(--sub);font-size:12px';h.textContent='Disappearing messages (new messages only)';p.appendChild(h);
-  for(const [s,l] of TTLS){const b=document.createElement('button');b.textContent=l;b.className=S.ttl===s?'on':'';b.onclick=()=>{S.ttl=s;sendCtl({t:'tm',s});sysMsg(`You turned disappearing messages ${s?'on: '+l:'off'}.`);updTtlPill();closePop()};p.appendChild(b)}
+  for(const [s,l] of TTLS){const b=document.createElement('button');b.textContent=l;b.className=S.ttl===s?'on':'';b.onclick=()=>{S.ttl=s;saveMeta();sendCtl({t:'tm',s});sysMsg(`You turned disappearing messages ${s?'on: '+l:'off'}.`);updTtlPill();closePop()};p.appendChild(b)}
 };
 function updTtlPill(){const p=$('pTtl');p.hidden=!S.ttl;p.textContent='Disappear after '+ttlLabel(S.ttl);$('bTimer').classList.toggle('on',!!S.ttl)}
 /* voice notes */
@@ -831,6 +891,11 @@ function renderInfo(){
     kv('Stored on a server','Only sealed handshake blobs, up to 15 minutes');
     kv('Sent / received',fmtSize(S.stats.sent)+' / '+fmtSize(S.stats.recv)+' of files');
   });
+  card('Saved history on this device',c=>{
+    const p=document.createElement('p');p.textContent=db?'Messages and files are kept in this browser, encrypted with a key made from the room secret. Disappearing messages are removed from it when they expire. Anyone who has this browser and the full room link can read them, so erase it on shared computers.':'This browser blocked local storage, so nothing is saved after you close the tab.';c.appendChild(p);
+    if(db){const b=document.createElement('button');b.className='btn ghost';b.textContent='Erase saved history';b.onclick=()=>{if(confirm('Erase all saved messages and files on this device?'))eraseHistory()};c.appendChild(b)}
+  });
+  if(S.state!=='ready')card('Invite link',c=>{const i=document.createElement('input');i.readOnly=true;i.value=inviteLink();i.style.cssText='width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:12px ui-monospace,monospace';i.onfocus=()=>i.select();c.appendChild(i)});
   card('Privacy settings',c=>{
     const sw=(label,get,set)=>{const l=document.createElement('label');l.className='sw';const i=document.createElement('input');i.type='checkbox';i.checked=get();i.onchange=()=>set(i.checked);const s=document.createElement('span');s.textContent=label;l.append(i,s);c.appendChild(l)};
     sw('Send read receipts',()=>S.readReceipts,v=>{S.readReceipts=v;if(v)markRead()});
@@ -846,11 +911,9 @@ function renderInfo(){
 function ended(text){
   if(S.state==='closed')return;S.state='closed';
   S.sendCk=S.recvCk=null;try{S.dc&&S.dc.close();S.pc&&S.pc.close()}catch(e){}
-  for(const m of S.msgs){if(m.file){try{m.file.url&&URL.revokeObjectURL(m.file.url)}catch(e){}m.file.blob=null}}
-  S.msgs=[];S.incoming.clear();$('scroll').innerHTML='';
-  const e=document.createElement('div');e.className='empty';e.id='empty';e.innerHTML='<h3>Session ended</h3>';const p=document.createElement('div');p.textContent=text+' Every message, file and key is gone from this tab.';
-  const b=document.createElement('button');b.className='btn';b.style.marginTop='14px';b.textContent='Start a new private room';b.onclick=()=>{location.hash='';location.reload()};e.append(p,b);$('scroll').appendChild(e);
-  setStatus('off','Session ended');$('hdDot').className='dot';$('rowDot').className='dot';$('txt').disabled=true;updSend();$('rowPrev').textContent='Session ended';$('typing').textContent='';
+  S.incoming.clear();
+  sysMsg(text+(db?' Your saved history stays on this device, encrypted. Open the link again to reconnect.':' Nothing was saved.'));
+  setStatus('off','Session ended');$('hdDot').className='dot';$('rowDot').className='dot';$('txt').disabled=true;updSend();$('typing').textContent='';
   tab('chat');
 }
 addEventListener('pagehide',()=>{try{if(S.state==='ready'&&S.dc&&S.dc.readyState==='open'){sendQ=sendQ.then(()=>{});sendCtl({t:'bye'})}}catch(e){}});
