@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
       await stats.hit(b.k === 'use' ? 'use' : 'view', clean(b.p, 120), clean(b.r, 400), req.headers.host);
       return res.status(204).end();
     }
+    if (a === 'chat') return require('./_chat')(req, res);   // blind handshake relay for the private chat room
     if (a === 'popups') {
       res.setHeader('Vercel-CDN-Cache-Control', 'max-age=300, stale-while-revalidate=600');
       res.setHeader('CDN-Cache-Control', 'max-age=300, stale-while-revalidate=600');
