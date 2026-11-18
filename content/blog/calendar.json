@@ -774,6 +774,28 @@
       ],
       "angle": "",
       "added": "2026-11-18"
+    },
+    {
+      "key": "nvidia-startup-stakes-65b",
+      "title": "Nvidia's startup stakes hit $65B: what Huang's exit means for its deals",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/17/nvidias-startup-stakes-ballooned-to-65b-but-huangs-exit-puts-future-deals-in-doubt/"
+      ],
+      "angle": "Ties to nvidia-engineered-scarcity; check the filing numbers and a second outlet.",
+      "added": "2026-11-18"
+    },
+    {
+      "key": "faa-ground-stop-nov-2026",
+      "title": "How one computer outage grounded US flights for hours",
+      "kind": "explainer",
+      "score": 6,
+      "urls": [
+        "https://www.faa.gov/newsroom/nationwide-ground-stop-questions-and-answers"
+      ],
+      "angle": "13-14 Nov FAA nationwide ground stop: what failed, what is confirmed, what travellers can do.",
+      "added": "2026-11-18"
     }
   ],
   "covered": [
