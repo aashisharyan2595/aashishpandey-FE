@@ -156,6 +156,8 @@ audio{height:36px;width:240px;display:block}
 .dlg h2{margin:0 0 6px;font-size:20px}.dlg p{margin:0 0 12px;color:var(--sub)}
 .dlg label{display:block;font-weight:600;margin:12px 0 4px}.dlg input[type=text],.dlg input[type=password],.dlg textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
 .dlg textarea{min-height:84px;font:11.5px ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+.rrow{display:flex;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}.rrow .rt{flex:1;min-width:110px}.rrow b{display:block}.rrow small{color:var(--sub)}.rrow .btn{padding:5px 10px;font-size:13px}
+.newrow{display:flex;gap:8px}.newrow input{flex:1}
 .dlg .acts{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
 .viewer{background:#000;color:#fff;flex-direction:column;gap:12px;user-select:none;-webkit-user-select:none}
 .viewer img{max-width:94vw;max-height:78dvh;border-radius:6px;-webkit-touch-callout:none;pointer-events:none}
@@ -255,11 +257,16 @@ body.blur .scroll{filter:blur(14px)}
   <div class="dlg">
     <h2 id="gTitle">Private room</h2>
     <p id="gText">Messages go straight from one browser to another, encrypted, and are saved only on your own device. Pick a name the other person will see.</p>
+    <div id="lobby" hidden>
+      <div id="gRooms"></div>
+      <label for="gLabel">New link, who is it for?</label>
+      <div class="newrow"><input type="text" id="gLabel" maxlength="40" autocomplete="off" placeholder="e.g. Priya"><button class="btn" id="gNew">Create link</button></div>
+    </div>
     <label for="gName">Your name</label>
     <input type="text" id="gName" maxlength="32" autocomplete="off" placeholder="e.g. Aashish">
     <label for="gPass">Passphrase (optional, recommended)</label>
     <input type="password" id="gPass" autocomplete="off" placeholder="Agree it with them on a different channel than the link">
-    <label class="sw" style="font-weight:400"><input type="checkbox" id="gKeep" checked><span>Remember this room on this device, so I can reopen it if I close the tab by mistake</span></label>
+    <label class="sw" id="gKeepL" style="font-weight:400"><input type="checkbox" id="gKeep" checked><span>Remember this room on this device, so I can reopen it if I close the tab by mistake</span></label>
     <label class="sw" style="font-weight:400"><input type="checkbox" id="gHide" disabled><span>Hide my IP address (relay only)</span></label>
     <p class="note" id="gHideN" style="margin:0">Checking…</p>
     <div class="acts"><button class="btn" id="gGo">Continue</button></div>
@@ -306,31 +313,58 @@ const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
 
 /* ---------- gate (name, create or join) ---------- */
 (function gate(){
+  const RX=/^[A-Za-z0-9_-]{22}$/;
   const frag=location.hash.slice(1);
-  const joining=/^[A-Za-z0-9_-]{22}$/.test(frag);
-  try{$('gName').value=sessionStorage.getItem('room.name')||''}catch(e){}
-  let saved=null;try{saved=JSON.parse(localStorage.getItem('room.saved')||'null')}catch(e){}
-  if(!joining&&saved&&/^[A-Za-z0-9_-]{22}$/.test(saved.secret||'')){
-    $('gTitle').textContent='Welcome back';$('gGo').textContent='Resume saved room';
-    const a=document.createElement('button');a.className='btn ghost';a.textContent='Start a new room';a.onclick=()=>{try{localStorage.removeItem('room.saved')}catch(e){}saved=null;$('gTitle').textContent='Create a private room';$('gGo').textContent='Create room link';a.remove()};$('gGo').parentNode.appendChild(a);
-    $('gText').textContent='Your saved conversation is on this device, encrypted. Resume it, or start a fresh room. Enter the passphrase again if you set one.';
-    try{if(!$('gName').value)$('gName').value=saved.name||''}catch(e){}
-  }
-  if(joining){$('gTitle').textContent='Join private room';$('gGo').textContent='Join room'}
-  else if(!saved){$('gTitle').textContent='Create a private room';$('gGo').textContent='Create room link'}
-  getIce().then(()=>{const c=$('gHide');c.disabled=!S.relayAvail;$('gHideN').textContent=S.relayAvail?'Your address is never offered to the other person. Slower, and uses the relay server.':'Unavailable: this needs a TURN relay server, which this site does not have. Without it, the other person (and a network observer) can see which IP addresses are talking.'});
-  $('gGo').onclick=()=>{
-    const n=$('gName').value.trim();if(!n){$('gName').focus();return}
+  const joining=RX.test(frag);
+  let rooms=[];try{rooms=JSON.parse(localStorage.getItem('room.rooms')||'[]').filter(r=>r&&RX.test(r.secret||''))}catch(e){}
+  try{const old=JSON.parse(localStorage.getItem('room.saved')||'null');if(old&&RX.test(old.secret||'')&&!rooms.some(r=>r.secret===old.secret))rooms.push({secret:old.secret,label:'Saved room',role:old.role||'creator',ts:Date.now()});localStorage.removeItem('room.saved')}catch(e){}
+  const saveRooms=()=>{try{localStorage.setItem('room.rooms',JSON.stringify(rooms))}catch(e){}};
+  const linkOf=sec=>location.origin+location.pathname+'#'+sec;
+  try{$('gName').value=sessionStorage.getItem('room.name')||$('gName').value||''}catch(e){}
+  const known=joining?rooms.find(r=>r.secret===frag):null;
+  const go=(secret,role)=>{
+    const n=$('gName').value.trim();if(!n){$('gName').focus();toast('Enter your name first.');return}
     S.pass=$('gPass').value;S.hideIp=$('gHide').checked&&!$('gHide').disabled;
     S.name=n;try{sessionStorage.setItem('room.name',n)}catch(e){}
-    if(saved&&!joining){S.secret=saved.secret;S.role=saved.role||'creator';history.replaceState(null,'','#'+saved.secret)}
-    else if(!joining){const s=b64(rnd(16));history.replaceState(null,'','#'+s);S.secret=s;S.role='creator'}else{S.secret=frag;S.role='joiner'}
-    try{if($('gKeep').checked)localStorage.setItem('room.saved',JSON.stringify({secret:S.secret,role:S.role,name:n}));else localStorage.removeItem('room.saved')}catch(e){}
+    S.secret=secret;S.role=role;history.replaceState(null,'','#'+secret);
+    const i=rooms.findIndex(r=>r.secret===secret);
+    if(i>=0){rooms[i].ts=Date.now();saveRooms()}
+    else if($('gKeep').checked){rooms.push({secret,label:'Room',role,ts:Date.now()});saveRooms()}
     $('gate').hidden=true;start();
   };
-  $('gName').addEventListener('keydown',e=>{if(e.key==='Enter')$('gGo').click()});
-  $('gName').focus();
+  getIce().then(()=>{const c=$('gHide');c.disabled=!S.relayAvail;$('gHideN').textContent=S.relayAvail?'Your address is never offered to the other person. Slower, and uses the relay server.':'Unavailable: this needs a TURN relay server, which this site does not have. Without it, the other person (and a network observer) can see which address you connect from.'});
+  if(joining){
+    $('gTitle').textContent=known?'Open room: '+known.label:'Join private room';$('gGo').textContent=known?'Open room':'Join room';
+    $('gGo').onclick=()=>go(frag,known?known.role:'joiner');
+  }else{
+    $('gTitle').textContent='Your rooms';
+    $('gText').textContent='Make a separate link for each person. Messages go straight between browsers, encrypted, and are saved only on your own device.';
+    $('lobby').hidden=false;$('gGo').hidden=true;$('gKeepL').hidden=true;
+    const list=$('gRooms');
+    const draw=()=>{
+      list.innerHTML='';
+      if(!rooms.length){const p=document.createElement('p');p.className='note';p.textContent='No rooms yet. Type who the link is for and press Create link.';list.appendChild(p)}
+      [...rooms].sort((x,y)=>y.ts-x.ts).forEach(r=>{
+        const row=document.createElement('div');row.className='rrow';
+        const t=document.createElement('div');t.className='rt';const b=document.createElement('b');b.textContent=r.label;const sm=document.createElement('small');sm.textContent=(r.role==='joiner'?'Joined ':'Created ')+new Date(r.ts).toLocaleDateString([],{month:'short',day:'numeric'});t.append(b,sm);
+        const o=document.createElement('button');o.className='btn';o.textContent='Open';o.onclick=()=>go(r.secret,r.role);
+        const c=document.createElement('button');c.className='btn ghost';c.textContent='Copy link';c.onclick=async()=>{try{await navigator.clipboard.writeText(linkOf(r.secret));c.textContent='Copied'}catch(e){window.prompt('Copy this link',linkOf(r.secret))}setTimeout(()=>c.textContent='Copy link',1500)};
+        const x=document.createElement('button');x.className='btn ghost';x.textContent='Remove';x.onclick=()=>{if(confirm('Remove "'+r.label+'" from this list? Its saved messages stay on this device until you erase them inside the room.')){rooms=rooms.filter(z=>z!==r);saveRooms();draw()}};
+        row.append(t,o,c,x);list.appendChild(row);
+      });
+    };
+    draw();
+    $('gNew').onclick=async()=>{
+      const label=$('gLabel').value.trim().slice(0,40)||('Room '+(rooms.length+1));
+      const sec=b64(rnd(16));rooms.push({secret:sec,label,role:'creator',ts:Date.now()});saveRooms();$('gLabel').value='';draw();
+      try{await navigator.clipboard.writeText(linkOf(sec));toast('Link for '+label+' copied.')}catch(e){toast('Room created. Use Copy link.')}
+    };
+    $('gLabel').addEventListener('keydown',e=>{if(e.key==='Enter')$('gNew').click()});
+  }
+  $('gName').addEventListener('keydown',e=>{if(e.key==='Enter'&&joining)$('gGo').click()});
+  (joining?$('gName'):$('gLabel')).focus();
 })();
+
 
 /* ---------- start: derive keys, open the relay mailbox ---------- */
 /* ---------- encrypted history on this device (IndexedDB, AES-GCM, key from the room secret) ---------- */
@@ -1048,7 +1082,7 @@ function renderInfo(){
   });
   card('Saved history on this device',c=>{
     const p=document.createElement('p');p.textContent=db?'Messages and files are kept in this browser, encrypted with a key made from the room secret. Disappearing messages are removed from it when they expire. Anyone who has this browser and the full room link can read them, so erase it on shared computers.':'This browser blocked local storage, so nothing is saved after you close the tab.';c.appendChild(p);
-    if(db){const b=document.createElement('button');b.className='btn ghost';b.textContent='Erase saved history';b.onclick=()=>{if(confirm('Erase all saved messages and files on this device, and forget this room?')){try{localStorage.removeItem('room.saved')}catch(e){}eraseHistory()}};c.appendChild(b)}
+    if(db){const b=document.createElement('button');b.className='btn ghost';b.textContent='Erase saved history';b.onclick=()=>{if(confirm('Erase all saved messages and files on this device, and forget this room?')){try{const rs=JSON.parse(localStorage.getItem('room.rooms')||'[]').filter(r=>r.secret!==S.secret);localStorage.setItem('room.rooms',JSON.stringify(rs))}catch(e){}eraseHistory()}};c.appendChild(b)}
   });
   if(S.state!=='ready')card('Invite link',c=>{const i=document.createElement('input');i.readOnly=true;i.value=inviteLink();i.style.cssText='width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:12px ui-monospace,monospace';i.onfocus=()=>i.select();c.appendChild(i)});
   card('Privacy settings',c=>{
