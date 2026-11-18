@@ -325,8 +325,8 @@
     { "source": "/audio-v3.js", "destination": "/assets/js/audio-v3.js", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/robots.txt", "has": [{ "type": "host", "value": "staging.aashishpandey.com" }], "destination": "/seo/robots-stage.txt" },
-    { "source": "/:p((?!61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0|api/config|api/p2p-ice|private/|robots).*)", "has": [{ "type": "host", "value": "staging.aashishpandey.com" }], "destination": "/404.html" },
+    { "source": "/robots.txt", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "/seo/robots-stage.txt" },
+    { "source": "/:p((?!61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0|api/config|api/p2p-ice|private/|robots).*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "destination": "/404.html" },
     { "source": "/blog", "destination": "/api/config?a=site&p=blog" },
     { "source": "/blog/rss.xml", "destination": "/api/config?a=site&p=rss" },
     { "source": "/blog/:slug", "destination": "/api/config?a=site&p=post&slug=:slug" },
@@ -606,7 +606,7 @@
     }
   ],
   "headers": [
-    { "source": "/(.*)", "has": [{ "type": "host", "value": "staging.aashishpandey.com" }], "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" } ] },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" } ] },
     { "source": "/61613f6f845628540f09ac5d0b4e990280611b60876854f23d177fb7fd6674c0(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
     { "source": "/private/(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
     { "source": "/kd2ozfuew9n4uaciyl1j(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "Cache-Control", "value": "no-store" } ] },
