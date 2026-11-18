@@ -194,15 +194,17 @@
       "status": "planned"
     },
     "2026-11-30": {
-      "title": "How to use AI to write project status reports",
-      "kind": "explainer",
-      "angle": "Practical prompts and checks for project managers; what not to paste in.",
-      "urls": [],
-      "score": 5,
+      "title": "GPT-6.2 Astra and Sol: what OpenAI changed",
+      "kind": "news",
+      "angle": "What the 6.2 point release changes for paid users and developers, with independent coverage and the sceptical view",
+      "urls": [
+        "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
+      ],
+      "score": 8,
       "status": "planned",
+      "key": "openai-gpt-6-2",
       "slug": "",
-      "locked": false,
-      "key": "ai-project-status-reports"
+      "locked": false
     },
     "2026-12-01": {
       "title": "CoreWeave prepayments and Fractile $720M: AI compute money",
@@ -689,7 +691,9 @@
         "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidias-ceo-resigns-after-alleged-spy-scandal-whats-next-for-the-company",
         "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/",
         "https://techcrunch.com/2026/11/14/asian-governments-react-to-nvidia-ceo-jensen-huangs-exit/",
-        "https://techcrunch.com/2026/11/17/nvidias-first-big-move-after-jensen-huangs-exit-targets-national-security/"
+        "https://techcrunch.com/2026/11/17/nvidias-first-big-move-after-jensen-huangs-exit-targets-national-security/",
+        "https://techcrunch.com/2026/11/17/nvidia-promises-that-revenue-will-keep-soaring-for-now/",
+        "https://techcrunch.com/2026/11/17/nvidia-is-abandoning-china-after-jensen-huangs-ouster/"
       ],
       "angle": "Follow-up after the 17 Nov earnings call: guidance, CEO search, China export stance (earnings were due after the US close on 17 Nov, so results did not exist when the 18 Nov post was written; write once results are out)",
       "added": "2026-11-17"
@@ -704,6 +708,72 @@
       ],
       "angle": "Single outlet so far; needs a second source and company statement.",
       "added": "2026-11-17"
+    },
+    {
+      "key": "ai-status-reports-howto",
+      "title": "How to use AI to write project status reports",
+      "kind": "explainer",
+      "score": 5,
+      "urls": [],
+      "angle": "Practical prompts and checks for project managers; what not to paste in.",
+      "added": "2026-11-18"
+    },
+    {
+      "key": "java4shell-openjdk-rce",
+      "title": "Java4Shell: RCE flaw in OpenJDK Base64 handling",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://calif.io/java4shell/"
+      ],
+      "angle": "What the flaw is, who is affected, patch status; trade-only sourcing",
+      "added": "2026-11-18"
+    },
+    {
+      "key": "nvidia-sec-probe",
+      "title": "SEC reportedly investigating Nvidia after Huang exit",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://techcrunch.com/2026/11/17/sec-reportedly-investigating-nvidia-amid-huang-exit/",
+        "https://www.npr.org/2026/11/17/nx-s1-6044213/jensen-huang-nvidia-congress"
+      ],
+      "angle": "Follow-up to the Huang exit post; fold into the Nvidia after-earnings piece",
+      "added": "2026-11-18"
+    },
+    {
+      "key": "gemini-chat-retention-2-months",
+      "title": "Google to keep Gemini chats for two months, even with history off",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/17/google-to-keep-gemini-chats-for-two-months-up-from-72-hours-even-with-history-off/"
+      ],
+      "angle": "What changes for privacy and how to adjust settings",
+      "added": "2026-11-18"
+    },
+    {
+      "key": "gemini-tasks-expansion",
+      "title": "Gemini Tasks expands: calls and purchases",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/17/google-expands-access-to-gemini-tasks-which-can-help-with-calls-purchases/",
+        "https://blog.google/innovation-and-ai/products/gemini-app/tasks-in-gemini-free-new-features/"
+      ],
+      "angle": "",
+      "added": "2026-11-18"
+    },
+    {
+      "key": "microsoft-mai-code-2",
+      "title": "Microsoft MAI Code 2 and Code 2 Flash",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://microsoft.ai/news/introducing-mai-code-2-and-mai-code-2-flash/"
+      ],
+      "angle": "",
+      "added": "2026-11-18"
     }
   ],
   "covered": [
