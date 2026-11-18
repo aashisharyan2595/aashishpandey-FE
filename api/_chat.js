@@ -49,6 +49,7 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Not allowed.' });
   } catch (e) {
     console.error('chat relay:', e.message);
-    return res.status(500).json({ error: 'Relay error.' });
+    const m = String(e && e.message || e).replace(/[A-Za-z0-9_\-]{24,}/g, '…').slice(0, 90);
+    return res.status(500).json({ error: 'Relay error.', detail: m });
   }
 };
