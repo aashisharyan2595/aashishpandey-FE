@@ -928,6 +928,7 @@ async function gifSave(f){
   const sb=await sealLocal(k,new Uint8Array(await f.arrayBuffer()));await idbReq(st('meta','readwrite').put(sb,k));
 }
 async function gifDel(k){if(!db){S.gifMem=S.gifMem.filter(x=>x.k!==k);return}try{await idbReq(st('meta','readwrite').delete(k))}catch(e){}}
+const GIFCDN='https://cdn.jsdelivr.net/gh/aashisharyan2595/aashishpandey-FE@7379d3f6f20c6c25c5cba8d7cee335222e8c7850/gifpacks/noto/';
 let ANI=null;
 async function aniMeta(){if(ANI)return ANI;try{const r=await fetch('/gifpacks/noto/index.json');if(r.ok)ANI=await r.json()}catch(e){}return ANI}
 async function aniDraw(g,q,cat){
@@ -936,7 +937,7 @@ async function aniDraw(g,q,cat){
   const hit=m.items.filter(it=>(!cat||String(it[2])===cat)&&(!q||it[1].includes(q)));
   if(!hit.length){g.textContent='Nothing matches.';return}
   let shown=0;const more=document.createElement('button');more.textContent='More…';more.style.cssText='grid-column:1/-1;font-size:13px';
-  const add=()=>{hit.slice(shown,shown+60).forEach(it=>{const b=document.createElement('button');const im=document.createElement('img');im.loading='lazy';im.decoding='async';im.width=64;im.height=64;im.alt=it[1].split(' ')[0];im.src='/gifpacks/noto/'+it[0]+'.webp';b.appendChild(im);b.title=it[1].split(' ').slice(0,3).join(' ');b.setAttribute('aria-label',it[1].split(' ')[0]);
+  const add=()=>{hit.slice(shown,shown+60).forEach(it=>{const b=document.createElement('button');const im=document.createElement('img');im.loading='lazy';im.decoding='async';im.width=64;im.height=64;im.alt=it[1].split(' ')[0];im.src=GIFCDN+it[0]+'.webp';b.appendChild(im);b.title=it[1].split(' ').slice(0,3).join(' ');b.setAttribute('aria-label',it[1].split(' ')[0]);
       b.onclick=async()=>{if(S.state!=='ready')return toast('Animated emoji send once you are connected.');try{const r=await fetch(im.src);const bl=await r.blob();closePop();await sendFile(new File([bl],'animated.webp',{type:'image/webp'}),{kind:'gif'})}catch(e){toast('Could not load that one.')}};g.insertBefore(b,more)});
     shown+=60;more.hidden=shown>=hit.length};
   more.onclick=add;g.appendChild(more);add();
@@ -967,7 +968,7 @@ function gifPop(tabName){
   };
   inp.oninput=draw;
   const n=document.createElement('div');n.className='note';n.textContent='Everything here stays on your own site and device. Add GIFs you like to My GIFs and send them any time.';
-  n.innerHTML='';n.append('Animated emoji: Noto Emoji Animation by Google, CC BY 4.0, hosted on this site. ');{const a=document.createElement('a');a.href='/gifpacks/CREDITS.txt';a.target='_blank';a.rel='noopener noreferrer';a.textContent='Credits';n.appendChild(a)}
+  n.innerHTML='';n.append('Animated emoji: Noto Emoji Animation by Google, CC BY 4.0. They load from the jsDelivr CDN when you open this tab, so jsDelivr can see your address and which ones you open. ');{const a=document.createElement('a');a.href='/gifpacks/CREDITS.txt';a.target='_blank';a.rel='noopener noreferrer';a.textContent='Credits';n.appendChild(a)}
   aniMeta().then(m=>{if(!m)return;cats.innerHTML='';const all=document.createElement('option');all.value='';all.textContent='All categories';cats.appendChild(all);m.cats.forEach((c,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=c;cats.appendChild(o)})});
   p.append(tabs,inp,cats,g,n);draw();inp.focus();
   p._redraw=()=>{tab='mine';draw()};
