@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
         await kv('EXPIRE', sk, QTTL);
         const n = (await kv('HLEN', sk)) || 0;
         if (n > SUBS_MAX) { const all = (await kv('HKEYS', sk)) || []; for (const k of all.slice(0, n - SUBS_MAX)) if (k !== d) await kv('HDEL', sk, k); }
-        return res.status(201).json({ ok: true, durable: true });
+        return res.status(201).json({ ok: true, durable: useRedis });
       }
       const b = body.b;
       if (typeof b !== 'string' || b.length < 20 || b.length > QBLOB || !B64.test(b)) return res.status(400).json({ error: 'Bad request.' });
@@ -95,7 +95,7 @@ module.exports = async (req, res) => {
           }
         }
       } catch (e) { /* a failed ping must never fail the message */ }
-      return res.status(201).json({ ok: true, durable: true });
+      return res.status(201).json({ ok: true, durable: useRedis });
     }
     if (req.method === 'GET' && q.q) {
       if (!durable()) return res.status(200).json({ n: 0, items: [], durable: false });
@@ -107,7 +107,7 @@ module.exports = async (req, res) => {
       const rows = want <= 0 ? [] : ((await kv('LRANGE', qk, -Math.min(want, QMAX), -1)) || []);
       const items = [];
       for (const r of rows) { try { const x = JSON.parse(r); if (x.s > since) items.push({ b: x.b, t: x.t, s: x.s }); } catch (e) { /* skip */ } }
-      return res.status(200).json({ n: latest, items, durable: true });
+      return res.status(200).json({ n: latest, items, durable: useRedis });
     }
     if (req.method === 'DELETE' && q.sub) { if (durable()) await kv('HDEL', `chatsub:${m}`, String(q.sub)); return res.status(204).end(); }
     if (req.method === 'POST') {

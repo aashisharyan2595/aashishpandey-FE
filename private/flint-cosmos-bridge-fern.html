@@ -518,6 +518,8 @@ async function qPost(m){
     const r=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({m:S.mailbox,q:1,d:devId(),b,u:location.pathname})});
     if(r.status===503){S.qOk=false;return false}
     if(!r.ok)return false;
+    let j={};try{j=await r.json()}catch(e){}
+    if(j.durable===false){S.qOk=false;return false}
     S.qOk=true;return true;
   }catch(e){return false}
 }
