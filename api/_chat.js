@@ -22,7 +22,7 @@ const memKv = async (cmd, k, a, b) => {
     case 'EXPIRE': { if (e) e.exp = Date.now() + a * 1000; return 1; }
     case 'LLEN': return e && e.list ? e.list.length : 0;
     case 'RPUSH': { const v = e || { list: [] }; v.list = v.list || []; v.list.push(a); mem.set(k, v); return v.list.length; }
-    case 'LRANGE': { const l = (e && e.list) || []; return l.slice(a); }
+    case 'LRANGE': { const l = (e && e.list) || []; return l.slice(a, b === -1 || b === undefined ? undefined : b + 1); }
     case 'DEL': mem.delete(k); return 1;
   }
 };
@@ -57,10 +57,11 @@ module.exports = async (req, res) => {
       const k = `rl:chatg:${ip(req)}`, n = await kv('INCR', k);
       if (n === 1) await kv('EXPIRE', k, 3600);
       if (n > POLLS_PER_HOUR) return res.status(429).json({ error: 'Too many requests.' });
-      const rows = (await kv('LRANGE', key, since, -1)) || [];
+      const total = Number(await kv('LLEN', key)) || 0;
+      const rows = since >= total ? [] : ((await kv('LRANGE', key, since, total - 1)) || []);
       const items = [];
       for (const r of rows) { try { const x = JSON.parse(r); if (x.i !== i) items.push(x); } catch (e) { /* skip */ } }
-      return res.status(200).json({ n: since + rows.length, items });
+      return res.status(200).json({ n: total, items });
     }
     if (req.method === 'DELETE') { await kv('DEL', key); return res.status(204).end(); }
     return res.status(405).json({ error: 'Not allowed.' });

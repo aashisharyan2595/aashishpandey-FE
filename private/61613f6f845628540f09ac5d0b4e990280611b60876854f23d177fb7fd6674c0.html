@@ -118,6 +118,23 @@ audio{height:36px;width:240px;display:block}
 @media (prefers-reduced-motion:reduce){.stk{animation:none!important}}
 .gtabs{display:flex;gap:6px;margin-bottom:8px}.gtabs button{padding:4px 10px;border-radius:14px;border:1px solid var(--line);background:none;color:var(--ink);font:inherit;cursor:pointer}.gtabs button.on{background:var(--hover);font-weight:600}
 .stg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px;max-height:240px;overflow:auto}.stg button{font-size:34px;background:none;border:0;border-radius:6px;padding:4px;cursor:pointer;position:relative}.stg button:hover{background:var(--hover)}.stg button span.x{position:absolute;top:0;right:2px;font-size:13px;color:var(--sub)}.stg img{width:100%;height:64px;object-fit:cover;border-radius:4px;display:block}
+/* Workplace look: purple top bar, section headings, colleague chats */
+:root{--bar:#464eb8;--bar-ink:#fff}
+:root[data-theme=dark]{--bar:#2d2f52}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bar:#2d2f52}}
+.top{border-bottom:0;color:var(--bar-ink)}.top .ic,.top .brand{color:var(--bar-ink)}.top .ic:hover:not(:disabled){background:rgba(255,255,255,.16);color:#fff}
+.top .brand i{background:#fff;opacity:.9}
+.top .search{background:rgba(255,255,255,.18);border-color:transparent;color:#fff}.top .search input{color:#fff}.top .search input::placeholder{color:rgba(255,255,255,.8)}.top .search svg{color:#fff}
+.rail button:disabled{opacity:1;cursor:default}
+.sec{display:flex;align-items:center;gap:6px;padding:8px 16px 2px;font-size:12px;font-weight:600;color:var(--sub)}
+.row .av.big{font-size:13px}
+.row.dec .av{color:#fff}
+#decoy{position:absolute;inset:0;background:var(--pane);display:flex;flex-direction:column;z-index:15}
+#decoy .scroll{flex:1}
+.dcomp{background:var(--panel);border-top:1px solid var(--line);padding:10px 14px}
+.dcomp .box{border:1px solid var(--line);border-radius:6px;background:var(--bg);padding:6px 10px;display:flex;gap:8px;align-items:flex-end}
+.dcomp textarea{flex:1;border:0;background:none;color:var(--ink);font:inherit;resize:none;outline:0;min-height:24px;max-height:120px}
+.dcomp .tb{display:flex;gap:2px;margin-bottom:6px;color:var(--sub)}.dcomp .tb span{width:28px;height:26px;display:grid;place-items:center;border-radius:4px;font-size:13px}
 .gifs{padding:8px}.gifs input{width:100%;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
 .gg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;max-height:240px;overflow:auto}
 .gg button{padding:0;border-radius:4px;overflow:hidden;background:var(--hover);aspect-ratio:4/3;display:block}.gg img{width:100%;height:100%;object-fit:cover;display:block}
@@ -183,15 +200,23 @@ body.blur .scroll{filter:blur(14px)}
   </nav>
   <aside class="list" id="list">
     <h2>Chat</h2>
-    <div class="chips"><span class="chip on">Private</span><span class="chip">1:1 · end-to-end</span></div>
+    <div class="chips"><span class="chip">Unread</span><span class="chip on">Chats</span><span class="chip">Channels</span><span class="chip">Meetings</span></div>
+    <div class="sec">Recent</div>
     <button class="row on" id="rowMain" aria-label="Open conversation">
       <div class="av big" id="rowAv">·<span class="dot wait" id="rowDot"></span></div>
       <div class="t"><b id="rowName">Waiting for someone…</b><small id="rowPrev">Nothing sent yet</small></div>
       <div class="meta"><span id="rowTime"></span><span class="badge" id="rowBadge" hidden>0</span></div>
     </button>
-    <div class="listfoot"><div class="r"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Nothing is saved. Closing this tab erases the conversation and its keys.</span></div><a class="out" href="https://aashishpandey.com/" rel="noopener noreferrer">← aashishpandey.com</a></div>
+    <div id="decRows"></div>
+    <div class="listfoot"><div class="r"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Chats are saved encrypted on this device. Reopen this page to resume.</span></div><a class="out" href="https://aashishpandey.com/" rel="noopener noreferrer">← aashishpandey.com</a></div>
   </aside>
   <main class="pane" id="pane">
+    <div id="decoy" hidden>
+      <div class="head"><button class="ic back" id="dBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><div class="av big" id="dAv"></div><div class="t"><b id="dName"></b><small id="dSub"></small></div></div>
+      <div class="tabs"><button class="on">Chat</button><button>Files</button><button>Notes</button></div>
+      <div class="scroll" id="dScroll"></div>
+      <div class="dcomp"><div class="tb"><span><b>B</b></span><span><i>I</i></span><span><u>U</u></span><span>☺</span><span>＋</span></div><div class="box"><textarea id="dTxt" rows="1" placeholder="Type a new message" aria-label="Type a new message"></textarea></div></div>
+    </div>
     <div class="head">
       <button class="ic back" id="back" aria-label="Back to chats"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
       <div class="av big" id="hdAv">·<span class="dot wait" id="hdDot"></span></div>
@@ -229,11 +254,12 @@ body.blur .scroll{filter:blur(14px)}
 <div class="over" id="gate">
   <div class="dlg">
     <h2 id="gTitle">Private room</h2>
-    <p id="gText">Messages go straight from one browser to another, encrypted, and nothing is stored. Pick a name the other person will see.</p>
+    <p id="gText">Messages go straight from one browser to another, encrypted, and are saved only on your own device. Pick a name the other person will see.</p>
     <label for="gName">Your name</label>
     <input type="text" id="gName" maxlength="32" autocomplete="off" placeholder="e.g. Aashish">
     <label for="gPass">Passphrase (optional, recommended)</label>
     <input type="password" id="gPass" autocomplete="off" placeholder="Agree it with them on a different channel than the link">
+    <label class="sw" style="font-weight:400"><input type="checkbox" id="gKeep" checked><span>Remember this room on this device, so I can reopen it if I close the tab by mistake</span></label>
     <label class="sw" style="font-weight:400"><input type="checkbox" id="gHide" disabled><span>Hide my IP address (relay only)</span></label>
     <p class="note" id="gHideN" style="margin:0">Checking…</p>
     <div class="acts"><button class="btn" id="gGo">Continue</button></div>
@@ -283,14 +309,23 @@ const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
   const frag=location.hash.slice(1);
   const joining=/^[A-Za-z0-9_-]{22}$/.test(frag);
   try{$('gName').value=sessionStorage.getItem('room.name')||''}catch(e){}
+  let saved=null;try{saved=JSON.parse(localStorage.getItem('room.saved')||'null')}catch(e){}
+  if(!joining&&saved&&/^[A-Za-z0-9_-]{22}$/.test(saved.secret||'')){
+    $('gTitle').textContent='Welcome back';$('gGo').textContent='Resume saved room';
+    const a=document.createElement('button');a.className='btn ghost';a.textContent='Start a new room';a.onclick=()=>{try{localStorage.removeItem('room.saved')}catch(e){}saved=null;$('gTitle').textContent='Create a private room';$('gGo').textContent='Create room link';a.remove()};$('gGo').parentNode.appendChild(a);
+    $('gText').textContent='Your saved conversation is on this device, encrypted. Resume it, or start a fresh room. Enter the passphrase again if you set one.';
+    try{if(!$('gName').value)$('gName').value=saved.name||''}catch(e){}
+  }
   if(joining){$('gTitle').textContent='Join private room';$('gGo').textContent='Join room'}
-  else{$('gTitle').textContent='Create a private room';$('gGo').textContent='Create room link'}
+  else if(!saved){$('gTitle').textContent='Create a private room';$('gGo').textContent='Create room link'}
   getIce().then(()=>{const c=$('gHide');c.disabled=!S.relayAvail;$('gHideN').textContent=S.relayAvail?'Your address is never offered to the other person. Slower, and uses the relay server.':'Unavailable: this needs a TURN relay server, which this site does not have. Without it, the other person (and a network observer) can see which IP addresses are talking.'});
   $('gGo').onclick=()=>{
     const n=$('gName').value.trim();if(!n){$('gName').focus();return}
     S.pass=$('gPass').value;S.hideIp=$('gHide').checked&&!$('gHide').disabled;
     S.name=n;try{sessionStorage.setItem('room.name',n)}catch(e){}
-    if(!joining){const s=b64(rnd(16));history.replaceState(null,'','#'+s);S.secret=s;S.role='creator'}else{S.secret=frag;S.role='joiner'}
+    if(saved&&!joining){S.secret=saved.secret;S.role=saved.role||'creator';history.replaceState(null,'','#'+saved.secret)}
+    else if(!joining){const s=b64(rnd(16));history.replaceState(null,'','#'+s);S.secret=s;S.role='creator'}else{S.secret=frag;S.role='joiner'}
+    try{if($('gKeep').checked)localStorage.setItem('room.saved',JSON.stringify({secret:S.secret,role:S.role,name:n}));else localStorage.removeItem('room.saved')}catch(e){}
     $('gate').hidden=true;start();
   };
   $('gName').addEventListener('keydown',e=>{if(e.key==='Enter')$('gGo').click()});
@@ -387,8 +422,8 @@ function setStatus(kind,text){
   $('hdSub').textContent=text;
   for(const id of['hdDot','rowDot']){const d=$(id);d.className='dot '+(kind==='on'?'on':kind==='wait'?'wait':'')}
   const ready=S.state==='ready';
-  $('txt').disabled=!ready;$('bTimer').disabled=!ready;$('bShield').disabled=!ready;
-  $('txt').placeholder=ready?'Type a message':'You can type once you are connected';
+  $('txt').disabled=false;$('bTimer').disabled=!ready;$('bShield').disabled=!ready;
+  $('txt').placeholder=ready?'Type a message':'Type a message. It is delivered when they are online';
   updSend();
 }
 
@@ -405,13 +440,14 @@ async function relayLoop(){
   if(S.polling)return;S.polling=true;
   try{await relayPost({t:'hello',id:S.myId})}
   catch(e){S.polling=false;if(e.manual){toast('No relay on this deployment: use manual pairing.');renderEmpty();return}toast('Could not reach the relay. Retrying.');setTimeout(relayLoop,4000);return}
-  const t0=Date.now();
-  while(S.state!=='ready'&&S.state!=='closed'&&Date.now()-t0<14*60000){
+  const t0=Date.now();let lastHi=t0;
+  while(S.state!=='ready'&&S.state!=='closed'&&Date.now()-t0<8*3600*1000){
+    if(Date.now()-lastHi>8*60000){lastHi=Date.now();try{await relayPost({t:'hello',id:S.myId})}catch(e){}}
     try{
       const r=await fetch(`${api}&m=${S.mailbox}&i=${S.myId}&since=${S.since}`);
       if(r.ok){const j=await r.json();S.since=j.n;for(const it of j.items){const m=await open_(it.b);if(m)await onSignal(it.i,m)}}
     }catch(e){}
-    await sleep(Date.now()-t0<60000?1200:3000);
+    await sleep(Date.now()-t0<60000?1200:Date.now()-t0<600000?3000:6000);
   }
   S.polling=false;
 }
@@ -496,6 +532,7 @@ async function onFrame(u){
     S.state='ready';clearTimeout(S.failT);
     if(!S.manual)fetch(`${api}&m=${S.mailbox}`,{method:'DELETE'}).catch(()=>{});
     await sendCtl({t:'hi',n:S.name,v:1});
+    for(const q of S.msgs.filter(x=>x.from==='me'&&x.status==='queued'&&x.kind==='text'&&!x.deleted)){await sendCtl({t:'m',id:q.id,x:q.text,r:q.reply||null,ttl:q.ttl||0,s:q.sticker||undefined});q.status='sent';renderOne(q);persist(q)}
     sysMsg('Connected. Messages are end-to-end encrypted. Verify the safety number in Security.');
     renderEmpty();watchIce();return;
   }
@@ -546,16 +583,16 @@ function sysMsg(t){S.msgs.push({sys:true,text:t,id:newId(),ts:Date.now()});rende
 function findMsg(id){return S.msgs.find(m=>m.id===id)}
 const STK=[['😂','laugh lol funny haha','a-shake'],['🤣','rofl dead laugh','a-bounce'],['😍','love heart eyes','a-pulse'],['🥰','love cute','a-float'],['😘','kiss love','a-pop'],['😎','cool sunglasses','a-bounce'],['🤩','wow star excited','a-pulse'],['🥳','party celebrate','a-bounce'],['🎉','party celebrate congrats','a-pop'],['👏','clap applause well done','a-shake'],['🙌','yay hands praise','a-bounce'],['👍','yes ok thumbs up','a-pop'],['🔥','fire hot lit','a-pulse'],['💯','hundred perfect','a-pulse'],['❤️','heart love','a-pulse'],['💔','heartbreak sad','a-shake'],['😭','cry sad tears','a-wiggle'],['😢','sad cry','a-wiggle'],['😡','angry mad','a-shake'],['🤯','mind blown wow','a-pop'],['😱','scared shock omg','a-shake'],['🙄','eye roll whatever','a-wiggle'],['🤔','think hmm','a-float'],['😴','sleep bored tired','a-float'],['🥱','yawn bored','a-float'],['🤫','shh secret quiet','a-wiggle'],['👀','eyes look watching','a-wiggle'],['🫡','salute boss yes sir','a-pop'],['🤝','deal handshake','a-pop'],['🙏','please thanks pray','a-float'],['💪','strong gym','a-pulse'],['🕺','dance','a-wiggle'],['💃','dance party','a-wiggle'],['☕','coffee break chai','a-float'],['🍕','pizza lunch food','a-spin'],['🍺','beer cheers drinks','a-wiggle'],['🏃','run escape boss coming','a-wiggle'],['🚨','alert boss warning','a-shake'],['💼','work office meeting','a-float'],['💀','dead lmao skull','a-shake'],['🤡','clown fool','a-bounce'],['🙈','embarrassed oops monkey','a-wiggle'],['😅','nervous sweat oops','a-wiggle'],['🫠','melting','a-float'],['🥲','tears happy sad','a-pulse'],['😏','smirk sly','a-pop'],['🤪','crazy silly','a-spin'],['🌈','rainbow','a-float'],['⭐','star','a-spin']];
 async function sendSticker(i){
-  const k=STK[i];if(!k||S.state!=='ready')return;
-  const m={id:newId(),from:'me',kind:'text',text:k[0],sticker:k[2],ts:Date.now(),ttl:S.ttl,status:'sent',reply:null,react:{}};
-  closePop();addMsg(m);await sendCtl({t:'m',id:m.id,x:k[0],r:null,ttl:m.ttl,s:k[2]});
+  const k=STK[i];if(!k)return;const live=S.state==='ready';
+  const m={id:newId(),from:'me',kind:'text',text:k[0],sticker:k[2],ts:Date.now(),ttl:S.ttl,status:live?'sent':'queued',reply:null,react:{}};
+  closePop();addMsg(m);if(live)await sendCtl({t:'m',id:m.id,x:k[0],r:null,ttl:m.ttl,s:k[2]});
 }
 async function sendText(){
-  const t=$('txt').value.replace(/\s+$/,'');if(!t||S.state!=='ready')return;
-  const m={id:newId(),from:'me',kind:'text',text:t,ts:Date.now(),ttl:S.ttl,status:'sent',reply:S.reply,react:{}};
+  const t=$('txt').value.replace(/\s+$/,'');if(!t)return;const live=S.state==='ready';
+  const m={id:newId(),from:'me',kind:'text',text:t,ts:Date.now(),ttl:S.ttl,status:live?'sent':'queued',reply:S.reply,react:{}};
   $('txt').value='';autosize();cancelReply();updSend();
   addMsg(m);
-  await sendCtl({t:'m',id:m.id,x:t,r:m.reply,ttl:m.ttl});
+  if(live)await sendCtl({t:'m',id:m.id,x:t,r:m.reply,ttl:m.ttl});
   S.typingSent=false;
 }
 async function onCtl(c){
@@ -689,7 +726,7 @@ function build(m){
   const foot=document.createElement('div');foot.className='foot';
   if(m.ttl){const t=document.createElement('span');t.className='ttl';t.dataset.exp=m.exp||'';t.innerHTML=ICON.clk;const s=document.createElement('span');s.textContent=left(m);t.appendChild(s);foot.appendChild(t)}
   const tm=document.createElement('span');tm.textContent=stamp(m.ts);tm.title=new Date(m.ts).toLocaleString([],{dateStyle:'full',timeStyle:'medium'});foot.appendChild(tm);
-  if(mine){const t=document.createElement('span');t.className='tick'+(m.status==='read'?' r':'');t.title=m.status==='sent'?'Sent':m.status==='delivered'?'Delivered':'Read';t.innerHTML=m.status==='sent'?ICON.tick:ICON.tick2;foot.appendChild(t)}
+  if(mine){const t=document.createElement('span');t.className='tick'+(m.status==='read'?' r':'');t.title=m.status==='queued'?'Waiting to deliver':m.status==='sent'?'Sent':m.status==='delivered'?'Delivered':'Read';t.innerHTML=m.status==='queued'?ICON.clk:m.status==='sent'?ICON.tick:ICON.tick2;foot.appendChild(t)}
   if(!mine&&!m.cont){}
   if(!m.deleted)bub.appendChild(foot);
   if(!mine){const who=document.createElement('div');who.className='who';who.textContent=S.peerName;if(false)box.appendChild(who)}
@@ -771,7 +808,7 @@ setInterval(()=>{
 
 /* ---------- composer ---------- */
 const autosize=()=>{const t=$('txt');t.style.height='auto';t.style.height=Math.min(140,t.scrollHeight)+'px'};
-function updSend(){$('bSend').disabled=S.state!=='ready'||!$('txt').value.trim();['bEmoji','bGif','bAttach','bPhoto','bOnce','bMic'].forEach(i=>$(i).disabled=S.state!=='ready')}
+function updSend(){$('bSend').disabled=!$('txt').value.trim();$('bEmoji').disabled=false;$('bGif').disabled=false;['bAttach','bPhoto','bOnce','bMic'].forEach(i=>$(i).disabled=S.state!=='ready')}
 $('txt').addEventListener('input',()=>{autosize();updSend();const n=Date.now();if(S.state==='ready'&&n-S.lastTyping>2500){S.lastTyping=n;sendCtl({t:'ty',on:1})}});
 $('txt').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();sendText()}});
 $('bSend').onclick=sendText;
@@ -904,6 +941,64 @@ $('rChat').onclick=()=>tab('chat');$('rFiles').onclick=()=>tab('files');
 $('bShield').onclick=()=>tab('info');
 $('rowMain').onclick=()=>{document.body.classList.add('open');tab('chat');markRead()};
 $('back').onclick=()=>document.body.classList.remove('open');
+/* Colleague chats: made-up, local only, never sent anywhere */
+const DEC=[
+ {n:'Priya Nair',st:'on',t:35,m:[['them','Morning! Did you get a chance to look at the vendor deck?',-190],['me','Yes, going through it now. I will send comments before lunch.',-185],['them','Perfect, thanks 🙏',-184]]},
+ {n:'Platform Standup',g:1,st:'',t:140,m:[['Marcus Webb','Standup moved to 10:30 today, room is booked.',-300],['Sarah Collins','Works for me. I will have the release notes ready.',-290],['Marcus Webb','Great. Please update the board before we start.',-285]]},
+ {n:'Marcus Webb',st:'wait',t:1500,m:[['them','Can you review my PR when you have a minute?',-1800],['me','Sure, I will take a look this afternoon.',-1780],['them','Thanks, no rush.',-1779]]},
+ {n:'Finance Ops',g:1,st:'',t:1600,m:[['Elena Rossi','Reminder: expense reports are due Friday.',-2000],['Tom Alvarez','Submitted mine already.',-1990]]},
+ {n:'Sarah Collins',st:'on',t:2900,m:[['them','Agenda for tomorrow is in the shared folder.',-3500],['me','Got it, thanks for putting it together.',-3490]]},
+ {n:'Tom Alvarez',st:'',t:4300,m:[['me','Invoice numbers match now, closing the ticket.',-5600],['them','Appreciated. Have a good weekend.',-5590]]},
+ {n:'Q4 Planning',g:1,st:'',t:5800,m:[['Priya Nair','Draft roadmap is attached. Comments welcome until Thursday.',-7600],['Elena Rossi','Looks solid overall. A few notes on timelines.',-7500]]},
+ {n:'Elena Rossi',st:'on',t:9000,m:[['them','Thanks for the quick turnaround on that report.',-11000],['me','Anytime.',-10990]]}
+];
+(function decoys(){
+  const hue=n=>{let h=0;for(const c of n)h=(h*31+c.charCodeAt(0))%360;return h};
+  const ini=n=>n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const when=min=>{const d=new Date(Date.now()-min*60000);const t=new Date();if(d.toDateString()===t.toDateString())return clock(d);const y=new Date(t-864e5);if(d.toDateString()===y.toDateString())return 'Yesterday';return d.toLocaleDateString([],{weekday:'short'})};
+  const mk=(n,st,g)=>{const a=document.createElement('div');a.className='av big';a.style.background='hsl('+hue(n)+',45%,42%)';a.textContent=g?'👥':ini(n);if(st&&!g){const d=document.createElement('span');d.className='dot '+st;a.appendChild(d)}return a};
+  const rows=$('decRows'),mainRow=$('rowMain');
+  const all=[mainRow];
+  const show=(d,row)=>{
+    all.forEach(r=>r.classList.toggle('on',r===row));
+    $('decoy').hidden=false;document.body.classList.add('open');
+    const av=$('dAv');av.replaceWith(Object.assign(mk(d.n,d.st,d.g),{id:'dAv'}));
+    $('dName').textContent=d.n;$('dSub').textContent=d.g?'Group chat':(d.st==='on'?'Available':d.st==='wait'?'Away':'Offline');
+    const sc=$('dScroll');sc.innerHTML='';let last='';
+    d.m.forEach(([w,x,off])=>{
+      const ts=Date.now()+off*60000,day=new Date(ts).toDateString();
+      if(day!==last){last=day;const dv=document.createElement('div');dv.className='day';dv.textContent=day===new Date().toDateString()?'Today':new Date(ts).toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'});sc.appendChild(dv)}
+      const me=w==='me',nm=me?'':(w==='them'?d.n:w);
+      const el=document.createElement('div');el.className='msg'+(me?' me':'');
+      if(!me)el.appendChild(mk(nm,'',0)).classList.remove('big');
+      const b=document.createElement('div');b.className='bub';
+      if(nm&&d.g){const wh=document.createElement('div');wh.className='who';wh.textContent=nm;b.appendChild(wh)}
+      b.appendChild(document.createTextNode(x));const ft=document.createElement('div');ft.className='foot';ft.textContent=clock(ts);b.appendChild(ft);
+      el.appendChild(b);sc.appendChild(el);
+    });
+    sc.scrollTop=sc.scrollHeight;
+    d._row=row;
+  };
+  DEC.forEach(d=>{
+    const r=document.createElement('button');r.className='row dec';
+    const last=d.m[d.m.length-1];
+    const who=last[0]==='me'?'You: ':(d.g?last[0].split(' ')[0]+': ':'');
+    const t=document.createElement('div');t.className='t';t.innerHTML='<b></b><small></small>';t.firstChild.textContent=d.n;t.lastChild.textContent=who+last[1];
+    const mt=document.createElement('div');mt.className='meta';mt.textContent=when(d.t);
+    r.append(mk(d.n,d.st,d.g),t,mt);r.onclick=()=>show(d,r);rows.appendChild(r);all.push(r);
+  });
+  let cur=null;
+  const orig=show;
+  rows.addEventListener('click',e=>{const r=e.target.closest('.row.dec');if(r)cur=DEC[[...rows.children].indexOf(r)]});
+  mainRow.addEventListener('click',()=>{$('decoy').hidden=true;all.forEach(r=>r.classList.toggle('on',r===mainRow))});
+  $('dBack').onclick=()=>document.body.classList.remove('open');
+  $('dTxt').addEventListener('keydown',e=>{
+    if(e.key!=='Enter'||e.shiftKey)return;e.preventDefault();const v=$('dTxt').value.trim();if(!v||!cur)return;
+    $('dTxt').value='';const sc=$('dScroll');const el=document.createElement('div');el.className='msg me';
+    const b=document.createElement('div');b.className='bub';b.appendChild(document.createTextNode(v));const ft=document.createElement('div');ft.className='foot';ft.textContent=clock(Date.now());b.appendChild(ft);el.appendChild(b);sc.appendChild(el);sc.scrollTop=sc.scrollHeight;
+  });
+})();
+
 $('find').addEventListener('input',()=>{
   const q=$('find').value.trim().toLowerCase();
   document.querySelectorAll('#scroll .msg').forEach(el=>{const m=findMsg(el.dataset.id);const hit=!q||(m&&m.kind==='text'&&!m.deleted&&m.text.toLowerCase().includes(q));el.style.display=hit?'':'none'});
@@ -953,7 +1048,7 @@ function renderInfo(){
   });
   card('Saved history on this device',c=>{
     const p=document.createElement('p');p.textContent=db?'Messages and files are kept in this browser, encrypted with a key made from the room secret. Disappearing messages are removed from it when they expire. Anyone who has this browser and the full room link can read them, so erase it on shared computers.':'This browser blocked local storage, so nothing is saved after you close the tab.';c.appendChild(p);
-    if(db){const b=document.createElement('button');b.className='btn ghost';b.textContent='Erase saved history';b.onclick=()=>{if(confirm('Erase all saved messages and files on this device?'))eraseHistory()};c.appendChild(b)}
+    if(db){const b=document.createElement('button');b.className='btn ghost';b.textContent='Erase saved history';b.onclick=()=>{if(confirm('Erase all saved messages and files on this device, and forget this room?')){try{localStorage.removeItem('room.saved')}catch(e){}eraseHistory()}};c.appendChild(b)}
   });
   if(S.state!=='ready')card('Invite link',c=>{const i=document.createElement('input');i.readOnly=true;i.value=inviteLink();i.style.cssText='width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:12px ui-monospace,monospace';i.onfocus=()=>i.select();c.appendChild(i)});
   card('Privacy settings',c=>{
@@ -973,7 +1068,8 @@ function ended(text){
   S.sendCk=S.recvCk=null;try{S.dc&&S.dc.close();S.pc&&S.pc.close()}catch(e){}
   S.incoming.clear();
   sysMsg(text+(db?' Your saved history stays on this device, encrypted. Open the link again to reconnect.':' Nothing was saved.'));
-  setStatus('off','Session ended');$('hdDot').className='dot';$('rowDot').className='dot';$('txt').disabled=true;updSend();$('typing').textContent='';
+  {const d=document.createElement('div');d.className='sys';const b=document.createElement('button');b.className='btn';b.textContent='Reconnect';b.onclick=()=>location.reload();d.appendChild(b);$('scroll').appendChild(d)}
+  setStatus('off','Session ended');$('hdDot').className='dot';$('rowDot').className='dot';$('txt').disabled=false;updSend();$('typing').textContent='';
   tab('chat');
 }
 addEventListener('pagehide',()=>{try{if(S.state==='ready'&&S.dc&&S.dc.readyState==='open'){sendQ=sendQ.then(()=>{});sendCtl({t:'bye'})}}catch(e){}});
