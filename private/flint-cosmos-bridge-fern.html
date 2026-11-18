@@ -233,13 +233,26 @@ body[data-sec=cal] #altPane,body[data-sec=files] #altPane{grid-column:2/-1}
  .frow{grid-template-columns:28px 1fr 70px}.frow .by{display:none}.cal-d,.cal-b{grid-template-columns:40px repeat(5,1fr)}.ev small{display:none}.ev{padding:2px 3px;font-size:10.5px}
  .cacts{gap:8px}
 }
+.fcard.inv{cursor:default;align-items:flex-start}.rsv{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px}.rs{color:var(--sub);font-size:12px}
+.rb2{background:var(--acc);color:var(--acc-ink);border-radius:5px;padding:3px 10px;font-size:12.5px;font-weight:600}.rb2.ghost{background:none;color:var(--acc);border:1px solid var(--acc)}
+.caldet.big{flex-direction:column;gap:3px;padding:10px 16px}.caldet.big b{font-size:15px}.caldet .ag{color:var(--sub)}
+.ev.inv{background:repeating-linear-gradient(135deg,transparent 0 6px,rgba(127,127,127,.12) 6px 12px),hsl(var(--h),55%,95%);border:1px dashed hsl(var(--h),55%,45%);border-left-width:4px}
+.msg.tm{align-items:flex-start;gap:8px;margin-top:14px}.msg.tm.grp{margin-top:3px}.msg.tm .mc{display:flex;flex-direction:column;gap:3px;min-width:0}.msg.tm.me .mc{align-items:flex-end}
+.mh{font-size:12px;color:var(--sub)}.mh .ed{font-style:normal}.avsp{width:32px;flex:none}
+.msg.tm .bub{border:0;box-shadow:none;background:var(--bub-you);padding:8px 12px;white-space:pre-wrap}.msg.tm.me .bub{background:var(--bub-me)}
+.bigem{font-size:52px;line-height:1.1;padding:2px 6px}
+.qt{border-left:3px solid var(--acc);background:rgba(127,127,127,.12);border-radius:3px;padding:6px 10px;margin-bottom:6px;font-size:13px;white-space:normal}.qt small{color:var(--sub);display:block}
+#qv[hidden]{display:none}.sec.tg{cursor:pointer;user-select:none}.sec.tg svg{width:14px;height:14px}.sec.tg.shut svg{transform:rotate(-90deg)}
+.row.qr{padding:6px 16px;gap:12px}.row.qr svg{color:var(--sub)}.row.qr b{flex:1;font-weight:600}
+.rail button.xr{opacity:.9}.chips{gap:4px;padding:4px 12px 10px}.chip{white-space:nowrap;padding:2px 8px}
+@media(max-width:900px){.rail button.xr{display:none}}
 </style>
 </head>
 <body data-sec="chat">
 <div class="app" id="app">
   <header class="top">
     <a class="brand" href="https://aashishpandey.com/" rel="noopener noreferrer" title="Back to aashishpandey.com"><i></i><span>Room</span></a>
-    <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="find" placeholder="Search this conversation" autocomplete="off" aria-label="Search this conversation"></label>
+    <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="find" placeholder="Search this conversation" autocomplete="off" aria-label="Search"></label>
     <div class="me"><button class="ic" id="bTheme" title="Switch theme" aria-label="Switch theme"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M2 12h2M20 12h2M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg></button><span id="meName" style="color:var(--sub);font-size:12px"></span><div class="av" id="meAv">?</div></div>
   </header>
   <nav class="rail" aria-label="Apps">
@@ -249,11 +262,18 @@ body[data-sec=cal] #altPane,body[data-sec=files] #altPane{grid-column:2/-1}
     <button data-sec="cal"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Calendar</button>
     <button data-sec="calls"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>Calls</button>
     <button data-sec="files"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></svg>Files</button>
+    <button class="xr" data-x="Drive"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-8 5.500 5.500 0 0 1 10.500 1.500A3.300 3.300 0 0 1 17 18Z"/></svg>Drive</button>
+    <button class="xr" data-x="Tasks"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8.500 12 2.500 2.500 4.500-5"/></svg>Tasks</button>
+    <button class="xr" data-x="Apps"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg>Apps</button>
   </nav>
   <aside class="list" id="list">
     <h2>Chat</h2>
-    <div class="chips"><span class="chip">Unread</span><span class="chip on">Chats</span><span class="chip">Channels</span><span class="chip">Meetings</span></div>
-    <div class="sec">Recent</div>
+    <div class="chips"><span class="chip">Unread</span><span class="chip on">Chats</span><span class="chip">Channels</span><span class="chip">Meeting chats</span></div>
+    <div id="qv"><div class="sec tg" data-k="qv"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>Quick views</div><div class="qvb">
+      <button class="row qr" id="qMen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg><b>Mentions</b><span class="badge">9</span></button>
+      <button class="row qr" id="qDr"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.800 2.800 0 0 0-4-4L4 16Z"/></svg><b>Drafts</b></button>
+      <button class="row qr" id="qSv"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4Z"/></svg><b>Saved</b></button></div>
+      <div class="sec tg" data-k="fav"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>Favourites</div></div>
     <button class="row on" id="rowMain" aria-label="Open conversation">
       <div class="av big" id="rowAv">·<span class="dot wait" id="rowDot"></span></div>
       <div class="t"><b id="rowName">Waiting for someone…</b><small id="rowPrev">Nothing sent yet</small></div>
@@ -1164,50 +1184,62 @@ $('back').onclick=()=>document.body.classList.remove('open');
 /* Workspace shell: made-up colleagues, teams, calendar, calls and files. Local only, never sent anywhere. */
 const M=(w,x,off,o)=>Object.assign({w,x,off},o||{});
 const DEC=[
- {n:'Priya Nair',st:'on',u:2,m:[M('them','Morning! Did you get a chance to look at the vendor deck?',-190),M('me','Yes, going through it now. I will send comments before lunch.',-185),M('them','Perfect, thanks 🙏',-184),M('them','Also, procurement wants the final numbers by Thursday.',-22),M('them','No pressure, just flagging.',-21)]},
- {n:'Platform Standup',g:1,u:0,m:[M('Marcus Webb','Standup moved to 10:30 today, room is booked.',-300),M('Sarah Collins','Works for me. I will have the release notes ready.',-290,{re:['👍 3']}),M('Marcus Webb','Great. Please update the board before we start.',-285),M('Daniel Okafor','Board is updated. Two items carried over from yesterday.',-62)]},
- {n:'Engineering › Releases',g:2,u:3,m:[M('Daniel Okafor','Release 4.18 is cut. Changelog attached, please skim before we promote.',-420,{f:['release-4.18-changelog.pdf','212 KB']}),M('Marcus Webb','Smoke tests are green on staging.',-400,{re:['✅ 4']}),M('Meera Iyer','One flaky test in the billing suite, re-running now.',-380),M('Meera Iyer','Re-run passed. Good to go from my side.',-360),M('Sarah Collins','Promoting at 4 pm unless anyone objects.',-45),M('Daniel Okafor','No objections. I will watch the dashboards after.',-12)]},
- {n:'Marcus Webb',st:'wait',u:0,m:[M('them','Can you review my PR when you have a minute?',-1800),M('me','Sure, I will take a look this afternoon.',-1780),M('them','Thanks, no rush.',-1779),M('me','Left a few small comments. Nothing blocking.',-1500),M('them','Fixed, thanks for the quick review 👍',-1496)]},
- {n:'Meera Iyer',st:'on',u:1,m:[M('them','Quick question on the onboarding doc, is the access form still the old one?',-95),M('me','I think they updated it last week. Let me check.',-90),M('them','Thanks! I will hold off sending it to the new joiners.',-88),M('them','Any luck?',-14)]},
- {n:'Finance Ops',g:1,u:0,m:[M('Elena Rossi','Reminder: expense reports are due Friday.',-2000),M('Tom Alvarez','Submitted mine already.',-1990),M('Hannah Brooks','Same here. The new template is much faster.',-1985,{re:['🙌 2']})]},
- {n:'Sarah Collins',st:'on',u:0,m:[M('them','Agenda for tomorrow is in the shared folder.',-3500),M('me','Got it, thanks for putting it together.',-3490),M('them','Can you take the first ten minutes on the status update?',-3485),M('me','Sure.',-3480)]},
- {n:'Q4 Planning',g:1,u:0,m:[M('Priya Nair','Draft roadmap is attached. Comments welcome until Thursday.',-7600,{f:['Q4-roadmap-draft.xlsx','486 KB']}),M('Elena Rossi','Looks solid overall. A few notes on timelines.',-7500),M('Rahul Menon','Can we pull the reporting work into the first sprint?',-7460),M('Priya Nair','Reasonable. I will adjust and recirculate.',-7440,{re:['👍 2']})]},
- {n:'Tom Alvarez',st:'',u:0,m:[M('me','Invoice numbers match now, closing the ticket.',-5600),M('them','Appreciated. Have a good weekend.',-5590)]},
- {n:'Vendor Review',g:1,u:0,m:[M('Priya Nair','Three vendors shortlisted. Scorecard attached.',-9700,{f:['vendor-scorecard.xlsx','128 KB']}),M('Rahul Menon','Vendor B has the best support terms, in my view.',-9650),M('Elena Rossi','Agree, but their pricing needs another look.',-9600)]},
- {n:'Elena Rossi',st:'on',u:0,m:[M('them','Thanks for the quick turnaround on that report.',-11000),M('me','Anytime.',-10990)]},
- {n:'Weekly Sync',g:3,u:0,m:[M('Sarah Collins','Joined the meeting',-1500,{sys:1}),M('Sarah Collins','Notes and action items are in the shared doc. Please add yours.',-1440,{f:['weekly-sync-notes.docx','64 KB']}),M('Rahul Menon','Added mine. Two follow-ups for next week.',-1400),M('Sarah Collins','Meeting ended: 42 min',-1395,{sys:1})]},
- {n:'Daniel Okafor',st:'',u:0,m:[M('them','Are you joining the architecture review on Friday?',-13000),M('me','Yes, I will be there.',-12990)]},
- {n:'Hannah Brooks',st:'wait',u:0,m:[M('them','Can you share the template you used for the monthly summary?',-15000),M('me','Sending it now.',-14990,{f:['monthly-summary-template.xlsx','54 KB']}),M('them','Lovely, thank you!',-14985)]},
- {n:'Engineering › Incidents',g:2,u:0,m:[M('Meera Iyer','Resolved: elevated latency on the reporting API. Root cause was a slow query.',-5200),M('Daniel Okafor','Post-incident review is scheduled for Thursday. Notes will go in the wiki.',-5150),M('Marcus Webb','Thanks both. Adding a dashboard alert for this.',-5100,{re:['👍 5']})]},
- {n:'Finance › Month-end close',g:2,u:0,m:[M('Elena Rossi','Close calendar is posted. Accruals are due on day 2.',-8800,{f:['month-end-calendar.pdf','96 KB']}),M('Tom Alvarez','Reconciliations are on track.',-8700),M('Hannah Brooks','Two intercompany items still open, working on them.',-8650)]},
- {n:'Company › Announcements',g:2,u:1,m:[M('Rahul Menon','The office will close early on Friday for the quarterly all-hands. Details in your calendar.',-600,{re:['👍 12','🎉 4']})]},
- {n:'Jordan Lee',st:'',u:0,m:[M('them','Thanks for covering for me last week.',-20000),M('me','No problem at all.',-19990)]}
+ {n:'Priya Sharma',st:'on',fav:1,u:2,m:[M('them','Morning! Did you get a chance to look at the vendor proposal deck?',-190),M('me','Yes, going through it now. Will share my comments before lunch.',-185),M('them','Perfect, thanks 🙏',-184),M('them','Procurement wants the final commercials by Thursday EOD. Kindly revert once reviewed.',-22),M('them','No pressure, just flagging.',-21)]},
+ {n:'Sprint 24 Standup',g:1,fav:1,u:0,m:[M('Rohan Mehta','Standup moved to 10:30 today, Room 4B is booked.',-300),M('Ananya Iyer','Works for me. I will have the release notes ready.',-290,{re:['👍 3']}),M('Rohan Mehta','Great. Please update the board before we start.',-285),M('Vikram Singh','Board is updated. Two stories carried over from last sprint.',-62)]},
+ {n:'Engineering › Releases',g:2,u:3,m:[M('Vikram Singh','Release 4.18 is cut. Changelog attached, PFA. Please skim before we promote.',-420,{f:['release-4.18-changelog.pdf','212 KB']}),M('Rohan Mehta','Smoke tests are green on staging.',-400,{re:['✅ 4']}),M('Kavya Menon','One flaky test in the billing suite, re-running now.',-380),M('Kavya Menon','Re-run passed. Good to go from QA side.',-360),M('Ananya Iyer','Go-live at 4 pm unless anyone objects.',-45),M('Vikram Singh','No objections. Deployment ke baad dashboards dekhta rahunga.',-12)]},
+ {n:'Rohan Mehta',st:'wait',fav:1,u:0,m:[M('me','Ravi is looking into this.. but mostly fix ho jayega Tuesday tak',-9400),M('them','Ok',-9399),M('me','also ab ye urgency nahi h',-9398,{ed:1}),M('me','its more about our rapport with the client.',-9397),M('them','yes',-9390),M('them','my worry is wo Monday/Tuesday wala chutti',-9389),M('me','exactly..',-9380),M('me','it will be 4 days',-9379),M('them','',-9370,{q:['Aashish Pandey','also ab ye urgency nahi h its more about our rapport with the client.'],x:'its called rapport'}),M('them','silent ho jata hai',-9369),M('me','',-9360,{big:'😅'}),M('me','Do we have storage on the shared servers?',-9300),M('them','What do you mean by storage? You need server space?',-9250),M('me','yes and a very small computing power.',-9249)]},
+ {n:'Kavya Menon',st:'on',u:1,m:[M('them','Bhai, UAT plan me old sign-off template hi chalega kya?',-95),M('me','New wala pichle hafte share hua tha. Check karta hu.',-90),M('them','Thanks! Tab tak business team ko nahi bhejta.',-88),M('them','Kuch pata chala?',-14)]},
+ {n:'Finance Ops',g:1,u:0,m:[M('Neha Gupta','Reminder: expense claims are due Friday.',-2000),M('Amit Verma','Submitted mine already.',-1990),M('Pooja Patel','Same here. The new template is much faster.',-1985,{re:['🙌 2']})]},
+ {n:'Ananya Iyer',st:'on',fav:1,u:0,m:[M('them','Agenda for tomorrow is in the shared folder.',-3500),M('me','Got it, thanks for putting it together.',-3490),M('them','Can you take the first ten minutes on the status update?',-3485),M('me','Sure.',-3480)]},
+ {n:'Q4 Planning',g:1,fav:1,u:0,m:[M('Priya Sharma','Draft roadmap is attached. Comments welcome until Thursday.',-7600,{f:['Q4-roadmap-draft.xlsx','486 KB']}),M('Priya Sharma','Sending an invite for the workshop. Please accept so I can plan the room.',-7550,{inv:'Q4 planning workshop'}),M('Neha Gupta','Looks solid overall. A few notes on timelines and budget.',-7500),M('Arjun Reddy','Can we pull the reporting work into the first sprint?',-7460),M('Priya Sharma','Reasonable. Will adjust and recirculate.',-7440,{re:['👍 2']})]},
+ {n:'Amit Verma',st:'',u:0,m:[M('me','Invoice numbers ab match ho gaye, ticket close kar raha hu.',-5600),M('them','Done, thanks. Have a good weekend.',-5590)]},
+ {n:'Vendor Review',g:1,u:0,m:[M('Priya Sharma','Three vendors shortlisted. Scorecard attached.',-9700,{f:['vendor-scorecard.xlsx','128 KB']}),M('Arjun Reddy','Vendor B ke support terms sabse accha hai, mere hisab se.',-9650),M('Neha Gupta','Agree, but pricing pe ek aur baar baat karni padegi.',-9600)]},
+ {n:'Neha Gupta',st:'on',u:0,m:[M('them','Thanks for the quick turnaround on that budget report.',-11000),M('me','Anytime.',-10990)]},
+ {n:'Steering Committee Prep',g:3,u:0,m:[M('Ananya Iyer','Joined the meeting',-1500,{sys:1}),M('Ananya Iyer','Minutes and action items are in the shared doc. Please add yours.',-1440,{f:['steerco-minutes.docx','64 KB']}),M('Arjun Reddy','Added mine. Two follow-ups on the risk register.',-1400),M('Ananya Iyer','Meeting ended: 42 min',-1395,{sys:1})]},
+ {n:'Vikram Singh',st:'',fav:1,u:0,m:[M('them','Friday ka architecture review join kar rahe ho?',-13000),M('me','Haan, aa jaunga.',-12990)]},
+ {n:'Pooja Patel',st:'wait',u:0,m:[M('them','Can you share the template you use for the monthly status report?',-15000),M('me','Sending it now.',-14990,{f:['monthly-status-template.xlsx','54 KB']}),M('them','Lovely, thank you!',-14985)]},
+ {n:'Engineering › Incidents',g:2,u:0,m:[M('Kavya Menon','Resolved: elevated latency on the reporting API. Root cause was a slow query.',-5200),M('Vikram Singh','Post-incident review is scheduled for Thursday. RCA will go in the wiki.',-5150,{inv:'Post-incident review'}),M('Rohan Mehta','Thanks both. Adding a dashboard alert for this.',-5100,{re:['👍 5']})]},
+ {n:'Finance › Month-end close',g:2,u:0,m:[M('Neha Gupta','Close calendar is posted. Accruals are due on day 2.',-8800,{f:['month-end-calendar.pdf','96 KB']}),M('Amit Verma','Reconciliations are on track.',-8700),M('Pooja Patel','Two intercompany items still open, working on them.',-8650)]},
+ {n:'Company › Announcements',g:2,u:1,m:[M('Arjun Reddy','The office will close early on Friday for the quarterly all-hands. Details in your calendar.',-600,{inv:'Quarterly all-hands',re:['👍 12','🎉 4']})]},
+ {n:'Siddharth Rao',st:'',u:0,m:[M('them','Thanks for covering for me last week.',-20000),M('me','No problem at all.',-19990)]}
 ];
 const CHANNELS=[{team:'Engineering',ch:['General','Releases','Incidents']},{team:'Finance',ch:['General','Month-end close']},{team:'Company',ch:['Announcements','Social']}];
 const ACT=[
- {k:'at',who:'Priya Nair',x:'mentioned you in Q4 Planning',chat:'Q4 Planning',ago:25,u:1},
- {k:'re',who:'Marcus Webb',x:'reacted 👍 to your message',chat:'Marcus Webb',ago:70,u:1},
- {k:'rp',who:'Meera Iyer',x:'replied to your message in Engineering › Releases',chat:'Engineering › Releases',ago:95,u:1},
- {k:'call',who:'Sarah Collins',x:'Missed call',chat:'Sarah Collins',ago:210,u:0},
- {k:'file',who:'Elena Rossi',x:'shared month-end-calendar.pdf with you',chat:'Finance › Month-end close',ago:520,u:0},
- {k:'at',who:'Rahul Menon',x:'mentioned you in Vendor Review',chat:'Vendor Review',ago:1560,u:0},
- {k:'re',who:'Hannah Brooks',x:'reacted 🙌 to your message',chat:'Finance Ops',ago:2400,u:0}
+ {k:'inv',who:'Priya Sharma',x:'invited you to Q4 planning workshop',cal:'Q4 planning workshop',ago:15,u:1},
+ {k:'inv',who:'Vikram Singh',x:'invited you to Post-incident review',cal:'Post-incident review',ago:40,u:1},
+ {k:'at',who:'Priya Sharma',x:'mentioned you in Q4 Planning',chat:'Q4 Planning',ago:25,u:1},
+ {k:'re',who:'Rohan Mehta',x:'reacted 👍 to your message',chat:'Rohan Mehta',ago:70,u:1},
+ {k:'rp',who:'Kavya Menon',x:'replied to your message in Engineering › Releases',chat:'Engineering › Releases',ago:95,u:1},
+ {k:'call',who:'Ananya Iyer',x:'Missed call',chat:'Ananya Iyer',ago:210,u:0},
+ {k:'file',who:'Neha Gupta',x:'shared month-end-calendar.pdf with you',chat:'Finance › Month-end close',ago:520,u:0},
+ {k:'at',who:'Arjun Reddy',x:'mentioned you in Vendor Review',chat:'Vendor Review',ago:1560,u:0},
+ {k:'re',who:'Pooja Patel',x:'reacted 🙌 to your message',chat:'Finance Ops',ago:2400,u:0}
 ];
 const CALLS=[
- {n:'Sarah Collins',d:'missed',ago:210},{n:'Priya Nair',d:'out',ago:520,dur:'12 min'},{n:'Platform Standup',d:'in',ago:1480,dur:'18 min'},
- {n:'Marcus Webb',d:'in',ago:1900,dur:'6 min'},{n:'Elena Rossi',d:'out',ago:2900,dur:'9 min'},{n:'Weekly Sync',d:'in',ago:4400,dur:'42 min'},{n:'Tom Alvarez',d:'missed',ago:6100}
+ {n:'Ananya Iyer',d:'missed',ago:210},{n:'Priya Sharma',d:'out',ago:520,dur:'12 min'},{n:'Sprint 24 Standup',d:'in',ago:1480,dur:'18 min'},
+ {n:'Rohan Mehta',d:'in',ago:1900,dur:'6 min'},{n:'Neha Gupta',d:'out',ago:2900,dur:'9 min'},{n:'Steering Committee Prep',d:'in',ago:4400,dur:'42 min'},{n:'Amit Verma',d:'missed',ago:6100}
 ];
 const FILES=[
- ['Q4-roadmap-draft.xlsx','Priya Nair',180,'Q4 Planning'],['release-4.18-changelog.pdf','Daniel Okafor',420,'Engineering › Releases'],['vendor-scorecard.xlsx','Priya Nair',1700,'Vendor Review'],
- ['weekly-sync-notes.docx','Sarah Collins',1440,'Weekly Sync'],['month-end-calendar.pdf','Elena Rossi',520,'Finance › Month-end close'],['monthly-summary-template.xlsx','You',2400,'Hannah Brooks'],
- ['onboarding-checklist.docx','Meera Iyer',3100,'Meera Iyer'],['architecture-overview.pdf','Daniel Okafor',4300,'Engineering'],['expense-policy-2026.pdf','Finance',7200,'Finance Ops'],['team-offsite-agenda.docx','Rahul Menon',9800,'Company']
+ ['Q4-roadmap-draft.xlsx','Priya Sharma',180,'Q4 Planning'],['release-4.18-changelog.pdf','Vikram Singh',420,'Engineering › Releases'],['vendor-scorecard.xlsx','Priya Sharma',1700,'Vendor Review'],
+ ['steerco-minutes.docx','Ananya Iyer',1440,'Steering Committee Prep'],['month-end-calendar.pdf','Neha Gupta',520,'Finance › Month-end close'],['monthly-status-template.xlsx','You',2400,'Pooja Patel'],
+ ['uat-signoff-checklist.docx','Kavya Menon',3100,'Kavya Menon'],['risk-register-v3.xlsx','Arjun Reddy',4300,'Steering Committee Prep'],['expense-policy-2026.pdf','Finance',7200,'Finance Ops'],['team-offsite-agenda.docx','Arjun Reddy',9800,'Company']
 ];
-const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
- [0,9,.5,'Platform standup','Room 4B',230],[0,11,1,'Vendor review','Online',150],[0,15,1,'1:1 with Priya','Room 2A',30],
- [1,9,.5,'Platform standup','Room 4B',230],[1,10.5,1.5,'Q4 planning workshop','Room 7',280],[1,14,1,'Interview debrief','Online',340],
- [2,9,.5,'Platform standup','Room 4B',230],[2,12,1,'Lunch with the finance team','Cafeteria',20],[2,16,1,'Release 4.18 go-live','Online',170],
- [3,9,.5,'Platform standup','Room 4B',230],[3,11,1,'Post-incident review','Room 3C',350],[3,14,2,'Architecture review','Room 7',200],
- [4,9,.5,'Platform standup','Room 4B',230],[4,10,1,'Weekly sync','Online',260],[4,15,1.5,'Quarterly all-hands','Auditorium',50]
+const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue, organiser, attendees, agenda, rsvp (yes, maybe, new)
+ [0,9,.5,'Sprint 24 standup','Room 4B',230,'Rohan Mehta',['Ananya Iyer','Vikram Singh','Kavya Menon'],'Daily sync: yesterday, today, blockers.','yes'],
+ [0,11,1,'Vendor review','Online',150,'Priya Sharma',['Arjun Reddy','Neha Gupta','Amit Verma'],'Walk through the vendor scorecard and agree a shortlist.','yes'],
+ [0,15,1,'1:1 with Priya','Room 2A',30,'Priya Sharma',[],'Weekly catch-up on Q4 priorities.','yes'],
+ [1,9,.5,'Sprint 24 standup','Room 4B',230,'Rohan Mehta',['Ananya Iyer','Vikram Singh','Kavya Menon'],'Daily sync: yesterday, today, blockers.','yes'],
+ [1,10.5,1.5,'Q4 planning workshop','Room 7',280,'Priya Sharma',['Neha Gupta','Arjun Reddy','Siddharth Rao','Pooja Patel'],'Agree scope, owners and dates for the Q4 roadmap. Please read the draft beforehand.','new'],
+ [1,14,1,'Interview debrief','Online',340,'Ananya Iyer',['Rohan Mehta','Kavya Menon'],'Share feedback on the two QA lead candidates.','yes'],
+ [2,9,.5,'Sprint 24 standup','Room 4B',230,'Rohan Mehta',['Ananya Iyer','Vikram Singh','Kavya Menon'],'Daily sync: yesterday, today, blockers.','yes'],
+ [2,12,1,'Lunch with the finance team','Cafeteria',20,'Neha Gupta',['Amit Verma','Pooja Patel'],'Team lunch. Chai after.','maybe'],
+ [2,16,1,'Release 4.18 go-live','Online',170,'Vikram Singh',['Rohan Mehta','Kavya Menon','Ananya Iyer'],'Go-live checklist and rollback plan review.','yes'],
+ [3,9,.5,'Sprint 24 standup','Room 4B',230,'Rohan Mehta',['Ananya Iyer','Vikram Singh','Kavya Menon'],'Daily sync: yesterday, today, blockers.','yes'],
+ [3,11,1,'Post-incident review','Room 3C',350,'Vikram Singh',['Kavya Menon','Rohan Mehta'],'RCA for the reporting API latency issue.','new'],
+ [3,14,2,'Architecture review','Room 7',200,'Siddharth Rao',['Vikram Singh','Kavya Menon','Arjun Reddy'],'Review the proposed reporting module design.','yes'],
+ [4,9,.5,'Sprint 24 standup','Room 4B',230,'Rohan Mehta',['Ananya Iyer','Vikram Singh','Kavya Menon'],'Daily sync: yesterday, today, blockers.','yes'],
+ [4,10,1,'Steering committee prep','Online',260,'Ananya Iyer',['Arjun Reddy','Priya Sharma'],'Finalise the status deck and the risk register before the steering committee.','yes'],
+ [4,15,1.5,'Quarterly all-hands','Auditorium',50,'Arjun Reddy',['Everyone'],'Quarterly business update and Q&A.','new']
 ];
 (function shell(){
   const $$=(s,r)=>[...(r||document).querySelectorAll(s)];
@@ -1226,28 +1258,46 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
   const icon=p=>{const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 24 24');s.innerHTML=p;return s};
   const FI='<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/>';
   const fileCard=(name,size)=>{const c=el('div','fcard');c.appendChild(icon(FI));const t=el('div','ft');t.appendChild(el('b',0,name));t.appendChild(el('small',0,size));c.appendChild(t);c.onclick=()=>toast('This file is not available offline');return c};
+  const evOf=t=>EVENTS.find(e=>e[3]===t);
+  const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday'];
+  const hm=h=>clock(new Date(2026,0,1,Math.floor(h),(h%1)*60));
+  const inviteCard=t=>{
+    const e=evOf(t);const c=el('div','fcard inv');c.appendChild(icon('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'));
+    const x=el('div','ft');x.append(el('b',0,t),el('small',0,e?DAYS[e[0]]+' · '+hm(e[1])+' – '+hm(e[1]+e[2]):''));
+    const row=el('div','rsv');const st=el('span','rs',e&&e[9]==='yes'?'Accepted':'Awaiting your response');
+    const ok=el('button','rb2','Accept'),no=el('button','rb2 ghost','Decline');
+    ok.onclick=ev=>{ev.stopPropagation();st.textContent='Accepted';if(e)e[9]='yes'};no.onclick=ev=>{ev.stopPropagation();st.textContent='Declined';if(e)e[9]='no'};
+    row.append(ok,no,st);x.appendChild(row);c.appendChild(x);return c;
+  };
   const total=()=>DEC.reduce((a,d)=>a+(d.u||0),0);
   const syncBadges=()=>{
     const n=total();const b=$('rChatB');b.hidden=!n;b.textContent=n;
     const a=ACT.filter(x=>x.u).length;const ab=$('rActB');ab.hidden=!a;ab.textContent=a;
   };
   /* ---------- conversation view ---------- */
+  const stamp=ts=>{const d=new Date(ts);return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+' '+clock(ts).toLowerCase()};
   const bubbles=(d)=>{
-    const sc=$('dScroll');sc.innerHTML='';let last='';
+    const sc=$('dScroll');sc.innerHTML='';let prevW=null,prevT=0;
     d.m.forEach(o=>{
-      const ts=Date.now()+o.off*60000,day=new Date(ts).toDateString();
-      if(day!==last){last=day;sc.appendChild(el('div','day',day===new Date().toDateString()?'Today':new Date(ts).toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'})))}
-      if(o.sys){sc.appendChild(el('div','sysl',o.x+' · '+clock(ts)));return}
+      const ts=Date.now()+o.off*60000;
+      if(o.sys){sc.appendChild(el('div','sysl',o.x+' · '+stamp(ts)));prevW=null;return}
       const me=o.w==='me',nm=me?'':(o.w==='them'?d.n:o.w);
-      const e=el('div','msg'+(me?' me':''));
-      if(!me){const a=mk(nm,'',0);a.classList.remove('big');e.appendChild(a)}
-      const b=el('div','bub');
-      if(nm&&d.g){b.appendChild(el('div','who',nm))}
-      if(o.x)b.appendChild(document.createTextNode(o.x));
-      if(o.f)b.appendChild(fileCard(o.f[0],o.f[1]));
-      b.appendChild(el('div','foot',clock(ts)));
-      if(o.re){const r=el('div','reacts');o.re.forEach(x=>r.appendChild(el('span',0,x)));b.appendChild(r)}
-      e.appendChild(b);sc.appendChild(e);
+      const grp=prevW===o.w&&ts-prevT<10*60000;prevW=o.w;prevT=ts;
+      const e=el('div','msg tm'+(me?' me':'')+(grp?' grp':''));
+      if(!me){if(grp){e.appendChild(el('span','avsp'))}else{const a=mk(nm,'',0);a.classList.remove('big');e.appendChild(a)}}
+      const col=el('div','mc');
+      if(!grp){const h=el('div','mh');h.appendChild(document.createTextNode((me?'':nm+'  ')+stamp(ts)));if(o.ed)h.appendChild(el('span','ed','  Edited'));col.appendChild(h)}
+      if(o.big){col.appendChild(el('div','bigem',o.big))}
+      else{
+        const b=el('div','bub');
+        if(o.q){const q=el('div','qt');q.append(el('small',0,o.q[0]),el('div',0,o.q[1]));b.appendChild(q)}
+        if(o.x)b.appendChild(document.createTextNode(o.x));
+        if(o.f)b.appendChild(fileCard(o.f[0],o.f[1]));
+        if(o.inv)b.appendChild(inviteCard(o.inv));
+        if(o.re){const r=el('div','reacts');o.re.forEach(x=>r.appendChild(el('span',0,x)));b.appendChild(r)}
+        col.appendChild(b);
+      }
+      e.appendChild(col);sc.appendChild(e);
     });
     sc.scrollTop=sc.scrollHeight;
   };
@@ -1268,9 +1318,9 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
   };
   const drawTabs=()=>{
     const t=$('dTabs');t.innerHTML='';
-    (cur&&cur.g===2?['Posts','Files','Notes']:['Chat','Files','Notes']).forEach((x,i)=>{const b=el('button',x===dtab?'on':'',x);b.onclick=()=>{dtab=x;drawTabs();paint()};t.appendChild(b)});
+    (cur&&cur.g===2?['Posts','Files','Notes']:['Chat','Shared','Notes','Recap']).forEach((x,i)=>{const b=el('button',x===dtab?'on':'',x);b.onclick=()=>{dtab=x;drawTabs();paint()};t.appendChild(b)});
   };
-  const paint=()=>{if(!cur)return;const k=dtab==='Files'?'f':dtab==='Notes'?'n':'c';$('dComp').hidden=k!=='c';k==='f'?fileList(cur):k==='n'?noteView(cur):bubbles(cur)};
+  const paint=()=>{if(!cur)return;const k=(dtab==='Files'||dtab==='Shared')?'f':(dtab==='Notes'||dtab==='Recap')?'n':'c';$('dComp').hidden=k!=='c';k==='f'?fileList(cur):k==='n'?noteView(cur):bubbles(cur)};
   const open=(d,fromAct)=>{
     cur=d;dtab=d.g===2?'Posts':'Chat';
     if(d.u){d.u=0;const r=rowOf.get(d);if(r){r.classList.remove('unr');const b=r.querySelector('.badge');if(b)b.remove()}ACT.forEach(a=>{if(a.chat===d.n)a.u=0});syncBadges()}
@@ -1283,13 +1333,17 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
   };
   const byName=n=>DEC.find(d=>d.n===n);
   /* ---------- chat list ---------- */
-  const typeOf=d=>d.g===2?'Channels':d.g===3?'Meetings':'Chats';
+  const typeOf=d=>d.g===2?'Channels':d.g===3?'Meeting chats':'Chats';
   const drawRows=()=>{
     rows.innerHTML='';rowOf.clear();
     const list=DEC.filter(d=>filt==='Unread'?d.u>0:typeOf(d)===filt).sort((a,b)=>ago(a)-ago(b));
-    mainRow.hidden=!(filt==='Chats'||filt==='Unread');
+    mainRow.hidden=!(filt==='Chats'||filt==='Unread');$('qv').hidden=filt!=='Chats';
+    const favs=filt==='Chats'?list.filter(d=>d.fav):[];
+    let hdr=false;
     if(!list.length&&mainRow.hidden)rows.appendChild(el('div','empty-s','Nothing here right now.'));
-    list.forEach(d=>{
+    const ordered=filt==='Chats'?[...favs,...list.filter(d=>!d.fav)]:list;
+    ordered.forEach(d=>{
+      if(filt==='Chats'&&!d.fav&&!hdr){hdr=true;const h=el('div','sec tg');h.append(icon('<path d="m6 9 6 6 6-6"/>'),document.createTextNode('Chats'));rows.appendChild(h)}
       const r=el('button','row dec'+(d.u?' unr':''));const l=lastOf(d);
       const who=l.sys?'':l.w==='me'?'You: ':(d.g?l.w.split(' ')[0]+': ':'');
       const t=el('div','t');t.append(el('b',0,d.n),el('small',0,l.sys?l.x:who+(l.x||(l.f?l.f[0]:''))));
@@ -1300,10 +1354,12 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
   };
   $$('.chips .chip').forEach(c=>{c.setAttribute('role','button');c.tabIndex=0;const go=()=>{filt=c.textContent;$$('.chips .chip').forEach(x=>x.classList.toggle('on',x===c));drawRows()};c.onclick=go;c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
   mainRow.addEventListener('click',()=>{cur=null;$('decoy').hidden=true;$$('.row',rows).forEach(r=>r.classList.remove('on'))});
+  $('qMen').onclick=()=>setSec('activity');$('qDr').onclick=$('qSv').onclick=()=>toast('Nothing here yet');
+  $$('.tg').forEach(h=>h.onclick=()=>{const k=h.dataset.k;if(k==='qv'){$$('.qvb').forEach(x=>x.hidden=!x.hidden)}h.classList.toggle('shut')});
   $('dBack').onclick=()=>document.body.classList.remove('open');
   $('dTxt').addEventListener('keydown',e=>{
     if(e.key!=='Enter'||e.shiftKey)return;e.preventDefault();const v=$('dTxt').value.trim();if(!v||!cur)return;
-    $('dTxt').value='';cur.m.push(M('me',v,0));if(dtab!=='Files'&&dtab!=='Notes')bubbles(cur);
+    $('dTxt').value='';cur.m.push(M('me',v,0));if(dtab==='Chat'||dtab==='Posts')bubbles(cur);
   });
   $('dCall').onclick=()=>toast('Calling is not available in this workspace');
   $('dVid').onclick=()=>toast('Video is not available in this workspace');
@@ -1311,14 +1367,15 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
   const alt=$('altList'),altP=$('altPane');
   const setSec=s=>{
     const prev=sec;sec=s;document.body.dataset.sec=s;alt.id='altList';
-    $$('.rail button').forEach(b=>b.classList.toggle('on',b.dataset.sec===s));
+    $$('.rail button[data-sec]').forEach(b=>b.classList.toggle('on',b.dataset.sec===s));
     document.body.classList.remove('open');
     $('find').placeholder=s==='chat'?'Search this conversation':'Search';
     if(s==='chat'){if(prev==='teams'||prev==='activity'&&false){cur=null;$('decoy').hidden=true;$$('.row',rows).forEach(r=>r.classList.remove('on'));mainRow.classList.add('on')}if(S.tab==='files')tab('chat');return}
     alt.innerHTML='';altP.innerHTML='';
     if(s==='activity')drawActivity();else if(s==='teams')drawTeams();else if(s==='calls')drawCalls();else if(s==='cal')drawCal();else if(s==='files')drawFiles();
   };
-  $$('.rail button').forEach(b=>b.onclick=()=>setSec(b.dataset.sec));
+  $$('.rail button[data-sec]').forEach(b=>b.onclick=()=>setSec(b.dataset.sec));
+  $$('.rail .xr').forEach(b=>b.onclick=()=>toast(b.dataset.x+' is not available in this workspace'));
   const head=(t)=>el('h2',0,t);
   const empty=(t,s)=>{const e=el('div','empty');e.append(el('h3',0,t),el('div',0,s));return e};
   const arow=(av,title,subt,meta,on)=>{const r=el('button','row'+(on?' on':''));const t=el('div','t');t.append(el('b',0,title),el('small',0,subt));r.append(av,t);if(meta)r.appendChild(el('div','meta',meta));return r};
@@ -1329,7 +1386,7 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
     alt.appendChild(el('div','sec','Recent'));
     ACT.forEach(a=>{
       const av=mk(a.who,'',0);const r=arow(av,a.who,a.x,when(a.ago));if(a.u)r.classList.add('unr');
-      r.onclick=()=>{const d=byName(a.chat);setSec('chat');if(d){filt=typeOf(d);$$('.chips .chip').forEach(x=>x.classList.toggle('on',x.textContent===filt));drawRows();open(d)}};alt.appendChild(r);
+      r.onclick=()=>{if(a.cal){a.u=0;syncBadges();setSec('cal');const e=[...document.querySelectorAll('.ev')].find(x=>x.dataset.t===a.cal);if(e)e.click();return}const d=byName(a.chat);setSec('chat');if(d){filt=typeOf(d);$$('.chips .chip').forEach(x=>x.classList.toggle('on',x.textContent===filt));drawRows();open(d)}};alt.appendChild(r);
     });
     altP.appendChild(empty('Pick an item','Open a notification to jump to the conversation.'));
   }
@@ -1340,7 +1397,7 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
       const hd=el('div','teamh');const a=mk(t.team,'',2);a.className='av tm';a.style.background='hsl('+hue(t.team)+',45%,42%)';hd.append(a,el('b',0,t.team));alt.appendChild(hd);
       t.ch.forEach(c=>{
         const nm=t.team+' › '+c;let d=byName(nm);
-        if(!d){d={n:nm,g:2,u:0,m:[M('Rahul Menon','Welcome to the '+c+' channel. Keep it friendly and on topic.',-60000)]};DEC.push(d)}
+        if(!d){d={n:nm,g:2,u:0,m:[M('Arjun Reddy','Welcome to the '+c+' channel. Keep it friendly and on topic.',-60000)]};DEC.push(d)}
         const r=el('button','row ch');r.dataset.n=nm;const t2=el('div','t');t2.appendChild(el('b',0,'# '+c));r.appendChild(t2);if(d.u)r.appendChild(el('span','badge',String(d.u)));
         r.onclick=()=>{open(d)};alt.appendChild(r);
       });
@@ -1379,7 +1436,7 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
     h.append(t,el('span','rng',mon.toLocaleDateString([],{month:'short',day:'numeric'})+' – '+fri.toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'})));
     const mt=el('button','btn','Meet now');mt.onclick=()=>toast('Meetings are not available in this workspace');h.appendChild(mt);
     altP.appendChild(h);
-    const det=el('div','caldet','Select an event to see the details');altP.appendChild(det);
+    const det=el('div','caldet','Select an event to see the details and respond to invites');altP.appendChild(det);
     const grid=el('div','cal');const H0=8,H1=18,PX=56;
     const hd=el('div','cal-d');hd.appendChild(el('div','corner'));
     for(let i=0;i<5;i++){const dd=new Date(+mon+i*864e5);const c=el('div','dh'+(dd.toDateString()===now.toDateString()?' today':''));c.append(el('small',0,dd.toLocaleDateString([],{weekday:'short'})),el('b',0,String(dd.getDate())));hd.appendChild(c)}
@@ -1391,8 +1448,12 @@ const EVENTS=[ // day (0 = Monday), start hour, hours, title, place, hue
       const dd=new Date(+mon+i*864e5);const col=el('div','col'+(dd.toDateString()===now.toDateString()?' today':''));col.style.height=(H1-H0)*PX+'px';
       EVENTS.filter(e=>e[0]===i).forEach(e=>{
         const ev=el('button','ev');ev.style.top=((e[1]-H0)*PX)+'px';ev.style.height=(e[2]*PX-3)+'px';ev.style.setProperty('--h',e[5]);
-        ev.append(el('b',0,e[3]),el('small',0,e[4]));
-        ev.onclick=()=>{$$('.ev').forEach(x=>x.classList.toggle('on',x===ev));const s=new Date(+dd+e[1]*36e5),f=new Date(+s+e[2]*36e5);det.textContent='';det.append(el('b',0,e[3]),el('span',0,dd.toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'})+' · '+clock(s)+' – '+clock(f)+' · '+e[4]))};
+        ev.dataset.t=e[3];if(e[9]==='new')ev.classList.add('inv');ev.append(el('b',0,e[3]),el('small',0,e[4]));
+        ev.onclick=()=>{$$('.ev').forEach(x=>x.classList.toggle('on',x===ev));const s0=new Date(+dd+e[1]*36e5),f=new Date(+s0+e[2]*36e5);det.textContent='';det.className='caldet big';
+          det.appendChild(el('b',0,e[3]));det.appendChild(el('span',0,dd.toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'})+' · '+clock(s0)+' – '+clock(f)+' · '+e[4]));
+          det.appendChild(el('span',0,'Organiser: '+e[6]));det.appendChild(el('span',0,'Attendees: '+(e[7].length?e[7].join(', '):'Just you and the organiser')));det.appendChild(el('span','ag',e[8]));
+          const row=el('div','rsv');const T={yes:'You accepted',maybe:'You responded tentative',no:'You declined',new:'Awaiting your response'};const st=el('span','rs',T[e[9]]);
+          [['Accept','yes'],['Tentative','maybe'],['Decline','no']].forEach(([l,v],k)=>{const bt=el('button','rb2'+(k?' ghost':''),l);bt.onclick=()=>{e[9]=v;ev.classList.remove('inv');st.textContent=T[v]};row.appendChild(bt)});row.appendChild(st);det.appendChild(row)};
         col.appendChild(ev);
       });
       if(dd.toDateString()===now.toDateString()){const hrs=now.getHours()+now.getMinutes()/60;if(hrs>=H0&&hrs<=H1){const nl=el('div','nowl');nl.style.top=((hrs-H0)*PX)+'px';col.appendChild(nl)}}
