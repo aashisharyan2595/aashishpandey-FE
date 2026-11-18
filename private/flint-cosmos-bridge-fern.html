@@ -422,26 +422,27 @@ async function openStore(){
 const st=(name,mode)=>db.transaction(name,mode).objectStore(name);
 async function sealLocal(id,bytes){const iv=rnd(12);return cat(iv,new Uint8Array(await cr.encrypt({name:'AES-GCM',iv,additionalData:enc.encode(id)},storeKey,bytes)))}
 async function openLocal(id,u){return new Uint8Array(await cr.decrypt({name:'AES-GCM',iv:u.slice(0,12),additionalData:enc.encode(id)},storeKey,u.slice(12)))}
+async function persistNow(m){
+  if(!db||m.sys||m.deleted||(m.file&&(m.file.once||!m.file.done)))return;
+  try{
+    const o={id:m.id,from:m.from,kind:m.kind,text:m.text,sticker:m.sticker||'',ts:m.ts,ttl:m.ttl,exp:m.exp,status:m.status,reply:m.reply,react:m.react,read:!!m.sent_read};
+    if(m.file){o.file={name:m.file.name,size:m.file.size,mime:m.file.mime,k:m.file.k,dur:m.file.dur};
+      if(m.file.blob&&!m.saved){const sb=await sealLocal('b'+m.id,new Uint8Array(await m.file.blob.arrayBuffer()));await idbReq(st('b','readwrite').put(sb,m.id));m.saved=true}}
+    const sm=await sealLocal(m.id,enc.encode(JSON.stringify(o)));await idbReq(st('m','readwrite').put(sm,m.id));
+  }catch(e){}
+}
 function persist(m){
   if(!db||m.sys||m.deleted||(m.file&&(m.file.once||!m.file.done)))return;
   clearTimeout(timers.get(m.id));
-  timers.set(m.id,setTimeout(async()=>{
-    timers.delete(m.id);
-    try{
-      const o={id:m.id,from:m.from,kind:m.kind,text:m.text,sticker:m.sticker||'',ts:m.ts,ttl:m.ttl,exp:m.exp,status:m.status,reply:m.reply,react:m.react,read:!!m.sent_read};
-      if(m.file){o.file={name:m.file.name,size:m.file.size,mime:m.file.mime,k:m.file.k,dur:m.file.dur};
-        if(m.file.blob&&!m.saved){const sb=await sealLocal('b'+m.id,new Uint8Array(await m.file.blob.arrayBuffer()));await idbReq(st('b','readwrite').put(sb,m.id));m.saved=true}}
-      const sm=await sealLocal(m.id,enc.encode(JSON.stringify(o)));await idbReq(st('m','readwrite').put(sm,m.id));
-    }catch(e){}
-  },300));
+  timers.set(m.id,setTimeout(()=>{timers.delete(m.id);persistNow(m)},300));
 }
 async function unpersist(id){if(!db)return;clearTimeout(timers.get(id));try{await idbReq(st('m','readwrite').delete(id));await idbReq(st('b','readwrite').delete(id))}catch(e){}}
-async function saveMeta(){if(!db)return;try{const sm=await sealLocal('meta',enc.encode(JSON.stringify({peer:S.peerName,ttl:S.ttl})));await idbReq(st('meta','readwrite').put(sm,'meta'))}catch(e){}}
+async function saveMeta(){if(!db)return;try{const sm=await sealLocal('meta',enc.encode(JSON.stringify({peer:S.peerName,ttl:S.ttl,qs:S.qs||0})));await idbReq(st('meta','readwrite').put(sm,'meta'))}catch(e){}}
 async function loadHistory(){
   if(!db)return;
   try{
     const mm=await idbReq(st('meta','readonly').get('meta'));
-    if(mm){const o=JSON.parse(dec.decode(await openLocal('meta',mm)));S.peerName=o.peer||'';S.ttl=+o.ttl||0}
+    if(mm){const o=JSON.parse(dec.decode(await openLocal('meta',mm)));S.peerName=o.peer||'';S.ttl=+o.ttl||0;S.qs=+o.qs||0}
     const keys=await idbReq(st('m','readonly').getAllKeys()),now=Date.now(),out=[];
     for(const k of keys){
       try{
@@ -470,12 +471,13 @@ async function start(){
   if(S.pass){const k=await cr.importKey('raw',enc.encode(S.pass.normalize('NFKC')),'PBKDF2',false,['deriveBits']);const pw=new Uint8Array(await cr.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:S.secretBytes,iterations:300000},k,256));S.secretBytes=await hkdf(cat(S.secretBytes,pw),new Uint8Array(0),'room-pass-v1',32);S.pass=''}
   S.mailbox=hex(await sha('room-mailbox-v1|',S.secretBytes)).slice(0,32);
   S.authKey=await hkdf(S.secretBytes,new Uint8Array(0),'room-auth-v1',32);
+  S.offKey=await aes(await hkdf(S.secretBytes,new Uint8Array(0),'room-offline-v1',32),['encrypt','decrypt']);
   S.sigKey=await aes(await hkdf(S.secretBytes,new Uint8Array(0),'room-sig-v1',32),['encrypt','decrypt']);
   await openStore();await loadHistory();
   if(S.peerName){$('hdName').textContent=$('rowName').textContent=S.peerName;$('hdAv').firstChild.textContent=$('rowAv').firstChild.textContent=initials(S.peerName)}
   updTtlPill();renderEmpty();setStatus('wait','Waiting for the other person');document.body.classList.add('open');
   if(S.msgs.length)renderAll();
-  relayLoop();
+  relayLoop();qLoop();notifyResume();
 }
 const inviteLink=()=>location.origin+location.pathname+'#'+S.secret;
 function renderEmpty(){
@@ -504,6 +506,74 @@ function setStatus(kind,text){
   updSend();
 }
 
+
+/* ---------- messages kept on the server (sealed on this device) and a blank "new message" ping ---------- */
+const devId=()=>{try{let d=localStorage.getItem('room.dev');if(!/^[a-f0-9]{12}$/.test(d||'')){d=hex(rnd(6));localStorage.setItem('room.dev',d)}return d}catch(e){return S.myId}};
+async function qSeal(o){const iv=rnd(12);let j=JSON.stringify(o);j+=' '.repeat((128-(enc.encode(j).length%128))%128);return b64(cat(iv,new Uint8Array(await cr.encrypt({name:'AES-GCM',iv,additionalData:enc.encode('room-q-v1')},S.offKey,enc.encode(j)))))}
+async function qOpen(b){try{const u=unb64(b);return JSON.parse(dec.decode(await cr.decrypt({name:'AES-GCM',iv:u.slice(0,12),additionalData:enc.encode('room-q-v1')},S.offKey,u.slice(12))).trimEnd())}catch(e){return null}}
+async function qPost(m){
+  if(S.qOk===false||m.ttl||m.kind!=='text'||m.deleted)return false;
+  try{
+    const b=await qSeal({id:m.id,n:S.name,x:m.text,s:m.sticker||'',t:m.ts,r:m.reply||null});if(b.length>5800)return false;
+    const r=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({m:S.mailbox,q:1,d:devId(),b,u:location.pathname})});
+    if(r.status===503){S.qOk=false;return false}
+    if(!r.ok)return false;
+    S.qOk=true;return true;
+  }catch(e){return false}
+}
+async function qDel(id){if(S.qOk===false)return;try{const b=await qSeal({id,d:1,n:S.name});await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({m:S.mailbox,q:1,d:devId(),b})})}catch(e){}}
+async function qSent(m){if(await qPost(m)&&m.status==='queued'){m.status='sent';renderOne(m);persist(m)}}
+async function qIngest(j){
+  let added=0;
+  for(const it of j.items){
+    const o=await qOpen(it.b);if(!o||typeof o.id!=='string')continue;
+    if(o.d){const x=findMsg(o.id);if(x&&!x.deleted){removeMsg(x,x.from==='peer');added++}continue}
+    if(findMsg(o.id))continue;
+    const mine=o.n===S.name;
+    if(!mine&&o.n&&!S.peerName){S.peerName=String(o.n).slice(0,32);updHead();}
+    const m={id:o.id,from:mine?'me':'peer',kind:'text',text:String(o.x||''),sticker:/^a-(bounce|shake|spin|pulse|wiggle|float|pop)$/.test(o.s||'')?o.s:'',ts:+o.t||Date.now(),ttl:0,status:'sent',reply:o.r&&typeof o.r==='object'?{id:String(o.r.id||''),who:String(o.r.who||'').slice(0,32),text:String(o.r.text||'').slice(0,90)}:null,react:{},fromQueue:true};
+    S.msgs.push(m);await persistNow(m);added++;
+    if(!mine&&!visible()){S.unread++}
+  }
+  if(typeof j.n==='number'&&j.n>=0&&j.n!==S.qs){S.qs=j.n;saveMeta()}
+  if(added){S.msgs.sort((a,b)=>a.ts-b.ts);renderAll();updRow()}
+}
+async function qLoop(){
+  if(S.qLoopOn)return;S.qLoopOn=true;
+  for(;;){
+    try{
+      if(S.qOk!==false){
+        const r=await fetch(`${api}&m=${S.mailbox}&q=1&since=${S.qs||0}`);
+        if(r.ok){const j=await r.json();if(j.durable===false)S.qOk=false;else{S.qOk=true;await qIngest(j)}}
+      }
+    }catch(e){}
+    await sleep(document.hidden?20000:S.state==='ready'?8000:4000);
+  }
+}
+const notifyKey=()=>'room.notify.'+S.mailbox.slice(0,12);
+async function notifyOn(silent){
+  try{
+    if(!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window)){if(!silent)toast('Notifications are not available in this browser. On an iPhone, add this page to the Home Screen first.');return false}
+    if(Notification.permission!=='granted'){if(silent)return false;if(await Notification.requestPermission()!=='granted'){toast('Notifications are blocked for this site.');return false}}
+    const path=location.pathname;
+    const reg=await navigator.serviceWorker.register(path+'-sw.js',{scope:path});await navigator.serviceWorker.ready;
+    const k=await(await fetch(api+'&vapid=1')).json();
+    if(k.durable===false){if(!silent)toast('Notifications need the message store, which is not set up on this server yet.');return false}
+    let sub=await reg.pushManager.getSubscription();
+    if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:unb64(k.key)});
+    const r=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({m:S.mailbox,sub:sub.toJSON(),d:devId()})});
+    if(!r.ok){if(!silent)toast('Could not turn notifications on.');return false}
+    try{localStorage.setItem(notifyKey(),'1')}catch(e){}
+    if(!silent)toast('Notifications are on for this device.');
+    return true;
+  }catch(e){if(!silent)toast('Could not turn notifications on.');return false}
+}
+async function notifyOff(){
+  try{fetch(`${api}&m=${S.mailbox}&sub=${devId()}`,{method:'DELETE'}).catch(()=>{})}catch(e){}
+  try{localStorage.removeItem(notifyKey())}catch(e){}
+  toast('Notifications are off for this room on this device.');
+}
+function notifyResume(){try{if(localStorage.getItem(notifyKey())==='1')notifyOn(true)}catch(e){}}
 /* ---------- signalling through the blind relay ---------- */
 async function seal(obj){const iv=rnd(12);const ct=new Uint8Array(await cr.encrypt({name:'AES-GCM',iv},S.sigKey,enc.encode(JSON.stringify(obj))));return b64(cat(iv,ct))}
 async function open_(b){try{const u=unb64(b);return JSON.parse(dec.decode(await cr.decrypt({name:'AES-GCM',iv:u.slice(0,12)},S.sigKey,u.slice(12))))}catch(e){return null}}
@@ -663,6 +733,7 @@ async function sendSticker(i){
   const k=STK[i];if(!k)return;const live=S.state==='ready';
   const m={id:newId(),from:'me',kind:'text',text:k[0],sticker:k[2],ts:Date.now(),ttl:S.ttl,status:live?'sent':'queued',reply:null,react:{}};
   closePop();addMsg(m);if(live)await sendCtl({t:'m',id:m.id,x:k[0],r:null,ttl:m.ttl,s:k[2]});
+  qSent(m);
 }
 async function sendText(){
   const t=$('txt').value.replace(/\s+$/,'');if(!t)return;const live=S.state==='ready';
@@ -670,12 +741,13 @@ async function sendText(){
   $('txt').value='';autosize();cancelReply();updSend();
   addMsg(m);
   if(live)await sendCtl({t:'m',id:m.id,x:t,r:m.reply,ttl:m.ttl});
+  qSent(m);
   S.typingSent=false;
 }
 async function onCtl(c){
   switch(c.t){
     case'hi':S.peerName=String(c.n||'Guest').slice(0,32);updHead();saveMeta();break;
-    case'm':{const m={id:c.id,from:'peer',kind:'text',text:String(c.x||''),sticker:/^a-(bounce|shake|spin|pulse|wiggle|float|pop)$/.test(c.s||'')?c.s:'',ts:Date.now(),ttl:+c.ttl||0,reply:c.r||null,react:{}};addMsg(m);gotMsg(m);break}
+    case'm':{if(findMsg(c.id))break;const m={id:c.id,from:'peer',kind:'text',text:String(c.x||''),sticker:/^a-(bounce|shake|spin|pulse|wiggle|float|pop)$/.test(c.s||'')?c.s:'',ts:Date.now(),ttl:+c.ttl||0,reply:c.r||null,react:{}};addMsg(m);gotMsg(m);break}
     case'f':{
       const m={id:c.id,from:'peer',kind:'file',ts:Date.now(),ttl:+c.ttl||0,reply:c.r||null,react:{},file:{name:String(c.name||'file').slice(0,120),size:+c.size||0,mime:String(c.mime||'application/octet-stream'),k:c.k,once:+c.once||0,dur:c.dur,url:null,done:false,opened:false,prog:0}};
       if(m.file.size>MAX_FILE)return;
@@ -814,7 +886,7 @@ function build(m){
     const tl=document.createElement('div');tl.className='tools';
     for(const e of['👍','❤️','😂'])tl.appendChild(tb(e,'React '+e,()=>react(m,e)));
     const rb=tb('','Reply',()=>startReply(m));rb.innerHTML=ICON.reply;tl.appendChild(rb);
-    if(mine){const d=tb('','Delete for everyone',()=>{removeMsg(m,false);sendCtl({t:'del',id:m.id})});d.innerHTML=ICON.trash;tl.appendChild(d)}
+    if(mine){const d=tb('','Delete for everyone',()=>{removeMsg(m,false);sendCtl({t:'del',id:m.id});qDel(m.id)});d.innerHTML=ICON.trash;tl.appendChild(d)}
     w.appendChild(tl);
   }
   return w;
@@ -1126,8 +1198,16 @@ function renderInfo(){
     kv('Message cipher','AES-256-GCM, new key per message (hash ratchet)');
     kv('Files','AES-256-GCM per file, SHA-256 checked');
     kv('Transport','WebRTC data channel (DTLS) underneath');
-    kv('Stored on a server','Only sealed handshake blobs, up to 15 minutes');
+    kv('Stored on a server',S.qOk===false?'Only sealed handshake blobs, up to 15 minutes':'Sealed text messages, up to 30 days. No images or files.');
     kv('Sent / received',fmtSize(S.stats.sent)+' / '+fmtSize(S.stats.recv)+' of files');
+  });
+  card('Notifications and stored messages',c=>{
+    const p=document.createElement('p');p.style.color='var(--sub)';
+    p.textContent=S.qOk===false?'The message store is not set up on this server, so messages only travel while you are both online.':'Text messages are sealed on your device and kept on the server for up to 30 days so the other person gets them later and you can see them from another device. Images and files never go to the server. A new message sends a blank ping, never its content.';
+    const on=(()=>{try{return localStorage.getItem(notifyKey())==='1'}catch(e){return false}})();
+    const b=document.createElement('button');b.className='btn'+(on?' ghost':'');b.textContent=on?'Turn off notifications':'Turn on notifications';b.disabled=S.qOk===false;
+    b.onclick=async()=>{if(on)await notifyOff();else await notifyOn(false);renderInfo()};
+    c.append(p,b);
   });
   card('Who can see what',c=>{
     const ul=document.createElement('ul');ul.style.cssText='margin:0;padding-left:18px;color:var(--sub)';

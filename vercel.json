@@ -340,6 +340,7 @@
     { "source": "/kd2ozfuew9n4uaciyl1j-sw.js", "destination": "/admin/kd2ozfuew9n4uaciyl1j-sw.js" },
     { "source": "/kd2ozfuew9n4uaciyl1j.webmanifest", "destination": "/admin/kd2ozfuew9n4uaciyl1j.webmanifest" },
     { "source": "/flint-cosmos-bridge-fern", "destination": "/private/flint-cosmos-bridge-fern.html" },
+    { "source": "/flint-cosmos-bridge-fern-sw.js", "destination": "/private/flint-cosmos-bridge-fern-sw.js" },
     { "source": "/robots.txt", "destination": "/seo/robots.txt" },
     { "source": "/llms.txt", "destination": "/seo/llms.txt" },
     { "source": "/favicon.ico", "destination": "/assets/favicon.ico" },
@@ -607,6 +608,7 @@
     }
   ],
   "headers": [
+    { "source": "/flint-cosmos-bridge-fern-sw.js", "headers": [ { "key": "Service-Worker-Allowed", "value": "/flint-cosmos-bridge-fern" }, { "key": "Content-Type", "value": "text/javascript; charset=utf-8" } ] },
     { "source": "/gifpacks/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }, { "key": "X-Robots-Tag", "value": "noindex, nofollow" } ] },
     { "source": "/(.*)", "has": [{ "type": "host", "value": "talk.aashishpandey.com" }], "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" } ] },
     { "source": "/flint-cosmos-bridge-fern(.*)", "headers": [ { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet, noimageindex" }, { "key": "Cache-Control", "value": "no-store" } ] },
@@ -698,12 +700,12 @@
     { "source": "/kd2ozfuew9n4uaciyl1j(.*)", "headers": [ { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://cdn.jsdelivr.net; frame-src 'self' https://www.youtube-nocookie.com; worker-src 'self'; manifest-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'" }, { "key": "X-Frame-Options", "value": "DENY" } ] }
 ,
     { "source": "/flint-cosmos-bridge-fern(.*)", "headers": [
-      { "key": "Content-Security-Policy", "value": "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://cdn.jsdelivr.net; media-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" },
+      { "key": "Content-Security-Policy", "value": "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://cdn.jsdelivr.net; media-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" },
       { "key": "Permissions-Policy", "value": "camera=(), microphone=(self), geolocation=()" },
       { "key": "Referrer-Policy", "value": "no-referrer" },
       { "key": "X-Frame-Options", "value": "DENY" } ] },
     { "source": "/private/(.*)", "headers": [
-      { "key": "Content-Security-Policy", "value": "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://cdn.jsdelivr.net; media-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net; worker-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" },
+      { "key": "Content-Security-Policy", "value": "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://cdn.jsdelivr.net; media-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" },
       { "key": "Permissions-Policy", "value": "camera=(), microphone=(self), geolocation=()" },
       { "key": "Referrer-Policy", "value": "no-referrer" },
       { "key": "X-Frame-Options", "value": "DENY" } ] }
