@@ -264,6 +264,9 @@ body.blur .scroll{filter:blur(14px)}
       <label class="sw" style="font-weight:400"><input type="checkbox" id="gStay"><span>Keep this device unlocked for 8 hours</span></label>
       <p class="note" id="gLockN" style="margin:6px 0 0"></p>
       <div class="acts"><button class="btn" id="gUnlock">Unlock</button></div>
+      <hr style="border:0;border-top:1px solid var(--line);margin:18px 0 6px">
+      <label for="gJoinCode">Have a room code?</label>
+      <div class="newrow"><input type="text" id="gJoinCode" autocomplete="off" placeholder="six words from your friend" aria-label="Room code"><button class="btn ghost" id="gJoin">Join</button></div>
     </div>
     <div id="lobby" hidden>
       <div id="gRooms"></div>
@@ -319,10 +322,18 @@ const MAX_FILE=64*1048576,CHUNK=16384;
 const TTLS=[[0,'Off'],[10,'10 seconds'],[60,'1 minute'],[3600,'1 hour'],[86400,'1 day']];
 const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
 
+const WORDS="acorn amber apple arrow atlas aurora badger banjo basil beacon birch biscuit bison blaze bloom bolt bramble breeze bridge bronze button cactus canyon carrot castle cedar chalk cherry cinder cliff cloud clover cobalt cocoa comet compass copper coral cosmos crane crest cricket crown crystal daisy dawn delta denim dolphin dragon dune eagle ember emerald falcon feather fern fiddle field flame flint forest fox frost garden garnet gecko ginger glacier glow granite grove hammock harbor harvest hazel heron honey indigo iris island ivory jade jasper jelly jungle kernel kettle kiwi koala ladder lagoon lantern lark laurel lemon lemur lilac lime linen lizard lotus lunar magnet mango maple marble marsh meadow mellow melon mint mist mitten mocha moss muffin nectar nickel noble nutmeg oak oasis olive onyx orange orbit orchid otter oyster paddle panda paper peach pearl pebble pepper pickle pigeon pillow pine pixel planet plum polar poppy prairie pretzel prism puddle pulse pumpkin quartz quill rabbit radish raven reef ribbon ridge river robin rocket rose ruby rustic saffron sage sailor salmon sand sapphire scarlet shadow silver sketch slate solar spark sparrow spruce star stone storm summit sunny sunset swan tango teapot thistle thunder tiger timber tomato topaz trumpet tulip turtle twilight umbrella vanilla velvet violet wagon walnut wave whale willow winter wizard wolf yarrow yodel zephyr zigzag zinc".split(" ");
+const WRX=/^[a-z]{3,10}(-[a-z]{3,10}){5}$/;
+function normCode(x){let t=String(x||'');try{t=decodeURIComponent(t)}catch(e){}t=t.trim();if(/^[A-Za-z0-9_-]{22}$/.test(t))return t;const w=t.toLowerCase().replace(/[^a-z]+/g,'-').replace(/^-|-$/g,'');return WRX.test(w)?w:null}
+function newCode(){const out=[];const buf=new Uint32Array(1);const lim=Math.floor(4294967296/WORDS.length)*WORDS.length;while(out.length<6){crypto.getRandomValues(buf);if(buf[0]<lim)out.push(WORDS[buf[0]%WORDS.length])}return out.join('-')}
+async function secretToBytes(sec){
+  if(WRX.test(sec)){const k=await cr.importKey('raw',enc.encode('room-words-v1|'+sec),'PBKDF2',false,['deriveBits']);return new Uint8Array(await cr.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:enc.encode('room-words-salt-v1'),iterations:600000},k,256))}
+  return unb64(sec);
+}
 /* ---------- gate (name, create or join) ---------- */
 (function gate(){
-  const RX=/^[A-Za-z0-9_-]{22}$/;
-  const frag=location.hash.slice(1);
+  const RX={test:x=>normCode(x)===x};
+  const frag=normCode(location.hash.slice(1))||'';
   const joining=RX.test(frag);
   let rooms=[];try{rooms=JSON.parse(localStorage.getItem('room.rooms')||'[]').filter(r=>r&&RX.test(r.secret||''))}catch(e){}
   try{const old=JSON.parse(localStorage.getItem('room.saved')||'null');if(old&&RX.test(old.secret||'')&&!rooms.some(r=>r.secret===old.secret))rooms.push({secret:old.secret,label:'Saved room',role:old.role||'creator',ts:Date.now()});localStorage.removeItem('room.saved')}catch(e){}
@@ -368,6 +379,8 @@ const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
         if(ok){try{if($('gStay').checked)localStorage.setItem('room.okUntil',String(Date.now()+8*3600*1000));else sessionStorage.setItem('room.ok','1')}catch(e){}$('gCode').value='';showLobby()}
         else{fails++;$('gLockN').textContent='That code is not right.';$('gCode').select();if(fails>=5){until=Date.now()+60000;fails=0}}
       };
+      const joinNow=()=>{const c=normCode($('gJoinCode').value);if(!c){$('gLockN').textContent='That does not look like a room code (six words).';return}location.hash='#'+c;location.reload()};
+      $('gJoin').onclick=joinNow;$('gJoinCode').addEventListener('keydown',e=>{if(e.key==='Enter')joinNow()});
       $('gUnlock').onclick=tryUnlock;$('gCode').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
     }
     const list=$('gRooms');
@@ -386,7 +399,7 @@ const ttlLabel=(s)=>(TTLS.find(x=>x[0]===s)||[0,s+'s'])[1];
     draw();
     $('gNew').onclick=async()=>{
       const label=$('gLabel').value.trim().slice(0,40)||('Room '+(rooms.length+1));
-      const sec=b64(rnd(16));rooms.push({secret:sec,label,role:'creator',ts:Date.now()});saveRooms();$('gLabel').value='';draw();
+      const sec=newCode();rooms.push({secret:sec,label,role:'creator',ts:Date.now()});saveRooms();$('gLabel').value='';draw();
       try{await navigator.clipboard.writeText(linkOf(sec));toast('Link for '+label+' copied.')}catch(e){toast('Room created. Use Copy link.')}
     };
     $('gLabel').addEventListener('keydown',e=>{if(e.key==='Enter')$('gNew').click()});
@@ -453,7 +466,7 @@ async function eraseHistory(){
 }
 async function start(){
   $('meName').textContent=S.name;$('meAv').textContent=initials(S.name);
-  S.secretBytes=unb64(S.secret);
+  S.secretBytes=await secretToBytes(S.secret);
   if(S.pass){const k=await cr.importKey('raw',enc.encode(S.pass.normalize('NFKC')),'PBKDF2',false,['deriveBits']);const pw=new Uint8Array(await cr.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:S.secretBytes,iterations:300000},k,256));S.secretBytes=await hkdf(cat(S.secretBytes,pw),new Uint8Array(0),'room-pass-v1',32);S.pass=''}
   S.mailbox=hex(await sha('room-mailbox-v1|',S.secretBytes)).slice(0,32);
   S.authKey=await hkdf(S.secretBytes,new Uint8Array(0),'room-auth-v1',32);
