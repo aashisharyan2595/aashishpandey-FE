@@ -5,6 +5,7 @@
 //   POST   { m, i, b }        append blob b to mailbox m as sender i           -> 201 | 409 full | 429
 //   GET    ?m=..&i=..&since=N  blobs appended after position N by anyone but i  -> 200 { n, items:[{i,b}] }
 //   DELETE ?m=..              empty the mailbox once both sides are connected  -> 204
+// Needs UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN (set for Production and for the stage branch in Preview); without them it answers 503 and the page offers manual pairing.
 const { redis, ip } = require('./_lib');
 
 const TTL = 900, MAX_BLOB = 12000, MAX_ITEMS = 60, POSTS_PER_HOUR = 200, POLLS_PER_HOUR = 3000;
