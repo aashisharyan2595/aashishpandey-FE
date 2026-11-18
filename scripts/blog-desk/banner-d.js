@@ -17,6 +17,7 @@ const ICON = {
   bug: `<ellipse cy="6" rx="20" ry="26" fill="${TEAL}"/><circle cy="-24" r="12" fill="${TEAL}"/><g stroke="${NAVY}" stroke-width="5" stroke-linecap="round"><path d="M-20 -4 L-38 -12 M-20 10 L-40 14 M20 -4 L38 -12 M20 10 L40 14 M-8 -34 L-16 -48 M8 -34 L16 -48"/></g><circle cx="-7" cy="2" r="4" fill="${NAVY}"/><circle cx="8" cy="12" r="4" fill="${NAVY}"/>`,
   bell: `<path d="M0 -30 C-20 -30 -24 -10 -24 4 L-30 20 H30 L24 4 C24 -10 20 -30 0 -30Z" fill="${NAVY}"/><circle cy="30" r="7" fill="${NAVY}"/><circle cy="-34" r="5" fill="${NAVY}"/>`,
   coins: `<g stroke="${NAVY}" stroke-width="4"><ellipse cy="14" rx="26" ry="9" fill="${TEAL}"/><ellipse cy="4" rx="26" ry="9" fill="${TEAL}"/><ellipse cy="-6" rx="26" ry="9" fill="${TEAL}"/><ellipse cy="-16" rx="26" ry="9" fill="${CREAM}"/></g>`,
+  plane: `<path d="M-34 6 L-6 -2 L-22 -30 H-10 L14 -6 L32 -12 C40 -14 42 -6 34 -2 L16 6 L-2 34 H-14 L-10 8Z" fill="${TEAL}" stroke="${NAVY}" stroke-width="5" stroke-linejoin="round"/>`,
   bolt: `<path d="M6 -34 L-22 6 H-2 L-8 34 L24 -8 H4Z" fill="${TEAL}" stroke="${NAVY}" stroke-width="5" stroke-linejoin="round"/>`,
   chat: `<path d="M-30 -22 H30 a8 8 0 0 1 8 8 V10 a8 8 0 0 1 -8 8 H-2 L-20 32 V18 H-30 a8 8 0 0 1 -8 -8 V-14 a8 8 0 0 1 8 -8Z" fill="${TEAL}" stroke="${NAVY}" stroke-width="5" stroke-linejoin="round"/><g fill="${NAVY}"><circle cx="-14" cy="-2" r="4"/><circle cy="-2" r="4"/><circle cx="14" cy="-2" r="4"/></g>`,
   check: `<circle r="30" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><path d="M-14 0 L-4 11 L16 -10" fill="none" stroke="${NAVY}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
@@ -24,6 +25,7 @@ const ICON = {
   chip: `<rect x="-22" y="-22" width="44" height="44" rx="8" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><rect x="-10" y="-10" width="20" height="20" rx="3" fill="${NAVY}"/><g stroke="${NAVY}" stroke-width="5" stroke-linecap="round"><path d="M-12 -30 V-22 M0 -30 V-22 M12 -30 V-22 M-12 22 V30 M0 22 V30 M12 22 V30 M-30 -12 H-22 M-30 0 H-22 M-30 12 H-22 M22 -12 H30 M22 0 H30 M22 12 H30"/></g>`,
 };
 function pickIcons(t) {
+  if (/airline|flight booking|boarding/.test(t)) return ['plane', 'lock', 'tag'];
   if (/lawsuit|sues |sued|attorney general|court/.test(t)) return ['scale', 'bug', 'lock'];
   if (/voice clon|deepfake|cloned voice/.test(t)) return ['phone', 'mic', 'lock'];
   if (/meeting|google meet|zoom|video call/.test(t)) return ['video', 'doc', 'chat'];
@@ -94,6 +96,19 @@ ${bot(470, 380, 1.15, TEAL)}
 <g transform="translate(250,120) rotate(-28)"><rect x="-96" y="-44" width="192" height="88" rx="20" fill="${PAPER}" transform="translate(12,12)"/><rect x="-96" y="-44" width="192" height="88" rx="20" fill="${CREAM}" stroke="${CREAM}" stroke-width="8"/><rect x="-60" y="-44" width="22" height="88" fill="${TEAL}"/><rect x="38" y="-44" width="22" height="88" fill="${TEAL}"/><rect x="-14" y="44" width="28" height="170" rx="14" fill="${CREAM}"/></g>
 <g transform="translate(70,150)"><rect x="8" y="8" width="170" height="34" rx="12" fill="${PAPER}"/><rect width="170" height="34" rx="12" fill="${TEAL}" stroke="${CREAM}" stroke-width="6"/></g>`;
 }
+
+// airline AI-agent ban illustration added 2026-11-18 (United bans AI agents post): boarding pass, a robot head stamped out by a red no sign, small plane
+function flatTicket() {
+  return `<g transform="rotate(-6 300 280)"><rect x="52" y="124" width="470" height="300" rx="34" fill="${PAPER}" transform="translate(14,14)"/><rect x="52" y="124" width="470" height="300" rx="34" fill="${CREAM}" stroke="${CREAM}" stroke-width="8"/>
+<rect x="52" y="124" width="470" height="84" rx="34" fill="${TEAL}"/><rect x="52" y="180" width="470" height="28" fill="${TEAL}"/>
+<g fill="${NAVY}"><rect x="88" y="150" width="130" height="16" rx="8"/><rect x="88" y="236" width="110" height="14" rx="7"/><rect x="88" y="270" width="170" height="14" rx="7"/><rect x="88" y="304" width="90" height="14" rx="7"/></g>
+<path d="M360 150 L398 140 L380 112 L400 112 L428 140 L452 134 C464 132 466 146 454 150 L430 160 L406 192 L386 192 L398 160Z" fill="${NAVY}"/>
+<path d="M330 124 V424" stroke="${NAVY}" stroke-width="5" stroke-dasharray="3 14" stroke-linecap="round"/>
+<g fill="${NAVY}">${Array.from({ length: 11 }, (_, i) => `<rect x="${356 + i * 11}" y="${352}" width="${i % 3 === 0 ? 7 : 4}" height="54" rx="1.5"/>`).join('')}</g></g>
+<g transform="translate(345,285)"><path d="M0 -70 V-50" stroke="${NAVY}" stroke-width="8" stroke-linecap="round"/><circle cy="-76" r="9" fill="#e5383b" stroke="${NAVY}" stroke-width="4"/><rect x="-52" y="-52" width="104" height="82" rx="24" fill="${CREAM}" stroke="${NAVY}" stroke-width="8"/><circle cx="-18" cy="-14" r="10" fill="${NAVY}"/><circle cx="18" cy="-14" r="10" fill="${NAVY}"/><path d="M-20 12 H20" stroke="${NAVY}" stroke-width="8" stroke-linecap="round"/><rect x="-62" y="-26" width="12" height="32" rx="6" fill="${TEAL}" stroke="${NAVY}" stroke-width="4"/><rect x="50" y="-26" width="12" height="32" rx="6" fill="${TEAL}" stroke="${NAVY}" stroke-width="4"/></g>
+<g transform="translate(345,285)"><circle r="104" fill="none" stroke="${PAPER}" stroke-width="38" transform="translate(10,10)"/><circle r="104" fill="none" stroke="#e5383b" stroke-width="30"/><path d="M-74 -74 L74 74" stroke="#e5383b" stroke-width="30" stroke-linecap="round"/></g>
+<g transform="translate(86,76)"><rect x="8" y="8" width="210" height="52" rx="26" fill="${PAPER}"/><rect width="210" height="52" rx="26" fill="${NAVY}" stroke="${CREAM}" stroke-width="6"/><circle cx="32" cy="26" r="9" fill="#e5383b"/><rect x="56" y="19" width="130" height="14" rx="7" fill="${CREAM}"/></g>`;
+}
 function hookLines(text) {
   if (text.includes('|')) return text.split('|').map((x) => x.trim()).filter(Boolean).slice(0, 3);
   const sent = text.split(/(?<=[.!?])\s+/).filter(Boolean); if (sent.length >= 2 && sent.length <= 3) return sent;
@@ -103,6 +118,7 @@ function hookLines(text) {
 }
 function pickMain(post) {
   const t = [post.slug, post.category, (post.tags || []).join(' '), post.title].join(' ').toLowerCase();
+  if (/airline|flight booking|boarding pass/.test(t)) return 'ticket';
   if (/lawsuit|sues |sued|attorney general|court/.test(t)) return 'court';
   if (/voice clon|deepfake|cloned voice/.test(t)) return 'voice';
   if (/meeting|google meet|zoom|video call/.test(t)) return 'meeting';
@@ -128,6 +144,7 @@ function coverHtmlD(post, W, H, G) {
   else if (kind === 'meeting') main = `<svg class="art" viewBox="0 0 600 560">${flatMeeting()}</svg>`;
   else if (kind === 'gauge') main = `<svg class="art" viewBox="0 0 600 560">${flatGauge()}</svg>`;
   else if (kind === 'decide') main = `<svg class="art" viewBox="0 0 600 560">${flatDecide()}</svg>`;
+  else if (kind === 'ticket') main = `<svg class="art" viewBox="0 0 600 560">${flatTicket()}</svg>`;
   else if (kind === 'court') main = `<svg class="art" viewBox="0 0 600 560">${flatCourt()}</svg>`;
   else if (kind === 'bars') main = `<svg class="art" viewBox="0 0 600 560">${flatBars()}</svg>`;
   else main = `<svg class="art2" viewBox="0 0 400 300" fill="none">${DEFS(ACC.teal[0])}${STAGE(ACC.teal[0])}${ART[pickArt(post)](ACC.teal[0])}</svg>`;

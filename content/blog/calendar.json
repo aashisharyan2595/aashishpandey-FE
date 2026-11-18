@@ -71,8 +71,8 @@
         "https://www.cbsnews.com/news/united-airlines-bans-ai-agents-booking-flights/"
       ],
       "score": 7,
-      "status": "planned",
-      "slug": "",
+      "status": "written",
+      "slug": "united-bans-ai-agents-flight-booking",
       "locked": false,
       "key": "united-ai-agent-ban"
     },
@@ -807,6 +807,7 @@
     "claude-meetings",
     "gemini-4-hydrogen",
     "ai-voice-scams",
-    "california-sues-openai"
+    "california-sues-openai",
+    "united-ai-agent-ban"
   ]
 }
