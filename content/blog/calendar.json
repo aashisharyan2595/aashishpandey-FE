@@ -24,7 +24,7 @@
       "locked": false
     },
     "2026-11-16": {
-      "title": "Gemini 4 Hydrogen review: Google\u2019s fast new model, pros and cons",
+      "title": "Gemini 4 Hydrogen review: Google’s fast new model, pros and cons",
       "kind": "review",
       "angle": "Flash successor now in Search for all users and the Gemini app: speed, price, benchmarks vs Argon, what changes for everyday search and for developers",
       "urls": [
@@ -205,18 +205,21 @@
       "locked": false
     },
     "2026-12-01": {
-      "title": "CoreWeave prepayments and Fractile $720M: AI compute money",
+      "title": "Anthropic goes public: IPO debut day and what it means for Claude users",
       "kind": "news",
-      "angle": "How AI infrastructure is being financed and what it signals for cloud AI prices.",
+      "angle": "Follow-up to the 14 Nov IPO post; confirm numbers with outlets before writing.",
       "urls": [
-        "https://techcrunch.com/2026/11/11/coreweave-turns-to-customer-prepayments-shorter-contracts-to-fund-ai-growth/",
-        "https://techcrunch.com/2026/11/11/with-720m-round-britains-fractile-gets-a-leg-up-in-the-race-for-ai-chips/"
+        "https://www.npr.org/2026/11/18/nx-s1-6046212/anthropic-record-ipo-price",
+        "https://techcrunch.com/2026/11/18/anthropic-reportedly-prices-ipo-at-83-a-share-above-projected-range/",
+        "https://techcrunch.com/2026/11/19/at-nasdaq-opening-bell-anthropic-ceo-recommits-to-pacing-ai-development/",
+        "https://www.npr.org/2026/11/19/nx-s1-6042558/anthropic-ipo-breaks-records-100-billion",
+        "https://techcrunch.com/2026/11/19/anthropics-ipo-puts-ais-circular-financing-boom-to-the-test/"
       ],
-      "score": 6,
+      "score": 8,
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "ai-compute-funding"
+      "key": "anthropic-ipo-priced"
     },
     "2026-12-02": {
       "title": "Genie 4 review: Google DeepMind world model, pros and cons",
@@ -232,15 +235,17 @@
       "key": "genie-4-review"
     },
     "2026-12-03": {
-      "title": "RAG explained: why your company chatbot needs it",
-      "kind": "explainer",
-      "angle": "Retrieval in plain English, where it goes wrong, what to ask vendors.",
-      "urls": [],
-      "score": 5,
+      "title": "Ruby2shell: pre-auth RCE on stock Rails, what to patch",
+      "kind": "news",
+      "angle": "Single trade source so far; confirm with the Rails advisory and a second outlet before writing.",
+      "urls": [
+        "https://verialabs.com/ruby2shell/"
+      ],
+      "score": 7,
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "rag-explained"
+      "key": "ruby2shell-rails-rce"
     },
     "2026-12-04": {
       "title": "Zoho Zia review: AI inside Zoho for small business",
@@ -512,7 +517,7 @@
     },
     {
       "key": "china-banned-nvidia-chips",
-      "title": "Export-banned Nvidia chips behind China\u2019s top AI models",
+      "title": "Export-banned Nvidia chips behind China’s top AI models",
       "kind": "news",
       "score": 6,
       "urls": [
@@ -523,7 +528,7 @@
     },
     {
       "key": "apple-local-ai-app",
-      "title": "Apple\u2019s coming Mac app for running local AI models: what it means",
+      "title": "Apple’s coming Mac app for running local AI models: what it means",
       "kind": "news",
       "score": 6,
       "urls": [
@@ -813,15 +818,15 @@
       "added": "2026-11-18"
     },
     {
-      "key": "anthropic-ipo-priced",
-      "title": "Anthropic IPO prices at $83 a share, raising a record $81.3B",
+      "key": "ai-compute-funding",
+      "title": "CoreWeave prepayments and Fractile $720M: AI compute money",
       "kind": "news",
-      "score": 7,
+      "score": 6,
       "urls": [
-        "https://www.npr.org/2026/11/18/nx-s1-6046212/anthropic-record-ipo-price",
-        "https://techcrunch.com/2026/11/18/anthropic-reportedly-prices-ipo-at-83-a-share-above-projected-range/"
+        "https://techcrunch.com/2026/11/11/coreweave-turns-to-customer-prepayments-shorter-contracts-to-fund-ai-growth/",
+        "https://techcrunch.com/2026/11/11/with-720m-round-britains-fractile-gets-a-leg-up-in-the-race-for-ai-chips/"
       ],
-      "angle": "Follow-up to the 14 Nov IPO post; confirm numbers with outlets before writing.",
+      "angle": "How AI infrastructure is being financed and what it signals for cloud AI prices.",
       "added": "2026-11-19"
     },
     {
@@ -881,7 +886,7 @@
     },
     {
       "key": "dpdp-rules-small-business",
-      "title": "What India\u2019s DPDP rules mean for a small business",
+      "title": "What India’s DPDP rules mean for a small business",
       "kind": "explainer",
       "score": 5,
       "urls": [],
@@ -917,6 +922,15 @@
         "https://united24media.com/world/russian-speaking-hackers-launched-first-fully-automated-ai-cyberattack-google-says-24451"
       ],
       "angle": "What Google reported, what is unconfirmed, what small teams should do",
+      "added": "2026-11-19"
+    },
+    {
+      "key": "rag-explained",
+      "title": "RAG explained: why your company chatbot needs it",
+      "kind": "explainer",
+      "score": 5,
+      "urls": [],
+      "angle": "Retrieval in plain English, where it goes wrong, what to ask vendors.",
       "added": "2026-11-19"
     }
   ],
