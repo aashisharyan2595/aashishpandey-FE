@@ -219,15 +219,17 @@
       "key": "ai-compute-funding"
     },
     "2026-12-02": {
-      "title": "Canva AI review: pros and cons for small business design",
+      "title": "Genie 4 review: Google DeepMind world model, pros and cons",
       "kind": "review",
-      "angle": "Magic tools, pricing, limits, who should use it.",
-      "urls": [],
-      "score": 5,
+      "angle": "What Genie 4 / Project Genie does now that it is available, who can use it, limits, price",
+      "urls": [
+        "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/genie-4-now-available-project-genie/"
+      ],
+      "score": 7,
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "canva-ai-review"
+      "key": "genie-4-review"
     },
     "2026-12-03": {
       "title": "RAG explained: why your company chatbot needs it",
@@ -884,6 +886,37 @@
       "score": 5,
       "urls": [],
       "angle": "Consent, notices, breach reporting, timelines; practical checklist.",
+      "added": "2026-11-19"
+    },
+    {
+      "key": "canva-ai-review",
+      "title": "Canva AI review: pros and cons for small business design",
+      "kind": "review",
+      "score": 5,
+      "urls": [],
+      "angle": "Magic tools, pricing, limits, who should use it.",
+      "added": "2026-11-19"
+    },
+    {
+      "key": "ruby-regexp-string-vulns",
+      "title": "Ruby Regexp and String case-conversion vulnerabilities: what to update",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/"
+      ],
+      "angle": "Ruby security release 18 Nov; who is affected and which versions to move to",
+      "added": "2026-11-19"
+    },
+    {
+      "key": "ai-automated-cyberattack-google",
+      "title": "Google says Russian-speaking hackers ran first fully automated AI cyberattack",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://united24media.com/world/russian-speaking-hackers-launched-first-fully-automated-ai-cyberattack-google-says-24451"
+      ],
+      "angle": "What Google reported, what is unconfirmed, what small teams should do",
       "added": "2026-11-19"
     }
   ],
