@@ -138,7 +138,7 @@ const MENUS = {
       ] }],
       [{ h: 'Get in touch', items: [
         { href: BOOK, t: 'Book a 20-min call', d: 'Pick a slot that suits you', ic: 'cal', x: true },
-        { href: '/contact', t: 'Send a brief', d: 'Freelance project inquiry', ic: 'send', f: 'Send a brief' },
+        { href: '/contact?from=start-project', t: 'Start a project', d: 'A focused brief, in about two minutes', ic: 'send', f: 'Start a project' },
         { href: WA, t: 'WhatsApp', d: 'Quick chat', ic: 'chat', x: true },
         { href: MAIL, t: 'Email', d: 'hello@aashishpandey.com', ic: 'mail' },
       ] }],
@@ -152,7 +152,7 @@ const ORDER = ['work', 'services', 'tools', 'more'];
 const HIRE = [
   { href: BOOK, t: 'Book a 20-min call', d: 'Pick a slot that suits you', x: true },
   { href: MAIL, t: 'Email', d: 'hello@aashishpandey.com' },
-  { href: '/contact', t: 'Send a brief', d: 'Freelance project inquiry' },
+  { href: '/contact?from=start-project', t: 'Start a project', d: 'A focused brief, in about two minutes' },
   { href: WA, t: 'WhatsApp', d: 'Quick chat', x: true },
   { href: CV, t: 'Résumé (PDF)', d: 'One page, up to date', dl: true },
 ];
@@ -166,7 +166,7 @@ const FOOT = {
     { href: WA, label: 'WhatsApp', ic: 'chat', x: true },
   ],
   work: [['/case-studies', 'Case studies'], ['/work-liquid-iv', 'Liquid I.V.'], ['/work-talenti', 'Talenti'], ['/work-storynest', 'StoryNest'], ['/work-ceat-specialty', 'CEAT Specialty'], ['/portfolio', 'Portfolio']],
-  more: [['/', 'The 3D ride'], ['/blog', 'Blog'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)'], ['/contact', 'Send a brief']],
+  more: [['/', 'The 3D ride'], ['/blog', 'Blog'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)'], ['/contact?from=start-project', 'Start a project']],
 };
 
 /* ---------- helpers ---------- */
@@ -252,7 +252,7 @@ function footer() {
   const svc = [['/services', 'All services'], ...flat(MENUS.services).filter((i) => i.href !== '/services').sort((a, b) => order.indexOf(a.href) - order.indexOf(b.href)).map((i) => [i.href, i.f || i.t])];
   const tools = `<div class="ap-foot__tools">${FOOT_TOOLS.map(link).join('')}</div><a class="ap-foot__all" href="/tools">All ${toolCount} tools</a>`;
   const work = [['/portfolio', 'Portfolio'], ...FOOT.work.filter(([h]) => h !== '/portfolio')];
-  const contact = [[MAIL, 'hello@aashishpandey.com'], [BOOK, 'Book a 20-minute call', 1], ['/contact', 'Send a brief'], [WA, 'WhatsApp', 1], [LI, 'LinkedIn', 1]];
+  const contact = [[MAIL, 'hello@aashishpandey.com'], [BOOK, 'Book a 20-minute call', 1], ['/contact?from=start-project', 'Start a project'], [WA, 'WhatsApp', 1], [LI, 'LinkedIn', 1]];
   const more = [['/', 'The 3D ride'], ['/blog', 'Blog'], ['/newsletter', 'Newsletter'], ['/how-this-site-was-built', 'How this site was built'], [CV, 'Résumé (PDF)']];
   return `<footer class="ap-foot" aria-label="Site footer"><div class="ap-foot__in"><div class="ap-foot__top"><div class="ap-foot__brand"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><p>${e(FOOT.tagline)}</p><a class="ap-foot__status" href="/contact"><span class="ap-nav__dot"></span>${e(FOOT.status)}</a><form class="ap-foot__news" data-news="footer" novalidate><label for="ap-news-e">New free tools, at most one email a month</label><input id="ap-news-n" type="text" name="name" placeholder="First name (optional)" autocomplete="given-name" maxlength="60"><div class="ap-foot__nrow"><input id="ap-news-e" type="email" name="email" placeholder="you@example.com" autocomplete="email" required maxlength="254"><button type="submit">Subscribe</button></div><input class="ap-hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><p data-news-msg role="status" aria-live="polite">Plus one practical tip. Unsubscribe in one click. <a href="/newsletter">What you get</a> · <a href="/privacy">Privacy</a></p></form></div>`
     + `<nav class="ap-foot__cols" aria-label="Footer">${col('Work', work.map(link).join(''))}${col('Services', svc.map(link).join(''))}<div class="ap-foot__stack">${col('Get in touch', contact.map(link).join(''))}${col('More', more.map(link).join(''))}</div></nav></div>${col(`Free tools <span class="ap-foot__n">${toolCount}</span>`, tools, ' ap-foot__col--tools')}`
@@ -284,7 +284,7 @@ function close(p) {
     + `<h2 id="ap-close-h" class="ap-close__h" data-ap-ch>${e(c.h)} <span class="ap-close__em" data-ap-ce>${e(c.em)}</span></h2><p class="ap-close__p" data-ap-cp>${e(c.p)}</p></div>`
     + `<div class="ap-close__links"><a class="ap-close__book" href="${e(BOOK)}" target="_blank" rel="noopener">${svg(ICONS.extra.cal, 22)}<span class="ap-close__bt"><b>Book a 20-min call</b><span>Pick a slot that suits you</span></span>${GO}</a>`
     + `<a class="ap-close__mail" href="${e(MAIL)}">${svg(ICONS.extra.mail, 20)}<span class="ap-close__bt"><b>hello@aashishpandey.com</b></span>${GO}</a>`
-    + `<div class="ap-close__chips">${chip('/contact?from=' + from, 'send', 'Send a brief')}${chip(CV, 'file', 'Résumé', ' download')}${chip(LI, 'in', 'LinkedIn', ' target="_blank" rel="noopener"')}${chip(WA, 'chat', 'WhatsApp', ' target="_blank" rel="noopener"')}</div></div></div>`;
+    + `<div class="ap-close__chips">${chip('/contact?from=' + from, 'send', 'Start a project')}${chip(CV, 'file', 'Résumé', ' download')}${chip(LI, 'in', 'LinkedIn', ' target="_blank" rel="noopener"')}${chip(WA, 'chat', 'WhatsApp', ' target="_blank" rel="noopener"')}</div></div></div>`;
 }
 
 /* ---------- a tool's other names on its own page ---------- */

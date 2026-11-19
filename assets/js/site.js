@@ -85,8 +85,28 @@
     window.dataLayer.push(Object.assign({ event: name }, props));
     if (window.gtag) window.gtag('event', name, props);
     if (window.va) window.va('event', { name: name, data: props });
+    if (window.apJourney) window.apJourney.event(name, props);
     if (dev && window.console) console.info('[track]', name, props);
   };
+  // A short, first-party session trail explains how someone arrived at a brief
+  // (for example: blog → tool → service → contact). It never stores typed text,
+  // names, emails or third-party URLs, and disappears when the tab is closed.
+  var JOURNEY_KEY = 'apJourneyV1';
+  function journeyRead() { try { return JSON.parse(sessionStorage.getItem(JOURNEY_KEY) || 'null'); } catch (e) { return null; } }
+  function journeyWrite(v) { try { sessionStorage.setItem(JOURNEY_KEY, JSON.stringify(v)); } catch (e) {} }
+  var journey = journeyRead() || { v: 1, entry: location.pathname, started: Date.now(), steps: [] };
+  function journeyStep(kind, target) {
+    var step = { k: String(kind || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 36), p: location.pathname, t: Math.min(86399, Math.round((Date.now() - journey.started) / 1000)) };
+    if (target) step.to = String(target).replace(/[^a-z0-9_?&=/#.-]/gi, '').slice(0, 120);
+    var last = journey.steps[journey.steps.length - 1];
+    if (last && last.k === step.k && last.p === step.p && last.to === step.to) return;
+    journey.steps.push(step); journey.steps = journey.steps.slice(-18); journeyWrite(journey);
+  }
+  window.apJourney = {
+    event: function (name, props) { if (/^(tool_open|case_study_open|proof_open|case_studies_open|build_guide_open|book_call|brief_sent|newsletter_signup)$/.test(name)) journeyStep(name, props && props.href); },
+    snapshot: function () { return JSON.stringify({ entry: journey.entry, steps: journey.steps.slice(-12) }); }
+  };
+  journeyStep('view');
   /* ---- consent: Google Analytics and Clarity are separate choices, both off until the visitor turns them on ----
      Stored in localStorage apConsent as { v: 2, s: { stats, replay }, a, p, t }. A choice lasts 12 months, then the panel asks again.
      A v1 "reject" (one Accept/Reject choice) is kept as a reject; a v1 "accept" is asked again, because it did not name each tool. */
@@ -295,6 +315,7 @@
   // shared by every brief form: same rules as the newsletter (honeypot, time check, JSON POST, inline result)
   window.apSend = function (d) {
     d.hp = ''; d.ts = T0; d.page = location.pathname;
+    if (window.apJourney) d.journey = window.apJourney.snapshot();
     try { var rf = new URL(document.referrer); d.ref = rf.origin === location.origin ? rf.pathname : rf.hostname; } catch (e) { /* no referrer */ }
     return window.apToken().then(function (tk) {
       if (!tk && window.apTokenStuck) return { ok: false, j: { error: VERIFY_MSG } };   // never send without a token while the check is waiting for a tick

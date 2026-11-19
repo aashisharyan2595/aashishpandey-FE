@@ -82,6 +82,7 @@ const SERVICE_TOPIC = { 'Shopify development': 'shopify', 'Full-stack developmen
 
 /* ---------- where on the site they wrote from ---------- */
 const SOURCES = {
+  'start-project': { label: 'the Start a project funnel', hello: 'Thanks for starting a project brief.' },
   contact: { label: 'the contact page', hello: 'Thanks for reaching out through the contact page.' },
   tools: { label: 'the Tools page', hello: 'Thanks for the note. It is good to hear from someone who found me through the tools.' },
   ride: { label: 'the interactive ride', hello: 'Thanks for riding all the way to the campfire. Most people do not.' },
@@ -160,6 +161,8 @@ const small = (t) => `<p style="margin:0 0 16px;font-size:13.5px;line-height:1.6
 /* ---------- 1. admin: a new brief arrived ---------- */
 function adminBrief(d) {
   const r = read(d);
+  let journey = '';
+  try { const j = JSON.parse(d.journey || '{}'); journey = (Array.isArray(j.steps) ? j.steps : []).map((s) => [s.p, s.k, s.to].filter(Boolean).join(' → ')).filter(Boolean).join('<br>'); } catch (e) { journey = ''; }
   const bits = [r.t.short, d.budget && d.budget !== 'Not sure yet' ? d.budget : '', r.urgent ? 'ASAP' : ''].filter(Boolean).join(' · ');
   const subject = `${r.priority === 'High' ? '[High] ' : ''}${d.name}: ${bits} (via ${r.src.label.replace(/^the /, '')})`;
   const draftBody = `Hi ${r.first},\n\nThanks for your brief${r.src.key === 'contact' ? '' : ' from ' + r.src.label}. `
@@ -175,12 +178,13 @@ function adminBrief(d) {
     body: p(`<strong>${esc(d.name)}</strong>${d.company ? ' from <strong>' + esc(d.company) + '</strong>' : ''} sent a brief from <strong>${esc(r.src.label)}</strong>. Reply to this email and it goes straight to ${esc(r.first)}.`)
       + `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">${row('Name', d.name)}${row('Email', `<a href="mailto:${esc(d.email)}" style="color:#9a5418;">${esc(d.email)}</a>`, true)}${row('Company', d.company)}${r.siteUrl ? row('Website', `<a href="${esc(r.siteUrl)}" style="color:#9a5418;">${esc(r.host)}</a>`, true) : row('Website', d.website_url)}${row('Looking for', r.t.label)}${row('Budget', d.budget)}${row('Timeline', d.timeline)}${row('Came from', r.src.label)}</table>`
       + h('Their message') + quote(d.message)
+      + (journey ? h('Path through the site') + `<p style="margin:0 0 18px;font-size:13px;line-height:1.65;color:${MUTED};">${journey}</p>` : '')
       + button(mailto, `Reply to ${r.first} (draft ready)`) + button(BOOK, 'Offer a call', true)
       + h('First questions to ask') + list(r.t.ask)
       + (why && r.priority !== 'Standard' ? p(`<span style="color:${MUTED};font-size:14px;">${r.priority === 'High' ? 'Flagged high' : 'Worth a quick look'}: ${esc(why)}.</span>`) : ''),
     footer: `Sent ${esc(d.when)} from ${esc(d.page || '/contact')}${d.ref ? ', arriving from ' + esc(d.ref) : ''}. The sender agreed to the privacy policy. Their confirmation email says you will reply within 48 hours.`,
   });
-  const text = `${r.priority} priority brief from ${d.name} <${d.email}>, via ${r.src.label}\n${d.company ? 'Company: ' + d.company + '\n' : ''}${d.website_url ? 'Website: ' + d.website_url + '\n' : ''}Looking for: ${r.t.label}\n${d.budget ? 'Budget: ' + d.budget + '\n' : ''}${d.timeline ? 'Timeline: ' + d.timeline + '\n' : ''}\n${d.message}\n\nFirst questions:\n${r.t.ask.map((q) => '- ' + q).join('\n')}\n\nReply to this email to answer ${d.name}. They were told you reply within 48 hours.`;
+  const text = `${r.priority} priority brief from ${d.name} <${d.email}>, via ${r.src.label}\n${d.company ? 'Company: ' + d.company + '\n' : ''}${d.website_url ? 'Website: ' + d.website_url + '\n' : ''}Looking for: ${r.t.label}\n${d.budget ? 'Budget: ' + d.budget + '\n' : ''}${d.timeline ? 'Timeline: ' + d.timeline + '\n' : ''}${journey ? 'Path through the site: ' + journey.replace(/<br>/g, ' | ') + '\n' : ''}\n${d.message}\n\nFirst questions:\n${r.t.ask.map((q) => '- ' + q).join('\n')}\n\nReply to this email to answer ${d.name}. They were told you reply within 48 hours.`;
   return { subject, html, text };
 }
 

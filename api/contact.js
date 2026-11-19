@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
   const d = {
     name: plain(b.name, 80), email: clean(b.email, 254).toLowerCase(), company: plain(b.company, 120), website_url: plain(b.website_url, 200),
     service: pick(b.service, SERVICES), budget: pick(b.budget, BUDGETS), timeline: pick(b.timeline, TIMELINES), message: clean(b.message, 4000),
-    page: plain(b.page, 80), source: plain(b.source, 40), ref: plain(b.ref, 120), when: new Date().toUTCString(),
+    page: plain(b.page, 80), source: plain(b.source, 40), ref: plain(b.ref, 120), journey: clean(b.journey, 1800), when: new Date().toUTCString(),
   };
   if (d.name.length < 2) return res.status(400).json({ error: 'Please add your name.' });
   if (!validEmail(d.email)) return res.status(400).json({ error: 'That email address does not look right.' });
