@@ -191,6 +191,17 @@ ${pages > 1 ? `<nav class="bl-pager" aria-label="Pages">${pg > 1 ? `<a href="${q
 const authorBox = (a) => `<aside class="bl-author">${a.avatar ? `<img class="bl-av bl-av--img" src="${esc(a.avatar)}" alt="" width="46" height="46" loading="lazy">` : `<span class="bl-av" aria-hidden="true">${esc(a.name.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase())}</span>`}<div><b>${esc(a.name)}</b><p>${a.bio ? esc(a.bio) : (a.id === 'owner' ? 'Project manager and creative technologist in Bangalore. I run multi-market Shopify programs and build free tools. <a href="/contact">Send a brief</a>.' : '')}</p></div></aside>`;
 const shareBlock = (p, url) => `<div class="bl-share" aria-label="Share"><span>Share</span><button type="button" data-copy="${esc(url)}">Copy link</button><a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(p.title)}" target="_blank" rel="noopener noreferrer">X</a></div>`;
 const tocBlock = (toc) => (toc.length > 2 ? `<nav class="bl-toc" aria-label="On this page"><b>On this page</b><ol>${toc.map((t) => `<li class="l${t.level}"><a href="#${t.id}">${esc(t.text)}</a></li>`).join('')}</ol></nav>` : '');
+// A post that names one of the site's tools should give the reader a useful next
+// step instead of leaving the link buried in a paragraph. The source remains the
+// author's link, so this only surfaces tools already recommended in the article.
+const toolJourney = (body) => {
+  const seen = new Set(), out = [];
+  for (const m of String(body || '').matchAll(/\[([^\]]+)\]\((?:https?:\/\/aashishpandey\.com)?(\/tools\/[a-z0-9-]+)/gi)) {
+    const href = m[2].replace(/["')].*$/, ''); if (seen.has(href)) continue; seen.add(href); out.push({ href, label: m[1] }); if (out.length === 3) break;
+  }
+  if (!out.length) return '';
+  return `<section class="bl-wrap bl-rel" aria-labelledby="bl-tools-h"><h2 id="bl-tools-h">Try the tools mentioned here</h2><div class="bl-grid">${out.map((x) => `<a class="bl-box" href="${esc(x.href)}"><span class="bl-box__h">Free browser tool</span><strong>${esc(x.label)}</strong><p>Use it on your own device, then come back when you are ready to plan the bigger job.</p><span class="bl-box__go">Open the tool →</span></a>`).join('')}</div></section>`;
+};
 
 // FAQ questions and the Sources list fold away so long posts stay short to scroll. Everything stays in the HTML as native details/summary
 // (keyboard and screen-reader friendly, found by in-page search, read in full by crawlers), and the FAQPage data is built from post.extra, not from this markup.
@@ -233,7 +244,7 @@ ${p.cover && p.cover.src ? `<figure class="bl-ah__img"><img src="${esc(p.cover.s
 <div class="bl-nl-end">${newsCard('post-end')}</div>
 ${authorBox(au)}
 </div><aside class="bl-rail">${shortEmbed}${shareBlock(p, url)}</aside></div>
-${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">Keep reading</h2><div class="bl-grid">${rel.map((x) => card(x)).join('')}</div></section>` : ''}
+${toolJourney(p.body)}${rel.length ? `<section class="bl-wrap bl-rel" aria-labelledby="bl-rel-h"><h2 id="bl-rel-h">Keep reading</h2><div class="bl-grid">${rel.map((x) => card(x)).join('')}</div></section>` : ''}
 </article>`;
   const x = p.extra || {}, news = x.kind === 'news' || x.kind === 'breaking';
   const art = { '@type': news ? 'NewsArticle' : 'BlogPosting', '@id': url + '#post', headline: p.title, description: p.excerpt, image: p.images.length ? imageLd(p.images) : undefined, datePublished: isoDate(p.publishAt || p.updated), dateModified: isoDate(p.updated), author: authorLd(au), publisher: { '@id': SITE + '/#person' }, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, keywords: (p.tags || []).join(', ') || undefined, articleSection: p.category || undefined, wordCount: p.words, inLanguage: 'en', isAccessibleForFree: true, speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.bl-qa', 'h1'] } };
