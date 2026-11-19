@@ -1,0 +1,91 @@
+1
+00:00:00,000 --> 00:00:03,152
+An airline just banned robots from buying your ticket.
+
+2
+00:00:03,202 --> 00:00:05,694
+Even if you say yes to every step.
+
+3
+00:00:05,744 --> 00:00:09,462
+On eleven November, United changed its contract of carriage.
+
+4
+00:00:09,512 --> 00:00:14,037
+AI agents can no longer make, change or service a ticket for you.
+
+5
+00:00:14,087 --> 00:00:18,534
+Break the rule, and United says it can cancel your booking without telling you.
+
+6
+00:00:18,584 --> 00:00:20,528
+Muja, are you worried?
+
+7
+00:00:20,578 --> 00:00:22,245
+Yes, that part is real.
+
+8
+00:00:22,295 --> 00:00:25,661
+Bookings made before eleven November will be honoured.
+
+9
+00:00:25,711 --> 00:00:28,341
+A toy plane, Muja?
+
+10
+00:00:28,391 --> 00:00:34,836
+Fun fact: the very first paid airline flight, in nineteen fourteen, had just one passenger.
+
+11
+00:00:34,886 --> 00:00:37,871
+His seat sold at auction for four hundred dollars.
+
+12
+00:00:37,921 --> 00:00:38,847
+Okay...
+
+13
+00:00:38,897 --> 00:00:40,315
+back to our story.
+
+14
+00:00:40,365 --> 00:00:41,112
+Why?
+
+15
+00:00:41,162 --> 00:00:44,206
+United says security and unintended purchases.
+
+16
+00:00:44,256 --> 00:00:50,749
+Analysts say it is about control, and reports quote its CEO saying he does not want another middleman.
+
+17
+00:00:50,799 --> 00:00:52,414
+So what should Priya do?
+
+18
+00:00:52,464 --> 00:00:54,937
+Let AI research and compare.
+
+19
+00:00:54,987 --> 00:00:57,729
+Book on United's own site yourself.
+
+20
+00:00:57,779 --> 00:01:00,104
+And never hand an agent your login.
+
+21
+00:01:00,154 --> 00:01:03,577
+My take: part security, part who owns the customer.
+
+22
+00:01:03,627 --> 00:01:05,301
+Keep the final click human.
+
+23
+00:01:05,351 --> 00:01:07,743
+The full story is on my blog.
