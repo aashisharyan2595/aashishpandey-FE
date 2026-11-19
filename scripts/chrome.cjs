@@ -266,6 +266,13 @@ function footer() {
 const C_WORK = { h: 'Got a program that', em: 'needs landing?', p: 'Hiring full-time: I am open to Program and Project Manager roles. Freelance: send a short brief and I will come back with scope, timeline and a quote.' };
 const C_SERVICE = { h: 'Working', em: 'together.', p: 'Freelance: send a short brief and I will come back with scope, timeline and a quote. Full-time: I am open to Program Manager roles. Either way, the fastest start is a 20-minute call.' };
 const C_TOOLS = { h: 'Need a custom tool,', em: 'site or store?', p: 'I scope, design and build tools, websites and Shopify stores for teams in India and abroad. Send a short brief and I will reply within 48 hours.' };
+const TOOL_NEXT = {
+  '/tools/project-estimate-calculator': { service: 'Project management', h: 'Planning a project?', em: 'make it real.', p: 'If the estimate has turned into a real launch, send the context and I can help turn the numbers into a plan.' },
+  '/tools/project-management-tool': { service: 'Project management', h: 'Need someone to run', em: 'the programme?', p: 'I take over launches, vendors and delivery rhythms when a board is not enough.' },
+  '/tools/website-launch-checklist': { service: 'Project management', h: 'Want the launch', em: 'to land cleanly?', p: 'Send the context and I can help turn the checklist into a launch plan your team can actually run.' },
+  '/tools/json-ld-schema-generator': { service: 'SEO consulting', h: 'Need more than markup?', em: 'let us fix the system.', p: 'I can help connect technical SEO, content and the pages that need to earn their way into search.' },
+  '/tools/online-whiteboard': { service: 'UI and UX design', h: 'Have a flow worth', em: 'making clearer?', p: 'Send the rough idea, screenshots or board and I can help turn it into an interface that ships.' },
+};
 const C_DEFAULT = { h: 'I plan, build and ship things', em: 'like this for clients.', p: 'Program management for multi-market launches, or a hands-on build for your next site or experiment.' };
 const CLOSE = {
   '/services': { h: 'Not sure which one', em: 'you need?', p: 'Tell me what is stuck and I will say which of these fits, or whether it is a mix. Freelance briefs get a scope, timeline and quote within 48 hours.' },
@@ -276,15 +283,16 @@ const CLOSE = {
 };
 for (const h of flat(MENUS.services)) if (h.href !== '/services') CLOSE[h.href] = C_SERVICE;
 function close(p) {
-  const c = CLOSE[p] || (p && p.startsWith('/tools') ? C_TOOLS : C_DEFAULT);
+  const next = TOOL_NEXT[p], c = CLOSE[p] || next || (p && p.startsWith('/tools') ? C_TOOLS : C_DEFAULT);
   const from = (p || '').replace(/^\//, '').replace(/\//g, '-').slice(0, 40) || 'site';
+  const contact = '/contact?from=' + from + (next && next.service ? '&service=' + encodeURIComponent(next.service) : '');
   const GO = svg('<path d="M7 17 17 7"></path><path d="M7 7h10v10"></path>', 16);
   const chip = (href, ic, t, more = '') => `<a href="${e(href)}"${more}>${svg(ICONS.extra[ic], 15)}${t}</a>`;
   return `<div class="ap-quotes" data-ap-quotes hidden></div><div class="ap-close"><div class="ap-close__copy"><span class="ap-close__chip" data-ap-avail>Available for full-time and freelance</span>`
     + `<h2 id="ap-close-h" class="ap-close__h" data-ap-ch>${e(c.h)} <span class="ap-close__em" data-ap-ce>${e(c.em)}</span></h2><p class="ap-close__p" data-ap-cp>${e(c.p)}</p></div>`
     + `<div class="ap-close__links"><a class="ap-close__book" href="${e(BOOK)}" target="_blank" rel="noopener">${svg(ICONS.extra.cal, 22)}<span class="ap-close__bt"><b>Book a 20-min call</b><span>Pick a slot that suits you</span></span>${GO}</a>`
     + `<a class="ap-close__mail" href="${e(MAIL)}">${svg(ICONS.extra.mail, 20)}<span class="ap-close__bt"><b>hello@aashishpandey.com</b></span>${GO}</a>`
-    + `<div class="ap-close__chips">${chip('/contact?from=' + from, 'send', 'Start a project')}${chip(CV, 'file', 'Résumé', ' download')}${chip(LI, 'in', 'LinkedIn', ' target="_blank" rel="noopener"')}${chip(WA, 'chat', 'WhatsApp', ' target="_blank" rel="noopener"')}</div></div></div>`;
+    + `<div class="ap-close__chips">${chip(contact, 'send', 'Start a project')}${chip(CV, 'file', 'Résumé', ' download')}${chip(LI, 'in', 'LinkedIn', ' target="_blank" rel="noopener"')}${chip(WA, 'chat', 'WhatsApp', ' target="_blank" rel="noopener"')}</div></div></div>`;
 }
 
 /* ---------- a tool's other names on its own page ---------- */
