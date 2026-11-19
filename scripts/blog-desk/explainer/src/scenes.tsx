@@ -144,7 +144,18 @@ const ArtCourt: React.FC<P> = ({ f, t }) => (<>
   </g>
   <g transform={`translate(880 1380) scale(${pop(f, 80)})`}><Icon k="warn" s={0.9} /></g>
 </>);
-const ARTS: Record<string, React.FC<P>> = { court: ArtCourt, voice: ArtVoice, 'server-door': ArtServerDoor, 'robot-sort': ArtRobotSort, 'ceo-exit': ArtCeoExit, 'cloud-down': ArtCloudDown, ipo: ArtIpo, meet: ArtMeet, speed: ArtSpeed };
+const ArtGate: React.FC<P> = ({ f, t }) => (<>
+  <g transform={`translate(540 900) scale(${0.9 + 0.1 * pop(f, 0)})`}>
+    <rect x={-380} y={-300} width={760} height={640} rx={44} fill="rgba(29,35,64,.18)" transform="translate(0 14)" />
+    <rect x={-380} y={-300} width={760} height={640} rx={44} fill="#1d2340" />
+    <g transform={`translate(0 -90) scale(${pop(f, 10)})`}><rect x={-300} y={-150} width={600} height={290} rx={30} fill="#fff" /><rect x={-300} y={-150} width={600} height={74} rx={30} fill={C.blue} /><rect x={-300} y={-110} width={600} height={34} fill={C.blue} /><T x={-120} y={-98} s={36} c="#fff">BOARDING PASS</T><g transform="translate(200 -105) scale(0.6)"><Icon k="globe" s={0.8} /></g><T x={-170} y={0} s={60}>UNITED</T><T x={-170} y={72} s={34} c="#6b7390">Seat 14A</T>{Array.from({ length: 14 }).map((_, i) => <rect key={i} x={110 + i * 12} y={-4} width={i % 3 ? 5 : 9} height={96} fill={C.ink} />)}</g>
+    <g transform={`translate(150 60) scale(${0.62 * pop(f, 36)})`}><g transform={`rotate(${Math.sin(t * 3) * 3})`}><circle cx={0} cy={0} r={170} fill="rgba(255,90,122,.16)" stroke={C.red} strokeWidth={26} /><path d="M-120,-120 L120,120" stroke={C.red} strokeWidth={26} strokeLinecap="round" /></g></g>
+    <g transform={`translate(0 250) scale(${pop(f, 60)})`}><rect x={-250} y={-40} width={500} height={76} rx={38} fill="#fff" /><T x={0} y={14} s={36} c={C.ink}>No AI agents</T></g>
+  </g>
+  <g transform="translate(240 1610) scale(0.95)"><Robot t={t} happy={0.2} arm={(Math.sin(t * 6) + 1) / 2} /></g>
+  <g transform={`translate(880 1380) scale(${pop(f, 80)})`}><Icon k="warn" s={0.9} /></g>
+</>);
+const ARTS: Record<string, React.FC<P>> = { gate: ArtGate, court: ArtCourt, voice: ArtVoice, 'server-door': ArtServerDoor, 'robot-sort': ArtRobotSort, 'ceo-exit': ArtCeoExit, 'cloud-down': ArtCloudDown, ipo: ArtIpo, meet: ArtMeet, speed: ArtSpeed };
 export const Hook: React.FC<P> = (p) => { const A = ARTS[p.sc.art] || ArtServerDoor; return <><AbsoluteFill style={{ transform: `scale(${interpolate(p.f, [0, 140], [1, 1.08], { extrapolateRight: 'clamp' })})`, transformOrigin: '55% 62%' }}><Svg><BG k={p.sc.bg} t={p.t} /><A {...p} /></Svg></AbsoluteFill><BannerOf {...p} /></>; };
 
 // ---------- generic types
@@ -263,7 +274,7 @@ export const Shop: React.FC<P> = (p) => { const { f, t, S, W } = p; const shop =
 
 
 // ---------- Muja's moment: the narrator steps aside, greets Muja, shares a fun fact, then "back to our story"
-// fields: prop sneak|sign|jacket|umbrella|bell|pot|balloon|phone|hug, fact: [lines], factAt / helloAt / backAt: word that triggers each beat, sign: sign text
+// fields: prop sneak|sign|jacket|umbrella|bell|pot|balloon|phone|hug|plane, fact: [lines], factAt / helloAt / backAt: word that triggers each beat, sign: sign text
 const MujaMoment: React.FC<P> = (p) => {
   const { f, t, sc, W } = p;
   const hello = W(sc.helloAt || 'Muja'), fact = W(sc.factAt || 'fact'), back = W(sc.backAt || 'back');
@@ -279,7 +290,7 @@ const MujaMoment: React.FC<P> = (p) => {
   }
   if (back && f >= back) { wave = f < back + 24 ? 1 : 0; const o = ease(f, back + 12, back + 40); x = x + (1300 - x) * o; walk = o > 0 && o < 1 ? t * 10 : walk; face = o > 0 ? 1 : face; }
   const card = fact ? pop(f, fact, 30, 12) : 0, rain = prop === 'umbrella';
-  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : prop === 'bell' ? 'bell' : prop === 'pot' ? 'pot' : prop === 'balloon' ? 'balloon' : prop === 'phone' ? 'phone' : prop === 'hug' ? 'hug' : '';
+  const wear = prop === 'jacket' ? 'jacket shades' : '', hold = prop === 'sign' ? 'sign' : prop === 'umbrella' ? 'umbrella' : prop === 'bell' ? 'bell' : prop === 'pot' ? 'pot' : prop === 'balloon' ? 'balloon' : prop === 'phone' ? 'phone' : prop === 'hug' ? 'hug' : prop === 'plane' ? 'plane' : '';
   return (<>
     <BG k={sc.bg || (rain ? 'dusk' : 'mint')} t={t} />
     <Svg>
