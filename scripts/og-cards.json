@@ -42,6 +42,7 @@
     { "id": "svc-tech", "kind": "service", "title": "Tech consultant", "sub": "Solution architecture and vendor handovers", "icon": "compass", "path": "/tech-consultant", "pages": ["Tech-Consultant.dc.html"] },
 
     { "id": "case-studies", "kind": "case", "title": "4 programs", "sub": "Liquid I.V. · Talenti · StoryNest · CEAT Specialty", "icon": "case", "path": "/case-studies", "pages": ["Case-Studies.dc.html"] },
+    { "id": "build-guide", "kind": "case", "title": "How this site was built", "sub": "A static-first portfolio with Three.js, WebGL and practical browser tools", "icon": "wrench", "path": "/how-this-site-was-built", "pages": ["How-This-Site-Was-Built.dc.html"] },
     { "id": "liquid-iv", "kind": "case", "title": "15 markets", "sub": "Shopify rollout with 9 new EU markets live in H1 2026", "foot": "Liquid I.V. · Unilever", "icon": "chart", "path": "/work-liquid-iv", "pages": ["Work-Liquid-IV.dc.html"] },
     { "id": "talenti", "kind": "case", "title": "20 days", "sub": "A Canadian website, live before the physical launch", "foot": "Talenti · The Magnum Ice Cream Company", "icon": "chart", "path": "/work-talenti", "pages": ["Work-Talenti.dc.html"] },
     { "id": "storynest", "kind": "case", "title": "100K → 400K", "sub": "Users, while I ran delivery and the SEO plan", "foot": "StoryNest · Feb – Sep 2024", "icon": "chart", "path": "/work-storynest", "pages": ["Work-StoryNest.dc.html"] },
