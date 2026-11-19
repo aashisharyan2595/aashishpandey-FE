@@ -109,6 +109,15 @@ function flatTicket() {
 <g transform="translate(345,285)"><circle r="104" fill="none" stroke="${PAPER}" stroke-width="38" transform="translate(10,10)"/><circle r="104" fill="none" stroke="#e5383b" stroke-width="30"/><path d="M-74 -74 L74 74" stroke="#e5383b" stroke-width="30" stroke-linecap="round"/></g>
 <g transform="translate(86,76)"><rect x="8" y="8" width="210" height="52" rx="26" fill="${PAPER}"/><rect width="210" height="52" rx="26" fill="${NAVY}" stroke="${CREAM}" stroke-width="6"/><circle cx="32" cy="26" r="9" fill="#e5383b"/><rect x="56" y="19" width="130" height="14" rx="7" fill="${CREAM}"/></g>`;
 }
+// AI "teammates" illustration added 2026-11-19 (Perplexity Teammates review): three agent avatars around a shared task board, linked by dotted lines, with a 24/7 clock badge
+function flatTeam() {
+  const bot = (x, y, c) => `<g transform="translate(${x},${y})"><rect x="9" y="9" width="150" height="132" rx="34" fill="${PAPER}"/><rect width="150" height="132" rx="34" fill="${c}" stroke="${CREAM}" stroke-width="8"/><path d="M75 0 V-22" stroke="${CREAM}" stroke-width="8" stroke-linecap="round"/><circle cy="-30" cx="75" r="9" fill="${NAVY}" stroke="${CREAM}" stroke-width="5"/><circle cx="48" cy="58" r="14" fill="${NAVY}"/><circle cx="102" cy="58" r="14" fill="${NAVY}"/><path d="M46 96 Q75 118 104 96" fill="none" stroke="${NAVY}" stroke-width="8" stroke-linecap="round"/></g>`;
+  return `<g fill="none" stroke="${CREAM}" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 16"><path d="M110 200 V300"/><path d="M450 200 V300"/><path d="M280 220 V300"/></g>`
+    + bot(35, 60, CREAM) + bot(215, 100, TEAL) + bot(380, 60, CREAM)
+    + `<g transform="translate(40,300)"><rect x="12" y="12" width="520" height="220" rx="28" fill="${PAPER}"/><rect width="520" height="220" rx="28" fill="${NAVY}" stroke="${CREAM}" stroke-width="8"/>`
+    + [0, 1, 2].map((i) => `<g transform="translate(${28 + i * 164},34)"><rect width="148" height="160" rx="16" fill="${i === 1 ? TEAL : CREAM}" opacity="${i === 2 ? 0.55 : 1}"/><g fill="${NAVY}"><rect x="16" y="22" width="90" height="12" rx="6"/><rect x="16" y="50" width="116" height="12" rx="6"/><rect x="16" y="78" width="70" height="12" rx="6"/></g>${i === 0 ? `<path d="M22 122 l16 16 l32 -34" fill="none" stroke="${TEALD}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>` : ''}</g>`).join('')
+    + `</g><g transform="translate(540,300)"><circle cx="7" cy="7" r="54" fill="${PAPER}"/><circle r="54" fill="${NAVY}" stroke="${CREAM}" stroke-width="8"/>${T(0, 12, 'middle', 34, CREAM, '24/7')}</g>`;
+}
 function hookLines(text) {
   if (text.includes('|')) return text.split('|').map((x) => x.trim()).filter(Boolean).slice(0, 3);
   const sent = text.split(/(?<=[.!?])\s+/).filter(Boolean); if (sent.length >= 2 && sent.length <= 3) return sent;
@@ -119,6 +128,7 @@ function hookLines(text) {
 function pickMain(post) {
   const t = [post.slug, post.category, (post.tags || []).join(' '), post.title].join(' ').toLowerCase();
   if (/airline|flight booking|boarding pass/.test(t)) return 'ticket';
+  if (/teammates/.test(t)) return 'team';
   if (/lawsuit|sues |sued|attorney general|court/.test(t)) return 'court';
   if (/voice clon|deepfake|cloned voice/.test(t)) return 'voice';
   if (/meeting|google meet|zoom|video call/.test(t)) return 'meeting';
@@ -144,6 +154,7 @@ function coverHtmlD(post, W, H, G) {
   else if (kind === 'meeting') main = `<svg class="art" viewBox="0 0 600 560">${flatMeeting()}</svg>`;
   else if (kind === 'gauge') main = `<svg class="art" viewBox="0 0 600 560">${flatGauge()}</svg>`;
   else if (kind === 'decide') main = `<svg class="art" viewBox="0 0 600 560">${flatDecide()}</svg>`;
+  else if (kind === 'team') main = `<svg class="art" viewBox="0 0 600 560">${flatTeam()}</svg>`;
   else if (kind === 'ticket') main = `<svg class="art" viewBox="0 0 600 560">${flatTicket()}</svg>`;
   else if (kind === 'court') main = `<svg class="art" viewBox="0 0 600 560">${flatCourt()}</svg>`;
   else if (kind === 'bars') main = `<svg class="art" viewBox="0 0 600 560">${flatBars()}</svg>`;

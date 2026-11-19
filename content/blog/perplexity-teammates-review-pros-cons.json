@@ -1,0 +1,107 @@
+{
+  "title": "Perplexity Teammates review: pros, cons and price",
+  "slug": "perplexity-teammates-review-pros-cons",
+  "excerpt": "Perplexity Teammates are AI agents that own ongoing work. Here is what they do, what they cost at $200 a month, and who should wait.",
+  "body": "> **Quick answer.** Perplexity Teammates are always-on AI agents that own recurring work, available to Max subscribers at $200 a month. The idea is solid, but costs are unclear and independent tests are missing, so treat it as a pilot.\n\n## What is Perplexity Teammates?\n\nMost AI chat tools wait for you to type. Teammates is built to keep going without you. Perplexity describes them as [personal agents that take on long-running work](https://www.perplexity.ai/hub/blog/teammates-are-agents-for-complex-ongoing-work): you give one a role and a goal, it plans the tasks, checks results along the way, and brings finished work back for your review.\n\nPerplexity's own blog post is dated Nov 4, 2026, and press coverage followed on Nov 5 and 6. The feature sits inside Perplexity Computer, the company's multi-step agent platform, and reuses its projects, skills and memory.\n\n## What does it actually do?\n\nEach teammate gets its own thread in the sidebar and keeps its job until you change it. According to Perplexity's [help centre](https://www.perplexity.ai/help-center/en/articles/2026102601-perplexity-teammates), a teammate can break a big goal into tasks, run them in parallel across several agents, and add more agents as the work grows. It can watch connected tools such as Slack, GitHub and Linear and act when something changes. Perplexity's examples include a support teammate that reviews yesterday's complaints and a sales teammate that notices when a regular customer stops ordering.\n\nA few details matter for day-to-day use:\n\n- You can add a teammate to a Slack channel, and colleagues can hand it work or ask for updates.\n- Teammates in the same project share files and instructions, and can message each other.\n- Each teammate runs in its own separate environment, with its own browser session. CTOL's summary says teammates inherit permissions and local cookies from a user's setup, while the help centre says browsing sessions and cookies are limited to each teammate, so check what each one can reach. You can review its work, take over its desktop or redirect it.\n- You choose the model per teammate. New ones default to Claude Opus 5.5, and the help centre suggests a stronger model for planning and a cheaper one for routine jobs.\n\n![Pros and cons of Perplexity Teammates: Agents keep memory and a standing role between jobs, Works in Slack, GitHub, Gmail and other connected tools, Each teamma](/assets/blog/perplexity-teammates-review-pros-cons-proscons.jpg \"Pros and cons at a glance\")\n\n## Pros\n\nThe strongest idea is continuity. [Digital Trends](https://digitaltrends.com/cool-tech/perplexitys-new-ai-coworkers-can-take-over-your-workload-but-they-dont-come-cheap) points out that Computer's earlier sessions were temporary sandboxes that vanished after each job, while teammates stick around and remember. For repeat work, that means less re-explaining.\n\nThe permission model is also sensible on paper. Perplexity says saved credentials are encrypted and teammates cannot view them, and that access follows the permissions of the plugins and projects you connect. You choose which GitHub repositories a teammate may touch.\n\nReview and takeover controls matter too. An agent that works while you sleep is only useful if you can see what it did and step in.\n\n## Cons\n\nThe price is the first wall. Teammates is for Max subscribers, which [Engadget](https://www.engadget.com/2308870/perplexity-teammates-ai-agents-for-ongoing-work/) puts at $200 a month or $2,000 a year. Free and Pro users have to upgrade first.\n\nThe running cost is unclear. The help centre says Max includes a monthly credit allocation and that complex projects, especially parallel ones, use more. [PCMag, via Yahoo](https://tech.yahoo.com/ai/perplexity-ai/articles/help-perplexity-teammate-ai-agent-190821756.html), reported that teammates are free for Max subscribers at launch in a promotional period, and will eventually need an undisclosed number of credits. The sources I read give no per-task price.\n\nThere is also no independent proof yet. [CTOL](https://ctol.digital/news/perplexity-teammates-persistent-ai-agents-slack/) noted that the launch material does not show customer adoption, reliability or productivity gains. Perplexity says its own internal Slack integration produced $1.6 million of work for 300 employees in its first four weeks, but the figure is not defined or audited, and it describes the Slack integration, not Teammates. None of the sources I read included independent hands-on tests, and I have not tested the product myself.\n\nFinally, it is a research preview. The help centre says behaviour may change. As [TechRepublic](https://www.techrepublic.com/article/news-perplexity-teammates-ai-agents-pricing-features/) put it, the launch announcement does not establish how reliably every safeguard performs in real deployments.\n\n## Price and availability\n\nTeammates launched on the web for individual Max subscribers. Outlets differ on mobile: Engadget reported iOS at launch, other early coverage said apps were coming, and the help centre, last updated on Nov 18, now lists the website, mobile apps and desktop apps. Check your own app before you count on it. Pro and Enterprise Pro are not included. TechRepublic said the first release was not open to Enterprise customers, but the help centre, last updated on Nov 18, now says Enterprise Max seats can use it, with an administrator deciding who gets access.\n\n## Who should try it, and who should skip it\n\nIf you already pay for Max and have recurring work with a clear source and output, such as triaging a bug channel, summarising a Slack feed every morning or tracking competitor prices, a teammate is worth a trial. Start with one narrow job, read the results daily and keep the permissions tight.\n\nIf you are on a free or Pro plan, a small team watching its budget, or you need reliability you can show an auditor, wait. Costs are unclear, evidence is thin and the product is still a preview. Other vendors are chasing the same idea; Digital Trends lists OpenAI's workspace agents, Microsoft's Copilot Cowork and Anthropic's Claude Cowork.\n\n## My take\n\nI would treat Teammates as a pilot, not a purchase decision. The design targets a familiar annoyance, which is re-explaining your context every time. But $200 a month plus uncertain credit use is a lot to pay for results I could not find independently measured. For a small business I'd try one low-risk job for a month, with read-only access and a human approving anything that leaves the building. Then decide with your own numbers, not the launch demo.\n\n## Frequently asked questions\n\n### What is Perplexity Teammates?\n\nPerplexity Teammates are AI agents that own ongoing work. You give one a role, such as triaging bug reports or tracking metrics, and it plans tasks, runs them, and returns results for your review. Perplexity built them on its Computer agent platform, and they can watch connected tools and act when something changes.\n\n### How much does Perplexity Teammates cost?\n\nTeammates needs a Perplexity Max subscription, which Engadget puts at $200 a month or $2,000 a year. Perplexity's help centre says Max includes a monthly credit allocation and that complex, parallel projects use more. PCMag reported that teammates are free for Max users in a launch promotional period, with credit charges to come.\n\n### Can Free or Pro users use Perplexity Teammates?\n\nNo. Perplexity says Free and Pro subscribers must upgrade to Max first, and its help centre says Pro and Enterprise Pro plans are not included in the research preview. Enterprise Max seats can use it if an administrator allows access. Check Settings and Subscription in your account for current options.\n\n### Is Perplexity Teammates safe for company data?\n\nPerplexity says each teammate runs in its own environment, saved credentials are encrypted and teammates cannot view them, and access follows the permissions of connected plugins and projects. Outlets noted the launch does not prove how well these safeguards work in practice, so give each teammate only the access its job needs.\n\n### Which AI model does Perplexity Teammates use?\n\nAccording to Perplexity's help centre, new teammates use Claude Opus 5.5 by default. You can pick a different model for each teammate and change it later. The help centre suggests a stronger model for planning and hard decisions and a faster, cheaper model for routine work, which helps balance quality and credit use.\n\n## Sources\n\n1. [Perplexity Teammates: How the $200 AI Agents Work](https://www.techrepublic.com/article/news-perplexity-teammates-ai-agents-pricing-features/), techrepublic.com\n2. [Perplexity's new AI coworkers can take over your workload, but they don't come cheap](https://digitaltrends.com/cool-tech/perplexitys-new-ai-coworkers-can-take-over-your-workload-but-they-dont-come-cheap), digitaltrends.com\n3. [Perplexity launches Teammates for ongoing AI assignments and Slack follow-ups](https://ctol.digital/news/perplexity-teammates-persistent-ai-agents-slack/), ctol.digital\n4. [Perplexity Launches Teammates AI Agents to Battle OpenAI](https://techbuzz.ai/articles/perplexity-launches-teammates-ai-agents-to-battle-openai), techbuzz.ai\n5. [Perplexity's 'Teammates' Are The Company's AI Agents For Daily Work Tasks](https://www.engadget.com/2308870/perplexity-teammates-ai-agents-for-ongoing-work/), Engadget\n6. [Need Help at Work? How About a Perplexity &#x27;Teammate&#x27; AI Agent?](https://tech.yahoo.com/ai/perplexity-ai/articles/help-perplexity-teammate-ai-agent-190821756.html), tech.yahoo.com\n7. [Teammates are agents for complex, ongoing work](https://www.perplexity.ai/hub/blog/teammates-are-agents-for-complex-ongoing-work), Perplexity (maker)\n8. [Get started with Perplexity teammates](https://www.perplexity.ai/help-center/en/articles/2026102601-perplexity-teammates), Perplexity (maker)\n",
+  "cover": {
+    "src": "/assets/blog/perplexity-teammates-review-pros-cons-cover.jpg",
+    "alt": "Perplexity Teammates review: a team of AI agent avatars working around a shared task board"
+  },
+  "category": "AI tools",
+  "tags": [
+    "Perplexity",
+    "AI agents",
+    "Perplexity Max",
+    "AI tools review",
+    "workplace AI"
+  ],
+  "publishAt": 1795145400000,
+  "updated": 1795090945377,
+  "words": 1287,
+  "mins": 6,
+  "seo": {
+    "title": "Perplexity Teammates review: pros, cons, price",
+    "description": "Perplexity Teammates review: what the AI agents do, the pros and cons, the $200 Max price, credit limits and who should try or skip it.",
+    "ogImage": "/assets/blog/perplexity-teammates-review-pros-cons-cover.jpg"
+  },
+  "extra": {
+    "faq": [
+      {
+        "q": "What is Perplexity Teammates?",
+        "a": "Perplexity Teammates are AI agents that own ongoing work. You give one a role, such as triaging bug reports or tracking metrics, and it plans tasks, runs them, and returns results for your review. Perplexity built them on its Computer agent platform, and they can watch connected tools and act when something changes."
+      },
+      {
+        "q": "How much does Perplexity Teammates cost?",
+        "a": "Teammates needs a Perplexity Max subscription, which Engadget puts at $200 a month or $2,000 a year. Perplexity's help centre says Max includes a monthly credit allocation and that complex, parallel projects use more. PCMag reported that teammates are free for Max users in a launch promotional period, with credit charges to come."
+      },
+      {
+        "q": "Can Free or Pro users use Perplexity Teammates?",
+        "a": "No. Perplexity says Free and Pro subscribers must upgrade to Max first, and its help centre says Pro and Enterprise Pro plans are not included in the research preview. Enterprise Max seats can use it if an administrator allows access. Check Settings and Subscription in your account for current options."
+      },
+      {
+        "q": "Is Perplexity Teammates safe for company data?",
+        "a": "Perplexity says each teammate runs in its own environment, saved credentials are encrypted and teammates cannot view them, and access follows the permissions of connected plugins and projects. Outlets noted the launch does not prove how well these safeguards work in practice, so give each teammate only the access its job needs."
+      },
+      {
+        "q": "Which AI model does Perplexity Teammates use?",
+        "a": "According to Perplexity's help centre, new teammates use Claude Opus 5.5 by default. You can pick a different model for each teammate and change it later. The help centre suggests a stronger model for planning and hard decisions and a faster, cheaper model for routine work, which helps balance quality and credit use."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.techrepublic.com/article/news-perplexity-teammates-ai-agents-pricing-features/",
+        "title": "Perplexity Teammates: How the $200 AI Agents Work - TechRepublic",
+        "outlet": "techrepublic.com"
+      },
+      {
+        "url": "https://digitaltrends.com/cool-tech/perplexitys-new-ai-coworkers-can-take-over-your-workload-but-they-dont-come-cheap",
+        "title": "Perplexity's new AI coworkers can take over your workload, but they don't come cheap - Digital Trends",
+        "outlet": "digitaltrends.com"
+      },
+      {
+        "url": "https://ctol.digital/news/perplexity-teammates-persistent-ai-agents-slack/",
+        "title": "Perplexity launches Teammates for ongoing AI assignments and Slack follow-ups - CTOL Digital Solutions",
+        "outlet": "ctol.digital"
+      },
+      {
+        "url": "https://techbuzz.ai/articles/perplexity-launches-teammates-ai-agents-to-battle-openai",
+        "title": "Perplexity Launches Teammates AI Agents to Battle OpenAI | The Tech Buzz",
+        "outlet": "techbuzz.ai"
+      },
+      {
+        "url": "https://www.engadget.com/2308870/perplexity-teammates-ai-agents-for-ongoing-work/",
+        "title": "Perplexity's 'Teammates' Are The Company's AI Agents For Daily Work Tasks",
+        "outlet": "Engadget"
+      },
+      {
+        "url": "https://tech.yahoo.com/ai/perplexity-ai/articles/help-perplexity-teammate-ai-agent-190821756.html",
+        "title": "Need Help at Work? How About a Perplexity &#x27;Teammate&#x27; AI Agent?",
+        "outlet": "tech.yahoo.com"
+      },
+      {
+        "url": "https://www.perplexity.ai/hub/blog/teammates-are-agents-for-complex-ongoing-work",
+        "title": "Teammates are agents for complex, ongoing work",
+        "outlet": "Perplexity (maker)"
+      },
+      {
+        "url": "https://www.perplexity.ai/help-center/en/articles/2026102601-perplexity-teammates",
+        "title": "Get started with Perplexity teammates - Perplexity Help Center",
+        "outlet": "Perplexity (maker)"
+      }
+    ],
+    "kind": "review",
+    "about": [
+      "Perplexity Teammates",
+      "Perplexity Computer",
+      "Perplexity Max",
+      "Slack"
+    ],
+    "auto": true,
+    "thumb": {
+      "text": "$200 AI STAFF?",
+      "headline": "Perplexity Teammates: worth $200 a month?",
+      "tag": "MAX ONLY",
+      "sub": "Agents that own ongoing work"
+    }
+  }
+}

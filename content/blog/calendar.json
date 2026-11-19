@@ -24,7 +24,7 @@
       "locked": false
     },
     "2026-11-16": {
-      "title": "Gemini 4 Hydrogen review: Google’s fast new model, pros and cons",
+      "title": "Gemini 4 Hydrogen review: Google\u2019s fast new model, pros and cons",
       "kind": "review",
       "angle": "Flash successor now in Search for all users and the Gemini app: speed, price, benchmarks vs Argon, what changes for everyday search and for developers",
       "urls": [
@@ -84,8 +84,8 @@
         "https://www.perplexity.ai/en-GB/hub/blog/teammates-are-agents-for-complex-ongoing-work"
       ],
       "score": 7,
-      "status": "planned",
-      "slug": "",
+      "status": "written",
+      "slug": "perplexity-teammates-review-pros-cons",
       "locked": false
     },
     "2026-11-21": {
@@ -512,7 +512,7 @@
     },
     {
       "key": "china-banned-nvidia-chips",
-      "title": "Export-banned Nvidia chips behind China’s top AI models",
+      "title": "Export-banned Nvidia chips behind China\u2019s top AI models",
       "kind": "news",
       "score": 6,
       "urls": [
@@ -523,7 +523,7 @@
     },
     {
       "key": "apple-local-ai-app",
-      "title": "Apple’s coming Mac app for running local AI models: what it means",
+      "title": "Apple\u2019s coming Mac app for running local AI models: what it means",
       "kind": "news",
       "score": 6,
       "urls": [
@@ -881,7 +881,7 @@
     },
     {
       "key": "dpdp-rules-small-business",
-      "title": "What India’s DPDP rules mean for a small business",
+      "title": "What India\u2019s DPDP rules mean for a small business",
       "kind": "explainer",
       "score": 5,
       "urls": [],
@@ -930,6 +930,7 @@
     "gemini-4-hydrogen",
     "ai-voice-scams",
     "california-sues-openai",
-    "united-ai-agent-ban"
+    "united-ai-agent-ban",
+    "perplexity-teammates"
   ]
 }
