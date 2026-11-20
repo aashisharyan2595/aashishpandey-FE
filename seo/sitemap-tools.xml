@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://aashishpandey.com/tools</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <image:image><image:loc>https://aashishpandey.com/assets/og/og-tools.jpg</image:loc></image:image>
     <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
   </url>
@@ -58,6 +58,12 @@
     <loc>https://aashishpandey.com/tools/online-whiteboard</loc>
     <lastmod>2026-11-07</lastmod>
     <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-whiteboard.jpg</image:loc></image:image>
+    <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://aashishpandey.com/tools/raci-matrix-builder</loc>
+    <lastmod>2026-11-20</lastmod>
+    <image:image><image:loc>https://aashishpandey.com/assets/og/og-tool-raci.jpg</image:loc></image:image>
     <image:image><image:loc>https://aashishpandey.com/assets/aashish-pandey-project-manager-bangalore.webp</image:loc></image:image>
   </url>
   <url>

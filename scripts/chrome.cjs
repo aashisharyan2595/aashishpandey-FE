@@ -106,6 +106,7 @@ const MENUS = {
       [{ h: 'Projects & notes', items: [
         { href: '/tools/project-management-tool', t: 'Project Board', d: 'Kanban, Gantt, calendar', f: 'Project Management Tool', b: 'New' },
         { href: '/tools/online-whiteboard', t: 'Online Whiteboard', d: 'Diagrams, mind maps, sticky notes', b: 'New' },
+        { href: '/tools/raci-matrix-builder', t: 'RACI Matrix Builder', d: 'Who does what, checked and exportable', b: 'New' },
         { href: '/tools/pad', t: 'Online Notepad', d: 'Markdown, autosave, share' },
         { href: '/tools/website-launch-checklist', t: 'Launch Checklist', d: 'Go-live templates' },
       ] }, { h: 'Security', items: [
@@ -238,7 +239,7 @@ const FOOT_TOOLS = [
   ['/tools/robots-txt-generator', 'Robots.txt generator'], ['/tools/json-ld-schema-generator', 'JSON-LD schema generator'], ['/tools/llm-token-counter', 'LLM token counter'],
   ['/tools/url-shortener', 'URL shortener'], ['/tools/lorem-ipsum-generator', 'Lorem ipsum generator'], ['/tools/pad', 'Online notepad'],
   ['/tools/time-zone-meeting-planner', 'Time zone planner'], ['/tools/file-hash-checker', 'File hash checker'], ['/tools/exif-remover', 'Photo metadata remover'],
-  ['/tools/project-estimate-calculator', 'Project estimate calculator'], ['/tools/project-management-tool', 'Project management tool'], ['/tools/online-whiteboard', 'Online whiteboard'],
+  ['/tools/project-estimate-calculator', 'Project estimate calculator'], ['/tools/project-management-tool', 'Project management tool'], ['/tools/online-whiteboard', 'Online whiteboard'], ['/tools/raci-matrix-builder', 'RACI matrix builder'],
   ['/tools/qr-code-checker', 'QR code checker'], ['/tools/llms-txt-generator', 'llms.txt generator'], ['/tools/website-launch-checklist', 'Website launch checklist'],
 ];
 const HEART = '<svg class="ap-foot__heart" aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg>';
@@ -271,6 +272,7 @@ const TOOL_NEXT = {
   '/tools/project-management-tool': { service: 'Project management', h: 'Need someone to run', em: 'the programme?', p: 'I take over launches, vendors and delivery rhythms when a board is not enough.' },
   '/tools/website-launch-checklist': { service: 'Project management', h: 'Want the launch', em: 'to land cleanly?', p: 'Send the context and I can help turn the checklist into a launch plan your team can actually run.' },
   '/tools/json-ld-schema-generator': { service: 'SEO consulting', h: 'Need more than markup?', em: 'let us fix the system.', p: 'I can help connect technical SEO, content and the pages that need to earn their way into search.' },
+  '/tools/raci-matrix-builder': { service: 'Project management', h: 'Need the roles', em: 'to hold in real life?', p: 'A matrix only helps if people agree to it. Send the context and I can help run the kickoff, sort ownership and keep delivery on track.' },
   '/tools/online-whiteboard': { service: 'UI and UX design', h: 'Have a flow worth', em: 'making clearer?', p: 'Send the rough idea, screenshots or board and I can help turn it into an interface that ships.' },
 };
 const C_DEFAULT = { h: 'I plan, build and ship things', em: 'like this for clients.', p: 'Program management for multi-market launches, or a hands-on build for your next site or experiment.' };

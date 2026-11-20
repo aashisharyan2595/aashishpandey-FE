@@ -64,6 +64,10 @@
     "aka": ["Kanban board", "Gantt chart maker", "task tracker", "project planner"],
     "k": "project management, pm, kanban, board, gantt, gantt chart, timeline, calendar, task, tasks, todo, to do list, sprint, scrum, agile, planner, trello alternative, asana alternative, jira alternative, team"
   },
+  "/tools/raci-matrix-builder": {
+    "aka": ["RACI chart maker", "RACI matrix generator", "RACI template"],
+    "k": "raci, raci matrix, raci chart, responsibility matrix, responsibility assignment, rasci, daci, roles and responsibilities, who does what, accountable, responsible, consulted, informed, stakeholder, ownership, project roles, template"
+  },
   "/tools/online-whiteboard": {
     "aka": ["virtual whiteboard", "mind map maker", "flowchart maker", "diagram tool"],
     "k": "whiteboard, white board, draw, drawing, sketch, brainstorm, sticky notes, diagram, flowchart, flow chart, mind map, mindmap, canvas, miro alternative, figjam alternative"
