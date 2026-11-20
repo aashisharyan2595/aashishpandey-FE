@@ -1,0 +1,10 @@
+Files used by the background remover (/tools/background-remover). Everything is served from this site; nothing is fetched from another host.
+
+u2netp.onnx
+  U2-Net (small, "u2netp") by Xuebin Qin, Zichen Zhang, Chenyang Huang, Masood Dehghan, Osmar R. Zaiane and Martin Jagersand.
+  Paper: "U2-Net: Going Deeper with Nested U-Structure for Salient Object Detection", Pattern Recognition 2020.
+  License: Apache License 2.0 (https://github.com/xuebinqin/U-2-Net/blob/master/LICENSE).
+  ONNX export as distributed by the rembg project (https://github.com/danielgatis/rembg), SHA-256 309c8469258dda742793dce0ebea8e6dd393174f89934733ecc8b14c76f4ddd8.
+
+../vendor/ort/*
+  ONNX Runtime Web 1.22.0, Copyright (c) Microsoft Corporation, MIT License (https://github.com/microsoft/onnxruntime/blob/main/LICENSE).

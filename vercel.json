@@ -464,6 +464,30 @@
       "destination": "/pages/tools/Tools-Lorem.dc.html"
     },
     {
+      "source": "/tools/age-and-date-calculator",
+      "destination": "/pages/tools/Tools-AgeDate.dc.html"
+    },
+    {
+      "source": "/tools/online-timer",
+      "destination": "/pages/tools/Tools-Timers.dc.html"
+    },
+    {
+      "source": "/tools/compress-pdf-to-size",
+      "destination": "/pages/tools/Tools-PDFCompress.dc.html"
+    },
+    {
+      "source": "/tools/image-to-pdf",
+      "destination": "/pages/tools/Tools-ImageToPDF.dc.html"
+    },
+    {
+      "source": "/tools/pdf-to-jpg",
+      "destination": "/pages/tools/Tools-PDFToJPG.dc.html"
+    },
+    {
+      "source": "/tools/background-remover",
+      "destination": "/pages/tools/Tools-BgRemover.dc.html"
+    },
+    {
       "source": "/tools/qr-code-generator",
       "destination": "/pages/tools/Tools-QR.dc.html"
     },

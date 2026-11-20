@@ -93,6 +93,9 @@ const MENUS = {
         { href: '/tools/invoice-generator', t: 'Invoice Generator', d: 'GST, VAT, discount and logo' },
         { href: '/tools/project-estimate-calculator', t: 'Project Estimate', d: 'Best, likely and worst case', f: 'Project Estimate Calculator' },
         { href: '/tools/time-zone-meeting-planner', t: 'Time Zone Planner', d: 'Convert a time across cities', f: 'Time Zone Planner' },
+      ] }, { h: 'Everyday', items: [
+        { href: '/tools/age-and-date-calculator', t: 'Age & Date Calculator', d: 'Age on any date, days between dates', b: 'New' },
+        { href: '/tools/online-timer', t: 'Online Timers', d: 'Pomodoro, countdown, stopwatch, exam', b: 'New' },
       ] }],
       [{ h: 'QR codes & links', items: [
         { href: '/tools/qr-code-generator', t: 'QR Code Generator', d: 'Static codes that never expire' },
@@ -101,7 +104,11 @@ const MENUS = {
       ] }, { h: 'Images & files', items: [
         { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
         { href: '/tools/pdf-merge-split-sign', t: 'PDF Merge, Split & Sign', d: 'Combine, trim and sign, on-device', b: 'New' },
-        { href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms' },
+                { href: '/tools/compress-pdf-to-size', t: 'Compress PDF to Size', d: 'Hit 100, 200 or 300 KB, on-device', b: 'New' },
+        { href: '/tools/image-to-pdf', t: 'Image to PDF', d: 'Photos to one PDF, on-device', b: 'New' },
+        { href: '/tools/pdf-to-jpg', t: 'PDF to JPG', d: 'Pages to images, on-device', b: 'New' },
+        { href: '/tools/background-remover', t: 'Background Remover', d: 'Transparent PNG, nothing uploaded', b: 'New' },
+{ href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms' },
         { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored' },
       ] }],
       [{ h: 'Projects & notes', items: [
@@ -242,6 +249,7 @@ const FOOT_TOOLS = [
   ['/tools/time-zone-meeting-planner', 'Time zone planner'], ['/tools/file-hash-checker', 'File hash checker'], ['/tools/exif-remover', 'Photo metadata remover'],
   ['/tools/project-estimate-calculator', 'Project estimate calculator'], ['/tools/project-management-tool', 'Project management tool'], ['/tools/online-whiteboard', 'Online whiteboard'], ['/tools/raci-matrix-builder', 'RACI matrix builder'],
   ['/tools/pdf-merge-split-sign', 'PDF merge, split and sign'], ['/tools/qr-code-checker', 'QR code checker'], ['/tools/llms-txt-generator', 'llms.txt generator'], ['/tools/website-launch-checklist', 'Website launch checklist'],
+  ['/tools/age-and-date-calculator', 'Age & Date Calculator'], ['/tools/online-timer', 'Online Timers'], ['/tools/compress-pdf-to-size', 'Compress PDF to Size'], ['/tools/image-to-pdf', 'Image to PDF'], ['/tools/pdf-to-jpg', 'PDF to JPG'], ['/tools/background-remover', 'Background Remover'],
 ];
 const HEART = '<svg class="ap-foot__heart" aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg>';
 function footer() {
