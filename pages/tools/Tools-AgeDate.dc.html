@@ -48,23 +48,23 @@
 </style>
 <style>
 
-.ad-tabs{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
-.ad-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px}
-.ad-datewrap{display:flex;gap:8px;align-items:center}
-.ad-datewrap .tl-input{flex:1;min-width:0;height:44px;color-scheme:dark}
-.ad-today{flex:none;height:44px;padding:0 14px}
-.ad-big{margin:0;font:600 clamp(26px,3.4vw,38px)/1.1 'Geist',system-ui,sans-serif;letter-spacing:-.035em;color:#f4efe6;overflow-wrap:anywhere}
-.ad-big small{display:block;margin-top:6px;font:500 14px/1.4 'Geist',system-ui,sans-serif;letter-spacing:0;color:#aaa4b8}
-.ad-grid{margin:0;display:grid;grid-template-columns:minmax(110px,170px) 1fr;gap:8px 16px;font-size:14.5px;line-height:1.45}
-.ad-grid dt{color:#8e89a0}.ad-grid dd{margin:0;color:#f4efe6}
-.ad-res{display:flex;flex-direction:column;gap:16px}
-.ad-nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.ad-nums .tl-input{text-align:center;padding-inline:6px}
-.ad-chips{display:flex;flex-wrap:wrap;gap:8px}
-.ad-chips button{height:34px;padding:0 12px;border-radius:99px;border:1px solid rgba(244,239,230,.16);background:none;color:#d8d2e2;font:500 13px 'Geist',system-ui,sans-serif;cursor:pointer}
-.ad-chips button:hover{border-color:#f5b867;color:#f5b867}
-@media(pointer:coarse){.ad-chips button{height:44px}}
-@media(max-width:560px){.ad-grid{grid-template-columns:1fr;gap:0}.ad-grid dd{margin-bottom:8px}.ad-nums{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.dc-tabs{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.dc-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px}
+.dc-datewrap{display:flex;gap:8px;align-items:center}
+.dc-datewrap .tl-input{flex:1;min-width:0;height:44px;color-scheme:dark}
+.dc-today{flex:none;height:44px;padding:0 14px}
+.dc-big{margin:0;font:600 clamp(26px,3.4vw,38px)/1.1 'Geist',system-ui,sans-serif;letter-spacing:-.035em;color:#f4efe6;overflow-wrap:anywhere}
+.dc-big small{display:block;margin-top:6px;font:500 14px/1.4 'Geist',system-ui,sans-serif;letter-spacing:0;color:#aaa4b8}
+.dc-grid{margin:0;display:grid;grid-template-columns:minmax(110px,170px) 1fr;gap:8px 16px;font-size:14.5px;line-height:1.45}
+.dc-grid dt{color:#8e89a0}.dc-grid dd{margin:0;color:#f4efe6}
+.dc-res{display:flex;flex-direction:column;gap:16px}
+.dc-nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.dc-nums .tl-input{text-align:center;padding-inline:6px}
+.dc-chips{display:flex;flex-wrap:wrap;gap:8px}
+.dc-chips button{height:34px;padding:0 12px;border-radius:99px;border:1px solid rgba(244,239,230,.16);background:none;color:#d8d2e2;font:500 13px 'Geist',system-ui,sans-serif;cursor:pointer}
+.dc-chips button:hover{border-color:#f5b867;color:#f5b867}
+@media(pointer:coarse){.dc-chips button{height:44px}}
+@media(max-width:560px){.dc-grid{grid-template-columns:1fr;gap:0}.dc-grid dd{margin-bottom:8px}.dc-nums{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 </style>
 <!-- ap-head:start -->
@@ -87,18 +87,18 @@
     <section class="tl-panel tl-bench"  aria-label="Age &amp; Date Calculator">
 
       <div class="tl-bench__in">
-        <div class="ad-tabs"><span class="tl-seg" role="group" aria-label="Calculator">
+        <div class="dc-tabs"><span class="tl-seg" role="group" aria-label="Calculator">
           <button type="button" data-tab="age" aria-pressed="true">Age</button><button type="button" data-tab="diff" aria-pressed="false">Days between</button><button type="button" data-tab="add" aria-pressed="false">Add or subtract</button></span></div>
 
-        <div data-pane="age" class="ad-res">
-          <div class="ad-two">
-            <div class="tl-field"><label for="dob">Date of birth</label><div class="ad-datewrap"><input id="dob" class="tl-input" type="date" autocomplete="bday" max="9999-12-31"></div></div>
-            <div class="tl-field"><label for="asOn">Age as on</label><div class="ad-datewrap"><input id="asOn" class="tl-input" type="date" max="9999-12-31"><button type="button" class="tl-btn ad-today" data-today="asOn">Today</button></div></div>
+        <div data-pane="age" class="dc-res">
+          <div class="dc-two">
+            <div class="tl-field"><label for="dob">Date of birth</label><div class="dc-datewrap"><input id="dob" class="tl-input" type="date" autocomplete="bday" max="9999-12-31"></div></div>
+            <div class="tl-field"><label for="asOn">Age as on</label><div class="dc-datewrap"><input id="asOn" class="tl-input" type="date" max="9999-12-31"><button type="button" class="tl-btn dc-today" data-today="asOn">Today</button></div></div>
           </div>
           <p class="tl-small tl-muted" id="tryRow">New here? <button id="try" class="tl-link" type="button">Try an example</button>: a birth date of 15 August 1995 against a cut-off of 1 August 2026.</p>
           <details class="tl-details" id="limitBox"><summary>Exam age limit check (optional)</summary>
-            <div class="ad-res" style="margin-top:12px">
-              <div class="ad-two">
+            <div class="dc-res" style="margin-top:12px">
+              <div class="dc-two">
                 <div class="tl-field"><label for="minAge">Minimum age (years)</label><input id="minAge" class="tl-input" type="number" min="0" max="120" inputmode="numeric" placeholder="e.g. 18"></div>
                 <div class="tl-field"><label for="maxAge">Maximum age (years)</label><input id="maxAge" class="tl-input" type="number" min="0" max="120" inputmode="numeric" placeholder="e.g. 27"></div>
               </div>
@@ -109,24 +109,24 @@
           </details>
         </div>
 
-        <div data-pane="diff" class="ad-res" hidden>
-          <div class="ad-two">
-            <div class="tl-field"><label for="d1">Start date</label><div class="ad-datewrap"><input id="d1" class="tl-input" type="date" max="9999-12-31"><button type="button" class="tl-btn ad-today" data-today="d1">Today</button></div></div>
-            <div class="tl-field"><label for="d2">End date</label><div class="ad-datewrap"><input id="d2" class="tl-input" type="date" max="9999-12-31"><button type="button" class="tl-btn ad-today" data-today="d2">Today</button></div></div>
+        <div data-pane="diff" class="dc-res" hidden>
+          <div class="dc-two">
+            <div class="tl-field"><label for="d1">Start date</label><div class="dc-datewrap"><input id="d1" class="tl-input" type="date" max="9999-12-31"><button type="button" class="tl-btn dc-today" data-today="d1">Today</button></div></div>
+            <div class="tl-field"><label for="d2">End date</label><div class="dc-datewrap"><input id="d2" class="tl-input" type="date" max="9999-12-31"><button type="button" class="tl-btn dc-today" data-today="d2">Today</button></div></div>
           </div>
           <label class="tl-check"><input id="inclEnd" type="checkbox"> Count the end date too</label>
         </div>
 
-        <div data-pane="add" class="ad-res" hidden>
-          <div class="tl-field"><label for="d3">Start date</label><div class="ad-datewrap"><input id="d3" class="tl-input" type="date" max="9999-12-31"><button type="button" class="tl-btn ad-today" data-today="d3">Today</button></div></div>
+        <div data-pane="add" class="dc-res" hidden>
+          <div class="tl-field"><label for="d3">Start date</label><div class="dc-datewrap"><input id="d3" class="tl-input" type="date" max="9999-12-31"><button type="button" class="tl-btn dc-today" data-today="d3">Today</button></div></div>
           <div class="tl-row"><span class="tl-label">Operation</span><span class="tl-seg" role="group" aria-label="Operation"><button type="button" data-op="1" aria-pressed="true">Add</button><button type="button" data-op="-1" aria-pressed="false">Subtract</button></span></div>
-          <div class="ad-nums">
+          <div class="dc-nums">
             <div class="tl-field"><label for="nY">Years</label><input id="nY" class="tl-input" type="number" min="0" max="9999" inputmode="numeric" placeholder="0"></div>
             <div class="tl-field"><label for="nM">Months</label><input id="nM" class="tl-input" type="number" min="0" max="99999" inputmode="numeric" placeholder="0"></div>
             <div class="tl-field"><label for="nW">Weeks</label><input id="nW" class="tl-input" type="number" min="0" max="99999" inputmode="numeric" placeholder="0"></div>
             <div class="tl-field"><label for="nD">Days</label><input id="nD" class="tl-input" type="number" min="0" max="999999" inputmode="numeric" placeholder="0"></div>
           </div>
-          <div class="ad-chips" aria-label="Quick amounts"><button type="button" data-q="0,0,0,30">30 days</button><button type="button" data-q="0,0,0,60">60 days</button><button type="button" data-q="0,0,0,90">90 days</button><button type="button" data-q="0,6,0,0">6 months</button><button type="button" data-q="1,0,0,0">1 year</button></div>
+          <div class="dc-chips" aria-label="Quick amounts"><button type="button" data-q="0,0,0,30">30 days</button><button type="button" data-q="0,0,0,60">60 days</button><button type="button" data-q="0,0,0,90">90 days</button><button type="button" data-q="0,6,0,0">6 months</button><button type="button" data-q="1,0,0,0">1 year</button></div>
           <label class="tl-check"><input id="bizOnly" type="checkbox"> Working days only (skip Saturday and Sunday)</label>
           <p class="tl-small tl-muted" id="bizNote" hidden>Weeks count as 5 working days, and days are working days. Years and months are added first. Public holidays are not skipped.</p>
         </div>
@@ -134,7 +134,7 @@
       <div class="tl-bench__out">
         <h2 class="tl-out-h">Result</h2>
         <div id="verdict" data-tl-out></div>
-        <div id="res" data-tl-result="See the result" class="ad-res"></div>
+        <div id="res" data-tl-result="See the result" class="dc-res"></div>
         <div class="tl-ph"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><strong>Your answer appears here</strong>Enter a date on the left and the result updates as you type.</div>
         <div class="tl-actions" id="acts" hidden><button type="button" class="tl-btn tl-btn--p" id="copy">Copy result</button></div>
         <p id="live" class="sr" aria-live="polite"></p>
@@ -190,8 +190,8 @@ function nice(r) { var p = []; if (r.y) p.push(pl(r.y, 'year')); if (r.m) p.push
 function todayO() { var n = new Date(); return { y: n.getFullYear(), m: n.getMonth() + 1, d: n.getDate() }; }
 function iso(o) { return String(o.y).padStart(4, '0') + '-' + String(o.m).padStart(2, '0') + '-' + String(o.d).padStart(2, '0'); }
 function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
-function grid(rows) { var dl = el('dl', 'ad-grid'); rows.forEach(function (r) { if (r) { dl.appendChild(el('dt', '', r[0])); dl.appendChild(el('dd', '', r[1])); } }); return dl; }
-function big(main, sub) { return el('p', 'ad-big', main + (sub ? '<small>' + sub + '</small>' : '')); }
+function grid(rows) { var dl = el('dl', 'dc-grid'); rows.forEach(function (r) { if (r) { dl.appendChild(el('dt', '', r[0])); dl.appendChild(el('dd', '', r[1])); } }); return dl; }
+function big(main, sub) { return el('p', 'dc-big', main + (sub ? '<small>' + sub + '</small>' : '')); }
 function workdays(a, b) { /* weekdays in [a, b) */
   var n = days(a, b), full = Math.floor(n / 7), r = n % 7, c = full * 5, d = dow(a);
   for (var i = 0; i < r; i++) { var w = (d + i) % 7; if (w !== 0 && w !== 6) c++; }
