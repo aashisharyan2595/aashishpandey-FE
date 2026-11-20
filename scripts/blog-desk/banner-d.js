@@ -26,6 +26,7 @@ const ICON = {
 };
 function pickIcons(t) {
   if (/airline|flight booking|boarding/.test(t)) return ['plane', 'lock', 'tag'];
+  if (/\bwallet\b/.test(t)) return ['coins', 'lock', 'chat'];
   if (/lawsuit|sues |sued|attorney general|court/.test(t)) return ['scale', 'bug', 'lock'];
   if (/voice clon|deepfake|cloned voice/.test(t)) return ['phone', 'mic', 'lock'];
   if (/meeting|google meet|zoom|video call/.test(t)) return ['video', 'doc', 'chat'];
@@ -118,6 +119,18 @@ function flatTeam() {
     + [0, 1, 2].map((i) => `<g transform="translate(${28 + i * 164},34)"><rect width="148" height="160" rx="16" fill="${i === 1 ? TEAL : CREAM}" opacity="${i === 2 ? 0.55 : 1}"/><g fill="${NAVY}"><rect x="16" y="22" width="90" height="12" rx="6"/><rect x="16" y="50" width="116" height="12" rx="6"/><rect x="16" y="78" width="70" height="12" rx="6"/></g>${i === 0 ? `<path d="M22 122 l16 16 l32 -34" fill="none" stroke="${TEALD}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>` : ''}</g>`).join('')
     + `</g><g transform="translate(540,300)"><circle cx="7" cy="7" r="54" fill="${PAPER}"/><circle r="54" fill="${NAVY}" stroke="${CREAM}" stroke-width="8"/>${T(0, 12, 'middle', 34, CREAM, '24/7')}</g>`;
 }
+// agent payments illustration added 2026-11-20 (ChatGPT Wallet review): a wallet with a card peeking out and a Face ID approval badge
+function flatWallet() {
+  return `<g transform="rotate(-8 270 230)"><rect x="100" y="104" width="330" height="196" rx="26" fill="${PAPER}" transform="translate(12,12)"/><rect x="100" y="104" width="330" height="196" rx="26" fill="${TEAL}" stroke="${CREAM}" stroke-width="8"/><rect x="132" y="140" width="56" height="42" rx="10" fill="${NAVY}"/><g fill="${NAVY}"><rect x="132" y="240" width="150" height="14" rx="7"/><rect x="300" y="240" width="90" height="14" rx="7"/></g></g>
+<rect x="40" y="250" width="440" height="250" rx="44" fill="${PAPER}" transform="translate(16,16)"/>
+<rect x="40" y="250" width="440" height="250" rx="44" fill="${CREAM}" stroke="${CREAM}" stroke-width="8"/>
+<path d="M70 300 H300" stroke="${NAVY}" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 14"/>
+<rect x="352" y="332" width="170" height="96" rx="30" fill="${NAVY}" stroke="${CREAM}" stroke-width="8"/><circle cx="406" cy="380" r="16" fill="${TEAL}"/>
+<g transform="translate(450,190)"><circle cx="10" cy="10" r="92" fill="${PAPER}"/><circle r="92" fill="${NAVY}" stroke="${CREAM}" stroke-width="8"/>
+<g fill="none" stroke="${TEAL}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M-56 -26 V-52 H-30"/><path d="M30 -52 H56 V-26"/><path d="M56 26 V52 H30"/><path d="M-30 52 H-56 V26"/></g>
+<g stroke="${CREAM}" stroke-width="8" stroke-linecap="round" fill="none"><path d="M-22 -16 V-4"/><path d="M22 -16 V-4"/><path d="M-4 -6 V10 H4"/><path d="M-20 26 Q0 40 20 26"/></g></g>
+<g transform="translate(540,70)"><circle cx="7" cy="7" r="40" fill="${PAPER}"/><circle r="40" fill="${TEAL}" stroke="${CREAM}" stroke-width="7"/><path d="M-16 0 L-5 12 L17 -12" fill="none" stroke="${NAVY}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+}
 function hookLines(text) {
   if (text.includes('|')) return text.split('|').map((x) => x.trim()).filter(Boolean).slice(0, 3);
   const sent = text.split(/(?<=[.!?])\s+/).filter(Boolean); if (sent.length >= 2 && sent.length <= 3) return sent;
@@ -128,6 +141,7 @@ function hookLines(text) {
 function pickMain(post) {
   const t = [post.slug, post.category, (post.tags || []).join(' '), post.title].join(' ').toLowerCase();
   if (/airline|flight booking|boarding pass/.test(t)) return 'ticket';
+  if (/\bwallet\b/.test(t)) return 'wallet';
   if (/teammates/.test(t)) return 'team';
   if (/lawsuit|sues |sued|attorney general|court/.test(t)) return 'court';
   if (/voice clon|deepfake|cloned voice/.test(t)) return 'voice';
@@ -155,6 +169,7 @@ function coverHtmlD(post, W, H, G) {
   else if (kind === 'gauge') main = `<svg class="art" viewBox="0 0 600 560">${flatGauge()}</svg>`;
   else if (kind === 'decide') main = `<svg class="art" viewBox="0 0 600 560">${flatDecide()}</svg>`;
   else if (kind === 'team') main = `<svg class="art" viewBox="0 0 600 560">${flatTeam()}</svg>`;
+  else if (kind === 'wallet') main = `<svg class="art" viewBox="0 0 600 560">${flatWallet()}</svg>`;
   else if (kind === 'ticket') main = `<svg class="art" viewBox="0 0 600 560">${flatTicket()}</svg>`;
   else if (kind === 'court') main = `<svg class="art" viewBox="0 0 600 560">${flatCourt()}</svg>`;
   else if (kind === 'bars') main = `<svg class="art" viewBox="0 0 600 560">${flatBars()}</svg>`;

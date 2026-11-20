@@ -97,8 +97,9 @@
         "https://techcrunch.com/2026/11/13/chatgpts-new-wallet-lets-ai-agents-shop-and-check-out-for-you/"
       ],
       "score": 8,
-      "status": "planned",
-      "key": "chatgpt-wallet"
+      "status": "written",
+      "key": "chatgpt-wallet",
+      "slug": "chatgpt-wallet-review-pros-cons"
     },
     "2026-11-22": {
       "title": "NGINX unauthenticated RCE (CVE-2026-123633, CVE-2026-123007): what to patch",
@@ -1005,6 +1006,7 @@
     "ai-voice-scams",
     "california-sues-openai",
     "united-ai-agent-ban",
-    "perplexity-teammates"
+    "perplexity-teammates",
+    "chatgpt-wallet"
   ]
 }
