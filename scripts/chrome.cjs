@@ -21,8 +21,8 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 40; // bump when assets/nav.css changes: assets are cached for 30 days
-const NAV_JS = 6;   // same for assets/nav.js (search, menu images, footer on phones)
+const NAV_CSS = 41; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_JS = 7;   // same for assets/nav.js (search, menu images, footer on phones)
 // Other names people use for each tool (scripts/tool-search.json): menu search terms (data-k), the "Also called" line
 // on each tool page (<!-- ap-aka:start --> ... <!-- ap-aka:end -->) and alternateName/keywords in its SoftwareApplication schema.
 const SEARCH = JSON.parse(fs.readFileSync(path.join(__dirname, 'tool-search.json'), 'utf8')); delete SEARCH._about;
@@ -219,25 +219,29 @@ function mega(key) {
   const foot = m.search ? `<div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span></div>` : `<div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all"${R} href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div>`;
   return `<div class="ap-dd ap-dd--mega">${btn}<div class="ap-mega ap-mega--${n}${m.promo ? ' ap-mega--promo' : ''}${m.search ? ' ap-mega--tools' : ''}"${m.search ? ' aria-label="' + e(m.label) + '"' : ' role="menu"'}>${bar}<div class="ap-mega__body">${feat}${pop}<div class="ap-mega__main"><div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div>${pr}</div></div>${foot}</div></div>`;
 }
+// phone menu: one simple list. Each row has an icon, a name and one line about what is inside; one group opens at a time (assets/nav.js)
+const SHEET = { work: ['case', 'Case studies and programs'], services: ['code', 'Shopify, full-stack, SEO, design'], tools: ['grid', `${toolCount} free tools, no sign-up`], more: ['compass', 'Blog, résumé, ways to reach me'] };
+const sheetHead = (ic, t, sub) => `<span class="ap-ms__ic">${svg(ICONS.extra[ic], 18)}</span><span class="ap-ms__tt">${e(t)}<small>${e(sub)}</small></span>`;
 function sheetGroup(key) {
-  const m = MENUS[key];
+  const m = MENUS[key], [ic, sub] = SHEET[key];
+  let body;
   if (key === 'tools') {
-    const tiles = flat(m).map((it) => `<a class="ap-ms__tile" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span>${e(it.t)}</span></a>`).join('');
     const byHref = Object.fromEntries(flat(m).map((it) => [it.href, it]));
     const pop = `<div class="ap-ms__pop" data-ap-pop><p class="ap-ms__h">Most used</p><div class="ap-ms__tiles">${m.pop.map((h) => { const it = byHref[h]; return `<a class="ap-ms__tile" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span>${e(it.t)}</span></a>`; }).join('')}</div></div>`;
-    return `<details class="ap-ms__grp"><summary>Tools<span class="ap-ms__count">${toolCount}</span>${CHEV}</summary><div class="ap-ms__body"><a class="ap-ms__all" href="/tools">All tools<span>Free, no sign-up</span></a>${pop}<p class="ap-ms__h">Every tool</p><div class="ap-ms__tiles">${tiles}</div></div></details>`;
+    body = `<a class="ap-ms__all" href="/tools">All ${toolCount} tools${ARROW}</a>${pop}`;
+  } else {
+    const feat = m.feat ? `<a class="ap-ms__feat" href="${e(m.feat.href)}"><span class="ap-mega__ic">${icon(m.feat)}</span><span class="ap-ms__ftx"><span class="ap-ms__rt">${e(m.feat.t)}</span><span class="ap-ms__rd">${e(m.feat.d)}</span></span>${ARROW}</a>` : '';
+    body = feat + flat(m).map((it) => `<a class="ap-ms__row" href="${e(it.href)}"${ext(it)}><span class="ap-ms__rt">${e(it.t)}</span><span class="ap-ms__rd">${e(it.d)}</span></a>`).join('');
   }
-  const feat = m.feat ? `<a class="ap-ms__feat" href="${e(m.feat.href)}"><span class="ap-mega__ic">${icon(m.feat)}</span><span class="ap-ms__ftx"><span class="ap-ms__rt">${e(m.feat.t)}</span><span class="ap-ms__rd">${e(m.feat.d)}</span></span>${ARROW}</a>` : '';
-  const rows = feat + flat(m).map((it) => `<a class="ap-ms__row" href="${e(it.href)}"${ext(it)}><span class="ap-ms__rt">${e(it.t)}</span><span class="ap-ms__rd">${e(it.d)}</span></a>`).join('');
-  return `<details class="ap-ms__grp"><summary>${e(m.label)}${CHEV}</summary><div class="ap-ms__body">${rows}</div></details>`;
+  return `<details class="ap-ms__grp"><summary>${sheetHead(ic, m.label, sub)}${CHEV}</summary><div class="ap-ms__body">${body}</div></details>`;
 }
 function header() {
   const hire = `<div class="ap-dd ap-dd--cta"><button type="button" class="ap-dd__btn" aria-haspopup="true"><span class="ap-nav__dot"></span>Hire me${CARET}</button><div class="ap-dd__panel ap-dd__panel--right" role="menu">${HIRE.map((it) => `<a class="ap-dd__item" role="menuitem" href="${e(it.href)}"${ext(it)}><span class="ap-dd__t">${e(it.t)}</span><span class="ap-dd__d">${e(it.d)}</span></a>`).join('')}</div></div>`;
   const search = `<button type="button" class="ap-nav__search" data-ap-search aria-label="Search the site" aria-haspopup="dialog">${SEARCH_SVG}<span class="ap-nav__stxt">Search</span><kbd class="ap-nav__kbd" aria-hidden="true">\u2318K</kbd></button>`;
   const sheet = `<details class="ap-nav__menu ap-ms"><summary aria-label="Open menu"><span class="ap-ms__burger" aria-hidden="true"><span></span><span></span></span><span class="ap-ms__lbl">Menu</span></summary><div class="ap-ms__sheet">`
     + `<button type="button" class="ap-ms__search" data-ap-search>${SEARCH_SVG}<span>Search the site</span></button>`
-    + `<div class="ap-ms__ctas"><a class="ap-ms__cta ap-ms__cta--pri" href="${e(BOOK)}" target="_blank" rel="noopener"><span class="ap-nav__dot"></span>Book a 20-min call</a><a class="ap-ms__cta" href="${e(WA)}" target="_blank" rel="noopener">WhatsApp</a></div>`
-    + `<a class="ap-ms__top" href="/portfolio">Portfolio${ARROW}</a>` + ORDER.map(sheetGroup).join('') + '</div></details>';
+    + `<div class="ap-ms__list"><a class="ap-ms__top" href="/portfolio">${sheetHead('portfolio', 'Portfolio', 'Client sites, products and career')}${ARROW}</a>${ORDER.map(sheetGroup).join('')}</div>`
+    + `<div class="ap-ms__ctas"><a class="ap-ms__cta ap-ms__cta--pri" href="${e(BOOK)}" target="_blank" rel="noopener"><span class="ap-nav__dot"></span>Book a 20-min call</a><a class="ap-ms__cta" href="${e(WA)}" target="_blank" rel="noopener">WhatsApp</a></div></div></details>`;
   return `<nav class="ap-nav" aria-label="Main"><div class="ap-nav__in"><a class="ap-nav__logo" href="/"><span class="ap-nav__badge" aria-hidden="true"></span><span class="ap-nav__name">Aashish Pandey</span></a><div class="ap-nav__pill"><a href="/portfolio">Portfolio</a>${ORDER.map(mega).join('')}</div><div class="ap-nav__right">${search}${hire}${sheet}</div></div></nav>`;
 }
 
@@ -367,7 +371,7 @@ function activate(html, p) {
     const i = +k.slice(1);
     html = k[0] === 'b'
       ? html.slice(0, i) + html.slice(i).replace('aria-haspopup="true">', 'aria-haspopup="true" data-current="true">')
-      : html.slice(0, i) + html.slice(i).replace('<details class="ap-ms__grp">', '<details class="ap-ms__grp" open="">');
+      : html.slice(0, i) + html.slice(i).replace('<details class="ap-ms__grp">', '<details class="ap-ms__grp" data-current="true">');
   }
   // 2. mark the page's own links
   if (exact) for (const m of [...html.matchAll(re())].reverse()) html = html.slice(0, m.index) + m[0].slice(0, -1) + ' aria-current="page">' + html.slice(m.index + m[0].length);
