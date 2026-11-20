@@ -22,9 +22,11 @@ const ICON = {
   chat: `<path d="M-30 -22 H30 a8 8 0 0 1 8 8 V10 a8 8 0 0 1 -8 8 H-2 L-20 32 V18 H-30 a8 8 0 0 1 -8 -8 V-14 a8 8 0 0 1 8 -8Z" fill="${TEAL}" stroke="${NAVY}" stroke-width="5" stroke-linejoin="round"/><g fill="${NAVY}"><circle cx="-14" cy="-2" r="4"/><circle cy="-2" r="4"/><circle cx="14" cy="-2" r="4"/></g>`,
   check: `<circle r="30" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><path d="M-14 0 L-4 11 L16 -10" fill="none" stroke="${NAVY}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
   clock: `<circle r="30" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><path d="M0 -16 V0 L12 8" fill="none" stroke="${NAVY}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>`,
+  pad: `<path d="M-30 -14 H30 C42 -14 46 22 36 28 C28 32 22 24 14 14 H-14 C-22 24 -28 32 -36 28 C-46 22 -42 -14 -30 -14Z" fill="${TEAL}" stroke="${NAVY}" stroke-width="5" stroke-linejoin="round"/><path d="M-22 -2 V8 M-27 3 H-17" stroke="${NAVY}" stroke-width="5" stroke-linecap="round"/><circle cx="20" cy="0" r="4" fill="${NAVY}"/><circle cx="28" cy="8" r="4" fill="${NAVY}"/>`,
   chip: `<rect x="-22" y="-22" width="44" height="44" rx="8" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><rect x="-10" y="-10" width="20" height="20" rx="3" fill="${NAVY}"/><g stroke="${NAVY}" stroke-width="5" stroke-linecap="round"><path d="M-12 -30 V-22 M0 -30 V-22 M12 -30 V-22 M-12 22 V30 M0 22 V30 M12 22 V30 M-30 -12 H-22 M-30 0 H-22 M-30 12 H-22 M22 -12 H30 M22 0 H30 M22 12 H30"/></g>`,
 };
 function pickIcons(t) {
+  if (/\bgta\b|grand theft auto|video game/.test(t)) return ['coins', 'pad', 'bell'];
   if (/airline|flight booking|boarding/.test(t)) return ['plane', 'lock', 'tag'];
   if (/\bwallet\b/.test(t)) return ['coins', 'lock', 'chat'];
   if (/lawsuit|sues |sued|attorney general|court/.test(t)) return ['scale', 'bug', 'lock'];
@@ -131,6 +133,16 @@ function flatWallet() {
 <g stroke="${CREAM}" stroke-width="8" stroke-linecap="round" fill="none"><path d="M-22 -16 V-4"/><path d="M22 -16 V-4"/><path d="M-4 -6 V10 H4"/><path d="M-20 26 Q0 40 20 26"/></g></g>
 <g transform="translate(540,70)"><circle cx="7" cy="7" r="40" fill="${PAPER}"/><circle r="40" fill="${TEAL}" stroke="${CREAM}" stroke-width="7"/><path d="M-16 0 L-5 12 L17 -12" fill="none" stroke="${NAVY}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></g>`;
 }
+// video game launch illustration added 2026-11-20 (GTA 6 launch numbers post): a game controller, a stack of coins and a dashed "EST." stamp
+function flatGame() {
+  const coin = (x, y) => `<ellipse cx="${x + 8}" cy="${y + 8}" rx="74" ry="26" fill="${PAPER}"/><ellipse cx="${x}" cy="${y}" rx="74" ry="26" fill="${TEAL}" stroke="${CREAM}" stroke-width="8"/>`;
+  return `<g transform="rotate(-8 270 210)"><path d="M120 120 H420 C500 120 530 290 480 320 C440 344 410 300 380 260 H160 C130 300 100 344 60 320 C10 290 40 120 120 120Z" fill="${PAPER}" transform="translate(14,14)"/>
+<path d="M120 120 H420 C500 120 530 290 480 320 C440 344 410 300 380 260 H160 C130 300 100 344 60 320 C10 290 40 120 120 120Z" fill="${CREAM}" stroke="${CREAM}" stroke-width="8" stroke-linejoin="round"/>
+<g fill="${NAVY}"><rect x="108" y="176" width="22" height="70" rx="8"/><rect x="84" y="200" width="70" height="22" rx="8"/><circle cx="400" cy="184" r="17"/><circle cx="440" cy="222" r="17" fill="${TEAL}"/><circle cx="360" cy="222" r="17"/><circle cx="400" cy="260" r="17"/></g><rect x="236" y="170" width="76" height="30" rx="15" fill="${TEAL}"/></g>
+${coin(130, 470)}${coin(130, 440)}${coin(130, 410)}${coin(130, 380)}
+<g transform="translate(400,440) rotate(6)"><rect x="12" y="12" width="190" height="96" rx="20" fill="${PAPER}"/><rect width="190" height="96" rx="20" fill="${NAVY}" stroke="${CREAM}" stroke-width="7" stroke-dasharray="3 14" stroke-linecap="round"/>${T(95, 48, 'middle', 38, CREAM, '$1.84B')}${T(95, 80, 'middle', 24, TEAL, 'EST.', 800)}</g>
+<g transform="translate(520,70)"><circle r="40" cx="8" cy="8" fill="${PAPER}"/><circle r="40" fill="#e5383b" stroke="${CREAM}" stroke-width="7"/>${T(0, 18, 'middle', 50, CREAM, '?')}</g>`;
+}
 function hookLines(text) {
   if (text.includes('|')) return text.split('|').map((x) => x.trim()).filter(Boolean).slice(0, 3);
   const sent = text.split(/(?<=[.!?])\s+/).filter(Boolean); if (sent.length >= 2 && sent.length <= 3) return sent;
@@ -140,6 +152,7 @@ function hookLines(text) {
 }
 function pickMain(post) {
   const t = [post.slug, post.category, (post.tags || []).join(' '), post.title].join(' ').toLowerCase();
+  if (/\bgta\b|grand theft auto|video game/.test(t)) return 'game';
   if (/airline|flight booking|boarding pass/.test(t)) return 'ticket';
   if (/\bwallet\b/.test(t)) return 'wallet';
   if (/teammates/.test(t)) return 'team';
@@ -169,6 +182,7 @@ function coverHtmlD(post, W, H, G) {
   else if (kind === 'gauge') main = `<svg class="art" viewBox="0 0 600 560">${flatGauge()}</svg>`;
   else if (kind === 'decide') main = `<svg class="art" viewBox="0 0 600 560">${flatDecide()}</svg>`;
   else if (kind === 'team') main = `<svg class="art" viewBox="0 0 600 560">${flatTeam()}</svg>`;
+  else if (kind === 'game') main = `<svg class="art" viewBox="0 0 600 560">${flatGame()}</svg>`;
   else if (kind === 'wallet') main = `<svg class="art" viewBox="0 0 600 560">${flatWallet()}</svg>`;
   else if (kind === 'ticket') main = `<svg class="art" viewBox="0 0 600 560">${flatTicket()}</svg>`;
   else if (kind === 'court') main = `<svg class="art" viewBox="0 0 600 560">${flatCourt()}</svg>`;
