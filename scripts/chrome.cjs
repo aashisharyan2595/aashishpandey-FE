@@ -21,8 +21,8 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 39; // bump when assets/nav.css changes: assets are cached for 30 days
-const NAV_JS = 5;   // same for assets/nav.js (search, menu images, footer on phones)
+const NAV_CSS = 40; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_JS = 6;   // same for assets/nav.js (search, menu images, footer on phones)
 // Other names people use for each tool (scripts/tool-search.json): menu search terms (data-k), the "Also called" line
 // on each tool page (<!-- ap-aka:start --> ... <!-- ap-aka:end -->) and alternateName/keywords in its SoftwareApplication schema.
 const SEARCH = JSON.parse(fs.readFileSync(path.join(__dirname, 'tool-search.json'), 'utf8')); delete SEARCH._about;
@@ -81,48 +81,49 @@ const MENUS = {
   tools: {
     label: 'Tools',
     note: 'Free · no sign-up · runs in your browser',
+    href: '/tools', // the "Tools" button in the header is a link to the tools page; hover or focus still opens the menu
+    search: true,
     cta: { href: '/tools', label: null /* "All N tools" */ },
-    compact: true,
     pop: ['/tools/qr-code-generator', '/tools/resume-maker', '/tools/invoice-generator', '/tools/image-resizer'],
     cols: [
       [{ h: 'Resume & career', items: [
         { href: '/tools/resume-maker', t: 'Resume Maker', d: 'ATS templates, PDF and Word' },
-        { href: '/tools/resume-keyword-matcher', t: 'Resume Keyword Matcher', d: 'Match a resume to a job post' },
         { href: '/tools/sop-maker', t: 'SOP Maker', d: '116 SOP templates, Word and PDF' },
+        { href: '/tools/resume-keyword-matcher', t: 'Resume Keyword Matcher', d: 'Match a resume to a job post' },
       ] }, { h: 'Business', items: [
         { href: '/tools/invoice-generator', t: 'Invoice Generator', d: 'GST, VAT, discount and logo' },
         { href: '/tools/project-estimate-calculator', t: 'Project Estimate', d: 'Best, likely and worst case', f: 'Project Estimate Calculator' },
         { href: '/tools/time-zone-meeting-planner', t: 'Time Zone Planner', d: 'Convert a time across cities', f: 'Time Zone Planner' },
       ] }, { h: 'Everyday', items: [
-        { href: '/tools/age-and-date-calculator', t: 'Age & Date Calculator', d: 'Age on any date, days between dates', b: 'New' },
-        { href: '/tools/online-timer', t: 'Online Timers', d: 'Pomodoro, countdown, stopwatch, exam', b: 'New' },
+        { href: '/tools/age-and-date-calculator', t: 'Age & Date Calculator', d: 'Age and days between dates', b: 'New' },
+        { href: '/tools/online-timer', t: 'Online Timers', d: 'Pomodoro, countdown, stopwatch', b: 'New' },
+      ] }],
+      [{ h: 'Images & files', items: [
+        { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
+        { href: '/tools/pdf-merge-split-sign', t: 'PDF Merge, Split & Sign', d: 'Combine, trim and sign, on-device', b: 'New' },
+        { href: '/tools/compress-pdf-to-size', t: 'Compress PDF to Size', d: 'Hit 100, 200 or 300 KB, on-device', b: 'New' },
+        { href: '/tools/image-to-pdf', t: 'Image to PDF', d: 'Photos to one PDF, on-device', b: 'New' },
+        { href: '/tools/pdf-to-jpg', t: 'PDF to JPG', d: 'Pages to images, on-device', b: 'New' },
+        { href: '/tools/background-remover', t: 'Background Remover', d: 'Transparent PNG, no upload', b: 'New' },
+        { href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms' },
+        { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored' },
       ] }],
       [{ h: 'QR codes & links', items: [
         { href: '/tools/qr-code-generator', t: 'QR Code Generator', d: 'Static codes that never expire' },
         { href: '/tools/qr-code-checker', t: 'QR Code Checker', d: 'See if a code is dynamic', f: 'QR Code Autopsy' },
         { href: '/tools/url-shortener', t: 'URL Shortener', d: 'Short link with its own QR' },
-      ] }, { h: 'Images & files', items: [
-        { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
-        { href: '/tools/pdf-merge-split-sign', t: 'PDF Merge, Split & Sign', d: 'Combine, trim and sign, on-device', b: 'New' },
-                { href: '/tools/compress-pdf-to-size', t: 'Compress PDF to Size', d: 'Hit 100, 200 or 300 KB, on-device', b: 'New' },
-        { href: '/tools/image-to-pdf', t: 'Image to PDF', d: 'Photos to one PDF, on-device', b: 'New' },
-        { href: '/tools/pdf-to-jpg', t: 'PDF to JPG', d: 'Pages to images, on-device', b: 'New' },
-        { href: '/tools/background-remover', t: 'Background Remover', d: 'Transparent PNG, nothing uploaded', b: 'New' },
-{ href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms' },
-        { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored' },
-      ] }],
-      [{ h: 'Projects & notes', items: [
+      ] }, { h: 'Projects & notes', items: [
         { href: '/tools/project-management-tool', t: 'Project Board', d: 'Kanban, Gantt, calendar', f: 'Project Management Tool', b: 'New' },
         { href: '/tools/online-whiteboard', t: 'Online Whiteboard', d: 'Diagrams, mind maps, sticky notes', b: 'New' },
-        { href: '/tools/raci-matrix-builder', t: 'RACI Matrix Builder', d: 'Who does what, checked and exportable', b: 'New' },
+        { href: '/tools/raci-matrix-builder', t: 'RACI Matrix Builder', d: 'Who does what, exportable', b: 'New' },
         { href: '/tools/pad', t: 'Online Notepad', d: 'Markdown, autosave, share' },
         { href: '/tools/website-launch-checklist', t: 'Launch Checklist', d: 'Go-live templates' },
-      ] }, { h: 'Security', items: [
+      ] }],
+      [{ h: 'Security', items: [
         { href: '/tools/password-generator', t: 'Password Generator', d: 'Made on your device' },
         { href: '/tools/file-hash-checker', t: 'File Hash Checker', d: 'MD5, SHA-1, SHA-256' },
         { href: '/tools/exif-remover', t: 'Photo Metadata Remover', d: 'Strip GPS and camera data' },
-      ] }],
-      [{ h: 'SEO, AI & developer', items: [
+      ] }, { h: 'SEO, AI & developer', items: [
         { href: '/tools/robots-txt-generator', t: 'Robots.txt Generator', d: 'Block AI bots, test pages' },
         { href: '/tools/llms-txt-generator', t: 'llms.txt Generator', d: 'Describe your site for AI' },
         { href: '/tools/json-ld-schema-generator', t: 'JSON-LD Schema', d: 'FAQ, product, article, event' },
@@ -184,6 +185,7 @@ const ext = (it) => (it.x ? ' target="_blank" rel="noopener"' : '') + (it.dl ? '
 const svg = (inner, sz = 16, sw = 2) => `<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
 const icon = (it) => svg(ICONS.tools[it.href] || ICONS.extra[it.ic] || ICONS.extra.grid);
 const ARROW = svg('<path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>', 14);
+const SEARCH_SVG = svg('<circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>', 17, 2);
 const CARET = '<svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ap-dd__caret"><path d="m6 9 6 6 6-6"></path></svg>';
 const CHEV = '<svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ap-ms__chev"><path d="m6 9 6 6 6-6"></path></svg>';
 const toolCount = MENUS.tools.cols.flat().reduce((n, g) => n + g.items.length, 0);
@@ -198,20 +200,24 @@ const flat = (m) => m.cols.flat().flatMap((g) => g.items);
 /* ---------- header ---------- */
 // search terms for a menu item: the tool's other names, then the extra words (assets/nav.js reads data-k)
 const terms = (href) => { const s = SEARCH[href]; return s ? [...s.aka, ...s.k.split(',')].map((x) => x.trim().toLowerCase()).filter((x, i, a) => x && a.indexOf(x) === i).join(',') : ''; };
-function megaItem(it) {
+function megaItem(it, R) {
   const k = terms(it.href);
-  return `<a class="ap-mega__it" role="menuitem" href="${e(it.href)}"${ext(it)} title="${e(it.d)}"${k ? ` data-k="${e(k)}"` : ''}><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}${it.b ? `<span class="ap-mega__b">${e(it.b)}</span>` : ''}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`;
+  return `<a class="ap-mega__it"${R} href="${e(it.href)}"${ext(it)} title="${e(it.d)}"${k ? ` data-k="${e(k)}"` : ''}><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}${it.b ? `<span class="ap-mega__b">${e(it.b)}</span>` : ''}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`;
 }
 function mega(key) {
   const m = MENUS[key], n = m.cols.length;
-  const cols = m.cols.map((col) => `<div class="ap-mega__col">${col.map((g) => `<div class="ap-mega__g"><p class="ap-mega__h">${e(g.h)}</p>${g.items.map(megaItem).join('')}</div>`).join('')}</div>`).join('');
+  const R = m.search ? '' : ' role="menuitem"'; // a menu with a search box is a labelled group of links, not an ARIA menu
+  const cols = m.cols.map((col) => `<div class="ap-mega__col">${col.map((g) => `<div class="ap-mega__g"><p class="ap-mega__h">${e(g.h)}</p>${g.items.map((it) => megaItem(it, R)).join('')}</div>`).join('')}</div>`).join('');
   const cta = m.cta.label === null ? `All ${toolCount} tools` : m.cta.label;
-  const feat = m.feat ? `<a class="ap-mega__feat" role="menuitem" href="${e(m.feat.href)}"><span class="ap-mega__fic">${icon(m.feat)}</span><span class="ap-mega__ftx"><span class="ap-mega__ft">${e(m.feat.t)}<span class="ap-mega__b">${e(m.feat.b)}</span></span><span class="ap-mega__fd">${e(m.feat.d)}</span></span><span class="ap-mega__fgo">${e(m.feat.cta)}${ARROW}</span></a>` : '';
+  const feat = m.feat ? `<a class="ap-mega__feat"${R} href="${e(m.feat.href)}"><span class="ap-mega__fic">${icon(m.feat)}</span><span class="ap-mega__ftx"><span class="ap-mega__ft">${e(m.feat.t)}<span class="ap-mega__b">${e(m.feat.b)}</span></span><span class="ap-mega__fd">${e(m.feat.d)}</span></span><span class="ap-mega__fgo">${e(m.feat.cta)}${ARROW}</span></a>` : '';
   const byHref = Object.fromEntries(flat(m).map((it) => [it.href, it]));
   // m.pop is the default for new visitors; nav.js swaps in the visitor's own tools and the site-wide top tools (see popTools there)
-  const pop = m.pop ? `<div class="ap-mega__pop" data-ap-pop><p class="ap-mega__h">Most used</p><div class="ap-mega__tiles">${m.pop.map((h) => { const it = byHref[h]; return `<a class="ap-mega__tile" role="menuitem" href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`; }).join('')}</div></div>` : '';
-  const pr = m.promo ? `<a class="ap-mega__promo" role="menuitem" href="${e(m.promo.href)}"><span class="ap-mega__pimg"><img data-src="${e(m.promo.img)}" alt="" width="${m.promo.w}" height="${m.promo.h}" decoding="async"></span><span class="ap-mega__pt">${e(m.promo.t)}</span><span class="ap-mega__pd">${e(m.promo.d)}</span><span class="ap-mega__pgo">Open${ARROW}</span></a>` : '';
-  return `<div class="ap-dd ap-dd--mega"><button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button><div class="ap-mega ap-mega--${n}${m.promo ? ' ap-mega--promo' : ''}${m.compact ? ' ap-mega--compact' : ''}" role="menu">${feat}${pop}<div class="ap-mega__main"><div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div>${pr}</div><div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all" role="menuitem" href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div></div></div>`;
+  const pop = m.pop ? `<div class="ap-mega__pop" data-ap-pop><p class="ap-mega__h">Most used</p><div class="ap-mega__tiles">${m.pop.map((h) => { const it = byHref[h]; return `<a class="ap-mega__tile"${R} href="${e(it.href)}"><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`; }).join('')}</div></div>` : '';
+  const pr = m.promo ? `<a class="ap-mega__promo"${R} href="${e(m.promo.href)}"><span class="ap-mega__pimg"><img data-src="${e(m.promo.img)}" alt="" width="${m.promo.w}" height="${m.promo.h}" decoding="async"></span><span class="ap-mega__pt">${e(m.promo.t)}</span><span class="ap-mega__pd">${e(m.promo.d)}</span><span class="ap-mega__pgo">Open${ARROW}</span></a>` : '';
+  const bar = m.search ? `<div class="ap-mega__bar"><label class="ap-mega__find">${SEARCH_SVG}<input type="search" data-ap-tfind placeholder="Find a tool: pdf, qr code, resume" aria-label="Find a tool" autocomplete="off" autocapitalize="off" spellcheck="false"></label><a class="ap-mega__all" href="${e(m.cta.href)}">${e(cta)}${ARROW}</a></div><div class="ap-mega__res" data-ap-tres hidden></div>` : '';
+  const btn = m.href ? `<a class="ap-dd__btn" href="${e(m.href)}" aria-haspopup="true">${e(m.label)}${CARET}</a>` : `<button type="button" class="ap-dd__btn" aria-haspopup="true">${e(m.label)}${CARET}</button>`;
+  const foot = m.search ? `<div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span></div>` : `<div class="ap-mega__foot"><span class="ap-mega__note"><span class="ap-mega__dot"></span>${e(m.note)}</span><a class="ap-mega__all"${R} href="${e(m.cta.href)}"${ext(m.cta)}>${e(cta)}${ARROW}</a></div>`;
+  return `<div class="ap-dd ap-dd--mega">${btn}<div class="ap-mega ap-mega--${n}${m.promo ? ' ap-mega--promo' : ''}${m.search ? ' ap-mega--tools' : ''}"${m.search ? ' aria-label="' + e(m.label) + '"' : ' role="menu"'}>${bar}<div class="ap-mega__body">${feat}${pop}<div class="ap-mega__main"><div class="ap-mega__cols ap-mega__cols--${n}">${cols}</div>${pr}</div></div>${foot}</div></div>`;
 }
 function sheetGroup(key) {
   const m = MENUS[key];
@@ -227,7 +233,6 @@ function sheetGroup(key) {
 }
 function header() {
   const hire = `<div class="ap-dd ap-dd--cta"><button type="button" class="ap-dd__btn" aria-haspopup="true"><span class="ap-nav__dot"></span>Hire me${CARET}</button><div class="ap-dd__panel ap-dd__panel--right" role="menu">${HIRE.map((it) => `<a class="ap-dd__item" role="menuitem" href="${e(it.href)}"${ext(it)}><span class="ap-dd__t">${e(it.t)}</span><span class="ap-dd__d">${e(it.d)}</span></a>`).join('')}</div></div>`;
-  const SEARCH_SVG = svg('<circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>', 17, 2);
   const search = `<button type="button" class="ap-nav__search" data-ap-search aria-label="Search the site" aria-haspopup="dialog">${SEARCH_SVG}<span class="ap-nav__stxt">Search</span><kbd class="ap-nav__kbd" aria-hidden="true">\u2318K</kbd></button>`;
   const sheet = `<details class="ap-nav__menu ap-ms"><summary aria-label="Open menu"><span class="ap-ms__burger" aria-hidden="true"><span></span><span></span></span><span class="ap-ms__lbl">Menu</span></summary><div class="ap-ms__sheet">`
     + `<button type="button" class="ap-ms__search" data-ap-search>${SEARCH_SVG}<span>Search the site</span></button>`
@@ -353,8 +358,9 @@ function activate(html, p) {
   for (const m of (target === '/portfolio' ? [] : html.matchAll(re()))) {
     const cls = (m[0].match(/class="([^"]*)"/) || [, ''])[1];
     if (cls === '' || cls === 'ap-ms__top' || cls.includes('ap-nav__logo')) continue;
+    if (cls.includes('ap-dd__btn')) { marks.add('b' + m.index); continue; } // the Tools button is itself a link to /tools
     const before = html.slice(0, m.index);
-    const i1 = before.lastIndexOf('<button type="button" class="ap-dd__btn"'), i2 = before.lastIndexOf('<details class="ap-ms__grp"');
+    const i1 = Math.max(before.lastIndexOf('<button type="button" class="ap-dd__btn"'), before.lastIndexOf('<a class="ap-dd__btn"')), i2 = before.lastIndexOf('<details class="ap-ms__grp"');
     if (i1 > i2 && i1 >= 0) marks.add('b' + i1); else if (i2 >= 0) marks.add('d' + i2);
   }
   for (const k of [...marks].sort((x, y) => +y.slice(1) - +x.slice(1))) {
