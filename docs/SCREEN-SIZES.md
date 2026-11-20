@@ -14,4 +14,4 @@ These cover well over 95% of real visits. Anything in between (601 to 1000 wide)
 
 ## How width works
 `--ap-max` in `assets/nav.css` is the one page-width token: `clamp(1200px, 84vw, 2400px)`. Up to about 1430px wide screens it stays at the long-standing 1200px, above that it holds a steady 84% of the viewport, capped at 2400px on ultrawide. Header, footer, the closing contact panel, blog wrapper, `.nr-wrap` (`--nr-max`), tool pages and page sections all read it. Reading text keeps its own measure (`ch` or a fixed column) so lines never get too long; grids, cards and media take the extra room.
-The 3D home page (`Portfolio.dc.html`) is deliberately left alone.
+The 3D home page (`Portfolio.dc.html`) is deliberately left alone, except for one gate in its head: phones (touch screen, short side under 600px) get the small canvas game `assets/js/play-m.js` (Night Ride Dash) and never download the 3D world; tablets, laptops and desktops get the 3D ride and never download the game. `/?ride=1` opts a phone into the 3D ride for the session.
