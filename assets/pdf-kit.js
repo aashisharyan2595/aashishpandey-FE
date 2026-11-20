@@ -435,9 +435,11 @@
     var ref = this.put(d); this.kids.push(ref);
     return { ref: ref, dict: d, box: bx.cb, rotate: rot };
   };
-  // A JPEG (bytes, pixel size) as a full page. Page size follows the picture, scaled down to fit A4.
-  Builder.prototype.addJpegPage = function (jpeg, w, h, gray) {
+  // A JPEG (bytes, pixel size) as a full page. Page size follows the picture, scaled down to fit A4,
+  // unless pageW and pageH (points) are given: then the picture fills a page of exactly that size.
+  Builder.prototype.addJpegPage = function (jpeg, w, h, gray, pageW, pageH) {
     var maxW = w >= h ? 842 : 595, maxH = w >= h ? 595 : 842, s = Math.min(1, maxW / w, maxH / h), pw = Math.round(w * s * 100) / 100, ph = Math.round(h * s * 100) / 100;
+    if (pageW > 0 && pageH > 0) { pw = Math.round(pageW * 100) / 100; ph = Math.round(pageH * 100) / 100; }
     var img = this.put(new Stream(new Map([['Type', new Name('XObject')], ['Subtype', new Name('Image')], ['Width', w], ['Height', h],
       ['ColorSpace', new Name(gray ? 'DeviceGray' : 'DeviceRGB')], ['BitsPerComponent', 8], ['Filter', new Name('DCTDecode')]]), jpeg));
     var content = this.put(new Stream(new Map(), bytes('q ' + num(pw) + ' 0 0 ' + num(ph) + ' 0 0 cm /Im0 Do Q')));

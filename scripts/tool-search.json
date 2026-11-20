@@ -103,5 +103,29 @@
   "/tools/lorem-ipsum-generator": {
     "aka": ["dummy text generator", "placeholder text generator", "filler text generator"],
     "k": "lorem, ipsum, lorem ipsum, lipsum, dummy, placeholder, filler, sample text, paragraphs"
+  },
+  "/tools/age-and-date-calculator": {
+    "aka": ["age calculator", "age as on date calculator", "date difference calculator", "days between dates calculator", "date add subtract calculator"],
+    "k": "age calculator, age as on date, calculate age as on date, age calculator for exam, days between dates, date difference calculator, add days to date, date calculator, working days between dates, 90 days from today, how old am i"
+  },
+  "/tools/online-timer": {
+    "aka": ["pomodoro timer", "countdown timer", "online stopwatch", "exam timer", "study timer", "focus timer"],
+    "k": "online timer, pomodoro timer, countdown timer, online stopwatch, exam timer, study timer, timer with alarm, full screen timer, lap timer, focus timer, classroom timer, section timer, 25 minute timer"
+  },
+  "/tools/compress-pdf-to-size": {
+    "aka": ["pdf compressor", "reduce pdf size", "compress pdf to 100kb", "compress pdf to 200kb", "shrink pdf"],
+    "k": "compress pdf to 100kb, compress pdf to 200kb, compress pdf to 300kb, reduce pdf size, pdf compressor, compress pdf to specific size, reduce pdf file size online, shrink pdf, pdf under 1mb, compress pdf without uploading"
+  },
+  "/tools/image-to-pdf": {
+    "aka": ["jpg to pdf", "png to pdf", "photo to pdf", "images to pdf", "scan to pdf"],
+    "k": "image to pdf, jpg to pdf, png to pdf, photo to pdf, convert images to pdf, combine images into one pdf, jpeg to pdf, scan to pdf, pictures to pdf, multiple images to single pdf, jpg to pdf under 200kb"
+  },
+  "/tools/pdf-to-jpg": {
+    "aka": ["pdf to jpeg", "pdf to png", "pdf to image", "convert pdf to jpg", "pdf page to image"],
+    "k": "pdf to jpg, pdf to jpeg, pdf to png, convert pdf to image, pdf page to jpg, pdf to image converter, extract images from pdf, save pdf as jpg, pdf to jpg high quality, pdf to jpg 300 dpi, pdf to webp"
+  },
+  "/tools/background-remover": {
+    "aka": ["remove bg", "remove background from image", "transparent background maker", "photo cutout", "background eraser"],
+    "k": "background remover, remove background from image, remove bg, transparent background maker, make background transparent, remove background free, photo background remover, cut out image, png transparent, remove background without uploading, remove white background"
   }
 }
