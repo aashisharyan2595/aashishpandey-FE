@@ -1,0 +1,59 @@
+{
+ "slug": "perplexity-teammates-review-pros-cons",
+ "title": "Perplexity Teammates review: pros, cons and price",
+ "label": "AI review",
+ "topic": "tech",
+ "speed": 0.97,
+ "pronounce": { "Muja": "Moo-jah", "Perplexity": "Per-plex-ity", "Hutchins": "Huh-chins" },
+ "scenes": [
+  { "type": "hook", "art": "night",
+    "say": "What if your AI kept working while you slept? Perplexity says its new Teammates do exactly that.",
+    "banner": { "text": "AI THAT NEVER SLEEPS", "color": "purple", "sub": "Perplexity *Teammates*" } },
+  { "type": "chips", "who": "priya",
+    "say": "Perplexity launched Teammates in early November. You give one a role and a goal. It plans the tasks, and brings finished work back for your review.",
+    "banner": { "text": "HOW IT WORKS", "color": "blue" },
+    "items": [
+      { "text": "A role and a goal", "color": "blue", "icon": "tag", "at": "role" },
+      { "text": "It plans the tasks", "color": "navy", "icon": "spark", "at": "plans" },
+      { "text": "You review the work", "color": "green", "icon": "check", "at": "review" }
+    ],
+    "muja": { "react": "gasp", "at": "role", "bubble": "A job?!" } },
+  { "type": "stat", "value": "$200", "label": "a month, Max plan only", "sub": "Credit costs later: unclear", "color": "red", "icon": "tag",
+    "say": "The catch is the price. Teammates needs a Perplexity Max subscription, two hundred dollars a month. Is it free, Muja? Reports say only during a launch promotion. Credits come later.",
+    "banner": { "text": "THE PRICE", "color": "orange", "sub": "per *reports*, credits later" },
+    "muja": { "react": "interrupt", "at": "free", "bubble": "Free?!" } },
+  { "type": "muja", "prop": "clock", "banner": { "text": "WAKE UP BREAK", "color": "blue" },
+    "helloAt": "Muja", "factAt": "Fun", "backAt": "back",
+    "say": "[chuckle] An alarm clock, Muja? Fun fact: in seventeen eighty-seven, Levi Hutchins built America's first alarm clock. It only rang at four in the morning, because that was when he woke up. Okay... back to our story.",
+    "fact": ["First US alarm clock, 1787:", "it only rang at 4 a.m."] },
+  { "type": "compare",
+    "say": "What looks good? Teammates remember their job, and can work inside tools like Slack and GitHub. What worries me? There are no independent tests yet, and it is still a research preview.",
+    "banner": { "text": "GOOD AND BAD", "color": "yellow", "sub": "launch claims, *no* tests" },
+    "left": { "title": "THE GOOD", "color": "green", "items": [ { "text": "Keeps its|job and memory", "at": "remember" }, { "text": "Works in|Slack, GitHub", "at": "Slack" } ] },
+    "right": { "title": "THE WORRY", "color": "red", "icon": "x", "at": "worries",
+      "items": [ { "text": "No independent|tests yet", "at": "independent" }, { "text": "Research|preview", "at": "preview" } ] },
+    "muja": { "react": "think", "at": "independent", "bubble": "Hmm..." } },
+  { "type": "steps", "who": "priya", "title": "TRY IT SAFELY",
+    "say": "So what should Priya do? Pick one small, boring job. Keep the access read-only. And have a human approve anything that leaves the building.",
+    "banner": { "text": "3 HABITS", "color": "green" },
+    "items": [ { "text": "One small job", "at": "small" }, { "text": "Read-only access", "at": "read" }, { "text": "Human approves", "at": "human" } ],
+    "muja": { "react": "cheer", "at": "human", "bubble": "Yay!" } },
+  { "type": "outro",
+    "say": "My take: treat it as a pilot, not a purchase. Test it for a month with your own numbers. The full review is on my blog.",
+    "banner": { "text": "PILOT FIRST", "color": "teal" },
+    "chips": [ { "text": "Pilot, not purchase", "color": "teal", "at": "pilot" } ],
+    "endAt": 1, "endTitle": "FULL REVIEW ON MY BLOG" }
+ ],
+ "thumbs": [
+  { "text": ["AI THAT", "NEVER SLEEPS"], "color": "purple", "scene": 0, "f": 110 },
+  { "text": ["$200", "A MONTH"], "color": "orange", "scene": 2, "f": 150, "wy": 620 },
+  { "text": ["TRY IT", "SAFELY"], "color": "green", "scene": 5, "f": 150, "wy": 620 }
+ ],
+ "narrator": { "engine": "turbo", "base": "A" },
+ "posters": [
+  { "bg": "purple", "side": "right", "text": ["NEVER", "SLEEPS?"], "hi": 0, "art": [ { "c": "glow", "x": 320, "y": 420 }, { "c": "muja", "x": 330, "y": 700, "s": 1.3, "hold": "clock", "happy": 0.6 } ] },
+  { "bg": "red", "side": "left", "text": ["$200", "A MONTH"], "hi": 0, "art": [ { "c": "glow", "x": 320, "y": 420 }, { "c": "icon", "k": "tag", "x": 330, "y": 200, "s": 1.6 }, { "c": "robot", "x": 330, "y": 650, "s": 1.1, "happy": 0.2 } ] },
+  { "bg": "navy", "side": "right", "text": ["AI", "COWORKER?"], "hi": 0, "art": [ { "c": "glow", "x": 320, "y": 420 }, { "c": "robot", "x": 330, "y": 650, "s": 1.1, "happy": 1 }, { "c": "icon", "k": "chat", "x": 330, "y": 200, "s": 1.4 } ] },
+  { "bg": "yellow", "side": "left", "text": ["PILOT", "FIRST!"], "hi": 0, "art": [ { "c": "glow", "x": 320, "y": 420 }, { "c": "icon", "k": "warn", "x": 330, "y": 220, "s": 1.5 }, { "c": "muja", "x": 320, "y": 700, "s": 1.3, "happy": 0.3 } ] }
+ ]
+}
