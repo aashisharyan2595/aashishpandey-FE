@@ -7,7 +7,7 @@
   --nr-amber:#f5b867;--nr-amber-2:#ffc880;--nr-teal:#7ff3e1;--nr-violet:#4a2a5e;
   --nr-line:rgba(244,239,230,.12);--nr-line-2:rgba(244,239,230,.2);
   --nr-r:22px;--nr-r-sm:14px;
-  --nr-pad:clamp(18px,4vw,44px);--nr-max:1200px;--nr-gap:clamp(72px,9vw,128px);
+  --nr-pad:clamp(18px,4vw,44px);--nr-max:var(--ap-max,1200px);--nr-gap:clamp(72px,9vw,128px);
   --nr-sans:'Geist',system-ui,sans-serif;--nr-mono:'Geist Mono',ui-monospace,monospace;--nr-serif:'Instrument Serif',Georgia,serif;
   --nr-ease:cubic-bezier(.16,1,.3,1);
 }

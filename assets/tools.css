@@ -148,7 +148,7 @@ main:has(>.tl-hero){padding-top:clamp(22px,3.4vw,48px)!important;gap:clamp(22px,
 .tl-bench__in,.tl-bench__out{display:flex;flex-direction:column;gap:20px;min-width:0}
 .tl-ph{display:none}
 @media(min-width:1180px){
-  main:has(.tl-bench){max-width:1360px!important}
+  main:has(.tl-bench){max-width:var(--ap-max,1360px)!important}
   .tl-bench{display:grid!important;grid-template-columns:var(--tl-bench,minmax(0,1fr) minmax(340px,420px));gap:28px;align-items:start}
   .tl-bench__out{position:sticky;top:84px;max-height:calc(100vh - 100px);overflow:auto;overscroll-behavior:contain;padding:20px;border-radius:18px;border:1px solid rgba(244,239,230,.1);background:rgba(7,9,22,.45);box-sizing:border-box;scrollbar-width:thin;scrollbar-color:rgba(244,239,230,.2) transparent}
   .tl-ph{display:flex;flex-direction:column;align-items:flex-start;gap:8px;color:#aaa4b8;font-size:14.5px;line-height:1.55}
