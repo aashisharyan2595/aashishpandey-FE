@@ -100,6 +100,7 @@ const MENUS = {
         { href: '/tools/url-shortener', t: 'URL Shortener', d: 'Short link with its own QR' },
       ] }, { h: 'Images & files', items: [
         { href: '/tools/image-resizer', t: 'Image Resizer', d: 'WebP, AVIF, JPEG and PNG' },
+        { href: '/tools/pdf-merge-split-sign', t: 'PDF Merge, Split & Sign', d: 'Combine, trim and sign, on-device', b: 'New' },
         { href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms' },
         { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored' },
       ] }],
@@ -239,7 +240,7 @@ const FOOT_TOOLS = [
   ['/tools/url-shortener', 'URL shortener'], ['/tools/lorem-ipsum-generator', 'Lorem ipsum generator'], ['/tools/pad', 'Online notepad'],
   ['/tools/time-zone-meeting-planner', 'Time zone planner'], ['/tools/file-hash-checker', 'File hash checker'], ['/tools/exif-remover', 'Photo metadata remover'],
   ['/tools/project-estimate-calculator', 'Project estimate calculator'], ['/tools/project-management-tool', 'Project management tool'], ['/tools/online-whiteboard', 'Online whiteboard'],
-  ['/tools/qr-code-checker', 'QR code checker'], ['/tools/llms-txt-generator', 'llms.txt generator'], ['/tools/website-launch-checklist', 'Website launch checklist'],
+  ['/tools/pdf-merge-split-sign', 'PDF merge, split and sign'], ['/tools/qr-code-checker', 'QR code checker'], ['/tools/llms-txt-generator', 'llms.txt generator'], ['/tools/website-launch-checklist', 'Website launch checklist'],
 ];
 const HEART = '<svg class="ap-foot__heart" aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg>';
 function footer() {
