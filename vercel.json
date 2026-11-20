@@ -484,6 +484,10 @@
       "destination": "/pages/tools/Tools-Hash.dc.html"
     },
     {
+      "source": "/tools/pdf-merge-split-sign",
+      "destination": "/pages/tools/Tools-PDF.dc.html"
+    },
+    {
       "source": "/tools/exam-photo-resizer",
       "destination": "/pages/tools/Tools-Exam.dc.html"
     },
