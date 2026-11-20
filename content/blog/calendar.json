@@ -993,6 +993,50 @@
       "urls": [],
       "angle": "Features, pricing in India, pros and cons.",
       "added": "2026-11-20"
+    },
+    {
+      "key": "openssl-evp-encodeblock-overflow",
+      "title": "OpenSSL EVP_EncodeBlock buffer overflow (CVE-2026-121481, CVSS 9.8): what to patch",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://github.com/openssl/openssl/pull/33652"
+      ],
+      "angle": "Trade-only security post: official OpenSSL source plus 3 outlets; confirm advisory and affected versions first",
+      "added": "2026-11-20"
+    },
+    {
+      "key": "anthropic-riemann-claim",
+      "title": "Anthropic employee claims a Riemann Hypothesis proof: what is claimed and unverified",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://alpo.ge/remark.pdf"
+      ],
+      "angle": "Unverified claim by one employee; attribute carefully, say what is not confirmed, need mainstream coverage first",
+      "added": "2026-11-20"
+    },
+    {
+      "key": "outlook-flaw-login-theft",
+      "title": "Hackers use an Outlook security flaw to steal login data: what to check",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.foxnews.com/tech/hackers-use-microsoft-outlook-security-flaw-steal-login-data"
+      ],
+      "angle": "Practical steps for small businesses; confirm Microsoft advisory and patch status",
+      "added": "2026-11-20"
+    },
+    {
+      "key": "ai-terror-plans-feds",
+      "title": "Feds say AI platforms generated terror plans: what was found",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.foxnews.com/tech/ai-newsletter-platforms-generated-terror-plans-feds-find"
+      ],
+      "angle": "Facts only from official findings; need primary source and other outlets",
+      "added": "2026-11-20"
     }
   ],
   "covered": [
