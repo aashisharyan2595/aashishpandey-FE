@@ -60,7 +60,7 @@ function render(src, opts) {
     if ((m = /^::youtube\[([\w-]{6,20})\]\s*$/.exec(l))) { flush(); out.push('<div class="md-video"><iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="Video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>'); i++; continue; }
     if ((m = /^::button\[([^\]]+)\]\(([^)\s]+)\)\s*$/.exec(l))) { flush(); const h = safeHref(m[2]); if (h) out.push('<p class="md-cta"><a class="md-btn" href="' + esc(h) + '">' + esc(m[1]) + '</a></p>'); i++; continue; }
     if ((m = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\s*$/.exec(l))) {   // an image on its own line is a figure
-      flush(); const s = safeSrc(m[2]); if (s) out.push('<figure><img src="' + esc(s) + '" alt="' + esc(m[1]) + '" loading="lazy" decoding="async">' + (m[3] ? '<figcaption>' + esc(m[3]) + '</figcaption>' : '') + '</figure>'); i++; continue;
+      flush(); const s = safeSrc(m[2]); if (s) out.push('<figure><img src="' + esc(s) + '" alt="' + esc(m[1]) + '"' + (/-shot-[a-z-]+\.jpg$/.test(s) ? ' width="1200" height="675"' : '') + ' loading="lazy" decoding="async">' + (m[3] ? '<figcaption>' + esc(m[3]) + '</figcaption>' : '') + '</figure>'); i++; continue;
     }
     if (/^>\s?/.test(l)) {   // quote or callout
       flush(); const q = []; while (i < lines.length && /^>\s?/.test(lines[i])) q.push(lines[i++].replace(/^>\s?/, ''));
