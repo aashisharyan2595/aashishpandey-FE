@@ -1,3 +1,5 @@
+/* Page width token: 1200px up to ~1430px screens, then a steady 84% of the viewport (capped for ultrawide). */
+:root{--ap-max:clamp(1200px,84vw,2400px)}
 /* Shared site header + footer. Markup is identical on every static page. Bump ?v= in the pages' <link> after editing. */
 html{scroll-padding-top:96px}
 .ap-nav{position:sticky;top:0;z-index:20;background:none;border-bottom:1px solid rgba(244,239,230,.07);font-family:'Geist',system-ui,sans-serif;transition:box-shadow .3s,border-color .3s}
@@ -7,7 +9,7 @@ html{scroll-padding-top:96px}
 .ap-nav.is-scrolled{box-shadow:0 10px 30px rgba(0,0,0,.28);border-bottom-color:rgba(244,239,230,.1)}
 .ap-nav *{box-sizing:border-box}
 .ap-nav a{color:#cfc9d8;text-decoration:none}
-.ap-nav__in{max-width:1200px;margin:0 auto;padding:0 clamp(18px,4vw,44px);height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ap-nav__in{max-width:var(--ap-max,1200px);margin:0 auto;padding:0 clamp(18px,4vw,44px);height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .ap-nav__logo{display:flex;align-items:center;gap:10px;color:#f4efe6!important;min-width:0;flex-shrink:0}
 .ap-nav__badge{width:30px;height:30px;border-radius:7px;background:url(logo-mark.svg) center/contain no-repeat;font-size:0;color:transparent;overflow:hidden;flex-shrink:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
 .ap-nav__logo:hover .ap-nav__badge{transform:rotate(-8deg) scale(1.08)}
@@ -217,7 +219,7 @@ html:has(.ap-ms[open]){overflow:hidden}
 .ap-foot a{color:#9a94ab;text-decoration:none;transition:color .15s}
 .ap-foot a:hover,.ap-foot a:focus-visible{color:#f4efe6}
 .ap-foot a:focus-visible,.ap-foot button:focus-visible,.ap-foot summary:focus-visible{outline:2px solid #f5b867;outline-offset:3px;border-radius:4px}
-.ap-foot__in{max-width:1200px;margin:0 auto;padding:clamp(48px,6vw,72px) clamp(18px,4vw,44px) 24px;display:flex;flex-direction:column;gap:clamp(40px,5vw,56px)}
+.ap-foot__in{max-width:var(--ap-max,1200px);margin:0 auto;padding:clamp(48px,6vw,72px) clamp(18px,4vw,44px) 24px;display:flex;flex-direction:column;gap:clamp(40px,5vw,56px)}
 .ap-foot__top{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:48px clamp(48px,7vw,104px)}
 .ap-foot__brand{display:flex;flex-direction:column;gap:18px;max-width:340px}
 .ap-foot__brand .ap-nav__logo{align-self:flex-start;color:#f4efe6}
@@ -306,7 +308,7 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .ap-glow::before{content:"";position:absolute;z-index:-1;left:-12%;top:-140px;width:min(820px,90%);height:560px;background:radial-gradient(closest-side,rgba(245,184,103,.13),rgba(245,184,103,0)),radial-gradient(closest-side at 70% 60%,rgba(127,243,225,.05),rgba(127,243,225,0));pointer-events:none}
 /* closing contact panel: written once by scripts/chrome.cjs (<!-- ap-close -->). The Night Ride horizon and road under a
    headline and every way to get in touch. Same shell as .nr-cta in site.css, kept here because every page loads nav.css. */
-.ap-close-sec{width:100%;max-width:1200px;margin:0 auto;box-sizing:border-box;padding:clamp(72px,9vw,128px) clamp(18px,4vw,44px)}
+.ap-close-sec{width:100%;max-width:var(--ap-max,1200px);margin:0 auto;box-sizing:border-box;padding:clamp(72px,9vw,128px) clamp(18px,4vw,44px)}
 .ap-close{position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;border-radius:28px;border:1px solid rgba(245,184,103,.22);padding:clamp(28px,5vw,64px) clamp(22px,5vw,64px) max(200px,18vw);display:grid;grid-template-columns:minmax(0,1fr);gap:28px 56px;align-items:end;font-family:'Geist',system-ui,sans-serif;color:#f4efe6;text-align:left}
 .ap-close *,.ap-close *::before,.ap-close *::after{box-sizing:border-box}
 .ap-close::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(70% 70% at 50% 100%,rgba(245,184,103,.45),rgba(196,106,74,.2) 45%,transparent 75%),linear-gradient(180deg,#0e1230 0%,#1a1640 70%,#2c1d4a 100%)}
