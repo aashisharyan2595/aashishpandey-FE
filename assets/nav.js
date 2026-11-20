@@ -210,6 +210,67 @@
     else if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); open(); }
   });
 
+  /* ---------- header menus: open, close, and the Tools search ----------
+     Hover and keyboard focus open a menu with CSS alone. This adds what CSS cannot do:
+     "Tools" is a link to /tools, so on touch screens (no hover) the first tap opens the menu and the second follows the link;
+     Escape closes an open menu and returns focus to its button; aria-expanded follows the state; the Tools menu has a small search. */
+  var coarse = window.matchMedia('(hover: none)');
+  var menus = function () { return d.querySelectorAll('.ap-dd--mega'); };
+  function syncMenus() {
+    menus().forEach(function (dd) {
+      var b = dd.querySelector('.ap-dd__btn'); if (!b) return;
+      var open = !dd.classList.contains('ap-esc') && (dd.classList.contains('is-open') || dd.matches(':hover') || dd.matches(':focus-within'));
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+  function resetFind(dd) {
+    var i = dd.querySelector('[data-ap-tfind]'); if (!i || !i.value || dd.contains(d.activeElement)) return;
+    i.value = ''; i.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  ['mouseover', 'mouseout', 'focusin', 'focusout', 'click', 'keyup'].forEach(function (ev) {
+    d.addEventListener(ev, function (e) {
+      var to = e.relatedTarget;
+      menus().forEach(function (dd) {
+        var inside = dd.contains(e.target), moved = inside && !dd.contains(to);
+        if (moved && (ev === 'mouseover' || ev === 'focusin')) dd.classList.remove('ap-esc'); // coming back in opens it again after Escape
+        if (moved && (ev === 'mouseout' || ev === 'focusout')) setTimeout(function () { resetFind(dd); }, 0);
+        if (ev === 'click' && dd.classList.contains('is-open') && !dd.contains(e.target)) dd.classList.remove('is-open');
+      });
+      setTimeout(syncMenus, 0);
+    }, true);
+  });
+  d.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.ap-dd__btn'); if (!a || !coarse.matches) return;
+    var dd = a.parentNode;
+    if (!dd.classList.contains('is-open')) { e.preventDefault(); dd.classList.remove('ap-esc'); dd.classList.add('is-open'); }
+  });
+  function find(inp) {
+    var mega = inp.closest('.ap-mega'), res = mega.querySelector('[data-ap-tres]'), body = mega.querySelector('.ap-mega__body'), q = inp.value.trim();
+    if (!q) { res.hidden = true; body.hidden = false; return; }
+    var hits = window.apToolMatch ? window.apToolMatch(q) || [] : [];
+    res.textContent = '';
+    hits.slice(0, 12).forEach(function (h) {
+      var src = body.querySelector('.ap-mega__g .ap-mega__it[href="' + h + '"]'); if (src) res.appendChild(src.cloneNode(true));
+    });
+    if (!res.children.length) {
+      var p = d.createElement('p'), a = d.createElement('a'); p.className = 'ap-mega__none';
+      p.appendChild(d.createTextNode('No tool matches \u201c' + q + '\u201d. ')); a.href = '/tools'; a.textContent = 'Browse all tools'; p.appendChild(a); res.appendChild(p);
+    }
+    res.hidden = false; body.hidden = true;
+  }
+  d.addEventListener('input', function (e) { if (e.target.matches && e.target.matches('[data-ap-tfind]')) find(e.target); });
+  d.addEventListener('keydown', function (e) {
+    var t = e.target, inp = t.matches && t.matches('[data-ap-tfind]') ? t : null, mega = inp && inp.closest('.ap-mega');
+    if (inp && e.key === 'Enter') { var f = mega.querySelector('[data-ap-tres] a.ap-mega__it'); if (f) { e.preventDefault(); location.href = f.getAttribute('href'); } return; }
+    if (inp && e.key === 'ArrowDown') { var n = mega.querySelector('[data-ap-tres]:not([hidden]) a, .ap-mega__body:not([hidden]) a'); if (n) { e.preventDefault(); n.focus(); } return; }
+    if (e.key !== 'Escape') return;
+    if (inp && inp.value) { e.preventDefault(); inp.value = ''; find(inp); return; }
+    var ae = d.activeElement, dd = (ae && ae.closest && ae.closest('.ap-dd--mega')) || d.querySelector('.ap-dd--mega:hover'); if (!dd) return;
+    var b = dd.querySelector('.ap-dd__btn'); if (b && ae !== b && dd.contains(ae)) b.focus(); // before the panel hides, or the browser drops focus
+    dd.classList.remove('is-open'); dd.classList.add('ap-esc');
+    setTimeout(syncMenus, 0);
+  });
+
   /* ---------- "Most used" tools in the Tools menu ----------
      The four tiles are filled in this order, without repeats:
        1. tools this visitor opened before, most used first (fades with time, so recent visits count more)
@@ -244,7 +305,7 @@
     a.href = h;
     if (phone) { a.className = 'ap-ms__tile'; a.innerHTML = ic.outerHTML + '<span></span>'; a.lastChild.textContent = txt(src); return a; }
     var t = src.querySelector('.ap-mega__t'), name = t ? txt(t.firstChild) : txt(src);
-    a.className = 'ap-mega__tile'; a.setAttribute('role', 'menuitem');
+    a.className = 'ap-mega__tile'; if (src.getAttribute('role')) a.setAttribute('role', src.getAttribute('role'));
     a.innerHTML = ic.outerHTML + '<span class="ap-mega__tx"><span class="ap-mega__t"></span><span class="ap-mega__d"></span></span>';
     a.querySelector('.ap-mega__t').textContent = name; a.querySelector('.ap-mega__d').textContent = txt(src.querySelector('.ap-mega__d'));
     return a;

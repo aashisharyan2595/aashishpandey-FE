@@ -8,7 +8,7 @@
     var up = e.target.closest && e.target.closest('.ap-foot__up'); if (up) { e.preventDefault(); scrollTo({ top: 0, behavior: rm ? 'auto' : 'smooth' }); }
     var dd = e.target.closest && e.target.closest('.ap-dd__btn'); if (dd && document.activeElement !== dd) dd.focus();
   });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.activeElement && document.activeElement.closest && document.activeElement.closest('.ap-dd')) document.activeElement.blur(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.activeElement && document.activeElement.closest && document.activeElement.closest('.ap-dd:not(.ap-dd--mega)')) document.activeElement.blur(); });
 
   var EASE = 'cubic-bezier(.16,1,.3,1)', seen = new WeakSet(), io;
   function countUp(el) {

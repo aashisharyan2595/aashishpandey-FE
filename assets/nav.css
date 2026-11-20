@@ -353,8 +353,6 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 /* mega menu structure: columns with dividers, a "most used" strip, a compact four-column tools menu */
 .ap-mega__col+.ap-mega__col{border-left:1px solid rgba(244,239,230,.07);padding-left:10px}
 .ap-mega__h{display:flex;align-items:center;gap:8px}
-.ap-mega--4{width:min(1140px,calc(100vw - 32px))}
-.ap-mega__cols--4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .ap-mega__pop{padding:6px 6px 14px;margin-bottom:6px;border-bottom:1px solid rgba(244,239,230,.08)}
 .ap-mega__pop .ap-mega__h{margin-left:4px}
 .ap-mega__tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
@@ -365,14 +363,6 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .ap-mega__tile .ap-mega__t{font-size:14.5px;font-weight:600}
 .ap-mega .ap-mega__tile{opacity:0;transform:translateY(4px)}
 .ap-dd--mega:hover .ap-mega__tile,.ap-dd--mega:has(:focus-visible) .ap-mega__tile{opacity:1;transform:none}
-.ap-mega--compact .ap-mega__it{align-items:center;padding:7px 10px;min-height:44px}
-.ap-mega--compact .ap-mega__d{display:none}
-.ap-mega--compact .ap-mega__ic{width:28px;height:28px;border-radius:8px}
-.ap-mega--compact .ap-mega__t{font-size:13.5px}
-.ap-mega--compact .ap-mega__g+.ap-mega__g{margin-top:6px}
-.ap-mega__col:nth-child(4) .ap-mega__it{transition-delay:0s,.12s,.12s}
-@media(max-width:1180px){.ap-mega--4{width:min(940px,calc(100vw - 32px))}.ap-mega__tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.ap-mega__cols--4{grid-template-columns:repeat(2,minmax(0,1fr))}.ap-mega__col:nth-child(3){border-left:0;padding-left:6px}}
-.ap-mega--compact .ap-mega__tile .ap-mega__d{display:block}
 
 .ap-notice--info{background:#7ff3e1;color:#07151a}.ap-notice--info a,.ap-notice--info button{color:#07151a}
 .ap-notice--alert{background:#ff8a8a;color:#2a0a0a}.ap-notice--alert a,.ap-notice--alert button{color:#2a0a0a}
@@ -383,3 +373,43 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .tl-aka{margin:0;font-size:14px;line-height:1.5;color:#8e89a0;text-wrap:pretty}
 .tl-aka:empty{display:none}
 .rm-hero .tl-aka{margin-top:10px}
+
+/* v17: Tools menu. The "Tools" button is a link to /tools; hover, focus or a first tap on touch screens opens this panel.
+   The panel never grows past the screen: the search bar and footer stay put, the middle scrolls. */
+.ap-mega{display:flex;flex-direction:column;max-height:calc(100vh - 84px);max-height:calc(100dvh - 84px)}
+.ap-mega__body,.ap-mega__res{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(244,239,230,.28) transparent}
+.ap-mega--tools{width:min(1320px,calc(var(--ap-max,1200px) - 2*clamp(18px,4vw,44px)),calc(100vw - 32px))}
+.ap-mega__bar{display:flex;align-items:center;gap:10px;padding:4px 6px 12px;margin-bottom:4px;border-bottom:1px solid rgba(244,239,230,.08)}
+.ap-mega__find{flex:1;min-width:0;display:flex;align-items:center;gap:10px;height:44px;padding:0 14px;border-radius:14px;border:1px solid rgba(244,239,230,.16);background:rgba(244,239,230,.05);color:#9690a8;transition:border-color .2s,background .2s,color .2s}
+.ap-mega__find:focus-within{border-color:#f5b867;background:rgba(245,184,103,.08);color:#f5b867}
+.ap-mega__find svg{flex:none}
+.ap-mega__find input,.ap-mega__find input:focus,.ap-mega__find input:focus-visible{outline:0!important;box-shadow:none!important}
+.ap-mega__find input{flex:1;min-width:0;height:100%;padding:0;border:0;background:none;color:#f4efe6;font:500 14.5px 'Geist',system-ui,sans-serif}
+.ap-mega__find input::placeholder{color:#9690a8}
+.ap-mega__bar .ap-mega__all{flex:none;height:44px;padding:0 18px;white-space:nowrap}
+.ap-mega__res{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));align-content:start;gap:2px 8px;padding:4px 6px 8px}
+.ap-mega__res[hidden]{display:none}
+.ap-mega__none{grid-column:1/-1;margin:6px 10px;font-size:13.5px;color:#bdb8d0}
+.ap-mega__none a{color:#f5b867}
+.ap-mega--tools .ap-mega__tx{flex:1}
+.ap-mega--tools .ap-mega__d{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap-mega--tools .ap-mega__it{align-items:center;padding:6px 10px}
+.ap-mega--tools .ap-mega__g+.ap-mega__g{margin-top:6px}
+.ap-mega--tools .ap-mega__col{gap:0}
+.ap-mega--tools .ap-mega__foot{justify-content:flex-start}
+.ap-mega__tile .ap-mega__tx{flex:1}
+.ap-mega__tile .ap-mega__d{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* touch: a first tap opens the panel (nav.js adds is-open), Escape closes it (ap-esc) */
+.ap-dd.is-open .ap-dd__btn{color:#f4efe6;background:rgba(244,239,230,.07)}
+.ap-dd.is-open .ap-dd__caret{transform:rotate(180deg)}
+.ap-dd--mega.is-open .ap-mega{opacity:1;visibility:visible;transform:translate(-50%,0) scale(1);transition:opacity .2s,transform .3s cubic-bezier(.16,1,.3,1),visibility 0s}
+.ap-dd--mega.is-open .ap-mega__it,.ap-dd--mega.is-open .ap-mega__tile,.ap-dd--mega.is-open .ap-mega__promo{opacity:1;transform:none}
+.ap-dd--mega.ap-esc .ap-mega{opacity:0;visibility:hidden;transition:none}
+.ap-dd--mega.ap-esc .ap-dd__caret{transform:none}
+.ap-dd__btn[data-current]:focus-visible,.ap-mega__all:focus-visible,.ap-mega__it:focus-visible,.ap-mega__tile:focus-visible{outline:2px solid #f5b867;outline-offset:2px}
+.ap-mega__cols--4{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:1180px){.ap-mega__cols--4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.ap-mega--tools .ap-mega__tile{padding:9px 12px}
+.ap-mega--tools .ap-mega__tile .ap-mega__ic{width:36px;height:36px}
+.ap-mega--tools .ap-mega__pop{padding-bottom:10px}
+.ap-mega--tools .ap-mega__foot{margin-top:4px;padding:8px 12px}
