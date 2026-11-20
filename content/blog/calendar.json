@@ -112,17 +112,21 @@
       "key": "nginx-http2-rce"
     },
     "2026-11-23": {
-      "title": "Fireworks AI breach exposed Notion AI chat transcripts",
+      "title": "Anthropic Nasdaq debut: shares open 33% above IPO price, what it means",
       "kind": "news",
-      "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
+      "angle": "Follow-up to the 14 Nov IPO post (debut was 19 Nov); fold in founders cash-out and charity pledge; confirm numbers with outlets before writing.",
       "urls": [
-        "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
+        "https://www.npr.org/2026/11/18/nx-s1-6046212/anthropic-record-ipo-price",
+        "https://techcrunch.com/2026/11/18/anthropic-reportedly-prices-ipo-at-83-a-share-above-projected-range/",
+        "https://techcrunch.com/2026/11/19/at-nasdaq-opening-bell-anthropic-ceo-recommits-to-pacing-ai-development/",
+        "https://www.npr.org/2026/11/19/nx-s1-6042558/anthropic-ipo-breaks-records-100-billion",
+        "https://techcrunch.com/2026/11/19/anthropics-ipo-puts-ais-circular-financing-boom-to-the-test/"
       ],
-      "score": 7,
+      "score": 8,
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "fireworks-ai-breach-notion"
+      "key": "anthropic-ipo-priced"
     },
     "2026-11-24": {
       "title": "llama.cpp 1.0: running AI models on your own computer",
@@ -205,21 +209,17 @@
       "locked": false
     },
     "2026-12-01": {
-      "title": "Anthropic goes public: IPO debut day and what it means for Claude users",
+      "title": "Fireworks AI breach exposed Notion AI chat transcripts",
       "kind": "news",
-      "angle": "Follow-up to the 14 Nov IPO post; confirm numbers with outlets before writing.",
+      "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
       "urls": [
-        "https://www.npr.org/2026/11/18/nx-s1-6046212/anthropic-record-ipo-price",
-        "https://techcrunch.com/2026/11/18/anthropic-reportedly-prices-ipo-at-83-a-share-above-projected-range/",
-        "https://techcrunch.com/2026/11/19/at-nasdaq-opening-bell-anthropic-ceo-recommits-to-pacing-ai-development/",
-        "https://www.npr.org/2026/11/19/nx-s1-6042558/anthropic-ipo-breaks-records-100-billion",
-        "https://techcrunch.com/2026/11/19/anthropics-ipo-puts-ais-circular-financing-boom-to-the-test/"
+        "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
       ],
-      "score": 8,
+      "score": 7,
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "anthropic-ipo-priced"
+      "key": "fireworks-ai-breach-notion"
     },
     "2026-12-02": {
       "title": "Genie 4 review: Google DeepMind world model, pros and cons",
@@ -932,6 +932,62 @@
       "urls": [],
       "angle": "Retrieval in plain English, where it goes wrong, what to ask vendors.",
       "added": "2026-11-19"
+    },
+    {
+      "key": "gemini-mac-computer-use",
+      "title": "Google Gemini can now use your Mac for you: how it works, pros and cons",
+      "kind": "review",
+      "score": 7,
+      "urls": [
+        "https://techcrunch.com/2026/11/19/google-gives-gemini-the-ability-to-use-your-mac-for-you/"
+      ],
+      "angle": "Gemini controls a Mac on the user's behalf; compare with Apple's reported agent; risks and who it suits",
+      "added": "2026-11-20"
+    },
+    {
+      "key": "meta-muse-mixup",
+      "title": "Meta's Muse AI agent reportedly mixes up chats and exposes private data",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://techcrunch.com/2026/11/19/metas-ai-agent-muse-is-mixing-up-conversations-and-exposing-private-data-report-says/"
+      ],
+      "angle": "Report-based; attribute carefully; what users of AI agents should check",
+      "added": "2026-11-20"
+    },
+    {
+      "key": "claude-black-hole-physics",
+      "title": "Claude solves two open black hole physics problems: what Anthropic says",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.anthropic.com/research/claude-black-hole-physics"
+      ],
+      "angle": "Pair with GPT-6 Astra physics item; what is claimed vs peer reviewed",
+      "added": "2026-11-20"
+    },
+    {
+      "key": "uk-apple-encryption-order",
+      "title": "UK admits it issued Apple a secret encryption order",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://macanorak.com/uk-government-forced-to-admit-it-issued-apple-a-secret-encryption-order/"
+      ],
+      "angle": "Privacy and encryption; confirm with mainstream outlets before writing",
+      "added": "2026-11-20"
+    },
+    {
+      "key": "anthropic-founders-cashout",
+      "title": "Anthropic founders cash out nearly $2B in IPO; charity pledge",
+      "kind": "news",
+      "score": 5,
+      "urls": [
+        "https://techcrunch.com/2026/11/19/anthropics-7-founders-cashed-out-nearly-2b-in-record-breaking-ipo/",
+        "https://techcrunch.com/2026/11/19/anthropics-ipo-could-deliver-156-billion-to-charity/"
+      ],
+      "angle": "Fold into the debut post if written",
+      "added": "2026-11-20"
     }
   ],
   "covered": [
