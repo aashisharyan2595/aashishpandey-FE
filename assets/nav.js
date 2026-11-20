@@ -244,6 +244,12 @@
     var dd = a.parentNode;
     if (!dd.classList.contains('is-open')) { e.preventDefault(); dd.classList.remove('ap-esc'); dd.classList.add('is-open'); }
   });
+  // phone menu: opening one group closes the others and brings it into view
+  d.addEventListener('toggle', function (e) {
+    var g = e.target; if (!g.matches || !g.matches('.ap-ms__grp') || !g.open) return;
+    d.querySelectorAll('.ap-ms__grp[open]').forEach(function (o) { if (o !== g) o.open = false; });
+    setTimeout(function () { g.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, 60);
+  }, true);
   function find(inp) {
     var mega = inp.closest('.ap-mega'), res = mega.querySelector('[data-ap-tres]'), body = mega.querySelector('.ap-mega__body'), q = inp.value.trim();
     if (!q) { res.hidden = true; body.hidden = false; return; }
@@ -280,7 +286,7 @@
      while this runs, so nothing moves on screen; if storage is blocked the defaults simply stay. */
   var KEY = 'apTools', TOPKEY = 'apToolsTop', HALF = 30 * 864e5, SLOTS = 4;
   var store = function (k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } };
-  var known = function () { var o = {}; d.querySelectorAll('.ap-mega__g .ap-mega__it, .ap-ms__tiles .ap-ms__tile').forEach(function (a) { o[a.getAttribute('href')] = 1; }); return o; };
+  var known = function () { var o = {}; d.querySelectorAll('.ap-mega__g .ap-mega__it').forEach(function (a) { o[a.getAttribute('href')] = 1; }); return o; };
   (function remember() {
     var m = /^\/tools\/([a-z0-9-]+)/.exec(location.pathname), h = m && '/tools/' + m[1];
     if (!h || !known()[h]) return;
@@ -300,11 +306,10 @@
     return { list: out, mine: mine };
   }
   function tile(h, phone) {
-    var src = d.querySelector((phone ? '.ap-ms__tiles .ap-ms__tile' : '.ap-mega__g .ap-mega__it') + '[href="' + h + '"]'); if (!src) return null;
-    var a = d.createElement('a'), ic = src.querySelector('.ap-mega__ic');
+    var src = d.querySelector('.ap-mega__g .ap-mega__it[href="' + h + '"]'); if (!src) return null;
+    var a = d.createElement('a'), ic = src.querySelector('.ap-mega__ic'), t = src.querySelector('.ap-mega__t'), name = t ? txt(t.firstChild) : txt(src);
     a.href = h;
-    if (phone) { a.className = 'ap-ms__tile'; a.innerHTML = ic.outerHTML + '<span></span>'; a.lastChild.textContent = txt(src); return a; }
-    var t = src.querySelector('.ap-mega__t'), name = t ? txt(t.firstChild) : txt(src);
+    if (phone) { a.className = 'ap-ms__tile'; a.innerHTML = ic.outerHTML + '<span></span>'; a.lastChild.textContent = name; return a; }
     a.className = 'ap-mega__tile'; if (src.getAttribute('role')) a.setAttribute('role', src.getAttribute('role'));
     a.innerHTML = ic.outerHTML + '<span class="ap-mega__tx"><span class="ap-mega__t"></span><span class="ap-mega__d"></span></span>';
     a.querySelector('.ap-mega__t').textContent = name; a.querySelector('.ap-mega__d').textContent = txt(src.querySelector('.ap-mega__d'));
