@@ -52,6 +52,10 @@
     "aka": ["random password generator", "passphrase generator", "strong password maker"],
     "k": "password, passwords, passwd, pwd, pass word, random, strong, secure, passphrase, diceware, generate password, pasword, passwrd"
   },
+  "/tools/pdf-merge-split-sign": {
+    "aka": ["PDF merger", "PDF splitter", "PDF signer", "combine PDF files"],
+    "k": "pdf, merge pdf, combine pdf, join pdf, split pdf, extract pages, remove pages, delete pages, rotate pdf, sign pdf, signature, esign, e-sign, initials, jpg to pdf, image to pdf, organize pdf, pdf organizer, no upload, offline"
+  },
   "/tools/file-hash-checker": {
     "aka": ["checksum calculator", "SHA-256 checker", "MD5 checker", "hash identifier"],
     "k": "hash, checksum, md5, sha, sha1, sha-1, sha256, sha-256, sha512, sha-512, verify, integrity, download, identify hash"
@@ -63,6 +67,10 @@
   "/tools/project-management-tool": {
     "aka": ["Kanban board", "Gantt chart maker", "task tracker", "project planner"],
     "k": "project management, pm, kanban, board, gantt, gantt chart, timeline, calendar, task, tasks, todo, to do list, sprint, scrum, agile, planner, trello alternative, asana alternative, jira alternative, team"
+  },
+  "/tools/raci-matrix-builder": {
+    "aka": ["RACI chart maker", "RACI matrix generator", "RACI template"],
+    "k": "raci, raci matrix, raci chart, responsibility matrix, responsibility assignment, rasci, daci, roles and responsibilities, who does what, accountable, responsible, consulted, informed, stakeholder, ownership, project roles, template"
   },
   "/tools/online-whiteboard": {
     "aka": ["virtual whiteboard", "mind map maker", "flowchart maker", "diagram tool"],

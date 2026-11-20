@@ -6,13 +6,13 @@ const { redis } = require('../_lib');
 const TOOLS = {
   'pad': 'Notepad', 'url-shortener': 'URL shortener', 'image-resizer': 'Image resizer', 'exam-photo-resizer': 'Exam photo and signature resizer',
   'lorem-ipsum-generator': 'Lorem ipsum generator', 'qr-code-generator': 'QR code generator', 'qr-code-checker': 'QR code checker',
-  'website-launch-checklist': 'Website launch checklist', 'exif-remover': 'EXIF remover', 'file-hash-checker': 'File hash checker',
+  'website-launch-checklist': 'Website launch checklist', 'exif-remover': 'EXIF remover', 'file-hash-checker': 'File hash checker', 'pdf-merge-split-sign': 'PDF merge, split and sign',
   'password-generator': 'Password generator', 'time-zone-meeting-planner': 'Time zone meeting planner',
   'project-estimate-calculator': 'Project estimate calculator', 'invoice-generator': 'Invoice generator', 'sop-maker': 'SOP maker',
   'resume-maker': 'Resume maker', 'resume-keyword-matcher': 'Resume keyword matcher', 'p2p-file-sharing': 'P2P file sharing',
   'llm-token-counter': 'LLM token counter', 'robots-txt-generator': 'robots.txt generator', 'llms-txt-generator': 'llms.txt generator',
   'json-ld-schema-generator': 'JSON-LD schema generator',
-  'project-management-tool': 'Project board', 'online-whiteboard': 'Online whiteboard',
+  'project-management-tool': 'Project board', 'online-whiteboard': 'Online whiteboard', 'raci-matrix-builder': 'RACI matrix builder',
 };
 const ymd = (t) => new Date(t + 5.5 * 3600e3).toISOString().slice(0, 10).replace(/-/g, '');   // days in IST
 const toolOf = (path) => { const m = /^\/tools\/([a-z0-9-]+)/.exec(String(path || '')); return m && TOOLS[m[1]] ? m[1] : null; };

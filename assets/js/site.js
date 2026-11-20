@@ -32,6 +32,7 @@
     '/tools/website-launch-checklist': '/pages/tools/Tools-Checklist.dc.html',
     '/tools/exif-remover': '/pages/tools/Tools-Exif.dc.html',
     '/tools/file-hash-checker': '/pages/tools/Tools-Hash.dc.html',
+    '/tools/pdf-merge-split-sign': '/pages/tools/Tools-PDF.dc.html',
     '/tools/exam-photo-resizer': '/pages/tools/Tools-Exam.dc.html',
     '/tools/resume-keyword-matcher': '/pages/tools/Tools-Match.dc.html',
     '/tools/robots-txt-generator': '/pages/tools/Tools-Robots.dc.html',
@@ -44,6 +45,7 @@
     '/tools/project-estimate-calculator': '/pages/tools/Tools-Estimate.dc.html',
     '/tools/project-management-tool': '/pages/tools/Tools-Board.dc.html',
     '/tools/online-whiteboard': '/pages/tools/Tools-Whiteboard.dc.html',
+    '/tools/raci-matrix-builder': '/pages/tools/Tools-RACI.dc.html',
     '/tools/invoice-generator': '/pages/tools/Tools-Invoice.dc.html',
     '/tools/sop-maker': '/pages/tools/sop/Tools-SOP.dc.html',
     '/tools/sop-maker/build': '/pages/tools/sop/Tools-SOP-Build.dc.html',
@@ -68,7 +70,7 @@
   // Microsoft Clarity (session replay and heatmaps). Production only, loaded when idle, and not on the pages where visitors type their own
   // text or personal details (notepad, resume and SOP builders, invoice, file sharing), because those pages promise the data stays on the device.
   var CLARITY_ID = 'yr4j64clj0';
-  var NO_CLARITY = /^\/tools\/(pad|invoice-generator|resume-maker\/build|sop-maker\/build|password-generator|exif-remover|file-hash-checker|exam-photo-resizer|resume-keyword-matcher|llm-token-counter|p2p-file-sharing|estimate|project-estimate-calculator|project-management-tool|online-whiteboard)/;
+  var NO_CLARITY = /^\/tools\/(pad|invoice-generator|resume-maker\/build|sop-maker\/build|password-generator|exif-remover|file-hash-checker|pdf-merge-split-sign|exam-photo-resizer|resume-keyword-matcher|llm-token-counter|p2p-file-sharing|estimate|project-estimate-calculator|project-management-tool|online-whiteboard)/;
 
   var dev = /\.dc\.html$/.test(location.pathname);
   window.__apRoute = function (p) {
