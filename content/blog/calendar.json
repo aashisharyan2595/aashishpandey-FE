@@ -248,15 +248,17 @@
       "key": "ruby2shell-rails-rce"
     },
     "2026-12-04": {
-      "title": "Zoho Zia review: AI inside Zoho for small business",
+      "title": "Google Gemini can now use your Mac for you: how it works, pros and cons",
       "kind": "review",
-      "angle": "Features, pricing in India, pros and cons.",
-      "urls": [],
-      "score": 5,
+      "angle": "Gemini controls a Mac on the user's behalf; compare with Apple's reported agent; risks and who it suits",
+      "urls": [
+        "https://techcrunch.com/2026/11/19/google-gives-gemini-the-ability-to-use-your-mac-for-you/"
+      ],
+      "score": 7,
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "zoho-zia-review"
+      "key": "gemini-mac-computer-use"
     },
     "2026-12-05": {
       "title": "Gamma review: AI presentations, pros and cons",
@@ -440,6 +442,32 @@
       "slug": "",
       "locked": false,
       "key": "what-is-an-ai-agent"
+    },
+    "2026-12-19": {
+      "title": "Why Microsoft offered 60,000 employees buyouts, in Nadella's words",
+      "kind": "news",
+      "angle": "Numbers, dates and stated reason only; what is not known; confirm with a second outlet.",
+      "urls": [
+        "https://techcrunch.com/2026/11/18/microsoft-ceo-satya-nadella-explains-why-he-asked-60k-employees-to-quit/"
+      ],
+      "score": 7,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "nadella-60k-buyouts"
+    },
+    "2026-12-20": {
+      "title": "Yogurt review: free open-source meeting notes vs Granola",
+      "kind": "review",
+      "angle": "Private, local meeting notes; setup effort; compare with Granola; who should use it.",
+      "urls": [
+        "https://github.com/FrigadeHQ/yogurt"
+      ],
+      "score": 6,
+      "status": "planned",
+      "slug": "",
+      "locked": false,
+      "key": "yogurt-meeting-notes"
     }
   },
   "backlog": [
@@ -484,17 +512,6 @@
         "https://github.com/postmanlabs/postman-app-support/issues/14370"
       ],
       "angle": "Trade topic (--trade); vendor response needed; privacy of API data",
-      "added": "2026-11-13"
-    },
-    {
-      "key": "yogurt-meeting-notes",
-      "title": "Yogurt review: free open-source meeting notes vs Granola",
-      "kind": "review",
-      "score": 6,
-      "urls": [
-        "https://github.com/FrigadeHQ/yogurt"
-      ],
-      "angle": "Private, local meeting notes; setup effort; compare with Granola; who should use it.",
       "added": "2026-11-13"
     },
     {
@@ -830,17 +847,6 @@
       "added": "2026-11-19"
     },
     {
-      "key": "nadella-60k-buyouts",
-      "title": "Why Microsoft offered 60,000 employees buyouts, in Nadella's words",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/18/microsoft-ceo-satya-nadella-explains-why-he-asked-60k-employees-to-quit/"
-      ],
-      "angle": "Numbers, dates and stated reason only; what is not known; confirm with a second outlet.",
-      "added": "2026-11-19"
-    },
-    {
       "key": "microsoft-ignite-seven-models",
       "title": "Microsoft Ignite 2026: seven new models at scalable price-performance",
       "kind": "news",
@@ -934,17 +940,6 @@
       "added": "2026-11-19"
     },
     {
-      "key": "gemini-mac-computer-use",
-      "title": "Google Gemini can now use your Mac for you: how it works, pros and cons",
-      "kind": "review",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/19/google-gives-gemini-the-ability-to-use-your-mac-for-you/"
-      ],
-      "angle": "Gemini controls a Mac on the user's behalf; compare with Apple's reported agent; risks and who it suits",
-      "added": "2026-11-20"
-    },
-    {
       "key": "meta-muse-mixup",
       "title": "Meta's Muse AI agent reportedly mixes up chats and exposes private data",
       "kind": "news",
@@ -987,6 +982,15 @@
         "https://techcrunch.com/2026/11/19/anthropics-ipo-could-deliver-156-billion-to-charity/"
       ],
       "angle": "Fold into the debut post if written",
+      "added": "2026-11-20"
+    },
+    {
+      "key": "zoho-zia-review",
+      "title": "Zoho Zia review: AI inside Zoho for small business",
+      "kind": "review",
+      "score": 5,
+      "urls": [],
+      "angle": "Features, pricing in India, pros and cons.",
       "added": "2026-11-20"
     }
   ],
