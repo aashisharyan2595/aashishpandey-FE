@@ -282,6 +282,7 @@
     { "source": "/Tools-Checklist.dc.html", "destination": "/tools/website-launch-checklist", "permanent": true },
     { "source": "/Tools-Estimate.dc.html", "destination": "/tools/project-estimate-calculator", "permanent": true },
     { "source": "/Tools-Board.dc.html", "destination": "/tools/project-management-tool", "permanent": true },
+    { "source": "/Tools-RACI.dc.html", "destination": "/tools/raci-matrix-builder", "permanent": true },
     { "source": "/Tools-Whiteboard.dc.html", "destination": "/tools/online-whiteboard", "permanent": true },
     { "source": "/Tools-Exam.dc.html", "destination": "/tools/exam-photo-resizer", "permanent": true },
     { "source": "/Tools-Exif.dc.html", "destination": "/tools/exif-remover", "permanent": true },
@@ -533,6 +534,10 @@
     {
       "source": "/tools/online-whiteboard",
       "destination": "/pages/tools/Tools-Whiteboard.dc.html"
+    },
+    {
+      "source": "/tools/raci-matrix-builder",
+      "destination": "/pages/tools/Tools-RACI.dc.html"
     },
     {
       "source": "/tools/invoice-generator",

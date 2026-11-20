@@ -45,6 +45,7 @@
     '/tools/project-estimate-calculator': '/pages/tools/Tools-Estimate.dc.html',
     '/tools/project-management-tool': '/pages/tools/Tools-Board.dc.html',
     '/tools/online-whiteboard': '/pages/tools/Tools-Whiteboard.dc.html',
+    '/tools/raci-matrix-builder': '/pages/tools/Tools-RACI.dc.html',
     '/tools/invoice-generator': '/pages/tools/Tools-Invoice.dc.html',
     '/tools/sop-maker': '/pages/tools/sop/Tools-SOP.dc.html',
     '/tools/sop-maker/build': '/pages/tools/sop/Tools-SOP-Build.dc.html',
