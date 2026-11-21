@@ -404,7 +404,9 @@
     "https://signal.org/blog/protecting-your-privacy/": 1795225471543,
     "https://huggingface.co/blog/inkling2mini": 1795225471543,
     "https://openai.com/business/customer-stories/hebbia": 1795225471543,
-    "https://openai.com/index/introducing-medchembench": 1795225471543
+    "https://openai.com/index/introducing-medchembench": 1795225471543,
+    "https://www.marketscreener.com/news/us-sec-s-nvidia-probe-is-examining-potential-accounting-issues-sources-say-ce785ed3dd8ff627": 1795239850749,
+    "https://scottaaronson.blog/?p=10344": 1795239850749
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -418,6 +420,7 @@
     "california-sues-openai-hugging-face-hack",
     "united-bans-ai-agents-flight-booking",
     "perplexity-teammates-review-pros-cons",
-    "gta-6-launch-numbers-explained"
+    "gta-6-launch-numbers-explained",
+    "chatgpt-wallet-review-pros-cons"
   ]
 }
