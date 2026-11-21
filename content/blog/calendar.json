@@ -1071,7 +1071,8 @@
       "urls": [
         "https://www.npr.org/2026/11/20/g-s1-154797/nasdaq-sp500-stock-market-ai-sink-negative",
         "https://www.npr.org/2026/11/20/nx-s1-6048645/tech-stocks-end-the-week-on-a-down-note-despite-anthropics-mega-ipo",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off"
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+        "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia"
       ],
       "angle": "Market news; only if it stays big next week; no investment advice Guardian 20 Nov: Nasdaq erased all 2026 gains on day two of Anthropic trading.",
       "added": "2026-11-21"
@@ -1083,6 +1084,28 @@
       "score": 5,
       "urls": [],
       "angle": "Quality, editing control, pricing, vs PowerPoint Copilot.",
+      "added": "2026-11-21"
+    },
+    {
+      "key": "visa-mastercard-jpmorgan-leak",
+      "title": "Visa, Mastercard and JPMorgan customer data leaked: what to check",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.foxnews.com/tech/visa-mastercard-jpmorgan-customer-data-leaked"
+      ],
+      "angle": "Third-party vendor marketing data accessed, extortion group leaking records; what customers and small businesses should do. Confirm with more outlets before writing.",
+      "added": "2026-11-21"
+    },
+    {
+      "key": "un-killer-robots-talks",
+      "title": "UN talks on killer robots end without binding rules: what it means",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.npr.org/2026/11/21/nx-s1-6047916/killer-robots-un-drones"
+      ],
+      "angle": "Geneva talks on autonomous weapons fell short; explain the positions and what happens next in plain English.",
       "added": "2026-11-21"
     }
   ],
