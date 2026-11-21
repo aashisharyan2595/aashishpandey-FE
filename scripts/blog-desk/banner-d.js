@@ -26,6 +26,7 @@ const ICON = {
   chip: `<rect x="-22" y="-22" width="44" height="44" rx="8" fill="${TEAL}" stroke="${NAVY}" stroke-width="5"/><rect x="-10" y="-10" width="20" height="20" rx="3" fill="${NAVY}"/><g stroke="${NAVY}" stroke-width="5" stroke-linecap="round"><path d="M-12 -30 V-22 M0 -30 V-22 M12 -30 V-22 M-12 22 V30 M0 22 V30 M12 22 V30 M-30 -12 H-22 M-30 0 H-22 M-30 12 H-22 M22 -12 H30 M22 0 H30 M22 12 H30"/></g>`,
 };
 function pickIcons(t) {
+  if (/nginx/.test(t)) return ['chip', 'lock', 'check'];
   if (/\bgta\b|grand theft auto|video game/.test(t)) return ['coins', 'pad', 'bell'];
   if (/airline|flight booking|boarding/.test(t)) return ['plane', 'lock', 'tag'];
   if (/\bwallet\b/.test(t)) return ['coins', 'lock', 'chat'];
@@ -143,6 +144,18 @@ ${coin(130, 470)}${coin(130, 440)}${coin(130, 410)}${coin(130, 380)}
 <g transform="translate(400,440) rotate(6)"><rect x="12" y="12" width="190" height="96" rx="20" fill="${PAPER}"/><rect width="190" height="96" rx="20" fill="${NAVY}" stroke="${CREAM}" stroke-width="7" stroke-dasharray="3 14" stroke-linecap="round"/>${T(95, 48, 'middle', 38, CREAM, '$1.84B')}${T(95, 80, 'middle', 24, TEAL, 'EST.', 800)}</g>
 <g transform="translate(520,70)"><circle r="40" cx="8" cy="8" fill="${PAPER}"/><circle r="40" fill="#e5383b" stroke="${CREAM}" stroke-width="7"/>${T(0, 18, 'middle', 50, CREAM, '?')}</g>`;
 }
+// web server gateway illustration added 2026-11-21 (NGINX HTTP/2 flaws post): three request streams into a proxy box with a broken padlock, an "h2" label and a version tag
+function flatGateway() {
+  const arrow = (y, c) => `<path d="M10 ${y} H190" stroke="${c}" stroke-width="14" stroke-linecap="round" stroke-dasharray="2 26"/><path d="M178 ${y - 18} L206 ${y} L178 ${y + 18}" fill="none" stroke="${c}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return `${arrow(150, CREAM)}${arrow(260, TEAL)}${arrow(370, CREAM)}
+<rect x="230" y="60" width="290" height="400" rx="44" fill="${PAPER}" transform="translate(16,16)"/>
+<rect x="230" y="60" width="290" height="400" rx="44" fill="${CREAM}" stroke="${CREAM}" stroke-width="9"/>
+${T(375, 150, 'middle', 76, NAVY, 'h2')}
+<rect x="270" y="176" width="210" height="16" rx="8" fill="${TEAL}"/>
+<g transform="translate(375,320)"><path d="M-46 -34 V-62 a46 46 0 0 1 92 0 V-40" fill="none" stroke="${NAVY}" stroke-width="14" stroke-linecap="round" transform="translate(30,-8) rotate(24)"/><rect x="-62" y="-30" width="124" height="98" rx="20" fill="${NAVY}"/><circle cy="12" r="13" fill="${TEAL}"/><path d="M0 24 V44" stroke="${TEAL}" stroke-width="9" stroke-linecap="round"/></g>
+<g transform="translate(520,80)"><circle cx="8" cy="8" r="44" fill="${PAPER}"/><circle r="44" fill="#e5383b" stroke="${CREAM}" stroke-width="8"/>${T(0, 16, 'middle', 52, CREAM, '!')}</g>
+<g transform="translate(300,470) rotate(-4)"><rect x="12" y="12" width="230" height="70" rx="18" fill="${PAPER}"/><rect width="230" height="70" rx="18" fill="${TEAL}" stroke="${CREAM}" stroke-width="7"/>${T(115, 48, 'middle', 38, NAVY, 'v1.31.9')}</g>`;
+}
 function hookLines(text) {
   if (text.includes('|')) return text.split('|').map((x) => x.trim()).filter(Boolean).slice(0, 3);
   const sent = text.split(/(?<=[.!?])\s+/).filter(Boolean); if (sent.length >= 2 && sent.length <= 3) return sent;
@@ -152,6 +165,7 @@ function hookLines(text) {
 }
 function pickMain(post) {
   const t = [post.slug, post.category, (post.tags || []).join(' '), post.title].join(' ').toLowerCase();
+  if (/nginx/.test(t)) return 'gateway';
   if (/\bgta\b|grand theft auto|video game/.test(t)) return 'game';
   if (/airline|flight booking|boarding pass/.test(t)) return 'ticket';
   if (/\bwallet\b/.test(t)) return 'wallet';
@@ -177,6 +191,7 @@ function coverHtmlD(post, W, H, G) {
   const mt = Math.round((SH - 504) / 2);
   if (ph) main = `<div class="ph"><img src="${b64(ph, 'image/jpeg')}" alt=""></div>`;
   else if (kind === 'server') main = `<svg class="art" viewBox="0 0 600 560">${flatServer()}</svg>`;
+  else if (kind === 'gateway') main = `<svg class="art" viewBox="0 0 600 560">${flatGateway()}</svg>`;
   else if (kind === 'voice') main = `<svg class="art" viewBox="0 0 600 560">${flatVoice()}</svg>`;
   else if (kind === 'meeting') main = `<svg class="art" viewBox="0 0 600 560">${flatMeeting()}</svg>`;
   else if (kind === 'gauge') main = `<svg class="art" viewBox="0 0 600 560">${flatGauge()}</svg>`;

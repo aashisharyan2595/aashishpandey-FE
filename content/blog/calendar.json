@@ -102,15 +102,16 @@
       "slug": "chatgpt-wallet-review-pros-cons"
     },
     "2026-11-22": {
-      "title": "NGINX unauthenticated RCE (CVE-2026-123633, CVE-2026-123007): what to patch",
+      "title": "NGINX HTTP/2 flaws let attackers run code: what to patch",
       "kind": "news",
       "angle": "Wiz says both critical HTTP/2 flaws, CVSS 4.0 9.2. Only Wiz so far (18 Nov); needs a second independent outlet or the F5 advisory before breaking. Different from June CVE-2026-42530/42055.",
       "urls": [
         "https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities"
       ],
       "score": 9,
-      "status": "planned",
-      "key": "nginx-http2-rce"
+      "status": "written",
+      "key": "nginx-http2-rce",
+      "slug": "nginx-http2-rce-flaws-patch"
     },
     "2026-11-23": {
       "title": "Anthropic Nasdaq debut: shares open 33% above IPO price, what it means",
@@ -1098,6 +1099,7 @@
     "united-ai-agent-ban",
     "perplexity-teammates",
     "chatgpt-wallet",
-    "gta6-launch-numbers"
+    "gta6-launch-numbers",
+    "nginx-http2-rce"
   ]
 }
