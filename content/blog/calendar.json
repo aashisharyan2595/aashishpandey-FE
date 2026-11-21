@@ -1066,12 +1066,13 @@
       "key": "ai-stocks-selloff-nov-2026",
       "title": "AI stocks slide: S&P 500 down 3.7%, Nasdaq negative for the year",
       "kind": "news",
-      "score": 6,
+      "score": 7,
       "urls": [
         "https://www.npr.org/2026/11/20/g-s1-154797/nasdaq-sp500-stock-market-ai-sink-negative",
-        "https://www.npr.org/2026/11/20/nx-s1-6048645/tech-stocks-end-the-week-on-a-down-note-despite-anthropics-mega-ipo"
+        "https://www.npr.org/2026/11/20/nx-s1-6048645/tech-stocks-end-the-week-on-a-down-note-despite-anthropics-mega-ipo",
+        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off"
       ],
-      "angle": "Market news; only if it stays big next week; no investment advice",
+      "angle": "Market news; only if it stays big next week; no investment advice Guardian 20 Nov: Nasdaq erased all 2026 gains on day two of Anthropic trading.",
       "added": "2026-11-21"
     },
     {
