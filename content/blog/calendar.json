@@ -114,7 +114,7 @@
       "slug": "nginx-http2-rce-flaws-patch"
     },
     "2026-11-23": {
-      "title": "Anthropic Nasdaq debut: shares open 33% above IPO price, what it means",
+      "title": "Anthropic Nasdaq debut: day one, valuation, risks",
       "kind": "news",
       "angle": "Follow-up to the 14 Nov IPO post (debut was 19 Nov); fold in founders cash-out and charity pledge; confirm numbers with outlets before writing.",
       "urls": [
@@ -125,8 +125,8 @@
         "https://techcrunch.com/2026/11/19/anthropics-ipo-puts-ais-circular-financing-boom-to-the-test/"
       ],
       "score": 8,
-      "status": "planned",
-      "slug": "",
+      "status": "written",
+      "slug": "anthropic-nasdaq-debut-first-day-explained",
       "locked": false,
       "key": "anthropic-ipo-priced"
     },
@@ -1134,6 +1134,7 @@
     "perplexity-teammates",
     "chatgpt-wallet",
     "gta6-launch-numbers",
-    "nginx-http2-rce"
+    "nginx-http2-rce",
+    "anthropic-ipo-priced"
   ]
 }

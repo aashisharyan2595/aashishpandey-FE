@@ -27,6 +27,7 @@ const ICON = {
 };
 function pickIcons(t) {
   if (/nginx/.test(t)) return ['chip', 'lock', 'check'];
+  if (/debut|first day|first-day/.test(t) && /ipo|nasdaq/.test(t)) return ['clock', 'tag', 'coins'];
   if (/\bgta\b|grand theft auto|video game/.test(t)) return ['coins', 'pad', 'bell'];
   if (/airline|flight booking|boarding/.test(t)) return ['plane', 'lock', 'tag'];
   if (/\bwallet\b/.test(t)) return ['coins', 'lock', 'chat'];
@@ -50,6 +51,12 @@ function flatServer() {
 <path d="M360 110 L520 160 V290 C520 380 450 440 360 480 C270 440 200 380 200 290 V160 Z" fill="${TEAL}" stroke="${CREAM}" stroke-width="10" stroke-linejoin="round"/>
 <path d="M375 130 L338 230 L392 262 L346 360 L372 462" fill="none" stroke="${CREAM}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
 <circle cx="440" cy="240" r="34" fill="${CREAM}" stroke="${CREAM}" stroke-width="8"/><text x="440" y="254" text-anchor="middle" font-family="Geist" font-weight="900" font-size="44" fill="#e5383b">!</text>`;
+}
+function flatCandle() {
+  const cand = (x, top, bot, wt, wb, c) => `<path d="M${x + 36} ${wt} V${wb}" stroke="${CREAM}" stroke-width="9" stroke-linecap="round"/><rect x="${x + 8}" y="${top + 12}" width="72" height="${bot - top}" rx="12" fill="${PAPER}"/><rect x="${x}" y="${top}" width="72" height="${bot - top}" rx="12" fill="${c}" stroke="${CREAM}" stroke-width="9"/>`;
+  return `<path d="M20 330 H580" stroke="${CREAM}" stroke-width="6" stroke-dasharray="4 16" stroke-linecap="round"/>`
+    + cand(40, 250, 360, 230, 400, TEAL) + cand(160, 90, 250, 60, 270, TEAL) + cand(280, 40, 140, 20, 190, CREAM) + cand(400, 130, 250, 100, 300, CREAM)
+    + `<g transform="translate(350,410)"><rect x="10" y="10" width="220" height="96" rx="26" fill="${PAPER}"/><rect width="220" height="96" rx="26" fill="${CREAM}" stroke="${CREAM}" stroke-width="6"/>${T(28, 66, 'start', 50, NAVY, '$83')}<path d="M172 26 V66 M158 52 L172 68 L186 52" fill="none" stroke="${TEALD}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></g>`;
 }
 function flatBars() {
   let g = `<g stroke="${CREAM}" stroke-width="9" stroke-linejoin="round">`;
@@ -166,6 +173,7 @@ function hookLines(text) {
 function pickMain(post) {
   const t = [post.slug, post.category, (post.tags || []).join(' '), post.title].join(' ').toLowerCase();
   if (/nginx/.test(t)) return 'gateway';
+  if (/debut|first day|first-day/.test(t) && /ipo|nasdaq/.test(t)) return 'candle';
   if (/\bgta\b|grand theft auto|video game/.test(t)) return 'game';
   if (/airline|flight booking|boarding pass/.test(t)) return 'ticket';
   if (/\bwallet\b/.test(t)) return 'wallet';
@@ -201,6 +209,7 @@ function coverHtmlD(post, W, H, G) {
   else if (kind === 'wallet') main = `<svg class="art" viewBox="0 0 600 560">${flatWallet()}</svg>`;
   else if (kind === 'ticket') main = `<svg class="art" viewBox="0 0 600 560">${flatTicket()}</svg>`;
   else if (kind === 'court') main = `<svg class="art" viewBox="0 0 600 560">${flatCourt()}</svg>`;
+  else if (kind === 'candle') main = `<svg class="art" viewBox="0 0 600 560">${flatCandle()}</svg>`;
   else if (kind === 'bars') main = `<svg class="art" viewBox="0 0 600 560">${flatBars()}</svg>`;
   else main = `<svg class="art2" viewBox="0 0 400 300" fill="none">${DEFS(ACC.teal[0])}${STAGE(ACC.teal[0])}${ART[pickArt(post)](ACC.teal[0])}</svg>`;
   const kk = (KIND[post.kind] || 'Blog').toUpperCase();
