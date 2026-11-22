@@ -482,6 +482,14 @@
       ],
       "score": 7,
       "status": "planned"
+    },
+    "2026-12-22": {
+      "title": "NotebookLM review: pros and cons for research and study",
+      "kind": "review",
+      "angle": "What it does well, limits, privacy, who it is for.",
+      "urls": [],
+      "score": 5,
+      "status": "planned"
     }
   },
   "backlog": [
@@ -536,15 +544,6 @@
       "urls": [],
       "angle": "Evergreen comparison",
       "added": "2026-11-12"
-    },
-    {
-      "key": "notebooklm-review",
-      "title": "NotebookLM review: pros and cons for research and study",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "What it does well, limits, privacy, who it is for.",
-      "added": "2026-11-14"
     },
     {
       "key": "china-banned-nvidia-chips",
@@ -1058,9 +1057,10 @@
       "kind": "news",
       "score": 6,
       "urls": [
-        "https://signal.org/blog/protecting-your-privacy/"
+        "https://signal.org/blog/protecting-your-privacy/",
+        "https://techcrunch.com/2026/11/21/signal-restricts-mobile-screenshots-as-it-confronts-existential-threat-of-ai-surveillance/"
       ],
-      "angle": "Signal post, HN 508 points; need mainstream coverage",
+      "angle": "Signal post plus TechCrunch coverage (screenshots restricted on mobile); mainstream outlet now exists, find a second",
       "added": "2026-11-21"
     },
     {
@@ -1107,6 +1107,17 @@
       ],
       "angle": "Geneva talks on autonomous weapons fell short; explain the positions and what happens next in plain English.",
       "added": "2026-11-21"
+    },
+    {
+      "key": "google-ai-schools-protest",
+      "title": "Google employees protest AI in schools policy: what is being asked",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.npr.org/2026/11/21/nx-s1-6048599/google-employees-protest-ai-in-schools-policy"
+      ],
+      "angle": "NPR: 550+ Google employees signed a petition; need second outlet and Google response",
+      "added": "2026-11-22"
     }
   ],
   "covered": [
