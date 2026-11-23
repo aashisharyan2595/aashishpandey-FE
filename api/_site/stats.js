@@ -10,7 +10,7 @@ const BOT = /bot|crawl|spider|slurp|facebookexternalhit|preview|monitor|lighthou
 const dayKey = (t) => new Date(t || Date.now()).toISOString().slice(0, 10).replace(/-/g, '');
 
 // Layout tests (docs/blog-desk-runbook.md, Experiments). Arms are picked in the browser per page view and sent along; only these names are counted.
-const AB = { cover: ['a', 'b'], nl: ['a', 'b'] };
+const AB = { cover: ['a', 'b'], nl: ['a', 'b'], list: ['a', 'b'] };   // list = blog index layout: v is index visits, r is post-card clicks (clicks per visit is the score)
 const abList = (s) => String(s || '').split(',').map((x) => x.split(':')).filter(([t, a]) => AB[t] && AB[t].includes(a));
 async function who(req, id, tag) {   // true once per visitor and post per 30 minutes; crawlers never count
   if (!/^[a-z0-9]{6,20}$/.test(String(id || ''))) return false;
@@ -31,9 +31,9 @@ async function read(req, id, ab) {
   return true;
 }
 // the blog index: k 'v' = the index was viewed, 'c' = a post card was clicked (id = that post)
-async function card(req, k, id) {
-  if (k === 'v') { const ua = String(req.headers['user-agent'] || ''); if (!ua || BOT.test(ua)) return false; const w = crypto.createHash('sha1').update(ip(req) + '|' + ua).digest('hex').slice(0, 16); if ((await redis('SET', 'pv:seen:ix:' + w, '1', 'NX', 'EX', 1800)) !== 'OK') return false; await redis('HINCRBY', 'ix:v', dayKey(), 1); return true; }
-  if (k === 'c' && await who(req, id, ':c')) { await redis('HINCRBY', 'ix:c:' + id, dayKey(), 1); return true; }
+async function card(req, k, id, ab) {
+  if (k === 'v') { const ua = String(req.headers['user-agent'] || ''); if (!ua || BOT.test(ua)) return false; const w = crypto.createHash('sha1').update(ip(req) + '|' + ua).digest('hex').slice(0, 16); if ((await redis('SET', 'pv:seen:ix:' + w, '1', 'NX', 'EX', 1800)) !== 'OK') return false; await redis('HINCRBY', 'ix:v', dayKey(), 1); for (const [t, a] of abList(ab)) await redis('HINCRBY', 'ab:t', `${t}:${a}:v`, 1); return true; }
+  if (k === 'c' && await who(req, id, ':c')) { await redis('HINCRBY', 'ix:c:' + id, dayKey(), 1); for (const [t, a] of abList(ab)) await redis('HINCRBY', 'ab:t', `${t}:${a}:r`, 1); return true; }
   return false;
 }
 async function totals(ids) {

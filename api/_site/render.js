@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v10';   // ?v= for assets/blog.css and blog.js
+const BL = 'v15';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
@@ -143,7 +143,7 @@ const base = (p) => (p.type === 'case' ? '/work/' : '/blog/') + p.slug;
 function card(p, big) {
   const meta = p.type === 'case' ? [p.case && p.case.client, p.case && p.case.year].filter(Boolean).join(' · ') : [fmtDate(p.publishAt), (p.mins || 1) + ' min read'].join(' · ');
   return `<article class="bl-card${big ? ' bl-card--big' : ''}" data-cid="${p.id}">
-<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}"${srcset(p.cover.src, '(max-width: 700px) 100vw, 400px')} alt="" loading="lazy" decoding="async"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
+<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}"${srcset(p.cover.src, '(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 360px')} alt="" loading="lazy" decoding="async"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
 <div class="bl-card__b">
 ${p.category || (p.tags && p.tags[0]) ? `<span class="bl-kick">${esc(p.category || p.tags[0])}</span>` : ''}
 <h3><a class="bl-card__a" href="${base(p)}">${esc(p.title)}</a></h3>
@@ -152,14 +152,13 @@ ${p.category || (p.tags && p.tags[0]) ? `<span class="bl-kick">${esc(p.category 
 </div></article>`;
 }
 
-/* the latest post, big, with its full banner (never cropped) */
+/* the newest post: full cover (never cropped) with the title under it */
 function leadCard(p) {
-  const meta = [fmtDate(p.publishAt), (p.mins || 1) + ' min read'].join(' · ');
-  return `<article class="bl-feat" data-cid="${p.id}">
-<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}"${srcset(p.cover.src, '(max-width: 980px) 100vw, 700px')} alt="" decoding="async" fetchpriority="high"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
-<div class="bl-feat__b"><span class="bl-kick"><em class="bl-kick__new">Latest</em>${p.category || (p.tags && p.tags[0]) ? ' · ' + esc(p.category || p.tags[0]) : ''} <span>· <time datetime="${isoDate(p.publishAt)}">${esc(fmtDate(p.publishAt))}</time> · ${p.mins || 1} min read</span></span>
+  return `<article class="bl-lead2" data-cid="${p.id}">
+<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}"${srcset(p.cover.src, '(max-width: 980px) 100vw, 860px')} alt="" decoding="async" fetchpriority="high"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
+<span class="bl-kick"><em class="bl-kick__new">Latest</em> · ${esc(p.category || (p.tags && p.tags[0]) || '')} · <time datetime="${isoDate(p.publishAt)}">${esc(fmtDate(p.publishAt))}</time> · ${p.mins || 1} min read</span>
 <h2><a class="bl-card__a" href="${base(p)}">${esc(p.title)}</a></h2>
-<p>${esc(trunc(p.excerpt, 240))}</p></div></article>`;
+<p>${esc(trunc(p.excerpt, 240))}</p></article>`;
 }
 // sign-up card for the blog side rails (same form the footer uses, handled by site.js)
 const newsCard = (via) => `<div class="bl-nl"><span class="bl-kick">Free · at most 2 emails a week</span><h3>Tech news, <em>checked twice</em>, in your inbox.</h3><p>One calm email when a story is worth your time. Unsubscribe in one click.</p>
@@ -168,33 +167,32 @@ const shortOf = (body) => { const m = /^::short\[([\w-]{6,20})\]\s*$/m.exec(Stri
 
 /* ---------- blog index ---------- */
 async function blogIndex(q) {
-  const tag = String(q.tag || '').slice(0, 40), find = String(q.q || '').trim().slice(0, 60).toLowerCase(), per = 9, pg = Math.max(1, parseInt(q.page, 10) || 1);
+  const tag = String(q.tag || '').slice(0, 40), find = String(q.q || '').trim().slice(0, 60).toLowerCase();
   const all = await posts.live('post'), tags = {};
   all.forEach((p) => (p.tags || []).forEach((t) => { tags[t] = (tags[t] || 0) + 1; }));
   const rows = all.filter((p) => (!tag || (p.tags || []).includes(tag)) && (!find || [p.title, p.excerpt, (p.tags || []).join(' '), p.category].join(' ').toLowerCase().includes(find)));
-  const feat = !tag && !find && pg === 1 ? rows.find((p) => p.featured) || rows[0] : null, rest = rows.filter((p) => p !== feat), pages = Math.max(1, Math.ceil(rest.length / per)), slice = rest.slice((pg - 1) * per, pg * per);
+  const lead = tag || find ? null : rows[0], topic = (p) => p.category || (p.tags && p.tags[0]) || 'More';
+  const groups = [];
+  rows.filter((p) => p !== lead).forEach((p) => { const g = groups.find((x) => x.t === topic(p)); g ? g.list.push(p) : groups.push({ t: topic(p), list: [p] }); });
+  if (lead) { const small = groups.filter((g) => g.list.length < 3), more = []; small.forEach((g) => { more.push(...g.list); groups.splice(groups.indexOf(g), 1); }); if (more.length) groups.push({ t: 'More', list: more.sort((x, y) => y.publishAt - x.publishAt) }); }  // one-post topics would leave gaps in the grid
   const topTags = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 10).map((x) => x[0]);
-  const qs = (n) => '/blog?' + [tag ? 'tag=' + encodeURIComponent(tag) : '', find ? 'q=' + encodeURIComponent(find) : '', n > 1 ? 'page=' + n : ''].filter(Boolean).join('&');
   const searchForm = `<form class="bl-search" action="/blog" role="search"><input type="search" name="q" value="${esc(find)}" placeholder="Search the blog" aria-label="Search the blog" maxlength="60"><button type="submit">Search</button></form>`;
-  const withShort = all.find((p) => shortOf(p.body));
-  const side = `<aside class="bl-lay__side" aria-label="Blog sidebar">
-${newsCard('blog-side')}
-${withShort ? `<a class="bl-box bl-watch" href="${base(withShort)}"><b class="bl-box__h">Watch · under a minute</b><span class="bl-watch__row"><span class="bl-watch__tile" aria-hidden="true"><i></i></span><span class="bl-watch__t">${esc(trunc(withShort.title, 70))}</span></span></a>` : ''}
-</aside>`;
   const body = `<header class="bl-top"><div class="bl-wrap">${crumbs([{ t: 'Home', href: '/' }, { t: 'Blog' }])}
 <div class="bl-top__row"><div><p class="bl-eyebrow">Blog</p><h1>AI, tech and <em>shipping digital work</em></h1></div>${searchForm}</div>
 <p class="bl-lead-p">New AI tools and models with honest pros and cons, the tech news that matters, and what I learn running digital programs. Every claim linked to its source.</p>
 ${topTags.length ? `<div class="bl-filter" role="group" aria-label="Topics"><a class="bl-tag${tag ? '' : ' is-on'}" href="/blog">All</a>${topTags.map((t) => `<a class="bl-tag${t === tag ? ' is-on' : ''}" href="/blog?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>` : ''}
 </div></header>
 <div class="bl-wrap bl-list"><div class="bl-lay"><div class="bl-lay__main">
-${feat ? leadCard(feat) : ''}
-${slice.length ? `${feat ? '<h2 class="bl-sech">More from the blog</h2>' : ''}<div class="bl-grid bl-grid--2">${slice.map((p) => card(p)).join('')}</div>` : (!feat ? `<div class="bl-empty"><h2>${find ? 'Nothing found for ' + esc(find) : tag ? 'Nothing under ' + esc(tag) + ' yet' : 'The first posts are on the way'}</h2><p>${tag || find ? '<a href="/blog">See all posts</a>' : 'In the meantime, the <a href="/tools">free tools</a> and <a href="/case-studies">case studies</a> are live.'}</p></div>` : '')}
-${pages > 1 ? `<nav class="bl-pager" aria-label="Pages">${pg > 1 ? `<a href="${qs(pg - 1)}" rel="prev">Newer</a>` : '<span></span>'}<span>Page ${pg} of ${pages}</span>${pg < pages ? `<a href="${qs(pg + 1)}" rel="next">Older</a>` : '<span></span>'}</nav>` : ''}
-</div>${side}</div></div>`;
-  const canonical = SITE + '/blog' + (tag ? '?tag=' + encodeURIComponent(tag) : '') + (pg > 1 ? (tag ? '&' : '?') + 'page=' + pg : '');
+${lead ? leadCard(lead) : `<p class="bl-count">${rows.length} ${rows.length === 1 ? 'post' : 'posts'}${tag ? ' under ' + esc(tag) : ''}${find ? ' for ' + esc(find) : ''}</p>`}
+${groups.map((g) => `<section class="bl-topic"><h2 class="bl-sech">${lead ? esc(g.t) : ''}${lead ? ` <span>${g.list.length}</span>` : ''}</h2><div class="bl-grid bl-grid--3">${g.list.map((p) => card(p)).join('')}</div></section>`).join('')}${rows.length ? '' : `<div class="bl-empty"><h2>${find ? 'Nothing found for ' + esc(find) : tag ? 'Nothing under ' + esc(tag) + ' yet' : 'The first posts are on the way'}</h2><p>${tag || find ? '<a href="/blog">See all posts</a>' : 'In the meantime, the <a href="/tools">free tools</a> and <a href="/case-studies">case studies</a> are live.'}</p></div>`}
+</div><aside class="bl-lay__side" aria-label="Blog sidebar">
+<nav class="bl-box bl-topics" aria-label="Topics"><b class="bl-box__h">Topics</b><a href="/blog"${tag ? '' : ' aria-current="page"'}>All<span>${all.length}</span></a>${topTags.map((t) => `<a href="/blog?tag=${encodeURIComponent(t)}"${t === tag ? ' aria-current="page"' : ''}>${esc(t)}<span>${tags[t]}</span></a>`).join('')}</nav>
+${newsCard('blog-side')}
+</aside></div></div>`;
+  const canonical = SITE + '/blog' + (tag ? '?tag=' + encodeURIComponent(tag) : '');
   return layout({
     title: (tag ? tag + ': ' : find ? 'Search: ' + find + ' · ' : '') + 'Blog · Aashish Pandey', desc: 'AI tools and models reviewed with pros and cons, tech news explained with sources, and notes on shipping digital work, by Aashish Pandey.', canonical, rss: true, noindex: !!find, body,
-    jsonld: [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'Blog', '@id': SITE + '/blog#blog', url: SITE + '/blog', name: 'Aashish Pandey: Blog', publisher: { '@id': SITE + '/#person' }, blogPost: rows.slice(0, 20).map((p) => ({ '@type': 'BlogPosting', headline: p.title, url: SITE + base(p), datePublished: isoDate(p.publishAt) })) }, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }])] }],
+    jsonld: [{ '@context': 'https://schema.org', '@graph': [{ '@type': 'Blog', '@id': SITE + '/blog#blog', url: SITE + '/blog', name: 'Aashish Pandey: Blog', publisher: { '@id': SITE + '/#person' }, blogPost: rows.map((p) => ({ '@type': 'BlogPosting', headline: p.title, url: SITE + base(p), datePublished: isoDate(p.publishAt) })) }, crumbLd([{ t: 'Home', href: '/' }, { t: 'Blog', href: '/blog' }])] }],
   });
 }
 
@@ -334,7 +332,7 @@ async function handle(req, res) {
     if (p === 'hit' || p === 'read' || p === 'card') {
       if (req.method !== 'POST') return send(405, 'text/plain; charset=utf-8', 'Use POST', 'no-store');
       const st = require('./stats'), id = String(q.id || ''), ab = String(q.ab || '').slice(0, 60);
-      await (p === 'hit' ? st.hit(req, id, ab) : p === 'read' ? st.read(req, id, ab) : st.card(req, String(q.k || ''), id));
+      await (p === 'hit' ? st.hit(req, id, ab) : p === 'read' ? st.read(req, id, ab) : st.card(req, String(q.k || ''), id, ab));
       return send(204, 'text/plain; charset=utf-8', '', 'no-store');
     }
     if (p === 'scores') return send(200, 'application/json; charset=utf-8', JSON.stringify({ posts: await require('./stats').windows(await posts.live('post')), ab: await require('./stats').abScores(), gsc: await require('../_adm/gsc').blogPages().catch(() => null) }), 'public, max-age=0, s-maxage=3600, stale-while-revalidate=7200');   // view counts for the blog desk's feedback loop (docs/blog-desk-runbook.md)
