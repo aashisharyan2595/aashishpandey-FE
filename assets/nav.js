@@ -44,9 +44,9 @@
   function build() {
     var out = [], seen = {};
     var add = function (o) { var k = o.href + '|' + o.t; if (!o.href || !o.t || seen[k]) return; seen[k] = 1; out.push(o); };
-    var top = d.querySelector('.ap-nav__pill > a'); if (top) add({ t: txt(top), href: top.getAttribute('href'), d: 'Client sites, products and career', g: 'Pages' });
+    d.querySelectorAll('.ap-nav__pill > a').forEach(function (a) { var h = a.getAttribute('href'); add({ t: txt(a), href: h, d: h === '/blog' ? 'Notes on delivery, Shopify and tools' : 'Who I am, client sites and career', g: 'Pages' }); });
     d.querySelectorAll('.ap-dd--mega').forEach(function (dd) {
-      var menu = txt(dd.querySelector('.ap-dd__btn'));
+      var mb = dd.querySelector('.ap-dd__btn').cloneNode(true), tg = mb.querySelector('.ap-dd__tag'); if (tg) tg.remove(); var menu = txt(mb);
       var feat = dd.querySelector('.ap-mega__feat');
       if (feat) add({ t: txt(feat.querySelector('.ap-mega__ft')).replace(/Interactive$/, '').trim(), href: feat.getAttribute('href'), d: txt(feat.querySelector('.ap-mega__fd')), g: menu });
       dd.querySelectorAll('.ap-mega__g').forEach(function (g) {
@@ -57,6 +57,7 @@
         });
       });
     });
+    d.querySelectorAll('.ap-foot__links a').forEach(function (a) { var h = a.getAttribute('href') || ''; if (/^\/(newsletter|how-this-site|contact|$)|^mailto:|bookings\.cloud|wa\.me|linkedin|Resume/.test(h)) add({ t: txt(a), href: h, d: 'More ways to reach me', g: 'Pages', x: a.target === '_blank', dl: a.hasAttribute('download') }); });
     d.querySelectorAll('.ap-foot__legal a').forEach(function (a) { add({ t: txt(a), href: a.getAttribute('href'), d: 'Legal', g: 'Pages' }); });
     return out;
   }

@@ -427,3 +427,15 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .ap-ms__body .ap-ms__all,.ap-ms__body .ap-ms__h,.ap-ms__body .ap-ms__feat{margin-left:-54px}
 .ap-ms__ctas{display:grid;grid-template-columns:1.6fr 1fr;gap:8px;padding-top:10px;border-top:1px solid rgba(244,239,230,.1)}
 .ap-ms__top:focus-visible,.ap-ms__grp>summary:focus-visible,.ap-ms__row:focus-visible,.ap-ms__tile:focus-visible,.ap-ms__all:focus-visible{outline:2px solid #f5b867;outline-offset:-2px}
+
+/* v42: header is Tools, Blog, Work, Services, About plus one direct Book a call button (no Hire dropdown, no More menu) */
+.ap-nav .ap-nav__book{height:38px;padding:0 16px;border-radius:99px;display:flex;align-items:center;gap:8px;white-space:nowrap;background:#f5b867;color:#1a1420!important;font:600 13.5px/1 'Geist',system-ui,sans-serif;box-shadow:0 0 0 1px rgba(255,255,255,.2) inset;transition:background .2s,transform .2s}
+.ap-nav .ap-nav__book:hover,.ap-nav .ap-nav__book:focus-visible{background:#ffc880;transform:translateY(-1px)}
+.ap-nav .ap-nav__book:focus-visible{outline:2px solid #f4efe6;outline-offset:2px}
+.ap-dd__tag{font:500 10px/1 'Geist Mono',monospace;letter-spacing:.04em;color:#7ff3e1;border:1px solid rgba(127,243,225,.4);padding:3px 6px;border-radius:99px}
+.ap-dd__btn[data-current] .ap-dd__tag{color:#0b6b5c;border-color:rgba(11,107,92,.55)}
+.ap-mega__news{margin-left:auto;display:flex;align-items:center;gap:6px;color:#f5b867!important;font-size:13px;font-weight:600}
+.ap-ms__news{display:block;margin:6px 0 2px;padding:14px 16px;border-radius:14px;background:rgba(245,184,103,.08);border:1px solid rgba(245,184,103,.25);color:#cfc9d8!important;font-size:13px;line-height:1.4}
+.ap-ms__news b{display:block;color:#f4efe6;font-size:14.5px;margin-bottom:2px}
+@media (max-width:980px){.ap-nav .ap-nav__book{height:38px;padding:0 13px}}
+@media (max-width:380px){.ap-nav .ap-nav__book{padding:0 10px;font-size:12.5px}.ap-nav__menu>summary{padding:0 10px}}
