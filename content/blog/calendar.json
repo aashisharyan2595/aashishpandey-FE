@@ -1118,6 +1118,18 @@
       ],
       "angle": "NPR: 550+ Google employees signed a petition; need second outlet and Google response",
       "added": "2026-11-22"
+    },
+    {
+      "key": "openai-chief-scientist-limits",
+      "title": "OpenAI chief scientist on how to limit AI development: what he proposes",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://openai.com/index/perplexity-and-intelligence/",
+        "https://techcrunch.com/2026/11/22/openais-chief-scientist-has-thoughts-on-how-to-limit-ai-development/"
+      ],
+      "angle": "Jakub Pachocki essay of 22 Nov; what is proposed, what critics say, what it means for working people",
+      "added": "2026-11-23"
     }
   ],
   "covered": [
