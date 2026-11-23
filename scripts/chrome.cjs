@@ -21,7 +21,7 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 42; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_CSS = 43; // bump when assets/nav.css changes: assets are cached for 30 days
 const NAV_JS = 8;   // same for assets/nav.js (search, menu images, footer on phones)
 // Other names people use for each tool (scripts/tool-search.json): menu search terms (data-k), the "Also called" line
 // on each tool page (<!-- ap-aka:start --> ... <!-- ap-aka:end -->) and alternateName/keywords in its SoftwareApplication schema.

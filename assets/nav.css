@@ -439,3 +439,9 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .ap-ms__news b{display:block;color:#f4efe6;font-size:14.5px;margin-bottom:2px}
 @media (max-width:980px){.ap-nav .ap-nav__book{height:38px;padding:0 13px}}
 @media (max-width:380px){.ap-nav .ap-nav__book{padding:0 10px;font-size:12.5px}.ap-nav__menu>summary{padding:0 10px}}
+
+/* v43: dropdown rows were too faint on hover (a 6% tint on navy). Clear amber tint, ring and title colour. */
+.ap-mega .ap-mega__it:hover,.ap-mega .ap-mega__it:focus-visible,.ap-mega .ap-mega__tile:hover,.ap-mega .ap-mega__tile:focus-visible{background:rgba(245,184,103,.14);box-shadow:inset 0 0 0 1px rgba(245,184,103,.4)}
+.ap-mega .ap-mega__it:hover .ap-mega__t,.ap-mega .ap-mega__it:focus-visible .ap-mega__t,.ap-mega .ap-mega__tile:hover .ap-mega__t{color:#f5b867}
+.ap-mega .ap-mega__it:hover .ap-mega__d,.ap-mega .ap-mega__it:focus-visible .ap-mega__d{color:#e4dccb}
+.ap-mega .ap-mega__it:hover .ap-mega__ic,.ap-mega .ap-mega__tile:hover .ap-mega__ic{background:#f5b867;color:#1a1420}
