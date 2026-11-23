@@ -9,6 +9,7 @@ const read = () => { try { return JSON.parse(fs.readFileSync(FILE, 'utf8')); } c
 // tags are read from the post itself, so nothing extra has to be filled in
 const headlineOf = (t) => (/^\d|[$₹€£]\s?\d|\d\s?%|\d[\d,.]*\s?(b|m|k|bn|billion|million|thousand|crore|lakh)\b|\b\d+\s+(ways|tips|things|steps|reasons|questions|tools|mistakes|signs|rules|changes)\b/i.test(t) ? 'number' : /\?\s*$|^(how|why|what|is|does|should|can|will)\b/i.test(t) ? 'question' : 'statement');
 const lengthOf = (w) => (w < SHORT_BELOW ? 'short' : 'long');
+const PALETTES = ['light', 'dark', 'bold'];   // image ground: light = cream/white/pastel, dark = navy/black, bold = saturated colour
 const HOOKS = ['words', 'number', 'question'], IMAGES = ['drawn', 'photo'], HEADLINES = ['number', 'question', 'statement'], LENGTHS = ['short', 'long'];
 const hookOf = (t) => (/\d/.test(t) ? 'number' : /\?/.test(t) ? 'question' : 'words');
 
@@ -30,18 +31,18 @@ async function learn(force) {
     if (have.has(s.slug) || now < s.publishAt + (WINDOW + 1) * DAY) continue;   // window not closed yet
     let f; try { f = JSON.parse(fs.readFileSync(path.join(CONTENT, s.slug + '.json'), 'utf8')); } catch (e) { continue; }
     const x = f.extra || {}, th = (x.thumb && x.thumb.text) || '';
-    L.posts.push({ slug: s.slug, publishAt: s.publishAt, views7: s.views7, reads7: s.reads7 || 0, ctr: s.ix7 ? +(s.clicks7 / s.ix7).toFixed(3) : null, topic: x.topic || 'ai', kind: x.kind || '', headline: headlineOf(f.title), length: lengthOf(f.words || 0), hook: hookOf(th), image: x.photo ? 'photo' : 'drawn', widget: /^::widget\[/m.test(f.body || '') ? 'yes' : 'no', words: f.words || 0 }); added++;
+    L.posts.push({ slug: s.slug, publishAt: s.publishAt, views7: s.views7, reads7: s.reads7 || 0, ctr: s.ix7 ? +(s.clicks7 / s.ix7).toFixed(3) : null, topic: x.topic || 'ai', kind: x.kind || '', headline: headlineOf(f.title), length: lengthOf(f.words || 0), hook: hookOf(th), image: x.photo ? 'photo' : 'drawn', widget: /^::widget\[/m.test(f.body || '') ? 'yes' : 'no', palette: (x.art && x.art.palette) || 'none', words: f.words || 0 }); added++;
   }
   const style = L.posts.filter((p) => p.kind !== 'breaking');   // breaking posts spike on timing, so they stay out of the style arms
   L.topics = stats(L.posts, (p) => p.topic); L.kinds = stats(L.posts, (p) => p.kind); L.headlines = stats(style, (p) => p.headline); L.lengths = stats(style, (p) => p.length);
-  L.hooks = stats(style, (p) => p.hook); L.images = stats(style, (p) => p.image); L.widgets = stats(style, (p) => p.widget || 'no');
+  L.hooks = stats(style, (p) => p.hook); L.images = stats(style, (p) => p.image); L.widgets = stats(style, (p) => p.widget || 'no'); L.palettes = stats(style.filter((p) => p.palette !== 'none'), (p) => p.palette);
   L.ab = got.ab; L.abAt = now;
   const due = force || now - (L.adjAt || 0) >= 7 * DAY;   // weights move at most once a week
   if (due) { L.adj = {}; for (const [t, o] of Object.entries(L.topics)) { const a = nudge(o); if (a) L.adj[t] = a; } L.adjAt = now; }
   L.updated = now; fs.writeFileSync(FILE, JSON.stringify(L, null, 2) + '\n');
   const line = (name, o) => `  ${name.padEnd(10)} n=${String(o.n).padEnd(2)} mean ${String(o.mean).padEnd(6)} vs overall x${o.rel}${o.n < MIN_N ? '  (too few to read)' : ''}`;
   console.log(`closed-window posts: ${L.posts.length} (+${added} new). Score = views in the first ${WINDOW} days, own counter.`);
-  for (const [h, m] of [['topic', L.topics], ['kind', L.kinds], ['headline', L.headlines], ['length', L.lengths], ['banner hook', L.hooks], ['banner picture', L.images], ['interactive block', L.widgets]]) { console.log(h + ':'); Object.entries(m).sort((a, b) => b[1].rel - a[1].rel).forEach(([k, o]) => console.log(line(k, o))); }
+  for (const [h, m] of [['topic', L.topics], ['kind', L.kinds], ['headline', L.headlines], ['length', L.lengths], ['banner hook', L.hooks], ['banner picture', L.images], ['interactive block', L.widgets], ['image palette', L.palettes || {}]]) { console.log(h + ':'); Object.entries(m).sort((a, b) => b[1].rel - a[1].rel).forEach(([k, o]) => console.log(line(k, o))); }
   const withCtr = L.posts.filter((p) => p.ctr != null); if (withCtr.length) console.log(`card click rate (clicks / index views, first 7 days), posts with data: ${withCtr.length}; ` + ['drawn', 'photo'].map((i) => { const x = withCtr.filter((p) => p.image === i); return x.length ? `${i} ${(100 * x.reduce((a, p) => a + p.ctr, 0) / x.length).toFixed(1)}% (n=${x.length})` : ''; }).filter(Boolean).join(', '));
   console.log('layout tests (per page view, running ones only get counts):');
   for (const [t, arms] of Object.entries(L.ab || {})) { const a = arms.a || { v: 0, r: 0 }, b = arms.b || { v: 0, r: 0 }, ra = a.v ? a.r / a.v : 0, rb = b.v ? b.r / b.v : 0; console.log(`  ${t}: A ${a.v} views, ${a.r} reads (${(100 * ra).toFixed(0)}%) | B ${b.v} views, ${b.r} reads (${(100 * rb).toFixed(0)}%) -> ${Math.min(a.v, b.v) < MIN_VIEWS_AB ? 'too few views to read (need ' + MIN_VIEWS_AB + ' per arm)' : Math.abs(rb - ra) >= 0.2 * Math.max(ra, rb, 0.01) ? 'B ' + (rb > ra ? 'ahead' : 'behind') + ' by 20%+: show Aashish before any rollout' : 'no clear difference yet'}`); }
@@ -63,7 +64,9 @@ function next() {
   console.log(`Slot ${total + 1}: ${experiment ? 'EXPERIMENT (the 1 in 5)' : 'EXPLOIT (the 4 in 5)'}`);
   console.log(experiment ? 'topic: take the least-covered topic in learn.json (fewest closed posts, fewest in the last 10) even if its score is lower; skip only a story that would be unsafe or unsourced.' : `topic: ${best ? 'best learned topic so far is ' + best + '; prefer it when a good story exists, balance rule still applies' : 'not enough closed posts per topic to name a winner; use the weights as they are'}`);
   console.log('title style:', pick(HEADLINES, L.headlines), '| body length:', pick(LENGTHS, L.lengths).replace(/^short/, 'short (950-1200 words)').replace(/^long/, 'long (1350-1550 words)'), '| banner hook text:', pick(HOOKS, L.hooks), '| banner picture:', pick(IMAGES, L.images).replace('photo', 'photo (only if a free-licence photo of the main subject exists; else drawn)'));
-  console.log('Breaking posts are exempt. If the story cannot honestly take a title style or hook, use the next least-tried one and say so. Never pad or cut facts to hit a length. The banner stays D2 Paper; only the hook wording and photo-or-drawing vary.');
+  { const m = L.palettes || {}, lead = PALETTES.filter((a) => n(m, a) >= MIN_N).sort((a, b) => m[b].rel - m[a].rel), least = [...PALETTES].sort((a, b) => n(m, a) - n(m, b))[0];
+    console.log('image palette:', experiment ? least + ' (experiment: or a new palette inside the brand)' : lead.length >= 2 && m[lead[0]].rel >= 1.3 * m[lead[1]].rel ? lead[0] + ' (leader)' : "light (Aashish's default until the data shows a leader)"); }
+  console.log('Breaking posts are exempt. If the story cannot honestly take a title style or hook, use the next least-tried one and say so. Never pad or cut facts to hit a length. Covers and in-post art follow the runbook Blog images section (palette as above).');
 }
 
 // base weight plus the learned nudge, never below 0 (a category is never switched off; the runbook's floor rule keeps it in the plan)

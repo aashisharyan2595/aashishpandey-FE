@@ -109,7 +109,7 @@ async function withImages(p) {
   const swap = (t) => String(t || '').replace(MEDIA_RE, (x, id) => (map[id] ? keywordUrl(map[id]) : x));
   const q = { ...p, body: swap(p.body), cover: { ...(p.cover || {}), src: swap(p.cover && p.cover.src) }, seo: { ...(p.seo || {}), ogImage: swap(p.seo && p.seo.ogImage) } };
   const imgs = [];
-  if (q.cover.src) imgs.push({ url: q.cover.src, alt: q.cover.alt || p.title, id: ((q.cover.src.match(/\/media\/([a-z0-9]+)/) || [])[1]), ...(/^\/assets\/blog\//.test(q.cover.src) ? { w: 1200, h: 630 } : {}) });
+  if (q.cover.src) imgs.push({ url: q.cover.src, alt: q.cover.alt || p.title, id: ((q.cover.src.match(/\/media\/([a-z0-9]+)/) || [])[1]), ...(/^\/assets\/blog\//.test(q.cover.src) ? { w: /-cover-hd\.jpg$/.test(q.cover.src) ? 3600 : 1200, h: /-cover-hd\.jpg$/.test(q.cover.src) ? 1890 : 630 } : {}) });
   for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/media\/([a-z0-9]+)[^)\s]*)/g)) imgs.push({ url: m[2], alt: m[1], id: m[3] });
   for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/assets\/blog\/[^)\s]+)/g)) imgs.push({ url: m[2], alt: m[1], w: 1200, h: 630 });
   imgs.forEach((i) => { const m = map[i.id]; if (m) { i.w = m.w; i.h = m.h; } });
@@ -120,6 +120,8 @@ async function withImages(p) {
 function sized(html, map) {
   return html.replace(/<img src="(\/media\/([a-z0-9]+)\/[^"]*)"/g, (x, src, id) => (map[id] && map[id].w && map[id].h ? `<img src="${src}" width="${map[id].w}" height="${map[id].h}"` : x)).replace(/<img src="(\/assets\/blog\/[^"]*)"/g, '<img src="$1" width="1200" height="630"');   // images the blog desk draws are always 1200 x 630
 }
+// sharp covers: -cover-hd.jpg (3600 wide) also has a 1200-wide -cover-v2.jpg; let the browser pick by display size and pixel density
+const srcset = (src, sizes) => /^\/assets\/blog\/[a-z0-9-]+-cover-hd\.jpg$/.test(src || '') ? ` srcset="${esc(src.replace(/-cover-hd\.jpg$/, '-cover-v2.jpg'))} 1200w, ${esc(src)} 3600w" sizes="${sizes}"` : '';
 const coverAttrs = (p) => { const i = p.images && p.images[0]; return i && i.url === (p.cover && p.cover.src) && i.w && i.h ? ` width="${i.w}" height="${i.h}" fetchpriority="high"` : ' fetchpriority="high"'; };
 const imageLd = (list) => list.map((i) => ({ '@type': 'ImageObject', url: abs(i.url), contentUrl: abs(i.url), caption: i.alt || undefined, width: i.w || undefined, height: i.h || undefined, license: SITE + '/image-license', acquireLicensePage: SITE + '/image-license#request', creditText: 'Aashish Pandey', copyrightNotice: '© ' + new Date().getFullYear() + ' Aashish Pandey' }));
 
@@ -132,7 +134,7 @@ const base = (p) => (p.type === 'case' ? '/work/' : '/blog/') + p.slug;
 function card(p, big) {
   const meta = p.type === 'case' ? [p.case && p.case.client, p.case && p.case.year].filter(Boolean).join(' · ') : [fmtDate(p.publishAt), (p.mins || 1) + ' min read'].join(' · ');
   return `<article class="bl-card${big ? ' bl-card--big' : ''}" data-cid="${p.id}">
-<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}" alt="" loading="lazy" decoding="async"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
+<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}"${srcset(p.cover.src, '(max-width: 700px) 100vw, 400px')} alt="" loading="lazy" decoding="async"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
 <div class="bl-card__b">
 ${p.category || (p.tags && p.tags[0]) ? `<span class="bl-kick">${esc(p.category || p.tags[0])}</span>` : ''}
 <h3><a class="bl-card__a" href="${base(p)}">${esc(p.title)}</a></h3>
@@ -145,7 +147,7 @@ ${p.category || (p.tags && p.tags[0]) ? `<span class="bl-kick">${esc(p.category 
 function leadCard(p) {
   const meta = [fmtDate(p.publishAt), (p.mins || 1) + ' min read'].join(' · ');
   return `<article class="bl-feat" data-cid="${p.id}">
-<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}" alt="" decoding="async" fetchpriority="high"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
+<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}"${srcset(p.cover.src, '(max-width: 980px) 100vw, 700px')} alt="" decoding="async" fetchpriority="high"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
 <div class="bl-feat__b"><span class="bl-kick"><em class="bl-kick__new">Latest</em>${p.category || (p.tags && p.tags[0]) ? ' · ' + esc(p.category || p.tags[0]) : ''} <span>· <time datetime="${isoDate(p.publishAt)}">${esc(fmtDate(p.publishAt))}</time> · ${p.mins || 1} min read</span></span>
 <h2><a class="bl-card__a" href="${base(p)}">${esc(p.title)}</a></h2>
 <p>${esc(trunc(p.excerpt, 240))}</p></div></article>`;
@@ -237,7 +239,7 @@ ${p.category ? `<p class="bl-eyebrow"><a href="/blog">${esc(p.category)}</a></p>
 <h1 itemprop="headline">${esc(p.title)}</h1>
 <p class="bl-lead">${esc(p.excerpt)}</p>
 <p class="bl-by"><span itemprop="author">${esc(au.name)}</span><span aria-hidden="true">·</span><time datetime="${isoDate(p.publishAt || p.updated)}" itemprop="datePublished">${fmtDate(p.publishAt || p.updated)}</time><span aria-hidden="true">·</span><span>${p.mins || 1} min read</span>${p.updated && p.publishAt && p.updated - p.publishAt > 36e5 ? `<span aria-hidden="true">·</span><span>Updated <time datetime="${isoDate(p.updated)}" itemprop="dateModified">${fmtDate(p.updated)}</time></span>` : ''}</p></div>
-${p.cover && p.cover.src ? `<figure class="bl-ah__img"><img src="${esc(p.cover.src)}"${coverAttrs(p)} alt="${esc(p.cover.alt || '')}" itemprop="image" decoding="async"></figure>` : ''}
+${p.cover && p.cover.src ? `<figure class="bl-ah__img"><img src="${esc(p.cover.src)}"${coverAttrs(p)}${srcset(p.cover.src, '(max-width: 1240px) 100vw, 1200px')} alt="${esc(p.cover.alt || '')}" itemprop="image" decoding="async"></figure>` : ''}
 </header>
 <div class="bl-wrap bl-cols bl-cols--post">${tocItems ? `<aside class="bl-side">${tocItems}</aside>` : '<span></span>'}<div class="bl-md" itemprop="articleBody">${tocMobile}${r.html}
 <hr class="bl-end">${p.tags && p.tags.length ? `<div class="bl-tags bl-tags--end" aria-label="Topics">${tagChips(p.tags, '/blog')}</div>` : ''}${shareBlock(p, url)}
@@ -279,7 +281,7 @@ async function casePage(p0, preview) {
 <dl class="bl-facts">${c.client ? `<div><dt>Client</dt><dd>${esc(c.client)}</dd></div>` : ''}${c.role ? `<div><dt>My role</dt><dd>${esc(c.role)}</dd></div>` : ''}${c.year ? `<div><dt>Year</dt><dd>${esc(c.year)}</dd></div>` : ''}${c.services && c.services.length ? `<div><dt>Services</dt><dd>${c.services.map(esc).join(', ')}</dd></div>` : ''}</dl>
 </div></header>
 ${c.metrics && c.metrics.length ? `<div class="bl-wrap"><ul class="bl-metrics">${c.metrics.map((m) => `<li><b>${esc(m.value)}</b><span>${esc(m.label)}</span></li>`).join('')}</ul></div>` : ''}
-${p.cover && p.cover.src ? `<figure class="bl-cover"><img src="${esc(p.cover.src)}"${coverAttrs(p)} alt="${esc(p.cover.alt || '')}" decoding="async"></figure>` : ''}
+${p.cover && p.cover.src ? `<figure class="bl-cover"><img src="${esc(p.cover.src)}"${coverAttrs(p)}${srcset(p.cover.src, '(max-width: 1240px) 100vw, 1200px')} alt="${esc(p.cover.alt || '')}" decoding="async"></figure>` : ''}
 <div class="bl-wrap bl-cols"><div class="bl-md">${r.html}
 ${c.stack && c.stack.length ? `<h2 id="stack">Built with</h2><div class="bl-tags">${c.stack.map((s) => `<span class="bl-tag">${esc(s)}</span>`).join('')}</div>` : ''}
 ${c.link ? `<p class="md-cta"><a class="md-btn" href="${esc(c.link)}" rel="noopener noreferrer" target="_blank">Visit the live site</a></p>` : ''}
