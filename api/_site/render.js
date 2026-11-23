@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v12';   // ?v= for assets/blog.css and blog.js
+const BL = 'v13';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
@@ -152,14 +152,13 @@ ${p.category || (p.tags && p.tags[0]) ? `<span class="bl-kick">${esc(p.category 
 </div></article>`;
 }
 
-/* the latest post, big, with its full banner (never cropped) */
-function leadCard(p) {
-  const meta = [fmtDate(p.publishAt), (p.mins || 1) + ' min read'].join(' · ');
-  return `<article class="bl-feat" data-cid="${p.id}">
-<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}"${srcset(p.cover.src, '(max-width: 980px) 100vw, 700px')} alt="" decoding="async" fetchpriority="high"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
-<div class="bl-feat__b"><span class="bl-kick"><em class="bl-kick__new">Latest</em>${p.category || (p.tags && p.tags[0]) ? ' · ' + esc(p.category || p.tags[0]) : ''} <span>· <time datetime="${isoDate(p.publishAt)}">${esc(fmtDate(p.publishAt))}</time> · ${p.mins || 1} min read</span></span>
-<h2><a class="bl-card__a" href="${base(p)}">${esc(p.title)}</a></h2>
-<p>${esc(trunc(p.excerpt, 240))}</p></div></article>`;
+/* a post as a list row: thumbnail left, text right */
+function row(p) {
+  return `<article class="bl-row" data-cid="${p.id}">
+<a class="bl-card__img" href="${base(p)}" tabindex="-1" aria-hidden="true">${p.cover && p.cover.src ? `<img src="${esc(p.cover.src)}"${srcset(p.cover.src, '(max-width: 640px) 100vw, 220px')} alt="" loading="lazy" decoding="async"${/^\/assets\/blog\//.test(p.cover.src) ? ' width="1200" height="630"' : ''}>` : `<span class="bl-card__ph">${esc((p.title || '').slice(0, 1))}</span>`}</a>
+<div class="bl-row__b"><span class="bl-kick">${esc(p.category || (p.tags && p.tags[0]) || '')} · <time datetime="${isoDate(p.publishAt)}">${esc(fmtDate(p.publishAt))}</time></span>
+<h3><a class="bl-card__a" href="${base(p)}">${esc(p.title)}</a></h3>
+<p>${esc(trunc(p.excerpt, 150))}</p><span class="bl-meta">${p.mins || 1} min read</span></div></article>`;
 }
 // sign-up card for the blog side rails (same form the footer uses, handled by site.js)
 const newsCard = (via) => `<div class="bl-nl"><span class="bl-kick">Free · at most 2 emails a week</span><h3>Tech news, <em>checked twice</em>, in your inbox.</h3><p>One calm email when a story is worth your time. Unsubscribe in one click.</p>
@@ -172,7 +171,8 @@ async function blogIndex(q) {
   const all = await posts.live('post'), tags = {};
   all.forEach((p) => (p.tags || []).forEach((t) => { tags[t] = (tags[t] || 0) + 1; }));
   const rows = all.filter((p) => (!tag || (p.tags || []).includes(tag)) && (!find || [p.title, p.excerpt, (p.tags || []).join(' '), p.category].join(' ').toLowerCase().includes(find)));
-  const feat = !tag && !find ? rows.find((p) => p.featured) || rows[0] : null, rest = rows.filter((p) => p !== feat);
+  const DAY = 864e5, now = Date.now(), age = (p) => now - p.publishAt;
+  const groups = tag || find ? [{ t: '', list: rows, rows: true }] : [{ t: 'Last 3 days', list: rows.filter((p) => age(p) < 3 * DAY) }, { t: 'Earlier this week', list: rows.filter((p) => age(p) >= 3 * DAY && age(p) < 8 * DAY), rows: true }, { t: 'Earlier', list: rows.filter((p) => age(p) >= 8 * DAY), rows: true }].filter((g) => g.list.length);
   const topTags = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 10).map((x) => x[0]);
   const searchForm = `<form class="bl-search" action="/blog" role="search"><input type="search" name="q" value="${esc(find)}" placeholder="Search the blog" aria-label="Search the blog" maxlength="60"><button type="submit">Search</button></form>`;
   const body = `<header class="bl-top"><div class="bl-wrap">${crumbs([{ t: 'Home', href: '/' }, { t: 'Blog' }])}
@@ -180,11 +180,12 @@ async function blogIndex(q) {
 <p class="bl-lead-p">New AI tools and models with honest pros and cons, the tech news that matters, and what I learn running digital programs. Every claim linked to its source.</p>
 ${topTags.length ? `<div class="bl-filter" role="group" aria-label="Topics"><a class="bl-tag${tag ? '' : ' is-on'}" href="/blog">All</a>${topTags.map((t) => `<a class="bl-tag${t === tag ? ' is-on' : ''}" href="/blog?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>` : ''}
 </div></header>
-<div class="bl-wrap bl-list">
-${feat ? leadCard(feat) : `<p class="bl-count">${rows.length} ${rows.length === 1 ? 'post' : 'posts'}${tag ? ' under ' + esc(tag) : ''}${find ? ' for ' + esc(find) : ''}</p>`}
-${rest.length ? `${feat ? `<h2 class="bl-sech">All posts <span>${rows.length}</span></h2>` : ''}<div class="bl-grid bl-grid--all">${rest.map((p) => card(p)).join('')}</div>` : (!feat ? `<div class="bl-empty"><h2>${find ? 'Nothing found for ' + esc(find) : tag ? 'Nothing under ' + esc(tag) + ' yet' : 'The first posts are on the way'}</h2><p>${tag || find ? '<a href="/blog">See all posts</a>' : 'In the meantime, the <a href="/tools">free tools</a> and <a href="/case-studies">case studies</a> are live.'}</p></div>` : '')}
-<div class="bl-nl-end">${newsCard('blog-list')}</div>
-</div>`;
+<div class="bl-wrap bl-list"><div class="bl-lay"><div class="bl-lay__main">
+${groups.length ? groups.map((g) => `${g.t ? `<h2 class="bl-sech">${g.t} <span>${g.list.length}</span></h2>` : `<p class="bl-count">${rows.length} ${rows.length === 1 ? 'post' : 'posts'}${tag ? ' under ' + esc(tag) : ''}${find ? ' for ' + esc(find) : ''}</p>`}${g.rows ? `<div class="bl-rows">${g.list.map(row).join('')}</div>` : `<div class="bl-grid bl-grid--3">${g.list.map((p) => card(p)).join('')}</div>`}`).join('') : `<div class="bl-empty"><h2>${find ? 'Nothing found for ' + esc(find) : tag ? 'Nothing under ' + esc(tag) + ' yet' : 'The first posts are on the way'}</h2><p>${tag || find ? '<a href="/blog">See all posts</a>' : 'In the meantime, the <a href="/tools">free tools</a> and <a href="/case-studies">case studies</a> are live.'}</p></div>`}
+</div><aside class="bl-lay__side" aria-label="Blog sidebar">
+<nav class="bl-box bl-topics" aria-label="Topics"><b class="bl-box__h">Topics</b><a href="/blog"${tag ? '' : ' aria-current="page"'}>All<span>${all.length}</span></a>${topTags.map((t) => `<a href="/blog?tag=${encodeURIComponent(t)}"${t === tag ? ' aria-current="page"' : ''}>${esc(t)}<span>${tags[t]}</span></a>`).join('')}</nav>
+${newsCard('blog-side')}
+</aside></div></div>`;
   const canonical = SITE + '/blog' + (tag ? '?tag=' + encodeURIComponent(tag) : '');
   return layout({
     title: (tag ? tag + ': ' : find ? 'Search: ' + find + ' · ' : '') + 'Blog · Aashish Pandey', desc: 'AI tools and models reviewed with pros and cons, tech news explained with sources, and notes on shipping digital work, by Aashish Pandey.', canonical, rss: true, noindex: !!find, body,
