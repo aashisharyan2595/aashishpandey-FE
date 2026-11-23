@@ -445,3 +445,9 @@ section[aria-label="Key numbers"]>div>div>span:last-child{text-align:right;max-w
 .ap-mega .ap-mega__it:hover .ap-mega__t,.ap-mega .ap-mega__it:focus-visible .ap-mega__t,.ap-mega .ap-mega__tile:hover .ap-mega__t{color:#f5b867}
 .ap-mega .ap-mega__it:hover .ap-mega__d,.ap-mega .ap-mega__it:focus-visible .ap-mega__d{color:#e4dccb}
 .ap-mega .ap-mega__it:hover .ap-mega__ic,.ap-mega .ap-mega__tile:hover .ap-mega__ic{background:#f5b867;color:#1a1420}
+
+/* v44: the side card follows the hovered row; tool art is 2:1 */
+.ap-mega__pimg img{transition:opacity .18s}
+.ap-mega--tools .ap-mega__pimg{aspect-ratio:2/1}
+@media(min-width:1180px){.ap-mega--tools.ap-mega--promo .ap-mega__main{grid-template-columns:minmax(0,1fr) 230px}}
+@media(min-width:1180px){.ap-mega--tools.ap-mega--promo{width:min(1360px,calc(100vw - 32px))}}

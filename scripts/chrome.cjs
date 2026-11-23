@@ -21,8 +21,8 @@ const ROOT = path.join(__dirname, '..');
 const ICONS = JSON.parse(fs.readFileSync(path.join(__dirname, 'chrome-icons.json'), 'utf8'));
 const CHECK = process.argv.includes('--check');
 const YEAR = 2026;
-const NAV_CSS = 43; // bump when assets/nav.css changes: assets are cached for 30 days
-const NAV_JS = 8;   // same for assets/nav.js (search, menu images, footer on phones)
+const NAV_CSS = 45; // bump when assets/nav.css changes: assets are cached for 30 days
+const NAV_JS = 9;   // same for assets/nav.js (search, menu images, footer on phones)
 // Other names people use for each tool (scripts/tool-search.json): menu search terms (data-k), the "Also called" line
 // on each tool page (<!-- ap-aka:start --> ... <!-- ap-aka:end -->) and alternateName/keywords in its SoftwareApplication schema.
 const SEARCH = JSON.parse(fs.readFileSync(path.join(__dirname, 'tool-search.json'), 'utf8')); delete SEARCH._about;
@@ -159,6 +159,7 @@ const SEARCH_SVG = svg('<circle cx="11" cy="11" r="7"></circle><path d="m20 20-3
 const CARET = '<svg aria-hidden="true" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ap-dd__caret"><path d="m6 9 6 6 6-6"></path></svg>';
 const CHEV = '<svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ap-ms__chev"><path d="m6 9 6 6 6-6"></path></svg>';
 const toolCount = MENUS.tools.cols.flat().reduce((n, g) => n + g.items.length, 0);
+MENUS.tools.promo = { href: '/tools', t: 'Free online tools', d: `${toolCount} tools, no sign-up. Most run in your browser, so your files stay on your device.`, img: '/assets/nav/promo-tools.webp', w: 480, h: 300 };
 const flat = (m) => m.cols.flat().flatMap((g) => g.items);
 { // every tool in the menu needs its other names, and every entry must be a tool in the menu
   const inMenu = new Set(flat(MENUS.tools).map((it) => it.href)), bad = [];
@@ -170,9 +171,21 @@ const flat = (m) => m.cols.flat().flatMap((g) => g.items);
 /* ---------- header ---------- */
 // search terms for a menu item: the tool's other names, then the extra words (assets/nav.js reads data-k)
 const terms = (href) => { const s = SEARCH[href]; return s ? [...s.aka, ...s.k.split(',')].map((x) => x.trim().toLowerCase()).filter((x, i, a) => x && a.indexOf(x) === i).join(',') : ''; };
+// picture for the side card when a row is hovered (assets/nav/pi-*.webp; tools use their own assets/tool-art/<slug>.svg)
+const PI = {
+  '/portfolio': '/assets/nav/pi-portfolio.webp', '/case-studies': '/assets/nav/promo-work.webp',
+  '/work-liquid-iv': '/assets/nav/pi-liquid-iv.webp', '/work-talenti': '/assets/nav/pi-talenti.webp', '/work-storynest': '/assets/nav/pi-storynest.webp', '/work-ceat-specialty': '/assets/nav/pi-ceat.webp',
+  '/shopify-developer': '/assets/nav/promo-services.webp', '/full-stack-developer': '/assets/nav/pi-fullstack.webp', '/wordpress-webflow-developer': '/assets/nav/pi-wordpress.webp',
+  '/seo-consultant': '/assets/nav/pi-seo.webp', '/ui-ux-design': '/assets/nav/pi-uiux.webp', '/freelance-project-manager': '/assets/nav/pi-liquid-iv.webp', '/tech-consultant': '/assets/nav/pi-ceat.webp', '/services': '/assets/nav/promo-services.webp',
+};
+const piFor = (href) => {
+  if (PI[href]) return PI[href];
+  const m = href.match(/^\/tools\/([a-z0-9-]+)$/);
+  return m && fs.existsSync(path.join(ROOT, 'assets/tool-art', m[1] + '.svg')) ? `/assets/tool-art/${m[1]}.svg` : '';
+};
 function megaItem(it, R) {
-  const k = terms(it.href);
-  return `<a class="ap-mega__it"${R} href="${e(it.href)}"${ext(it)} title="${e(it.d)}"${k ? ` data-k="${e(k)}"` : ''}><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}${it.b ? `<span class="ap-mega__b">${e(it.b)}</span>` : ''}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`;
+  const k = terms(it.href), pi = piFor(it.href);
+  return `<a class="ap-mega__it"${R} href="${e(it.href)}"${ext(it)} title="${e(it.d)}"${k ? ` data-k="${e(k)}"` : ''}${pi ? ` data-pi="${e(pi)}"` : ''}><span class="ap-mega__ic">${icon(it)}</span><span class="ap-mega__tx"><span class="ap-mega__t">${e(it.t)}${it.b ? `<span class="ap-mega__b">${e(it.b)}</span>` : ''}</span><span class="ap-mega__d">${e(it.d)}</span></span></a>`;
 }
 function mega(key) {
   const m = MENUS[key], n = m.cols.length;
