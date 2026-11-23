@@ -5,6 +5,7 @@
 //   ::short[VIDEO_ID]                                          portrait (9:16) YouTube Short embed
 //   ::youtube[VIDEO_ID]                                        privacy-friendly embed (youtube-nocookie)
 //   ::button[Label](https://example.com)                       call-to-action button
+//   ::widget[name](What it shows, in one plain sentence)      an interactive block: the file assets/widgets/<name>.html in a sandboxed frame
 //   ![alt text](/media/abc "caption")                          figure with a caption
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const slug = (s) => String(s).toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z#0-9]+;/g, '').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').slice(0, 60) || 'section';
@@ -58,9 +59,12 @@ function render(src, opts) {
     if (/^\s*([-*_])(\s*\1){2,}\s*$/.test(l)) { flush(); out.push('<hr>'); i++; continue; }
     if ((m = /^::short\[([\w-]{6,20})\]\s*$/.exec(l))) { flush(); out.push(shortFacade(m[1])); i++; continue; }
     if ((m = /^::youtube\[([\w-]{6,20})\]\s*$/.exec(l))) { flush(); out.push('<div class="md-video"><iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="Video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>'); i++; continue; }
+    if ((m = /^::widget\[([a-z0-9-]{3,60})\]\(([^)]{10,300})\)\s*$/.exec(l))) {   // only files kept in the repo can run: the frame has no access to the page, cookies or storage
+      flush(); out.push('<figure class="md-widget" data-widget="' + m[1] + '"><iframe src="/assets/widgets/' + m[1] + '.html" title="' + esc(m[2]) + '" sandbox="allow-scripts" loading="lazy" scrolling="no" height="440"></iframe><figcaption>' + esc(m[2]) + '</figcaption></figure>'); i++; continue;
+    }
     if ((m = /^::button\[([^\]]+)\]\(([^)\s]+)\)\s*$/.exec(l))) { flush(); const h = safeHref(m[2]); if (h) out.push('<p class="md-cta"><a class="md-btn" href="' + esc(h) + '">' + esc(m[1]) + '</a></p>'); i++; continue; }
     if ((m = /^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)\s*$/.exec(l))) {   // an image on its own line is a figure
-      flush(); const s = safeSrc(m[2]); if (s) out.push('<figure><img src="' + esc(s) + '" alt="' + esc(m[1]) + '"' + (/-shot-[a-z-]+\.jpg$/.test(s) ? ' width="1200" height="675"' : '') + ' loading="lazy" decoding="async">' + (m[3] ? '<figcaption>' + esc(m[3]) + '</figcaption>' : '') + '</figure>'); i++; continue;
+      flush(); const s = safeSrc(m[2]); if (s) out.push('<figure' + (/-infographic\.jpg$/.test(s) ? ' class="md-info"' : /-art-[a-z0-9-]+\.jpg$/.test(s) ? ' class="md-art"' : '') + '><img src="' + esc(s) + '" alt="' + esc(m[1]) + '"' + (/-shot-[a-z-]+\.jpg$/.test(s) ? ' width="1200" height="675"' : '') + ' loading="lazy" decoding="async">' + (m[3] ? '<figcaption>' + esc(m[3]) + '</figcaption>' : '') + '</figure>'); i++; continue;
     }
     if (/^>\s?/.test(l)) {   // quote or callout
       flush(); const q = []; while (i < lines.length && /^>\s?/.test(lines[i])) q.push(lines[i++].replace(/^>\s?/, ''));

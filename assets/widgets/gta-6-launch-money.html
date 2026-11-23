@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>How the GTA VI sales estimate built up</title>
+<style>
+*{box-sizing:border-box}html{color-scheme:dark}
+body{margin:0;padding:20px;background:#0b0e1f;color:#f4efe6;font:16px/1.5 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+h1{margin:0 0 4px;font-size:20px;letter-spacing:-.02em;font-weight:600}
+.sub{margin:0 0 16px;color:#aaa4b8;font-size:14px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.tabs button,.play{font:inherit;font-size:14px;color:#f4efe6;background:rgba(244,239,230,.06);border:1px solid rgba(244,239,230,.18);border-radius:999px;padding:9px 14px;min-height:40px;cursor:pointer}
+.tabs button[aria-pressed=true]{background:#7ff3e1;color:#07201c;border-color:#7ff3e1;font-weight:600}
+.play{margin-left:auto}
+button:focus-visible{outline:2px solid #f5b867;outline-offset:2px}
+.row{margin:0 0 16px}
+.lab{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:#d8d2e2;margin:0 0 6px}
+.lab b{font-weight:600;color:#f4efe6}
+.val{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;color:#f4efe6;white-space:nowrap}
+.track{height:26px;border-radius:8px;background:rgba(244,239,230,.07);overflow:hidden}
+.bar{height:100%;width:0;border-radius:8px;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.vi{background:linear-gradient(90deg,#7ff3e1,#4fd6c3)}
+.v5{background:#f5b867}
+.note{margin:6px 0 0;padding:12px 14px;border-radius:12px;background:rgba(245,184,103,.09);border:1px solid rgba(245,184,103,.25);font-size:14px;color:#e8dfd0;min-height:68px}
+.src{margin:14px 0 0;font-size:12.5px;color:#8e89a0}
+@media(prefers-reduced-motion:reduce){.bar{transition:none}}
+@media(max-width:420px){body{padding:16px}.play{margin-left:0}}
+</style></head><body>
+<h1>How the $1.84 billion built up</h1>
+<p class="sub">Pick a moment. The bar shows the estimated GTA VI sales at that point.</p>
+<div class="tabs" role="group" aria-label="Moment in time">
+<button type="button" data-i="0" aria-pressed="true">17 Nov</button>
+<button type="button" data-i="1" aria-pressed="false">18 Nov, noon</button>
+<button type="button" data-i="2" aria-pressed="false">Launch morning</button>
+<button type="button" class="play" id="play">Play it</button>
+</div>
+<div class="row"><div class="lab"><b>GTA VI, estimated</b><span class="val" id="v6">$1.54B</span></div><div class="track"><div class="bar vi" id="b6"></div></div></div>
+<div class="row"><div class="lab"><b>GTA V, first 24 hours in 2013</b><span class="val">$815.7M</span></div><div class="track"><div class="bar v5" id="b5"></div></div></div>
+<p class="note" id="note" aria-live="polite"></p>
+<p class="src">Estimates, not Take-Two's own figures. Sources: Al Jazeera, Fox 5 DC and CNBC, as cited in the post. GTA V numbers via Fox 5 and Guinness World Records.</p>
+<script>
+(function(){
+var S=[
+{m:1540,u:'15.8 million units',d:'17 Nov',t:'Pre-orders had passed an estimated 15.8 million units, worth $1.54 billion, a day before launch. That is the bulk of the final figure, and none of it is launch day yet.'},
+{m:1650,u:'17.1 million units',d:'18 Nov',t:'Sensor Tower’s tracker showed about 17.1 million units and an estimated $1.65 billion at noon, still before the game went on sale.'},
+{m:1840,u:'19.1 million copies',d:'19 Nov',t:'CNBC reports about 19.1 million copies and roughly $1.84 billion by Thursday morning. That is about 2.25 times GTA V’s first 24 hours, though most of it is pre-orders. We can’t say how much is launch day alone.'}
+],MAX=1840,GTA5=815.7,calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var b6=document.getElementById('b6'),b5=document.getElementById('b5'),v6=document.getElementById('v6'),note=document.getElementById('note'),btns=[].slice.call(document.querySelectorAll('.tabs [data-i]')),cur=-1,timer;
+b5.style.width=(GTA5/MAX*100)+'%';
+function show(i){
+  cur=i;var s=S[i];
+  btns.forEach(function(b,k){b.setAttribute('aria-pressed',k===i?'true':'false')});
+  b6.style.width=(s.m/MAX*100)+'%';
+  v6.textContent='$'+(s.m/1000).toFixed(2)+'B';
+  note.textContent=s.t;
+}
+btns.forEach(function(b){b.addEventListener('click',function(){clearInterval(timer);show(+b.getAttribute('data-i'))})});
+document.getElementById('play').addEventListener('click',function(){
+  clearInterval(timer);var i=0;show(0);
+  if(calm){show(2);return}
+  timer=setInterval(function(){i++;if(i>2){clearInterval(timer);return}show(i)},2600);
+});
+show(0);
+function h(){parent.postMessage({mdWidget:'h',h:Math.ceil(document.body.offsetHeight)},'*')}
+addEventListener('load',h);if(window.ResizeObserver)new ResizeObserver(h).observe(document.body);
+})();
+</script></body></html>

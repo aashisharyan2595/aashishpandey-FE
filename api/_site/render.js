@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v7';   // ?v= for assets/blog.css and blog.js
+const BL = 'v10';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
@@ -236,7 +236,7 @@ async function postPage(p0, preview) {
 ${p.category ? `<p class="bl-eyebrow"><a href="/blog">${esc(p.category)}</a></p>` : ''}
 <h1 itemprop="headline">${esc(p.title)}</h1>
 <p class="bl-lead">${esc(p.excerpt)}</p>
-<p class="bl-by"><span itemprop="author">${esc(au.name)}</span><span aria-hidden="true">·</span><time datetime="${isoDate(p.publishAt || p.updated)}" itemprop="datePublished">${fmtDate(p.publishAt || p.updated)}</time><span aria-hidden="true">·</span><span>${p.mins || 1} min read</span>${p.updated && p.publishAt && p.updated - p.publishAt > 36e5 * 36 ? `<span aria-hidden="true">·</span><span>Updated <time datetime="${isoDate(p.updated)}" itemprop="dateModified">${fmtDate(p.updated)}</time></span>` : ''}</p></div>
+<p class="bl-by"><span itemprop="author">${esc(au.name)}</span><span aria-hidden="true">·</span><time datetime="${isoDate(p.publishAt || p.updated)}" itemprop="datePublished">${fmtDate(p.publishAt || p.updated)}</time><span aria-hidden="true">·</span><span>${p.mins || 1} min read</span>${p.updated && p.publishAt && p.updated - p.publishAt > 36e5 ? `<span aria-hidden="true">·</span><span>Updated <time datetime="${isoDate(p.updated)}" itemprop="dateModified">${fmtDate(p.updated)}</time></span>` : ''}</p></div>
 ${p.cover && p.cover.src ? `<figure class="bl-ah__img"><img src="${esc(p.cover.src)}"${coverAttrs(p)} alt="${esc(p.cover.alt || '')}" itemprop="image" decoding="async"></figure>` : ''}
 </header>
 <div class="bl-wrap bl-cols bl-cols--post">${tocItems ? `<aside class="bl-side">${tocItems}</aside>` : '<span></span>'}<div class="bl-md" itemprop="articleBody">${tocMobile}${r.html}

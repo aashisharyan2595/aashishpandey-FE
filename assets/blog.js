@@ -60,6 +60,11 @@
     f.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture'; f.allowFullscreen = true; f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
     box.textContent = ''; box.appendChild(f); f.focus();
   });
+  // interactive blocks (assets/widgets/*.html) run in a sandboxed frame and tell the page how tall they are
+  addEventListener('message', function (e) {
+    var d = e.data; if (!d || d.mdWidget !== 'h' || typeof d.h !== 'number') return;
+    [].forEach.call(document.querySelectorAll('.md-widget iframe'), function (f) { if (f.contentWindow === e.source) f.style.height = Math.min(900, Math.max(160, Math.ceil(d.h))) + 'px'; });
+  });
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-copy]'); if (!b) return;
     var url = b.getAttribute('data-copy'), done = function () { var t = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = t; }, 1600); };

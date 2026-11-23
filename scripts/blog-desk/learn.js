@@ -30,18 +30,18 @@ async function learn(force) {
     if (have.has(s.slug) || now < s.publishAt + (WINDOW + 1) * DAY) continue;   // window not closed yet
     let f; try { f = JSON.parse(fs.readFileSync(path.join(CONTENT, s.slug + '.json'), 'utf8')); } catch (e) { continue; }
     const x = f.extra || {}, th = (x.thumb && x.thumb.text) || '';
-    L.posts.push({ slug: s.slug, publishAt: s.publishAt, views7: s.views7, reads7: s.reads7 || 0, ctr: s.ix7 ? +(s.clicks7 / s.ix7).toFixed(3) : null, topic: x.topic || 'ai', kind: x.kind || '', headline: headlineOf(f.title), length: lengthOf(f.words || 0), hook: hookOf(th), image: x.photo ? 'photo' : 'drawn', words: f.words || 0 }); added++;
+    L.posts.push({ slug: s.slug, publishAt: s.publishAt, views7: s.views7, reads7: s.reads7 || 0, ctr: s.ix7 ? +(s.clicks7 / s.ix7).toFixed(3) : null, topic: x.topic || 'ai', kind: x.kind || '', headline: headlineOf(f.title), length: lengthOf(f.words || 0), hook: hookOf(th), image: x.photo ? 'photo' : 'drawn', widget: /^::widget\[/m.test(f.body || '') ? 'yes' : 'no', words: f.words || 0 }); added++;
   }
   const style = L.posts.filter((p) => p.kind !== 'breaking');   // breaking posts spike on timing, so they stay out of the style arms
   L.topics = stats(L.posts, (p) => p.topic); L.kinds = stats(L.posts, (p) => p.kind); L.headlines = stats(style, (p) => p.headline); L.lengths = stats(style, (p) => p.length);
-  L.hooks = stats(style, (p) => p.hook); L.images = stats(style, (p) => p.image);
+  L.hooks = stats(style, (p) => p.hook); L.images = stats(style, (p) => p.image); L.widgets = stats(style, (p) => p.widget || 'no');
   L.ab = got.ab; L.abAt = now;
   const due = force || now - (L.adjAt || 0) >= 7 * DAY;   // weights move at most once a week
   if (due) { L.adj = {}; for (const [t, o] of Object.entries(L.topics)) { const a = nudge(o); if (a) L.adj[t] = a; } L.adjAt = now; }
   L.updated = now; fs.writeFileSync(FILE, JSON.stringify(L, null, 2) + '\n');
   const line = (name, o) => `  ${name.padEnd(10)} n=${String(o.n).padEnd(2)} mean ${String(o.mean).padEnd(6)} vs overall x${o.rel}${o.n < MIN_N ? '  (too few to read)' : ''}`;
   console.log(`closed-window posts: ${L.posts.length} (+${added} new). Score = views in the first ${WINDOW} days, own counter.`);
-  for (const [h, m] of [['topic', L.topics], ['kind', L.kinds], ['headline', L.headlines], ['length', L.lengths], ['banner hook', L.hooks], ['banner picture', L.images]]) { console.log(h + ':'); Object.entries(m).sort((a, b) => b[1].rel - a[1].rel).forEach(([k, o]) => console.log(line(k, o))); }
+  for (const [h, m] of [['topic', L.topics], ['kind', L.kinds], ['headline', L.headlines], ['length', L.lengths], ['banner hook', L.hooks], ['banner picture', L.images], ['interactive block', L.widgets]]) { console.log(h + ':'); Object.entries(m).sort((a, b) => b[1].rel - a[1].rel).forEach(([k, o]) => console.log(line(k, o))); }
   const withCtr = L.posts.filter((p) => p.ctr != null); if (withCtr.length) console.log(`card click rate (clicks / index views, first 7 days), posts with data: ${withCtr.length}; ` + ['drawn', 'photo'].map((i) => { const x = withCtr.filter((p) => p.image === i); return x.length ? `${i} ${(100 * x.reduce((a, p) => a + p.ctr, 0) / x.length).toFixed(1)}% (n=${x.length})` : ''; }).filter(Boolean).join(', '));
   console.log('layout tests (per page view, running ones only get counts):');
   for (const [t, arms] of Object.entries(L.ab || {})) { const a = arms.a || { v: 0, r: 0 }, b = arms.b || { v: 0, r: 0 }, ra = a.v ? a.r / a.v : 0, rb = b.v ? b.r / b.v : 0; console.log(`  ${t}: A ${a.v} views, ${a.r} reads (${(100 * ra).toFixed(0)}%) | B ${b.v} views, ${b.r} reads (${(100 * rb).toFixed(0)}%) -> ${Math.min(a.v, b.v) < MIN_VIEWS_AB ? 'too few views to read (need ' + MIN_VIEWS_AB + ' per arm)' : Math.abs(rb - ra) >= 0.2 * Math.max(ra, rb, 0.01) ? 'B ' + (rb > ra ? 'ahead' : 'behind') + ' by 20%+: show Aashish before any rollout' : 'no clear difference yet'}`); }
