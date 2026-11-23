@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v11';   // ?v= for assets/blog.css and blog.js
+const BL = 'v12';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
@@ -175,20 +175,15 @@ async function blogIndex(q) {
   const feat = !tag && !find ? rows.find((p) => p.featured) || rows[0] : null, rest = rows.filter((p) => p !== feat);
   const topTags = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 10).map((x) => x[0]);
   const searchForm = `<form class="bl-search" action="/blog" role="search"><input type="search" name="q" value="${esc(find)}" placeholder="Search the blog" aria-label="Search the blog" maxlength="60"><button type="submit">Search</button></form>`;
-  const withShort = all.find((p) => shortOf(p.body));
-  const side = `<aside class="bl-lay__side" aria-label="Blog sidebar">
-${newsCard('blog-side')}
-${withShort ? `<a class="bl-box bl-watch" href="${base(withShort)}"><b class="bl-box__h">Watch · under a minute</b><span class="bl-watch__row"><span class="bl-watch__tile" aria-hidden="true"><i></i></span><span class="bl-watch__t">${esc(trunc(withShort.title, 70))}</span></span></a>` : ''}
-</aside>`;
   const body = `<header class="bl-top"><div class="bl-wrap">${crumbs([{ t: 'Home', href: '/' }, { t: 'Blog' }])}
 <div class="bl-top__row"><div><p class="bl-eyebrow">Blog</p><h1>AI, tech and <em>shipping digital work</em></h1></div>${searchForm}</div>
 <p class="bl-lead-p">New AI tools and models with honest pros and cons, the tech news that matters, and what I learn running digital programs. Every claim linked to its source.</p>
 ${topTags.length ? `<div class="bl-filter" role="group" aria-label="Topics"><a class="bl-tag${tag ? '' : ' is-on'}" href="/blog">All</a>${topTags.map((t) => `<a class="bl-tag${t === tag ? ' is-on' : ''}" href="/blog?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>` : ''}
 </div></header>
 <div class="bl-wrap bl-list">
-${feat ? `<div class="bl-hero">${leadCard(feat)}${side}</div>` : `<p class="bl-count">${rows.length} ${rows.length === 1 ? 'post' : 'posts'}${tag ? ' under ' + esc(tag) : ''}${find ? ' for ' + esc(find) : ''}</p>`}
+${feat ? leadCard(feat) : `<p class="bl-count">${rows.length} ${rows.length === 1 ? 'post' : 'posts'}${tag ? ' under ' + esc(tag) : ''}${find ? ' for ' + esc(find) : ''}</p>`}
 ${rest.length ? `${feat ? `<h2 class="bl-sech">All posts <span>${rows.length}</span></h2>` : ''}<div class="bl-grid bl-grid--all">${rest.map((p) => card(p)).join('')}</div>` : (!feat ? `<div class="bl-empty"><h2>${find ? 'Nothing found for ' + esc(find) : tag ? 'Nothing under ' + esc(tag) + ' yet' : 'The first posts are on the way'}</h2><p>${tag || find ? '<a href="/blog">See all posts</a>' : 'In the meantime, the <a href="/tools">free tools</a> and <a href="/case-studies">case studies</a> are live.'}</p></div>` : '')}
-${feat ? '' : `<div class="bl-nl-end">${newsCard('blog-list')}</div>`}
+<div class="bl-nl-end">${newsCard('blog-list')}</div>
 </div>`;
   const canonical = SITE + '/blog' + (tag ? '?tag=' + encodeURIComponent(tag) : '');
   return layout({
