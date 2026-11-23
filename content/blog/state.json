@@ -1,7 +1,5 @@
 {
   "seen": {
-    "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/": 1794548655083,
-    "https://www.moddb.com/mods/openq4/downloads/openq4-0141-windows-x64": 1794548655083,
     "https://www.reuters.com/technology/former-nvidia-ceo-huang-had-relationship-with-second-employee-sources-say-2026-11-12/": 1794563042152,
     "https://www.smithsonianmag.com/smart-news/astronomers-found-a-mysterious-object-orbiting-far-beyond-pluto-it-could-be-a-new-dwarf-planet-hidden-in-our-solar-system-180989857/": 1794563042152,
     "https://www.foxnews.com/tech/could-ai-reduce-shipping-costs-grocery-bills": 1794588514641,
@@ -358,7 +356,9 @@
     "https://www.foxnews.com/tech/fda-clears-tiny-surgical-robot-remove-bladder-tumors": 1795398278771,
     "https://openai.com/index/perplexity-and-intelligence/": 1795398278771,
     "https://github.com/gulivan/worker755": 1795398278771,
-    "https://openai.com/index/perplexity-and-intelligence": 1795398278771
+    "https://openai.com/index/perplexity-and-intelligence": 1795398278771,
+    "https://spelunkr.tv/": 1795412701073,
+    "https://www.gpupartner.com/blog/beginners-guide-local-ai-inkling-qwen-unsloth": 1795412701073
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -374,6 +374,7 @@
     "perplexity-teammates-review-pros-cons",
     "gta-6-launch-numbers-explained",
     "chatgpt-wallet-review-pros-cons",
-    "nginx-http2-rce-flaws-patch"
+    "nginx-http2-rce-flaws-patch",
+    "anthropic-nasdaq-debut-first-day-explained"
   ]
 }
