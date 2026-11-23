@@ -613,12 +613,13 @@
       "key": "fake-ai-event-phishing",
       "title": "Fake AI event invites steal Microsoft and Google logins",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://www.foxnews.com/tech/fake-ai-event-invites-target-microsoft-google-logins"
       ],
       "angle": "Fake OpenAI event pages promise free ChatGPT Pro, then harvest Microsoft/Google credentials; what to check before you click",
-      "added": "2026-11-15"
+      "added": "2026-11-15",
+      "topic": "security"
     },
     {
       "key": "openai-gpt6-astra-science",
@@ -636,23 +637,25 @@
       "key": "ubo-element-picker-xss",
       "title": "uBlock Origin universal XSS in the element picker: what to do",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://iter.ca/post/ubo-uxss/"
       ],
       "angle": "Security write-up; check vendor fix and trade coverage (use --trade).",
-      "added": "2026-11-16"
+      "added": "2026-11-16",
+      "topic": "security"
     },
     {
       "key": "bitly-old-links-hijack",
       "title": "Old Bitly links are being hijacked: what small businesses should check",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://ransomnews.com/burger-king-tweet-bitly-link-hijack-2026/"
       ],
       "angle": "Expired short-link takeover tied to a Burger King tweet; verify with outlets.",
-      "added": "2026-11-16"
+      "added": "2026-11-16",
+      "topic": "security"
     },
     {
       "key": "instagram-ai-teen-age",
@@ -678,12 +681,13 @@
       "key": "uber-drivers-license-breach",
       "title": "Uber confirms drivers' licence data stolen: what drivers should do",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://techcrunch.com/2026/11/13/uber-confirms-hackers-stole-thousands-of-drivers-license-information-in-data-breach/"
       ],
       "angle": "",
-      "added": "2026-11-16"
+      "added": "2026-11-16",
+      "topic": "security"
     },
     {
       "key": "chatgpt-healthcare-agents",
@@ -711,23 +715,25 @@
       "key": "fbi-artex-ai-hacking-tool",
       "title": "FBI warns of Artex AI hacking tool: what small businesses should do",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://techcrunch.com/2026/11/16/fbi-says-artex-ai-open-source-hacking-tool-used-to-breac"
       ],
       "angle": "FBI says open-source AI hacking tool breached networks in under three hours; practical defences.",
-      "added": "2026-11-17"
+      "added": "2026-11-17",
+      "topic": "security"
     },
     {
       "key": "optimizely-malware-supply-chain",
       "title": "Optimizely compromised, served malware on Zoom and GitLab sites",
       "kind": "news",
-      "score": 7,
+      "score": 9,
       "urls": [
         "https://blog.report-uri.com/worlds-largest-brands-infected-with-malware-via-optimizely/"
       ],
       "angle": "Single source so far (report-uri); needs second outlet and Optimizely statement before writing. Trade-only likely.",
-      "added": "2026-11-17"
+      "added": "2026-11-17",
+      "topic": "security"
     },
     {
       "key": "nvidia-earnings-after-huang",
@@ -886,12 +892,13 @@
       "key": "banks-ai-agents-liability",
       "title": "Banks say customers using AI agents are on their own if hacked",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/"
       ],
       "angle": "Pairs with the United AI-agent ban post; what a user should check before letting an agent pay.",
-      "added": "2026-11-19"
+      "added": "2026-11-19",
+      "topic": "security"
     },
     {
       "key": "openai-revenue-10b",
@@ -926,12 +933,13 @@
       "key": "ruby-regexp-string-vulns",
       "title": "Ruby Regexp and String case-conversion vulnerabilities: what to update",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/"
       ],
       "angle": "Ruby security release 18 Nov; who is affected and which versions to move to",
-      "added": "2026-11-19"
+      "added": "2026-11-19",
+      "topic": "security"
     },
     {
       "key": "ai-automated-cyberattack-google",
@@ -957,12 +965,13 @@
       "key": "meta-muse-mixup",
       "title": "Meta's Muse AI agent reportedly mixes up chats and exposes private data",
       "kind": "news",
-      "score": 7,
+      "score": 9,
       "urls": [
         "https://techcrunch.com/2026/11/19/metas-ai-agent-muse-is-mixing-up-conversations-and-exposing-private-data-report-says/"
       ],
       "angle": "Report-based; attribute carefully; what users of AI agents should check",
-      "added": "2026-11-20"
+      "added": "2026-11-20",
+      "topic": "security"
     },
     {
       "key": "claude-black-hole-physics",
@@ -1011,23 +1020,25 @@
       "key": "openssl-evp-encodeblock-overflow",
       "title": "OpenSSL EVP_EncodeBlock buffer overflow (CVE-2026-121481, CVSS 9.8): what to patch",
       "kind": "news",
-      "score": 7,
+      "score": 9,
       "urls": [
         "https://github.com/openssl/openssl/pull/33652"
       ],
       "angle": "Trade-only security post: official OpenSSL source plus 3 outlets; confirm advisory and affected versions first",
-      "added": "2026-11-20"
+      "added": "2026-11-20",
+      "topic": "security"
     },
     {
       "key": "outlook-flaw-login-theft",
       "title": "Hackers use an Outlook security flaw to steal login data: what to check",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://www.foxnews.com/tech/hackers-use-microsoft-outlook-security-flaw-steal-login-data"
       ],
       "angle": "Practical steps for small businesses; confirm Microsoft advisory and patch status",
-      "added": "2026-11-20"
+      "added": "2026-11-20",
+      "topic": "security"
     },
     {
       "key": "ai-terror-plans-feds",
@@ -1067,7 +1078,7 @@
       "key": "ai-stocks-selloff-nov-2026",
       "title": "AI stocks slide: S&P 500 down 3.7%, Nasdaq negative for the year",
       "kind": "news",
-      "score": 7,
+      "score": 8,
       "urls": [
         "https://www.npr.org/2026/11/20/g-s1-154797/nasdaq-sp500-stock-market-ai-sink-negative",
         "https://www.npr.org/2026/11/20/nx-s1-6048645/tech-stocks-end-the-week-on-a-down-note-despite-anthropics-mega-ipo",
@@ -1075,7 +1086,8 @@
         "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia"
       ],
       "angle": "Market news; only if it stays big next week; no investment advice Guardian 20 Nov: Nasdaq erased all 2026 gains on day two of Anthropic trading.",
-      "added": "2026-11-21"
+      "added": "2026-11-21",
+      "topic": "finance"
     },
     {
       "key": "gamma-review",
@@ -1090,12 +1102,13 @@
       "key": "visa-mastercard-jpmorgan-leak",
       "title": "Visa, Mastercard and JPMorgan customer data leaked: what to check",
       "kind": "news",
-      "score": 6,
+      "score": 8,
       "urls": [
         "https://www.foxnews.com/tech/visa-mastercard-jpmorgan-customer-data-leaked"
       ],
       "angle": "Third-party vendor marketing data accessed, extortion group leaking records; what customers and small businesses should do. Confirm with more outlets before writing.",
-      "added": "2026-11-21"
+      "added": "2026-11-21",
+      "topic": "security"
     },
     {
       "key": "un-killer-robots-talks",

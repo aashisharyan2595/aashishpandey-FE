@@ -110,6 +110,7 @@
       "headline": "Apache HTTP Server flaw: what to patch",
       "tag": "CVE-2026-119618",
       "sub": "Critical HTTP/2 flaw · patch to 2.4.71"
-    }
+    },
+    "topic": "security"
   }
 }

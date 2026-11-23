@@ -9,7 +9,17 @@ const FEEDS = [
   ['NPR', 'https://feeds.npr.org/1019/rss.xml'], ['New York Post', 'https://nypost.com/tech/feed/'], ['Fox News', 'https://moxie.foxnews.com/google-publisher/tech.xml'], ['Reason', 'https://reason.com/tag/technology/feed/'],
   ['Mint', 'https://www.livemint.com/rss/technology'], ['Economic Times', 'https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms'], ['The Hindu', 'https://www.thehindu.com/sci-tech/technology/feeder/default.rss'],
   ['NDTV Gadgets', 'https://gadgets.ndtv.com/rss/news'], ['Hacker News', 'https://hnrss.org/frontpage?points=250'],
-].map(([name, url]) => ({ name, url }));
+  // Added 2026-11-23: until now every feed was AI or tech, so breaches and gaming stories never reached the desk. Third item = topic.
+  ['BleepingComputer', 'https://www.bleepingcomputer.com/feed/', 'security'], ['The Hacker News', 'https://feeds.feedburner.com/TheHackersNews', 'security'], ['Krebs on Security', 'https://krebsonsecurity.com/feed/', 'security'],
+  ['SecurityWeek', 'https://www.securityweek.com/feed/', 'security'], ['Dark Reading', 'https://www.darkreading.com/rss.xml', 'security'],
+  ['GameSpot', 'https://www.gamespot.com/feeds/news/', 'gaming'], ['PC Gamer', 'https://www.pcgamer.com/rss/', 'gaming'], ['Eurogamer', 'https://www.eurogamer.net/feed', 'gaming'],
+  ['BBC Business', 'https://feeds.bbci.co.uk/news/business/rss.xml', 'finance'], ['Mint Companies', 'https://www.livemint.com/rss/companies', 'finance'],
+].map(([name, url, topic]) => ({ name, url, topic: topic || 'ai' }));
+
+// Topic weights (Aashish, 2026-11-23): added to the 1 to 10 importance score, result capped at 10. AI already fills the plan, so it gets 0.
+// ai = AI tools, models, policy and AI business; tech = other tech and big-company news; explainer = plain-English how-tos.
+const TOPIC_WEIGHT = { ai: 0, tech: 0, explainer: 0, security: 2, gaming: 2, finance: 1 };
+const topicOf = (p) => { const x = (p.extra && p.extra.topic) || p.topic; return x in TOPIC_WEIGHT ? x : 'ai'; };
 
 // domain -> [outlet, lean, region]
 const OUTLETS = {
@@ -28,4 +38,4 @@ function outletOf(u) {
   for (let i = 0; i < parts.length - 1; i++) { const k = parts.slice(i).join('.'); if (OUTLETS[k]) { const [outlet, lean, region] = OUTLETS[k]; return { host: h, outlet, lean, region, primary: false }; } }
   return { host: h, outlet: h, lean: '', region: '', primary: PRIMARY.test(h) };
 }
-module.exports = { FEEDS, OUTLETS, outletOf, hostOf };
+module.exports = { TOPIC_WEIGHT, topicOf, FEEDS, OUTLETS, outletOf, hostOf };

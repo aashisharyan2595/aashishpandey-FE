@@ -28,12 +28,12 @@ const when = (ms) => new Date(ms).toLocaleString('en-GB', { weekday: 'short', da
 
 /* ---------- feeds ---------- */
 const tag = (x, t) => { const m = new RegExp('<' + t + '(?:\\s[^>]*)?>([\\s\\S]*?)</' + t + '>', 'i').exec(x); return m ? checks.strip(m[1].replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')) : ''; };
-function parseFeed(xml, name) {
+function parseFeed(xml, name, topic) {
   const out = [], blocks = String(xml).match(/<(item|entry)[\s>][\s\S]*?<\/\1>/gi) || [];
   for (const b of blocks.slice(0, 30)) {
     let link = tag(b, 'link'); if (!link) { const m = /<link[^>]+href=["']([^"']+)["']/i.exec(b); link = m ? m[1] : ''; }
     link = checks.safeUrl(link.trim()); if (!link) continue;
-    out.push({ feed: name, title: tag(b, 'title').slice(0, 200), url: link, at: Date.parse(tag(b, 'pubDate') || tag(b, 'published') || tag(b, 'updated') || '') || Date.now(), summary: (tag(b, 'description') || tag(b, 'summary')).slice(0, 220) });
+    out.push({ feed: name, topic, title: tag(b, 'title').slice(0, 200), url: link, at: Date.parse(tag(b, 'pubDate') || tag(b, 'published') || tag(b, 'updated') || '') || Date.now(), summary: (tag(b, 'description') || tag(b, 'summary')).slice(0, 220) });
   }
   return out;
 }
@@ -41,7 +41,7 @@ async function feeds() {
   const all = [];
   await Promise.all(sources.FEEDS.map(async (f) => {
     const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 15000);
-    try { const r = await fetch(f.url, { headers: { 'user-agent': 'Mozilla/5.0 (compatible; AashishPandeyBlogDesk/1.0)' }, signal: ctl.signal }); if (r.ok) all.push(...parseFeed(await r.text(), f.name)); else console.error('feed skipped:', f.name, r.status); }
+    try { const r = await fetch(f.url, { headers: { 'user-agent': 'Mozilla/5.0 (compatible; AashishPandeyBlogDesk/1.0)' }, signal: ctl.signal }); if (r.ok) all.push(...parseFeed(await r.text(), f.name, f.topic)); else console.error('feed skipped:', f.name, r.status); }
     catch (e) { console.error('feed failed:', f.name); } finally { clearTimeout(t); }
   }));
   const stateFile = path.join(CONTENT, 'state.json'), st = readJ(stateFile, { seen: {} }), now = Date.now(), cutoff = now - 36 * 3600e3;
@@ -166,7 +166,7 @@ async function build(draftFile, dir) {
   const full = `> **Quick answer.** ${d.tldr}\n\n${body.trim()}\n\n## Frequently asked questions\n\n${d.faq.map((f) => `### ${f.q}\n\n${f.a}`).join('\n\n')}\n\n## Sources\n\n${cite.join('\n')}${photo ? `\n${cite.length + 1}. [${photo.title}](${photo.page}), ${photo.credit.replace(/^Photo: /, 'photo by ')}` : ''}\n`;
   const md = require(path.join(ROOT, 'api/_site/md')), r = md.render(full, { noWords: false });
   const post = { title: d.title.slice(0, 120), slug, excerpt: d.excerpt.slice(0, 300), body: full, cover: { src: ref.cover.src, alt: ref.cover.alt }, category: d.category, tags: d.tags.slice(0, 8), publishAt, updated: Date.now(), words: r.words, mins: Math.max(1, Math.round(r.words / 200)),
-    seo: { title: d.seo_title.slice(0, 70), description: d.seo_description.slice(0, 180), ogImage: ref.cover.src }, extra: { faq: d.faq, sources: pages.map((p) => ({ url: p.url, title: (p.title || '').slice(0, 200), outlet: p.meta.outlet })), kind, about: d.about, auto: true, thumb: { text: d.thumb_text, headline: d.image_headline, tag: d.banner_tag, sub: d.banner_sub }, ...(photo ? { photo } : {}) } };
+    seo: { title: d.seo_title.slice(0, 70), description: d.seo_description.slice(0, 180), ogImage: ref.cover.src }, extra: { topic: d.topic, faq: d.faq, sources: pages.map((p) => ({ url: p.url, title: (p.title || '').slice(0, 200), outlet: p.meta.outlet })), kind, about: d.about, auto: true, thumb: { text: d.thumb_text, headline: d.image_headline, tag: d.banner_tag, sub: d.banner_sub }, ...(photo ? { photo } : {}) } };
   writeJ(path.join(CONTENT, slug + '.json'), post);
   const report = { sources: `${div.count} pages from ${div.outlets} outlets (viewpoints: ${div.leans.split('').map((c) => ({ L: 'left', C: 'centre', R: 'right' }[c])).join(', ') || 'none'}${div.primary ? ', plus a primary source' : ''}${div.nonUs ? ', non-US included' : ''})`, overlap: `${a.overlap.pct}% against its sources`, words: r.words, notes: a.lint.issues };
   const emailFile = arg('email');
@@ -214,6 +214,8 @@ function days() {
   const cal = readJ(path.join(CONTENT, 'calendar.json'), { slots: {} });
   Object.keys(cal.slots).sort().forEach((d) => console.log(d, (cal.slots[d].status || 'planned').padEnd(8), (cal.slots[d].kind || '').padEnd(9), cal.slots[d].title));
   const files = fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && n !== 'calendar.json' && n !== 'state.json');
+  const mix = {}; files.map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.slug).forEach((p) => { const t = sources.topicOf(p); mix[t] = (mix[t] || 0) + 1; });
+  console.log('\ntopic mix of all posts (topic: count, weight):', Object.entries(mix).map(([t, n]) => `${t}: ${n} (+${sources.TOPIC_WEIGHT[t]})`).join(', '));
   console.log(`\n${files.length} post file(s):`); files.forEach((n) => { const p = readJ(path.join(CONTENT, n)); console.log(' ', new Date(p.publishAt).toISOString(), p.publishAt > Date.now() ? 'scheduled' : 'live     ', p.slug); });
 }
 
