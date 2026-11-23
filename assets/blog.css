@@ -198,3 +198,6 @@ a.bl-tag:hover{border-color:var(--bl-amber);color:var(--bl-ink)!important}.bl-ta
 /* Layout test arms (assets/blog.js TESTS). Class names avoid the ad- prefix that ad blockers hide. */
 .ex-cover-b .bl-ah--split{grid-template-columns:1fr}.ex-cover-b .bl-ah__img{order:-1}.ex-cover-b .bl-ah--split h1{max-width:22ch}
 .ex-nl-b .bl-nl-end{margin:34px 0}
+
+/* Interactive blocks: ::widget[name](description) puts assets/widgets/name.html in a sandboxed frame. Class names avoid the ad- prefix. */
+.md-widget{margin:2em 0}.md-widget iframe{display:block;width:100%;height:440px;border:1px solid var(--bl-line);border-radius:16px;background:#0b0e1f;color-scheme:dark}.md-widget figcaption{margin-top:10px;font-size:14px;color:var(--bl-dim)}

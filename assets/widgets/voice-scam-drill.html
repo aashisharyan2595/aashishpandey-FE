@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voice scam drill</title>
+<style>
+*{box-sizing:border-box}html{color-scheme:dark}
+body{margin:0;padding:20px;background:#0b0e1f;color:#f4efe6;font:16px/1.5 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+.k{font:600 11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#f5b867;margin:0 0 6px}
+h1{margin:0 0 6px;font-size:20px;letter-spacing:-.02em;font-weight:600}
+.sub{margin:0 0 16px;color:#aaa4b8;font-size:14px}
+.dots{display:flex;gap:6px;margin:0 0 16px}.dots i{flex:1;height:4px;border-radius:2px;background:rgba(244,239,230,.14)}.dots i.on{background:#7ff3e1}
+.call{margin:0 0 16px;padding:14px 16px;border-radius:14px;background:rgba(244,239,230,.05);border:1px solid rgba(244,239,230,.14);color:#e8dfd0}
+.opts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.opts button,.go{font:inherit;font-size:15px;text-align:left;width:100%;color:#f4efe6;background:rgba(244,239,230,.06);border:1px solid rgba(244,239,230,.18);border-radius:12px;padding:12px 14px;min-height:46px;cursor:pointer}
+.opts button:hover:not(:disabled){border-color:#7ff3e1}
+.opts button:disabled{cursor:default}
+.opts button.ok{background:rgba(127,243,225,.14);border-color:#7ff3e1}
+.opts button.no{background:rgba(245,120,103,.12);border-color:#f57867}
+.go{width:auto;margin-top:14px;background:#7ff3e1;color:#07201c;border-color:#7ff3e1;font-weight:600;text-align:center;padding:10px 20px}
+.fb{margin:14px 0 0;padding:12px 14px;border-radius:12px;font-size:14.5px;background:rgba(244,239,230,.05);border:1px solid rgba(244,239,230,.14)}
+.fb b{color:#f5b867}
+.big{font-size:34px;font-weight:600;letter-spacing:-.03em;margin:0 0 4px;color:#7ff3e1}
+button:focus-visible{outline:2px solid #f5b867;outline-offset:2px}
+.src{margin:16px 0 0;font-size:12.5px;color:#8e89a0}
+[hidden]{display:none!important}
+@media(max-width:420px){body{padding:16px}}
+</style></head><body>
+<p class="k">Try it</p>
+<h1>Would you catch the call?</h1>
+<p class="sub">Three moments from a real case reported in India. Pick what you would do.</p>
+<div class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+<div id="stage"></div>
+<p class="src">Case: a teacher in Indore, reported by The Free Press Journal in January 2026. Advice: Bitdefender and ConsumerAffairs, as cited in the post.</p>
+<script>
+(function(){
+var Q=[
+{c:'An unknown number rings. The voice sounds exactly like your brother. He says a friend needs urgent heart surgery and asks you to pay the doctor right now.',
+ o:[['Pay the QR code he sends. Family comes first.',0,'That is what the caller is counting on. A trusted voice plus a medical emergency is the whole trick, and a copy of a voice can be built from a few seconds of audio.'],
+    ['Ask for the family safe word.',1,'Good. A safe word works because it is not on social media. If the caller cannot give it, end the call.'],
+    ['Hang up and call him back on the number you already have.',1,'Best habit there is. Use the number you saved, not the one that just called you.']]},
+{c:'He says his bank account is acting up and he has already sent you the money. Then a text arrives that looks like a credit alert.',
+ o:[['Trust the alert. The money is covered, so pay.',0,'In the Indore case the fraudsters sent a fake “credit” text as proof. A message on your phone is not verification.'],
+    ['Pay half, just to be safe.',0,'Any payment before you have verified is the mistake. Better to double-check and be wrong than to act fast and regret it.'],
+    ['Do not pay anything until you have checked with him another way.',1,'Right. Call him on his real number, or ask someone who can confirm where he is.']]},
+{c:'Now suppose you already paid: Rs 97,500 over four payments. You call back and the number is switched off. Your real brother says he never called.',
+ o:[['Wait a few days and see if he rings again.',0,'Time is the thing you do not have. Early reports can sometimes stop or reverse a transfer.'],
+    ['Keep ringing the same number.',0,'It is switched off, so this only loses time.'],
+    ['Call your bank right away, then report it to the cybercrime authority.',1,'Yes. Keep the call details and payment records, and tell the bank first.']]}
+],i=0,score=0,st=document.getElementById('stage'),dots=[].slice.call(document.querySelectorAll('#dots i'));
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function ask(){
+  st.textContent='';dots.forEach(function(d,k){d.className=k<=i?'on':''});
+  var q=Q[i];st.appendChild(el('p','call',q.c));
+  var ul=el('ul','opts'),fb=el('p','fb'),done=false;fb.hidden=true;fb.setAttribute('aria-live','polite');
+  q.o.forEach(function(o){
+    var li=el('li'),b=el('button',null,o[0]);b.type='button';
+    b.addEventListener('click',function(){
+      if(done)return;done=true;if(o[1])score++;
+      [].forEach.call(ul.querySelectorAll('button'),function(x){x.disabled=true});
+      b.className=o[1]?'ok':'no';
+      fb.textContent='';fb.appendChild(el('b',null,o[1]?'Yes. ':'Not quite. '));fb.appendChild(document.createTextNode(o[2]));fb.hidden=false;
+      var g=el('button','go',i<Q.length-1?'Next':'See how you did');g.type='button';
+      g.addEventListener('click',function(){i++;i<Q.length?ask():end()});
+      st.appendChild(g);g.focus();
+    });
+    li.appendChild(b);ul.appendChild(li);
+  });
+  st.appendChild(ul);st.appendChild(fb);
+}
+function end(){
+  st.textContent='';dots.forEach(function(d){d.className='on'});
+  st.appendChild(el('p','big',score+' of '+Q.length));
+  st.appendChild(el('p','call',score===Q.length?'You spotted every trap. The next step is to make it automatic: agree a family safe word this week.':'Most people miss at least one of these, and that is the point of the scam. The fix is a habit you set before the call: a family safe word, and a call back on the number you already have.'));
+  var r=el('button','go','Try again');r.type='button';r.addEventListener('click',function(){i=0;score=0;ask()});st.appendChild(r);
+}
+ask();
+function h(){parent.postMessage({mdWidget:'h',h:Math.ceil(document.body.offsetHeight)},'*')}
+addEventListener('load',h);if(window.ResizeObserver)new ResizeObserver(h).observe(document.body);
+})();
+</script></body></html>
