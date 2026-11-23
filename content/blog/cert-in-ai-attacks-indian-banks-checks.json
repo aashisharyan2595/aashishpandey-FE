@@ -1,0 +1,108 @@
+{
+  "title": "CERT-In: AI attacks on Indian finance firms, 3 checks",
+  "slug": "cert-in-ai-attacks-indian-banks-checks",
+  "excerpt": "CERT-In says AI-assisted attackers are pushing money out of finance and fintech payment systems. What it says, what it leaves out, and what to check.",
+  "body": "> **Quick answer.** CERT-In says an AI-assisted group called Crafty Falcon is still pushing unauthorised payments out of Indian lenders, fintechs and payment firms, and a newer advisory says business records and approvals are being abused. Customers aren't told to act. Firms that pay vendors should check alerts, bank-detail changes and who approves payments.\n\nIndia's cyber emergency agency says attackers are using AI tools to find weak spots in the payment systems of banks and finance companies, and that the campaign is still running. This post covers what the advisories say, what they leave out, and the three things I'd check if you pay people or run a business that does.\n\n## What did CERT-In warn about?\n\nOn 4 November, CERT-In named the group behind a wave of attacks \"Crafty Falcon\" in an [advisory covered by Inc42](https://inc42.com/?p=579373). It describes an \"AI-assisted financial threat actor\" that [works at machine speed and strikes through the victim's own payment and disbursement APIs](https://yourstory.com/2026/11/cert-in-warns-nbfcs-and-fintech-firms-of-ai-driven-attacks). The advisory [updated an earlier warning from 9 October](https://www.moneylife.in/article/crafty-falcon-cyber-threat-escalates-as-aidriven-attacks-target-banks-fintechs-and-nbfcs/82128.html). The victims it lists are [lenders, fintech apps, payment processors and crypto exchanges](https://www.deccanchronicle.com/nation/cert-in-ai-cyber-gang-targets-banks-fintech-firms-2001849), not only banks.\n\nTwo details stand out. Some firms that had received the earlier warnings and fixed things were [hit again, and CERT-In pointed to incomplete fixes in some cases](https://upstox.com/news/business-news/latest-updates/why-cert-in-has-sounded-an-alarm-over-ai-powered-cyberattacks-on-nbf-cs-fintechs/article-203030/). And the attacks were [timed for holidays, weekends and other low-monitoring periods](https://www.deccanchronicle.com/nation/cert-in-ai-cyber-gang-targets-banks-fintech-firms-2001849).\n\nA separate notice from I4C, the Home Ministry's cybercrime coordination centre, [asked institutions to urgently apply CERT-In's measures](https://newsonair.gov.in/i4c-cautions-banks-and-fintech-firms-against-ai-driven-cyberattacks/).\n\n![Four steps: exposed server, payout system, mule accounts, IMPS and NEFT withdrawal](/assets/blog/cert-in-ai-attacks-indian-banks-checks-art-money-path-hd.jpg \"How the money leaves, as I4C describes it.\")\n\n## How do the attackers get the money out?\n\nCERT-In says the attackers use publicly available tools named [ARTEX, PentAGI, Cairn and CyberStrikeAI](https://www.deccanchronicle.com/nation/cert-in-ai-cyber-gang-targets-banks-fintech-firms-2001849), which run attack steps on their own and adapt when something is blocked. I4C says the way in is often ordinary: [unpatched software or misconfigured servers exposed to the internet](https://thefederal.com/category/business/i4c-warns-banks-nbfcs-and-fintech-firms-of-ai-assisted-attacks-payment-apis-261866), including [test and staging systems](https://www.moneylife.in/article/crafty-falcon-cyber-threat-escalates-as-aidriven-attacks-target-banks-fintechs-and-nbfcs/82128.html) that share credentials with live ones.\n\nFrom there the attackers go after automated fund disbursement systems. The money [lands in mule accounts at different banks and is moved or withdrawn quickly through IMPS and NEFT](https://thefederal.com/category/business/i4c-warns-banks-nbfcs-and-fintech-firms-of-ai-assisted-attacks-payment-apis-261866). I4C said individual cases involved [multi-crore unauthorised transactions](https://thefederal.com/category/business/i4c-warns-banks-nbfcs-and-fintech-firms-of-ai-assisted-attacks-payment-apis-261866).\n\nTwo other tricks explain why old defences struggled. CERT-In says attackers [reverse-engineered application code and built modified app packages](https://upstox.com/news/business-news/latest-updates/why-cert-in-has-sounded-an-alarm-over-ai-powered-cyberattacks-on-nbf-cs-fintechs/article-203030/) that make API calls, which defeats controls that assume only the real app will call the API. They also reportedly misused cloud management services such as AWS Systems Manager and Lambda to run commands, so the activity [looked like normal cloud administration](https://upstox.com/news/business-news/latest-updates/why-cert-in-has-sounded-an-alarm-over-ai-powered-cyberattacks-on-nbf-cs-fintechs/article-203030/). The supporting infrastructure [rotates IP addresses within hours to days](https://upstox.com/news/business-news/latest-updates/why-cert-in-has-sounded-an-alarm-over-ai-powered-cyberattacks-on-nbf-cs-fintechs/article-203030/), which makes blocklists a weak answer on their own.\n\nOne tell is small. Attackers may send [a ₹1 payment to a newly added beneficiary](https://www.moneylife.in/article/crafty-falcon-cyber-threat-escalates-as-aidriven-attacks-target-banks-fintechs-and-nbfcs/82128.html) to check that the route works before moving larger sums.\n\n## What did the newest advisory add?\n\nThe Hacker News reported on 23 November a newer CERT-In advisory. In those incidents, attackers [changed business records and approval relationships, then pushed payments through \"otherwise legitimate systems\"](https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html) at banks, at technology providers supporting government-linked payments, and at platforms that handle vendor or partner payouts.\n\nThat is a different route from hitting a payment API head on, and CERT-In did not link these incidents to Crafty Falcon. CERT-In also said that agentic tooling [cut the time from first access to final impact from days to a few hours](https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html).\n\nIndia isn't alone here. The Hacker News notes that [the European Commission confirmed attackers armed with ARTEX broke into some of its internal systems](https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html).\n\n## Is my own bank account at risk?\n\nThe coverage I read describes attacks on the institutions' own payment and payout systems. It doesn't describe customer accounts being emptied, and it gives no instructions for customers. The exposure sits mostly with companies that disburse money: lenders, payment firms and businesses that pay suppliers. If you only receive money and pay a few bills, the direct risk looks lower than for a firm that releases payments all day. That is my reading, not a CERT-In statement.\n\n## What should you check?\n\nThese three come from how the attacks work, not from the advisories, which are written for institutions.\n\n1. **Alerts, especially on weekends and holidays.** Because attackers pick quiet periods, turn on transaction alerts and read them on days when nobody else is watching.\n2. **Changes to vendor bank details.** If the newest advisory is right that records and approvals are the target, a changed account number is a payment event. Confirm it by calling a number you already had, not one in the email. I wrote about [how voice cloning scams fake that call](/blog/ai-voice-cloning-scams-how-to-stay-safe).\n3. **Who enters and who approves.** CERT-In's guidance for payment firms includes [maker-checker approvals and reconciliation](https://www.moneylife.in/article/crafty-falcon-cyber-threat-escalates-as-aidriven-attacks-target-banks-fintechs-and-nbfcs/82128.html). A small business can copy the idea: the person who adds a payee should not be the one who releases the money.\n\n## What we don't know yet\n\nFor the newer incidents, CERT-In [did not say how much was paid out or by whom, and did not tie them to a named actor](https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html). I couldn't find a total loss figure in the coverage. The advisory coverage I read doesn't tie any named institution to Crafty Falcon.\n\n## What to watch\n\nThe reporting rule is worth knowing. Institutions are urged to [report incidents to CERT-In within six hours, and banks and NBFCs must also report to the Reserve Bank of India through its DAKSH portal in the same window](https://newsonair.gov.in/i4c-cautions-banks-and-fintech-firms-against-ai-driven-cyberattacks/). The RBI has also [alerted banks to rising attacks and asked them how ready they are for AI threats](https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html), per Reuters. Watch for an RBI rule that turns those questions into requirements, and for any firm saying publicly that it was hit.\n\n## My take\n\nThis is a story about speed and about trust in internal systems. A payment that looks legitimate because it came through a legitimate process is hard to catch, and AI tools make the attack faster to repeat. For a customer I'd keep alerts on and not worry more than that. For a business that pays vendors, I'd treat the three checks above as a Monday morning job, and I'd wait for named cases before drawing bigger conclusions.\n\n## Frequently asked questions\n\n### What is Crafty Falcon?\n\nCrafty Falcon is the name CERT-In gave to an AI-assisted financial threat actor in a 4 November 2026 advisory. CERT-In says it uses AI tools to find targets, build attacks at machine speed and trigger unauthorised transfers through the victim's own payment and disbursement APIs. It has hit NBFCs, fintechs, payment firms and crypto exchanges.\n\n### Which AI tools are the attackers using?\n\nCERT-In named four publicly available tools: ARTEX, PentAGI, Cairn and CyberStrikeAI. It says they can run a whole attack on their own, churn out custom scripts fast and change tack when a target pushes back.\n\n### Are ordinary bank customers losing money in these attacks?\n\nThe coverage describes attacks on the institutions' own payment and payout systems, not customer accounts being emptied. It also gives customers no instructions. Firms that release payments, such as lenders, payment companies and businesses that pay suppliers, look more exposed. Check your alerts and confirm any bank-detail change by phone.\n\n### How fast must Indian financial firms report these incidents?\n\nWithin six hours. Institutions are urged to report incidents to CERT-In within six hours of noticing them, and banks and NBFCs must also report to the Reserve Bank of India through its DAKSH portal in the same window. For bulk fraud reports, NBFCs and fintechs can contact I4C through the national cybercrime portal.\n\n## Sources\n\n1. [CERT-In warns NBFCs and fintech firms of AI-driven attacks](https://yourstory.com/2026/11/cert-in-warns-nbfcs-and-fintech-firms-of-ai-driven-attacks), YourStory\n2. [CERT-In Flags AI](https://inc42.com/?p=579373), Inc42\n3. [AI-Assisted Cyberattacks Trigger Unauthorized Payments at Indian Banks and Fintech Firms](https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html), thehackernews.com\n4. [I4C cautions banks and fintech firms against AI](https://newsonair.gov.in/i4c-cautions-banks-and-fintech-firms-against-ai-driven-cyberattacks/), newsonair.gov.in\n5. [‘Crafty Falcon’ Cyber Threat Escalates as AI-driven Attacks Target Banks, Fin](https://www.moneylife.in/article/crafty-falcon-cyber-threat-escalates-as-aidriven-attacks-target-banks-fintechs-and-nbfcs/82128.html), moneylife.in\n6. [I4C warns banks, NBFCs and fintech firms of AI](https://thefederal.com/category/business/i4c-warns-banks-nbfcs-and-fintech-firms-of-ai-assisted-attacks-payment-apis-261866), thefederal.com\n7. [Cert-In: AI Cyber Gang Targets Banks, Fintech Firms](https://www.deccanchronicle.com/nation/cert-in-ai-cyber-gang-targets-banks-fintech-firms-2001849), deccanchronicle.com\n8. [Why CERT-In has sounded an alarm over AI](https://upstox.com/news/business-news/latest-updates/why-cert-in-has-sounded-an-alarm-over-ai-powered-cyberattacks-on-nbf-cs-fintechs/article-203030/), upstox.com\n",
+  "cover": {
+    "src": "/assets/blog/cert-in-ai-attacks-indian-banks-checks-cover-hd.jpg",
+    "alt": "A small one-rupee coin followed by a tall stack of banknotes, headline \"The one-rupee test\""
+  },
+  "category": "Security",
+  "tags": [
+    "CERT-In",
+    "Crafty Falcon",
+    "AI cyberattacks",
+    "Indian banks",
+    "fintech security",
+    "payment fraud"
+  ],
+  "publishAt": 1795491000000,
+  "updated": 1795436613368,
+  "words": 1242,
+  "mins": 6,
+  "seo": {
+    "title": "CERT-In AI attacks on Indian banks: what to check",
+    "description": "CERT-In says AI-assisted attackers are moving money through Indian bank and fintech payment systems. What the advisories say, what's unknown, three checks.",
+    "ogImage": "/assets/blog/cert-in-ai-attacks-indian-banks-checks-cover.jpg"
+  },
+  "extra": {
+    "topic": "security",
+    "faq": [
+      {
+        "q": "What is Crafty Falcon?",
+        "a": "Crafty Falcon is the name CERT-In gave to an AI-assisted financial threat actor in a 4 November 2026 advisory. CERT-In says it uses AI tools to find targets, build attacks at machine speed and trigger unauthorised transfers through the victim's own payment and disbursement APIs. It has hit NBFCs, fintechs, payment firms and crypto exchanges."
+      },
+      {
+        "q": "Which AI tools are the attackers using?",
+        "a": "CERT-In named four publicly available tools: ARTEX, PentAGI, Cairn and CyberStrikeAI. It says they can run a whole attack on their own, churn out custom scripts fast and change tack when a target pushes back."
+      },
+      {
+        "q": "Are ordinary bank customers losing money in these attacks?",
+        "a": "The coverage describes attacks on the institutions' own payment and payout systems, not customer accounts being emptied. It also gives customers no instructions. Firms that release payments, such as lenders, payment companies and businesses that pay suppliers, look more exposed. Check your alerts and confirm any bank-detail change by phone."
+      },
+      {
+        "q": "How fast must Indian financial firms report these incidents?",
+        "a": "Within six hours. Institutions are urged to report incidents to CERT-In within six hours of noticing them, and banks and NBFCs must also report to the Reserve Bank of India through its DAKSH portal in the same window. For bulk fraud reports, NBFCs and fintechs can contact I4C through the national cybercrime portal."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://yourstory.com/2026/11/cert-in-warns-nbfcs-and-fintech-firms-of-ai-driven-attacks",
+        "title": "CERT-In warns NBFCs and fintech firms of AI-driven attacks | YourStory",
+        "outlet": "YourStory"
+      },
+      {
+        "url": "https://inc42.com/?p=579373",
+        "title": "CERT-In Flags AI-Driven Cyberattacks On Indian BFSI",
+        "outlet": "Inc42"
+      },
+      {
+        "url": "https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html",
+        "title": "AI-Assisted Cyberattacks Trigger Unauthorized Payments at Indian Banks and Fintech Firms",
+        "outlet": "thehackernews.com"
+      },
+      {
+        "url": "https://newsonair.gov.in/i4c-cautions-banks-and-fintech-firms-against-ai-driven-cyberattacks/",
+        "title": "I4C cautions banks and fintech firms against AI | Akashvani News",
+        "outlet": "newsonair.gov.in"
+      },
+      {
+        "url": "https://www.moneylife.in/article/crafty-falcon-cyber-threat-escalates-as-aidriven-attacks-target-banks-fintechs-and-nbfcs/82128.html",
+        "title": "‘Crafty Falcon’ Cyber Threat Escalates as AI-driven Attacks Target Banks, Fin-techs and NBFCs",
+        "outlet": "moneylife.in"
+      },
+      {
+        "url": "https://thefederal.com/category/business/i4c-warns-banks-nbfcs-and-fintech-firms-of-ai-assisted-attacks-payment-apis-261866",
+        "title": "I4C warns banks, NBFCs and fintech firms of AI-assisted attacks on payment APIs",
+        "outlet": "thefederal.com"
+      },
+      {
+        "url": "https://www.deccanchronicle.com/nation/cert-in-ai-cyber-gang-targets-banks-fintech-firms-2001849",
+        "title": "Cert-In: AI Cyber Gang Targets Banks, Fintech Firms",
+        "outlet": "deccanchronicle.com"
+      },
+      {
+        "url": "https://upstox.com/news/business-news/latest-updates/why-cert-in-has-sounded-an-alarm-over-ai-powered-cyberattacks-on-nbf-cs-fintechs/article-203030/",
+        "title": "Why CERT-In has sounded an alarm over AI-powered cyberattacks on NBFCs, fintechs",
+        "outlet": "upstox.com"
+      }
+    ],
+    "kind": "news",
+    "about": [
+      "CERT-In",
+      "Crafty Falcon",
+      "I4C",
+      "Reserve Bank of India",
+      "NBFC",
+      "IMPS"
+    ],
+    "auto": true,
+    "thumb": {
+      "text": "1 rupee test. Then crores.",
+      "headline": "One rupee test, then crores"
+    },
+    "art": {
+      "palette": "light"
+    }
+  }
+}

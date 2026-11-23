@@ -131,6 +131,16 @@
       "key": "anthropic-ipo-priced"
     },
     "2026-11-24": {
+      "title": "CERT-In: AI attacks on Indian finance firms, 3 checks",
+      "kind": "news",
+      "topic": "security",
+      "score": 9,
+      "status": "written",
+      "slug": "cert-in-ai-attacks-indian-banks-checks",
+      "key": "cert-in-crafty-falcon",
+      "locked": false
+    },
+    "2026-11-25": {
       "title": "llama.cpp 1.0: running AI models on your own computer",
       "kind": "explainer",
       "angle": "Plain-English explainer of local AI: what llama.cpp 1.0 changes, what hardware you need, privacy and cost trade-offs, Apple local model app as context",
@@ -140,22 +150,8 @@
       ],
       "score": 7,
       "status": "planned",
-      "key": "llama-cpp-v1"
-    },
-    "2026-11-25": {
-      "title": "CERT-In warns of AI-driven attacks on Indian banks and fintechs: what customers should check",
-      "kind": "news",
-      "topic": "security",
-      "angle": "Unauthorized payments linked to AI-assisted attacks; what a customer or small business can do.",
-      "urls": [
-        "https://yourstory.com/2026/11/cert-in-warns-nbfcs-and-fintech-firms-of-ai-driven-attacks",
-        "https://inc42.com/?p=579373",
-        "https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html"
-      ],
-      "score": 9,
-      "status": "planned",
-      "slug": "",
-      "locked": false
+      "key": "llama-cpp-v1",
+      "topic": "ai"
     },
     "2026-11-26": {
       "title": "US tightens AI chip export rules for remote compute: what it changes",
@@ -1232,6 +1228,7 @@
     "chatgpt-wallet",
     "gta6-launch-numbers",
     "nginx-http2-rce",
-    "anthropic-ipo-priced"
+    "anthropic-ipo-priced",
+    "cert-in-crafty-falcon"
   ]
 }
