@@ -1,0 +1,183 @@
+{
+  "posts": [
+    {
+      "slug": "claude-meetings-review-pros-cons",
+      "publishAt": 1794713400000,
+      "views7": 4,
+      "reads7": 0,
+      "ctr": null,
+      "topic": "ai",
+      "kind": "review",
+      "headline": "statement",
+      "length": "long",
+      "hook": "words",
+      "image": "drawn",
+      "words": 1580
+    },
+    {
+      "slug": "anthropic-ipo-claude-users-pricing",
+      "publishAt": 1794627000000,
+      "views7": 7,
+      "reads7": 0,
+      "ctr": null,
+      "topic": "ai",
+      "kind": "news",
+      "headline": "statement",
+      "length": "long",
+      "hook": "number",
+      "image": "drawn",
+      "words": 1456
+    },
+    {
+      "slug": "apache-http-server-http2-flaw-patch",
+      "publishAt": 1794540600000,
+      "views7": 6,
+      "reads7": 0,
+      "ctr": null,
+      "topic": "security",
+      "kind": "news",
+      "headline": "statement",
+      "length": "long",
+      "hook": "words",
+      "image": "drawn",
+      "words": 1265
+    },
+    {
+      "slug": "microsoft-365-outage-outlook-teams",
+      "publishAt": 1794534590096,
+      "views7": 4,
+      "reads7": 0,
+      "ctr": null,
+      "topic": "tech",
+      "kind": "breaking",
+      "headline": "statement",
+      "length": "short",
+      "hook": "number",
+      "image": "drawn",
+      "words": 904
+    },
+    {
+      "slug": "jensen-huang-resigns-nvidia-ceo",
+      "publishAt": 1794502029470,
+      "views7": 7,
+      "reads7": 0,
+      "ctr": null,
+      "topic": "tech",
+      "kind": "breaking",
+      "headline": "statement",
+      "length": "short",
+      "hook": "question",
+      "image": "photo",
+      "words": 866
+    },
+    {
+      "slug": "gemini-decisions-api-review-pros-cons",
+      "publishAt": 1794488232602,
+      "views7": 3,
+      "reads7": 0,
+      "ctr": null,
+      "topic": "ai",
+      "kind": "review",
+      "headline": "statement",
+      "length": "short",
+      "hook": "question",
+      "image": "drawn",
+      "words": 1236
+    }
+  ],
+  "adj": {},
+  "adjAt": 1795425256764,
+  "topics": {
+    "ai": {
+      "n": 3,
+      "sum": 14,
+      "mean": 4.7,
+      "rel": 0.95
+    },
+    "security": {
+      "n": 1,
+      "sum": 6,
+      "mean": 6,
+      "rel": 1.04
+    },
+    "tech": {
+      "n": 2,
+      "sum": 11,
+      "mean": 5.5,
+      "rel": 1.03
+    }
+  },
+  "kinds": {
+    "review": {
+      "n": 2,
+      "sum": 7,
+      "mean": 3.5,
+      "rel": 0.87
+    },
+    "news": {
+      "n": 2,
+      "sum": 13,
+      "mean": 6.5,
+      "rel": 1.1
+    },
+    "breaking": {
+      "n": 2,
+      "sum": 11,
+      "mean": 5.5,
+      "rel": 1.03
+    }
+  },
+  "headlines": {
+    "statement": {
+      "n": 4,
+      "sum": 20,
+      "mean": 5,
+      "rel": 1
+    }
+  },
+  "lengths": {
+    "long": {
+      "n": 3,
+      "sum": 17,
+      "mean": 5.7,
+      "rel": 1.07
+    },
+    "short": {
+      "n": 1,
+      "sum": 3,
+      "mean": 3,
+      "rel": 0.9
+    }
+  },
+  "hooks": {
+    "words": {
+      "n": 2,
+      "sum": 10,
+      "mean": 5,
+      "rel": 1
+    },
+    "number": {
+      "n": 1,
+      "sum": 7,
+      "mean": 7,
+      "rel": 1.1
+    },
+    "question": {
+      "n": 1,
+      "sum": 3,
+      "mean": 3,
+      "rel": 0.9
+    }
+  },
+  "images": {
+    "drawn": {
+      "n": 4,
+      "sum": 20,
+      "mean": 5,
+      "rel": 1
+    }
+  },
+  "ab": {},
+  "abAt": 1795425256764,
+  "updated": 1795425256764
+}
