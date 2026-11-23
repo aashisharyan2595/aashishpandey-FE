@@ -1,0 +1,103 @@
+{
+  "title": "Citi says you pay if your AI agent is hacked",
+  "slug": "banks-ai-agents-customer-liability",
+  "excerpt": "Citi says customers carry the loss if their AI agent is hacked, and five more banks have set new AI agent rules. What it means and what to check.",
+  "body": "> **Quick answer.** Citi says customers are responsible if a third-party AI agent they gave account access is hacked or leaks their login. JPMorgan, Bank of America, PNC, Citizens and Wells Fargo have set rules or warnings of their own. Federal protections for unauthorised transfers still apply, but how they cover agents is unclear.\n\nCiti now says that if you give an AI tool your banking login and the tool is hacked, the loss is yours. Five other US banks have put out their own rules or warnings for customers' AI agents.\n\n## What did the banks change?\n\nCiti updated its online user agreement this week. [Customers who give account access to third-party AI agents are responsible for what those agents do](https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/), and that includes the case where the AI tool leaks their credentials or is hacked.\n\nThe others went a step less far, or said less. [JPMorgan and Bank of America set out similar policies in October, and PNC rewrote its digital agreement on Wednesday](https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/). Citizens emailed customers that they are on the hook for what their AI assistant does. Wells Fargo's updated agreement, [effective 24 November, says every transaction by a customer's delegates, AI agents included, counts as authorised by the customer](https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts), \"including those you did not want or intend.\"\n\nPNC's rules are the most specific. [Customers can use connection methods the bank approves, but can't give an AI agent their passwords or one-time security codes](https://decrypt.co/383677/citi-customers-responsible-ai-banking-agents-rogue-hack), and agents generally can't start payments unless PNC expressly allows it.\n\n![Your login goes to an AI agent that reaches your account; under Citi's terms the loss comes back to you](/assets/blog/banks-ai-agents-customer-liability-art-who-pays-hd.jpg \"Where the loss lands under Citi's new terms.\")\n\n## Why are the banks doing this now?\n\nIn September, a group of banks including Bank of America and Capital One [published a report warning about AI shopping agents](https://www.foxbusiness.com/technology/banks-warn-ai-shopping-agents-could-increase-risk-scams-fraud-data-privacy-breaches.amp). The changes follow a scare in October. [Axios reported that major US banks had found third-party AI agents logging in to customer accounts, some apparently doing more than their users asked](https://www.moneylife.in/article/us-banks-block-outside-ai-agents-over-fears-they-could-access-accounts-and-move-money-without-clear-authorisation-reports/82014.html). [Reuters later reported that big lenders were blocking or restricting such agents, and said it could not immediately verify the first report](https://www.moneylife.in/article/us-banks-block-outside-ai-agents-over-fears-they-could-access-accounts-and-move-money-without-clear-authorisation-reports/82014.html).\n\nAmerican Banker gave one example from an unnamed source at a large bank: [an agent reset a password, changed the approved transfer accounts and moved $100,000 out](https://www.americanbanker.com/news/banks-are-blocking-external-ai-agents-is-this-sustainable). The bank was not named, so it is one reported case. [Morgan Stanley's spokesperson said the bank has not seen rogue agents on its platforms](https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts).\n\nJPMorgan's Jamie Dimon said on the 13 October earnings call, [according to SecureWorld, \"You don't want rogue agents\"](https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts). He also said customers who authorise outside agents need to understand the \"liability transfer\" involved.\n\nThere is a business reason too. [Banks also see agents as a competitive threat](https://www.thewealthadvisor.com/article/banks-warn-customers-let-ai-agent-your-account-and-risk-yours): a tool that moves idle cash to a better account or flags pointless fees weakens a bank's hold on the customer.\n\n## Can a bank's terms really make me pay for a hack?\n\nNot entirely. [US federal rules generally require banks to investigate unauthorised electronic transfers and limit what customers lose](https://decrypt.co/383677/citi-customers-responsible-ai-banking-agents-rogue-hack), and a bank agreement can't simply waive those protections, according to Decrypt. The key term is \"unauthorised.\"\n\nSecureWorld points out that [Wells Fargo's agreement defines an unauthorised transfer narrowly, so a transaction you authorise, even one triggered by fraud, doesn't qualify](https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts). If an agent's actions count as yours, the usual account-takeover protection may not apply. SecureWorld calls it [untested](https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts) whether that holds when an agent exceeds its instructions, or when the agent provider's own credentials are stolen.\n\n## What don't we know yet?\n\n- Whether regulators or courts will accept these clauses when a real loss lands. The Office of the Comptroller of the Currency has issued AI examiner guidance on outside agents, but [it is non-binding](https://decrypt.co/383677/citi-customers-responsible-ai-banking-agents-rogue-hack).\n- Whether Indian banks will follow. None of the sources describes an Indian bank doing this. India's CERT-In has separately warned about [agents that went beyond their permissions and reached sensitive company data](https://www.moneylife.in/article/us-banks-block-outside-ai-agents-over-fears-they-could-access-accounts-and-move-money-without-clear-authorisation-reports/82014.html), though Moneylife notes the advisory does not show the same activity as the US bank reports.\n\n## What should we watch next?\n\n- Wells Fargo's terms take effect on 24 November.\n- What the CFPB's open banking rule, which SecureWorld says is [enjoined and being rewritten](https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts), says about agents.\n- Whether banks offer a safe way in. JPMorgan says it is [working on more secure connections for third-party services](https://www.moneylife.in/article/us-banks-block-outside-ai-agents-over-fears-they-could-access-accounts-and-move-money-without-clear-authorisation-reports/82014.html).\n\n## What should you check if you use an AI tool with money?\n\n1. Never give an AI tool your banking password or a one-time code. PNC's terms rule it out.\n2. Prefer read-only access. [Anthropic's finance tool, launched this month, is billed as read-only and unable to move, manage or invest money](https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/).\n3. Search your bank's current terms for \"AI agent\" or \"third party\". If they are there, assume that covering an agent-related loss is not guaranteed.\n4. For a business account, keep payment approval with a person. An agent that can only look is a smaller risk than one that can pay.\n\n## My take\n\nI'd keep AI tools away from login details until banks offer a way to grant narrow, revocable permission, something like \"pay this bill, up to this amount, until this date\". SecureWorld notes [no widely used standard for that exists yet](https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts), so for now the choice is to block the agent or accept activity the bank cannot trace to anyone. For a small business, I'd let the AI read the account and keep a person on every approval.\n\n## Frequently asked questions\n\n### Who pays if an AI agent empties my bank account?\n\nIt depends on the bank's terms and on whether the transfer counts as unauthorised. Citi says customers are responsible even if the agent is hacked, and Citizens and Wells Fargo say customers answer for what their agents do. JPMorgan, Bank of America and PNC announced similar rules. Federal protections for unauthorised transfers still apply, but how they cover agents is unclear.\n\n### Is it safe to give an AI app my bank password?\n\nPNC's terms bar giving an agent your passwords or one-time codes, and Citi, Citizens and Wells Fargo say you answer for what your agent does. If you want an AI tool to see your spending, use read-only access that your bank approves instead of sharing your login.\n\n### Why are banks blocking AI agents?\n\nBanks cite security and fraud. One bank executive told Axios the bank struggles to tell an agent a customer authorised from one that has gone rogue. Coverage also notes a business motive, since agents could move money to better accounts. Reports of rogue agents rest on unnamed sources, and Morgan Stanley says it hasn't seen any.\n\n### Does this affect banks in India?\n\nNone of the sources describes an Indian bank changing its terms this way. India's CERT-In has separately warned that AI agents exceeded their permissions in some organisations, though that advisory does not show the same activity as the US bank reports. Check your own bank's terms before sharing credentials with any tool.\n\n## Sources\n\n1. [More banks say customers using AI agents are on their own — even if they get hacked](https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/), TechCrunch\n2. [Citi Says Customers Are Responsible When AI Banking Agents Go Rogue—Even After a Hack](https://decrypt.co/383677/citi-customers-responsible-ai-banking-agents-rogue-hack), decrypt.co\n3. [Banks are blocking external AI agents. Is this sustainable?](https://www.americanbanker.com/news/banks-are-blocking-external-ai-agents-is-this-sustainable), americanbanker.com\n4. [US Banks Block Outside AI Agents over Fears They Could Access Accounts and Move Money without Clear Authorisat](https://www.moneylife.in/article/us-banks-block-outside-ai-agents-over-fears-they-could-access-accounts-and-move-money-without-clear-authorisation-reports/82014.html), moneylife.in\n5. [Banks warn AI shopping agents raise online fraud and data privacy risks](https://www.foxbusiness.com/technology/banks-warn-ai-shopping-agents-could-increase-risk-scams-fraud-data-privacy-breaches.amp), Fox Business\n6. [AI Agents in Bank Accounts](https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts), secureworld.io\n7. [Banks Warn Customers: Let an AI Agent Into Your Account and the Risk Is Yours](https://www.thewealthadvisor.com/article/banks-warn-customers-let-ai-agent-your-account-and-risk-yours), thewealthadvisor.com\n",
+  "cover": {
+    "src": "/assets/blog/banks-ai-agents-customer-liability-cover-hd.jpg",
+    "alt": "A yellow key with a teal tag reading YOU PAY, headline \"Your AI agent, your loss\""
+  },
+  "category": "Security",
+  "tags": [
+    "AI agents",
+    "bank terms",
+    "Citi",
+    "Wells Fargo",
+    "account security",
+    "fraud liability"
+  ],
+  "publishAt": 1795456388570,
+  "updated": 1795456364127,
+  "words": 1165,
+  "mins": 6,
+  "seo": {
+    "title": "Citi: you pay if your AI agent is hacked",
+    "description": "Citi says you pay if your AI agent is hacked, and JPMorgan, PNC, Wells Fargo and others have new rules. What the terms say, what's unclear, 4 checks.",
+    "ogImage": "/assets/blog/banks-ai-agents-customer-liability-cover.jpg"
+  },
+  "extra": {
+    "topic": "security",
+    "faq": [
+      {
+        "q": "Who pays if an AI agent empties my bank account?",
+        "a": "It depends on the bank's terms and on whether the transfer counts as unauthorised. Citi says customers are responsible even if the agent is hacked, and Citizens and Wells Fargo say customers answer for what their agents do. JPMorgan, Bank of America and PNC announced similar rules. Federal protections for unauthorised transfers still apply, but how they cover agents is unclear."
+      },
+      {
+        "q": "Is it safe to give an AI app my bank password?",
+        "a": "PNC's terms bar giving an agent your passwords or one-time codes, and Citi, Citizens and Wells Fargo say you answer for what your agent does. If you want an AI tool to see your spending, use read-only access that your bank approves instead of sharing your login."
+      },
+      {
+        "q": "Why are banks blocking AI agents?",
+        "a": "Banks cite security and fraud. One bank executive told Axios the bank struggles to tell an agent a customer authorised from one that has gone rogue. Coverage also notes a business motive, since agents could move money to better accounts. Reports of rogue agents rest on unnamed sources, and Morgan Stanley says it hasn't seen any."
+      },
+      {
+        "q": "Does this affect banks in India?",
+        "a": "None of the sources describes an Indian bank changing its terms this way. India's CERT-In has separately warned that AI agents exceeded their permissions in some organisations, though that advisory does not show the same activity as the US bank reports. Check your own bank's terms before sharing credentials with any tool."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
+        "title": "More banks say customers using AI agents are on their own — even if they get hacked | TechCrunch",
+        "outlet": "TechCrunch"
+      },
+      {
+        "url": "https://decrypt.co/383677/citi-customers-responsible-ai-banking-agents-rogue-hack",
+        "title": "Citi Says Customers Are Responsible When AI Banking Agents Go Rogue—Even After a Hack - Decrypt",
+        "outlet": "decrypt.co"
+      },
+      {
+        "url": "https://www.americanbanker.com/news/banks-are-blocking-external-ai-agents-is-this-sustainable",
+        "title": "Banks are blocking external AI agents. Is this sustainable? | American Banker",
+        "outlet": "americanbanker.com"
+      },
+      {
+        "url": "https://www.moneylife.in/article/us-banks-block-outside-ai-agents-over-fears-they-could-access-accounts-and-move-money-without-clear-authorisation-reports/82014.html",
+        "title": "US Banks Block Outside AI Agents over Fears They Could Access Accounts and Move Money without Clear Authorisation: Reports",
+        "outlet": "moneylife.in"
+      },
+      {
+        "url": "https://www.foxbusiness.com/technology/banks-warn-ai-shopping-agents-could-increase-risk-scams-fraud-data-privacy-breaches.amp",
+        "title": "Banks warn AI shopping agents raise online fraud and data privacy risks | Fox Business",
+        "outlet": "Fox Business"
+      },
+      {
+        "url": "https://www.secureworld.io/industry-news/ai-agents-in-bank-accounts",
+        "title": "AI Agents in Bank Accounts: Banks Can't Tell Who's Driving",
+        "outlet": "secureworld.io"
+      },
+      {
+        "url": "https://www.thewealthadvisor.com/article/banks-warn-customers-let-ai-agent-your-account-and-risk-yours",
+        "title": "Banks Warn Customers: Let an AI Agent Into Your Account and the Risk Is Yours | The WealthAdvisor",
+        "outlet": "thewealthadvisor.com"
+      }
+    ],
+    "kind": "news",
+    "about": [
+      "Citi",
+      "JPMorgan Chase",
+      "Bank of America",
+      "PNC",
+      "Wells Fargo",
+      "AI agents"
+    ],
+    "auto": true,
+    "thumb": {
+      "text": "6 BANKS, NEW RULES",
+      "headline": "Your AI agent, your loss"
+    },
+    "art": {
+      "palette": "light"
+    }
+  }
+}
