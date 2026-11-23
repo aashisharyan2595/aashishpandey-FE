@@ -26,8 +26,31 @@
   hashOpen(); addEventListener('hashchange', hashOpen);
   addEventListener('beforeprint', function () { [].forEach.call(document.querySelectorAll('.bl-acc'), function (d) { d.open = true; }); });
   // count a view after the page has been open for a few seconds; the server ignores crawlers and repeat visits
-  var art2 = document.querySelector('[data-pid]');
-  if (art2 && navigator.sendBeacon) setTimeout(function () { try { navigator.sendBeacon('/api/config?a=site&p=hit&id=' + art2.getAttribute('data-pid')); } catch (e) { /* views are best effort */ } }, 4000);
+  // Layout tests: TESTS lists the ones that are running (empty = every visitor sees the current layout). Each page view gets one arm per test, picked at random with no cookie or storage,
+  // and the arm is sent with the view and the read. A reviewer can look at an arm with ?ex=cover:b (not counted). Edit this list to start or stop a test.
+  var TESTS = ['cover', 'nl'], art2 = document.querySelector('[data-pid]'), post = document.querySelector('.bl-post[data-pid]');
+  var arms = {}, forced = /[?&]ex=([a-z]+):([a-z])/.exec(location.search);
+  if (post) {
+    TESTS.forEach(function (t) { arms[t] = Math.random() < 0.5 ? 'a' : 'b'; });
+    if (forced) arms = {}, arms[forced[1]] = forced[2];
+    Object.keys(arms).forEach(function (t) { if (arms[t] === 'b') post.classList.add('ex-' + t + '-b'); });
+    if (arms.nl === 'b') { var nl = post.querySelector('.bl-nl-end'), hs = post.querySelectorAll('.bl-md h2'); if (nl && hs.length > 3) hs[2].parentNode.insertBefore(nl, hs[2]); }   // newsletter card moves from the end to before the third section
+  }
+  var abq = forced ? '' : '&ab=' + Object.keys(arms).map(function (t) { return t + ':' + arms[t]; }).join(',');
+  var ping = function (p, extra) { try { navigator.sendBeacon('/api/config?a=site&p=' + p + '&id=' + art2.getAttribute('data-pid') + (extra || '')); } catch (e) { /* counts are best effort */ } };
+  if (art2 && navigator.sendBeacon) {
+    setTimeout(function () { ping('hit', abq); }, 4000);
+    // a read = scrolled through most of the article, or still here after 45 seconds with some scrolling (counted once)
+    var read = false, scrolled = false, doRead = function () { if (!read) { read = true; ping('read', abq); } };
+    addEventListener('scroll', function () { scrolled = true; if (art && art.getBoundingClientRect().bottom < innerHeight * 1.6) doRead(); }, { passive: true });
+    setTimeout(function () { if (scrolled) doRead(); }, 45000);
+  }
+  // blog index: one view per visit, and a click on a post's card (the click rate of its picture and title)
+  var cards = document.querySelectorAll('[data-cid]');
+  if (!art2 && cards.length && navigator.sendBeacon) {
+    setTimeout(function () { try { navigator.sendBeacon('/api/config?a=site&p=card&k=v'); } catch (e) { /* best effort */ } }, 4000);
+    document.addEventListener('click', function (e) { var c = e.target.closest && e.target.closest('[data-cid]'); if (c && e.target.closest('a')) try { navigator.sendBeacon('/api/config?a=site&p=card&k=c&id=' + c.getAttribute('data-cid')); } catch (x) { /* best effort */ } });
+  }
   // Short: the YouTube player is only fetched when the reader presses play
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.md-play'), box = b && b.parentNode, id = box && box.getAttribute('data-yt');

@@ -33,6 +33,7 @@ const { PAGES } = require('./test/mockfetch.js'), urls = Object.keys(PAGES);
   for (const t of ['NewsArticle', 'FAQPage', '"citation"', 'og:image', 'Quick answer', 'width="1200"']) assert(html.includes(t), 'page has ' + t);
   const rss = []; res.send = (x) => rss.push(x); await render2.handle({ query: { a: 'site', p: 'rss' }, method: 'GET', headers: {} }, res); assert(/acme-layoffs-test/.test(rss[0]), 'in the RSS feed');
   assert(/stop acme-layoffs-test/.test(fs.readFileSync(email, 'utf8')));
+  const L = require('./learn'); assert.strictEqual(L.headlineOf('5 tips for 2027'), 'number'); assert.strictEqual(L.headlineOf('Why banks get hacked'), 'question'); assert.strictEqual(L.headlineOf('GTA 6 launch explained'), 'statement'); assert(/EXPLOIT|EXPERIMENT/.test(run('next')), 'next prints a slot');
   console.log('title tag:', /<title>(.*?)<\/title>/.exec(html)[1]); console.log('all checks passed');
   if (process.argv.includes('--keep')) { fs.mkdirSync('/tmp/blog-test', { recursive: true }); fs.copyFileSync(email, '/tmp/blog-test/email.html'); fs.writeFileSync('/tmp/blog-test/post.html', html); fs.copyFileSync(path.join(ROOT, 'assets/blog/acme-layoffs-test-cover.jpg'), '/tmp/blog-test/cover.jpg'); }
 } finally {

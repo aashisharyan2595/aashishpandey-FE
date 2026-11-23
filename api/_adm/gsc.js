@@ -60,4 +60,14 @@ async function get(refresh) {
   await redis('SET', 'gsc:cache', JSON.stringify(data), 'EX', 7 * 86400);
   return { ready: true, ...data };
 }
-module.exports = { ready, get };
+// Per-post numbers for the blog desk's SEO experiments (public through the scores endpoint, counts only): last 28 days by blog page, keyed by slug. Cached 6 hours.
+async function blogPages() {
+  if (!ready()) return null;
+  try { const raw = await redis('GET', 'gsc:blog'); if (raw) { const c = JSON.parse(raw); if (Date.now() - c.at < 6 * 3600e3) return c; } } catch (e) { /* fetch fresh */ }
+  const end = new Date(Date.now() - 2 * 864e5), from = new Date(end.getTime() - 27 * 864e5), pages = {};
+  const rows = await query(await token(), { startDate: day(from), endDate: day(end), dimensions: ['page'], dimensionFilterGroups: [{ filters: [{ dimension: 'page', operator: 'contains', expression: '/blog/' }] }], rowLimit: 200 });
+  for (const x of rows) { const m = /\/blog\/([a-z0-9-]+)\/?$/.exec(x.keys[0].split('?')[0]); if (m) { const o = pages[m[1]] || (pages[m[1]] = { clicks: 0, impressions: 0, pos: 0 }); o.clicks += x.clicks || 0; o.pos += (x.position || 0) * (x.impressions || 0); o.impressions += x.impressions || 0; } }
+  for (const o of Object.values(pages)) { o.position = o.impressions ? +(o.pos / o.impressions).toFixed(1) : 0; delete o.pos; }
+  const out = { at: Date.now(), from: day(from), to: day(end), pages }; await redis('SET', 'gsc:blog', JSON.stringify(out), 'EX', 7 * 86400); return out;
+}
+module.exports = { ready, get, blogPages };
