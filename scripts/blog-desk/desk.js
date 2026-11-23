@@ -16,6 +16,7 @@
 //   node scripts/blog-desk/desk.js learn [--force]                 weekly review: freeze closed-window posts with their view counts, update topic nudges, print what is working (see learn.js)
 //   node scripts/blog-desk/desk.js next                            exploit or experiment slot, and the title style, length, banner hook and picture to try for the next post
 //   node scripts/blog-desk/desk.js exp start <slug> <seo_title|seo_description|title|excerpt> "<new text>" [--why "..."] | exp review | exp keep <id> | exp revert <id>   SEO experiments with a changelog and one-step revert (exp.js)
+//   node scripts/blog-desk/desk.js og                              the share image (og:image) of every post must be its cover; fails on a mismatch
 //   node scripts/blog-desk/desk.js days                           what the calendar holds, and what is live
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
@@ -223,7 +224,16 @@ function days() {
   console.log(`\n${files.length} post file(s):`); files.forEach((n) => { const p = readJ(path.join(CONTENT, n)); console.log(' ', new Date(p.publishAt).toISOString(), p.publishAt > Date.now() ? 'scheduled' : 'live     ', p.slug); });
 }
 
+// The share picture (og:image) must be the picture on the page: the cover itself, or its 1200-wide -cover-v2.jpg copy. Exits 1 on any mismatch.
+function ogcheck() {
+  const bad = fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && !['calendar.json', 'state.json', 'learn.json'].includes(n)).map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.slug).map((p) => {
+    const cover = p.cover && p.cover.src, og = p.seo && p.seo.ogImage, ok = [cover, cover && cover.replace(/-cover-hd\.jpg$/, '-cover-v2.jpg')];
+    return !og ? p.slug + ': no seo.ogImage' : !ok.includes(og) ? `${p.slug}: og image ${og} is not the cover ${cover}` : !fs.existsSync(path.join(ROOT, og)) ? `${p.slug}: ${og} does not exist` : '';
+  }).filter(Boolean);
+  console.log(bad.length ? 'OG IMAGE MISMATCH\n' + bad.join('\n') : 'og image = cover on every post: PASS'); if (bad.length) process.exit(1);
+}
+
 const cmd = process.argv[2], a1 = process.argv[3], a2 = process.argv[4];
-const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days, exp: () => { const e = require('./exp'); return a1 === 'start' ? e.start(a2, process.argv[5], process.argv[6], arg('why')) : a1 === 'review' ? e.review() : a1 === 'keep' ? e.close(a2, 'kept') : a1 === 'revert' ? e.close(a2, 'reverted') : Promise.reject(new Error('exp start|review|keep|revert')); }, learn: () => require('./learn').learn(process.argv.includes('--force')), next: () => require('./learn').next() };
+const run = { feeds, og: ogcheck, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days, exp: () => { const e = require('./exp'); return a1 === 'start' ? e.start(a2, process.argv[5], process.argv[6], arg('why')) : a1 === 'review' ? e.review() : a1 === 'keep' ? e.close(a2, 'kept') : a1 === 'revert' ? e.close(a2, 'reverted') : Promise.reject(new Error('exp start|review|keep|revert')); }, learn: () => require('./learn').learn(process.argv.includes('--force')), next: () => require('./learn').next() };
 if (!run[cmd]) { console.error('usage: desk.js feeds | fetch <dir> <urls> | pick <dir> <kind> | check <draft> <dir> | build <draft> <dir> --kind K --at T | ping | days'); process.exit(2); }
 Promise.resolve(run[cmd]()).then(() => process.exit(0), (e) => { console.error('desk:', e.message); process.exit(1); });

@@ -23,10 +23,11 @@
   "seo": {
     "title": "Citi: you pay if your AI agent is hacked",
     "description": "Citi says you pay if your AI agent is hacked, and JPMorgan, PNC, Wells Fargo and others have new rules. What the terms say, what's unclear, 4 checks.",
-    "ogImage": "/assets/blog/banks-ai-agents-customer-liability-cover.jpg"
+    "ogImage": "/assets/blog/banks-ai-agents-customer-liability-cover-v2.jpg"
   },
   "extra": {
     "topic": "security",
+    "noOldCover": true,
     "faq": [
       {
         "q": "Who pays if an AI agent empties my bank account?",

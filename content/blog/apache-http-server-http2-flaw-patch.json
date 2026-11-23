@@ -22,7 +22,7 @@
   "seo": {
     "title": "Apache HTTP/2 Flaw CVE-2026-119618: Patch Now",
     "description": "Apache HTTP Server 2.4.71 fixes critical flaw CVE-2026-119618 in mod_http2. See which versions are affected, how to check and what to do today.",
-    "ogImage": "/assets/blog/apache-http-server-http2-flaw-patch-cover.jpg"
+    "ogImage": "/assets/blog/apache-http-server-http2-flaw-patch-cover-v2.jpg"
   },
   "extra": {
     "faq": [
