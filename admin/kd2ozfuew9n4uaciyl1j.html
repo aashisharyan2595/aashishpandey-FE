@@ -779,6 +779,40 @@ button.au-tag{cursor:pointer;font-family:inherit;min-height:32px}button.au-tag b
 .au-drop{border:1.5px dashed var(--line2);border-radius:var(--r-sm);padding:14px;text-align:center;color:var(--mute);font-size:13.5px;margin-top:10px}
 .au-empty{padding:28px 16px;text-align:center;color:var(--mute)}
 .tab .au-n{margin-left:auto;font:600 11px var(--mono);background:var(--green);color:#0b1a12;border-radius:99px;padding:1px 7px}
+
+/* ---- Pro polish (2026-11-23): one calm, consistent look for every section. Same Night Ride colours; tighter radii, denser type, quieter chrome. ---- */
+:root{--r:14px;--r-sm:10px;--card:var(--panel)}
+body{font-size:15px;background:radial-gradient(900px 360px at 90% -180px,rgba(245,184,103,.06),transparent 70%),var(--bg)}
+h1{font-size:24px;font-weight:650;letter-spacing:-.025em}h1 i{font-family:inherit;font-style:normal;color:var(--amber)}
+h2{font-size:15.5px;font-weight:600}.sub{font-size:13.5px}
+.card{padding:18px 20px;border-color:var(--line);box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 12px 28px -24px rgba(0,0,0,.9)}
+.card>h2:first-child::before{display:none}
+input,select,textarea{min-height:40px;border-radius:10px;padding:8px 12px;font-size:14px}
+input[type=search]{padding-left:38px;background-position:12px 50%;background-size:16px}
+select{padding-right:34px}
+input[type=checkbox]{width:18px;min-height:18px;height:18px;border-radius:5px}
+input[type=checkbox]:checked::after{width:8px;height:5px;border-width:2px}
+.btn{min-height:38px;border-radius:10px;padding:0 14px;font-size:14px;font-weight:600}
+.btn.sm{min-height:32px;padding:0 11px;font-size:13px;border-radius:8px}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--mute)}.btn.ghost:hover{color:var(--ink);background:rgba(244,239,230,.06)}
+.bdg{height:22px;padding:0 9px;border-radius:6px;font-size:11.5px}
+.stabs{margin-bottom:14px}.stabs button{height:38px;padding:0 13px;font-size:13.5px}.stabs .n{border-radius:6px;padding:1px 6px}
+.dtw{border-radius:var(--r);background:var(--panel);box-shadow:0 12px 28px -24px rgba(0,0,0,.9)}
+.dt th{padding:10px 14px;background:rgba(22,28,70,.55);font-size:10.5px;letter-spacing:.1em}
+.dt td{padding-top:10px;padding-bottom:10px;font-size:14px}
+.dt tbody tr{transition:background .12s}.dt tbody tr:hover{background:rgba(244,239,230,.035)}
+.dt .tt b{font-size:14.5px;font-weight:600}.dt .tt small{font-size:12px}
+.dt img.cv,.dt span.cv{border-radius:8px}
+.dt .agoS{display:block;font-size:11.5px;color:var(--dim)}.dt .dim{color:var(--dim)}
+.dt .stale{color:var(--amber);font-weight:600}
+.cm-top{gap:8px;margin-bottom:10px}.cm-top select{flex:0 1 150px}
+.cm-dates{padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:rgba(22,28,70,.35);margin-bottom:14px}
+.cm-dates select{flex:0 1 150px}.cm-cust{display:inline-flex;align-items:center;gap:8px;color:var(--mute);font-size:13px}.cm-cust input{width:150px}
+.cm-count{font:500 12px var(--mono);color:var(--mute);letter-spacing:.04em}
+.bulkbar{border-radius:var(--r-sm)}
+.ed-dates{display:flex;gap:14px;margin-left:16px;font-size:12px;color:var(--ink)}.ed-dates i{font-style:normal;color:var(--dim);margin-right:4px}
+@media(min-width:1000px){.dt .tt .mo{display:none}}
+@media(max-width:699px){.cm-top select{flex:1 1 130px}.cm-dates .grow{display:none}.ed-dates{display:none}input,select,textarea{font-size:16px}.cm-cust input{width:130px}}
 </style>
 <link rel="stylesheet" href="/assets/blog.css?v=v1">
 <script src="/assets/popups.js" defer></script>
@@ -1250,7 +1284,7 @@ button.au-tag{cursor:pointer;font-family:inherit;min-height:32px}button.au-tag b
 
 <div id="drawer" class="hide"><div class="sheet" id="sheet"></div></div>
 <div id="ed" class="ed hide" role="dialog" aria-modal="true" aria-label="Editor">
-  <header class="ed-bar"><button class="btn sm ghost" id="edBack">&larr; Back</button><div class="ed-ttl"><b id="edType">Post</b><span id="edSaved">Not saved yet</span></div><span class="bdg draft" id="edState">Draft</span><span class="grow"></span><button class="btn sm" id="edPrev">Preview page</button><span id="edFlow" class="row" style="gap:8px"></span></header>
+  <header class="ed-bar"><button class="btn sm ghost" id="edBack">&larr; Back</button><div class="ed-ttl"><b id="edType">Post</b><span id="edSaved">Not saved yet</span></div><span class="ed-dates" id="edDates"></span><span class="bdg draft" id="edState">Draft</span><span class="grow"></span><button class="btn sm" id="edPrev">Preview page</button><span id="edFlow" class="row" style="gap:8px"></span></header>
   <div class="ed-steps" id="edSteps"><span class="st" data-k="draft"><i>1</i>Draft</span><span class="ln"></span><span class="st" data-k="review"><i>2</i>In review</span><span class="ln"></span><span class="st" data-k="approved"><i>3</i>Approved</span><span class="ln"></span><span class="st" data-k="published"><i>4</i>Published</span></div>
   <div class="ed-note hide" id="edNote"></div>
   <div class="ed-body">
@@ -1956,7 +1990,16 @@ function loadHome(){
 $('tab-home').addEventListener('click',function(e){var g=e.target.closest&&e.target.closest('[data-go]');if(g&&!g.closest('#attnList')){openTab(g.getAttribute('data-go'));return}var ed=e.target.closest&&e.target.closest('[data-ed]');if(ed){openEditor(ed.getAttribute('data-t'),ed.getAttribute('data-ed'));return}var nw=e.target.closest&&e.target.closest('[data-new]');if(nw)openEditor(nw.getAttribute('data-new'))});
 
 /* ================= v3: content manager ================= */
-var cmData={post:null,case:null},cmBuilt={},cmState={post:{s:'all',q:'',au:'',cat:'',sort:'updated',pg:1,sel:{}},case:{s:'all',q:'',au:'',cat:'',sort:'updated',pg:1,sel:{}}},PER=25;
+var cmData={post:null,case:null},cmBuilt={},PER=25,CMKEEP=['au','cat','tag','sort','df','dr','from','to'];
+function cmNew(t){var o={s:'all',q:'',au:'',cat:'',tag:'',sort:'updated',df:'upd',dr:'',from:'',to:'',pg:1,sel:{}},k=null;try{k=JSON.parse(localStorage.getItem('adm.cmf.'+t)||'null')}catch(e){}if(k)CMKEEP.forEach(function(n){if(typeof k[n]==='string')o[n]=k[n]});return o}
+var cmState={post:cmNew('post'),case:cmNew('case')};
+function cmKeep(t){var o={};CMKEEP.forEach(function(n){o[n]=cmState[t][n]});try{localStorage.setItem('adm.cmf.'+t,JSON.stringify(o))}catch(e){}}
+var DAY=864e5,STALE=90*DAY,RANGES=[['','Any time'],['today','Today'],['d7','Last 7 days'],['d30','Last 30 days'],['d90','Last 90 days'],['old90','Older than 90 days'],['custom','Custom range']];
+function cmRange(ms,st){
+  if(!st.dr)return true;if(!ms)return false;var n=Date.now();
+  if(st.dr==='today')return ms>=new Date().setHours(0,0,0,0);
+  if(st.dr==='d7')return ms>=n-7*DAY;if(st.dr==='d30')return ms>=n-30*DAY;if(st.dr==='d90')return ms>=n-90*DAY;if(st.dr==='old90')return ms<n-90*DAY;
+  var a=st.from?new Date(st.from+'T00:00:00').getTime():0,b=st.to?new Date(st.to+'T00:00:00').getTime()+DAY-1:Infinity;return ms>=a&&ms<=b}
 var STATUS_TABS=[['all','All'],['mine','Mine'],['review','In review'],['draft','Drafts'],['scheduled','Scheduled'],['published','Published'],['archived','Archived'],['trash','Trash']];
 function tabCount(items,s){
   return items.filter(function(i){return tabMatch(i,s)}).length}
@@ -1965,13 +2008,18 @@ function tabMatch(i,s){
   if(s==='mine')return i.state!=='trash'&&(i.createdBy===me.id||i.assignee===me.id);
   if(s==='review')return i.state==='review'||i.state==='approved';
   return i.state===s}
+var SORTS=[['updated','Recently updated'],['updatedAsc','Least recently updated'],['publishAt','Newest published'],['publishAsc','Oldest published'],['views','Most viewed'],['title','Title A to Z']];
 function cmBuild(t){
   if(cmBuilt[t])return;cmBuilt[t]=1;var h=$(t==='post'?'tab-posts':'tab-cases'),st=cmState[t];
-  h.innerHTML='<div class="stabs" id="cmTabs-'+t+'"></div><div class="cm-top"><input class="grow" type="search" id="cmQ-'+t+'" placeholder="Search title, tag or author" aria-label="Search"><select id="cmAu-'+t+'" aria-label="Author"><option value="">Anyone</option></select><select id="cmCat-'+t+'" aria-label="Category"><option value="">Any category</option></select><select id="cmSort-'+t+'" aria-label="Sort"><option value="updated">Recently edited</option><option value="publishAt">Publish date</option><option value="title">Title A to Z</option></select></div>'
-    +'<div class="bulkbar hide" id="cmBulk-'+t+'"></div><div class="dtw"><table class="dt"><thead><tr><th class="ck"><input type="checkbox" id="cmAll-'+t+'" aria-label="Select all"></th><th>Title</th><th>Status</th><th class="hm">Author</th><th class="hm">Category</th><th class="hm">Updated</th><th class="hm">Publish</th><th></th></tr></thead><tbody id="cmB-'+t+'"></tbody></table></div><div class="empty hide" id="cmE-'+t+'"></div><div class="pager hide" id="cmP-'+t+'"></div>';
+  h.innerHTML='<div class="stabs" id="cmTabs-'+t+'"></div><div class="cm-top"><input class="grow" type="search" id="cmQ-'+t+'" placeholder="Search title, tag or author  (press / )" aria-label="Search"><select id="cmAu-'+t+'" aria-label="Author"><option value="">Anyone</option></select><select id="cmCat-'+t+'" aria-label="Topic"><option value="">Any topic</option></select><select id="cmTag-'+t+'" aria-label="Tag"><option value="">Any tag</option></select><select id="cmSort-'+t+'" aria-label="Sort">'+SORTS.map(function(x){return '<option value="'+x[0]+'">'+x[1]+'</option>'}).join('')+'</select></div>'
+    +'<div class="cm-top cm-dates"><select id="cmDf-'+t+'" aria-label="Filter by which date"><option value="upd">Updated</option><option value="pub">Published</option></select><select id="cmDr-'+t+'" aria-label="Date range">'+RANGES.map(function(x){return '<option value="'+x[0]+'">'+x[1]+'</option>'}).join('')+'</select><span class="cm-cust hide" id="cmCu-'+t+'"><input type="date" id="cmFr-'+t+'" aria-label="From date"><span>to</span><input type="date" id="cmTo-'+t+'" aria-label="To date"></span><span class="grow"></span><span class="cm-count" id="cmN-'+t+'"></span><button type="button" class="btn sm ghost hide" id="cmClr-'+t+'">Clear filters</button><button type="button" class="btn sm" id="cmCsv-'+t+'">Export CSV</button></div>'
+    +'<div class="bulkbar hide" id="cmBulk-'+t+'"></div><div class="dtw"><table class="dt"><thead><tr><th class="ck"><input type="checkbox" id="cmAll-'+t+'" aria-label="Select all"></th><th>Title</th><th>Status</th><th class="hm">Author</th><th class="hm">Topic</th><th class="hm">Published</th><th class="hm">Updated</th><th></th></tr></thead><tbody id="cmB-'+t+'"></tbody></table></div><div class="empty hide" id="cmE-'+t+'"></div><div class="pager hide" id="cmP-'+t+'"></div>';
   var rd=function(){cmDraw(t)};
   $('cmQ-'+t).oninput=function(){st.q=this.value.toLowerCase().trim();st.pg=1;rd()};
-  $('cmAu-'+t).onchange=function(){st.au=this.value;st.pg=1;rd()};$('cmCat-'+t).onchange=function(){st.cat=this.value;st.pg=1;rd()};$('cmSort-'+t).onchange=function(){st.sort=this.value;rd()};
+  var fl=function(id,key){$(id+'-'+t).onchange=function(){st[key]=this.value;st.pg=1;cmKeep(t);rd()}};
+  fl('cmAu','au');fl('cmCat','cat');fl('cmTag','tag');fl('cmSort','sort');fl('cmDf','df');fl('cmDr','dr');fl('cmFr','from');fl('cmTo','to');
+  $('cmClr-'+t).onclick=function(){st.q='';st.au=st.cat=st.tag=st.dr=st.from=st.to='';st.df='upd';st.pg=1;$('cmQ-'+t).value='';cmKeep(t);rd()};
+  $('cmCsv-'+t).onclick=function(){cmCsv(t)};
   $('cmTabs-'+t).onclick=function(e){var b=e.target.closest&&e.target.closest('[data-s]');if(b){st.s=b.getAttribute('data-s');st.pg=1;st.sel={};rd()}};
   $('cmAll-'+t).onchange=function(){var on=this.checked;cmRows(t).slice((st.pg-1)*PER,st.pg*PER).forEach(function(i){if(on)st.sel[i.id]=1;else delete st.sel[i.id]});rd()};
   $('cmB-'+t).onclick=function(e){
@@ -1991,21 +2039,25 @@ function refreshBadges(){
   var c=$('cntPosts');if(c)c.textContent=n?String(n):''}
 function cmRows(t){
   var d=cmData[t],st=cmState[t];if(!d)return[];
-  var rows=d.items.filter(function(i){return tabMatch(i,st.s)&&(!st.au||i.authorId===st.au)&&(!st.cat||i.category===st.cat)&&(!st.q||(i.title+' '+(i.tags||[]).join(' ')+' '+(i.author||'')+' '+(i.category||'')).toLowerCase().indexOf(st.q)>-1)});
-  rows.sort(function(a,b){return st.sort==='title'?String(a.title).localeCompare(b.title):st.sort==='publishAt'?(b.publishAt||0)-(a.publishAt||0):b.updated-a.updated});
+  var rows=d.items.filter(function(i){return tabMatch(i,st.s)&&(!st.au||i.authorId===st.au)&&(!st.cat||i.category===st.cat)&&(!st.tag||(i.tags||[]).indexOf(st.tag)>-1)&&cmRange(st.df==='pub'?i.publishAt:i.updated,st)&&(!st.q||(i.title+' '+(i.tags||[]).join(' ')+' '+(i.author||'')+' '+(i.category||'')).toLowerCase().indexOf(st.q)>-1)});
+  var pa=function(i){return i.publishAt||0},srt=st.sort;
+  rows.sort(function(a,b){return srt==='title'?String(a.title).localeCompare(b.title):srt==='publishAt'?pa(b)-pa(a):srt==='publishAsc'?(pa(a)||Infinity)-(pa(b)||Infinity):srt==='updatedAsc'?a.updated-b.updated:srt==='views'?(b.views||0)-(a.views||0):b.updated-a.updated});
   return rows}
 function cmDraw(t){
   var d=cmData[t];if(!d)return;var st=cmState[t],items=d.items;
   $('cmTabs-'+t).innerHTML=STATUS_TABS.filter(function(x){return x[0]!=='trash'||items.some(function(i){return i.state==='trash'})||st.s==='trash'}).map(function(x){var n=tabCount(items,x[0]);return '<button type="button" data-s="'+x[0]+'" aria-pressed="'+(st.s===x[0])+'">'+esc(x[1])+'<span class="n">'+n+'</span></button>'}).join('');
-  var au={},cat={};items.forEach(function(i){if(i.authorId)au[i.authorId]=i.author;if(i.category)cat[i.category]=1});
+  var au={},cat={},tg={};items.forEach(function(i){if(i.authorId)au[i.authorId]=i.author;if(i.category)cat[i.category]=1;(i.tags||[]).forEach(function(x){tg[x]=1})});
   var sa=$('cmAu-'+t);sa.innerHTML='<option value="">Anyone</option>'+Object.keys(au).map(function(k){return '<option value="'+esc(k)+'">'+esc(au[k])+'</option>'}).join('');sa.value=st.au;
-  var sc=$('cmCat-'+t);sc.innerHTML='<option value="">Any category</option>'+Object.keys(cat).sort().map(function(k){return '<option value="'+esc(k)+'">'+esc(k)+'</option>'}).join('');sc.value=st.cat;
-  var rows=cmRows(t),pages=Math.max(1,Math.ceil(rows.length/PER));if(st.pg>pages)st.pg=pages;var vis=rows.slice((st.pg-1)*PER,st.pg*PER);
+  var sc=$('cmCat-'+t);sc.innerHTML='<option value="">Any topic</option>'+Object.keys(cat).sort().map(function(k){return '<option value="'+esc(k)+'">'+esc(k)+'</option>'}).join('');sc.value=st.cat;
+  var sg=$('cmTag-'+t);sg.innerHTML='<option value="">Any tag</option>'+Object.keys(tg).sort().map(function(k){return '<option value="'+esc(k)+'">'+esc(k)+'</option>'}).join('');sg.value=st.tag;
+  $('cmSort-'+t).value=st.sort;$('cmDf-'+t).value=st.df;$('cmDr-'+t).value=st.dr;$('cmFr-'+t).value=st.from;$('cmTo-'+t).value=st.to;$('cmCu-'+t).classList.toggle('hide',st.dr!=='custom');
+  var filt=!!(st.q||st.au||st.cat||st.tag||st.dr);$('cmClr-'+t).classList.toggle('hide',!filt);
+  var rows=cmRows(t);$('cmN-'+t).textContent=rows.length+(rows.length===1?' entry':' entries');var pages=Math.max(1,Math.ceil(rows.length/PER));if(st.pg>pages)st.pg=pages;var vis=rows.slice((st.pg-1)*PER,st.pg*PER);
   $('cmB-'+t).innerHTML=vis.map(function(i){
-    var when=i.state==='scheduled'?'Goes live '+dShort(i.publishAt):i.publishAt&&(i.state==='published'||i.state==='expired')?dShort(i.publishAt):'';
+    var when=i.state==='scheduled'?'Goes live '+dShort(i.publishAt):i.publishAt&&(i.state==='published'||i.state==='expired')?dShort(i.publishAt):'',stale=i.state==='published'&&Date.now()-i.updated>STALE;
     return '<tr data-id="'+esc(i.id)+'"><td class="ck"><input type="checkbox"'+(st.sel[i.id]?' checked':'')+' aria-label="Select"></td>'
-      +'<td><div class="tt">'+(i.cover?'<img class="cv" src="'+esc(i.cover)+'" alt="" loading="lazy">':'<span class="cv">'+esc((i.title||'?').charAt(0))+'</span>')+'<div><b>'+esc(i.title||'Untitled')+'</b><small>'+(i.featured?'Featured · ':'')+(i.comments?i.comments+' comment'+(i.comments===1?'':'s')+' · ':'')+'Edited '+esc(ago(i.updated))+' · '+(i.mins?i.mins+' min read':'No text yet')+(i.views?' · '+i.views+' view'+(i.views===1?'':'s'):'')+(i.assignee?' · assigned':'')+(i.due&&i.state!=='published'?' · due '+esc(i.due):'')+'</small></div></div></td>'
-      +'<td>'+bdg(i.state)+'</td><td class="hm"><span class="who">'+avatar(i.author,'', 'sm')+esc(i.author||'')+'</span></td><td class="hm muted">'+esc(i.category||'')+'</td><td class="hm muted">'+esc(ago(i.updated))+'</td><td class="hm muted">'+esc(when)+'</td>'
+      +'<td><div class="tt">'+(i.cover?'<img class="cv" src="'+esc(i.cover)+'" alt="" loading="lazy">':'<span class="cv">'+esc((i.title||'?').charAt(0))+'</span>')+'<div><b>'+esc(i.title||'Untitled')+'</b><small>'+(i.featured?'Featured · ':'')+(i.comments?i.comments+' comment'+(i.comments===1?'':'s')+' · ':'')+'<span class="mo">Updated '+esc(dShort(i.updated))+' · </span>'+(i.mins?i.mins+' min read':'No text yet')+(i.views?' · '+i.views+' view'+(i.views===1?'':'s'):'')+(i.assignee?' · assigned':'')+(i.due&&i.state!=='published'?' · due '+esc(i.due):'')+'</small></div></div></td>'
+      +'<td>'+bdg(i.state)+'</td><td class="hm"><span class="who">'+avatar(i.author,'', 'sm')+esc(i.author||'')+'</span></td><td class="hm muted">'+esc(i.category||'')+'</td><td class="hm muted">'+(when?esc(when):'<span class="dim">Not live</span>')+'</td><td class="hm muted" title="'+esc(ist(i.updated))+'">'+esc(dShort(i.updated))+''+(Date.now()-i.updated<6048e5||stale?'<small class="agoS">'+(Date.now()-i.updated<6048e5?esc(ago(i.updated)):'')+(stale?(Date.now()-i.updated<6048e5?' · ':'')+'<b class="stale">Stale, 90+ days</b>':'')+'</small>':'')+'</td>'
       +'<td class="act"><button class="iconbtn" data-more="1" aria-label="More actions"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg></button></td></tr>'}).join('');
   var em=$('cmE-'+t);em.classList.toggle('hide',!!rows.length);
   em.innerHTML=!items.length?'<b>'+(t==='post'?'No posts yet':'No case studies yet')+'</b>'+(can('content.create')?'<button class="btn pri" data-n="1" style="margin-top:10px">'+(t==='post'?'Write the first post':'Add the first case study')+'</button>':''):'<b>Nothing matches</b>Try another filter.';
@@ -2013,6 +2065,10 @@ function cmDraw(t){
   var pg=$('cmP-'+t);pg.classList.toggle('hide',pages<2);pg.innerHTML=pages<2?'':'<span>'+rows.length+' entries</span><span class="row">'+(st.pg>1?'<button class="btn sm" data-pg="'+(st.pg-1)+'">Newer</button>':'')+'<span>Page '+st.pg+' of '+pages+'</span>'+(st.pg<pages?'<button class="btn sm" data-pg="'+(st.pg+1)+'">Older</button>':'')+'</span>';
   $('cmAll-'+t).checked=!!vis.length&&vis.every(function(i){return st.sel[i.id]});cmBulkBar(t);
 }
+function cmCsv(t){
+  var rows=cmRows(t),q=function(v){v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v},d=function(ms){return ms?new Date(ms).toISOString().slice(0,10):''};
+  var out=[['Title','Status','Topic','Tags','Author','Published','Updated','Views','Link']].concat(rows.map(function(i){return [i.title,i.state,i.category||'',(i.tags||[]).join('; '),i.author||'',d(i.publishAt),d(i.updated),i.views||0,location.origin+(t==='case'?'/work/':'/blog/')+i.slug]}));
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([out.map(function(r){return r.map(q).join(',')}).join('\n')],{type:'text/csv'}));a.download=(t==='case'?'case-studies':'posts')+'-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);toast('Exported '+rows.length+' rows')}
 function selItems(t){var st=cmState[t],d=cmData[t];return d?d.items.filter(function(i){return st.sel[i.id]}):[]}
 function cmBulkBar(t){
   var sel=selItems(t),el=$('cmBulk-'+t);el.classList.toggle('hide',!sel.length);if(!sel.length)return;
@@ -2111,6 +2167,7 @@ function stateOfPost(p){if(!p||!p.id)return 'draft';if(p.status!=='published')re
 function edRender(){
   var st=E.state,p=E.post||{},new_=!E.id;
   $('edType').textContent=(new_?'New ':'')+(E.type==='case'?'case study':'post');
+  $('edDates').innerHTML=p.id?'<span title="When it went or goes live"><i>Published</i> '+(p.publishAt&&st!=='draft'&&st!=='review'&&st!=='approved'?esc(dShort(p.publishAt)):'not live')+'</span><span title="'+esc(ist(p.updated))+'"><i>Updated</i> '+esc(dShort(p.updated))+'</span>':'';
   $('edState').outerHTML=bdg(st).replace('<span','<span id="edState"');
   document.querySelectorAll('#edSteps .st').forEach(function(s){var k=s.getAttribute('data-k'),idx=STEPS.map(function(x){return x[0]}).indexOf(k),cur=STEPS.map(function(x){return x[0]}).indexOf(st==='scheduled'||st==='expired'?'published':st);s.className='st'+(cur>idx?' done':cur===idx?' now':'')});
   $('edSteps').classList.toggle('hide',st==='trash'||st==='archived');
@@ -2879,12 +2936,13 @@ document.addEventListener('keydown',function(e){
   gWait=0;
   if(k==='g'){gWait=Date.now();return}
   if(e.key==='?'){e.preventDefault();showShortcuts();return}
+  if(k==='n'&&(curTab==='posts'||curTab==='cases')&&can('content.create')){e.preventDefault();openEditor(curTab==='posts'?'post':'case');return}
   if(e.key==='/'){var s=$('tab-'+curTab)&&$('tab-'+curTab).querySelector('input[type=search],input[type=email]');if(s){e.preventDefault();s.focus()}}
 });
 showShortcuts=function(){var L={home:'Overview',posts:'Posts',cases:'Case studies',calendar:'Calendar',media:'Media',sub:'Inbox',news:'Newsletter',mail:'Mail log',seo:'Search',tools:'Tools usage',health:'Site health',team:'Team and access',privacy:'Privacy requests',set:'Settings'};
   var nav=Object.keys(GO).filter(function(k){return tabAllowed(GO[k])}).map(function(k){return ['G then '+k.toUpperCase(),L[GO[k]]]});
   var row=function(r){return '<kbd>'+esc(r[0])+'</kbd><span>'+esc(r[1])+'</span>'};
-  ask({title:'Keyboard shortcuts',ok:false,cancel:'Close',body:'<div class="kgrid"><h3>Anywhere</h3>'+[['Ctrl K','Search and jump anywhere'],['/','Search on this page'],['?','This list'],['Esc','Close a menu, dialog or the editor']].map(row).join('')+'<h3>Go to</h3>'+nav.map(row).join('')+'<h3>Editor</h3>'+[['Ctrl S','Save the entry'],['Ctrl B / I / K','Bold, italic, link'],['Ctrl Z','Undo a block change']].map(row).join('')+'</div>'})};
+  ask({title:'Keyboard shortcuts',ok:false,cancel:'Close',body:'<div class="kgrid"><h3>Anywhere</h3>'+[['Ctrl K','Search and jump anywhere'],['/','Search on this page'],['N','New post or case study (on those lists)'],['?','This list'],['Esc','Close a menu, dialog or the editor']].map(row).join('')+'<h3>Go to</h3>'+nav.map(row).join('')+'<h3>Editor</h3>'+[['Ctrl S','Save the entry'],['Ctrl B / I / K','Bold, italic, link'],['Ctrl Z','Undo a block change']].map(row).join('')+'</div>'})};
 
 
 /* ---------- sign-in screen: owner or team, caps lock, a separate two-factor step, a live clock ---------- */
