@@ -1211,6 +1211,103 @@
       "urls": [],
       "angle": "Languages covered, quality, pricing, who should use it.",
       "added": "2026-11-23"
+    },
+    {
+      "key": "crowdstrike-zscaler-43b",
+      "title": "CrowdStrike to buy Zscaler for $43.9B: what it means for security buyers",
+      "kind": "news",
+      "topic": "security",
+      "score": 10,
+      "urls": [
+        "https://www.securityweek.com/crowdstrike-to-acquire-zscaler-in-43-9-billion-deal/"
+      ],
+      "angle": "Biggest security deal; combined ARR over $10B; what customers should check. Confirm with 2+ outlets. Candidate for breaking.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "screenconnect-cve-exploited",
+      "title": "ScreenConnect critical flaw exploited against MSP technicians: what to patch",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://thehackernews.com/2026/11/hackers-exploit-critical-screenconnect.html"
+      ],
+      "angle": "CVE-2026-84869, CVSS 9.9; trade-only likely.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "glinet-routers-kvm-compromised",
+      "title": "GL.iNet routers and KVMs compromised through a cloud flaw",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://www.securityweek.com/gl-inet-routers-kvms-compromised-via-remote-management-service-flaw/",
+        "https://thehackernews.com/2026/11/hackers-exploited-glinet-cloud-flaw-to.html"
+      ],
+      "angle": "What to check on home and small-office routers.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "aspnet-anti-csrf-rce",
+      "title": "Critical ASP.NET anti-CSRF library flaw exploited for RCE",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://thehackernews.com/2026/11/hackers-exploit-critical-aspnet-anti.html"
+      ],
+      "angle": "Patch advice; trade-only.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "azure-flaw-norway-energy",
+      "title": "Azure flaw exploited against Norwegian energy firms",
+      "kind": "news",
+      "topic": "security",
+      "score": 7,
+      "urls": [
+        "https://www.securityweek.com/azure-flaw-exploited-to-target-secrets-at-norwegian-energy-firms/"
+      ],
+      "angle": "What was exploited, what cloud admins should check.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "badbox-3-disrupted",
+      "title": "BadBox 3.0 ad fraud network disrupted",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://www.securityweek.com/badbox-3-0-ad-fraud-operation-generating-40-billion-daily-bid-requests-disrupted/"
+      ],
+      "angle": "40 billion daily bid requests; infected devices link to android-tv-box-malware item.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "fbi-ai-hackers-3-hours",
+      "title": "FBI warns AI hackers can breach systems in under 3 hours",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://www.foxnews.com/tech/fbi-warns-ai-hackers-breach-systems-under-3-hours"
+      ],
+      "angle": "Pairs with CERT-In post; what small firms should do.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "cyberpunk-2-cancelled-joke",
+      "title": "Cyberpunk 2 \"cancelled\" joke after GTA 6: what was actually said",
+      "kind": "news",
+      "topic": "gaming",
+      "score": 7,
+      "urls": [
+        "https://www.gamespot.com/articles/cyberpunk-2-is-canceled-director-jokes-after-gta-6-raises-the-bar/"
+      ],
+      "angle": "Clarify it is a joke; facts only.",
+      "added": "2026-11-23"
     }
   ],
   "covered": [
@@ -1229,6 +1326,7 @@
     "gta6-launch-numbers",
     "nginx-http2-rce",
     "anthropic-ipo-priced",
-    "cert-in-crafty-falcon"
+    "cert-in-crafty-falcon",
+    "nvidia-huang-reinstated"
   ]
 }
