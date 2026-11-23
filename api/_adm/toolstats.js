@@ -6,7 +6,7 @@ const { redis } = require('../_lib');
 const TOOLS = {
   'pad': 'Notepad', 'url-shortener': 'URL shortener', 'image-resizer': 'Image resizer', 'exam-photo-resizer': 'Exam photo and signature resizer',
   'lorem-ipsum-generator': 'Lorem ipsum generator', 'qr-code-generator': 'QR code generator', 'qr-code-checker': 'QR code checker',
-  'website-launch-checklist': 'Website launch checklist', 'exif-remover': 'EXIF remover', 'file-hash-checker': 'File hash checker', 'pdf-merge-split-sign': 'PDF merge, split and sign', 'age-and-date-calculator': 'Age & Date Calculator', 'online-timer': 'Online Timers', 'compress-pdf-to-size': 'Compress PDF to Size', 'image-to-pdf': 'Image to PDF', 'pdf-to-jpg': 'PDF to JPG', 'background-remover': 'Background Remover',
+  'website-launch-checklist': 'Website launch checklist', 'exif-remover': 'EXIF remover', 'exif-editor': 'EXIF editor', 'file-hash-checker': 'File hash checker', 'pdf-merge-split-sign': 'PDF merge, split and sign', 'age-and-date-calculator': 'Age & Date Calculator', 'online-timer': 'Online Timers', 'compress-pdf-to-size': 'Compress PDF to Size', 'image-to-pdf': 'Image to PDF', 'pdf-to-jpg': 'PDF to JPG', 'background-remover': 'Background Remover',
   'password-generator': 'Password generator', 'time-zone-meeting-planner': 'Time zone meeting planner',
   'project-estimate-calculator': 'Project estimate calculator', 'invoice-generator': 'Invoice generator', 'sop-maker': 'SOP maker',
   'resume-maker': 'Resume maker', 'resume-keyword-matcher': 'Resume keyword matcher', 'p2p-file-sharing': 'P2P file sharing',

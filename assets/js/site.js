@@ -31,6 +31,7 @@
     '/tools/qr-code-checker': '/pages/tools/Tools-QR-Check.dc.html',
     '/tools/website-launch-checklist': '/pages/tools/Tools-Checklist.dc.html',
     '/tools/exif-remover': '/pages/tools/Tools-Exif.dc.html',
+    '/tools/exif-editor': '/pages/tools/Tools-ExifEditor.dc.html',
     '/tools/file-hash-checker': '/pages/tools/Tools-Hash.dc.html',
     '/tools/pdf-merge-split-sign': '/pages/tools/Tools-PDF.dc.html',
     '/tools/age-and-date-calculator': '/pages/tools/Tools-AgeDate.dc.html',
@@ -76,7 +77,7 @@
   // Microsoft Clarity (session replay and heatmaps). Production only, loaded when idle, and not on the pages where visitors type their own
   // text or personal details (notepad, resume and SOP builders, invoice, file sharing), because those pages promise the data stays on the device.
   var CLARITY_ID = 'yr4j64clj0';
-  var NO_CLARITY = /^\/tools\/(pad|invoice-generator|resume-maker\/build|sop-maker\/build|password-generator|exif-remover|file-hash-checker|pdf-merge-split-sign|compress-pdf-to-size|image-to-pdf|pdf-to-jpg|background-remover|exam-photo-resizer|resume-keyword-matcher|llm-token-counter|p2p-file-sharing|estimate|project-estimate-calculator|project-management-tool|online-whiteboard)/;
+  var NO_CLARITY = /^\/tools\/(pad|invoice-generator|resume-maker\/build|sop-maker\/build|password-generator|exif-remover|exif-editor|file-hash-checker|pdf-merge-split-sign|compress-pdf-to-size|image-to-pdf|pdf-to-jpg|background-remover|exam-photo-resizer|resume-keyword-matcher|llm-token-counter|p2p-file-sharing|estimate|project-estimate-calculator|project-management-tool|online-whiteboard)/;
 
   var dev = /\.dc\.html$/.test(location.pathname);
   window.__apRoute = function (p) {
