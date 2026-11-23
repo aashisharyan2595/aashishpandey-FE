@@ -51,14 +51,13 @@
 .tl-faq2>div:first-child{position:sticky;top:96px}
 .tl-faq2>div:last-child{max-width:none!important}
 @media(max-width:900px){.tl-faq2{grid-template-columns:1fr;gap:20px}.tl-faq2>div:first-child{position:static}}
-.xe-work{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start}
-@media(min-width:1000px){.xe-work{grid-template-columns:230px minmax(0,1fr)}.xe-side{position:sticky;top:96px}}
-.xe-roll{list-style:none;margin:0;padding:0;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
-@media(min-width:1000px){.xe-roll{flex-direction:column;overflow:visible}}
-.xe-roll li{position:relative;flex:0 0 auto;min-width:200px;border:1px solid rgba(244,239,230,.12);border-radius:14px;background:rgba(19,24,56,.5)}
-@media(min-width:1000px){.xe-roll li{min-width:0}}
+.xe-work{display:flex;flex-direction:column;gap:18px}
+.xe-side[hidden]{display:none}
+.xe-side .tl-out-h{margin:0 0 8px}
+.xe-roll{list-style:none;margin:0;padding:0 0 6px;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity}
+.xe-roll li{position:relative;flex:0 0 auto;width:230px;scroll-snap-align:start;border:1px solid rgba(244,239,230,.12);border-radius:14px;background:rgba(19,24,56,.5);transition:border-color .2s,background .2s}
 .xe-roll li.xe-on{border-color:#f5b867;background:rgba(245,184,103,.08)}
-.xe-roll li>button:first-child{width:100%;display:flex;align-items:center;gap:10px;padding:8px 36px 8px 8px;border:0;background:none;color:inherit;text-align:left;cursor:pointer;border-radius:14px;min-height:56px}
+.xe-roll li>button:first-child{width:100%;display:flex;align-items:center;gap:10px;padding:8px 36px 8px 8px;border:0;background:none;color:inherit;text-align:left;cursor:pointer;border-radius:14px;min-height:60px}
 .xe-roll img{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none;background:#0b1030}
 .xe-nm{display:flex;flex-direction:column;min-width:0}
 .xe-nm b{font:600 13.5px 'Geist',system-ui,sans-serif;color:#f4efe6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -66,13 +65,35 @@
 .xe-roll li.xe-edited .xe-nm b::after{content:" ●";color:#f5b867;font-size:10px}
 .xe-rm{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;border:0;background:none;color:#aaa4b8;cursor:pointer;font-size:18px;line-height:1}
 .xe-rm:hover{color:#ff8a6b}
-.xe-editor{display:flex;flex-direction:column;gap:14px;min-width:0}
-.xe-head{display:flex;gap:16px;align-items:center}
-.xe-prev{width:96px;height:96px;object-fit:cover;border-radius:14px;flex:none;background:#0b1030;border:1px solid rgba(244,239,230,.12)}
+.xe-editor{min-width:0}
+.xe-main{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start}
+@media(min-width:1000px){.xe-main{grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:24px}.xe-pane{position:sticky;top:92px}}
+.xe-pane{display:flex;flex-direction:column;gap:14px;min-width:0}
+.xe-pane [hidden]{display:none!important}
+.xe-shot{border-radius:18px;border:1px solid rgba(244,239,230,.12);background:#0b1030 repeating-conic-gradient(#10163a 0 25%,#0b1030 0 50%) 0 0/20px 20px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px}
+.xe-prev{display:block;max-width:100%;max-height:300px;width:auto;height:auto;border-radius:10px}
 .xe-title{min-width:0;display:flex;flex-direction:column;gap:8px}
 .xe-title h3{margin:0;font:600 18px 'Geist',system-ui,sans-serif;letter-spacing:-.02em;color:#f4efe6;overflow-wrap:anywhere}
 .xe-warn{margin:0;color:#ffb39e}
-.xe-bar{margin-top:2px}
+.xe-priv{border:1px solid rgba(127,243,225,.28);background:rgba(127,243,225,.05);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.xe-priv--warn{border-color:rgba(255,138,107,.45);background:rgba(255,138,107,.07)}
+.xe-priv h4{margin:0;font:600 14.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
+.xe-priv p{margin:0}
+.xe-pi{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.xe-pk{display:flex;flex-direction:column;min-width:0}
+.xe-pk b{font:600 13.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
+.xe-pk em{font:400 12.5px 'Geist Mono',ui-monospace,monospace;font-style:normal;color:#ffb39e;overflow-wrap:anywhere}
+.xe-pi .tl-btn{height:36px;min-height:36px;padding:0 14px;font-size:13px;flex:none}
+.xe-sec{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.xe-sec .tl-btn{padding:0 10px;font-size:13.5px}
+.xe-dl .tl-btn{width:100%}
+@media(max-width:999px){.xe-dl{position:sticky;bottom:10px;z-index:6;padding:8px;border-radius:999px;background:rgba(11,16,48,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(244,239,230,.14)}}
+.xe-tiles{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px}
+.xe-tiles li{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:16px;border:1px solid rgba(244,239,230,.1);background:rgba(19,24,56,.45)}
+.xe-tiles svg{color:#f5b867;margin-bottom:4px}
+.xe-tiles b{font:600 15.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
+.xe-tiles span{font-size:14px;line-height:1.55;color:#aaa4b8}
+.xe-tiles[hidden]{display:none}
 .xe-card{border:1px solid rgba(244,239,230,.12);border-radius:16px;background:rgba(19,24,56,.45)}
 .xe-card>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:52px;padding:10px 18px;font:600 15.5px 'Geist',system-ui,sans-serif;color:#f4efe6}
 .xe-card>summary::-webkit-details-marker{display:none}
@@ -100,8 +121,8 @@
 .xe-checks{display:flex;flex-wrap:wrap;gap:6px 18px}
 .xe-keep{margin-left:4px}
 .xe-bulk{align-items:center;flex-wrap:wrap}
-@media(max-width:560px){.xe-head{flex-direction:column;align-items:flex-start}.xe-rows li{grid-template-columns:1fr}}
-@media(pointer:coarse){.xe-x{width:44px;height:44px;top:0;right:0}.xe-rm{width:40px;height:40px;top:8px;right:0}}
+@media(max-width:560px){.xe-rows li{grid-template-columns:1fr}.xe-roll li{width:200px}}
+@media(pointer:coarse){.xe-x{width:44px;height:44px;top:0;right:0}.xe-rm{width:40px;height:40px;top:8px;right:0}.xe-pi .tl-btn{height:44px;min-height:44px}}
 
 </style>
 <!-- ap-head:start -->
@@ -124,8 +145,9 @@
     <section class="tl-panel" aria-label="Photo metadata editor">
       <div id="drop" class="tl-drop" tabindex="0" role="button" aria-label="Drop photos here"><strong>Drop photos here</strong><span>or click to choose. JPEG, PNG and WebP. Nothing is uploaded.</span><input id="pick" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden data-tl-file="Drop photos to edit them" data-tl-nopaste></div>
       <p class="tl-small tl-muted" id="sampleRow">No photo to hand? <button id="sample" class="tl-link" type="button">Try a sample photo</button> with a hidden location and camera serial number in it.</p>
+      <ul id="tiles" class="xe-tiles"><li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg><b>See everything inside</b><span>Location, camera, dates, caption, copyright and the fields most tools skip.</span></li><li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg><b>Fix or add what you need</b><span>Correct the date, add your name and keywords, or move the pin.</span></li><li><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"></path><path d="m9 12 2 2 4-4"></path></svg><b>Clean it in one click</b><span>Remove one field or all of them. The picture is never re-compressed.</span></li></ul>
       <div id="work" class="xe-work" hidden>
-        <aside class="xe-side" aria-label="Your photos"><h2 class="tl-out-h">Your photos</h2><ul id="roll" class="xe-roll"></ul></aside>
+        <aside class="xe-side" aria-label="Your photos" hidden><h2 class="tl-out-h">Your photos</h2><ul id="roll" class="xe-roll"></ul></aside>
         <div id="editor" class="xe-editor" data-tl-result="Open the editor"></div>
       </div>
       <div id="bulk" class="tl-actions xe-bulk" hidden>
@@ -211,7 +233,7 @@ function sample() {
 
 /* ---------- editor ---------- */
 function it() { return items[cur]; }
-function touch(item) { item.dirty = true; var li = $('#roll [data-id="' + item.id + '"]'); if (li) li.classList.add('xe-edited'); $('#reset').disabled = false; refreshOthers(item); }
+function touch(item) { item.dirty = true; var dt = $('#dirty'); if (dt) dt.hidden = false; var li = $('#roll [data-id="' + item.id + '"]'); if (li) li.classList.add('xe-edited'); $('#reset').disabled = false; refreshOthers(item); }
 
 function fieldBox(item, f) {
   var id = 'xe-f-' + f.id, ctl;
@@ -263,33 +285,47 @@ function groupCard(item, gkey, gname, fs) {
   return d;
 }
 
+function privacy(item, fs) {
+  var val = {}; fs.forEach(function (f) { val[f.id] = f.value; });
+  var found = [];
+  if (K.coords(item.doc)) found.push(['Location', K.getField(item.doc, 'gps'), 'gps']);
+  if (val.serial) found.push(['Camera serial number', val.serial, 'serial']);
+  if (val.owner) found.push(['Camera owner', val.owner, 'owner']);
+  var box = h('div', { class: 'xe-priv' + (found.length ? ' xe-priv--warn' : '') }, h('h4', { text: found.length ? 'Privacy check: ' + found.length + ' to review' : 'Privacy check' }));
+  if (!found.length) box.appendChild(h('p', { class: 'tl-small tl-muted', text: 'No location, serial number or owner name found in this photo.' }));
+  found.forEach(function (x) {
+    box.appendChild(h('div', { class: 'xe-pi' }, h('span', { class: 'xe-pk' }, h('b', { text: x[0] }), h('em', { text: x[1] })),
+      h('button', { type: 'button', class: 'tl-btn', text: 'Remove', 'aria-label': 'Remove ' + x[0], onclick: function () { K.delField(item.doc, x[2]); item.dirty = true; renderEditor(); renderRoll(); } })));
+  });
+  if (item.doc.thumb) box.appendChild(h('p', { class: 'tl-small tl-muted', text: 'The small preview thumbnail inside this file is dropped when you save.' }));
+  return box;
+}
+
 function renderEditor() {
   var box = $('#editor'); box.textContent = '';
   var item = it(); if (!item) return;
-  var fs = K.fields(item.doc), tags = [];
-  var hasGps = !!K.coords(item.doc);
-  if (hasGps) tags.push(h('span', { class: 'tl-chip tl-chip--hi', text: 'Has a location' }));
-  if (fs.some(function (f) { return f.id === 'serial' && f.value; })) tags.push(h('span', { class: 'tl-chip tl-chip--hi', text: 'Camera serial number' }));
-  tags.push(h('span', { class: 'tl-chip', text: item.doc.fmt.toUpperCase() + ' · ' + fmtSize(item.size) }));
-  if (item.doc.thumb) tags.push(h('span', { class: 'tl-chip', text: 'Has a preview thumbnail' }));
+  var fs = K.fields(item.doc);
   var note = [];
   item.doc.warnings.forEach(function (w) { note.push(h('p', { class: 'tl-small xe-warn', text: w })); });
   if (item.doc.mpf) note.push(h('p', { class: 'tl-small xe-warn', text: 'This file holds more than one picture (a depth map or gain map). Only the main picture is kept when you save.' }));
-  box.appendChild(h('div', { class: 'xe-head' },
-    h('img', { class: 'xe-prev', src: item.url, alt: 'Preview of ' + item.name }),
-    h('div', { class: 'xe-title' }, h('h3', { text: item.name }), h('div', { class: 'tl-chips' }, tags))));
-  note.forEach(function (n) { box.appendChild(n); });
-  box.appendChild(h('div', { class: 'tl-actions xe-bar' },
-    h('button', { type: 'button', class: 'tl-btn tl-btn--p', id: 'dl', text: 'Download this photo', onclick: function () { download(it(), false); } }),
-    h('button', { type: 'button', class: 'tl-btn', id: 'wipe', text: 'Remove all metadata', onclick: function () { K.strip(it().doc, { keepOrientation: $('#keepOri').checked }); it().dirty = true; renderEditor(); say('All metadata removed from this photo. Download it when you are ready.'); } }),
-    h('button', { type: 'button', class: 'tl-btn', id: 'reset', text: 'Undo my changes', disabled: item.dirty ? undefined : '', onclick: function () { var i = it(); i.doc = K.clone(i.orig); i.dirty = false; var li = $('#roll [data-id="' + i.id + '"]'); if (li) li.classList.remove('xe-edited'); renderEditor(); } })));
+  var pane = h('aside', { class: 'xe-pane' },
+    h('div', { class: 'xe-shot' }, h('img', { class: 'xe-prev', src: item.url, alt: 'Preview of ' + item.name })),
+    h('div', { class: 'xe-title' }, h('h3', { text: item.name }), h('div', { class: 'tl-chips' }, h('span', { class: 'tl-chip', text: item.doc.fmt.toUpperCase() + ' · ' + fmtSize(item.size) }), h('span', { class: 'tl-chip tl-chip--ok', id: 'dirty', text: 'Edited, not saved yet', hidden: item.dirty ? undefined : '' }))),
+    note,
+    privacy(item, fs),
+    h('div', { class: 'xe-dl' }, h('button', { type: 'button', class: 'tl-btn tl-btn--p', id: 'dl', text: 'Download this photo', onclick: function () { download(it(), false); } })),
+    h('div', { class: 'xe-sec' },
+      h('button', { type: 'button', class: 'tl-btn', id: 'wipe', text: 'Remove all metadata', onclick: function () { K.strip(it().doc, { keepOrientation: $('#keepOri').checked }); it().dirty = true; renderEditor(); renderRoll(); say('All metadata removed from this photo. Download it when you are ready.'); } }),
+      h('button', { type: 'button', class: 'tl-btn', id: 'reset', text: 'Undo my changes', disabled: item.dirty ? undefined : '', onclick: function () { var i = it(); i.doc = K.clone(i.orig); i.dirty = false; renderEditor(); renderRoll(); } })));
+  var fields = h('div', { class: 'xe-fields' });
   K.GROUPS.forEach(function (g) {
-    var list = fs.filter(function (f) { return f.group === g[0]; });
-    box.appendChild(groupCard(item, g[0], g[1], list));
+    fields.appendChild(groupCard(item, g[0], g[1], fs.filter(function (f) { return f.group === g[0]; })));
   });
   var oth = h('details', { class: 'xe-card' }, h('summary', null, h('span', null, 'Everything else in the file ', h('span', { id: 'othersN' })), h('span', { class: 'xe-n', text: 'view and delete' })), h('div', { id: 'others', class: 'xe-others' }));
-  box.appendChild(oth); refreshOthers(item);
-  if (items.length > 1) box.appendChild(copyPanel());
+  fields.appendChild(oth);
+  if (items.length > 1) fields.appendChild(copyPanel());
+  box.appendChild(h('div', { class: 'xe-main' }, pane, fields));
+  refreshOthers(item);
 }
 
 function copyPanel() {
@@ -347,7 +383,7 @@ function renderRoll() {
 }
 function render() {
   var has = items.length > 0;
-  $('#work').hidden = !has; $('#sampleRow').hidden = has; $('#bulk').hidden = !has;
+  $('#work').hidden = !has; $('#tiles').hidden = has; $('.xe-side').hidden = items.length < 2; $('#sampleRow').hidden = has; $('#bulk').hidden = !has;
   $('#zip').hidden = items.length < 2;
   if (!has) { $('#editor').textContent = ''; $('#roll').textContent = ''; return; }
   renderRoll(); renderEditor();
