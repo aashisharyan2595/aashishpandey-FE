@@ -143,14 +143,18 @@
       "key": "llama-cpp-v1"
     },
     "2026-11-25": {
-      "title": "Android TV box malware: 1.3M devices turned into a botnet",
+      "title": "CERT-In warns of AI-driven attacks on Indian banks and fintechs: what customers should check",
       "kind": "news",
-      "angle": "What Google says Videostrong installed, how to check your box, what to do",
+      "topic": "security",
+      "angle": "Unauthorized payments linked to AI-assisted attacks; what a customer or small business can do.",
       "urls": [
-        "https://www.foxnews.com/tech/android-tv-box-malware-found-devices"
+        "https://yourstory.com/2026/11/cert-in-warns-nbfcs-and-fintech-firms-of-ai-driven-attacks",
+        "https://inc42.com/?p=579373",
+        "https://thehackernews.com/2026/11/ai-assisted-cyberattacks-trigger.html"
       ],
-      "score": 7,
+      "score": 9,
       "status": "planned",
+      "slug": "",
       "locked": false
     },
     "2026-11-26": {
@@ -274,37 +278,43 @@
       "status": "planned"
     },
     "2026-12-06": {
-      "title": "How AI pricing works: tokens, seats and credits",
-      "kind": "explainer",
-      "angle": "How to estimate monthly cost for a small team.",
-      "urls": [],
-      "score": 5,
+      "title": "OpenRouter drops 3 providers after prompt theft found",
+      "kind": "news",
+      "topic": "security",
+      "angle": "Months of prompt theft at AI hosting firms; what AI users should check.",
+      "urls": [
+        "https://thehackernews.com"
+      ],
+      "score": 8,
       "status": "planned",
       "slug": "",
-      "locked": false,
-      "key": "ai-pricing-explained"
+      "locked": false
     },
     "2026-12-07": {
-      "title": "Notion AI review: pros and cons for teams",
-      "kind": "review",
-      "angle": "Search, writing, meeting notes, pricing.",
-      "urls": [],
-      "score": 5,
+      "title": "Ghostscript sandbox-escape RCE via crafted uploads: what to patch",
+      "kind": "news",
+      "topic": "security",
+      "angle": "Popular apps that process uploads are exposed.",
+      "urls": [
+        "https://thehackernews.com"
+      ],
+      "score": 8,
       "status": "planned",
       "slug": "",
-      "locked": false,
-      "key": "notion-ai-review"
+      "locked": false
     },
     "2026-12-08": {
-      "title": "Sarvam AI review: Indian-language models, pros and cons",
-      "kind": "review",
-      "angle": "Languages covered, quality, pricing, who should use it.",
-      "urls": [],
-      "score": 5,
+      "title": "Binding of Isaac DLC AI music backlash: what happened",
+      "kind": "news",
+      "topic": "gaming",
+      "angle": "Steam reviews dropped to Overwhelmingly Negative; music pulled.",
+      "urls": [
+        "https://www.pcgamer.com/games/roguelike/binding-of-isaac-dlc-adds-ai-music-in-gta-6-parodying-update-despite-not-having-an-ai-disclosure-steam-reviews-drop-to-overwhelmingly-negative-music-gets-pulled/"
+      ],
+      "score": 7,
       "status": "planned",
       "slug": "",
-      "locked": false,
-      "key": "sarvam-ai-review"
+      "locked": false
     },
     "2026-12-09": {
       "title": "How to check if a photo or video is AI-made",
@@ -1142,6 +1152,68 @@
         "https://techcrunch.com/2026/11/22/openais-chief-scientist-has-thoughts-on-how-to-limit-ai-development/"
       ],
       "angle": "Jakub Pachocki essay of 22 Nov; what is proposed, what critics say, what it means for working people",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "fbi-justice-database-hack",
+      "title": "FBI investigates apparent hack of its criminal justice database",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://www.securityweek.com"
+      ],
+      "angle": "AP-sourced report; confirm with 2+ outlets before writing.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "wotc-ai-copyright-payout-dnd",
+      "title": "Wizards of the Coast to pass AI copyright payout to D&D writers",
+      "kind": "news",
+      "topic": "gaming",
+      "score": 7,
+      "urls": [
+        "https://www.pcgamer.com"
+      ],
+      "angle": "Check details before writing.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "android-tv-box-malware:-1.3m-d",
+      "title": "Android TV box malware: 1.3M devices turned into a botnet",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://www.foxnews.com/tech/android-tv-box-malware-found-devices"
+      ],
+      "angle": "What Google says Videostrong installed, how to check your box, what to do",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "how-ai-pricing-works:-tokens,-",
+      "title": "How AI pricing works: tokens, seats and credits",
+      "kind": "explainer",
+      "score": 5,
+      "urls": [],
+      "angle": "How to estimate monthly cost for a small team.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "notion-ai-review:-pros-and-con",
+      "title": "Notion AI review: pros and cons for teams",
+      "kind": "review",
+      "score": 5,
+      "urls": [],
+      "angle": "Search, writing, meeting notes, pricing.",
+      "added": "2026-11-23"
+    },
+    {
+      "key": "sarvam-ai-review:-indian-langu",
+      "title": "Sarvam AI review: Indian-language models, pros and cons",
+      "kind": "review",
+      "score": 5,
+      "urls": [],
+      "angle": "Languages covered, quality, pricing, who should use it.",
       "added": "2026-11-23"
     }
   ],
