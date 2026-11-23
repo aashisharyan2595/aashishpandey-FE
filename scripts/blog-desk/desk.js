@@ -6,6 +6,7 @@
 //   node scripts/blog-desk/desk.js fetch <dir> <url> [url...]     read pages into <dir> and label each outlet (left/centre/right, region, primary)
 //   node scripts/blog-desk/desk.js pick <dir> <kind> [--trade]              choose the spread of sources and say whether it is enough (kind: review|news|explainer|breaking)
 //   node scripts/blog-desk/desk.js check <draft.json> <dir>       clean the draft, then report style, copy overlap and unsupported numbers or quotes
+//   node scripts/blog-desk/desk.js humanize <before.json> <after.json>   fact lock after the humanizer rewrite: numbers, links, quotes, names and fixed fields must not change
 //   node scripts/blog-desk/desk.js build <draft.json> <dir> --kind K --at <ISO time|now> [--email <file>] [--photo <photo.json>]
 //                                                                 draw the images, assemble the page, write content/blog/<slug>.json and assets/blog/*
 //   node scripts/blog-desk/desk.js rebanner [slug]   redraw cover and thumbnail in the current banner style (style C)
@@ -111,6 +112,17 @@ function check(draftFile, dir) {
   console.log(`unsupported numbers/quotes: ${a.unsupported.length ? '\n   - ' + a.unsupported.map((u) => u.claim.slice(0, 100) + ' => ' + u.why).join('\n   - ') : 'none'}`);
   console.log('cleaned draft written to', draftFile.replace(/\.json$/, '') + '.clean.json');
   console.log('RESULT:', !a.lint.issues.length && a.overlap.pct < 10 && !a.unsupported.length ? 'PASS' : a.overlap.pct >= 10 || a.unsupported.length ? 'FIX NEEDED' : 'STYLE NOTES (one rewrite pass advised)');
+}
+// fact lock for the humanize pass: the rewrite may change the voice only. Numbers, links, quoted words, names in the claims and the fixed fields must come out the same.
+function humanize(beforeFile, afterFile) {
+  const b = readJ(beforeFile), a = readJ(afterFile), txt = (d) => [d.tldr, d.body_markdown, ...(d.faq || []).map((f) => f.q + ' ' + f.a)].join('\n\n'), tb = txt(b), ta = txt(a), bad = [];
+  const setOf = (t, re) => new Set((t.match(re) || []).map((x) => x.replace(/,/g, '').toLowerCase()));
+  const lost = (re, label) => { const x = setOf(tb, re), y = setOf(ta, re); [...x].filter((v) => !y.has(v)).forEach((v) => bad.push('lost ' + label + ': ' + v)); [...y].filter((v) => !x.has(v)).forEach((v) => bad.push('new ' + label + ': ' + v)); };
+  lost(/\d[\d,]*(?:\.\d+)?%?/g, 'number'); lost(/https?:\/\/[^\s)\]]+/g, 'link'); lost(/"[^"\n]{3,400}"/g, 'quote');
+  const caps = (t) => (t.replace(/(^|[.!?]\s+|\n)[A-Z][a-z]+/g, '$1').match(/\b[A-Z][A-Za-z0-9]+(?:\s[A-Z][A-Za-z0-9]+)*\b/g) || []);
+  const cb = new Set(caps(tb)), ca = new Set(caps(ta)); [...cb].filter((v) => !ca.has(v)).forEach((v) => bad.push('name no longer appears: ' + v)); [...ca].filter((v) => !cb.has(v)).forEach((v) => bad.push('new name: ' + v));
+  ['title', 'slug', 'seo_title', 'seo_description', 'claims'].forEach((k) => { if (JSON.stringify(b[k]) !== JSON.stringify(a[k])) bad.push('changed field: ' + k + ' (allowed only when every claim stays accurate)'); });
+  console.log(bad.length ? 'FACTS CHANGED, check each line is deliberate and still true:\n  - ' + bad.join('\n  - ') : 'FACTS LOCKED: numbers, links, quotes, names and fixed fields are the same');
 }
 // a free-licence photo from photo.js: copy it into assets/blog and describe it. The photo is shown in the banner and as a captioned figure near the top of the post.
 function usePhoto(file, slug) {
@@ -224,6 +236,6 @@ function days() {
 }
 
 const cmd = process.argv[2], a1 = process.argv[3], a2 = process.argv[4];
-const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days, exp: () => { const e = require('./exp'); return a1 === 'start' ? e.start(a2, process.argv[5], process.argv[6], arg('why')) : a1 === 'review' ? e.review() : a1 === 'keep' ? e.close(a2, 'kept') : a1 === 'revert' ? e.close(a2, 'reverted') : Promise.reject(new Error('exp start|review|keep|revert')); }, learn: () => require('./learn').learn(process.argv.includes('--force')), next: () => require('./learn').next() };
-if (!run[cmd]) { console.error('usage: desk.js feeds | fetch <dir> <urls> | pick <dir> <kind> | check <draft> <dir> | build <draft> <dir> --kind K --at T | ping | days'); process.exit(2); }
+const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), humanize: () => humanize(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days, exp: () => { const e = require('./exp'); return a1 === 'start' ? e.start(a2, process.argv[5], process.argv[6], arg('why')) : a1 === 'review' ? e.review() : a1 === 'keep' ? e.close(a2, 'kept') : a1 === 'revert' ? e.close(a2, 'reverted') : Promise.reject(new Error('exp start|review|keep|revert')); }, learn: () => require('./learn').learn(process.argv.includes('--force')), next: () => require('./learn').next() };
+if (!run[cmd]) { console.error('usage: desk.js feeds | fetch <dir> <urls> | pick <dir> <kind> | check <draft> <dir> | humanize <before> <after> | build <draft> <dir> --kind K --at T | ping | days'); process.exit(2); }
 Promise.resolve(run[cmd]()).then(() => process.exit(0), (e) => { console.error('desk:', e.message); process.exit(1); });
