@@ -81,9 +81,26 @@ function scrub(t) {
     .replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/…/g, '...')
     .replace(/,\s*,/g, ',').replace(/[ \t]+\n/g, '\n').replace(/[ ]{2,}/g, ' ');
 }
+// Built-in humanizer rules: the pattern tables from the humanizer, humanize-writing and writing-enforcer skills (all MIT), boiled down to what a regex can see.
+// They run on every `desk.js check`, so the pass happens even in a session where the skills are not installed. Rules in prose: docs/humanize-rules.md.
+const TELLS = [
+  [/\b(?:it'?s|it is|this is|that'?s) not (?:just |only |about )?[^.!?\n]{2,60}?[,;:] ?(?:it'?s|it is|this is|that'?s|but) (?:about )?/i, 'contrast frame ("it\'s not X, it\'s Y"): say the second half plainly'],
+  [/\b(?:not just|not only|more than just) [^.!?\n]{2,50}, (?:but|it)\b/i, 'contrast frame ("not just X, but Y")'],
+  [/(?:^|[.!?]\s+)(?:the (?:result|catch|upshot|kicker|problem|answer|takeaway)|why (?:does|should) (?:it|this|that) matter|so what)\? /i, 'self-answered question: state the answer as a sentence'],
+  [/\b(?:here'?s the thing|let'?s (?:dive|break|unpack|explore)|let me explain|in this (?:article|post|guide)|buckle up|without further ado)\b/i, 'announcing the text: start with what follows it'],
+  [/\b(?:in today'?s (?:world|digital|fast)|rest assured|i hope this (?:finds|helps)|feel free to|stay tuned|exciting times|only time will tell|the future (?:looks|is) bright|watch this space)\b/i, 'stock opener or closer: cut'],
+  [/\b(?:i know (?:this|it) (?:may|might|can) be|we truly appreciate|your patience and understanding)\b/i, 'pre-emptive empathy: cut'],
+  [/, (?:so you can (?:focus|get back|spend)|which means (?:less|more|fewer) |helping (?:teams|you|users|businesses) |allowing (?:teams|you|users) to )/i, 'payoff clause tacked on a fact: keep the fact, cut the tail'],
+  [/\b(?:pivotal|multifaceted|vibrant|testament|plays? a (?:key|vital|crucial|pivotal) role|marks a (?:significant|major|new) (?:shift|milestone|moment)|stark reminder|serves as a|stands as a|reshap(?:e|es|ing) the (?:future|landscape)|foster(?:s|ing)?|empower(?:s|ing)?|streamlin(?:e|es|ing)|elevat(?:e|es|ing)|navigat(?:e|es|ing) the)\b/i, 'stock AI word or inflated significance: say the plain fact'],
+  [/\b(?:experts (?:agree|say|warn)|studies (?:show|suggest)|many (?:businesses|people|users) (?:find|say))\b/i, 'vague authority: name who says it or cut the claim'],
+  [/\b(?:may|might|could) (?:potentially|possibly|perhaps)\b/i, 'stacked qualifiers: keep one']
+];
 function lint(text) {
   const plain = String(text).replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/[#>*_`|]/g, ' '), low = plain.toLowerCase(), issues = [];
   BANNED.forEach((b) => { if (low.includes(b)) issues.push(`avoid "${b.trim()}"`); });
+  const unquoted = plain.replace(/"[^"\n]{3,400}"/g, ' ');   // quoted words stay as the source said them
+  TELLS.forEach(([re, why]) => { const m = re.exec(unquoted); if (m) issues.push(`${why}: "${m[0].trim().slice(0, 60)}"`); });
+  const bold = (String(text).match(/^\s*(?:[-*]|\d+\.)?\s*\*\*[^*\n]{2,60}\*\*[.:]?\s/gm) || []).length; if (bold > 4) issues.push('bold run-in labels on lists or paragraphs; fold the point into the sentence');
   const sents = plain.split(/(?<=[.!?])\s+/).map((s) => words(s).length).filter((n) => n > 2), mean = sents.reduce((a, b) => a + b, 0) / (sents.length || 1);
   const sd = Math.sqrt(sents.reduce((a, b) => a + (b - mean) ** 2, 0) / (sents.length || 1));
   if (sents.length > 8 && sd < 5.5) issues.push('sentences are all about the same length; mix short and long ones');
