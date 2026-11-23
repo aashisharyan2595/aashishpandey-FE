@@ -45,7 +45,7 @@ async function learn(force) {
   const withCtr = L.posts.filter((p) => p.ctr != null); if (withCtr.length) console.log(`card click rate (clicks / index views, first 7 days), posts with data: ${withCtr.length}; ` + ['drawn', 'photo'].map((i) => { const x = withCtr.filter((p) => p.image === i); return x.length ? `${i} ${(100 * x.reduce((a, p) => a + p.ctr, 0) / x.length).toFixed(1)}% (n=${x.length})` : ''; }).filter(Boolean).join(', '));
   console.log('layout tests (per page view, running ones only get counts):');
   for (const [t, arms] of Object.entries(L.ab || {})) { const a = arms.a || { v: 0, r: 0 }, b = arms.b || { v: 0, r: 0 }, ra = a.v ? a.r / a.v : 0, rb = b.v ? b.r / b.v : 0; console.log(`  ${t}: A ${a.v} views, ${a.r} reads (${(100 * ra).toFixed(0)}%) | B ${b.v} views, ${b.r} reads (${(100 * rb).toFixed(0)}%) -> ${Math.min(a.v, b.v) < MIN_VIEWS_AB ? 'too few views to read (need ' + MIN_VIEWS_AB + ' per arm)' : Math.abs(rb - ra) >= 0.2 * Math.max(ra, rb, 0.01) ? 'B ' + (rb > ra ? 'ahead' : 'behind') + ' by 20%+: show Aashish before any rollout' : 'no clear difference yet'}`); }
-  if (!Object.keys(L.ab || {}).length) console.log('  none counted yet (assets/blog.js TESTS is empty until Aashish approves an arm)');
+  if (!Object.keys(L.ab || {}).length) console.log('  none counted yet (the tests started 2026-11-23; counts appear as visitors arrive)');
   console.log(due ? 'topic nudges now: ' + (JSON.stringify(L.adj) === '{}' ? 'none (no topic has enough posts and a clear gap)' : JSON.stringify(L.adj)) : 'topic nudges unchanged (reviewed less than 7 days ago)');
 }
 
