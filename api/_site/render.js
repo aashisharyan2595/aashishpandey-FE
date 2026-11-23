@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v9';   // ?v= for assets/blog.css and blog.js
+const BL = 'v10';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
