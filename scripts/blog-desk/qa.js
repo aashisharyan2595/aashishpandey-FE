@@ -53,9 +53,10 @@ async function serve() {
 
 async function front(base, slug) {
   let srv; const isLocal = base === 'local'; if (isLocal) ({ srv, base } = await serve());
-  base = base.replace(/\/$/, ''); const url = `${base}/blog/${slug}`; let r, t0 = Date.now();
-  while (Date.now() - t0 < 180000) { try { r = await fetch(url + '?qa=' + Date.now()); if (r.status === 200) break; } catch (e) { /* retry */ } await new Promise((s) => setTimeout(s, 10000)); }
-  ok('page answers 200 (waits up to 3 min for a new deploy)', r && r.status === 200, r ? String(r.status) : 'no answer'); if (!r || r.status !== 200) return;
+  base = base.replace(/\/$/, ''); const url = `${base}/blog/${slug}`; let r, t0 = Date.now();   // a Vercel "building" placeholder also answers 200, so the wait below only accepts the real post page
+ 
+  while (Date.now() - t0 < 180000) { try { r = await fetch(url + '?qa=' + Date.now()); if (r.status === 200 && (await r.clone().text()).includes('rel="canonical"')) break; r = null; } catch (e) { r = null; } await new Promise((s) => setTimeout(s, 10000)); }
+  ok('post page answers 200 (waits up to 3 min for a new deploy)', !!r, r ? String(r.status) : 'no post page after 3 min'); if (!r) return;
   const { chromium } = require('playwright'), br = await chromium.launch(), dir = `/tmp/qa-${slug}`; fs.mkdirSync(dir, { recursive: true });
   const links = new Set();
   for (const [name, w, h, dpr] of [['phone', 390, 844, 3], ['desktop', 1440, 900, 2]]) {
@@ -70,6 +71,7 @@ async function front(base, slug) {
       imgs: await Promise.all([...document.querySelectorAll('article img, main img')].map(async (i) => { let nw = 0; try { nw = (await createImageBitmap(await (await fetch(i.currentSrc || i.src)).blob())).width; } catch (e) { /* counts as broken */ } return { src: i.currentSrc || i.src, alt: i.getAttribute('alt'), nw, cw: i.clientWidth, shown: i.clientWidth > 0 }; })),
       links: [...document.querySelectorAll('article a[href], main a[href]')].map((a) => a.href) }), dpr);
     ok(`${name}: no sideways scroll`, d.overflow <= 0, d.overflow + 'px'); ok(`${name}: one h1`, d.h1 === 1, d.h1 + ' found');
+    for (const e of errs.filter((x) => /^5\d\d /.test(x))) { const again = await fetch(base + e.slice(4)).catch(() => ({ status: 599 })); if (again.status < 400) errs.splice(errs.indexOf(e), 1); }   // a one-off 5xx from a preview edge is not a page error if the same file loads on retry
     ok(`${name}: no console errors`, !errs.length, errs.slice(0, 2).join(' | '));
     const blurry = d.imgs.filter((i) => i.shown && i.nw < i.cw * dpr * 0.95).map((i) => `${i.src.split('/').pop()} ${i.nw}px for ${i.cw * dpr}`), broken = d.imgs.filter((i) => !i.nw || i.alt === null);   // alt="" is fine on a linked card; the post's own images are checked for real alt text by `content`
     ok(`${name}: images load, have an alt attribute, and are sharp at ${dpr}x`, !blurry.length && !broken.length, [...blurry, ...broken.map((i) => i.src.split('/').pop())].join(', ') || d.imgs.length + ' images');
@@ -78,7 +80,9 @@ async function front(base, slug) {
       ok('structured data parses and has headline and dates', d.ld.length && d.ld.every(Boolean) && JSON.stringify(d.ld).includes('"headline"') && JSON.stringify(d.ld).includes('datePublished'));
       d.links.forEach((l) => links.add(l));
     }
-    await pg.screenshot({ path: `${dir}/${name}.png`, fullPage: true }); await pg.context().close();
+    await pg.screenshot({ path: `${dir}/${name}-top.png` }); await pg.screenshot({ path: `${dir}/${name}.png`, fullPage: true });
+    // each picture as a reader sees it after scrolling to it (a full-page capture can miss lazy or revealed images)
+    const figs = await pg.locator('article figure, main figure').all(); for (let i = 0; i < figs.length; i++) { await figs[i].scrollIntoViewIfNeeded(); await pg.waitForTimeout(400); await figs[i].screenshot({ path: `${dir}/${name}-figure${i + 1}.png` }).catch(() => {}); } await pg.context().close();
   }
   await br.close();
   const dead = []; for (const l of links) { if (!/^https?:/.test(l) || l.startsWith(base + '/#') || (isLocal && l.startsWith(base))) continue; try { let x = await fetch(l.startsWith(base) ? l : l, { method: 'GET', redirect: 'follow', headers: { 'user-agent': 'Mozilla/5.0 (compatible; blog-qa)' } }); if (x.status >= 400 && ![401, 403, 405, 429, 999].includes(x.status)) dead.push(`${x.status} ${l}`); } catch (e) { dead.push('no answer ' + l); } }
