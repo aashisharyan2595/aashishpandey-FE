@@ -105,6 +105,7 @@ const MENUS = {
         { href: '/tools/image-to-pdf', t: 'Image to PDF', d: 'Photos to one PDF, on-device', b: 'New' },
         { href: '/tools/pdf-to-jpg', t: 'PDF to JPG', d: 'Pages to images, on-device', b: 'New' },
         { href: '/tools/background-remover', t: 'Background Remover', d: 'Transparent PNG, no upload', b: 'New' },
+        { href: '/tools/exif-editor', t: 'Photo Metadata Editor', d: 'Edit GPS, date, copyright, keywords', b: 'New' },
         { href: '/tools/exam-photo-resizer', t: 'Exam Photo Resizer', d: 'Exact pixels and KB for forms' },
         { href: '/tools/p2p-file-sharing', t: 'P2P File Sharing', d: 'Device to device, nothing stored' },
       ] }],
@@ -241,7 +242,7 @@ const FOOT_TOOLS = [
   ['/tools/time-zone-meeting-planner', 'Time zone planner'], ['/tools/file-hash-checker', 'File hash checker'], ['/tools/exif-remover', 'Photo metadata remover'],
   ['/tools/project-estimate-calculator', 'Project estimate calculator'], ['/tools/project-management-tool', 'Project management tool'], ['/tools/online-whiteboard', 'Online whiteboard'], ['/tools/raci-matrix-builder', 'RACI matrix builder'],
   ['/tools/pdf-merge-split-sign', 'PDF merge, split and sign'], ['/tools/qr-code-checker', 'QR code checker'], ['/tools/llms-txt-generator', 'llms.txt generator'], ['/tools/website-launch-checklist', 'Website launch checklist'],
-  ['/tools/age-and-date-calculator', 'Age & Date Calculator'], ['/tools/online-timer', 'Online Timers'], ['/tools/compress-pdf-to-size', 'Compress PDF to Size'], ['/tools/image-to-pdf', 'Image to PDF'], ['/tools/pdf-to-jpg', 'PDF to JPG'], ['/tools/background-remover', 'Background Remover'],
+  ['/tools/age-and-date-calculator', 'Age & Date Calculator'], ['/tools/online-timer', 'Online Timers'], ['/tools/compress-pdf-to-size', 'Compress PDF to Size'], ['/tools/image-to-pdf', 'Image to PDF'], ['/tools/pdf-to-jpg', 'PDF to JPG'], ['/tools/background-remover', 'Background Remover'], ['/tools/exif-editor', 'Photo metadata editor'],
 ];
 const HEART = '<svg class="ap-foot__heart" aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.3 4.5c2.1 0 3.8 1.2 5.7 3.3 1.9-2.1 3.6-3.3 5.7-3.3 3.6 0 5.4 3.9 3.9 7.3C19.5 16.4 12 21 12 21z"></path></svg>';
 function footer() {

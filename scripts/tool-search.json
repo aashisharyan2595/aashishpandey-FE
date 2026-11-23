@@ -127,5 +127,9 @@
   "/tools/background-remover": {
     "aka": ["remove bg", "remove background from image", "transparent background maker", "photo cutout", "background eraser"],
     "k": "background remover, remove background from image, remove bg, transparent background maker, make background transparent, remove background free, photo background remover, cut out image, png transparent, remove background without uploading, remove white background"
+  },
+  "/tools/exif-editor": {
+    "aka": ["EXIF editor", "photo metadata editor", "EXIF data editor", "GPS location editor", "IPTC and XMP editor"],
+    "k": "exif editor, edit exif, exif data editor, edit photo metadata, change photo date, edit gps, change location of photo, add copyright to photo, add keywords to photo, iptc, xmp, image metadata editor, edit image properties, batch exif"
   }
 }

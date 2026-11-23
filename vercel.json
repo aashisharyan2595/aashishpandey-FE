@@ -507,6 +507,10 @@
       "destination": "/pages/tools/Tools-Exif.dc.html"
     },
     {
+      "source": "/tools/exif-editor",
+      "destination": "/pages/tools/Tools-ExifEditor.dc.html"
+    },
+    {
       "source": "/tools/file-hash-checker",
       "destination": "/pages/tools/Tools-Hash.dc.html"
     },
