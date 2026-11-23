@@ -13,6 +13,9 @@
 //   node scripts/blog-desk/desk.js videos [--days 14]                  live posts that still have no video
 //   node scripts/blog-desk/desk.js yt <slug>                           the YouTube title, description, tags and settings for a post's Short
 //   node scripts/blog-desk/desk.js ping                           tell IndexNow search engines about posts that went live (optional, free, no account)
+//   node scripts/blog-desk/desk.js learn [--force]                 weekly review: freeze closed-window posts with their view counts, update topic nudges, print what is working (see learn.js)
+//   node scripts/blog-desk/desk.js next                            exploit or experiment slot, and the title style, length, banner hook and picture to try for the next post
+//   node scripts/blog-desk/desk.js exp start <slug> <seo_title|seo_description|title|excerpt> "<new text>" [--why "..."] | exp review | exp keep <id> | exp revert <id>   SEO experiments with a changelog and one-step revert (exp.js)
 //   node scripts/blog-desk/desk.js days                           what the calendar holds, and what is live
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
@@ -122,12 +125,13 @@ function addFigure(body, photo, caption) {
 
 // redraw the cover and thumbnail of existing posts in the current banner style: desk.js rebanner [slug] (no slug = every post file)
 async function rebanner(slug) {
-  const graphics = require('./graphics'), slugs = slug ? [slug] : fs.readdirSync(CONTENT).filter((f) => f.endsWith('.json') && !['calendar.json', 'state.json'].includes(f)).map((f) => f.replace(/\.json$/, ''));
+  const graphics = require('./graphics'), slugs = slug ? [slug] : fs.readdirSync(CONTENT).filter((f) => f.endsWith('.json') && !['calendar.json', 'state.json', 'learn.json'].includes(f)).map((f) => f.replace(/\.json$/, ''));
   for (const sl of slugs) {
     const p = readJ(path.join(CONTENT, sl + '.json'), null); if (!p || !p.title) continue;
-    const x = p.extra || {}, th = x.thumb || {}, ph = x.photo && x.photo.src ? { file: x.photo.src.slice(1), credit: x.photo.credit } : undefined;
+    const x = p.extra || {}, th = x.thumb || {}, variant = arg('variant') || th.variant || '', ph = x.photo && x.photo.src ? { file: x.photo.src.slice(1), credit: x.photo.credit } : undefined;
     const seo = p.seo || {}, hook = String(th.text || '').replace(/\|/g, ' '), alt = (p.cover && p.cover.alt) || `${seo.title || p.title}: ${hook}. ${th.sub || ''}`.replace(/\s+/g, ' ').trim().slice(0, 125), meta = { title: seo.title || p.title, alt, description: seo.description || p.excerpt, keywords: [...(p.tags || []), ...(x.about || [])], url: SITE + '/blog/' + sl };
-    const imgs = await graphics.makeImages({ slug: sl, title: p.title, category: p.category, tags: p.tags, kind: x.kind || 'news', thumb_text: th.text, image_headline: th.headline, banner_tag: th.tag, banner_sub: th.sub, photo: ph, meta });
+    const imgs = await graphics.makeImages({ slug: sl, title: p.title, category: p.category, tags: p.tags, kind: x.kind || 'news', thumb_text: th.text, image_headline: th.headline, banner_tag: th.tag, banner_sub: th.sub, banner_variant: variant, photo: ph, meta });
+    if (arg('variant')) { p.extra = { ...x, thumb: { ...th, variant: variant === 'paper' ? undefined : variant } }; }
     for (const im of imgs) if (im.role === 'cover' || im.role === 'thumb') fs.writeFileSync(path.join(ROOT, 'assets', 'blog', `${sl}-${im.role}.jpg`), im.buf);
     p.cover = { ...(p.cover || {}), src: `/assets/blog/${sl}-cover.jpg`, alt: meta.alt }; writeJ(path.join(CONTENT, sl + '.json'), p);
     console.log('banner redrawn:', sl);
@@ -137,7 +141,7 @@ async function rebanner(slug) {
 async function rephoto(slug) {
   const f = path.join(CONTENT, slug + '.json'), p = readJ(f, null); if (!p) throw new Error('no such post file: ' + f);
   const photo = usePhoto(arg('photo'), slug), caption = arg('caption') || '', th = p.extra && p.extra.thumb || {};
-  const graphics = require('./graphics'), imgs = await graphics.makeImages({ slug, title: p.title, category: p.category, tags: p.tags, kind: (p.extra || {}).kind || 'news', thumb_text: arg('thumb-text') || th.text, image_headline: th.headline, photo: { file: photo.src.slice(1), credit: photo.credit } });
+  const graphics = require('./graphics'), imgs = await graphics.makeImages({ slug, title: p.title, category: p.category, tags: p.tags, kind: (p.extra || {}).kind || 'news', thumb_text: arg('thumb-text') || th.text, banner_variant: th.variant, image_headline: th.headline, photo: { file: photo.src.slice(1), credit: photo.credit } });
   for (const im of imgs) if (im.role !== 'proscons') fs.writeFileSync(path.join(ROOT, 'assets', 'blog', `${slug}-${im.role}.jpg`), im.buf);
   let body = p.body.replace(/\n*!\[[^\]]*\]\(\/assets\/blog\/[^)\s]*-photo\.jpg[^)]*\)\n*/g, '\n\n');
   const quick = /^(>[^\n]*\n)+/.exec(body); const head = quick ? quick[0] : '', rest = quick ? body.slice(head.length) : body;
@@ -166,7 +170,7 @@ async function build(draftFile, dir) {
   const full = `> **Quick answer.** ${d.tldr}\n\n${body.trim()}\n\n## Frequently asked questions\n\n${d.faq.map((f) => `### ${f.q}\n\n${f.a}`).join('\n\n')}\n\n## Sources\n\n${cite.join('\n')}${photo ? `\n${cite.length + 1}. [${photo.title}](${photo.page}), ${photo.credit.replace(/^Photo: /, 'photo by ')}` : ''}\n`;
   const md = require(path.join(ROOT, 'api/_site/md')), r = md.render(full, { noWords: false });
   const post = { title: d.title.slice(0, 120), slug, excerpt: d.excerpt.slice(0, 300), body: full, cover: { src: ref.cover.src, alt: ref.cover.alt }, category: d.category, tags: d.tags.slice(0, 8), publishAt, updated: Date.now(), words: r.words, mins: Math.max(1, Math.round(r.words / 200)),
-    seo: { title: d.seo_title.slice(0, 70), description: d.seo_description.slice(0, 180), ogImage: ref.cover.src }, extra: { topic: d.topic, faq: d.faq, sources: pages.map((p) => ({ url: p.url, title: (p.title || '').slice(0, 200), outlet: p.meta.outlet })), kind, about: d.about, auto: true, thumb: { text: d.thumb_text, headline: d.image_headline, tag: d.banner_tag, sub: d.banner_sub }, ...(photo ? { photo } : {}) } };
+    seo: { title: d.seo_title.slice(0, 70), description: d.seo_description.slice(0, 180), ogImage: ref.cover.src }, extra: { topic: d.topic, faq: d.faq, sources: pages.map((p) => ({ url: p.url, title: (p.title || '').slice(0, 200), outlet: p.meta.outlet })), kind, about: d.about, auto: true, thumb: { text: d.thumb_text, headline: d.image_headline, tag: d.banner_tag, sub: d.banner_sub, ...(['bold', 'clean'].includes(d.banner_variant) ? { variant: d.banner_variant } : {}) }, ...(photo ? { photo } : {}) } };
   writeJ(path.join(CONTENT, slug + '.json'), post);
   const report = { sources: `${div.count} pages from ${div.outlets} outlets (viewpoints: ${div.leans.split('').map((c) => ({ L: 'left', C: 'centre', R: 'right' }[c])).join(', ') || 'none'}${div.primary ? ', plus a primary source' : ''}${div.nonUs ? ', non-US included' : ''})`, overlap: `${a.overlap.pct}% against its sources`, words: r.words, notes: a.lint.issues };
   const emailFile = arg('email');
@@ -187,7 +191,7 @@ ${html.replace(/<img /g, '<img style="max-width:100%;height:auto" ').replace(/sr
 }
 
 /* ---------- videos: which live posts still need one, and the YouTube fields for each ---------- */
-const livePosts = () => fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && n !== 'calendar.json' && n !== 'state.json').map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.slug && p.publishAt <= Date.now());
+const livePosts = () => fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && n !== 'calendar.json' && n !== 'state.json' && n !== 'learn.json').map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.slug && p.publishAt <= Date.now());
 function videos() {
   const days = Number(arg('days') || 14), need = livePosts().filter((p) => Date.now() - p.publishAt < days * 864e5 && !fs.existsSync(path.join(CONTENT, 'videos', p.slug + '-ig.json'))).sort((a, b) => a.publishAt - b.publishAt);
   console.log(need.length ? `posts live in the last ${days} days that have no video yet (oldest first):` : 'every live post has a video'); need.forEach((p) => console.log(' ', p.slug, '|', (p.extra || {}).kind || '', '|', p.title, p.extra && p.extra.photo ? '| has photo: ' + p.extra.photo.src : ''));
@@ -204,7 +208,7 @@ function yt(slug) {
 /* ---------- search engines and a glance at the calendar ---------- */
 async function ping() {
   const st = readJ(path.join(CONTENT, 'state.json'), { seen: {} }), done = new Set(st.pinged || []), now = Date.now();
-  const live = fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && n !== 'calendar.json' && n !== 'state.json').map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.publishAt <= now && !done.has(p.slug));
+  const live = fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && n !== 'calendar.json' && n !== 'state.json' && n !== 'learn.json').map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.publishAt <= now && !done.has(p.slug));
   if (!live.length) return console.log('nothing new to send');
   const keyFile = fs.readdirSync(ROOT).find((f) => /^[0-9a-f]{32}\.txt$/.test(f)); if (!keyFile) return console.log('no IndexNow key file');
   const r = await fetch('https://api.indexnow.org/indexnow', { method: 'POST', headers: { 'content-type': 'application/json; charset=utf-8' }, body: JSON.stringify({ host: 'aashishpandey.com', key: keyFile.replace('.txt', ''), keyLocation: `${SITE}/${keyFile}`, urlList: live.map((p) => `${SITE}/blog/${p.slug}`).concat([`${SITE}/blog`, `${SITE}/sitemap-posts.xml`]) }) });
@@ -213,13 +217,13 @@ async function ping() {
 function days() {
   const cal = readJ(path.join(CONTENT, 'calendar.json'), { slots: {} });
   Object.keys(cal.slots).sort().forEach((d) => console.log(d, (cal.slots[d].status || 'planned').padEnd(8), (cal.slots[d].kind || '').padEnd(9), cal.slots[d].title));
-  const files = fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && n !== 'calendar.json' && n !== 'state.json');
+  const files = fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && n !== 'calendar.json' && n !== 'state.json' && n !== 'learn.json');
   const mix = {}; files.map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.slug).forEach((p) => { const t = sources.topicOf(p); mix[t] = (mix[t] || 0) + 1; });
-  console.log('\ntopic mix of all posts (topic: count, weight):', Object.entries(mix).map(([t, n]) => `${t}: ${n} (+${sources.TOPIC_WEIGHT[t]})`).join(', '));
+  console.log('\ntopic mix of all posts (topic: count, weight):', Object.entries(mix).map(([t, n]) => `${t}: ${n} (+${require('./learn').weightOf(sources.TOPIC_WEIGHT, t)})`).join(', '));
   console.log(`\n${files.length} post file(s):`); files.forEach((n) => { const p = readJ(path.join(CONTENT, n)); console.log(' ', new Date(p.publishAt).toISOString(), p.publishAt > Date.now() ? 'scheduled' : 'live     ', p.slug); });
 }
 
 const cmd = process.argv[2], a1 = process.argv[3], a2 = process.argv[4];
-const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days };
+const run = { feeds, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days, exp: () => { const e = require('./exp'); return a1 === 'start' ? e.start(a2, process.argv[5], process.argv[6], arg('why')) : a1 === 'review' ? e.review() : a1 === 'keep' ? e.close(a2, 'kept') : a1 === 'revert' ? e.close(a2, 'reverted') : Promise.reject(new Error('exp start|review|keep|revert')); }, learn: () => require('./learn').learn(process.argv.includes('--force')), next: () => require('./learn').next() };
 if (!run[cmd]) { console.error('usage: desk.js feeds | fetch <dir> <urls> | pick <dir> <kind> | check <draft> <dir> | build <draft> <dir> --kind K --at T | ping | days'); process.exit(2); }
 Promise.resolve(run[cmd]()).then(() => process.exit(0), (e) => { console.error('desk:', e.message); process.exit(1); });

@@ -190,7 +190,8 @@ function pickMain(post) {
 function coverHtmlD(post, W, H, G) {
   const { esc, b64, FONTS, pickArt, ART, DEFS, STAGE, KIND, hookText, ACC } = G;
   const k = W / 1600, SH = Math.round(1600 * H / W), dy = SH - 900, text = hookText(post).toUpperCase(), lines = hookLines(text);
-  const maxc = Math.max(...lines.map((l) => l.length)), fs = Math.min(170, Math.floor(760 / (maxc * 0.76)), Math.floor((SH - 140 - 270) / (lines.length * 0.92)));
+  const V = ['bold', 'clean'].includes(post.banner_variant) ? post.banner_variant : 'paper';   // paper = the proven look; bold and clean are the 20% experiments, same logo, palette and layout family
+  const maxc = Math.max(...lines.map((l) => l.length)), fs = Math.min(V === 'bold' ? 196 : 170, Math.floor(760 / (maxc * (V === 'bold' ? 0.66 : 0.76))), Math.floor((SH - 140 - (V === 'bold' ? 200 : 270)) / (lines.length * 0.92)));
   const numAt = lines.findIndex((l) => /\d/.test(l)), hi = numAt > -1 ? numAt : lines.length - 1;
   const h1 = lines.map((l, i) => (i === hi ? `<em>${esc(l)}</em>` : esc(l))).join('<br>');
   const tag = String(post.banner_tag || '').slice(0, 24).toUpperCase(), sub = String(post.banner_sub || post.title || '').slice(0, 60);
@@ -217,9 +218,9 @@ function coverHtmlD(post, W, H, G) {
   sat = ''; // top row: a tag pill and an icon badge
   sat += pill(1040, 104, Math.max(150, 30 + (tag || kk).length * 22), 58, TEAL, esc(tag || kk), 28);
   sat += badge(1480, 130, 56, ICON[icons[0]]);
-  sat += `<g transform="translate(0,${dy})">${badge(1075, 790, 56, ICON[icons[1]])}${badge(1470, 790, 56, ICON[icons[2]])}${bot ? pill(1150, 764, Math.min(250, Math.max(130, 34 + bot.length * 15)), 56, CREAM, esc(bot), 22) : ''}</g>`;
-  [[1300, 70, 16, CREAM], [1545, 270, 12, TEAL], [990, 430, 12, TEAL], [1560, 660 + dy, 14, CREAM], [1260, 330, 8, CREAM]].forEach(([x, y, r, c]) => { sat += star(x, y, r, c); });
-  sat += `<g fill="${CREAM}" opacity=".7"><circle cx="1010" cy="${650 + dy}" r="6"/><circle cx="1545" cy="190" r="6"/><circle cx="1345" cy="${745 + dy}" r="5"/></g>`;
+  if (V !== 'clean') sat += `<g transform="translate(0,${dy})">${badge(1075, 790, 56, ICON[icons[1]])}${badge(1470, 790, 56, ICON[icons[2]])}${bot ? pill(1150, 764, Math.min(250, Math.max(130, 34 + bot.length * 15)), 56, CREAM, esc(bot), 22) : ''}</g>`;
+  if (V !== 'clean') [[1300, 70, 16, CREAM], [1545, 270, 12, TEAL], [990, 430, 12, TEAL], [1560, 660 + dy, 14, CREAM], [1260, 330, 8, CREAM]].forEach(([x, y, r, c]) => { sat += star(x, y, r, c); });
+  if (V !== 'clean') sat += `<g fill="${CREAM}" opacity=".7"><circle cx="1010" cy="${650 + dy}" r="6"/><circle cx="1545" cy="190" r="6"/><circle cx="1345" cy="${745 + dy}" r="5"/></g>`;
   const css = `*{margin:0;box-sizing:border-box}html,body{width:${W}px;height:${H}px;overflow:hidden;background:${PAPER}}
 ${FONTS()}
 .s{width:1600px;height:${SH}px;zoom:${k};position:relative;overflow:hidden;color:${NAVY};font-family:Geist,sans-serif;background:${PAPER}}
@@ -228,7 +229,7 @@ ${FONTS()}
 .top{position:absolute;left:80px;top:56px;font-weight:900;font-size:24px;letter-spacing:4px;display:flex;gap:16px;align-items:center}
 .top img{width:56px;height:56px;border-radius:14px}.top b{background:${NAVY};color:${PAPER};padding:9px 18px;border-radius:8px;font-size:21px}
 h1{position:absolute;left:76px;top:${SH > 860 ? 150 : 135}px;font-size:${fs}px;line-height:.9;font-weight:900;letter-spacing:-.04em;text-transform:uppercase}
-h1 em{font-style:normal;color:${TEALD}}
+h1 em{font-style:normal;color:${TEALD}}${V === 'bold' ? `h1 em{background:${TEAL};color:${NAVY};padding:0 .1em;border-radius:.08em}` : ''}
 .tag{position:absolute;left:80px;bottom:170px;font-weight:900;font-size:24px;letter-spacing:4px;border-bottom:6px solid ${NAVY};padding-bottom:6px;display:${tag ? 'block' : 'none'}}
 .sub{position:absolute;left:80px;bottom:62px;max-width:800px;font-size:30px;font-weight:800;color:${NAVY};background:${CREAM};padding:14px 24px;border-radius:12px;border:5px solid ${NAVY};box-shadow:7px 7px 0 ${NAVY}}
 .art{position:absolute;left:1020px;top:${mt}px;width:540px;height:504px}

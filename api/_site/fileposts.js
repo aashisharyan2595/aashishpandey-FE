@@ -11,7 +11,7 @@ function load() {
   rows = [];
   let names = []; try { names = fs.readdirSync(DIR); } catch (e) { return rows; }
   for (const n of names) {
-    if (!/^[a-z0-9-]+\.json$/.test(n) || n === 'calendar.json' || n === 'state.json') continue;
+    if (!/^[a-z0-9-]+\.json$/.test(n) || n === 'calendar.json' || n === 'state.json' || n === 'learn.json') continue;
     try {
       const p = JSON.parse(fs.readFileSync(path.join(DIR, n), 'utf8'));
       if (p && p.slug && p.title && p.body && p.publishAt) rows.push({ type: 'post', status: 'published', authorId: 'owner', author: 'Aashish Pandey', tags: [], comments: [], timeline: [], oldSlugs: [], file: true, created: p.publishAt, updated: p.updated || p.publishAt, ...p, id: 'f' + require('crypto').createHash('sha1').update(p.slug).digest('hex').slice(0, 9) });

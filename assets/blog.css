@@ -194,3 +194,7 @@ a.bl-tag:hover{border-color:var(--bl-amber);color:var(--bl-ink)!important}.bl-ta
 .bl-md .bl-acc__b{padding:0 4px 18px}.bl-md .bl-acc__b>:first-child{margin-top:0}.bl-md .bl-acc__b>:last-child{margin-bottom:0}
 .bl-md .bl-acc--src{margin-top:2.2em}
 @media(prefers-reduced-motion:reduce){.bl-md .bl-acc>summary::after{transition:none}}
+
+/* Layout test arms (assets/blog.js TESTS). Class names avoid the ad- prefix that ad blockers hide. */
+.ex-cover-b .bl-ah--split{grid-template-columns:1fr}.ex-cover-b .bl-ah__img{order:-1}.ex-cover-b .bl-ah--split h1{max-width:22ch}
+.ex-nl-b .bl-nl-end{margin:34px 0}
