@@ -44,9 +44,9 @@
   function build() {
     var out = [], seen = {};
     var add = function (o) { var k = o.href + '|' + o.t; if (!o.href || !o.t || seen[k]) return; seen[k] = 1; out.push(o); };
-    var top = d.querySelector('.ap-nav__pill > a'); if (top) add({ t: txt(top), href: top.getAttribute('href'), d: 'Client sites, products and career', g: 'Pages' });
+    d.querySelectorAll('.ap-nav__pill > a').forEach(function (a) { var h = a.getAttribute('href'); add({ t: txt(a), href: h, d: h === '/blog' ? 'Notes on delivery, Shopify and tools' : 'Who I am, client sites and career', g: 'Pages' }); });
     d.querySelectorAll('.ap-dd--mega').forEach(function (dd) {
-      var menu = txt(dd.querySelector('.ap-dd__btn'));
+      var mb = dd.querySelector('.ap-dd__btn').cloneNode(true), tg = mb.querySelector('.ap-dd__tag'); if (tg) tg.remove(); var menu = txt(mb);
       var feat = dd.querySelector('.ap-mega__feat');
       if (feat) add({ t: txt(feat.querySelector('.ap-mega__ft')).replace(/Interactive$/, '').trim(), href: feat.getAttribute('href'), d: txt(feat.querySelector('.ap-mega__fd')), g: menu });
       dd.querySelectorAll('.ap-mega__g').forEach(function (g) {
@@ -57,6 +57,7 @@
         });
       });
     });
+    d.querySelectorAll('.ap-foot__links a').forEach(function (a) { var h = a.getAttribute('href') || ''; if (/^\/(newsletter|how-this-site|contact|$)|^mailto:|bookings\.cloud|wa\.me|linkedin|Resume/.test(h)) add({ t: txt(a), href: h, d: 'More ways to reach me', g: 'Pages', x: a.target === '_blank', dl: a.hasAttribute('download') }); });
     d.querySelectorAll('.ap-foot__legal a').forEach(function (a) { add({ t: txt(a), href: a.getAttribute('href'), d: 'Legal', g: 'Pages' }); });
     return out;
   }
@@ -244,6 +245,40 @@
     var dd = a.parentNode;
     if (!dd.classList.contains('is-open')) { e.preventDefault(); dd.classList.remove('ap-esc'); dd.classList.add('is-open'); }
   });
+  // side card of a wide menu follows the row under the pointer (or keyboard focus); it goes back to its default when the menu closes
+  (function () {
+    var done = {};
+    function card(e) {
+      var it = e.target.closest && e.target.closest('.ap-mega--promo .ap-mega__it[data-pi]'); if (!it) return;
+      var mega = it.closest('.ap-mega'), p = mega.querySelector('.ap-mega__promo'); if (!p) return;
+      var img = p.querySelector('img'), t = p.querySelector('.ap-mega__pt'), dsc = p.querySelector('.ap-mega__pd');
+      if (!p.hasAttribute('data-def')) p.setAttribute('data-def', JSON.stringify({ h: p.getAttribute('href'), s: img.getAttribute('src') || img.getAttribute('data-src'), t: t.textContent, d: dsc.textContent }));
+      if (p.getAttribute('data-cur') === it.getAttribute('href')) return;
+      p.setAttribute('data-cur', it.getAttribute('href'));
+      var tt = it.querySelector('.ap-mega__t').cloneNode(true), b = tt.querySelector('.ap-mega__b'); if (b) b.remove();
+      swap(p, img, it.getAttribute('data-pi'), it.getAttribute('href'), txt(tt), it.getAttribute('title') || txt(it.querySelector('.ap-mega__d')));
+    }
+    function swap(p, img, src, href, title, desc) {
+      p.setAttribute('href', href); p.querySelector('.ap-mega__pt').textContent = title; p.querySelector('.ap-mega__pd').textContent = desc;
+      if (img.getAttribute('src') === src) return;
+      img.style.opacity = '0.15';
+      var n = new Image(); n.onload = n.onerror = function () { img.src = src; img.style.opacity = ''; }; n.src = src;
+    }
+    function reset(e) {
+      var dd = e.target.closest && e.target.closest('.ap-dd--mega'); if (!dd || (e.relatedTarget && dd.contains(e.relatedTarget))) return;
+      var p = dd.querySelector('.ap-mega__promo'); if (!p || !p.hasAttribute('data-def')) return;
+      var o = JSON.parse(p.getAttribute('data-def')); p.removeAttribute('data-cur');
+      swap(p, p.querySelector('img'), o.s, o.h, o.t, o.d);
+    }
+    function preload(e) {
+      var dd = e.target.closest && e.target.closest('.ap-dd--mega'); if (!dd || done[dd.querySelector('.ap-dd__btn').textContent]) return;
+      done[dd.querySelector('.ap-dd__btn').textContent] = 1;
+      dd.querySelectorAll('.ap-mega__it[data-pi]').forEach(function (a) { new Image().src = a.getAttribute('data-pi'); });
+    }
+    d.addEventListener('mouseover', function (e) { preload(e); card(e); }, true);
+    d.addEventListener('focusin', card, true);
+    d.addEventListener('mouseout', reset, true);
+  })();
   // phone menu: opening one group closes the others and brings it into view
   d.addEventListener('toggle', function (e) {
     var g = e.target; if (!g.matches || !g.matches('.ap-ms__grp') || !g.open) return;
