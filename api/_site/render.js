@@ -112,6 +112,15 @@ async function withImages(p) {
   if (q.cover.src) imgs.push({ url: q.cover.src, alt: q.cover.alt || p.title, id: ((q.cover.src.match(/\/media\/([a-z0-9]+)/) || [])[1]), ...(/^\/assets\/blog\//.test(q.cover.src) ? { w: /-cover-hd\.jpg$/.test(q.cover.src) ? 3600 : 1200, h: /-cover-hd\.jpg$/.test(q.cover.src) ? 1890 : 630 } : {}) });
   for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/media\/([a-z0-9]+)[^)\s]*)/g)) imgs.push({ url: m[2], alt: m[1], id: m[3] });
   for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/assets\/blog\/[^)\s]+)/g)) imgs.push({ url: m[2], alt: m[1], w: 1200, h: 630 });
+  // the older cover stays listed (sitemap and schema) so its ranked image URL keeps its page; described as the picture it is
+  const og = q.seo.ogImage, th = (p.extra && p.extra.thumb) || {};
+  if (og && /^\/assets\/blog\/[a-z0-9-]+-cover\.jpg$/.test(og) && og !== q.cover.src) {
+    const hook = String(th.text || '').replace(/\|/g, ' ').trim(), t = (p.seo && p.seo.title) || p.title, sub = th.sub && th.sub !== t && th.sub !== p.title ? th.sub : '';
+    imgs.push({ url: og, alt: [`${t}: ${hook}`.replace(/:\s*$/, ''), sub].filter(Boolean).join(/[.?!]$/.test(hook) ? ' ' : '. '), w: 1200, h: 630 });
+  }
+  // third-party pictures keep their real credit (free-licence photos, official press screenshots)
+  const ph = p.extra && p.extra.photo;
+  imgs.forEach((i) => { if (ph && ph.src && i.url === ph.src) { i.credit = ph.credit || ph.artist; i.third = true; } else if (/-shot-[a-z0-9-]+\.jpg$/.test(i.url)) { i.credit = 'Rockstar Games / Take-Two Interactive'; i.third = true; } });
   imgs.forEach((i) => { const m = map[i.id]; if (m) { i.w = m.w; i.h = m.h; } });
   q.images = imgs.filter((x, k) => imgs.findIndex((y) => y.url === x.url) === k).slice(0, 12); q.mediaMap = map;
   return q;
@@ -123,7 +132,7 @@ function sized(html, map) {
 // sharp covers: -cover-hd.jpg (3600 wide) also has a 1200-wide -cover-v2.jpg; let the browser pick by display size and pixel density
 const srcset = (src, sizes) => /^\/assets\/blog\/[a-z0-9-]+-cover-hd\.jpg$/.test(src || '') ? ` srcset="${esc(src.replace(/-cover-hd\.jpg$/, '-cover-v2.jpg'))} 1200w, ${esc(src)} 3600w" sizes="${sizes}"` : '';
 const coverAttrs = (p) => { const i = p.images && p.images[0]; return i && i.url === (p.cover && p.cover.src) && i.w && i.h ? ` width="${i.w}" height="${i.h}" fetchpriority="high"` : ' fetchpriority="high"'; };
-const imageLd = (list) => list.map((i) => ({ '@type': 'ImageObject', url: abs(i.url), contentUrl: abs(i.url), caption: i.alt || undefined, width: i.w || undefined, height: i.h || undefined, license: SITE + '/image-license', acquireLicensePage: SITE + '/image-license#request', creditText: 'Aashish Pandey', copyrightNotice: '© ' + new Date().getFullYear() + ' Aashish Pandey' }));
+const imageLd = (list) => list.map((i) => ({ '@type': 'ImageObject', url: abs(i.url), contentUrl: abs(i.url), caption: i.alt || undefined, width: i.w || undefined, height: i.h || undefined, ...(i.third ? { creditText: i.credit || undefined } : { license: SITE + '/image-license', acquireLicensePage: SITE + '/image-license#request', creditText: 'Aashish Pandey', copyrightNotice: '© ' + new Date().getFullYear() + ' Aashish Pandey', creator: { '@id': SITE + '/#person' } }) }));
 
 /* ---------- pieces ---------- */
 const crumbs = (items) => '<nav class="bl-crumbs" aria-label="Breadcrumb"><ol>' + items.map((c, i) => `<li>${c.href && i < items.length - 1 ? `<a href="${esc(c.href)}">${esc(c.t)}</a>` : esc(c.t)}</li>`).join('<li aria-hidden="true">/</li>') + '</ol></nav>';
@@ -258,7 +267,7 @@ ${toolJourney(p.body)}${rel.length ? `<section class="bl-wrap bl-rel" aria-label
   if (x.faq && x.faq.length) graph.push({ '@type': 'FAQPage', '@id': url + '#faq', mainEntity: x.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
   const ld = [{ '@context': 'https://schema.org', '@graph': graph }];
   const tt = seo.title || p.title;
-  return layout({ title: tt.length + 17 <= 66 ? tt + ' · Aashish Pandey' : tt, desc: seo.description || trunc(p.excerpt, 155), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', imageAlt: p.cover && p.cover.alt, section_: p.category, articleTags: p.tags, published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
+  return layout({ title: tt.length + 17 <= 66 ? tt + ' · Aashish Pandey' : tt, desc: seo.description || trunc(p.excerpt, 155), canonical: seo.canonical || url, image: seo.ogImage || (p.cover && p.cover.src), ogType: 'article', imageAlt: ((p.images || []).find((x) => x.url === (seo.ogImage || (p.cover && p.cover.src))) || {}).alt || (p.cover && p.cover.alt), section_: p.category, articleTags: p.tags, published: p.publishAt || p.updated, modified: p.updated, noindex: preview || seo.noindex, progress: true, rss: true, body, jsonld: ld });
 }
 
 /* ---------- case studies ---------- */
