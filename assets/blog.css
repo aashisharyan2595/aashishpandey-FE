@@ -202,4 +202,4 @@ a.bl-tag:hover{border-color:var(--bl-amber);color:var(--bl-ink)!important}.bl-ta
 /* Interactive blocks: ::widget[name](description) puts assets/widgets/name.html in a sandboxed frame. Class names avoid the ad- prefix. */
 .md-widget{margin:2em 0}.md-widget iframe{display:block;width:100%;height:440px;border:1px solid var(--bl-line);border-radius:16px;background:#0b0e1f;color-scheme:dark}.md-widget figcaption{margin-top:10px;font-size:14px;color:var(--bl-dim)}
 .bl-md figure.md-info img{max-height:none;width:100%;max-width:640px}
-.bl-md figure.md-art img{max-height:none;width:100%;max-width:820px;aspect-ratio:16/9}
+.bl-md figure.md-art img{max-height:none;width:100%;max-width:820px}
