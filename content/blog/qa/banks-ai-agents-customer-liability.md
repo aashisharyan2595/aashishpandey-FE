@@ -10,3 +10,6 @@ go-live: 2026-11-23T17:51:29.439Z
 - 6 QA pass 2: CHANGES NEEDED. 7 issues (FAQ 2 wording, length 1330 vs 1300, quick answer contradicted body, Fox causation, 2 staged phrases, speculative bullet, diagram text).
 - 7 writer fix: all 7 applied, 45 words cut.
 - 8 QA pass 3: SIGNOFF. Facts 44 supported, 0 unsupported, 0 contradicted. Nits skipped: relative dates ("this week") go stale; source title truncated in the Sources list (display only).
+- 9 stage link: branch stage-1123, preview https://aashishpandey-fe-git-stage-1123-aashish-pandey1.vercel.app/blog/banks-ai-agents-customer-liability, noindex. qa.js front 13 of 13 PASS.
+- 10 stage QA agent: SIGNOFF FOR GO-LIVE, conditional on seeing the in-post diagram; the full-page screenshot missed it (lazy image). Writer checked it with a scrolled element screenshot: renders correctly. qa.js now saves per-figure screenshots. Nit fixed: calendar.json trailing newline. Cookie banner overlaps the title in the screenshot: site overlay, not the post.
+- 11 go live: qa.js release restored publishAt, pushed stage-1123 to main.
