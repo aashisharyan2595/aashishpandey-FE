@@ -47,9 +47,13 @@
   }
   // blog index: one view per visit, and a click on a post's card (the click rate of its picture and title)
   var cards = document.querySelectorAll('[data-cid]');
+  var list = document.querySelector('.bl-list');
   if (!art2 && cards.length && navigator.sendBeacon) {
-    setTimeout(function () { try { navigator.sendBeacon('/api/config?a=site&p=card&k=v'); } catch (e) { /* best effort */ } }, 4000);
-    document.addEventListener('click', function (e) { var c = e.target.closest && e.target.closest('[data-cid]'); if (c && e.target.closest('a')) try { navigator.sendBeacon('/api/config?a=site&p=card&k=c&id=' + c.getAttribute('data-cid')); } catch (x) { /* best effort */ } });
+    // index layout test: arm A = topic sections, arm B = one flat grid (the arm is picked per visit, no cookie; ?ex=list:b shows B without counting)
+    var lab = '';
+    if (list) { var la = forced && forced[1] === 'list' ? forced[2] : Math.random() < 0.5 ? 'a' : 'b'; if (la === 'b') list.classList.add('ex-list-b'); if (!forced) lab = '&ab=list:' + la; }
+    setTimeout(function () { try { navigator.sendBeacon('/api/config?a=site&p=card&k=v' + lab); } catch (e) { /* best effort */ } }, 4000);
+    document.addEventListener('click', function (e) { var c = e.target.closest && e.target.closest('[data-cid]'); if (c && e.target.closest('a')) try { navigator.sendBeacon('/api/config?a=site&p=card&k=c&id=' + c.getAttribute('data-cid') + lab); } catch (x) { /* best effort */ } });
   }
   // Short: the YouTube player is only fetched when the reader presses play
   document.addEventListener('click', function (e) {

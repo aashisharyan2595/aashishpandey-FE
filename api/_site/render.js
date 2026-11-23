@@ -8,7 +8,7 @@ const chrome = require('./chrome.json');
 const cmsAuthors = () => require('../_adm/cms').authorsList();
 
 const SITE = 'https://aashishpandey.com', esc = md.esc;
-const BL = 'v14';   // ?v= for assets/blog.css and blog.js
+const BL = 'v15';   // ?v= for assets/blog.css and blog.js
 const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const isoDate = (ms) => new Date(ms || Date.now()).toISOString();
 const abs = (u) => (!u ? '' : /^https?:/i.test(u) ? u : SITE + u);
@@ -332,7 +332,7 @@ async function handle(req, res) {
     if (p === 'hit' || p === 'read' || p === 'card') {
       if (req.method !== 'POST') return send(405, 'text/plain; charset=utf-8', 'Use POST', 'no-store');
       const st = require('./stats'), id = String(q.id || ''), ab = String(q.ab || '').slice(0, 60);
-      await (p === 'hit' ? st.hit(req, id, ab) : p === 'read' ? st.read(req, id, ab) : st.card(req, String(q.k || ''), id));
+      await (p === 'hit' ? st.hit(req, id, ab) : p === 'read' ? st.read(req, id, ab) : st.card(req, String(q.k || ''), id, ab));
       return send(204, 'text/plain; charset=utf-8', '', 'no-store');
     }
     if (p === 'scores') return send(200, 'application/json; charset=utf-8', JSON.stringify({ posts: await require('./stats').windows(await posts.live('post')), ab: await require('./stats').abScores(), gsc: await require('../_adm/gsc').blogPages().catch(() => null) }), 'public, max-age=0, s-maxage=3600, stale-while-revalidate=7200');   // view counts for the blog desk's feedback loop (docs/blog-desk-runbook.md)
