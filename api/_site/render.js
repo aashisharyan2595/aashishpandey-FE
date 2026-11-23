@@ -113,8 +113,9 @@ async function withImages(p) {
   for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/media\/([a-z0-9]+)[^)\s]*)/g)) imgs.push({ url: m[2], alt: m[1], id: m[3] });
   for (const m of q.body.matchAll(/!\[([^\]]*)\]\((\/assets\/blog\/[^)\s]+)/g)) imgs.push({ url: m[2], alt: m[1], w: 1200, h: 630 });
   // the older cover stays listed (sitemap and schema) so its ranked image URL keeps its page; described as the picture it is
-  const og = q.seo.ogImage, th = (p.extra && p.extra.thumb) || {};
-  if (og && /^\/assets\/blog\/[a-z0-9-]+-cover\.jpg$/.test(og) && og !== q.cover.src) {
+  // (share previews use the new cover, see qa.js/test.js "og image = cover"; extra.noOldCover drops an old picture that no longer matches the post)
+  const og = q.cover.src.replace(/-cover-hd\.jpg$/, '-cover.jpg'), th = (p.extra && p.extra.thumb) || {};
+  if (og !== q.cover.src && !(p.extra && p.extra.noOldCover)) {
     const hook = String(th.text || '').replace(/\|/g, ' ').trim(), t = (p.seo && p.seo.title) || p.title, sub = th.sub && th.sub !== t && th.sub !== p.title ? th.sub : '';
     imgs.push({ url: og, alt: [`${t}: ${hook}`.replace(/:\s*$/, ''), sub].filter(Boolean).join(/[.?!]$/.test(hook) ? ' ' : '. '), w: 1200, h: 630 });
   }

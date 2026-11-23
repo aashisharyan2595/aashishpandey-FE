@@ -23,7 +23,7 @@
   "seo": {
     "title": "NGINX HTTP/2 RCE flaws: patch or turn off HTTP/2",
     "description": "NGINX flaws CVE-2026-123007 and CVE-2026-123633 allow remote code execution over HTTP/2. See affected versions, fixed releases and the stopgap.",
-    "ogImage": "/assets/blog/nginx-http2-rce-flaws-patch-cover.jpg"
+    "ogImage": "/assets/blog/nginx-http2-rce-flaws-patch-cover-v2.jpg"
   },
   "extra": {
     "faq": [

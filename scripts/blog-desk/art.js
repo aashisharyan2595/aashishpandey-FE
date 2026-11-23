@@ -2,7 +2,7 @@
 //   node scripts/blog-desk/art.js scripts/blog-desk/art/<slug>.js --stills   render PNGs to /tmp/art-<slug>/ to look at first
 //   node scripts/blog-desk/art.js scripts/blog-desk/art/<slug>.js            write the JPGs (cover 3600 wide + 1200 copy, in-post 2400 wide) (with metadata), set the cover, insert the in-post images, bump `updated` on a live post
 // A concept file exports { slug, palette ('light' | 'dark' | 'bold', the cover's ground), cover: { html, alt }, art: [{ name, html, alt, caption, before? }] }. Build `html` with the helpers below (see art/jensen-huang-resigns-nvidia-ceo.js).
-// Old <slug>-cover.jpg / -thumb.jpg files are never touched or deleted (they rank in image search); seo.ogImage keeps pointing at the old cover.
+// Old <slug>-cover.jpg / -thumb.jpg files are never touched or deleted (they rank in image search); seo.ogImage is set to the new -cover-v2.jpg so share previews match the page (the old cover is still listed in the image sitemap).
 const fs = require('fs'), path = require('path');
 const ROOT = path.join(__dirname, '..', '..'), F = ROOT + '/assets/vendor/fonts/', { embed } = require('./imgmeta.js');
 const b64 = (n) => 'data:font/woff2;base64,' + fs.readFileSync(F + n + '.woff2').toString('base64');
@@ -43,6 +43,7 @@ if (require.main === module) (async () => {
   fs.writeFileSync(ROOT + cf, embed(await jpg(c.cover.html, 3, 86), cm));
   fs.writeFileSync(ROOT + `/assets/blog/${slug}-cover-v2.jpg`, embed(await jpg(c.cover.html, 3, 88, 1200), cm));
   d.cover = { ...(d.cover || {}), src: cf, alt: c.cover.alt };
+  d.seo = { ...(d.seo || {}), ogImage: `/assets/blog/${slug}-cover-v2.jpg` };   // the share picture is always the page's cover
   d.extra = { ...(d.extra || {}), art: { palette: c.palette || 'light' } };   // light | dark | bold, scored by learn.js (image palette)
   for (const a of c.art || []) {
     const f = `/assets/blog/${slug}-art-${a.name}-hd.jpg`, line = `![${a.alt}](${f} "${a.caption}")`;
