@@ -3572,7 +3572,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (hud) renderer.info.reset();
     if (introStart === null && introArmed) introStart = now;
     const intro = introStart === null ? 0 : sstep(0, 1, (now - introStart) / 6500);
-    { const gap = (target - t) * L, vmax = 34 + Math.max(0, Math.abs(gap) - 60) * 0.6, want = clamp(gap * 1.4, -vmax, vmax); vel += (want - vel) * (1 - Math.exp(-dt * 2.2)); t = clamp(t + vel * dt / L, 0, 1); if (Math.abs(gap) < 0.05 && Math.abs(vel) < 0.5) { t = target; vel = 0; } if (!free && CAMP.st !== 'ride') { t = 1; vel = 0; } }
+    { const gap = (target - t) * L, vmax = Math.min(95, 34 + Math.max(0, Math.abs(gap) - 60) * 0.6), want = clamp(gap * 1.4, -vmax, vmax); vel += (want - vel) * (1 - Math.exp(-dt * 2.2)); t = clamp(t + vel * dt / L, 0, 1); if (Math.abs(gap) < 0.05 && Math.abs(vel) < 0.5) { t = target; vel = 0; } if (!free && CAMP.st !== 'ride') { t = 1; vel = 0; } }
     if (!down && now - lastPan > 2500) { yawOff *= Math.exp(-dt * 1.2); pitchOff *= Math.exp(-dt * 1.2); }
     keyDir = clamp((keys.r || touch.r ? 1 : 0) - (keys.l || touch.l ? 1 : 0) + stickX, -1, 1); steerIn += (keyDir - steerIn) * (1 - Math.exp(-dt * (Math.abs(keyDir) >= Math.abs(steerIn) ? 10 : 12)));
     let bp, yaw, z, fr, spd, pitch;

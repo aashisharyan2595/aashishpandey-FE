@@ -42,7 +42,7 @@
 <script src="/assets/js/support.js" defer></script>
 <link rel="modulepreload" href="/assets/vendor/three-0.184.0/three.module.min.js" fetchpriority="low">
 <link rel="modulepreload" href="/assets/vendor/three-0.184.0/three.core.min.js" fetchpriority="low">
-<link rel="modulepreload" href="/assets/js/world-v7.js?v=10o" fetchpriority="low">
+<link rel="modulepreload" href="/assets/js/world-v7.js?v=10p" fetchpriority="low">
 <!-- ap-head:start -->
 <meta http-equiv="content-language" content="en">
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="NLMsfOMIs451GqBmVggYOA" async></script>
@@ -860,7 +860,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;lowPower&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Performance&quot;},&quot;rideLength&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:260,&quot;min&quot;:80,&quot;max&quot;:260,&quot;step&quot;:10,&quot;unit&quot;:&quot;vh per stop&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Ride&quot;},&quot;showHints&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Ride&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;lowPower&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Performance&quot;},&quot;rideLength&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:150,&quot;min&quot;:80,&quot;max&quot;:260,&quot;step&quot;:10,&quot;unit&quot;:&quot;vh per stop&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Ride&quot;},&quot;showHints&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Ride&quot;}}">
 const N = 9;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const sstep = (a, b, v) => { const x = clamp((v - a) / (b - a), 0, 1); return x * x * (3 - 2 * x); };
@@ -1032,10 +1032,34 @@ class Component extends DCLogic {
     { const pre = document.getElementById('ap-pre'); pre && pre.remove(); } document.documentElement.classList.toggle('ap-rm', !!this.state.reduceMotion);
     this.onTab = e => this.state.lbI != null && window.apTrap && window.apTrap(e, this.lbDialog.current); addEventListener('keydown', this.onTab);
     this.onResize = () => { const m = compactUI(); if (m !== this.state.mobile) { this.setState({ mobile: m }); this.world && this.world.setMobile(m); } this.onScroll(); };
-    this.onTouch = e => { this.touching = e.type === 'touchstart'; if (!this.touching) this.scheduleSnap(); };
-    this.scheduleSnap = () => { clearTimeout(this.snapT); if (!this.state.mobile || this.state.free || this.touching || this.state.boot !== 'done') return; this.snapT = setTimeout(() => { if (this.touching || this.state.free) return; const max = document.documentElement.scrollHeight - innerHeight; if (max <= 0) return; const tgt = Math.round(scrollY / max * N) / N * max; if (Math.abs(scrollY - tgt) > 4) scrollTo({ top: tgt, behavior: 'smooth' }); }, 240); };
+    // Scroll feel. ?scroll=glide (default): even movement, one stop per gesture, own eased snap. ?scroll=step: one wheel flick or swipe rides to the next stop. ?scroll=old: previous behaviour.
+    const SM = (() => { try { const v = new URLSearchParams(location.search).get('scroll'); return v === 'step' || v === 'old' ? v : 'glide'; } catch (e) { return 'glide'; } })(); this.scrollMode = SM;
+    const maxScroll = () => document.documentElement.scrollHeight - innerHeight;
+    this.anchor = null; this.animating = false; this.stepUntil = 0; this.lastWheel = 0;
+    this.glideTo = (i, ms) => { cancelAnimationFrame(this.glideRaf); const max = maxScroll(); if (max <= 0) return; i = clamp(Math.round(i), 0, N); const from = scrollY, to = i / N * max, d = to - from; this.anchor = i;
+      if (Math.abs(d) < 2) { this.animating = false; return; } const dur = this.state.reduceMotion ? 1 : (ms || clamp(450 + Math.abs(d) / innerHeight * 90, 550, 1500)), t0 = performance.now(); this.animating = true;
+      const frame = now => { const k = clamp((now - t0) / dur, 0, 1), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; scrollTo({ top: from + d * e, behavior: 'instant' }); if (k < 1) this.glideRaf = requestAnimationFrame(frame); else this.animating = false; }; this.glideRaf = requestAnimationFrame(frame); };
+    this.cancelGlide = () => { if (this.animating) { cancelAnimationFrame(this.glideRaf); this.animating = false; } };
+    this.idleOK = () => !this.touching && !this.state.free && this.state.boot === 'done' && this.state.lbI == null;
+    this.glideScroll = () => { if (this.animating) return; clearTimeout(this.glideT); this.glideT = setTimeout(() => { if (!this.idleOK() || this.animating) return; const max = maxScroll(); if (max <= 0) return; const a = this.anchor == null ? Math.round(scrollY / max * N) : this.anchor; this.glideTo(clamp(scrollY / max * N, a - 1, a + 1), 650); }, 150); };
+    if (SM === 'glide') addEventListener('scroll', this.glideScroll, { passive: true });
+    if (SM === 'glide') ['wheel', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, e => { if (ev === 'keydown' && !['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].includes(e.key)) return; this.cancelGlide(); }, { passive: true }));
+    if (SM === 'step') {
+      const inScroller = el => { for (; el && el !== document.body && el.nodeType === 1; el = el.parentElement) { const o = getComputedStyle(el).overflowY; if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight + 1) return true; } return false; };
+      const blocked = e => this.state.free || this.state.lbI != null || this.state.boot !== 'done' || e.ctrlKey || e.metaKey || inScroller(e.target);
+      const go = dir => { const max = maxScroll(); if (max <= 0) return; const cur = this.anchor == null ? Math.round(scrollY / max * N) : this.anchor, nx = clamp(cur + dir, 0, N); if (nx === cur) return; this.glideTo(nx, 1300); this.blip(760 + nx * 40); this.stepUntil = performance.now() + 1300; };
+      addEventListener('wheel', e => { if (blocked(e)) return; e.preventDefault(); const now = performance.now(), gap = now - this.lastWheel; this.lastWheel = now; if (Math.abs(e.deltaY) < 3) return; if (this.animating || now < this.stepUntil) return; if (gap < 110 && this.wheelUsed) return; this.wheelUsed = true; go(e.deltaY > 0 ? 1 : -1); }, { passive: false });
+      addEventListener('touchstart', e => { this.ty0 = e.touches[0].clientY; this.tmoved = false; }, { passive: true });
+      addEventListener('touchmove', e => { if (blocked(e)) return; this.tmoved = true; e.preventDefault(); }, { passive: false });
+      addEventListener('touchend', e => { if (!this.tmoved || this.state.free) return; const dy = this.ty0 - e.changedTouches[0].clientY; this.tmoved = false; if (Math.abs(dy) > 36 && !this.animating) go(dy > 0 ? 1 : -1); }, { passive: true });
+      addEventListener('keydown', e => { const tg = e.target && e.target.tagName; if (this.state.free || this.state.lbI != null || tg === 'INPUT' || tg === 'TEXTAREA' || tg === 'SELECT' || tg === 'BUTTON' || e.metaKey || e.ctrlKey || e.altKey) return; if (['ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); if (!this.animating) go(1); } else if (['ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); if (!this.animating) go(-1); } else if (e.key === 'Home') { e.preventDefault(); this.glideTo(0); } else if (e.key === 'End') { e.preventDefault(); this.glideTo(N); } });
+      document.documentElement.style.overscrollBehavior = 'none';
+    }
+    this.onTouch = e => { this.touching = e.type === 'touchstart'; if (!this.touching) { this.scheduleSnap(); if (this.scrollMode === 'glide') this.glideScroll(); } };
+    this.scheduleSnap = () => { clearTimeout(this.snapT); if (this.scrollMode !== 'old' || !this.state.mobile || this.state.free || this.touching || this.state.boot !== 'done') return; this.snapT = setTimeout(() => { if (this.touching || this.state.free) return; const max = document.documentElement.scrollHeight - innerHeight; if (max <= 0) return; const tgt = Math.round(scrollY / max * N) / N * max; if (Math.abs(scrollY - tgt) > 4) scrollTo({ top: tgt, behavior: 'smooth' }); }, 240); };
     addEventListener('touchstart', this.onTouch, { passive: true }); addEventListener('touchend', this.onTouch, { passive: true }); addEventListener('scroll', () => this.scheduleSnap(), { passive: true });
-    this.onScroll = () => { if (this.raf) return; this.raf = requestAnimationFrame(() => { this.raf = 0; const max = document.documentElement.scrollHeight - innerHeight; const u = max > 0 ? clamp(scrollY / max, 0, 1) : 0; const s = Math.min(N - 1, Math.floor(u * N)), l = u * N - s; const t = (s + sstep(0.18, 0.82, l)) / N;
+    this.onScroll = () => { if (this.raf) return; this.raf = requestAnimationFrame(() => { this.raf = 0; const max = document.documentElement.scrollHeight - innerHeight; const u = max > 0 ? clamp(scrollY / max, 0, 1) : 0; let r = u * N; if (this.scrollMode === 'glide' && !this.animating) { if (this.anchor == null) this.anchor = Math.round(r); const a = this.anchor, now = performance.now(); if (r > a + 1 || r < a - 1) { if (!this.heldAt) this.heldAt = now; else if (now - this.heldAt > 650) { this.anchor = a + (r > a ? 1 : -1); this.heldAt = 0; } r = clamp(r, a - 1, a + 1); } else this.heldAt = 0; } else if (this.scrollMode === 'step' && this.anchor == null) this.anchor = Math.round(r);
+      const s = Math.min(N - 1, Math.floor(r)), l = r - s, t = this.scrollMode === 'old' ? (s + sstep(0.18, 0.82, l)) / N : (s + l + 0.5 * (sstep(0.12, 0.88, l) - l)) / N;
       this.world && this.world.setTarget(t); if (t > 0.01 && this.world && !this.skipped) { this.skipped = true; this.world.skipIntro(); this.triggerFreeHint(); }
       { const a = Math.round(t * N); const arr = Math.abs(t - a / N) < 0.004 ? a : -1; if (arr > 0 && arr !== this.lastArr) this.buzzWatch(); this.lastArr = arr; }
       if (Math.abs(t - this.state.t) > 0.0015 || (t !== this.state.t && Math.abs(t * N - Math.round(t * N)) < 0.08)) { const si = Math.round(t * N); const ch = si !== Math.round(this.state.t * N); this.setState(s => ({ t, ...(ch ? { expanded: false, panelClosed: false } : {}), radio: Math.abs(t - s.t) > 0.003 ? false : s.radio })); } }); };
@@ -1053,7 +1077,7 @@ class Component extends DCLogic {
     this.mapI = setInterval(() => this.drawMap(), 100);
     this.poll = setInterval(() => { if (this.score && this.score.on && this.world) this.score.update(this.world.getState()); this.rideTick(); }, 150);
     const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
-    const loadWorld = () => import('/assets/js/world-v7.js?v=10o').then(async m => {
+    const loadWorld = () => import('/assets/js/world-v7.js?v=10p').then(async m => {
       if (!this.canvasHost.current) return;
       const gpu = m.probeGPU ? m.probeGPU() : {}; (window.__ap = this), this.world = await m.createWorld(this.canvasHost.current, { lowPower: lp || gpu.weak || gpu.igpu || this.state.lowGfx || innerWidth < 760, softGPU: !!gpu.soft, mobile: compactUI(), notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
         onNote: (i, x, y) => { this.blip(1180); if (i >= NOTES.length && !(this.state.found || []).includes(i)) { const found = [...(this.state.found || []), i]; this.setState({ found }); try { localStorage.setItem('apSecrets', JSON.stringify(found)); } catch (e) {} } this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
@@ -1075,7 +1099,7 @@ class Component extends DCLogic {
     const xi = this.xpInfo(); if (this.lastLvl != null && xi.lvl > this.lastLvl) { const lv = xi.lvl; setTimeout(() => this.showLevelUp(lv), 1800); } else if (this.lastDone != null && xi.done.length > this.lastDone) { const c = xi.done[xi.done.length - 1]; setTimeout(() => this.showToast('Challenge done', c.name, '+120 XP'), 2700); } this.lastLvl = xi.lvl; this.lastDone = xi.done.length; }
   blip(f) { if (this.radio && this.state.scoreOn) this.radio.blip(f || 880); }
   toggleSnd(cat) { const snd = { ...this.state.snd, [cat]: !this.state.snd[cat] }; this.setState({ snd }); try { localStorage.setItem('apSoundPrefs', JSON.stringify(snd)); } catch (e) {} if (cat === 'brake' && this.radio) this.radio.setBrakeMuted(!snd.brake); if (this.score) this.score.setMute(cat, snd[cat]); }
-  jump(i) { const max = document.documentElement.scrollHeight - innerHeight; scrollTo({ top: clamp(i, 0, N) / N * max, behavior: 'smooth' }); this.blip(760 + i * 40); }
+  jump(i) { const max = document.documentElement.scrollHeight - innerHeight; if (this.scrollMode !== 'old' && this.glideTo) this.glideTo(i); else scrollTo({ top: clamp(i, 0, N) / N * max, behavior: 'smooth' }); this.blip(760 + i * 40); }
   stopMusic() { this.radio && this.radio.stop(); this.score && this.score.stop(); this.setState({ scoreOn: false }); }
   openProof(slug) { location.href = window.__apRoute ? window.__apRoute('/portfolio' + (slug ? '#' + slug : '')) : '/portfolio' + (slug ? '#' + slug : ''); }
   closeProof() { if (!this.state.proof) return; clearTimeout(this.pauseT); this.world && this.world.setPaused(false); this.setState({ proof: false }); history.replaceState(null, '', location.pathname + location.search); }
@@ -1247,7 +1271,7 @@ class Component extends DCLogic {
         if (e.night > 0.05) return { bg: 'linear-gradient(180deg,rgba(20,30,70,.35),rgba(6,10,30,.15))', mode: 'multiply', op: e.night * 0.55 };
         if (warm > 0.05) return { bg: 'linear-gradient(180deg,rgba(255,150,80,.18),rgba(120,40,60,.1))', mode: 'soft-light', op: warm * 0.6 };
         return { bg: 'transparent', mode: 'normal', op: 0 }; })(),
-      spacerH: ((mobile ? Math.min(this.props.rideLength ?? 260, 110) : (this.props.rideLength ?? 260)) * N + 100) + 'vh',
+      spacerH: ((mobile ? Math.min(this.props.rideLength ?? 150, 110) : (this.props.rideLength ?? 150)) * N + 100) + 'vh',
       grainDisplay: mobile ? 'none' : 'block',
       bootPct: Math.round(bootLine / BOOT.length * 100) + '%',
       stopLabel: String(arrived ? si : nextI).padStart(2, '0') + ' · ' + STOPS[arrived ? si : nextI].name,
