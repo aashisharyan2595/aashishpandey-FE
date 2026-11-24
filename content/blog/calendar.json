@@ -1213,18 +1213,6 @@
       "added": "2026-11-23"
     },
     {
-      "key": "crowdstrike-zscaler-43b",
-      "title": "CrowdStrike to buy Zscaler for $43.9B: what it means for security buyers",
-      "kind": "news",
-      "topic": "security",
-      "score": 10,
-      "urls": [
-        "https://www.securityweek.com/crowdstrike-to-acquire-zscaler-in-43-9-billion-deal/"
-      ],
-      "angle": "Biggest security deal; combined ARR over $10B; what customers should check. Confirm with 2+ outlets. Candidate for breaking.",
-      "added": "2026-11-23"
-    },
-    {
       "key": "screenconnect-cve-exploited",
       "title": "ScreenConnect critical flaw exploited against MSP technicians: what to patch",
       "kind": "news",
@@ -1308,6 +1296,78 @@
       ],
       "angle": "Clarify it is a joke; facts only.",
       "added": "2026-11-23"
+    },
+    {
+      "key": "cisco-expressway-kev",
+      "title": "CISA flags critical Cisco Expressway RCE as exploited: what to patch",
+      "kind": "news",
+      "topic": "security",
+      "score": 9,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited-in-attacks/"
+      ],
+      "angle": "Confirm with 2+ outlets and the Cisco advisory before writing; patch steps for small IT teams.",
+      "added": "2026-11-24"
+    },
+    {
+      "key": "cleverbridge-breach",
+      "title": "Cleverbridge warns hackers stole card numbers and CVVs",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/"
+      ],
+      "angle": "Payment processor for software vendors; what buyers should check. Needs a second outlet.",
+      "added": "2026-11-24"
+    },
+    {
+      "key": "kepco-breach-1-5m",
+      "title": "KEPCO confirms data breach hitting 1.5 million",
+      "kind": "news",
+      "topic": "security",
+      "score": 7,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/south-koreas-power-giant-kepco-confirms-data-breach-impacting-1-5-million/"
+      ],
+      "angle": "South Korea power utility breach; what is confirmed.",
+      "added": "2026-11-24"
+    },
+    {
+      "key": "laliga-fan-data-breach",
+      "title": "LaLiga confirms hackers stole fans personal data",
+      "kind": "news",
+      "topic": "security",
+      "score": 7,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/spanish-laliga-confirms-hackers-stole-soccer-fans-personal-data/"
+      ],
+      "angle": "What was taken and what fans should do.",
+      "added": "2026-11-24"
+    },
+    {
+      "key": "claude-ship-launch",
+      "title": "Anthropic launches Claude Ship: AI agents review, fix and approve code",
+      "kind": "news",
+      "topic": "ai",
+      "score": 7,
+      "urls": [
+        "https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/"
+      ],
+      "angle": "Review with pros and cons once hands-on coverage exists.",
+      "added": "2026-11-24"
+    },
+    {
+      "key": "megaspeed-huang-senate",
+      "title": "Huang to testify in Senate; Megaspeed headed for US blacklist",
+      "kind": "news",
+      "topic": "tech",
+      "score": 7,
+      "urls": [
+        "https://techcrunch.com/2026/11/23/jensen-huang-scheduled-to-testify-next-week-in-senate-following-reinstatement-as-nvidia-ceo/"
+      ],
+      "angle": "Follow-up to the Nvidia reinstatement post; wait for the hearing.",
+      "added": "2026-11-24"
     }
   ],
   "covered": [
@@ -1328,6 +1388,7 @@
     "anthropic-ipo-priced",
     "cert-in-crafty-falcon",
     "nvidia-huang-reinstated",
-    "banks-ai-agents-liability"
+    "banks-ai-agents-liability",
+    "crowdstrike-zscaler"
   ]
 }

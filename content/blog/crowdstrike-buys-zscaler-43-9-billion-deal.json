@@ -1,0 +1,89 @@
+{
+  "title": "CrowdStrike to buy Zscaler for $43.9B: what we know",
+  "slug": "crowdstrike-buys-zscaler-43-9-billion-deal",
+  "excerpt": "CrowdStrike agreed to buy Zscaler in an all-stock deal worth about $43.9 billion. Here is what is confirmed, what is not, and what customers should do now.",
+  "body": "> **Quick answer.** CrowdStrike said on Monday 23 November 2026 that it will buy Zscaler in an all-stock deal valued at about $43.9 billion. The companies operate independently until it closes, expected in the second half of CrowdStrike's fiscal 2028, and no source reports any change for customers yet.\n\n## What happened\n\nOn Monday 23 November 2026, [CrowdStrike said it has agreed to acquire Zscaler](https://www.securityweek.com/crowdstrike-to-acquire-zscaler-in-43-9-billion-deal/) in an all-stock transaction valued at about $43.9 billion. Both boards approved it unanimously. Each Zscaler share turns into 1.135 CrowdStrike shares, or $260.41 at Friday's prices, about a 34% premium.\n\nCrowdStrike sells endpoint security for laptops, phones and other devices. Zscaler sells zero-trust access, which makes employees prove who they are each time they reach an internal system. [TechCrunch says](https://techcrunch.com/2026/11/23/crowdstrike-to-acquire-zscaler-for-44-billion/) Zscaler serves about 8,000 enterprise companies.\n\n## What is confirmed\n\n- Ownership after the deal: about 84.1% CrowdStrike holders, 15.9% Zscaler holders.\n- Zscaler founder Jay Chaudhry keeps running the Zscaler business and gets a seat on CrowdStrike's board.\n- The two firms already have over 2,000 customers in common and 16 integrations. After closing, CrowdStrike wants customers on one platform, with shared data and one contract.\n- CrowdStrike expects over $10 billion in annual recurring revenue combined, plus roughly $1 billion more within 30 months.\n- Closing is expected in the second half of CrowdStrike's fiscal 2028, pending regulatory approval and a Zscaler shareholder vote.\n\nInvestors were not thrilled. [CNBC reported](https://www.cnbc.com/2026/11/23/crowdstrike-zscaler-aquisition-ai-cyberattacks.html) that CrowdStrike stock fell about 9% on Monday and Zscaler jumped nearly 18%. Dilution was the worry, since CrowdStrike pays in new shares. In a [separate CNBC interview](https://cnbc.com/2026/11/23/crowdstrike-zscaler-deal-ceo-george-kurtz.html), CEO George Kurtz said free cash flow per share rises right after close.\n\n## Why it matters\n\nBy CNBC's count the pair was worth over $265 billion at Friday's close, still behind Palo Alto Networks at $282 billion. It is CrowdStrike's biggest purchase so far. Other big security deals include Google's planned $32 billion Wiz purchase and Palo Alto's $25 billion CyberArk deal.\n\nFor a buyer, the pitch is fewer vendors. Kurtz said only about 2,000 accounts overlap, so roughly 8,000 Zscaler customers do not use CrowdStrike today. That is the cross-selling pool, and I'd expect those customers to hear from a salesperson.\n\n## What we don't know yet\n\nThe reports say nothing about pricing or contract terms for existing customers, or whether regulators will object. CrowdStrike does signal one combined roadmap. Kurtz played down integration risk because the two have partnered for years. That is his view, not a result.\n\n## What to watch\n\nRegulatory filings, and what CrowdStrike says about contract terms for Zscaler customers.\n\n## My take\n\nIf you are a Zscaler or CrowdStrike customer, I would change nothing this week. I would ask your account manager in writing what happens to your current contract and renewal pricing, because a year is a long time to leave that open.\n\n## Frequently asked questions\n\n### How much is CrowdStrike paying for Zscaler?\n\nCrowdStrike agreed to pay about $43.9 billion in an all-stock deal. Each Zscaler share converts into 1.135 CrowdStrike shares, which valued Zscaler at $260.41 a share on Friday's closing prices, a premium of roughly 34%. Because it is paid in stock, CrowdStrike will issue new shares, which is why some investors raised dilution concerns.\n\n### When will the CrowdStrike and Zscaler deal close?\n\nThe deal is expected to close in the second half of CrowdStrike's fiscal year 2028, and it still needs regulatory approval and a Zscaler shareholder vote. TechCrunch describes that as around this time next year. Until it closes, the two companies remain separate businesses, and none of the reports describe any change to current contracts or products.\n\n### What does the deal mean for Zscaler customers?\n\nNo change has been reported. CrowdStrike says that after closing it wants one platform, shared data and a single contract. The reports do not describe pricing, contract terms or product changes, so customers who want certainty should ask their account manager directly.\n\n### Why did CrowdStrike shares fall after the announcement?\n\nCNBC reported that CrowdStrike shares dropped about 9% on Monday while Zscaler rose nearly 18%. Some investors worried about dilution, because CrowdStrike pays in new shares. CEO George Kurtz pushed back, saying it will be accretive to free cash flow per share right after closing.\n\n## Sources\n\n1. [EX](https://www.sec.gov/Archives/edgar/data/0001713683/000119312526471211/d115803dex991.htm), sec.gov\n2. [CrowdStrike to Acquire Zscaler in $43.9 Billion Deal](https://www.securityweek.com/crowdstrike-to-acquire-zscaler-in-43-9-billion-deal/), securityweek.com\n3. [CrowdStrike to acquire Zscaler for $44 billion](https://techcrunch.com/2026/11/23/crowdstrike-to-acquire-zscaler-for-44-billion/), TechCrunch\n4. [CrowdStrike to buy Zscaler in $44B deal as AI supercharges cyberattacks](https://www.cnbc.com/2026/11/23/crowdstrike-zscaler-aquisition-ai-cyberattacks.html), CNBC\n5. [CrowdStrike CEO defends $44 billion Zscaler deal](https://cnbc.com/2026/11/23/crowdstrike-zscaler-deal-ceo-george-kurtz.html), CNBC\n",
+  "cover": {
+    "src": "/assets/blog/crowdstrike-buys-zscaler-43-9-billion-deal-cover.jpg",
+    "alt": "Two shields joining into one, illustrating CrowdStrike's $43.9 billion deal to buy Zscaler"
+  },
+  "category": "Security",
+  "tags": [
+    "CrowdStrike",
+    "Zscaler",
+    "cybersecurity",
+    "acquisition",
+    "zero trust",
+    "network security"
+  ],
+  "publishAt": 1795484815974,
+  "updated": 1795484824942,
+  "words": 690,
+  "mins": 3,
+  "seo": {
+    "title": "CrowdStrike to buy Zscaler: $43.9B deal explained",
+    "description": "CrowdStrike will buy Zscaler for about $43.9 billion in stock. What the deal confirms, what is still unknown, and what security buyers should check.",
+    "ogImage": "/assets/blog/crowdstrike-buys-zscaler-43-9-billion-deal-cover.jpg"
+  },
+  "extra": {
+    "topic": "security",
+    "faq": [
+      {
+        "q": "How much is CrowdStrike paying for Zscaler?",
+        "a": "CrowdStrike agreed to pay about $43.9 billion in an all-stock deal. Each Zscaler share converts into 1.135 CrowdStrike shares, which valued Zscaler at $260.41 a share on Friday's closing prices, a premium of roughly 34%. Because it is paid in stock, CrowdStrike will issue new shares, which is why some investors raised dilution concerns."
+      },
+      {
+        "q": "When will the CrowdStrike and Zscaler deal close?",
+        "a": "The deal is expected to close in the second half of CrowdStrike's fiscal year 2028, and it still needs regulatory approval and a Zscaler shareholder vote. TechCrunch describes that as around this time next year. Until it closes, the two companies remain separate businesses, and none of the reports describe any change to current contracts or products."
+      },
+      {
+        "q": "What does the deal mean for Zscaler customers?",
+        "a": "No change has been reported. CrowdStrike says that after closing it wants one platform, shared data and a single contract. The reports do not describe pricing, contract terms or product changes, so customers who want certainty should ask their account manager directly."
+      },
+      {
+        "q": "Why did CrowdStrike shares fall after the announcement?",
+        "a": "CNBC reported that CrowdStrike shares dropped about 9% on Monday while Zscaler rose nearly 18%. Some investors worried about dilution, because CrowdStrike pays in new shares. CEO George Kurtz pushed back, saying it will be accretive to free cash flow per share right after closing."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.sec.gov/Archives/edgar/data/0001713683/000119312526471211/d115803dex991.htm",
+        "title": "EX-99.1",
+        "outlet": "sec.gov"
+      },
+      {
+        "url": "https://www.securityweek.com/crowdstrike-to-acquire-zscaler-in-43-9-billion-deal/",
+        "title": "CrowdStrike to Acquire Zscaler in $43.9 Billion Deal - SecurityWeek",
+        "outlet": "securityweek.com"
+      },
+      {
+        "url": "https://techcrunch.com/2026/11/23/crowdstrike-to-acquire-zscaler-for-44-billion/",
+        "title": "CrowdStrike to acquire Zscaler for $44 billion | TechCrunch",
+        "outlet": "TechCrunch"
+      },
+      {
+        "url": "https://www.cnbc.com/2026/11/23/crowdstrike-zscaler-aquisition-ai-cyberattacks.html",
+        "title": "CrowdStrike to buy Zscaler in $44B deal as AI supercharges cyberattacks",
+        "outlet": "CNBC"
+      },
+      {
+        "url": "https://cnbc.com/2026/11/23/crowdstrike-zscaler-deal-ceo-george-kurtz.html",
+        "title": "CrowdStrike CEO defends $44 billion Zscaler deal",
+        "outlet": "CNBC"
+      }
+    ],
+    "kind": "breaking",
+    "about": [
+      "CrowdStrike",
+      "Zscaler",
+      "Palo Alto Networks",
+      "zero trust",
+      "Falcon platform"
+    ],
+    "auto": true,
+    "thumb": {
+      "text": "Buyer's stock fell 9%",
+      "headline": "CrowdStrike buys Zscaler"
+    }
+  }
+}
