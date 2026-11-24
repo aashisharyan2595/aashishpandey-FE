@@ -175,17 +175,16 @@
       "key": "gemini-4-neon"
     },
     "2026-11-28": {
-      "title": "Lovable-built apps exposed passport details and 200K private messages",
+      "title": "CISA flags critical Cisco Expressway RCE as exploited: what to patch",
       "kind": "news",
-      "angle": "Researcher report (single source so far); need Lovable's response and a second outlet. What vibe-coded apps get wrong and what a small business should check. Trade-only rule likely.",
+      "angle": "Confirm with 2+ outlets and the Cisco advisory before writing; patch steps for small IT teams.",
       "urls": [
-        "https://www.crissyfield.de/research/lovable-en/"
+        "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited-in-attacks/"
       ],
-      "score": 7,
+      "score": 9,
+      "topic": "security",
       "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "lovable-exposed-data"
+      "locked": false
     },
     "2026-11-29": {
       "title": "Alibaba Qwen4-Max review: what's new and pros and cons",
@@ -1298,18 +1297,6 @@
       "added": "2026-11-23"
     },
     {
-      "key": "cisco-expressway-kev",
-      "title": "CISA flags critical Cisco Expressway RCE as exploited: what to patch",
-      "kind": "news",
-      "topic": "security",
-      "score": 9,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited-in-attacks/"
-      ],
-      "angle": "Confirm with 2+ outlets and the Cisco advisory before writing; patch steps for small IT teams.",
-      "added": "2026-11-24"
-    },
-    {
       "key": "cleverbridge-breach",
       "title": "Cleverbridge warns hackers stole card numbers and CVVs",
       "kind": "news",
@@ -1390,6 +1377,42 @@
       "angle": "Only if a second outlet confirms; reported via Hacker News, find the source article first",
       "added": "2026-11-24",
       "topic": "ai"
+    },
+    {
+      "key": "lovable-apps-exposed-passports",
+      "title": "Lovable-built apps exposed passport details and 200K private messages",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://www.crissyfield.de/research/lovable-en/"
+      ],
+      "angle": "Researcher report (single source so far); need Lovable's response and a second outlet. What vibe-coded apps get wrong and what a small business should check. Trade-only rule likely.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "nable-mailassure-monai-kev",
+      "title": "CISA adds N-able MailAssure and MONAI Label flaws to its exploited list: what to patch",
+      "kind": "news",
+      "score": 8,
+      "urls": [
+        "https://thehackernews.com/2026/11/hackers-exploit-n-able-mailassure-flaw.html"
+      ],
+      "angle": "Trade-only (--trade). Confirm CISA KEV entry and vendor advisory first.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "openai-cisco-shirudo",
+      "title": "OpenAI and Cisco's Shirudo: an AI agent runtime to block Linux exploits before patching",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://thehackernews.com/2026/11/openai-and-cisco-unveil-ai-assisted.html"
+      ],
+      "angle": "Needs a second outlet and the vendor announcement before writing",
+      "added": "2026-11-24",
+      "topic": "security"
     }
   ],
   "covered": [
