@@ -141,17 +141,14 @@
       "locked": false
     },
     "2026-11-25": {
-      "title": "llama.cpp 1.0: running AI models on your own computer",
-      "kind": "explainer",
-      "angle": "Plain-English explainer of local AI: what llama.cpp 1.0 changes, what hardware you need, privacy and cost trade-offs, Apple local model app as context",
-      "urls": [
-        "https://huggingface.co/blog/ggml-org/llama-cpp-v1",
-        "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
-      ],
-      "score": 7,
-      "status": "planned",
-      "key": "llama-cpp-v1",
-      "topic": "ai"
+      "title": "RBI cash transfer rules 2026: the 4 limits to know",
+      "kind": "news",
+      "topic": "finance",
+      "score": 8,
+      "status": "written",
+      "slug": "rbi-cash-transfer-limits-2026-explained",
+      "key": "rbi-dmt-directions-2026",
+      "locked": false
     },
     "2026-11-26": {
       "title": "US tightens AI chip export rules for remote compute: what it changes",
@@ -1413,6 +1410,19 @@
       "angle": "Needs a second outlet and the vendor announcement before writing",
       "added": "2026-11-24",
       "topic": "security"
+    },
+    {
+      "key": "llama-cpp-v1",
+      "title": "llama.cpp 1.0: running AI models on your own computer",
+      "kind": "explainer",
+      "score": 7,
+      "urls": [
+        "https://huggingface.co/blog/ggml-org/llama-cpp-v1",
+        "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
+      ],
+      "angle": "Plain-English explainer of local AI: what llama.cpp 1.0 changes, what hardware you need, privacy and cost trade-offs, Apple local model app as context",
+      "added": "2026-11-24",
+      "topic": "ai"
     }
   ],
   "covered": [
@@ -1434,6 +1444,7 @@
     "cert-in-crafty-falcon",
     "nvidia-huang-reinstated",
     "banks-ai-agents-liability",
-    "crowdstrike-zscaler"
+    "crowdstrike-zscaler",
+    "rbi-dmt-directions-2026"
   ]
 }
