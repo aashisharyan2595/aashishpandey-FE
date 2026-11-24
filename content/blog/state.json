@@ -1,19 +1,5 @@
 {
   "seen": {
-    "https://techcrunch.com/2026/11/13/jensen-huangs-departure-blasts-big-hole-in-ai-startup-funding-vcs-and-founders-say/": 1794620666832,
-    "https://www.npr.org/2026/11/13/nx-s1-6040004/microsoft-outage-disrupts-work-and-gives-some-a-chance-to-unplug": 1794620666832,
-    "https://www.nbcnews.com/news/us-news/faa-orders-nationwide-ground-stop-departing-flights-reasons-safety-rcna609247": 1794620666832,
-    "https://techcrunch.com/2026/11/13/ai-agent-startup-langchain-hits-3b-valuation/": 1794620666832,
-    "https://www.foxnews.com/tech/android-tv-box-malware-found-devices": 1794620666832,
-    "https://www.foxnews.com/tech/eric-trump-partnered-robotics-ceo-addresses-terminator-fears-sends-combat-humanoids-warzones": 1794620666832,
-    "https://www.freightwaves.com/news/11-4-million-in-nvidia-hardware-vanishes-during-shipment-from-california-to-texas": 1794620666832,
-    "https://techcrunch.com/2026/11/13/export-banned-nvidia-chips-are-behind-chinas-most-powerful-ai-models-uh-oh-jensen/": 1794620666832,
-    "https://www.reddit.com/r/Teachers/comments/1xuup7a/technology_sucks_it_literally_takes_16_clicks_for/": 1794620666832,
-    "https://huggingface.co/blog/nvidia/simready-assets-robot-pick-and-place": 1794620666832,
-    "https://www.theguardian.com/science/2026/nov/13/kurt-godel-notebooks-ai-helps-unlock-hidden-discoveries-man-who-transformed-maths": 1794620666832,
-    "https://huggingface.co/blog/allenai/xybench": 1794620666832,
-    "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidia-interim-ceo-colette-kress-ai-bets-investigation-lutnick": 1794620666832,
-    "https://openai.com/business/customer-stories/shield": 1794620666832,
     "https://www.techpowerup.com/354814/nvidia-allegedly-engineered-scarcity-by-funding-ai-startups-to-buy-its-gpus": 1794649478686,
     "https://github.com/ggml-org/ggml/releases/tag/v1.0.0": 1794649478686,
     "https://orcasairband.com/": 1794649478686,
@@ -465,7 +451,9 @@
     "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited/": 1795484635079,
     "https://www.bleepingcomputer.com/news/security/hackers-exploit-glinet-cloud-flaw-to-infect-routers-kvm-devices/": 1795484635079,
     "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/": 1795484635079,
-    "https://www.bleepingcomputer.com/news/security/signal-to-block-siri-gemini-ai-from-capturing-chats-on-ios-android/": 1795484635079
+    "https://www.bleepingcomputer.com/news/security/signal-to-block-siri-gemini-ai-from-capturing-chats-on-ios-android/": 1795484635079,
+    "https://stalw.art/blog/microsoft-exchange-replacement/": 1795499077815,
+    "https://github.com/anthropics/formal-math/tree/main/vp-vnp": 1795499077815
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -485,6 +473,7 @@
     "anthropic-nasdaq-debut-first-day-explained",
     "nvidia-reinstates-jensen-huang-ceo",
     "banks-ai-agents-customer-liability",
-    "crowdstrike-buys-zscaler-43-9-billion-deal"
+    "crowdstrike-buys-zscaler-43-9-billion-deal",
+    "cert-in-ai-attacks-indian-banks-checks"
   ]
 }

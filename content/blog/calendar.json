@@ -486,7 +486,7 @@
         "https://techcrunch.com/2026/11/20/ai-claimed-a-solution-to-the-167-year-old-riemann-hypothesis-and-a-human-did-too/",
         "https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/"
       ],
-      "score": 7,
+      "score": 8,
       "status": "planned"
     },
     "2026-12-22": {
@@ -1368,6 +1368,28 @@
       ],
       "angle": "Follow-up to the Nvidia reinstatement post; wait for the hearing.",
       "added": "2026-11-24"
+    },
+    {
+      "key": "gofundme-donor-breach",
+      "title": "GoFundMe says donor information was exposed in a data breach: what donors should check",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://www.10tv.com/article/news/nation-world/gofundme-data-breach-donor-data-nonprofits/507-6efe578f-8a12-49f8-88d3-90bcc948b1b1"
+      ],
+      "angle": "Confirm what data, how many donors and which nonprofits with GoFundMe and 2 outlets before writing",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "apple-local-ai-mac-app",
+      "title": "Apple reportedly readying a Mac app to run local AI models: what it means",
+      "kind": "news",
+      "score": 6,
+      "urls": [],
+      "angle": "Only if a second outlet confirms; reported via Hacker News, find the source article first",
+      "added": "2026-11-24",
+      "topic": "ai"
     }
   ],
   "covered": [
