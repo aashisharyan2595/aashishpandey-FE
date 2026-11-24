@@ -1370,7 +1370,9 @@
       "title": "Apple reportedly readying a Mac app to run local AI models: what it means",
       "kind": "news",
       "score": 6,
-      "urls": [],
+      "urls": [
+        "https://www.foxnews.com/tech/apple-tightens-mac-security-ai-agents-seek-your-files"
+      ],
       "angle": "Only if a second outlet confirms; reported via Hacker News, find the source article first",
       "added": "2026-11-24",
       "topic": "ai"
@@ -1405,7 +1407,8 @@
       "kind": "news",
       "score": 6,
       "urls": [
-        "https://thehackernews.com/2026/11/openai-and-cisco-unveil-ai-assisted.html"
+        "https://thehackernews.com/2026/11/openai-and-cisco-unveil-ai-assisted.html",
+        "https://www.bleepingcomputer.com/news/security/new-shirudo-tool-uses-ai-to-shield-unpatched-linux-systems-from-exploits/"
       ],
       "angle": "Needs a second outlet and the vendor announcement before writing",
       "added": "2026-11-24",
@@ -1423,6 +1426,142 @@
       "angle": "Plain-English explainer of local AI: what llama.cpp 1.0 changes, what hardware you need, privacy and cost trade-offs, Apple local model app as context",
       "added": "2026-11-24",
       "topic": "ai"
+    },
+    {
+      "key": "vmware-vcenter-esx-critical",
+      "title": "VMware patches critical ESX and vCenter flaws, including a second 9.8 auth bypass after zero-day exploitation: what to patch",
+      "kind": "news",
+      "score": 9,
+      "urls": [
+        "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
+        "https://thehackernews.com/2026/11/vmware-vcenter-hit-by-another-critical.html"
+      ],
+      "angle": "Official Broadcom advisory plus two trade outlets; which versions, exploited or not, what admins do now. Trade-only likely.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "check-point-servers-hacked",
+      "title": "Check Point management servers hacked in 22 organizations in an AI-assisted campaign: what to check",
+      "kind": "news",
+      "score": 8,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/hackers-compromise-check-point-servers-in-22-organizations/",
+        "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/"
+      ],
+      "angle": "What was hit, what Check Point says, what admins should check; attribute AI-assisted claim.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "eu-commission-academy-breach",
+      "title": "European Commission confirms data theft in EU Academy breach",
+      "kind": "news",
+      "score": 8,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/european-commission-confirms-data-theft-in-eu-academy-breach/",
+        "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/"
+      ],
+      "angle": "What data, who is affected, what is not known yet.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "shinyhunters-okta-inception",
+      "title": "Okta links ShinyHunters-associated vishing group to new INCEPTION leak site; ShinyHunters claims return after FBI arrests",
+      "kind": "news",
+      "score": 8,
+      "urls": [
+        "https://thehackernews.com/2026/11/okta-links-shinyhunters-associated.html",
+        "https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/"
+      ],
+      "angle": "Vishing explainer angle for small business: what is claimed vs confirmed.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "gta6-xbox-build-leak",
+      "title": "GTA 6 hacker releases full Xbox build and PC modders try to run it: what is known",
+      "kind": "news",
+      "score": 8,
+      "urls": [
+        "https://www.gamespot.com/articles/gta-6-hacker-releases-full-xbox-build-and-pc-modders-are-already-trying-to-get-it-running/"
+      ],
+      "angle": "Facts only from outlets; do not link or point to the leak; piracy and security angle; need a second outlet before writing.",
+      "added": "2026-11-24",
+      "topic": "gaming"
+    },
+    {
+      "key": "mcdonalds-japan-breach",
+      "title": "McDonald's Japan data breach exposes customer location information",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/mcdonalds-japan-data-breach-exposes-customer-location-information/"
+      ],
+      "angle": "What data, what customers should do.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "azure-apim-secrets-flaw",
+      "title": "Microsoft fixes Azure API Management Classic flaw as an actor targets customer secrets",
+      "kind": "news",
+      "score": 7,
+      "urls": [
+        "https://thehackernews.com/2026/11/microsoft-fixes-azure-api-management.html"
+      ],
+      "angle": "Who is affected, what to rotate.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "xbox-helix-free-multiplayer",
+      "title": "Xbox Project Helix reportedly designed to make online multiplayer free",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.gamespot.com/articles/xbox-project-helix-was-reportedly-designed-to-make-online-multiplayer-free/"
+      ],
+      "angle": "Report only, attribute carefully.",
+      "added": "2026-11-24",
+      "topic": "gaming"
+    },
+    {
+      "key": "amazon-decart-acquisition",
+      "title": "Amazon buys Decart: a software bet against the Nvidia gap in AI chips",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/24/amazons-decart-acquisition-is-a-bet-on-using-software-to-narrow-the-gap-with-nvidia-in-the-ai-chip-race/"
+      ],
+      "angle": "What was bought, why it matters for AI chip supply.",
+      "added": "2026-11-24",
+      "topic": "ai"
+    },
+    {
+      "key": "peninsula-energy-cyber-incident",
+      "title": "Peninsula Energy halts trading after a cyber incident hits its US uranium mine",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://www.securityweek.com/peninsula-energy-halts-trading-after-cyber-incident-hits-us-uranium-mine/"
+      ],
+      "angle": "Facts from filings and SecurityWeek only.",
+      "added": "2026-11-24",
+      "topic": "security"
+    },
+    {
+      "key": "whmcs-sqli-flaw",
+      "title": "WHMCS SQL injection could expose customer data and admin password hashes without login",
+      "kind": "news",
+      "score": 6,
+      "urls": [
+        "https://thehackernews.com/2026/11/whmcs-sql-injection-flaw-could-expose.html"
+      ],
+      "angle": "Hosting resellers: what to update.",
+      "added": "2026-11-24",
+      "topic": "security"
     }
   ],
   "covered": [
