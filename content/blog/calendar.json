@@ -1665,6 +1665,30 @@
       ],
       "angle": "",
       "added": "2026-11-25"
+    },
+    {
+      "key": "cod-lost-players-gta6",
+      "title": "Call of Duty reportedly lost 44% of its players after GTA 6: what the analyst says",
+      "kind": "news",
+      "topic": "gaming",
+      "score": 7,
+      "urls": [
+        "https://www.pcgamer.com/gaming-industry/analyst-says-call-of-duty-lost-an-estimated-44-percent-of-its-players-when-gta-6-came-out-and-unlike-fans-of-its-live-service-competitors-theyve-been-slow-to-come-back/"
+      ],
+      "angle": "Analyst estimate, not company data; what it means for live-service games.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "openai-matrix-multiplication-exponent",
+      "title": "OpenAI posts a matrix multiplication preprint: what is claimed and what is unverified",
+      "kind": "explainer",
+      "topic": "ai",
+      "score": 6,
+      "urls": [
+        "https://github.com/openai/math/blob/main/preprints/The-matrix-multiplication-exponent-is-nine-fourths-November-24-2026/paper.pdf"
+      ],
+      "angle": "Pair with the Riemann claims explainer; claim stays unverified until peer review.",
+      "added": "2026-11-25"
     }
   ],
   "covered": [

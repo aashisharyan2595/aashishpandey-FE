@@ -1,7 +1,5 @@
 {
   "seen": {
-    "https://www.techspot.com/news/114558-nvidia-deliberately-kept-gpu-prices-high-through-circular.html": 1794721430891,
-    "https://zwischenzugs.com/2026/11/03/a-family-tree-of-software-job-titles/": 1794721430891,
     "https://www.foxnews.com/tech/fake-ai-event-invites-target-microsoft-google-logins": 1794761059426,
     "https://jakub.jankiewicz.org/blog/ai-code-open-source/": 1794761059426,
     "https://www.npr.org/2026/11/15/nx-s1-6040394/how-the-tech-industry-and-markets-have-responded-to-jensen-huangs-resignation": 1794761059426,
@@ -538,7 +536,10 @@
     "https://github.com/ItsNotRexed/Leonida/issues": 1795571121525,
     "https://openai.com/business/customer-stories/intentful-dots": 1795571121525,
     "https://openai.com/business/customer-stories/ifood": 1795571121525,
-    "https://openai.com/business/customer-stories/clay-plugins-openai": 1795571121525
+    "https://openai.com/business/customer-stories/clay-plugins-openai": 1795571121525,
+    "https://www.darkreading.com/cybersecurity-operations/cyber-insurers-see-new-ai-divide": 1795585466403,
+    "https://www.pcgamer.com/gaming-industry/analyst-says-call-of-duty-lost-an-estimated-44-percent-of-its-players-when-gta-6-came-out-and-unlike-fans-of-its-live-service-competitors-theyve-been-slow-to-come-back/": 1795585466403,
+    "https://github.com/openai/math/blob/main/preprints/The-matrix-multiplication-exponent-is-nine-fourths-November-24-2026/paper.pdf": 1795585466403
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -559,6 +560,7 @@
     "nvidia-reinstates-jensen-huang-ceo",
     "banks-ai-agents-customer-liability",
     "crowdstrike-buys-zscaler-43-9-billion-deal",
-    "cert-in-ai-attacks-indian-banks-checks"
+    "cert-in-ai-attacks-indian-banks-checks",
+    "rbi-cash-transfer-limits-2026-explained"
   ]
 }
