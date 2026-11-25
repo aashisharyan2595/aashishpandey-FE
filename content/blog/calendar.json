@@ -1473,7 +1473,8 @@
       "score": 8,
       "urls": [
         "https://thehackernews.com/2026/11/okta-links-shinyhunters-associated.html",
-        "https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/"
+        "https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/",
+        "https://www.bleepingcomputer.com/news/security/new-inception-extortion-gang-launches-large-scale-vishing-campaign/"
       ],
       "angle": "Vishing explainer angle for small business: what is claimed vs confirmed.",
       "added": "2026-11-24",
@@ -1483,9 +1484,12 @@
       "key": "gta6-xbox-build-leak",
       "title": "GTA 6 hacker releases full Xbox build and PC modders try to run it: what is known",
       "kind": "news",
-      "score": 8,
+      "score": 9,
       "urls": [
-        "https://www.gamespot.com/articles/gta-6-hacker-releases-full-xbox-build-and-pc-modders-are-already-trying-to-get-it-running/"
+        "https://www.gamespot.com/articles/gta-6-hacker-releases-full-xbox-build-and-pc-modders-are-already-trying-to-get-it-running/",
+        "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-explained/",
+        "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-leaders-bail-out-as-take-two-cracks-down-on-illicit-efforts-to-get-the-game-running-on-pc/",
+        "https://github.com/ItsNotRexed/Leonida/issues"
       ],
       "angle": "Facts only from outlets; do not link or point to the leak; piracy and security angle; need a second outlet before writing.",
       "added": "2026-11-24",
@@ -1562,6 +1566,105 @@
       "angle": "Hosting resellers: what to update.",
       "added": "2026-11-24",
       "topic": "security"
+    },
+    {
+      "key": "cia-unclassified-system-breach",
+      "title": "CIA unclassified system breached: what is known and not",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://www.securityweek.com/an-unclassified-cia-system-was-breached-in-a-cyberattack-ap-source-says/"
+      ],
+      "angle": "AP source via SecurityWeek: unclassified CIA system breached; unclear what was taken or by whom. Needs a second outlet.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "rackspace-spot-shutdown",
+      "title": "Rackspace shuts down Spot cloud after a breach: what customers should do",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/rackspace-shuts-down-spot-cloud-platform-after-security-breach/"
+      ],
+      "angle": "Rackspace Spot shut down after attackers got in.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "radware-breach-cloud-keys",
+      "title": "Radware breach exposed customer cloud access keys: what to rotate",
+      "kind": "news",
+      "topic": "security",
+      "score": 8,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/radware-discloses-breach-exposing-customer-cloud-access-keys/"
+      ],
+      "angle": "Security vendor breach, customer cloud keys exposed.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "turnitin-cyberattack",
+      "title": "Turnitin discloses cyberattack on customer-facing systems",
+      "kind": "news",
+      "topic": "security",
+      "score": 7,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/turnitin-discloses-cyberattack-affecting-customer-facing-systems/"
+      ],
+      "angle": "CEO statement; schools and students affected.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "anthropic-below-ipo-price",
+      "title": "Anthropic shares fall below the $83 IPO price: what it means",
+      "kind": "news",
+      "topic": "finance",
+      "score": 7,
+      "urls": [
+        "https://techcrunch.com/2026/11/24/anthropic-shares-fall-below-ipo-price-a-worrying-sign-for-ai-startups/",
+        "https://www.bloomberg.com/news/articles/2026-11-24/anthropic-breaks-below-83-ipo-price-in-premarket-trading"
+      ],
+      "angle": "Post-IPO slump and pressure on AI startup valuations.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "cdpr-q3-witcher4",
+      "title": "CD Projekt Q3: Witcher 4 team size and PlayStation deal",
+      "kind": "news",
+      "topic": "gaming",
+      "score": 6,
+      "urls": [
+        "https://www.pcgamer.com/games/the-witcher/the-difference-between-the-witcher-3-and-witcher-4-will-be-comparable-to-that-of-gta-5-and-gta-6-cd-projekt-boss-says-i-mean-its-been-11-years/",
+        "https://www.gamespot.com/articles/just-like-gta-6-the-witcher-4-has-a-playstation-deal/",
+        "https://www.gamespot.com/articles/witcher-4-has-fewer-people-working-on-it-than-it-did-3-months-ago-but-just-barely/"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "tidal-ai-music-ban",
+      "title": "Tidal to remove millions of AI-generated tracks",
+      "kind": "news",
+      "topic": "tech",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/24/tidal-to-ban-and-remove-millions-of-ai-generated-tracks-as-ai-slop-inundates-music-streaming/"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "uk-ncsc-ai-attacks",
+      "title": "UK cyber agency warns AI attacks expose years of weak security",
+      "kind": "news",
+      "topic": "security",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/24/uk-warns-ai-driven-cyberattacks-are-exposing-years-of-weak-security/"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
     }
   ],
   "covered": [
