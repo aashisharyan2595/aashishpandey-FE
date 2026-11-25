@@ -539,7 +539,19 @@
     "https://openai.com/business/customer-stories/clay-plugins-openai": 1795571121525,
     "https://www.darkreading.com/cybersecurity-operations/cyber-insurers-see-new-ai-divide": 1795585466403,
     "https://www.pcgamer.com/gaming-industry/analyst-says-call-of-duty-lost-an-estimated-44-percent-of-its-players-when-gta-6-came-out-and-unlike-fans-of-its-live-service-competitors-theyve-been-slow-to-come-back/": 1795585466403,
-    "https://github.com/openai/math/blob/main/preprints/The-matrix-multiplication-exponent-is-nine-fourths-November-24-2026/paper.pdf": 1795585466403
+    "https://github.com/openai/math/blob/main/preprints/The-matrix-multiplication-exponent-is-nine-fourths-November-24-2026/paper.pdf": 1795585466403,
+    "https://thehackernews.com/2026/11/hackers-exploited-cvss-100-hexpm-rce.html": 1795599823583,
+    "https://www.securityweek.com/hackers-exploit-unpatched-flaw-in-defunct-idunno-anticsrf-library/": 1795599823583,
+    "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-authentication-issues-after-november-updates/": 1795599823583,
+    "https://www.securityweek.com/palo-alto-networks-patches-fragnesia-flaw-used-to-root-firewalls/": 1795599823583,
+    "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/": 1795599823583,
+    "https://www.bleepingcomputer.com/news/security/hackers-reportedly-breached-cia-intelligence-analysis-system/": 1795599823583,
+    "https://thehackernews.com/2026/11/hackers-compromise-24-check-point.html": 1795599823583,
+    "https://thehackernews.com/2026/11/com-affiliated-hackers-hijack-cloud.html": 1795599823583,
+    "https://thehackernews.com/2026/11/wordpress-blocks-six-backdoored-wp.html": 1795599823583,
+    "https://buttons.joshwcomeau.com/": 1795599823583,
+    "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/": 1795599823583,
+    "https://news.ycombinator.com/item?id=50630809": 1795599823583
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",

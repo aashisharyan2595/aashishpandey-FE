@@ -1689,6 +1689,103 @@
       ],
       "angle": "Pair with the Riemann claims explainer; claim stays unverified until peer review.",
       "added": "2026-11-25"
+    },
+    {
+      "key": "hexpm-rce-registry-servers",
+      "title": "Hex.pm registry servers hit by CVSS 10 RCE: what Elixir and Erlang teams should check",
+      "kind": "news",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://thehackernews.com/2026/11/hackers-exploited-cvss-100-hexpm-rce.html"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "wp-connect-plugins-backdoored",
+      "title": "WordPress pulls six backdoored WP Connect plugins: what site owners should check",
+      "kind": "news",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://thehackernews.com/2026/11/wordpress-blocks-six-backdoored-wp.html"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "drupal-flaw-anthropic-scanner-kev",
+      "title": "Drupal flaw found by an Anthropic scanner is now exploited: what to patch",
+      "kind": "news",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "ai-driven-firewall-attacks",
+      "title": "AI-assisted attacks hit Check Point and Palo Alto firewalls: what admins should do",
+      "kind": "news",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://thehackernews.com/2026/11/hackers-compromise-24-check-point.html",
+        "https://www.securityweek.com/palo-alto-networks-patches-fragnesia-flaw-used-to-root-firewalls/"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "ms-nov-updates-auth-issues",
+      "title": "Microsoft confirms sign-in problems after November updates: what to know",
+      "kind": "news",
+      "score": 7,
+      "topic": "security",
+      "urls": [
+        "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-authentication-issues-after-november-updates/"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "cia-osint-system-breach",
+      "title": "Hackers reportedly breached a CIA intelligence analysis system: what is known",
+      "kind": "news",
+      "score": 7,
+      "topic": "security",
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/hackers-reportedly-breached-cia-intelligence-analysis-system/"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "com-vishing-cloud-hijack",
+      "title": "Vishing crews hijack cloud accounts for data theft: how to protect your team",
+      "kind": "news",
+      "score": 7,
+      "topic": "security",
+      "urls": [
+        "https://thehackernews.com/2026/11/com-affiliated-hackers-hijack-cloud.html"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "gpt6-protein-design",
+      "title": "GPT-6 and protein design: what OpenAI claims and what is unverified",
+      "kind": "news",
+      "score": 6,
+      "topic": "ai",
+      "urls": [
+        "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/"
+      ],
+      "angle": "",
+      "added": "2026-11-25"
     }
   ],
   "covered": [
