@@ -1,0 +1,117 @@
+{
+  "title": "AI chip export rule: 5 new countries, 90 days",
+  "slug": "ai-chip-export-rule-remote-access",
+  "excerpt": "The US now wants licences for chips that feed China's rented compute. Here are the 12 million TPP line, five new countries and the 90-day clock.",
+  "body": "> **Quick answer.** On 16 November 2026 the US Commerce Department issued a rule that requires licences when advanced AI chips could feed more than about 750 chips' worth of compute to Chinese or other embargoed companies, adds licences for five countries, and gives data centres already serving such customers 90 days to get one.\n\n## What happened\n\nOn 16 November 2026 the US Commerce Department's Bureau of Industry and Security (BIS) released an interim final rule on [remote access to advanced AI chips](https://bis.gov/press-release/bis-issues-rule-addressing-remote-access-american-super-intelligence-technology). The goal, in BIS's words, is to stop existing limits on sensitive American technology from being dodged through \"remote computing arrangements involving data centers in third countries.\" The rule was [published in the Federal Register and took effect on 19 November](https://www.gtlaw.com/ar/insights/2026/11/bis-interim-final-rule-targets-remote-access-to-advanced-semiconductors-rescinds-ai-diffusion-rule), with comments open until 19 January 2027.\n\nThe plain version: until now, the chip controls mostly covered the chips themselves. A Chinese company couldn't buy top Nvidia hardware, but it could often rent the same hardware by the hour from a data centre in another country. [BIS had earlier held](https://www.csis.org/analysis/new-export-controls-remote-access-implications-industry-and-competition-china) that providing cloud services isn't an \"export.\" This rule closes that gap.\n\nThe government now uses the term \"super intelligence\" (SI) for AI, [following a September executive order](https://www.opb.org/article/2026/11/16/u-s-closes-loophole-allowing-remote-access-to-ai-chips/), so you'll see \"SI chips\" in the rule text. I'll say AI.\n\n## What the rule actually does\n\nThere are three moving parts.\n\n**1. A licence for chips that feed China's compute.** An exporter needs a licence if it knows the chips will sit in a data centre that gives more than 12 million \"total processing performance\" (TPP) to companies headquartered in China, Macau or another arms-embargoed country, [directly or indirectly](https://www.gtlaw.com/ar/insights/2026/11/bis-interim-final-rule-targets-remote-access-to-advanced-semiconductors-rescinds-ai-diffusion-rule). That's [roughly 750 Nvidia H100 or H200 chips](https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/), which is small by data-centre standards. Linked data centres count together toward that threshold.\n\n**2. Five more countries need licences.** Shipping advanced chips to [Indonesia, Malaysia, Singapore, Thailand and Brazil](https://www.csis.org/analysis/new-export-controls-remote-access-implications-industry-and-competition-china) now needs a licence too, because BIS says they carry a higher-than-normal risk of diversion. CSIS notes this [is not an export ban](https://www.csis.org/analysis/new-export-controls-remote-access-implications-industry-and-competition-china): licences are reviewed case by case. US-headquartered companies in those countries are exempt if they file [monthly reports](https://www.gtlaw.com/ar/insights/2026/11/bis-interim-final-rule-targets-remote-access-to-advanced-semiconductors-rescinds-ai-diffusion-rule) with BIS.\n\n**3. A 90-day clock for existing data centres.** An operator already supplying large amounts of compute to covered companies has [90 days from the effective date](https://www.gtlaw.com/ar/insights/2026/11/bis-interim-final-rule-targets-remote-access-to-advanced-semiconductors-rescinds-ai-diffusion-rule) to get a licence or stop. CSIS adds that because the control follows how the hardware is used, it also reaches hardware that was exported earlier.\n\nThe rule also formally [rescinds the Biden-era AI Diffusion Rule](https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/) from January 2025. The Trump administration had said in May 2025 it wouldn't enforce it, [calling it \"ill-conceived and counterproductive\"](https://www.opb.org/article/2026/11/16/u-s-closes-loophole-allowing-remote-access-to-ai-chips/).\n\n![Five countries now needing chip licences: Indonesia, Malaysia, Singapore, Thailand, Brazil](/assets/blog/ai-chip-export-rule-remote-access-art-five-countries-hd.jpg \"Indonesia, Malaysia, Singapore, Thailand and Brazil now need licences for advanced chip shipments.\")\n\n## Why now?\n\nThe rule arrived days after Jensen Huang resigned as Nvidia CEO amid reports linking him to a former executive of Megaspeed, a Singapore-based data-centre company that is [suspected of selling remote access to US AI chips to Chinese firms](https://www.opb.org/article/2026/11/16/u-s-closes-loophole-allowing-remote-access-to-ai-chips/). Megaspeed says it \"conducts legitimate and lawful business.\" NPR says it hasn't independently verified the claims, and that it isn't known whether that connection influenced Huang's lobbying. The sources don't say the two events are formally linked. BIS says the rule was [written by and at the direction of](https://bis.gov/press-release/bis-issues-rule-addressing-remote-access-american-super-intelligence-technology) the Treasury Department and the National Security Council. Huang has since been [reinstated as CEO](https://www.cnas.org/publications/cnas-insights/insights-unpacking-the-remote-access-rule); I covered that [here](/blog/nvidia-reinstates-jensen-huang-ceo).\n\nBefore that, [NPR reports](https://www.opb.org/article/2026/11/16/u-s-closes-loophole-allowing-remote-access-to-ai-chips/), the administration had resisted extra rules on foreign access to American AI technology. [Gizmodo reports](https://gizmodo.com/trump-admin-moves-to-strangle-chinas-remote-access-to-american-ai-chips-2000840511) that the move also comes as Secretary of State Marco Rubio and Treasury Secretary Scott Bessent have reportedly accused Commerce Secretary Howard Lutnick of being too lenient on chip flows to China. Lutnick has countered that he held back on tighter restrictions because he feared escalating the trade war. Gizmodo also points to the tightrope: cutting off China without hurting American companies' overseas business. A Washington think tank, the Institute for Progress, [had projected](https://thenextweb.com/news/china-weighs-response-to-us-chip-curbs-before-trump-summit) that renting abroad could supply close to a third of China's advanced compute by the end of 2027.\n\n## What we don't know yet\n\n- **How strict the rule will be in practice.** CSIS says exporters must collect \"sufficient information\" from foreign data centres to know whether a licence is needed, but the rule [doesn't say what sufficient means](https://www.csis.org/analysis/new-export-controls-remote-access-implications-industry-and-competition-china). Its worry is overcompliance, with sellers refusing deals to stay safe.\n- **How fast licences will move.** With a low threshold and case-by-case review, [CSIS warns](https://www.csis.org/analysis/new-export-controls-remote-access-implications-industry-and-competition-china) that new and existing data-centre builds could be delayed while an \"already overburdened\" system decides.\n- **Whether the recommender exception becomes a hole.** The rule doesn't apply to [commercial recommendation systems](https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/), like those in e-commerce or social media. CSIS says that exception [may emerge as a loophole](https://www.csis.org/analysis/new-export-controls-remote-access-implications-industry-and-competition-china).\n- **What China does next.** China's commerce ministry, as relayed by Bloomberg, [said it strongly opposes the rules](https://thenextweb.com/news/china-warns-us-of-countermeasures-over-new-ai-chip-remote-access-curbs) and that \"if the US persists, China will take countermeasures.\" Its foreign ministry said the rules run [counter to the consensus](https://thenextweb.com/news/china-weighs-response-to-us-chip-curbs-before-trump-summit) reached between the two sides. Bloomberg reported that Chinese AI stocks fell the day after, with Minimax down as much as 6.5% and Z.ai down 6.8%, while chipmaker SMIC rose as much as 9%.\n\nTrump and Xi were due to meet at the APEC summit in Shenzhen days after the announcement. My sources were written before that meeting, so I can't say what, if anything, it changed.\n\n## Who is affected\n\nAs far as the sources show, the rule lands on chip exporters, data-centre operators and the companies renting large amounts of compute from them, not on people using AI tools. None of them discuss ordinary users, though. India isn't among the five countries named. Whether any of this moves cloud or AI prices isn't something the sources say, so I won't guess.\n\n## My take\n\nI'd read this as a policy shift from limiting countries to policing use. The old approach counted chips by destination. This one asks what the chips do after they arrive, which is harder to check and easier to argue about. CSIS expects it to slow Chinese AI development in the short term but says buyers will reroute, so the real test is whether BIS keeps adding hot spots.\n\nFor a small business, I'd watch two things: whether the Shenzhen talks change the rule, and whether your cloud or AI vendor says anything about capacity. Nothing in the sources points to an effect on ordinary users yet, but it's early.\n\n## Frequently asked questions\n\n### What does the new US AI chip remote access rule do?\n\nIt requires an export licence when advanced AI chips will go to a data centre that gives more than 12 million total processing performance to companies headquartered in China, Macau or other arms-embargoed countries. That is roughly 750 Nvidia H100 or H200 chips. It closes the gap where Chinese firms rented chips abroad.\n\n### Which countries now need licences for advanced chips?\n\nIndonesia, Malaysia, Singapore, Thailand and Brazil. The US says they carry a higher-than-normal risk of diversion. Licences are reviewed case by case, and US-headquartered companies are exempt if they file monthly reports with BIS.\n\n### When did the rule take effect and how long do data centres have?\n\nIt was released on 16 November 2026 and took effect when published in the Federal Register on 19 November. Data centres already supplying large compute to covered companies have 90 days from the effective date to get a licence. Public comments are open until 19 January 2027.\n\n### Does the rule affect people who use ChatGPT, Gemini or Claude?\n\nNothing in the sources suggests it targets ordinary users. It applies to chip exporters, data-centre operators and companies renting large amounts of compute. Whether it changes cloud or AI prices is not stated, so that remains unknown.\n\n## Sources\n\n1. [US tightens AI chip export controls to deter Chinese companies from accessing compute remotely](https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/), TechCrunch\n2. [New Export Controls on Remote Access: The Implications for Industry and Competition with China](https://www.csis.org/analysis/new-export-controls-remote-access-implications-industry-and-competition-china), csis.org\n3. [BIS Interim Final Rule Targets Remote Access to Advanced Semiconductors, Rescinds AI Diffusion Rule](https://www.gtlaw.com/ar/insights/2026/11/bis-interim-final-rule-targets-remote-access-to-advanced-semiconductors-rescinds-ai-diffusion-rule), gtlaw.com\n4. [CNAS Insights | Unpacking the Remote Access Rule](https://www.cnas.org/publications/cnas-insights/insights-unpacking-the-remote-access-rule), cnas.org\n5. [Lock](https://bis.gov/press-release/bis-issues-rule-addressing-remote-access-american-super-intelligence-technology), bis.gov\n6. [Trump administration cracks down on China](https://www.washingtonexaminer.com/news/white-house/4804944/trump-administration-cracks-down-on-china-nvidia-chips-loophole/), Washington Examiner\n7. [Trump Admin Moves to Strangle China's Remote Access to American AI Chips](https://gizmodo.com/trump-admin-moves-to-strangle-chinas-remote-access-to-american-ai-chips-2000840511), gizmodo.com\n8. [U.S. tightens controls on remote access to AI technology amid Nvidia fallout](https://www.opb.org/article/2026/11/16/u-s-closes-loophole-allowing-remote-access-to-ai-chips/), opb.org\n9. [China warns US of countermeasures over new AI chip remote access curbs](https://thenextweb.com/news/china-warns-us-of-countermeasures-over-new-ai-chip-remote-access-curbs), thenextweb.com\n10. [China weighs response to US chip curbs before Trump summit](https://thenextweb.com/news/china-weighs-response-to-us-chip-curbs-before-trump-summit), thenextweb.com\n",
+  "cover": {
+    "src": "/assets/blog/ai-chip-export-rule-remote-access-cover-hd.jpg",
+    "alt": "A server rack behind a locked padlock, headline \"The rented-chip loophole, shut\""
+  },
+  "category": "Tech news",
+  "tags": [
+    "AI chips",
+    "export controls",
+    "Nvidia",
+    "China",
+    "BIS",
+    "data centres"
+  ],
+  "publishAt": 1795663800000,
+  "updated": 1795609400887,
+  "words": 1323,
+  "mins": 7,
+  "seo": {
+    "title": "AI chip export rule: what the new US rule changes",
+    "description": "The US remote-access AI chip rule needs licences for 5 more countries and gives data centres 90 days. What it covers, what's unclear, and who it touches.",
+    "ogImage": "/assets/blog/ai-chip-export-rule-remote-access-cover-v2.jpg"
+  },
+  "extra": {
+    "topic": "tech",
+    "faq": [
+      {
+        "q": "What does the new US AI chip remote access rule do?",
+        "a": "It requires an export licence when advanced AI chips will go to a data centre that gives more than 12 million total processing performance to companies headquartered in China, Macau or other arms-embargoed countries. That is roughly 750 Nvidia H100 or H200 chips. It closes the gap where Chinese firms rented chips abroad."
+      },
+      {
+        "q": "Which countries now need licences for advanced chips?",
+        "a": "Indonesia, Malaysia, Singapore, Thailand and Brazil. The US says they carry a higher-than-normal risk of diversion. Licences are reviewed case by case, and US-headquartered companies are exempt if they file monthly reports with BIS."
+      },
+      {
+        "q": "When did the rule take effect and how long do data centres have?",
+        "a": "It was released on 16 November 2026 and took effect when published in the Federal Register on 19 November. Data centres already supplying large compute to covered companies have 90 days from the effective date to get a licence. Public comments are open until 19 January 2027."
+      },
+      {
+        "q": "Does the rule affect people who use ChatGPT, Gemini or Claude?",
+        "a": "Nothing in the sources suggests it targets ordinary users. It applies to chip exporters, data-centre operators and companies renting large amounts of compute. Whether it changes cloud or AI prices is not stated, so that remains unknown."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/",
+        "title": "US tightens AI chip export controls to deter Chinese companies from accessing compute remotely | TechCrunch",
+        "outlet": "TechCrunch"
+      },
+      {
+        "url": "https://www.csis.org/analysis/new-export-controls-remote-access-implications-industry-and-competition-china",
+        "title": "New Export Controls on Remote Access: The Implications for Industry and Competition with China",
+        "outlet": "csis.org"
+      },
+      {
+        "url": "https://www.gtlaw.com/ar/insights/2026/11/bis-interim-final-rule-targets-remote-access-to-advanced-semiconductors-rescinds-ai-diffusion-rule",
+        "title": "BIS Interim Final Rule Targets Remote Access to Advanced Semiconductors, Rescinds AI Diffusion Rule | Greenberg Traurig LLP",
+        "outlet": "gtlaw.com"
+      },
+      {
+        "url": "https://www.cnas.org/publications/cnas-insights/insights-unpacking-the-remote-access-rule",
+        "title": "CNAS Insights | Unpacking the Remote Access Rule | CNAS",
+        "outlet": "cnas.org"
+      },
+      {
+        "url": "https://bis.gov/press-release/bis-issues-rule-addressing-remote-access-american-super-intelligence-technology",
+        "title": "Lock",
+        "outlet": "bis.gov"
+      },
+      {
+        "url": "https://www.washingtonexaminer.com/news/white-house/4804944/trump-administration-cracks-down-on-china-nvidia-chips-loophole/",
+        "title": "Trump administration cracks down on China-Nvidia chips loophole",
+        "outlet": "Washington Examiner"
+      },
+      {
+        "url": "https://gizmodo.com/trump-admin-moves-to-strangle-chinas-remote-access-to-american-ai-chips-2000840511",
+        "title": "Trump Admin Moves to Strangle China's Remote Access to American AI Chips",
+        "outlet": "gizmodo.com"
+      },
+      {
+        "url": "https://www.opb.org/article/2026/11/16/u-s-closes-loophole-allowing-remote-access-to-ai-chips/",
+        "title": "U.S. tightens controls on remote access to AI technology amid Nvidia fallout - OPB",
+        "outlet": "opb.org"
+      },
+      {
+        "url": "https://thenextweb.com/news/china-warns-us-of-countermeasures-over-new-ai-chip-remote-access-curbs",
+        "title": "China warns US of countermeasures over new AI chip remote access curbs",
+        "outlet": "thenextweb.com"
+      },
+      {
+        "url": "https://thenextweb.com/news/china-weighs-response-to-us-chip-curbs-before-trump-summit",
+        "title": "China weighs response to US chip curbs before Trump summit",
+        "outlet": "thenextweb.com"
+      }
+    ],
+    "kind": "news",
+    "about": [
+      "Bureau of Industry and Security",
+      "Nvidia",
+      "AI Diffusion Rule",
+      "Megaspeed",
+      "CSIS"
+    ],
+    "auto": true,
+    "thumb": {
+      "text": "750 GPUs. Licence.",
+      "headline": "The cloud loophole closes"
+    },
+    "art": {
+      "palette": "light"
+    }
+  }
+}

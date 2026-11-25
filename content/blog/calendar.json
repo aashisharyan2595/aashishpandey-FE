@@ -158,7 +158,10 @@
         "https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/"
       ],
       "score": 8,
-      "status": "planned"
+      "status": "written",
+      "slug": "ai-chip-export-rule-remote-access",
+      "key": "us-ai-chip-remote-access-rule",
+      "topic": "tech"
     },
     "2026-11-27": {
       "title": "Gemini 4 Neon review: what Google launched, pros and cons",
@@ -1808,6 +1811,7 @@
     "nvidia-huang-reinstated",
     "banks-ai-agents-liability",
     "crowdstrike-zscaler",
-    "rbi-dmt-directions-2026"
+    "rbi-dmt-directions-2026",
+    "us-ai-chip-remote-access-rule"
   ]
 }
