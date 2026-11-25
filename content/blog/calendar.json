@@ -210,17 +210,22 @@
       "locked": false
     },
     "2026-12-01": {
-      "title": "Fireworks AI breach exposed Notion AI chat transcripts",
+      "title": "GTA 6 hacker releases full Xbox build and PC modders try to run it: what is known",
       "kind": "news",
-      "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
+      "angle": "Facts only from outlets; do not link or point to the leak; piracy and security angle; need a second outlet before writing.",
       "urls": [
-        "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
+        "https://www.gamespot.com/articles/gta-6-hacker-releases-full-xbox-build-and-pc-modders-are-already-trying-to-get-it-running/",
+        "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-explained/",
+        "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-leaders-bail-out-as-take-two-cracks-down-on-illicit-efforts-to-get-the-game-running-on-pc/",
+        "https://github.com/ItsNotRexed/Leonida/issues",
+        "https://www.gamespot.com/articles/gta-6-modders-are-trying-to-vibe-code-a-pc-port-and-its-not-going-well/"
       ],
-      "score": 7,
+      "score": 9,
+      "topic": "gaming",
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "fireworks-ai-breach-notion"
+      "key": "gta6-xbox-build-leak"
     },
     "2026-12-02": {
       "title": "Genie 4 review: Google DeepMind world model, pros and cons",
@@ -236,17 +241,19 @@
       "key": "genie-4-review"
     },
     "2026-12-03": {
-      "title": "Ruby2shell: pre-auth RCE on stock Rails, what to patch",
+      "title": "VMware patches critical ESX and vCenter flaws, including a second 9.8 auth bypass after zero-day exploitation: what to patch",
       "kind": "news",
-      "angle": "Single trade source so far; confirm with the Rails advisory and a second outlet before writing.",
+      "angle": "Official Broadcom advisory plus two trade outlets; which versions, exploited or not, what admins do now. Trade-only likely.",
       "urls": [
-        "https://verialabs.com/ruby2shell/"
+        "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
+        "https://thehackernews.com/2026/11/vmware-vcenter-hit-by-another-critical.html"
       ],
-      "score": 7,
+      "score": 9,
+      "topic": "security",
       "status": "planned",
       "slug": "",
       "locked": false,
-      "key": "ruby2shell-rails-rce"
+      "key": "vmware-vcenter-esx-critical"
     },
     "2026-12-04": {
       "title": "Google Gemini can now use your Mac for you: how it works, pros and cons",
@@ -789,7 +796,8 @@
       "urls": [
         "https://techcrunch.com/2026/11/17/sec-reportedly-investigating-nvidia-amid-huang-exit/",
         "https://www.npr.org/2026/11/17/nx-s1-6044213/jensen-huang-nvidia-congress",
-        "https://www.marketscreener.com/news/us-sec-s-nvidia-probe-is-examining-potential-accounting-issues-sources-say-ce785ed3dd8ff627"
+        "https://www.marketscreener.com/news/us-sec-s-nvidia-probe-is-examining-potential-accounting-issues-sources-say-ce785ed3dd8ff627",
+        "https://techcrunch.com/2026/11/25/the-questions-jensen-huang-and-nvidia-will-still-have-to-answer-about-megaspeed/"
       ],
       "angle": "Follow-up to the Huang exit post; fold into the Nvidia after-earnings piece Update 21 Nov: Reuters-sourced report says the SEC probe is examining possible accounting issues (MarketScreener).",
       "added": "2026-11-18"
@@ -972,7 +980,8 @@
       "kind": "news",
       "score": 9,
       "urls": [
-        "https://techcrunch.com/2026/11/19/metas-ai-agent-muse-is-mixing-up-conversations-and-exposing-private-data-report-says/"
+        "https://techcrunch.com/2026/11/19/metas-ai-agent-muse-is-mixing-up-conversations-and-exposing-private-data-report-says/",
+        "https://techcrunch.com/2026/11/25/amazon-and-meta-reportedly-in-talks-to-lift-blockade-on-ai-agent-muse/"
       ],
       "angle": "Report-based; attribute carefully; what users of AI agents should check",
       "added": "2026-11-20",
@@ -1431,19 +1440,6 @@
       "topic": "ai"
     },
     {
-      "key": "vmware-vcenter-esx-critical",
-      "title": "VMware patches critical ESX and vCenter flaws, including a second 9.8 auth bypass after zero-day exploitation: what to patch",
-      "kind": "news",
-      "score": 9,
-      "urls": [
-        "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
-        "https://thehackernews.com/2026/11/vmware-vcenter-hit-by-another-critical.html"
-      ],
-      "angle": "Official Broadcom advisory plus two trade outlets; which versions, exploited or not, what admins do now. Trade-only likely.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
       "key": "check-point-servers-hacked",
       "title": "Check Point management servers hacked in 22 organizations in an AI-assisted campaign: what to check",
       "kind": "news",
@@ -1477,26 +1473,12 @@
       "urls": [
         "https://thehackernews.com/2026/11/okta-links-shinyhunters-associated.html",
         "https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/",
-        "https://www.bleepingcomputer.com/news/security/new-inception-extortion-gang-launches-large-scale-vishing-campaign/"
+        "https://www.bleepingcomputer.com/news/security/new-inception-extortion-gang-launches-large-scale-vishing-campaign/",
+        "https://www.securityweek.com/shinyhunters-claims-comeback-new-inception-group-rejects-alleged-ties/"
       ],
       "angle": "Vishing explainer angle for small business: what is claimed vs confirmed.",
       "added": "2026-11-24",
       "topic": "security"
-    },
-    {
-      "key": "gta6-xbox-build-leak",
-      "title": "GTA 6 hacker releases full Xbox build and PC modders try to run it: what is known",
-      "kind": "news",
-      "score": 9,
-      "urls": [
-        "https://www.gamespot.com/articles/gta-6-hacker-releases-full-xbox-build-and-pc-modders-are-already-trying-to-get-it-running/",
-        "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-explained/",
-        "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-leaders-bail-out-as-take-two-cracks-down-on-illicit-efforts-to-get-the-game-running-on-pc/",
-        "https://github.com/ItsNotRexed/Leonida/issues"
-      ],
-      "angle": "Facts only from outlets; do not link or point to the leak; piracy and security angle; need a second outlet before writing.",
-      "added": "2026-11-24",
-      "topic": "gaming"
     },
     {
       "key": "mcdonalds-japan-breach",
@@ -1613,7 +1595,8 @@
       "topic": "security",
       "score": 7,
       "urls": [
-        "https://www.bleepingcomputer.com/news/security/turnitin-discloses-cyberattack-affecting-customer-facing-systems/"
+        "https://www.bleepingcomputer.com/news/security/turnitin-discloses-cyberattack-affecting-customer-facing-systems/",
+        "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/"
       ],
       "angle": "CEO statement; schools and students affected.",
       "added": "2026-11-25"
@@ -1724,7 +1707,9 @@
       "score": 8,
       "topic": "security",
       "urls": [
-        "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/"
+        "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/",
+        "https://thehackernews.com/2026/11/drupal-fail2install-exploit-details.html",
+        "https://www.bleepingcomputer.com/news/security/hackers-now-exploit-critical-drupal-rce-flaw-to-hijack-sites/"
       ],
       "angle": "",
       "added": "2026-11-25"
@@ -1788,6 +1773,141 @@
         "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/"
       ],
       "angle": "",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "fincen-cyber-incident",
+      "title": "US Treasury FinCEN takes systems offline after cyber intrusion: what is known",
+      "kind": "news",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://www.securityweek.com/us-treasurys-fincen-disconnects-systems-following-cyber-incident/",
+        "https://thehackernews.com/2026/11/us-treasurys-fincen-takes-some-systems.html"
+      ],
+      "angle": "Government financial regulator; what filers and banks are told; confirmed vs unknown.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "geoserver-two-flaws-exploited",
+      "title": "Two GeoServer flaws under attack, with unauthenticated RCE chains: what to patch",
+      "kind": "news",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/",
+        "https://thehackernews.com/2026/11/hackers-exploit-two-geoserver-flaws-as.html"
+      ],
+      "angle": "Trade-only likely; patch guidance for teams running GeoServer.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "dotnet-nuget-job-assessment-malware",
+      "title": "Fake job assessments push malicious NuGet packages at .NET developers",
+      "kind": "news",
+      "score": 7,
+      "topic": "security",
+      "urls": [
+        "https://www.darkreading.com/threat-intelligence/attackers-net-developers-poisoned-job-assessments"
+      ],
+      "angle": "Job-scam angle for developers; 13 malicious packages reported.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "infratrust-appliance-supply-chain",
+      "title": "InfraTrust flags exploited supply chain flaws in network appliances",
+      "kind": "news",
+      "score": 7,
+      "topic": "security",
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/infratrust-warns-of-exploited-supply-chain-flaws-in-network-appliances/"
+      ],
+      "angle": "Eclypsium research; what small offices with edge devices should check.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "danfoss-cisa-unpatched",
+      "title": "CISA warns of critical unpatched flaw in Danfoss refrigeration controllers",
+      "kind": "news",
+      "score": 6,
+      "topic": "security",
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/cisa-warns-of-critical-unpatched-flaw-in-danfoss-refrigeration-controllers/"
+      ],
+      "angle": "Niche industrial; only if the week is slow.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "ps5-xbox-sales-before-gta6",
+      "title": "PS5 and Xbox sales surged just before GTA 6 launch: what the numbers show",
+      "kind": "news",
+      "score": 7,
+      "topic": "gaming",
+      "urls": [
+        "https://www.gamespot.com/articles/ps5-and-xbox-series-xs-console-sales-surged-just-before-gta-6-came-out/"
+      ],
+      "angle": "Console sales data; attribute to the report.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "gta6-too-easy-rockstar",
+      "title": "Is GTA 6 too easy? What Rockstar says",
+      "kind": "news",
+      "score": 7,
+      "topic": "gaming",
+      "urls": [
+        "https://www.gamespot.com/articles/is-gta-6-too-easy-rockstar-weighs-in/"
+      ],
+      "angle": "Player debate on difficulty; keep to Rockstar statement and coverage.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "witcher4-not-ps5-exclusive",
+      "title": "Witcher 4 will not be a PS5 exclusive after new Sony deal",
+      "kind": "news",
+      "score": 7,
+      "topic": "gaming",
+      "urls": [
+        "https://www.gamespot.com/articles/witcher-4-wont-be-a-ps5-exclusive-after-new-deal-with-playstation/",
+        "https://www.gamespot.com/articles/the-witcher-4-wants-to-be-the-gta-6-of-the-witcher-franchise/"
+      ],
+      "angle": "Platform deal explainer; what it means for players.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "ai-agents-black-friday-shopping",
+      "title": "What to know before using AI agents for Black Friday shopping",
+      "kind": "explainer",
+      "score": 7,
+      "topic": "ai",
+      "urls": [
+        "https://www.npr.org/2026/11/25/nx-s1-6048524/what-to-know-before-using-ai-agents-for-black-friday-shopping"
+      ],
+      "angle": "Time-sensitive (Black Friday 27 Nov); ties to the ChatGPT Wallet review and banks-liability post.",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "fireworks-ai-breach-notion",
+      "title": "Fireworks AI breach exposed Notion AI chat transcripts",
+      "kind": "news",
+      "score": 7,
+      "topic": "security",
+      "urls": [
+        "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
+      ],
+      "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
+      "added": "2026-11-25"
+    },
+    {
+      "key": "ruby2shell-rails-rce",
+      "title": "Ruby2shell: pre-auth RCE on stock Rails, what to patch",
+      "kind": "news",
+      "score": 7,
+      "topic": "security",
+      "urls": [
+        "https://verialabs.com/ruby2shell/"
+      ],
+      "angle": "Single trade source so far; confirm with the Rails advisory and a second outlet before writing.",
       "added": "2026-11-25"
     }
   ],
