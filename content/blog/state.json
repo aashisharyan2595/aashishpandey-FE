@@ -1,12 +1,5 @@
 {
   "seen": {
-    "https://pub.cba.mit.edu/863.26/site/": 1794822269883,
-    "https://qwen.ai/blog?id=qwen4-max": 1794822269883,
-    "https://iter.ca/post/ubo-uxss/": 1794822269883,
-    "https://steveblank.com/2026/11/15/whats-next-for-nvidia/": 1794822269883,
-    "https://ransomnews.com/burger-king-tweet-bitly-link-hijack-2026/": 1794822269883,
-    "https://ductus.sorenblank.com/": 1794822269883,
-    "https://bruceroettgers.eu/blog/protomaps/": 1794822269883,
     "https://www.technologyreview.com/2026/11/16/1148565/building-trustworthy-ai-by-fencing-it-in-not-predicting-it/": 1794847464759,
     "https://techcrunch.com/2026/11/16/audible-turns-to-ai-to-help-users-discover-audiobooks/": 1794847464759,
     "https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/": 1794847464759,
@@ -626,7 +619,15 @@
     "https://www.pcgamer.com/games/visual-novel/the-latest-adult-game-in-the-muv-luv-series-has-some-woeful-ai-translation-and-players-arent-happy-about-it/": 1795671886165,
     "https://thehackernews.com/2026/11/1password-hacked-customer-data-and.html": 1795671886165,
     "https://thehackernews.com/2026/11/13-malicious-nuget-packages-turn-fake.html": 1795671886165,
-    "https://www.theverge.com/ai-artificial-intelligence/1041227/the-new-york-times-warns-photographers-not-to-update-photoshop-over-ai-features": 1795671886165
+    "https://www.theverge.com/ai-artificial-intelligence/1041227/the-new-york-times-warns-photographers-not-to-update-photoshop-over-ai-features": 1795671886165,
+    "https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/": 1795686281176,
+    "https://www.securityweek.com/1password-breach-exposes-customer-data-internal-source-code/": 1795686281176,
+    "https://www.darkreading.com/cyberattacks-data-breaches/cyprus-espionage-target-iranian-hackers": 1795686281176,
+    "https://thehackernews.com/2026/11/drupal-warns-of-new-highly-critical.html": 1795686281176,
+    "https://www.npr.org/2026/11/26/g-s1-155940/fcc-spacex-satellites-data-centers-in-space": 1795686281176,
+    "https://thehackernews.com/2026/11/hackers-exploit-10-vulnerabilities.html": 1795686281176,
+    "https://news.ycombinator.com/item?id=50649864": 1795686281176,
+    "https://www.openwall.com/lists/oss-security/2026/11/25/9": 1795686281176
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",

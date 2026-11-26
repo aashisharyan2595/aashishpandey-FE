@@ -1709,9 +1709,11 @@
       "urls": [
         "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/",
         "https://thehackernews.com/2026/11/drupal-fail2install-exploit-details.html",
-        "https://www.bleepingcomputer.com/news/security/hackers-now-exploit-critical-drupal-rce-flaw-to-hijack-sites/"
+        "https://www.bleepingcomputer.com/news/security/hackers-now-exploit-critical-drupal-rce-flaw-to-hijack-sites/",
+        "https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/",
+        "https://thehackernews.com/2026/11/drupal-warns-of-new-highly-critical.html"
       ],
-      "angle": "",
+      "angle": "Update 26 Nov: Drupal now says the earlier installer patch left a gap (new highly critical advisory, CVE-2026-136716, exploited in the wild); cover both advisories and the patch order. Confirm details on drupal.org.",
       "added": "2026-11-25"
     },
     {
@@ -2005,6 +2007,18 @@
         "https://www.pcgamer.com/games/visual-novel/the-latest-adult-game-in-the-muv-luv-series-has-some-woeful-ai-translation-and-players-arent-happy-about-it/"
       ],
       "angle": "Reviews sank to Mostly Negative over machine translation; wider AI-in-games debate.",
+      "added": "2026-11-26"
+    },
+    {
+      "key": "cisa-kev-mitel-micollab-juniper-vates-danfoss",
+      "title": "CISA adds 10 exploited flaws (Mitel MiCollab, Juniper, Vates, Danfoss): what to check",
+      "kind": "news",
+      "topic": "security",
+      "score": 7,
+      "urls": [
+        "https://thehackernews.com/2026/11/hackers-exploit-10-vulnerabilities.html"
+      ],
+      "angle": "Confirm on cisa.gov KEV and a second outlet; patch steps for small IT teams running Mitel phones or Juniper gear.",
       "added": "2026-11-26"
     }
   ],
