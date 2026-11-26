@@ -1,14 +1,5 @@
 {
   "seen": {
-    "https://techcrunch.com/2026/11/15/apple-launches-new-app-to-study-how-people-use-ai-for-health/": 1794797007164,
-    "https://techcrunch.com/2026/11/15/indian-chip-startup-bharat-semi-lands-24m-seed-round-as-it-eyes-global-ai-sensor-market/": 1794797007164,
-    "https://openai.com/index/step-toward-defining-the-standard-model": 1794797007164,
-    "https://openai.com/index/our-new-blog-for-science": 1794797007164,
-    "https://techcrunch.com/2026/11/15/is-bad-news-for-jensen-huang-also-bad-news-for-the-ai-industry/": 1794797007164,
-    "https://techcrunch.com/2026/11/15/snl-gathers-all-the-tech-tycoons-for-a-lesson-in-dating-and-spycraft/": 1794797007164,
-    "https://www1.wdr.de/nrw/rheinland/rhein-erft-kreis/technischer-defekt-chlor-phantasialand-100.html": 1794797007164,
-    "https://www.foxnews.com/tech/ai-mosquito-trap-targets-deadly-dengue-outbreak": 1794797007164,
-    "https://macanorak.com/the-macbook-pros-oled-pwm-problem-when-a-better-display-becomes-worse-to-use/": 1794797007164,
     "https://pub.cba.mit.edu/863.26/site/": 1794822269883,
     "https://qwen.ai/blog?id=qwen4-max": 1794822269883,
     "https://iter.ca/post/ubo-uxss/": 1794822269883,
@@ -629,7 +620,13 @@
     "https://github.com/google-research/google-research/tree/master/cogentic_research_papers": 1795657443459,
     "https://github.com/xoxorwr/pw-loudness-eq": 1795657443459,
     "https://www.iankduncan.com/engineering/2026-11-19-smart-people-who-give-a-shit-use-tools": 1795657443459,
-    "https://huggingface.co/blog/inkling-2-mini-inference-hillclimb": 1795657443459
+    "https://huggingface.co/blog/inkling-2-mini-inference-hillclimb": 1795657443459,
+    "https://www.pcgamer.com/games/grand-theft-auto/gta-6-missing-persons-locations/": 1795671886165,
+    "https://huggingface.co/blog/nvidia/building-on-nemotron-35-parse-open-data-fine-tunin": 1795671886165,
+    "https://www.pcgamer.com/games/visual-novel/the-latest-adult-game-in-the-muv-luv-series-has-some-woeful-ai-translation-and-players-arent-happy-about-it/": 1795671886165,
+    "https://thehackernews.com/2026/11/1password-hacked-customer-data-and.html": 1795671886165,
+    "https://thehackernews.com/2026/11/13-malicious-nuget-packages-turn-fake.html": 1795671886165,
+    "https://www.theverge.com/ai-artificial-intelligence/1041227/the-new-york-times-warns-photographers-not-to-update-photoshop-over-ai-features": 1795671886165
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -652,6 +649,7 @@
     "crowdstrike-buys-zscaler-43-9-billion-deal",
     "cert-in-ai-attacks-indian-banks-checks",
     "rbi-cash-transfer-limits-2026-explained",
-    "1password-breach-employee-github-customer-emails"
+    "1password-breach-employee-github-customer-emails",
+    "ai-chip-export-rule-remote-access"
   ]
 }

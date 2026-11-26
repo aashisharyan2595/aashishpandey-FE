@@ -1982,6 +1982,30 @@
       ],
       "angle": "What is reported vs confirmed",
       "added": "2026-11-26"
+    },
+    {
+      "key": "nyt-photoshop-ai-update-warning",
+      "title": "The New York Times tells photographers not to update Photoshop over AI features: what it means for your files",
+      "kind": "news",
+      "topic": "ai",
+      "score": 6,
+      "urls": [
+        "https://www.theverge.com/ai-artificial-intelligence/1041227/the-new-york-times-warns-photographers-not-to-update-photoshop-over-ai-features"
+      ],
+      "angle": "Newsroom guidance on Photoshop AI features; what is confirmed, what Adobe says, what working creatives should check.",
+      "added": "2026-11-26"
+    },
+    {
+      "key": "muv-luv-ai-translation-backlash",
+      "title": "Muv-Luv adult game hit with AI translation backlash: why players are angry",
+      "kind": "news",
+      "topic": "gaming",
+      "score": 6,
+      "urls": [
+        "https://www.pcgamer.com/games/visual-novel/the-latest-adult-game-in-the-muv-luv-series-has-some-woeful-ai-translation-and-players-arent-happy-about-it/"
+      ],
+      "angle": "Reviews sank to Mostly Negative over machine translation; wider AI-in-games debate.",
+      "added": "2026-11-26"
     }
   ],
   "covered": [
