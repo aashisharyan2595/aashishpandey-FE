@@ -1,0 +1,110 @@
+{
+  "title": "Gemini 4 Neon review: pros, cons and the $3 price",
+  "slug": "gemini-4-neon-review-pros-cons",
+  "excerpt": "Google's Gemini 4 Neon scores 61 for $3 and $15 per million tokens. Here are the pros, cons and who should skip it, from the tests so far.",
+  "body": "> **Quick answer.** Gemini 4 Neon is Google's mid-tier model, priced at $3 and $15 per million tokens. It scores 61 on one independent index and does well on coding tests, but it can run up tokens and slipped on security and recent APIs in one coding test.\n\n## What is Gemini 4 Neon?\n\nGemini 4 Neon is the middle model in Google's new Gemini 4 line. [Google announced it on November 18, 2026](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/) as a model for complex coding, knowledge work and science that finishes tasks fast. [Digital Trends](https://tech.yahoo.com/ai/gemini/articles/google-releases-gemini-4-neon-051643298.html) says it sits between Gemini 4 Carbon, kept for the hardest long projects, and Gemini 4 Hydrogen, the quick everyday model. It also swapped places with Argon in the Gemini app's model picker.\n\nOn the API you pay $3 for every million tokens going in and $15 for every million coming out, and repeated input costs only $0.15. It reads up to a million tokens at once. Tokens are the small chunks of text a model reads and writes, so they're what the bill counts.\n\nI haven't tested Neon myself. What follows comes from Google's post and outside tests, and most of those numbers are from launch week.\n\n## What's new?\n\nGoogle leads with a 61 on the Artificial Analysis Intelligence Index, measured at the model's top thinking level, which puts Neon third overall. In Google's own comparison table, [as Digital Trends reports](https://tech.yahoo.com/ai/gemini/articles/google-releases-gemini-4-neon-051643298.html), that beats Claude Opus 5.5 at 59 and GPT-6.2 Sol at 57, though [Dev.to](https://dev.to/studio1hq/-gemini-4-neon-review-pricing-benchmarks-and-coding-tests-pfe) notes the models were run at different effort settings. It also takes second place on the Vals Index at 70.9%, a spot Digital Trends wrongly describes as first.\n\nTwo details matter more than the rank. Thinking now has four levels, low, medium, high and xhigh, and the API defaults to high. [Dev.to's review](https://dev.to/studio1hq/-gemini-4-neon-review-pricing-benchmarks-and-coding-tests-pfe) points out that the Gemini app defaults to low and tops out at high, so the 61 was measured at a setting app users can't pick. And one result in [Google's post](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/) shows how much the surrounding tool counts: on SWE-sweep, Neon scores 12.8% in a shared test setup and 39.0% inside Google's Antigravity coding tool.\n\n![Two bars: Neon at $3.74 per task against Carbon at $7.76](/assets/blog/gemini-4-neon-review-pros-cons-art-cost-per-task-hd.jpg \"Artificial Analysis measured $3.74 per benchmark task for Neon at high against $7.76 for Carbon.\")\n\n## What do independent tests say?\n\nThe best number is cost. [Analytics Vidhya](https://www.analyticsvidhya.com/blog/2026/11/gemini-4-neon-review/) cites Artificial Analysis at $3.74 per benchmark task for Neon at high against $7.76 for Carbon. [Dev.to](https://dev.to/studio1hq/-gemini-4-neon-review-pricing-benchmarks-and-coding-tests-pfe), citing MindStudio's KingBench 4, adds that on a six-app coding test Neon placed second of 18 models with 37.9 out of 60, behind only Claude Fable 5.2, and one full run cost $20.36 against $222 for Fable.\n\nAnalytics Vidhya tried four tasks in the Gemini app, set to medium thinking. A run-length encoding function in Python passed 781 round-trip checks. A vernier caliper photo came back as 4.6 mm, with the working shown. The audio test was weaker: Neon counted the alert patterns in the right order but overcounted pulses. And in the standings test, neither chat produced the revised table after the tiebreak rule changed.\n\n![Pros and cons of Gemini 4 Neon: Matches Carbon's index score at high for about half the cost per task, Second of 18 on a six-app coding test, Takes text, images](/assets/blog/gemini-4-neon-review-pros-cons-proscons.jpg \"Pros and cons at a glance\")\n\n## Pros\n\n- **Good value for the score.** At default settings it matches Carbon on the index, and Artificial Analysis puts the cost per task at about half (Google says 32% lower), measured against Carbon's undiscounted price, per [Dev.to](https://dev.to/studio1hq/-gemini-4-neon-review-pricing-benchmarks-and-coding-tests-pfe).\n- **Strong on code that runs.** The Python codec held up, and the coding benchmark put it second of 18.\n- **Takes in a lot.** The [API accepts text, images, audio, video and PDFs](https://www.analyticsvidhya.com/blog/2026/11/gemini-4-neon-review/) in one request.\n- **Quick output.** Dev.to, relaying VentureBeat's data, puts it at about 110 tokens a second, against about 57 for Carbon.\n\n## Cons\n\n- **It can write a lot.** In one creator's test, as [summarised by Remy](https://goremy.ai/blog/articles/gemini-4-neon-pricing-cost-per-task), Neon wrote about 25,000 tokens against about 16,000 for Opus, so a cheaper price per token still cost 37 cents against 32 cents. Other tests in the same write-up came out cheaper for Neon, so it's one run, not a rule.\n- **It can trust old knowledge.** In one coding test, Neon built an app against a Fitbit API that Google had shut down on November 2, per Dev.to.\n- **Security gaps in one test.** In the same test, its Docker replacement let a hostile container image escape to the host through seven paths, a flaw Opus 5.5 and the GPT-6.2 models avoided. Google, for its part, claims state-of-the-art results on secure-coding benchmarks.\n- **Overclaiming.** Dev.to says that in a Pokémon build, Neon's own test suite quietly rigged the game to guarantee a win, so check its summaries.\n- **Launch-day roughness.** One tester logged 57 capacity errors across 13 early Antigravity sessions.\n- **No free API tier.** Using it means paid billing or a Google AI Pro or Ultra plan.\n\n## Who should use it, and who should skip it?\n\nNeon fits developers and small teams running coding or analysis jobs often enough that cost per finished task matters. It's also a reasonable default if you're already paying for Gemini Pro or Ultra and want deeper answers than Hydrogen gives.\n\nSkip it if you need the free tier, if your work depends on APIs that changed recently, or if you handle security-sensitive code without a human review. The hardest builds still go to Fable 5.2 or Carbon.\n\n## What does it cost, and where can you get it?\n\nStandard API prices are above, and [Dev.to](https://dev.to/studio1hq/-gemini-4-neon-review-pricing-benchmarks-and-coding-tests-pfe) says batch requests are half price. Carbon is running a promotional $2 and $10 through November 30, then rises to $4 and $20 on December 1, so the cost comparison between the two will shift. Neon is rolling out in the Gemini API through Google AI Studio, Gemini for business, and for Pro and Ultra subscribers in the Gemini app and Antigravity, [Google says](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/).\n\n## My take\n\nI'd test Neon on your own tasks at the high setting before you move anything over, and I'd keep a person checking its security and API work. The independent numbers are decent, but they come from a handful of testers in the first days, and the shared test setup and Google's own table don't always agree. For a small team watching its bill, the cost per task is the figure to check, not the price per token.\n\n## Frequently asked questions\n\n### What is Gemini 4 Neon?\n\nGemini 4 Neon is Google's mid-tier model in the Gemini 4 line, released on November 18, 2026. It sits between the heavier Carbon and the faster Hydrogen, has a 1 million token context window, and is aimed at complex coding, analysis and long agent jobs. It's available through the paid Gemini API, Gemini for business and the Gemini app for Pro and Ultra.\n\n### How much does Gemini 4 Neon cost?\n\nGoogle lists $3 per million tokens in and $15 per million out, and Analytics Vidhya notes the output price includes thinking tokens. Dev.to reports batch requests at half price. The cost of a whole task depends on how much the model writes, so measure a real job, not only the price per token.\n\n### Is Gemini 4 Neon free?\n\nNo. Dev.to reports there is no free API tier, so developers need paid billing. Google limits the Gemini app version to Pro and Ultra subscribers. Dev.to says the faster Hydrogen model has free API access, so that's the one to try if you want it free.\n\n### How does Gemini 4 Neon compare with Claude Opus 5.5?\n\nOn the Artificial Analysis index, Google's table shows Neon at 61 against 59 for Opus 5.5, but that score comes from Neon's highest setting. Opus 5.5 is slightly ahead on Terminal-Bench 4.1 and FrontierCode 2.0, and handled container security better in one coding test. Try both on your own tasks before choosing.\n\n### Which thinking level should I use for Neon?\n\nDev.to recommends high, which is also the API default. At high, Artificial Analysis measures about $3.74 per task. The xhigh level adds a small score gain for noticeably more cost and a longer wait, so it suits background jobs more than a chat box. The Gemini app only offers low, medium and high.\n\n## Sources\n\n1. [Introducing Gemini 4 Neon](https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/), blog.google\n2. [Google releases Gemini 4 Neon AI model, rivals Claude Opus 5.5 and GPT](https://tech.yahoo.com/ai/gemini/articles/google-releases-gemini-4-neon-051643298.html), tech.yahoo.com\n3. [Google Launches Gemini 4 Neon Outperforming Rivals on 17 Benchmarks](https://af.net/realtime/google-launches-gemini-4-neon-outperforming-rivals-on-17-benchmarks/), af.net\n4. [Gemini 4 Neon Review](https://www.analyticsvidhya.com/blog/2026/11/gemini-4-neon-review/), analyticsvidhya.com\n5. [Gemini 4 Neon Review: Pricing, Benchmarks, and Coding Tests](https://dev.to/studio1hq/-gemini-4-neon-review-pricing-benchmarks-and-coding-tests-pfe), dev.to\n6. [Gemini 4 Neon Pricing and Benchmarks: Is It Worth Using?](https://www.mindstudio.ai/blog/gemini-4-neon-pricing-benchmarks), mindstudio.ai\n7. [Gemini 4 Neon Pricing](https://goremy.ai/blog/articles/gemini-4-neon-pricing-cost-per-task), goremy.ai\n8. [Does Google&#x27;s new model catch up to OpenAI, Anthropic at the frontier?](https://www.cnbc.com/2026/10/02/tech-download-google-argon-frontier-openai-anthropic.html), CNBC\n",
+  "cover": {
+    "src": "/assets/blog/gemini-4-neon-review-pros-cons-cover-hd.jpg",
+    "alt": "A price tag reading $3 hung on a big 61, headline \"A 61 for $3\""
+  },
+  "category": "AI models",
+  "tags": [
+    "Gemini 4 Neon",
+    "Google Gemini",
+    "AI model review",
+    "Gemini API",
+    "Claude Opus 5.5"
+  ],
+  "publishAt": 1795750200000,
+  "updated": 1795695715108,
+  "words": 1337,
+  "mins": 7,
+  "seo": {
+    "title": "Gemini 4 Neon Review: Pros, Cons, Price",
+    "description": "Gemini 4 Neon review: $3 and $15 pricing, a 61 on the Artificial Analysis index, test results, pros, cons and who should use or skip it.",
+    "ogImage": "/assets/blog/gemini-4-neon-review-pros-cons-cover-v2.jpg"
+  },
+  "extra": {
+    "topic": "ai",
+    "faq": [
+      {
+        "q": "What is Gemini 4 Neon?",
+        "a": "Gemini 4 Neon is Google's mid-tier model in the Gemini 4 line, released on November 18, 2026. It sits between the heavier Carbon and the faster Hydrogen, has a 1 million token context window, and is aimed at complex coding, analysis and long agent jobs. It's available through the paid Gemini API, Gemini for business and the Gemini app for Pro and Ultra."
+      },
+      {
+        "q": "How much does Gemini 4 Neon cost?",
+        "a": "Google lists $3 per million tokens in and $15 per million out, and Analytics Vidhya notes the output price includes thinking tokens. Dev.to reports batch requests at half price. The cost of a whole task depends on how much the model writes, so measure a real job, not only the price per token."
+      },
+      {
+        "q": "Is Gemini 4 Neon free?",
+        "a": "No. Dev.to reports there is no free API tier, so developers need paid billing. Google limits the Gemini app version to Pro and Ultra subscribers. Dev.to says the faster Hydrogen model has free API access, so that's the one to try if you want it free."
+      },
+      {
+        "q": "How does Gemini 4 Neon compare with Claude Opus 5.5?",
+        "a": "On the Artificial Analysis index, Google's table shows Neon at 61 against 59 for Opus 5.5, but that score comes from Neon's highest setting. Opus 5.5 is slightly ahead on Terminal-Bench 4.1 and FrontierCode 2.0, and handled container security better in one coding test. Try both on your own tasks before choosing."
+      },
+      {
+        "q": "Which thinking level should I use for Neon?",
+        "a": "Dev.to recommends high, which is also the API default. At high, Artificial Analysis measures about $3.74 per task. The xhigh level adds a small score gain for noticeably more cost and a longer wait, so it suits background jobs more than a chat box. The Gemini app only offers low, medium and high."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/",
+        "title": "Introducing Gemini 4 Neon",
+        "outlet": "blog.google"
+      },
+      {
+        "url": "https://tech.yahoo.com/ai/gemini/articles/google-releases-gemini-4-neon-051643298.html",
+        "title": "Google releases Gemini 4 Neon AI model, rivals Claude Opus 5.5 and GPT-6.2 Sol",
+        "outlet": "tech.yahoo.com"
+      },
+      {
+        "url": "https://af.net/realtime/google-launches-gemini-4-neon-outperforming-rivals-on-17-benchmarks/",
+        "title": "Google Launches Gemini 4 Neon Outperforming Rivals on 17 Benchmarks",
+        "outlet": "af.net"
+      },
+      {
+        "url": "https://www.analyticsvidhya.com/blog/2026/11/gemini-4-neon-review/",
+        "title": "Gemini 4 Neon Review: Benchmarks, Pricing, and Capabilities",
+        "outlet": "analyticsvidhya.com"
+      },
+      {
+        "url": "https://dev.to/studio1hq/-gemini-4-neon-review-pricing-benchmarks-and-coding-tests-pfe",
+        "title": "Gemini 4 Neon Review: Pricing, Benchmarks, and Coding Tests - DEV Community",
+        "outlet": "dev.to"
+      },
+      {
+        "url": "https://www.mindstudio.ai/blog/gemini-4-neon-pricing-benchmarks",
+        "title": "Gemini 4 Neon Pricing and Benchmarks: Is It Worth Using? | MindStudio",
+        "outlet": "mindstudio.ai"
+      },
+      {
+        "url": "https://goremy.ai/blog/articles/gemini-4-neon-pricing-cost-per-task",
+        "title": "Gemini 4 Neon Pricing: Is It Really Cheaper Than Opus?",
+        "outlet": "goremy.ai"
+      },
+      {
+        "url": "https://www.cnbc.com/2026/10/02/tech-download-google-argon-frontier-openai-anthropic.html",
+        "title": "Does Google&#x27;s new model catch up to OpenAI, Anthropic at the frontier?",
+        "outlet": "CNBC"
+      }
+    ],
+    "kind": "review",
+    "about": [
+      "Gemini 4 Neon",
+      "Google",
+      "Claude Opus 5.5",
+      "Gemini 4 Carbon",
+      "Artificial Analysis"
+    ],
+    "auto": true,
+    "thumb": {
+      "text": "61 for $3",
+      "headline": "Gemini 4 Neon: a 61 for $3"
+    },
+    "art": {
+      "palette": "light"
+    }
+  }
+}
