@@ -1909,6 +1909,79 @@
       ],
       "angle": "Single trade source so far; confirm with the Rails advisory and a second outlet before writing.",
       "added": "2026-11-25"
+    },
+    {
+      "key": "palo-alto-fragnesia-exploited",
+      "title": "Palo Alto Networks warns Fragnesia flaw is exploited in PAN-OS attacks: what to patch",
+      "kind": "news",
+      "topic": "security",
+      "score": 9,
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/palo-alto-networks-warns-of-fragnesia-flaw-exploited-in-pan-os-attacks/"
+      ],
+      "angle": "Exploited PAN-OS flaw; admin patch checklist",
+      "added": "2026-11-26"
+    },
+    {
+      "key": "character-ai-chat-auction-ags",
+      "title": "Character.AI plan to auction users private chats challenged by state AGs",
+      "kind": "news",
+      "topic": "ai",
+      "score": 7,
+      "urls": [
+        "https://techcrunch.com/2026/11/25/state-ags-fight-character-ais-plan-to-auction-off-users-private-chats/"
+      ],
+      "angle": "What was proposed, what AGs say, what users can do",
+      "added": "2026-11-26"
+    },
+    {
+      "key": "ea-fc27-ai-commentator",
+      "title": "EA brings back a late football commentator with AI in FC 27: why fans are split",
+      "kind": "news",
+      "topic": "gaming",
+      "score": 8,
+      "urls": [
+        "https://www.gamespot.com/articles/three-years-after-his-death-ea-is-using-ai-to-bring-back-a-famed-commentator-in-fc-27/",
+        "https://www.pcgamer.com/software/ai/deceased-bbc-football-commentator-resurrected-with-ai-for-ea-sports-fc-the-family-says-its-a-touching-tribute-but-some-fans-call-it-gross-and-bleak/"
+      ],
+      "angle": "Family consent vs fan backlash; facts only",
+      "added": "2026-11-26"
+    },
+    {
+      "key": "sp-nvidia-credit-downgrade",
+      "title": "S&P considers Nvidia credit downgrade over governance and key-man risk",
+      "kind": "news",
+      "topic": "finance",
+      "score": 8,
+      "urls": [
+        "https://techcrunch.com/2026/11/25/sp-considers-nvidia-credit-downgrade-over-governance-and-key-man-risks/"
+      ],
+      "angle": "What a credit watch means, what is stated",
+      "added": "2026-11-26"
+    },
+    {
+      "key": "ny-ai-toy-ban",
+      "title": "New York blocks AI toys for kids this Christmas: what the rule says",
+      "kind": "news",
+      "topic": "ai",
+      "score": 6,
+      "urls": [
+        "https://techcrunch.com/2026/11/25/want-to-buy-your-kid-an-ai-toy-this-christmas-not-in-new-york/"
+      ],
+      "angle": "Parents guide",
+      "added": "2026-11-26"
+    },
+    {
+      "key": "console-price-tariffs",
+      "title": "Another console price hike could come from new tariffs",
+      "kind": "news",
+      "topic": "gaming",
+      "score": 7,
+      "urls": [
+        "https://www.gamespot.com/articles/another-gaming-console-price-hike-could-be-coming-thanks-to-new-tariffs/"
+      ],
+      "angle": "What is reported vs confirmed",
+      "added": "2026-11-26"
     }
   ],
   "covered": [
@@ -1932,6 +2005,7 @@
     "banks-ai-agents-liability",
     "crowdstrike-zscaler",
     "rbi-dmt-directions-2026",
-    "us-ai-chip-remote-access-rule"
+    "us-ai-chip-remote-access-rule",
+    "1password-github-breach"
   ]
 }
