@@ -1,2052 +1,2091 @@
 {
-  "slots": {
-    "2026-11-13": {
-      "title": "Critical Apache HTTP Server flaw: what to patch now",
-      "kind": "news",
-      "angle": "Who is affected, fixed versions, how a small business or its web host checks exposure. Needs the Apache security advisory and a second outlet before writing.",
-      "urls": [
-        "https://www.wiz.io/blog/cve-2026-119618-rce-apache-http-server-vulnerability"
-      ],
-      "score": 8,
-      "status": "written",
-      "slug": "apache-http-server-http2-flaw-patch",
-      "locked": false,
-      "key": "apache-httpd-rce"
-    },
-    "2026-11-15": {
-      "title": "Claude Meetings review: turning meetings into plans and tasks",
-      "kind": "review",
-      "angle": "Pros and cons vs Granola, Otter and Zoom AI for project teams",
-      "urls": [],
-      "score": 7,
-      "status": "written",
-      "slug": "claude-meetings-review-pros-cons",
-      "locked": false
-    },
-    "2026-11-16": {
-      "title": "Gemini 4 Hydrogen review: Google\u2019s fast new model, pros and cons",
-      "kind": "review",
-      "angle": "Flash successor now in Search for all users and the Gemini app: speed, price, benchmarks vs Argon, what changes for everyday search and for developers",
-      "urls": [
-        "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/",
-        "https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/",
-        "https://techcrunch.com/2026/11/12/googles-latest-search-upgrade-promises-better-answers-to-your-most-complicated-questions/",
-        "https://the-decoder.com/googles-gemini-4-hydrogen-outscores-the-bigger-argon-just-four-weeks-after-its-launch/",
-        "https://www.androidheadlines.com/2026/11/google-gemini-4-hydrogen-replaces-flash.html"
-      ],
-      "score": 8,
-      "status": "written",
-      "slug": "gemini-4-hydrogen-review-pros-cons",
-      "locked": false
-    },
-    "2026-11-17": {
-      "title": "How AI voice cloning scams work and how to stay safe",
-      "kind": "explainer",
-      "angle": "From the NPR swatting report to everyday family and office voice scams; practical checks, India relevance.",
-      "urls": [
-        "https://www.npr.org/2026/11/11/nx-s1-6034449/ai-911-calls-swatting"
-      ],
-      "score": 6,
-      "status": "written",
-      "slug": "ai-voice-cloning-scams-how-to-stay-safe",
-      "locked": false,
-      "key": "ai-voice-scams"
-    },
-    "2026-11-18": {
-      "title": "California sues OpenAI over the Hugging Face AI hack",
-      "kind": "news",
-      "angle": "State AG lawsuit over the July agent hack: what is alleged, OpenAI response, what we do not know.",
-      "urls": [],
-      "score": 8,
-      "status": "written",
-      "slug": "california-sues-openai-hugging-face-hack",
-      "locked": false,
-      "key": "california-sues-openai"
-    },
-    "2026-11-19": {
-      "title": "United Airlines bans AI agents from booking flights",
-      "kind": "news",
-      "angle": "What the ban covers, why airlines push back on agent bookings, what it means for people using AI assistants for travel.",
-      "urls": [
-        "https://www.cbsnews.com/news/united-airlines-bans-ai-agents-booking-flights/"
-      ],
-      "score": 7,
-      "status": "written",
-      "slug": "united-bans-ai-agents-flight-booking",
-      "locked": false,
-      "key": "united-ai-agent-ban"
-    },
-    "2026-11-20": {
-      "title": "Perplexity Teammates review: AI agents for ongoing work",
-      "kind": "review",
-      "angle": "What the agents do, pricing, who should try it",
-      "urls": [
-        "https://www.perplexity.ai/en-GB/hub/blog/teammates-are-agents-for-complex-ongoing-work"
-      ],
-      "score": 7,
-      "status": "written",
-      "slug": "perplexity-teammates-review-pros-cons",
-      "locked": false
-    },
-    "2026-11-21": {
-      "title": "ChatGPT Wallet review: AI agents that shop and pay for you",
-      "kind": "review",
-      "angle": "What Wallet does, how agent checkout works, safety and spending controls, pros and cons, who should try it and who should wait",
-      "urls": [
-        "https://openai.com/index/introducing-chatgpt-wallet",
-        "https://techcrunch.com/2026/11/13/chatgpts-new-wallet-lets-ai-agents-shop-and-check-out-for-you/"
-      ],
-      "score": 8,
-      "status": "written",
-      "key": "chatgpt-wallet",
-      "slug": "chatgpt-wallet-review-pros-cons"
-    },
-    "2026-11-22": {
-      "title": "NGINX HTTP/2 flaws let attackers run code: what to patch",
-      "kind": "news",
-      "angle": "Wiz says both critical HTTP/2 flaws, CVSS 4.0 9.2. Only Wiz so far (18 Nov); needs a second independent outlet or the F5 advisory before breaking. Different from June CVE-2026-42530/42055.",
-      "urls": [
-        "https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities"
-      ],
-      "score": 9,
-      "status": "written",
-      "key": "nginx-http2-rce",
-      "slug": "nginx-http2-rce-flaws-patch"
-    },
-    "2026-11-23": {
-      "title": "Anthropic Nasdaq debut: day one, valuation, risks",
-      "kind": "news",
-      "angle": "Follow-up to the 14 Nov IPO post (debut was 19 Nov); fold in founders cash-out and charity pledge; confirm numbers with outlets before writing.",
-      "urls": [
-        "https://www.npr.org/2026/11/18/nx-s1-6046212/anthropic-record-ipo-price",
-        "https://techcrunch.com/2026/11/18/anthropic-reportedly-prices-ipo-at-83-a-share-above-projected-range/",
-        "https://techcrunch.com/2026/11/19/at-nasdaq-opening-bell-anthropic-ceo-recommits-to-pacing-ai-development/",
-        "https://www.npr.org/2026/11/19/nx-s1-6042558/anthropic-ipo-breaks-records-100-billion",
-        "https://techcrunch.com/2026/11/19/anthropics-ipo-puts-ais-circular-financing-boom-to-the-test/"
-      ],
-      "score": 8,
-      "status": "written",
-      "slug": "anthropic-nasdaq-debut-first-day-explained",
-      "locked": false,
-      "key": "anthropic-ipo-priced"
-    },
-    "2026-11-24": {
-      "title": "CERT-In: AI attacks on Indian finance firms, 3 checks",
-      "kind": "news",
-      "topic": "security",
-      "score": 9,
-      "status": "written",
-      "slug": "cert-in-ai-attacks-indian-banks-checks",
-      "key": "cert-in-crafty-falcon",
-      "locked": false
-    },
-    "2026-11-25": {
-      "title": "RBI cash transfer rules 2026: the 4 limits to know",
-      "kind": "news",
-      "topic": "finance",
-      "score": 8,
-      "status": "written",
-      "slug": "rbi-cash-transfer-limits-2026-explained",
-      "key": "rbi-dmt-directions-2026",
-      "locked": false
-    },
-    "2026-11-26": {
-      "title": "US tightens AI chip export rules for remote compute: what it changes",
-      "kind": "news",
-      "angle": "Interim rule: licences needed to export AI chips when the buyer may offer compute to China or other restricted countries. What it covers, what is unclear, what it means for cloud and AI prices.",
-      "urls": [
-        "https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/"
-      ],
-      "score": 8,
-      "status": "written",
-      "slug": "ai-chip-export-rule-remote-access",
-      "key": "us-ai-chip-remote-access-rule",
-      "topic": "tech"
-    },
-    "2026-11-27": {
-      "title": "Gemini 4 Neon review: what Google launched, pros and cons",
-      "kind": "review",
-      "angle": "Official launch post plus independent hands-on tests and pricing; confirm with outlets.",
-      "urls": [
-        "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/"
-      ],
-      "score": 8,
-      "status": "written",
-      "key": "gemini-4-neon",
-      "slug": "gemini-4-neon-review-pros-cons",
-      "topic": "ai"
-    },
-    "2026-11-28": {
-      "title": "CISA flags critical Cisco Expressway RCE as exploited: what to patch",
-      "kind": "news",
-      "angle": "Confirm with 2+ outlets and the Cisco advisory before writing; patch steps for small IT teams.",
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited-in-attacks/"
-      ],
-      "score": 9,
-      "topic": "security",
-      "status": "planned",
-      "locked": false
-    },
-    "2026-11-29": {
-      "title": "Alibaba Qwen4-Max review: what's new and pros and cons",
-      "kind": "review",
-      "angle": "New Alibaba flagship model; 483 HN points. Needs independent outlets and tests before writing.",
-      "urls": [
-        "https://qwen.ai/blog?id=qwen4-max"
-      ],
-      "score": 7,
-      "status": "planned"
-    },
-    "2026-11-30": {
-      "title": "GPT-6.2 Astra and Sol: what OpenAI changed",
-      "kind": "news",
-      "angle": "What the 6.2 point release changes for paid users and developers, with independent coverage and the sceptical view",
-      "urls": [
-        "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
-      ],
-      "score": 8,
-      "status": "planned",
-      "key": "openai-gpt-6-2",
-      "slug": "",
-      "locked": false
-    },
-    "2026-12-01": {
-      "title": "GTA 6 hacker releases full Xbox build and PC modders try to run it: what is known",
-      "kind": "news",
-      "angle": "Facts only from outlets; do not link or point to the leak; piracy and security angle; need a second outlet before writing.",
-      "urls": [
-        "https://www.gamespot.com/articles/gta-6-hacker-releases-full-xbox-build-and-pc-modders-are-already-trying-to-get-it-running/",
-        "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-explained/",
-        "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-leaders-bail-out-as-take-two-cracks-down-on-illicit-efforts-to-get-the-game-running-on-pc/",
-        "https://github.com/ItsNotRexed/Leonida/issues",
-        "https://www.gamespot.com/articles/gta-6-modders-are-trying-to-vibe-code-a-pc-port-and-its-not-going-well/"
-      ],
-      "score": 9,
-      "topic": "gaming",
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "gta6-xbox-build-leak"
-    },
-    "2026-12-02": {
-      "title": "Genie 4 review: Google DeepMind world model, pros and cons",
-      "kind": "review",
-      "angle": "What Genie 4 / Project Genie does now that it is available, who can use it, limits, price",
-      "urls": [
-        "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/genie-4-now-available-project-genie/"
-      ],
-      "score": 7,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "genie-4-review"
-    },
-    "2026-12-03": {
-      "title": "VMware patches critical ESX and vCenter flaws, including a second 9.8 auth bypass after zero-day exploitation: what to patch",
-      "kind": "news",
-      "angle": "Official Broadcom advisory plus two trade outlets; which versions, exploited or not, what admins do now. Trade-only likely.",
-      "urls": [
-        "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
-        "https://thehackernews.com/2026/11/vmware-vcenter-hit-by-another-critical.html"
-      ],
-      "score": 9,
-      "topic": "security",
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "vmware-vcenter-esx-critical"
-    },
-    "2026-12-04": {
-      "title": "Google Gemini can now use your Mac for you: how it works, pros and cons",
-      "kind": "review",
-      "angle": "Gemini controls a Mac on the user's behalf; compare with Apple's reported agent; risks and who it suits",
-      "urls": [
-        "https://techcrunch.com/2026/11/19/google-gives-gemini-the-ability-to-use-your-mac-for-you/"
-      ],
-      "score": 7,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "gemini-mac-computer-use"
-    },
-    "2026-12-05": {
-      "title": "Inkling 2 Mini review: Thinking Machines model for local setups, pros and cons",
-      "kind": "review",
-      "angle": "New open model for running on your own computer; HN 669 points; need independent hands-on coverage before writing",
-      "urls": [
-        "https://thinkingmachines.ai/news/inkling-2-mini/",
-        "https://huggingface.co/blog/inkling2mini"
-      ],
-      "score": 7,
-      "status": "planned"
-    },
-    "2026-12-06": {
-      "title": "OpenRouter drops 3 providers after prompt theft found",
-      "kind": "news",
-      "topic": "security",
-      "angle": "Months of prompt theft at AI hosting firms; what AI users should check.",
-      "urls": [
-        "https://thehackernews.com"
-      ],
-      "score": 8,
-      "status": "planned",
-      "slug": "",
-      "locked": false
-    },
-    "2026-12-07": {
-      "title": "Ghostscript sandbox-escape RCE via crafted uploads: what to patch",
-      "kind": "news",
-      "topic": "security",
-      "angle": "Popular apps that process uploads are exposed.",
-      "urls": [
-        "https://thehackernews.com"
-      ],
-      "score": 8,
-      "status": "planned",
-      "slug": "",
-      "locked": false
-    },
-    "2026-12-08": {
-      "title": "Binding of Isaac DLC AI music backlash: what happened",
-      "kind": "news",
-      "topic": "gaming",
-      "angle": "Steam reviews dropped to Overwhelmingly Negative; music pulled.",
-      "urls": [
-        "https://www.pcgamer.com/games/roguelike/binding-of-isaac-dlc-adds-ai-music-in-gta-6-parodying-update-despite-not-having-an-ai-disclosure-steam-reviews-drop-to-overwhelmingly-negative-music-gets-pulled/"
-      ],
-      "score": 7,
-      "status": "planned",
-      "slug": "",
-      "locked": false
-    },
-    "2026-12-09": {
-      "title": "How to check if a photo or video is AI-made",
-      "kind": "explainer",
-      "angle": "Practical checks, tools, limits of detectors.",
-      "urls": [],
-      "score": 5,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "spot-ai-images-video"
-    },
-    "2026-12-10": {
-      "title": "Grammarly vs ChatGPT for work writing",
-      "kind": "review",
-      "angle": "Editing quality, privacy, pricing, pros and cons.",
-      "urls": [],
-      "score": 5,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "grammarly-vs-chatgpt"
-    },
-    "2026-12-11": {
-      "title": "How to write an AI use policy for a small team",
-      "kind": "explainer",
-      "angle": "What to allow, what to ban, data rules, a simple template outline.",
-      "urls": [],
-      "score": 5,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "ai-use-policy-small-team"
-    },
-    "2026-12-12": {
-      "title": "ElevenLabs review: AI voices, pros and cons",
-      "kind": "review",
-      "angle": "Quality, pricing, consent and misuse safeguards, who it is for. Include the new meeting notes and dictation app for teams (13 Nov 2026).",
-      "urls": [
-        "https://techcrunch.com/2026/11/13/elevenlabs-new-app-combines-meeting-note-taking-and-dictation-for-teams/"
-      ],
-      "score": 5,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "elevenlabs-review"
-    },
-    "2026-11-12": {
-      "title": "Jensen Huang resigns as Nvidia CEO: what we know",
-      "kind": "breaking",
-      "angle": "Breaking: confirmed facts vs reported allegations",
-      "urls": [
-        "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
-      ],
-      "score": 9,
-      "status": "written",
-      "slug": "jensen-huang-resigns-nvidia-ceo",
-      "locked": false
-    },
-    "2026-11-14": {
-      "title": "Anthropic IPO: what it means for Claude users and AI pricing",
-      "kind": "news",
-      "angle": "What the listing changes for businesses that use Claude; confirm details from the S-1 and mainstream outlets before writing",
-      "urls": [
-        "https://ipo.anthropic.com/us/",
-        "https://www.opb.org/article/2026/10/26/ai-giant-anthropic-files-for-an-ipo-that-could-break-records/"
-      ],
-      "score": 8,
-      "status": "written",
-      "slug": "anthropic-ipo-claude-users-pricing",
-      "locked": false,
-      "key": "anthropic-ipo"
-    },
-    "2026-12-13": {
-      "title": "Google Tabletop review: shared AI spaces for groups",
-      "kind": "review",
-      "angle": "Pros and cons for teams",
-      "urls": [
-        "https://blog.google/innovation-and-ai/models-and-research/google-labs/tabletop/"
-      ],
-      "score": 6,
-      "status": "planned",
-      "slug": "",
-      "locked": false
-    },
-    "2026-12-14": {
-      "title": "Former GitHub CEO launches a Git forge built for AI agents",
-      "kind": "news",
-      "angle": "What a forge for coding agents changes for dev teams",
-      "urls": [
-        "https://www.geekwire.com/2026/former-github-ceo-launches-rival-platform-built-for-ai-coding-agents/"
-      ],
-      "score": 6,
-      "status": "planned"
-    },
-    "2026-12-15": {
-      "title": "Why you should pin your GitHub Actions",
-      "kind": "explainer",
-      "angle": "Supply-chain risk in plain English, how pinning works, simple steps for small dev teams.",
-      "urls": [
-        "https://hugovk.dev/blog/2026/lock-github-actions/"
-      ],
-      "score": 6,
-      "status": "planned"
-    },
-    "2026-12-16": {
-      "title": "Microsoft 365 Copilot review: is it worth it for small teams?",
-      "kind": "review",
-      "angle": "Features, pricing, pros and cons, who should skip it.",
-      "urls": [],
-      "score": 5,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "microsoft-365-copilot"
-    },
-    "2026-12-17": {
-      "title": "Java4Shell: RCE flaw in OpenJDK Base64 handling",
-      "kind": "news",
-      "angle": "What the flaw is, who is affected, patch status; trade-only sourcing",
-      "urls": [
-        "https://calif.io/java4shell/"
-      ],
-      "score": 7,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "java4shell-openjdk-rce"
-    },
-    "2026-12-18": {
-      "title": "What is an AI agent, really?",
-      "kind": "explainer",
-      "angle": "Plain-English explainer: agents vs chatbots, where they fail, how to try one safely.",
-      "urls": [],
-      "score": 5,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "what-is-an-ai-agent"
-    },
-    "2026-12-19": {
-      "title": "Why Microsoft offered 60,000 employees buyouts, in Nadella's words",
-      "kind": "news",
-      "angle": "Numbers, dates and stated reason only; what is not known; confirm with a second outlet.",
-      "urls": [
-        "https://techcrunch.com/2026/11/18/microsoft-ceo-satya-nadella-explains-why-he-asked-60k-employees-to-quit/"
-      ],
-      "score": 7,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "nadella-60k-buyouts"
-    },
-    "2026-12-20": {
-      "title": "Yogurt review: free open-source meeting notes vs Granola",
-      "kind": "review",
-      "angle": "Private, local meeting notes; setup effort; compare with Granola; who should use it.",
-      "urls": [
-        "https://github.com/FrigadeHQ/yogurt"
-      ],
-      "score": 6,
-      "status": "planned",
-      "slug": "",
-      "locked": false,
-      "key": "yogurt-meeting-notes"
-    },
-    "2026-12-21": {
-      "title": "The Riemann Hypothesis claims, explained: what an AI and a human each claimed, and what is unverified",
-      "kind": "explainer",
-      "angle": "Explainer, now with mainstream coverage (TechCrunch) and Terry Tao commentary; attribute every claim, say clearly nothing is verified, plain-English what the hypothesis is",
-      "urls": [
-        "https://alpo.ge/remark.pdf",
-        "https://techcrunch.com/2026/11/20/ai-claimed-a-solution-to-the-167-year-old-riemann-hypothesis-and-a-human-did-too/",
-        "https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/"
-      ],
-      "score": 8,
-      "status": "planned"
-    },
-    "2026-12-22": {
-      "title": "NotebookLM review: pros and cons for research and study",
-      "kind": "review",
-      "angle": "What it does well, limits, privacy, who it is for.",
-      "urls": [],
-      "score": 5,
-      "status": "planned"
-    }
+ "slots": {
+  "2026-11-13": {
+   "title": "Critical Apache HTTP Server flaw: what to patch now",
+   "kind": "news",
+   "angle": "Who is affected, fixed versions, how a small business or its web host checks exposure. Needs the Apache security advisory and a second outlet before writing.",
+   "urls": [
+    "https://www.wiz.io/blog/cve-2026-119618-rce-apache-http-server-vulnerability"
+   ],
+   "score": 8,
+   "status": "written",
+   "slug": "apache-http-server-http2-flaw-patch",
+   "locked": false,
+   "key": "apache-httpd-rce"
   },
-  "backlog": [
-    {
-      "key": "nvidia-chip-tracking",
-      "title": "Nvidia could track its chips all along: what that means for export rules",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/",
-        "https://www.technologyreview.com/2026/11/13/1148551/the-download-silicon-valley-midterms-nvidia-chip-tracking/"
-      ],
-      "angle": "Chip location tracking vs public doubts; export controls; facts only, no personal-life angle",
-      "added": "2026-11-13"
-    },
-    {
-      "key": "nebius-neocloud-40b",
-      "title": "Nebius plans $40B: the neocloud bet explained",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/12/nebius-tests-the-neocloud-playbook-with-40-billion-in-planned-spending/"
-      ],
-      "angle": "What neoclouds are and why AI compute money keeps flowing; tie to SoftBank loss",
-      "added": "2026-11-13"
-    },
-    {
-      "key": "tesla-cybertruck-wind-down",
-      "title": "Tesla winds down Cybertruck production: what happened",
-      "kind": "news",
-      "score": 6,
-      "urls": [],
-      "angle": "Trending on HN; confirm with real outlets before planning a slot",
-      "added": "2026-11-13"
-    },
-    {
-      "key": "postman-ai-plugins",
-      "title": "Postman auto-installs AI plugins: what developers should check",
-      "kind": "explainer",
-      "score": 6,
-      "urls": [
-        "https://github.com/postmanlabs/postman-app-support/issues/14370"
-      ],
-      "angle": "Trade topic (--trade); vendor response needed; privacy of API data",
-      "added": "2026-11-13"
-    },
-    {
-      "key": "chatgpt-claude-gemini-office",
-      "title": "ChatGPT vs Claude vs Gemini for everyday office work",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Evergreen comparison",
-      "added": "2026-11-12"
-    },
-    {
-      "key": "china-banned-nvidia-chips",
-      "title": "Export-banned Nvidia chips behind China\u2019s top AI models",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/13/export-banned-nvidia-chips-are-behind-chinas-most-powerful-ai-models-uh-oh-jensen/"
-      ],
-      "angle": "What the research found and what it means for export rules",
-      "added": "2026-11-14"
-    },
-    {
-      "key": "apple-local-ai-app",
-      "title": "Apple\u2019s coming Mac app for running local AI models: what it means",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
-      ],
-      "angle": "Local AI made easy on Mac; pairs with the llama.cpp explainer",
-      "added": "2026-11-14"
-    },
-    {
-      "key": "nvidia-engineered-scarcity",
-      "title": "Nvidia accused of engineering GPU scarcity: what is alleged and what is not",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.techpowerup.com/354814/nvidia-allegedly-engineered-scarcity-by-funding-ai-startups-to-buy-its-gpus"
-      ],
-      "angle": "Allegation only, attribute carefully; need a second outlet and Nvidia's response before writing. Fits the Nvidia coverage after Huang exit.",
-      "added": "2026-11-14"
-    },
-    {
-      "key": "italy-meta-android-fine",
-      "title": "Italy fines Meta $887M over Android users' data access",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.reuters.com/world/italy-fines-meta-887-million-over-android-users-data-access-2026-11-14/"
-      ],
-      "angle": "What the regulator says, Meta's response, what it means for privacy rules",
-      "added": "2026-11-15"
-    },
-    {
-      "key": "spacex-starship-catch",
-      "title": "SpaceX catches Starship on Flight 15",
-      "kind": "news",
-      "score": 4,
-      "urls": [
-        "https://www.npr.org/2026/11/14/nx-s1-6041089/spacex-makes-history-with-starship-catch"
-      ],
-      "angle": "Off-topic for AI/tech-for-work audience; only if the desk runs thin",
-      "added": "2026-11-15"
-    },
-    {
-      "key": "perplexity-work-search",
-      "title": "Perplexity review: pros and cons as a work search tool",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Accuracy, citations, pricing, when Google is still better.",
-      "added": "2026-11-15"
-    },
-    {
-      "key": "fake-ai-event-phishing",
-      "title": "Fake AI event invites steal Microsoft and Google logins",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://www.foxnews.com/tech/fake-ai-event-invites-target-microsoft-google-logins"
-      ],
-      "angle": "Fake OpenAI event pages promise free ChatGPT Pro, then harvest Microsoft/Google credentials; what to check before you click",
-      "added": "2026-11-15",
-      "topic": "security"
-    },
-    {
-      "key": "openai-gpt6-astra-science",
-      "title": "OpenAI says GPT-6 Astra helped prove a physics result",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://openai.com/index/step-toward-defining-the-standard-model",
-        "https://openai.com/index/our-new-blog-for-science"
-      ],
-      "angle": "What AI-assisted proofs mean for science, and what is still unverified",
-      "added": "2026-11-16"
-    },
-    {
-      "key": "ubo-element-picker-xss",
-      "title": "uBlock Origin universal XSS in the element picker: what to do",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://iter.ca/post/ubo-uxss/"
-      ],
-      "angle": "Security write-up; check vendor fix and trade coverage (use --trade).",
-      "added": "2026-11-16",
-      "topic": "security"
-    },
-    {
-      "key": "bitly-old-links-hijack",
-      "title": "Old Bitly links are being hijacked: what small businesses should check",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://ransomnews.com/burger-king-tweet-bitly-link-hijack-2026/"
-      ],
-      "angle": "Expired short-link takeover tied to a Burger King tweet; verify with outlets.",
-      "added": "2026-11-16",
-      "topic": "security"
-    },
-    {
-      "key": "instagram-ai-teen-age",
-      "title": "Instagram uses AI to catch teens lying about age",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.foxnews.com/tech/instagrams-ai-may-catch-teens-lying-about-age"
-      ],
-      "angle": "How the age check works, privacy questions, what parents should know.",
-      "added": "2026-11-16"
-    },
-    {
-      "key": "cursor-vs-copilot",
-      "title": "Cursor vs GitHub Copilot: which AI coding tool to pick",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Features, pricing, team fit, pros and cons.",
-      "added": "2026-11-16"
-    },
-    {
-      "key": "uber-drivers-license-breach",
-      "title": "Uber confirms drivers' licence data stolen: what drivers should do",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://techcrunch.com/2026/11/13/uber-confirms-hackers-stole-thousands-of-drivers-license-information-in-data-breach/"
-      ],
-      "angle": "",
-      "added": "2026-11-16",
-      "topic": "security"
-    },
-    {
-      "key": "chatgpt-healthcare-agents",
-      "title": "ChatGPT for Healthcare adds computer-use agents: what changes",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://openai.com/index/more-ways-to-move-care-forward-with-chatgpt-for-healthcare"
-      ],
-      "angle": "",
-      "added": "2026-11-16"
-    },
-    {
-      "key": "ask-maps-itineraries",
-      "title": "Google Ask Maps trip itineraries: how it works, pros and cons",
-      "kind": "review",
-      "score": 5,
-      "urls": [
-        "https://blog.google/products-and-platforms/products/maps/ask-maps-holiday-travel-features-2026/"
-      ],
-      "angle": "",
-      "added": "2026-11-16"
-    },
-    {
-      "key": "fbi-artex-ai-hacking-tool",
-      "title": "FBI warns of Artex AI hacking tool: what small businesses should do",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://techcrunch.com/2026/11/16/fbi-says-artex-ai-open-source-hacking-tool-used-to-breac"
-      ],
-      "angle": "FBI says open-source AI hacking tool breached networks in under three hours; practical defences.",
-      "added": "2026-11-17",
-      "topic": "security"
-    },
-    {
-      "key": "optimizely-malware-supply-chain",
-      "title": "Optimizely compromised, served malware on Zoom and GitLab sites",
-      "kind": "news",
-      "score": 9,
-      "urls": [
-        "https://blog.report-uri.com/worlds-largest-brands-infected-with-malware-via-optimizely/"
-      ],
-      "angle": "Single source so far (report-uri); needs second outlet and Optimizely statement before writing. Trade-only likely.",
-      "added": "2026-11-17",
-      "topic": "security"
-    },
-    {
-      "key": "nvidia-earnings-after-huang",
-      "title": "Nvidia after Huang: what Tuesday's earnings tell us",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
-        "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
-        "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/",
-        "https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/",
-        "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
-        "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidias-ceo-resigns-after-alleged-spy-scandal-whats-next-for-the-company",
-        "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/",
-        "https://techcrunch.com/2026/11/14/asian-governments-react-to-nvidia-ceo-jensen-huangs-exit/",
-        "https://techcrunch.com/2026/11/17/nvidias-first-big-move-after-jensen-huangs-exit-targets-national-security/",
-        "https://techcrunch.com/2026/11/17/nvidia-promises-that-revenue-will-keep-soaring-for-now/",
-        "https://techcrunch.com/2026/11/17/nvidia-is-abandoning-china-after-jensen-huangs-ouster/"
-      ],
-      "angle": "Follow-up after the 17 Nov earnings call: guidance, CEO search, China export stance (earnings were due after the US close on 17 Nov, so results did not exist when the 18 Nov post was written; write once results are out)",
-      "added": "2026-11-17"
-    },
-    {
-      "key": "isomorphic-labs-5b",
-      "title": "Isomorphic Labs raises $5B: what AI drug discovery means beyond the hype",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/17/isomorphic-labs-raises-5b-as-it-looks-to-take-drug-candidates-to-clinical-trials/"
-      ],
-      "angle": "Single outlet so far; needs a second source and company statement.",
-      "added": "2026-11-17"
-    },
-    {
-      "key": "ai-status-reports-howto",
-      "title": "How to use AI to write project status reports",
-      "kind": "explainer",
-      "score": 5,
-      "urls": [],
-      "angle": "Practical prompts and checks for project managers; what not to paste in.",
-      "added": "2026-11-18"
-    },
-    {
-      "key": "nvidia-sec-probe",
-      "title": "SEC reportedly investigating Nvidia after Huang exit",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/17/sec-reportedly-investigating-nvidia-amid-huang-exit/",
-        "https://www.npr.org/2026/11/17/nx-s1-6044213/jensen-huang-nvidia-congress",
-        "https://www.marketscreener.com/news/us-sec-s-nvidia-probe-is-examining-potential-accounting-issues-sources-say-ce785ed3dd8ff627",
-        "https://techcrunch.com/2026/11/25/the-questions-jensen-huang-and-nvidia-will-still-have-to-answer-about-megaspeed/"
-      ],
-      "angle": "Follow-up to the Huang exit post; fold into the Nvidia after-earnings piece Update 21 Nov: Reuters-sourced report says the SEC probe is examining possible accounting issues (MarketScreener).",
-      "added": "2026-11-18"
-    },
-    {
-      "key": "gemini-chat-retention-2-months",
-      "title": "Google to keep Gemini chats for two months, even with history off",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/17/google-to-keep-gemini-chats-for-two-months-up-from-72-hours-even-with-history-off/"
-      ],
-      "angle": "What changes for privacy and how to adjust settings",
-      "added": "2026-11-18"
-    },
-    {
-      "key": "gemini-tasks-expansion",
-      "title": "Gemini Tasks expands: calls and purchases",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/17/google-expands-access-to-gemini-tasks-which-can-help-with-calls-purchases/",
-        "https://blog.google/innovation-and-ai/products/gemini-app/tasks-in-gemini-free-new-features/"
-      ],
-      "angle": "",
-      "added": "2026-11-18"
-    },
-    {
-      "key": "microsoft-mai-code-2",
-      "title": "Microsoft MAI Code 2 and Code 2 Flash",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://microsoft.ai/news/introducing-mai-code-2-and-mai-code-2-flash/"
-      ],
-      "angle": "",
-      "added": "2026-11-18"
-    },
-    {
-      "key": "nvidia-startup-stakes-65b",
-      "title": "Nvidia's startup stakes hit $65B: what Huang's exit means for its deals",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/17/nvidias-startup-stakes-ballooned-to-65b-but-huangs-exit-puts-future-deals-in-doubt/"
-      ],
-      "angle": "Ties to nvidia-engineered-scarcity; check the filing numbers and a second outlet.",
-      "added": "2026-11-18"
-    },
-    {
-      "key": "faa-ground-stop-nov-2026",
-      "title": "How one computer outage grounded US flights for hours",
-      "kind": "explainer",
-      "score": 6,
-      "urls": [
-        "https://www.faa.gov/newsroom/nationwide-ground-stop-questions-and-answers"
-      ],
-      "angle": "13-14 Nov FAA nationwide ground stop: what failed, what is confirmed, what travellers can do.",
-      "added": "2026-11-18"
-    },
-    {
-      "key": "meta-project-gryffindor",
-      "title": "Meta's Project Gryffindor: getting more school kids on Instagram",
-      "kind": "news",
-      "score": 6,
-      "urls": [],
-      "angle": "What reporting says, Meta response, what parents should know; confirm with real outlets first.",
-      "added": "2026-11-18"
-    },
-    {
-      "key": "ai-compute-funding",
-      "title": "CoreWeave prepayments and Fractile $720M: AI compute money",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/11/coreweave-turns-to-customer-prepayments-shorter-contracts-to-fund-ai-growth/",
-        "https://techcrunch.com/2026/11/11/with-720m-round-britains-fractile-gets-a-leg-up-in-the-race-for-ai-chips/"
-      ],
-      "angle": "How AI infrastructure is being financed and what it signals for cloud AI prices.",
-      "added": "2026-11-19"
-    },
-    {
-      "key": "microsoft-ignite-seven-models",
-      "title": "Microsoft Ignite 2026: seven new models at scalable price-performance",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://microsoft.ai/news/microsoft-ignite-2026/"
-      ],
-      "angle": "What was announced, what it means for small teams; confirm with independent outlets.",
-      "added": "2026-11-19"
-    },
-    {
-      "key": "google-ai-mode-incognito",
-      "title": "Google AI Mode gets temporary threads (an incognito mode)",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/18/googles-ai-feature-in-search-gets-its-own-incognito-mode/"
-      ],
-      "angle": "What it does and does not protect.",
-      "added": "2026-11-19"
-    },
-    {
-      "key": "banks-ai-agents-liability",
-      "title": "Banks say customers using AI agents are on their own if hacked",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/"
-      ],
-      "angle": "Pairs with the United AI-agent ban post; what a user should check before letting an agent pay.",
-      "added": "2026-11-19",
-      "topic": "security"
-    },
-    {
-      "key": "openai-revenue-10b",
-      "title": "OpenAI tops $10B in a quarter: what it tells us",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/11/openais-quarterly-revenue-reportedly-crosses-10b-for-the-first-time/"
-      ],
-      "angle": "Reported figure (attribute it), where the money comes from, what it means for AI prices for businesses.",
-      "added": "2026-11-19"
-    },
-    {
-      "key": "dpdp-rules-small-business",
-      "title": "What India\u2019s DPDP rules mean for a small business",
-      "kind": "explainer",
-      "score": 5,
-      "urls": [],
-      "angle": "Consent, notices, breach reporting, timelines; practical checklist.",
-      "added": "2026-11-19"
-    },
-    {
-      "key": "canva-ai-review",
-      "title": "Canva AI review: pros and cons for small business design",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Magic tools, pricing, limits, who should use it.",
-      "added": "2026-11-19"
-    },
-    {
-      "key": "ruby-regexp-string-vulns",
-      "title": "Ruby Regexp and String case-conversion vulnerabilities: what to update",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/"
-      ],
-      "angle": "Ruby security release 18 Nov; who is affected and which versions to move to",
-      "added": "2026-11-19",
-      "topic": "security"
-    },
-    {
-      "key": "ai-automated-cyberattack-google",
-      "title": "Google says Russian-speaking hackers ran first fully automated AI cyberattack",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://united24media.com/world/russian-speaking-hackers-launched-first-fully-automated-ai-cyberattack-google-says-24451"
-      ],
-      "angle": "What Google reported, what is unconfirmed, what small teams should do",
-      "added": "2026-11-19"
-    },
-    {
-      "key": "rag-explained",
-      "title": "RAG explained: why your company chatbot needs it",
-      "kind": "explainer",
-      "score": 5,
-      "urls": [],
-      "angle": "Retrieval in plain English, where it goes wrong, what to ask vendors.",
-      "added": "2026-11-19"
-    },
-    {
-      "key": "meta-muse-mixup",
-      "title": "Meta's Muse AI agent reportedly mixes up chats and exposes private data",
-      "kind": "news",
-      "score": 9,
-      "urls": [
-        "https://techcrunch.com/2026/11/19/metas-ai-agent-muse-is-mixing-up-conversations-and-exposing-private-data-report-says/",
-        "https://techcrunch.com/2026/11/25/amazon-and-meta-reportedly-in-talks-to-lift-blockade-on-ai-agent-muse/"
-      ],
-      "angle": "Report-based; attribute carefully; what users of AI agents should check",
-      "added": "2026-11-20",
-      "topic": "security"
-    },
-    {
-      "key": "claude-black-hole-physics",
-      "title": "Claude solves two open black hole physics problems: what Anthropic says",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.anthropic.com/research/claude-black-hole-physics"
-      ],
-      "angle": "Pair with GPT-6 Astra physics item; what is claimed vs peer reviewed",
-      "added": "2026-11-20"
-    },
-    {
-      "key": "uk-apple-encryption-order",
-      "title": "UK admits it issued Apple a secret encryption order",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://macanorak.com/uk-government-forced-to-admit-it-issued-apple-a-secret-encryption-order/"
-      ],
-      "angle": "Privacy and encryption; confirm with mainstream outlets before writing",
-      "added": "2026-11-20"
-    },
-    {
-      "key": "anthropic-founders-cashout",
-      "title": "Anthropic founders cash out nearly $2B in IPO; charity pledge",
-      "kind": "news",
-      "score": 5,
-      "urls": [
-        "https://techcrunch.com/2026/11/19/anthropics-7-founders-cashed-out-nearly-2b-in-record-breaking-ipo/",
-        "https://techcrunch.com/2026/11/19/anthropics-ipo-could-deliver-156-billion-to-charity/"
-      ],
-      "angle": "Fold into the debut post if written",
-      "added": "2026-11-20"
-    },
-    {
-      "key": "zoho-zia-review",
-      "title": "Zoho Zia review: AI inside Zoho for small business",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Features, pricing in India, pros and cons.",
-      "added": "2026-11-20"
-    },
-    {
-      "key": "openssl-evp-encodeblock-overflow",
-      "title": "OpenSSL EVP_EncodeBlock buffer overflow (CVE-2026-121481, CVSS 9.8): what to patch",
-      "kind": "news",
-      "score": 9,
-      "urls": [
-        "https://github.com/openssl/openssl/pull/33652"
-      ],
-      "angle": "Trade-only security post: official OpenSSL source plus 3 outlets; confirm advisory and affected versions first",
-      "added": "2026-11-20",
-      "topic": "security"
-    },
-    {
-      "key": "outlook-flaw-login-theft",
-      "title": "Hackers use an Outlook security flaw to steal login data: what to check",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://www.foxnews.com/tech/hackers-use-microsoft-outlook-security-flaw-steal-login-data"
-      ],
-      "angle": "Practical steps for small businesses; confirm Microsoft advisory and patch status",
-      "added": "2026-11-20",
-      "topic": "security"
-    },
-    {
-      "key": "ai-terror-plans-feds",
-      "title": "Feds say AI platforms generated terror plans: what was found",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.foxnews.com/tech/ai-newsletter-platforms-generated-terror-plans-feds-find"
-      ],
-      "angle": "Facts only from official findings; need primary source and other outlets",
-      "added": "2026-11-20"
-    },
-    {
-      "key": "metr-ai-graph-update",
-      "title": "METR updates the most misunderstood graph in AI: what it says and what it does not",
-      "kind": "explainer",
-      "score": 6,
-      "urls": [
-        "https://www.technologyreview.com/2026/11/20/1149399/the-most-misunderstood-graph-in-ai-just-got-a-major-update/"
-      ],
-      "angle": "Explainer on METR task-horizon report; MIT Tech Review",
-      "added": "2026-11-21"
-    },
-    {
-      "key": "signal-ai-agents-mobile-os",
-      "title": "Signal on restricting AI agents in mobile operating systems: what it means for your messages",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://signal.org/blog/protecting-your-privacy/",
-        "https://techcrunch.com/2026/11/21/signal-restricts-mobile-screenshots-as-it-confronts-existential-threat-of-ai-surveillance/"
-      ],
-      "angle": "Signal post plus TechCrunch coverage (screenshots restricted on mobile); mainstream outlet now exists, find a second",
-      "added": "2026-11-21"
-    },
-    {
-      "key": "ai-stocks-selloff-nov-2026",
-      "title": "AI stocks slide: S&P 500 down 3.7%, Nasdaq negative for the year",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://www.npr.org/2026/11/20/g-s1-154797/nasdaq-sp500-stock-market-ai-sink-negative",
-        "https://www.npr.org/2026/11/20/nx-s1-6048645/tech-stocks-end-the-week-on-a-down-note-despite-anthropics-mega-ipo",
-        "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
-        "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia"
-      ],
-      "angle": "Market news; only if it stays big next week; no investment advice Guardian 20 Nov: Nasdaq erased all 2026 gains on day two of Anthropic trading.",
-      "added": "2026-11-21",
-      "topic": "finance"
-    },
-    {
-      "key": "gamma-review",
-      "title": "Gamma review: AI presentations, pros and cons",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Quality, editing control, pricing, vs PowerPoint Copilot.",
-      "added": "2026-11-21"
-    },
-    {
-      "key": "visa-mastercard-jpmorgan-leak",
-      "title": "Visa, Mastercard and JPMorgan customer data leaked: what to check",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://www.foxnews.com/tech/visa-mastercard-jpmorgan-customer-data-leaked"
-      ],
-      "angle": "Third-party vendor marketing data accessed, extortion group leaking records; what customers and small businesses should do. Confirm with more outlets before writing.",
-      "added": "2026-11-21",
-      "topic": "security"
-    },
-    {
-      "key": "un-killer-robots-talks",
-      "title": "UN talks on killer robots end without binding rules: what it means",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.npr.org/2026/11/21/nx-s1-6047916/killer-robots-un-drones"
-      ],
-      "angle": "Geneva talks on autonomous weapons fell short; explain the positions and what happens next in plain English.",
-      "added": "2026-11-21"
-    },
-    {
-      "key": "google-ai-schools-protest",
-      "title": "Google employees protest AI in schools policy: what is being asked",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.npr.org/2026/11/21/nx-s1-6048599/google-employees-protest-ai-in-schools-policy"
-      ],
-      "angle": "NPR: 550+ Google employees signed a petition; need second outlet and Google response",
-      "added": "2026-11-22"
-    },
-    {
-      "key": "openai-chief-scientist-limits",
-      "title": "OpenAI chief scientist on how to limit AI development: what he proposes",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://openai.com/index/perplexity-and-intelligence/",
-        "https://techcrunch.com/2026/11/22/openais-chief-scientist-has-thoughts-on-how-to-limit-ai-development/"
-      ],
-      "angle": "Jakub Pachocki essay of 22 Nov; what is proposed, what critics say, what it means for working people",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "fbi-justice-database-hack",
-      "title": "FBI investigates apparent hack of its criminal justice database",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://www.securityweek.com"
-      ],
-      "angle": "AP-sourced report; confirm with 2+ outlets before writing.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "wotc-ai-copyright-payout-dnd",
-      "title": "Wizards of the Coast to pass AI copyright payout to D&D writers",
-      "kind": "news",
-      "topic": "gaming",
-      "score": 7,
-      "urls": [
-        "https://www.pcgamer.com"
-      ],
-      "angle": "Check details before writing.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "android-tv-box-malware:-1.3m-d",
-      "title": "Android TV box malware: 1.3M devices turned into a botnet",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://www.foxnews.com/tech/android-tv-box-malware-found-devices"
-      ],
-      "angle": "What Google says Videostrong installed, how to check your box, what to do",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "how-ai-pricing-works:-tokens,-",
-      "title": "How AI pricing works: tokens, seats and credits",
-      "kind": "explainer",
-      "score": 5,
-      "urls": [],
-      "angle": "How to estimate monthly cost for a small team.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "notion-ai-review:-pros-and-con",
-      "title": "Notion AI review: pros and cons for teams",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Search, writing, meeting notes, pricing.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "sarvam-ai-review:-indian-langu",
-      "title": "Sarvam AI review: Indian-language models, pros and cons",
-      "kind": "review",
-      "score": 5,
-      "urls": [],
-      "angle": "Languages covered, quality, pricing, who should use it.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "screenconnect-cve-exploited",
-      "title": "ScreenConnect critical flaw exploited against MSP technicians: what to patch",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://thehackernews.com/2026/11/hackers-exploit-critical-screenconnect.html"
-      ],
-      "angle": "CVE-2026-84869, CVSS 9.9; trade-only likely.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "glinet-routers-kvm-compromised",
-      "title": "GL.iNet routers and KVMs compromised through a cloud flaw",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://www.securityweek.com/gl-inet-routers-kvms-compromised-via-remote-management-service-flaw/",
-        "https://thehackernews.com/2026/11/hackers-exploited-glinet-cloud-flaw-to.html"
-      ],
-      "angle": "What to check on home and small-office routers.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "aspnet-anti-csrf-rce",
-      "title": "Critical ASP.NET anti-CSRF library flaw exploited for RCE",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://thehackernews.com/2026/11/hackers-exploit-critical-aspnet-anti.html"
-      ],
-      "angle": "Patch advice; trade-only.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "azure-flaw-norway-energy",
-      "title": "Azure flaw exploited against Norwegian energy firms",
-      "kind": "news",
-      "topic": "security",
-      "score": 7,
-      "urls": [
-        "https://www.securityweek.com/azure-flaw-exploited-to-target-secrets-at-norwegian-energy-firms/"
-      ],
-      "angle": "What was exploited, what cloud admins should check.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "badbox-3-disrupted",
-      "title": "BadBox 3.0 ad fraud network disrupted",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://www.securityweek.com/badbox-3-0-ad-fraud-operation-generating-40-billion-daily-bid-requests-disrupted/"
-      ],
-      "angle": "40 billion daily bid requests; infected devices link to android-tv-box-malware item.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "fbi-ai-hackers-3-hours",
-      "title": "FBI warns AI hackers can breach systems in under 3 hours",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://www.foxnews.com/tech/fbi-warns-ai-hackers-breach-systems-under-3-hours"
-      ],
-      "angle": "Pairs with CERT-In post; what small firms should do.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "cyberpunk-2-cancelled-joke",
-      "title": "Cyberpunk 2 \"cancelled\" joke after GTA 6: what was actually said",
-      "kind": "news",
-      "topic": "gaming",
-      "score": 7,
-      "urls": [
-        "https://www.gamespot.com/articles/cyberpunk-2-is-canceled-director-jokes-after-gta-6-raises-the-bar/"
-      ],
-      "angle": "Clarify it is a joke; facts only.",
-      "added": "2026-11-23"
-    },
-    {
-      "key": "cleverbridge-breach",
-      "title": "Cleverbridge warns hackers stole card numbers and CVVs",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/"
-      ],
-      "angle": "Payment processor for software vendors; what buyers should check. Needs a second outlet.",
-      "added": "2026-11-24"
-    },
-    {
-      "key": "kepco-breach-1-5m",
-      "title": "KEPCO confirms data breach hitting 1.5 million",
-      "kind": "news",
-      "topic": "security",
-      "score": 7,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/south-koreas-power-giant-kepco-confirms-data-breach-impacting-1-5-million/"
-      ],
-      "angle": "South Korea power utility breach; what is confirmed.",
-      "added": "2026-11-24"
-    },
-    {
-      "key": "laliga-fan-data-breach",
-      "title": "LaLiga confirms hackers stole fans personal data",
-      "kind": "news",
-      "topic": "security",
-      "score": 7,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/spanish-laliga-confirms-hackers-stole-soccer-fans-personal-data/"
-      ],
-      "angle": "What was taken and what fans should do.",
-      "added": "2026-11-24"
-    },
-    {
-      "key": "claude-ship-launch",
-      "title": "Anthropic launches Claude Ship: AI agents review, fix and approve code",
-      "kind": "news",
-      "topic": "ai",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/"
-      ],
-      "angle": "Review with pros and cons once hands-on coverage exists.",
-      "added": "2026-11-24"
-    },
-    {
-      "key": "megaspeed-huang-senate",
-      "title": "Huang to testify in Senate; Megaspeed headed for US blacklist",
-      "kind": "news",
-      "topic": "tech",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/23/jensen-huang-scheduled-to-testify-next-week-in-senate-following-reinstatement-as-nvidia-ceo/"
-      ],
-      "angle": "Follow-up to the Nvidia reinstatement post; wait for the hearing.",
-      "added": "2026-11-24"
-    },
-    {
-      "key": "gofundme-donor-breach",
-      "title": "GoFundMe says donor information was exposed in a data breach: what donors should check",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://www.10tv.com/article/news/nation-world/gofundme-data-breach-donor-data-nonprofits/507-6efe578f-8a12-49f8-88d3-90bcc948b1b1"
-      ],
-      "angle": "Confirm what data, how many donors and which nonprofits with GoFundMe and 2 outlets before writing",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "apple-local-ai-mac-app",
-      "title": "Apple reportedly readying a Mac app to run local AI models: what it means",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.foxnews.com/tech/apple-tightens-mac-security-ai-agents-seek-your-files"
-      ],
-      "angle": "Only if a second outlet confirms; reported via Hacker News, find the source article first",
-      "added": "2026-11-24",
-      "topic": "ai"
-    },
-    {
-      "key": "lovable-apps-exposed-passports",
-      "title": "Lovable-built apps exposed passport details and 200K private messages",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://www.crissyfield.de/research/lovable-en/"
-      ],
-      "angle": "Researcher report (single source so far); need Lovable's response and a second outlet. What vibe-coded apps get wrong and what a small business should check. Trade-only rule likely.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "nable-mailassure-monai-kev",
-      "title": "CISA adds N-able MailAssure and MONAI Label flaws to its exploited list: what to patch",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://thehackernews.com/2026/11/hackers-exploit-n-able-mailassure-flaw.html"
-      ],
-      "angle": "Trade-only (--trade). Confirm CISA KEV entry and vendor advisory first.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "openai-cisco-shirudo",
-      "title": "OpenAI and Cisco's Shirudo: an AI agent runtime to block Linux exploits before patching",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://thehackernews.com/2026/11/openai-and-cisco-unveil-ai-assisted.html",
-        "https://www.bleepingcomputer.com/news/security/new-shirudo-tool-uses-ai-to-shield-unpatched-linux-systems-from-exploits/"
-      ],
-      "angle": "Needs a second outlet and the vendor announcement before writing",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "llama-cpp-v1",
-      "title": "llama.cpp 1.0: running AI models on your own computer",
-      "kind": "explainer",
-      "score": 7,
-      "urls": [
-        "https://huggingface.co/blog/ggml-org/llama-cpp-v1",
-        "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
-      ],
-      "angle": "Plain-English explainer of local AI: what llama.cpp 1.0 changes, what hardware you need, privacy and cost trade-offs, Apple local model app as context",
-      "added": "2026-11-24",
-      "topic": "ai"
-    },
-    {
-      "key": "check-point-servers-hacked",
-      "title": "Check Point management servers hacked in 22 organizations in an AI-assisted campaign: what to check",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/hackers-compromise-check-point-servers-in-22-organizations/",
-        "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/"
-      ],
-      "angle": "What was hit, what Check Point says, what admins should check; attribute AI-assisted claim.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "eu-commission-academy-breach",
-      "title": "European Commission confirms data theft in EU Academy breach",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/european-commission-confirms-data-theft-in-eu-academy-breach/",
-        "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/"
-      ],
-      "angle": "What data, who is affected, what is not known yet.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "shinyhunters-okta-inception",
-      "title": "Okta links ShinyHunters-associated vishing group to new INCEPTION leak site; ShinyHunters claims return after FBI arrests",
-      "kind": "news",
-      "score": 8,
-      "urls": [
-        "https://thehackernews.com/2026/11/okta-links-shinyhunters-associated.html",
-        "https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/",
-        "https://www.bleepingcomputer.com/news/security/new-inception-extortion-gang-launches-large-scale-vishing-campaign/",
-        "https://www.securityweek.com/shinyhunters-claims-comeback-new-inception-group-rejects-alleged-ties/"
-      ],
-      "angle": "Vishing explainer angle for small business: what is claimed vs confirmed.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "mcdonalds-japan-breach",
-      "title": "McDonald's Japan data breach exposes customer location information",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/mcdonalds-japan-data-breach-exposes-customer-location-information/"
-      ],
-      "angle": "What data, what customers should do.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "azure-apim-secrets-flaw",
-      "title": "Microsoft fixes Azure API Management Classic flaw as an actor targets customer secrets",
-      "kind": "news",
-      "score": 7,
-      "urls": [
-        "https://thehackernews.com/2026/11/microsoft-fixes-azure-api-management.html"
-      ],
-      "angle": "Who is affected, what to rotate.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "xbox-helix-free-multiplayer",
-      "title": "Xbox Project Helix reportedly designed to make online multiplayer free",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.gamespot.com/articles/xbox-project-helix-was-reportedly-designed-to-make-online-multiplayer-free/"
-      ],
-      "angle": "Report only, attribute carefully.",
-      "added": "2026-11-24",
-      "topic": "gaming"
-    },
-    {
-      "key": "amazon-decart-acquisition",
-      "title": "Amazon buys Decart: a software bet against the Nvidia gap in AI chips",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/24/amazons-decart-acquisition-is-a-bet-on-using-software-to-narrow-the-gap-with-nvidia-in-the-ai-chip-race/"
-      ],
-      "angle": "What was bought, why it matters for AI chip supply.",
-      "added": "2026-11-24",
-      "topic": "ai"
-    },
-    {
-      "key": "peninsula-energy-cyber-incident",
-      "title": "Peninsula Energy halts trading after a cyber incident hits its US uranium mine",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://www.securityweek.com/peninsula-energy-halts-trading-after-cyber-incident-hits-us-uranium-mine/"
-      ],
-      "angle": "Facts from filings and SecurityWeek only.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "whmcs-sqli-flaw",
-      "title": "WHMCS SQL injection could expose customer data and admin password hashes without login",
-      "kind": "news",
-      "score": 6,
-      "urls": [
-        "https://thehackernews.com/2026/11/whmcs-sql-injection-flaw-could-expose.html"
-      ],
-      "angle": "Hosting resellers: what to update.",
-      "added": "2026-11-24",
-      "topic": "security"
-    },
-    {
-      "key": "cia-unclassified-system-breach",
-      "title": "CIA unclassified system breached: what is known and not",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://www.securityweek.com/an-unclassified-cia-system-was-breached-in-a-cyberattack-ap-source-says/"
-      ],
-      "angle": "AP source via SecurityWeek: unclassified CIA system breached; unclear what was taken or by whom. Needs a second outlet.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "rackspace-spot-shutdown",
-      "title": "Rackspace shuts down Spot cloud after a breach: what customers should do",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/rackspace-shuts-down-spot-cloud-platform-after-security-breach/"
-      ],
-      "angle": "Rackspace Spot shut down after attackers got in.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "radware-breach-cloud-keys",
-      "title": "Radware breach exposed customer cloud access keys: what to rotate",
-      "kind": "news",
-      "topic": "security",
-      "score": 8,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/radware-discloses-breach-exposing-customer-cloud-access-keys/"
-      ],
-      "angle": "Security vendor breach, customer cloud keys exposed.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "turnitin-cyberattack",
-      "title": "Turnitin discloses cyberattack on customer-facing systems",
-      "kind": "news",
-      "topic": "security",
-      "score": 7,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/turnitin-discloses-cyberattack-affecting-customer-facing-systems/",
-        "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/"
-      ],
-      "angle": "CEO statement; schools and students affected.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "anthropic-below-ipo-price",
-      "title": "Anthropic shares fall below the $83 IPO price: what it means",
-      "kind": "news",
-      "topic": "finance",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/24/anthropic-shares-fall-below-ipo-price-a-worrying-sign-for-ai-startups/",
-        "https://www.bloomberg.com/news/articles/2026-11-24/anthropic-breaks-below-83-ipo-price-in-premarket-trading"
-      ],
-      "angle": "Post-IPO slump and pressure on AI startup valuations.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "cdpr-q3-witcher4",
-      "title": "CD Projekt Q3: Witcher 4 team size and PlayStation deal",
-      "kind": "news",
-      "topic": "gaming",
-      "score": 6,
-      "urls": [
-        "https://www.pcgamer.com/games/the-witcher/the-difference-between-the-witcher-3-and-witcher-4-will-be-comparable-to-that-of-gta-5-and-gta-6-cd-projekt-boss-says-i-mean-its-been-11-years/",
-        "https://www.gamespot.com/articles/just-like-gta-6-the-witcher-4-has-a-playstation-deal/",
-        "https://www.gamespot.com/articles/witcher-4-has-fewer-people-working-on-it-than-it-did-3-months-ago-but-just-barely/"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "tidal-ai-music-ban",
-      "title": "Tidal to remove millions of AI-generated tracks",
-      "kind": "news",
-      "topic": "tech",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/24/tidal-to-ban-and-remove-millions-of-ai-generated-tracks-as-ai-slop-inundates-music-streaming/"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "uk-ncsc-ai-attacks",
-      "title": "UK cyber agency warns AI attacks expose years of weak security",
-      "kind": "news",
-      "topic": "security",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/24/uk-warns-ai-driven-cyberattacks-are-exposing-years-of-weak-security/"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "cod-lost-players-gta6",
-      "title": "Call of Duty reportedly lost 44% of its players after GTA 6: what the analyst says",
-      "kind": "news",
-      "topic": "gaming",
-      "score": 7,
-      "urls": [
-        "https://www.pcgamer.com/gaming-industry/analyst-says-call-of-duty-lost-an-estimated-44-percent-of-its-players-when-gta-6-came-out-and-unlike-fans-of-its-live-service-competitors-theyve-been-slow-to-come-back/"
-      ],
-      "angle": "Analyst estimate, not company data; what it means for live-service games.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "openai-matrix-multiplication-exponent",
-      "title": "OpenAI posts a matrix multiplication preprint: what is claimed and what is unverified",
-      "kind": "explainer",
-      "topic": "ai",
-      "score": 6,
-      "urls": [
-        "https://github.com/openai/math/blob/main/preprints/The-matrix-multiplication-exponent-is-nine-fourths-November-24-2026/paper.pdf"
-      ],
-      "angle": "Pair with the Riemann claims explainer; claim stays unverified until peer review.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "hexpm-rce-registry-servers",
-      "title": "Hex.pm registry servers hit by CVSS 10 RCE: what Elixir and Erlang teams should check",
-      "kind": "news",
-      "score": 8,
-      "topic": "security",
-      "urls": [
-        "https://thehackernews.com/2026/11/hackers-exploited-cvss-100-hexpm-rce.html"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "wp-connect-plugins-backdoored",
-      "title": "WordPress pulls six backdoored WP Connect plugins: what site owners should check",
-      "kind": "news",
-      "score": 8,
-      "topic": "security",
-      "urls": [
-        "https://thehackernews.com/2026/11/wordpress-blocks-six-backdoored-wp.html"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "drupal-flaw-anthropic-scanner-kev",
-      "title": "Drupal flaw found by an Anthropic scanner is now exploited: what to patch",
-      "kind": "news",
-      "score": 8,
-      "topic": "security",
-      "urls": [
-        "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/",
-        "https://thehackernews.com/2026/11/drupal-fail2install-exploit-details.html",
-        "https://www.bleepingcomputer.com/news/security/hackers-now-exploit-critical-drupal-rce-flaw-to-hijack-sites/",
-        "https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/",
-        "https://thehackernews.com/2026/11/drupal-warns-of-new-highly-critical.html"
-      ],
-      "angle": "Update 26 Nov: Drupal now says the earlier installer patch left a gap (new highly critical advisory, CVE-2026-136716, exploited in the wild); cover both advisories and the patch order. Confirm details on drupal.org.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "ai-driven-firewall-attacks",
-      "title": "AI-assisted attacks hit Check Point and Palo Alto firewalls: what admins should do",
-      "kind": "news",
-      "score": 8,
-      "topic": "security",
-      "urls": [
-        "https://thehackernews.com/2026/11/hackers-compromise-24-check-point.html",
-        "https://www.securityweek.com/palo-alto-networks-patches-fragnesia-flaw-used-to-root-firewalls/"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "ms-nov-updates-auth-issues",
-      "title": "Microsoft confirms sign-in problems after November updates: what to know",
-      "kind": "news",
-      "score": 7,
-      "topic": "security",
-      "urls": [
-        "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-authentication-issues-after-november-updates/"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "cia-osint-system-breach",
-      "title": "Hackers reportedly breached a CIA intelligence analysis system: what is known",
-      "kind": "news",
-      "score": 7,
-      "topic": "security",
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/hackers-reportedly-breached-cia-intelligence-analysis-system/"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "com-vishing-cloud-hijack",
-      "title": "Vishing crews hijack cloud accounts for data theft: how to protect your team",
-      "kind": "news",
-      "score": 7,
-      "topic": "security",
-      "urls": [
-        "https://thehackernews.com/2026/11/com-affiliated-hackers-hijack-cloud.html"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "gpt6-protein-design",
-      "title": "GPT-6 and protein design: what OpenAI claims and what is unverified",
-      "kind": "news",
-      "score": 6,
-      "topic": "ai",
-      "urls": [
-        "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/"
-      ],
-      "angle": "",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "fincen-cyber-incident",
-      "title": "US Treasury FinCEN takes systems offline after cyber intrusion: what is known",
-      "kind": "news",
-      "score": 8,
-      "topic": "security",
-      "urls": [
-        "https://www.securityweek.com/us-treasurys-fincen-disconnects-systems-following-cyber-incident/",
-        "https://thehackernews.com/2026/11/us-treasurys-fincen-takes-some-systems.html"
-      ],
-      "angle": "Government financial regulator; what filers and banks are told; confirmed vs unknown.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "geoserver-two-flaws-exploited",
-      "title": "Two GeoServer flaws under attack, with unauthenticated RCE chains: what to patch",
-      "kind": "news",
-      "score": 8,
-      "topic": "security",
-      "urls": [
-        "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/",
-        "https://thehackernews.com/2026/11/hackers-exploit-two-geoserver-flaws-as.html"
-      ],
-      "angle": "Trade-only likely; patch guidance for teams running GeoServer.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "dotnet-nuget-job-assessment-malware",
-      "title": "Fake job assessments push malicious NuGet packages at .NET developers",
-      "kind": "news",
-      "score": 7,
-      "topic": "security",
-      "urls": [
-        "https://www.darkreading.com/threat-intelligence/attackers-net-developers-poisoned-job-assessments"
-      ],
-      "angle": "Job-scam angle for developers; 13 malicious packages reported.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "infratrust-appliance-supply-chain",
-      "title": "InfraTrust flags exploited supply chain flaws in network appliances",
-      "kind": "news",
-      "score": 7,
-      "topic": "security",
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/infratrust-warns-of-exploited-supply-chain-flaws-in-network-appliances/"
-      ],
-      "angle": "Eclypsium research; what small offices with edge devices should check.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "danfoss-cisa-unpatched",
-      "title": "CISA warns of critical unpatched flaw in Danfoss refrigeration controllers",
-      "kind": "news",
-      "score": 6,
-      "topic": "security",
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/cisa-warns-of-critical-unpatched-flaw-in-danfoss-refrigeration-controllers/"
-      ],
-      "angle": "Niche industrial; only if the week is slow.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "ps5-xbox-sales-before-gta6",
-      "title": "PS5 and Xbox sales surged just before GTA 6 launch: what the numbers show",
-      "kind": "news",
-      "score": 7,
-      "topic": "gaming",
-      "urls": [
-        "https://www.gamespot.com/articles/ps5-and-xbox-series-xs-console-sales-surged-just-before-gta-6-came-out/"
-      ],
-      "angle": "Console sales data; attribute to the report.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "gta6-too-easy-rockstar",
-      "title": "Is GTA 6 too easy? What Rockstar says",
-      "kind": "news",
-      "score": 7,
-      "topic": "gaming",
-      "urls": [
-        "https://www.gamespot.com/articles/is-gta-6-too-easy-rockstar-weighs-in/"
-      ],
-      "angle": "Player debate on difficulty; keep to Rockstar statement and coverage.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "witcher4-not-ps5-exclusive",
-      "title": "Witcher 4 will not be a PS5 exclusive after new Sony deal",
-      "kind": "news",
-      "score": 7,
-      "topic": "gaming",
-      "urls": [
-        "https://www.gamespot.com/articles/witcher-4-wont-be-a-ps5-exclusive-after-new-deal-with-playstation/",
-        "https://www.gamespot.com/articles/the-witcher-4-wants-to-be-the-gta-6-of-the-witcher-franchise/"
-      ],
-      "angle": "Platform deal explainer; what it means for players.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "ai-agents-black-friday-shopping",
-      "title": "What to know before using AI agents for Black Friday shopping",
-      "kind": "explainer",
-      "score": 7,
-      "topic": "ai",
-      "urls": [
-        "https://www.npr.org/2026/11/25/nx-s1-6048524/what-to-know-before-using-ai-agents-for-black-friday-shopping"
-      ],
-      "angle": "Time-sensitive (Black Friday 27 Nov); ties to the ChatGPT Wallet review and banks-liability post.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "fireworks-ai-breach-notion",
-      "title": "Fireworks AI breach exposed Notion AI chat transcripts",
-      "kind": "news",
-      "score": 7,
-      "topic": "security",
-      "urls": [
-        "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
-      ],
-      "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "ruby2shell-rails-rce",
-      "title": "Ruby2shell: pre-auth RCE on stock Rails, what to patch",
-      "kind": "news",
-      "score": 7,
-      "topic": "security",
-      "urls": [
-        "https://verialabs.com/ruby2shell/"
-      ],
-      "angle": "Single trade source so far; confirm with the Rails advisory and a second outlet before writing.",
-      "added": "2026-11-25"
-    },
-    {
-      "key": "palo-alto-fragnesia-exploited",
-      "title": "Palo Alto Networks warns Fragnesia flaw is exploited in PAN-OS attacks: what to patch",
-      "kind": "news",
-      "topic": "security",
-      "score": 9,
-      "urls": [
-        "https://www.bleepingcomputer.com/news/security/palo-alto-networks-warns-of-fragnesia-flaw-exploited-in-pan-os-attacks/"
-      ],
-      "angle": "Exploited PAN-OS flaw; admin patch checklist",
-      "added": "2026-11-26"
-    },
-    {
-      "key": "character-ai-chat-auction-ags",
-      "title": "Character.AI plan to auction users private chats challenged by state AGs",
-      "kind": "news",
-      "topic": "ai",
-      "score": 7,
-      "urls": [
-        "https://techcrunch.com/2026/11/25/state-ags-fight-character-ais-plan-to-auction-off-users-private-chats/"
-      ],
-      "angle": "What was proposed, what AGs say, what users can do",
-      "added": "2026-11-26"
-    },
-    {
-      "key": "ea-fc27-ai-commentator",
-      "title": "EA brings back a late football commentator with AI in FC 27: why fans are split",
-      "kind": "news",
-      "topic": "gaming",
-      "score": 8,
-      "urls": [
-        "https://www.gamespot.com/articles/three-years-after-his-death-ea-is-using-ai-to-bring-back-a-famed-commentator-in-fc-27/",
-        "https://www.pcgamer.com/software/ai/deceased-bbc-football-commentator-resurrected-with-ai-for-ea-sports-fc-the-family-says-its-a-touching-tribute-but-some-fans-call-it-gross-and-bleak/"
-      ],
-      "angle": "Family consent vs fan backlash; facts only",
-      "added": "2026-11-26"
-    },
-    {
-      "key": "sp-nvidia-credit-downgrade",
-      "title": "S&P considers Nvidia credit downgrade over governance and key-man risk",
-      "kind": "news",
-      "topic": "finance",
-      "score": 8,
-      "urls": [
-        "https://techcrunch.com/2026/11/25/sp-considers-nvidia-credit-downgrade-over-governance-and-key-man-risks/"
-      ],
-      "angle": "What a credit watch means, what is stated",
-      "added": "2026-11-26"
-    },
-    {
-      "key": "ny-ai-toy-ban",
-      "title": "New York blocks AI toys for kids this Christmas: what the rule says",
-      "kind": "news",
-      "topic": "ai",
-      "score": 6,
-      "urls": [
-        "https://techcrunch.com/2026/11/25/want-to-buy-your-kid-an-ai-toy-this-christmas-not-in-new-york/"
-      ],
-      "angle": "Parents guide",
-      "added": "2026-11-26"
-    },
-    {
-      "key": "console-price-tariffs",
-      "title": "Another console price hike could come from new tariffs",
-      "kind": "news",
-      "topic": "gaming",
-      "score": 7,
-      "urls": [
-        "https://www.gamespot.com/articles/another-gaming-console-price-hike-could-be-coming-thanks-to-new-tariffs/"
-      ],
-      "angle": "What is reported vs confirmed",
-      "added": "2026-11-26"
-    },
-    {
-      "key": "nyt-photoshop-ai-update-warning",
-      "title": "The New York Times tells photographers not to update Photoshop over AI features: what it means for your files",
-      "kind": "news",
-      "topic": "ai",
-      "score": 6,
-      "urls": [
-        "https://www.theverge.com/ai-artificial-intelligence/1041227/the-new-york-times-warns-photographers-not-to-update-photoshop-over-ai-features"
-      ],
-      "angle": "Newsroom guidance on Photoshop AI features; what is confirmed, what Adobe says, what working creatives should check.",
-      "added": "2026-11-26"
-    },
-    {
-      "key": "muv-luv-ai-translation-backlash",
-      "title": "Muv-Luv adult game hit with AI translation backlash: why players are angry",
-      "kind": "news",
-      "topic": "gaming",
-      "score": 6,
-      "urls": [
-        "https://www.pcgamer.com/games/visual-novel/the-latest-adult-game-in-the-muv-luv-series-has-some-woeful-ai-translation-and-players-arent-happy-about-it/"
-      ],
-      "angle": "Reviews sank to Mostly Negative over machine translation; wider AI-in-games debate.",
-      "added": "2026-11-26"
-    },
-    {
-      "key": "cisa-kev-mitel-micollab-juniper-vates-danfoss",
-      "title": "CISA adds 10 exploited flaws (Mitel MiCollab, Juniper, Vates, Danfoss): what to check",
-      "kind": "news",
-      "topic": "security",
-      "score": 7,
-      "urls": [
-        "https://thehackernews.com/2026/11/hackers-exploit-10-vulnerabilities.html"
-      ],
-      "angle": "Confirm on cisa.gov KEV and a second outlet; patch steps for small IT teams running Mitel phones or Juniper gear.",
-      "added": "2026-11-26"
-    }
-  ],
-  "covered": [
-    "gemini-decisions-api",
-    "apache-httpd-rce",
-    "nvidia-huang-exit",
-    "microsoft-365-outage-nov-2026",
-    "anthropic-ipo",
-    "claude-meetings",
-    "gemini-4-hydrogen",
-    "ai-voice-scams",
-    "california-sues-openai",
-    "united-ai-agent-ban",
-    "perplexity-teammates",
-    "chatgpt-wallet",
-    "gta6-launch-numbers",
-    "nginx-http2-rce",
-    "anthropic-ipo-priced",
-    "cert-in-crafty-falcon",
-    "nvidia-huang-reinstated",
-    "banks-ai-agents-liability",
-    "crowdstrike-zscaler",
-    "rbi-dmt-directions-2026",
-    "us-ai-chip-remote-access-rule",
-    "1password-github-breach",
-    "gemini-4-neon"
-  ]
+  "2026-11-15": {
+   "title": "Claude Meetings review: turning meetings into plans and tasks",
+   "kind": "review",
+   "angle": "Pros and cons vs Granola, Otter and Zoom AI for project teams",
+   "urls": [],
+   "score": 7,
+   "status": "written",
+   "slug": "claude-meetings-review-pros-cons",
+   "locked": false
+  },
+  "2026-11-16": {
+   "title": "Gemini 4 Hydrogen review: Google’s fast new model, pros and cons",
+   "kind": "review",
+   "angle": "Flash successor now in Search for all users and the Gemini app: speed, price, benchmarks vs Argon, what changes for everyday search and for developers",
+   "urls": [
+    "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/",
+    "https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/",
+    "https://techcrunch.com/2026/11/12/googles-latest-search-upgrade-promises-better-answers-to-your-most-complicated-questions/",
+    "https://the-decoder.com/googles-gemini-4-hydrogen-outscores-the-bigger-argon-just-four-weeks-after-its-launch/",
+    "https://www.androidheadlines.com/2026/11/google-gemini-4-hydrogen-replaces-flash.html"
+   ],
+   "score": 8,
+   "status": "written",
+   "slug": "gemini-4-hydrogen-review-pros-cons",
+   "locked": false
+  },
+  "2026-11-17": {
+   "title": "How AI voice cloning scams work and how to stay safe",
+   "kind": "explainer",
+   "angle": "From the NPR swatting report to everyday family and office voice scams; practical checks, India relevance.",
+   "urls": [
+    "https://www.npr.org/2026/11/11/nx-s1-6034449/ai-911-calls-swatting"
+   ],
+   "score": 6,
+   "status": "written",
+   "slug": "ai-voice-cloning-scams-how-to-stay-safe",
+   "locked": false,
+   "key": "ai-voice-scams"
+  },
+  "2026-11-18": {
+   "title": "California sues OpenAI over the Hugging Face AI hack",
+   "kind": "news",
+   "angle": "State AG lawsuit over the July agent hack: what is alleged, OpenAI response, what we do not know.",
+   "urls": [],
+   "score": 8,
+   "status": "written",
+   "slug": "california-sues-openai-hugging-face-hack",
+   "locked": false,
+   "key": "california-sues-openai"
+  },
+  "2026-11-19": {
+   "title": "United Airlines bans AI agents from booking flights",
+   "kind": "news",
+   "angle": "What the ban covers, why airlines push back on agent bookings, what it means for people using AI assistants for travel.",
+   "urls": [
+    "https://www.cbsnews.com/news/united-airlines-bans-ai-agents-booking-flights/"
+   ],
+   "score": 7,
+   "status": "written",
+   "slug": "united-bans-ai-agents-flight-booking",
+   "locked": false,
+   "key": "united-ai-agent-ban"
+  },
+  "2026-11-20": {
+   "title": "Perplexity Teammates review: AI agents for ongoing work",
+   "kind": "review",
+   "angle": "What the agents do, pricing, who should try it",
+   "urls": [
+    "https://www.perplexity.ai/en-GB/hub/blog/teammates-are-agents-for-complex-ongoing-work"
+   ],
+   "score": 7,
+   "status": "written",
+   "slug": "perplexity-teammates-review-pros-cons",
+   "locked": false
+  },
+  "2026-11-21": {
+   "title": "ChatGPT Wallet review: AI agents that shop and pay for you",
+   "kind": "review",
+   "angle": "What Wallet does, how agent checkout works, safety and spending controls, pros and cons, who should try it and who should wait",
+   "urls": [
+    "https://openai.com/index/introducing-chatgpt-wallet",
+    "https://techcrunch.com/2026/11/13/chatgpts-new-wallet-lets-ai-agents-shop-and-check-out-for-you/"
+   ],
+   "score": 8,
+   "status": "written",
+   "key": "chatgpt-wallet",
+   "slug": "chatgpt-wallet-review-pros-cons"
+  },
+  "2026-11-22": {
+   "title": "NGINX HTTP/2 flaws let attackers run code: what to patch",
+   "kind": "news",
+   "angle": "Wiz says both critical HTTP/2 flaws, CVSS 4.0 9.2. Only Wiz so far (18 Nov); needs a second independent outlet or the F5 advisory before breaking. Different from June CVE-2026-42530/42055.",
+   "urls": [
+    "https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities"
+   ],
+   "score": 9,
+   "status": "written",
+   "key": "nginx-http2-rce",
+   "slug": "nginx-http2-rce-flaws-patch"
+  },
+  "2026-11-23": {
+   "title": "Anthropic Nasdaq debut: day one, valuation, risks",
+   "kind": "news",
+   "angle": "Follow-up to the 14 Nov IPO post (debut was 19 Nov); fold in founders cash-out and charity pledge; confirm numbers with outlets before writing.",
+   "urls": [
+    "https://www.npr.org/2026/11/18/nx-s1-6046212/anthropic-record-ipo-price",
+    "https://techcrunch.com/2026/11/18/anthropic-reportedly-prices-ipo-at-83-a-share-above-projected-range/",
+    "https://techcrunch.com/2026/11/19/at-nasdaq-opening-bell-anthropic-ceo-recommits-to-pacing-ai-development/",
+    "https://www.npr.org/2026/11/19/nx-s1-6042558/anthropic-ipo-breaks-records-100-billion",
+    "https://techcrunch.com/2026/11/19/anthropics-ipo-puts-ais-circular-financing-boom-to-the-test/"
+   ],
+   "score": 8,
+   "status": "written",
+   "slug": "anthropic-nasdaq-debut-first-day-explained",
+   "locked": false,
+   "key": "anthropic-ipo-priced"
+  },
+  "2026-11-24": {
+   "title": "CERT-In: AI attacks on Indian finance firms, 3 checks",
+   "kind": "news",
+   "topic": "security",
+   "score": 9,
+   "status": "written",
+   "slug": "cert-in-ai-attacks-indian-banks-checks",
+   "key": "cert-in-crafty-falcon",
+   "locked": false
+  },
+  "2026-11-25": {
+   "title": "RBI cash transfer rules 2026: the 4 limits to know",
+   "kind": "news",
+   "topic": "finance",
+   "score": 8,
+   "status": "written",
+   "slug": "rbi-cash-transfer-limits-2026-explained",
+   "key": "rbi-dmt-directions-2026",
+   "locked": false
+  },
+  "2026-11-26": {
+   "title": "US tightens AI chip export rules for remote compute: what it changes",
+   "kind": "news",
+   "angle": "Interim rule: licences needed to export AI chips when the buyer may offer compute to China or other restricted countries. What it covers, what is unclear, what it means for cloud and AI prices.",
+   "urls": [
+    "https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/"
+   ],
+   "score": 8,
+   "status": "written",
+   "slug": "ai-chip-export-rule-remote-access",
+   "key": "us-ai-chip-remote-access-rule",
+   "topic": "tech"
+  },
+  "2026-11-27": {
+   "title": "Gemini 4 Neon review: what Google launched, pros and cons",
+   "kind": "review",
+   "angle": "Official launch post plus independent hands-on tests and pricing; confirm with outlets.",
+   "urls": [
+    "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/"
+   ],
+   "score": 8,
+   "status": "written",
+   "key": "gemini-4-neon",
+   "slug": "gemini-4-neon-review-pros-cons",
+   "topic": "ai"
+  },
+  "2026-11-28": {
+   "title": "CISA flags critical Cisco Expressway RCE as exploited: what to patch",
+   "kind": "news",
+   "angle": "Confirm with 2+ outlets and the Cisco advisory before writing; patch steps for small IT teams.",
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited-in-attacks/"
+   ],
+   "score": 9,
+   "topic": "security",
+   "status": "planned",
+   "locked": false
+  },
+  "2026-11-29": {
+   "title": "Alibaba Qwen4-Max review: what's new and pros and cons",
+   "kind": "review",
+   "angle": "New Alibaba flagship model; 483 HN points. Needs independent outlets and tests before writing.",
+   "urls": [
+    "https://qwen.ai/blog?id=qwen4-max"
+   ],
+   "score": 7,
+   "status": "planned"
+  },
+  "2026-11-30": {
+   "title": "GPT-6.2 Astra and Sol: what OpenAI changed",
+   "kind": "news",
+   "angle": "What the 6.2 point release changes for paid users and developers, with independent coverage and the sceptical view",
+   "urls": [
+    "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
+   ],
+   "score": 8,
+   "status": "planned",
+   "key": "openai-gpt-6-2",
+   "slug": "",
+   "locked": false
+  },
+  "2026-12-01": {
+   "title": "GTA 6 hacker releases full Xbox build and PC modders try to run it: what is known",
+   "kind": "news",
+   "angle": "Facts only from outlets; do not link or point to the leak; piracy and security angle; need a second outlet before writing.",
+   "urls": [
+    "https://www.gamespot.com/articles/gta-6-hacker-releases-full-xbox-build-and-pc-modders-are-already-trying-to-get-it-running/",
+    "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-explained/",
+    "https://www.pcgamer.com/games/grand-theft-auto/gta-6-recomp-leaders-bail-out-as-take-two-cracks-down-on-illicit-efforts-to-get-the-game-running-on-pc/",
+    "https://github.com/ItsNotRexed/Leonida/issues",
+    "https://www.gamespot.com/articles/gta-6-modders-are-trying-to-vibe-code-a-pc-port-and-its-not-going-well/"
+   ],
+   "score": 9,
+   "topic": "gaming",
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "gta6-xbox-build-leak"
+  },
+  "2026-12-02": {
+   "title": "Genie 4 review: Google DeepMind world model, pros and cons",
+   "kind": "review",
+   "angle": "What Genie 4 / Project Genie does now that it is available, who can use it, limits, price",
+   "urls": [
+    "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/genie-4-now-available-project-genie/"
+   ],
+   "score": 7,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "genie-4-review"
+  },
+  "2026-12-03": {
+   "title": "VMware patches critical ESX and vCenter flaws, including a second 9.8 auth bypass after zero-day exploitation: what to patch",
+   "kind": "news",
+   "angle": "Official Broadcom advisory plus two trade outlets; which versions, exploited or not, what admins do now. Trade-only likely.",
+   "urls": [
+    "https://www.securityweek.com/vmware-updates-patch-critical-esx-vcenter-vulnerabilities/",
+    "https://thehackernews.com/2026/11/vmware-vcenter-hit-by-another-critical.html"
+   ],
+   "score": 9,
+   "topic": "security",
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "vmware-vcenter-esx-critical"
+  },
+  "2026-12-04": {
+   "title": "Google Gemini can now use your Mac for you: how it works, pros and cons",
+   "kind": "review",
+   "angle": "Gemini controls a Mac on the user's behalf; compare with Apple's reported agent; risks and who it suits",
+   "urls": [
+    "https://techcrunch.com/2026/11/19/google-gives-gemini-the-ability-to-use-your-mac-for-you/"
+   ],
+   "score": 7,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "gemini-mac-computer-use"
+  },
+  "2026-12-05": {
+   "title": "Inkling 2 Mini review: Thinking Machines model for local setups, pros and cons",
+   "kind": "review",
+   "angle": "New open model for running on your own computer; HN 669 points; need independent hands-on coverage before writing",
+   "urls": [
+    "https://thinkingmachines.ai/news/inkling-2-mini/",
+    "https://huggingface.co/blog/inkling2mini"
+   ],
+   "score": 7,
+   "status": "planned"
+  },
+  "2026-12-06": {
+   "title": "OpenRouter drops 3 providers after prompt theft found",
+   "kind": "news",
+   "topic": "security",
+   "angle": "Months of prompt theft at AI hosting firms; what AI users should check.",
+   "urls": [
+    "https://thehackernews.com"
+   ],
+   "score": 8,
+   "status": "planned",
+   "slug": "",
+   "locked": false
+  },
+  "2026-12-07": {
+   "title": "Ghostscript sandbox-escape RCE via crafted uploads: what to patch",
+   "kind": "news",
+   "topic": "security",
+   "angle": "Popular apps that process uploads are exposed.",
+   "urls": [
+    "https://thehackernews.com"
+   ],
+   "score": 8,
+   "status": "planned",
+   "slug": "",
+   "locked": false
+  },
+  "2026-12-08": {
+   "title": "Binding of Isaac DLC AI music backlash: what happened",
+   "kind": "news",
+   "topic": "gaming",
+   "angle": "Steam reviews dropped to Overwhelmingly Negative; music pulled.",
+   "urls": [
+    "https://www.pcgamer.com/games/roguelike/binding-of-isaac-dlc-adds-ai-music-in-gta-6-parodying-update-despite-not-having-an-ai-disclosure-steam-reviews-drop-to-overwhelmingly-negative-music-gets-pulled/"
+   ],
+   "score": 7,
+   "status": "planned",
+   "slug": "",
+   "locked": false
+  },
+  "2026-12-09": {
+   "title": "How to check if a photo or video is AI-made",
+   "kind": "explainer",
+   "angle": "Practical checks, tools, limits of detectors.",
+   "urls": [],
+   "score": 5,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "spot-ai-images-video"
+  },
+  "2026-12-10": {
+   "title": "Grammarly vs ChatGPT for work writing",
+   "kind": "review",
+   "angle": "Editing quality, privacy, pricing, pros and cons.",
+   "urls": [],
+   "score": 5,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "grammarly-vs-chatgpt"
+  },
+  "2026-12-11": {
+   "title": "How to write an AI use policy for a small team",
+   "kind": "explainer",
+   "angle": "What to allow, what to ban, data rules, a simple template outline.",
+   "urls": [],
+   "score": 5,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "ai-use-policy-small-team"
+  },
+  "2026-12-12": {
+   "title": "ElevenLabs review: AI voices, pros and cons",
+   "kind": "review",
+   "angle": "Quality, pricing, consent and misuse safeguards, who it is for. Include the new meeting notes and dictation app for teams (13 Nov 2026).",
+   "urls": [
+    "https://techcrunch.com/2026/11/13/elevenlabs-new-app-combines-meeting-note-taking-and-dictation-for-teams/"
+   ],
+   "score": 5,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "elevenlabs-review"
+  },
+  "2026-11-12": {
+   "title": "Jensen Huang resigns as Nvidia CEO: what we know",
+   "kind": "breaking",
+   "angle": "Breaking: confirmed facts vs reported allegations",
+   "urls": [
+    "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition"
+   ],
+   "score": 9,
+   "status": "written",
+   "slug": "jensen-huang-resigns-nvidia-ceo",
+   "locked": false
+  },
+  "2026-11-14": {
+   "title": "Anthropic IPO: what it means for Claude users and AI pricing",
+   "kind": "news",
+   "angle": "What the listing changes for businesses that use Claude; confirm details from the S-1 and mainstream outlets before writing",
+   "urls": [
+    "https://ipo.anthropic.com/us/",
+    "https://www.opb.org/article/2026/10/26/ai-giant-anthropic-files-for-an-ipo-that-could-break-records/"
+   ],
+   "score": 8,
+   "status": "written",
+   "slug": "anthropic-ipo-claude-users-pricing",
+   "locked": false,
+   "key": "anthropic-ipo"
+  },
+  "2026-12-13": {
+   "title": "Google Tabletop review: shared AI spaces for groups",
+   "kind": "review",
+   "angle": "Pros and cons for teams",
+   "urls": [
+    "https://blog.google/innovation-and-ai/models-and-research/google-labs/tabletop/"
+   ],
+   "score": 6,
+   "status": "planned",
+   "slug": "",
+   "locked": false
+  },
+  "2026-12-14": {
+   "title": "Former GitHub CEO launches a Git forge built for AI agents",
+   "kind": "news",
+   "angle": "What a forge for coding agents changes for dev teams",
+   "urls": [
+    "https://www.geekwire.com/2026/former-github-ceo-launches-rival-platform-built-for-ai-coding-agents/"
+   ],
+   "score": 6,
+   "status": "planned"
+  },
+  "2026-12-15": {
+   "title": "Why you should pin your GitHub Actions",
+   "kind": "explainer",
+   "angle": "Supply-chain risk in plain English, how pinning works, simple steps for small dev teams.",
+   "urls": [
+    "https://hugovk.dev/blog/2026/lock-github-actions/"
+   ],
+   "score": 6,
+   "status": "planned"
+  },
+  "2026-12-16": {
+   "title": "Microsoft 365 Copilot review: is it worth it for small teams?",
+   "kind": "review",
+   "angle": "Features, pricing, pros and cons, who should skip it.",
+   "urls": [],
+   "score": 5,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "microsoft-365-copilot"
+  },
+  "2026-12-17": {
+   "title": "Java4Shell: RCE flaw in OpenJDK Base64 handling",
+   "kind": "news",
+   "angle": "What the flaw is, who is affected, patch status; trade-only sourcing",
+   "urls": [
+    "https://calif.io/java4shell/"
+   ],
+   "score": 7,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "java4shell-openjdk-rce"
+  },
+  "2026-12-18": {
+   "title": "What is an AI agent, really?",
+   "kind": "explainer",
+   "angle": "Plain-English explainer: agents vs chatbots, where they fail, how to try one safely.",
+   "urls": [],
+   "score": 5,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "what-is-an-ai-agent"
+  },
+  "2026-12-19": {
+   "title": "Why Microsoft offered 60,000 employees buyouts, in Nadella's words",
+   "kind": "news",
+   "angle": "Numbers, dates and stated reason only; what is not known; confirm with a second outlet.",
+   "urls": [
+    "https://techcrunch.com/2026/11/18/microsoft-ceo-satya-nadella-explains-why-he-asked-60k-employees-to-quit/"
+   ],
+   "score": 7,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "nadella-60k-buyouts"
+  },
+  "2026-12-20": {
+   "title": "Yogurt review: free open-source meeting notes vs Granola",
+   "kind": "review",
+   "angle": "Private, local meeting notes; setup effort; compare with Granola; who should use it.",
+   "urls": [
+    "https://github.com/FrigadeHQ/yogurt"
+   ],
+   "score": 6,
+   "status": "planned",
+   "slug": "",
+   "locked": false,
+   "key": "yogurt-meeting-notes"
+  },
+  "2026-12-21": {
+   "title": "The Riemann Hypothesis claims, explained: what an AI and a human each claimed, and what is unverified",
+   "kind": "explainer",
+   "angle": "Explainer, now with mainstream coverage (TechCrunch) and Terry Tao commentary; attribute every claim, say clearly nothing is verified, plain-English what the hypothesis is",
+   "urls": [
+    "https://alpo.ge/remark.pdf",
+    "https://techcrunch.com/2026/11/20/ai-claimed-a-solution-to-the-167-year-old-riemann-hypothesis-and-a-human-did-too/",
+    "https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/"
+   ],
+   "score": 8,
+   "status": "planned"
+  },
+  "2026-12-22": {
+   "title": "NotebookLM review: pros and cons for research and study",
+   "kind": "review",
+   "angle": "What it does well, limits, privacy, who it is for.",
+   "urls": [],
+   "score": 5,
+   "status": "planned"
+  }
+ },
+ "backlog": [
+  {
+   "key": "nvidia-chip-tracking",
+   "title": "Nvidia could track its chips all along: what that means for export rules",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/",
+    "https://www.technologyreview.com/2026/11/13/1148551/the-download-silicon-valley-midterms-nvidia-chip-tracking/"
+   ],
+   "angle": "Chip location tracking vs public doubts; export controls; facts only, no personal-life angle",
+   "added": "2026-11-13"
+  },
+  {
+   "key": "nebius-neocloud-40b",
+   "title": "Nebius plans $40B: the neocloud bet explained",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/12/nebius-tests-the-neocloud-playbook-with-40-billion-in-planned-spending/"
+   ],
+   "angle": "What neoclouds are and why AI compute money keeps flowing; tie to SoftBank loss",
+   "added": "2026-11-13"
+  },
+  {
+   "key": "tesla-cybertruck-wind-down",
+   "title": "Tesla winds down Cybertruck production: what happened",
+   "kind": "news",
+   "score": 6,
+   "urls": [],
+   "angle": "Trending on HN; confirm with real outlets before planning a slot",
+   "added": "2026-11-13"
+  },
+  {
+   "key": "postman-ai-plugins",
+   "title": "Postman auto-installs AI plugins: what developers should check",
+   "kind": "explainer",
+   "score": 6,
+   "urls": [
+    "https://github.com/postmanlabs/postman-app-support/issues/14370"
+   ],
+   "angle": "Trade topic (--trade); vendor response needed; privacy of API data",
+   "added": "2026-11-13"
+  },
+  {
+   "key": "chatgpt-claude-gemini-office",
+   "title": "ChatGPT vs Claude vs Gemini for everyday office work",
+   "kind": "review",
+   "score": 5,
+   "urls": [],
+   "angle": "Evergreen comparison",
+   "added": "2026-11-12"
+  },
+  {
+   "key": "china-banned-nvidia-chips",
+   "title": "Export-banned Nvidia chips behind China’s top AI models",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/13/export-banned-nvidia-chips-are-behind-chinas-most-powerful-ai-models-uh-oh-jensen/"
+   ],
+   "angle": "What the research found and what it means for export rules",
+   "added": "2026-11-14"
+  },
+  {
+   "key": "apple-local-ai-app",
+   "title": "Apple’s coming Mac app for running local AI models: what it means",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
+   ],
+   "angle": "Local AI made easy on Mac; pairs with the llama.cpp explainer",
+   "added": "2026-11-14"
+  },
+  {
+   "key": "nvidia-engineered-scarcity",
+   "title": "Nvidia accused of engineering GPU scarcity: what is alleged and what is not",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.techpowerup.com/354814/nvidia-allegedly-engineered-scarcity-by-funding-ai-startups-to-buy-its-gpus"
+   ],
+   "angle": "Allegation only, attribute carefully; need a second outlet and Nvidia's response before writing. Fits the Nvidia coverage after Huang exit.",
+   "added": "2026-11-14"
+  },
+  {
+   "key": "italy-meta-android-fine",
+   "title": "Italy fines Meta $887M over Android users' data access",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.reuters.com/world/italy-fines-meta-887-million-over-android-users-data-access-2026-11-14/"
+   ],
+   "angle": "What the regulator says, Meta's response, what it means for privacy rules",
+   "added": "2026-11-15"
+  },
+  {
+   "key": "spacex-starship-catch",
+   "title": "SpaceX catches Starship on Flight 15",
+   "kind": "news",
+   "score": 4,
+   "urls": [
+    "https://www.npr.org/2026/11/14/nx-s1-6041089/spacex-makes-history-with-starship-catch"
+   ],
+   "angle": "Off-topic for AI/tech-for-work audience; only if the desk runs thin",
+   "added": "2026-11-15"
+  },
+  {
+   "key": "perplexity-work-search",
+   "title": "Perplexity review: pros and cons as a work search tool",
+   "kind": "review",
+   "score": 5,
+   "urls": [],
+   "angle": "Accuracy, citations, pricing, when Google is still better.",
+   "added": "2026-11-15"
+  },
+  {
+   "key": "fake-ai-event-phishing",
+   "title": "Fake AI event invites steal Microsoft and Google logins",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://www.foxnews.com/tech/fake-ai-event-invites-target-microsoft-google-logins"
+   ],
+   "angle": "Fake OpenAI event pages promise free ChatGPT Pro, then harvest Microsoft/Google credentials; what to check before you click",
+   "added": "2026-11-15",
+   "topic": "security"
+  },
+  {
+   "key": "openai-gpt6-astra-science",
+   "title": "OpenAI says GPT-6 Astra helped prove a physics result",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://openai.com/index/step-toward-defining-the-standard-model",
+    "https://openai.com/index/our-new-blog-for-science"
+   ],
+   "angle": "What AI-assisted proofs mean for science, and what is still unverified",
+   "added": "2026-11-16"
+  },
+  {
+   "key": "ubo-element-picker-xss",
+   "title": "uBlock Origin universal XSS in the element picker: what to do",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://iter.ca/post/ubo-uxss/"
+   ],
+   "angle": "Security write-up; check vendor fix and trade coverage (use --trade).",
+   "added": "2026-11-16",
+   "topic": "security"
+  },
+  {
+   "key": "bitly-old-links-hijack",
+   "title": "Old Bitly links are being hijacked: what small businesses should check",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://ransomnews.com/burger-king-tweet-bitly-link-hijack-2026/"
+   ],
+   "angle": "Expired short-link takeover tied to a Burger King tweet; verify with outlets.",
+   "added": "2026-11-16",
+   "topic": "security"
+  },
+  {
+   "key": "instagram-ai-teen-age",
+   "title": "Instagram uses AI to catch teens lying about age",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.foxnews.com/tech/instagrams-ai-may-catch-teens-lying-about-age"
+   ],
+   "angle": "How the age check works, privacy questions, what parents should know.",
+   "added": "2026-11-16"
+  },
+  {
+   "key": "cursor-vs-copilot",
+   "title": "Cursor vs GitHub Copilot: which AI coding tool to pick",
+   "kind": "review",
+   "score": 5,
+   "urls": [],
+   "angle": "Features, pricing, team fit, pros and cons.",
+   "added": "2026-11-16"
+  },
+  {
+   "key": "uber-drivers-license-breach",
+   "title": "Uber confirms drivers' licence data stolen: what drivers should do",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://techcrunch.com/2026/11/13/uber-confirms-hackers-stole-thousands-of-drivers-license-information-in-data-breach/"
+   ],
+   "angle": "",
+   "added": "2026-11-16",
+   "topic": "security"
+  },
+  {
+   "key": "chatgpt-healthcare-agents",
+   "title": "ChatGPT for Healthcare adds computer-use agents: what changes",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://openai.com/index/more-ways-to-move-care-forward-with-chatgpt-for-healthcare"
+   ],
+   "angle": "",
+   "added": "2026-11-16"
+  },
+  {
+   "key": "ask-maps-itineraries",
+   "title": "Google Ask Maps trip itineraries: how it works, pros and cons",
+   "kind": "review",
+   "score": 5,
+   "urls": [
+    "https://blog.google/products-and-platforms/products/maps/ask-maps-holiday-travel-features-2026/"
+   ],
+   "angle": "",
+   "added": "2026-11-16"
+  },
+  {
+   "key": "fbi-artex-ai-hacking-tool",
+   "title": "FBI warns of Artex AI hacking tool: what small businesses should do",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://techcrunch.com/2026/11/16/fbi-says-artex-ai-open-source-hacking-tool-used-to-breac"
+   ],
+   "angle": "FBI says open-source AI hacking tool breached networks in under three hours; practical defences.",
+   "added": "2026-11-17",
+   "topic": "security"
+  },
+  {
+   "key": "optimizely-malware-supply-chain",
+   "title": "Optimizely compromised, served malware on Zoom and GitLab sites",
+   "kind": "news",
+   "score": 9,
+   "urls": [
+    "https://blog.report-uri.com/worlds-largest-brands-infected-with-malware-via-optimizely/"
+   ],
+   "angle": "Single source so far (report-uri); needs second outlet and Optimizely statement before writing. Trade-only likely.",
+   "added": "2026-11-17",
+   "topic": "security"
+  },
+  {
+   "key": "nvidia-earnings-after-huang",
+   "title": "Nvidia after Huang: what Tuesday's earnings tell us",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+    "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
+    "https://www.wired.com/story/nvidia-employees-petition-for-jensen-huangs-return/",
+    "https://techcrunch.com/2026/11/13/nvidia-ceo-jensen-huangs-affair-with-alleged-chinese-spy-a-timeline/",
+    "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
+    "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidias-ceo-resigns-after-alleged-spy-scandal-whats-next-for-the-company",
+    "https://techcrunch.com/2026/11/13/jensen-huang-didnt-show-confidence-in-his-successor-report-says/",
+    "https://techcrunch.com/2026/11/14/asian-governments-react-to-nvidia-ceo-jensen-huangs-exit/",
+    "https://techcrunch.com/2026/11/17/nvidias-first-big-move-after-jensen-huangs-exit-targets-national-security/",
+    "https://techcrunch.com/2026/11/17/nvidia-promises-that-revenue-will-keep-soaring-for-now/",
+    "https://techcrunch.com/2026/11/17/nvidia-is-abandoning-china-after-jensen-huangs-ouster/"
+   ],
+   "angle": "Follow-up after the 17 Nov earnings call: guidance, CEO search, China export stance (earnings were due after the US close on 17 Nov, so results did not exist when the 18 Nov post was written; write once results are out)",
+   "added": "2026-11-17"
+  },
+  {
+   "key": "isomorphic-labs-5b",
+   "title": "Isomorphic Labs raises $5B: what AI drug discovery means beyond the hype",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/17/isomorphic-labs-raises-5b-as-it-looks-to-take-drug-candidates-to-clinical-trials/"
+   ],
+   "angle": "Single outlet so far; needs a second source and company statement.",
+   "added": "2026-11-17"
+  },
+  {
+   "key": "ai-status-reports-howto",
+   "title": "How to use AI to write project status reports",
+   "kind": "explainer",
+   "score": 5,
+   "urls": [],
+   "angle": "Practical prompts and checks for project managers; what not to paste in.",
+   "added": "2026-11-18"
+  },
+  {
+   "key": "nvidia-sec-probe",
+   "title": "SEC reportedly investigating Nvidia after Huang exit",
+   "kind": "news",
+   "score": 7,
+   "urls": [
+    "https://techcrunch.com/2026/11/17/sec-reportedly-investigating-nvidia-amid-huang-exit/",
+    "https://www.npr.org/2026/11/17/nx-s1-6044213/jensen-huang-nvidia-congress",
+    "https://www.marketscreener.com/news/us-sec-s-nvidia-probe-is-examining-potential-accounting-issues-sources-say-ce785ed3dd8ff627",
+    "https://techcrunch.com/2026/11/25/the-questions-jensen-huang-and-nvidia-will-still-have-to-answer-about-megaspeed/"
+   ],
+   "angle": "Follow-up to the Huang exit post; fold into the Nvidia after-earnings piece Update 21 Nov: Reuters-sourced report says the SEC probe is examining possible accounting issues (MarketScreener).",
+   "added": "2026-11-18"
+  },
+  {
+   "key": "gemini-chat-retention-2-months",
+   "title": "Google to keep Gemini chats for two months, even with history off",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/17/google-to-keep-gemini-chats-for-two-months-up-from-72-hours-even-with-history-off/"
+   ],
+   "angle": "What changes for privacy and how to adjust settings",
+   "added": "2026-11-18"
+  },
+  {
+   "key": "gemini-tasks-expansion",
+   "title": "Gemini Tasks expands: calls and purchases",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/17/google-expands-access-to-gemini-tasks-which-can-help-with-calls-purchases/",
+    "https://blog.google/innovation-and-ai/products/gemini-app/tasks-in-gemini-free-new-features/"
+   ],
+   "angle": "",
+   "added": "2026-11-18"
+  },
+  {
+   "key": "microsoft-mai-code-2",
+   "title": "Microsoft MAI Code 2 and Code 2 Flash",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://microsoft.ai/news/introducing-mai-code-2-and-mai-code-2-flash/"
+   ],
+   "angle": "",
+   "added": "2026-11-18"
+  },
+  {
+   "key": "nvidia-startup-stakes-65b",
+   "title": "Nvidia's startup stakes hit $65B: what Huang's exit means for its deals",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/17/nvidias-startup-stakes-ballooned-to-65b-but-huangs-exit-puts-future-deals-in-doubt/"
+   ],
+   "angle": "Ties to nvidia-engineered-scarcity; check the filing numbers and a second outlet.",
+   "added": "2026-11-18"
+  },
+  {
+   "key": "faa-ground-stop-nov-2026",
+   "title": "How one computer outage grounded US flights for hours",
+   "kind": "explainer",
+   "score": 6,
+   "urls": [
+    "https://www.faa.gov/newsroom/nationwide-ground-stop-questions-and-answers"
+   ],
+   "angle": "13-14 Nov FAA nationwide ground stop: what failed, what is confirmed, what travellers can do.",
+   "added": "2026-11-18"
+  },
+  {
+   "key": "meta-project-gryffindor",
+   "title": "Meta's Project Gryffindor: getting more school kids on Instagram",
+   "kind": "news",
+   "score": 6,
+   "urls": [],
+   "angle": "What reporting says, Meta response, what parents should know; confirm with real outlets first.",
+   "added": "2026-11-18"
+  },
+  {
+   "key": "ai-compute-funding",
+   "title": "CoreWeave prepayments and Fractile $720M: AI compute money",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/11/coreweave-turns-to-customer-prepayments-shorter-contracts-to-fund-ai-growth/",
+    "https://techcrunch.com/2026/11/11/with-720m-round-britains-fractile-gets-a-leg-up-in-the-race-for-ai-chips/"
+   ],
+   "angle": "How AI infrastructure is being financed and what it signals for cloud AI prices.",
+   "added": "2026-11-19"
+  },
+  {
+   "key": "microsoft-ignite-seven-models",
+   "title": "Microsoft Ignite 2026: seven new models at scalable price-performance",
+   "kind": "news",
+   "score": 7,
+   "urls": [
+    "https://microsoft.ai/news/microsoft-ignite-2026/"
+   ],
+   "angle": "What was announced, what it means for small teams; confirm with independent outlets.",
+   "added": "2026-11-19"
+  },
+  {
+   "key": "google-ai-mode-incognito",
+   "title": "Google AI Mode gets temporary threads (an incognito mode)",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/18/googles-ai-feature-in-search-gets-its-own-incognito-mode/"
+   ],
+   "angle": "What it does and does not protect.",
+   "added": "2026-11-19"
+  },
+  {
+   "key": "banks-ai-agents-liability",
+   "title": "Banks say customers using AI agents are on their own if hacked",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/"
+   ],
+   "angle": "Pairs with the United AI-agent ban post; what a user should check before letting an agent pay.",
+   "added": "2026-11-19",
+   "topic": "security"
+  },
+  {
+   "key": "openai-revenue-10b",
+   "title": "OpenAI tops $10B in a quarter: what it tells us",
+   "kind": "news",
+   "score": 7,
+   "urls": [
+    "https://techcrunch.com/2026/11/11/openais-quarterly-revenue-reportedly-crosses-10b-for-the-first-time/"
+   ],
+   "angle": "Reported figure (attribute it), where the money comes from, what it means for AI prices for businesses.",
+   "added": "2026-11-19"
+  },
+  {
+   "key": "dpdp-rules-small-business",
+   "title": "What India’s DPDP rules mean for a small business",
+   "kind": "explainer",
+   "score": 5,
+   "urls": [],
+   "angle": "Consent, notices, breach reporting, timelines; practical checklist.",
+   "added": "2026-11-19"
+  },
+  {
+   "key": "canva-ai-review",
+   "title": "Canva AI review: pros and cons for small business design",
+   "kind": "review",
+   "score": 5,
+   "urls": [],
+   "angle": "Magic tools, pricing, limits, who should use it.",
+   "added": "2026-11-19"
+  },
+  {
+   "key": "ruby-regexp-string-vulns",
+   "title": "Ruby Regexp and String case-conversion vulnerabilities: what to update",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/"
+   ],
+   "angle": "Ruby security release 18 Nov; who is affected and which versions to move to",
+   "added": "2026-11-19",
+   "topic": "security"
+  },
+  {
+   "key": "ai-automated-cyberattack-google",
+   "title": "Google says Russian-speaking hackers ran first fully automated AI cyberattack",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://united24media.com/world/russian-speaking-hackers-launched-first-fully-automated-ai-cyberattack-google-says-24451"
+   ],
+   "angle": "What Google reported, what is unconfirmed, what small teams should do",
+   "added": "2026-11-19"
+  },
+  {
+   "key": "rag-explained",
+   "title": "RAG explained: why your company chatbot needs it",
+   "kind": "explainer",
+   "score": 5,
+   "urls": [],
+   "angle": "Retrieval in plain English, where it goes wrong, what to ask vendors.",
+   "added": "2026-11-19"
+  },
+  {
+   "key": "meta-muse-mixup",
+   "title": "Meta's Muse AI agent reportedly mixes up chats and exposes private data",
+   "kind": "news",
+   "score": 9,
+   "urls": [
+    "https://techcrunch.com/2026/11/19/metas-ai-agent-muse-is-mixing-up-conversations-and-exposing-private-data-report-says/",
+    "https://techcrunch.com/2026/11/25/amazon-and-meta-reportedly-in-talks-to-lift-blockade-on-ai-agent-muse/"
+   ],
+   "angle": "Report-based; attribute carefully; what users of AI agents should check",
+   "added": "2026-11-20",
+   "topic": "security"
+  },
+  {
+   "key": "claude-black-hole-physics",
+   "title": "Claude solves two open black hole physics problems: what Anthropic says",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.anthropic.com/research/claude-black-hole-physics"
+   ],
+   "angle": "Pair with GPT-6 Astra physics item; what is claimed vs peer reviewed",
+   "added": "2026-11-20"
+  },
+  {
+   "key": "uk-apple-encryption-order",
+   "title": "UK admits it issued Apple a secret encryption order",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://macanorak.com/uk-government-forced-to-admit-it-issued-apple-a-secret-encryption-order/"
+   ],
+   "angle": "Privacy and encryption; confirm with mainstream outlets before writing",
+   "added": "2026-11-20"
+  },
+  {
+   "key": "anthropic-founders-cashout",
+   "title": "Anthropic founders cash out nearly $2B in IPO; charity pledge",
+   "kind": "news",
+   "score": 5,
+   "urls": [
+    "https://techcrunch.com/2026/11/19/anthropics-7-founders-cashed-out-nearly-2b-in-record-breaking-ipo/",
+    "https://techcrunch.com/2026/11/19/anthropics-ipo-could-deliver-156-billion-to-charity/"
+   ],
+   "angle": "Fold into the debut post if written",
+   "added": "2026-11-20"
+  },
+  {
+   "key": "zoho-zia-review",
+   "title": "Zoho Zia review: AI inside Zoho for small business",
+   "kind": "review",
+   "score": 5,
+   "urls": [],
+   "angle": "Features, pricing in India, pros and cons.",
+   "added": "2026-11-20"
+  },
+  {
+   "key": "openssl-evp-encodeblock-overflow",
+   "title": "OpenSSL EVP_EncodeBlock buffer overflow (CVE-2026-121481, CVSS 9.8): what to patch",
+   "kind": "news",
+   "score": 9,
+   "urls": [
+    "https://github.com/openssl/openssl/pull/33652"
+   ],
+   "angle": "Trade-only security post: official OpenSSL source plus 3 outlets; confirm advisory and affected versions first",
+   "added": "2026-11-20",
+   "topic": "security"
+  },
+  {
+   "key": "outlook-flaw-login-theft",
+   "title": "Hackers use an Outlook security flaw to steal login data: what to check",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://www.foxnews.com/tech/hackers-use-microsoft-outlook-security-flaw-steal-login-data"
+   ],
+   "angle": "Practical steps for small businesses; confirm Microsoft advisory and patch status",
+   "added": "2026-11-20",
+   "topic": "security"
+  },
+  {
+   "key": "ai-terror-plans-feds",
+   "title": "Feds say AI platforms generated terror plans: what was found",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.foxnews.com/tech/ai-newsletter-platforms-generated-terror-plans-feds-find"
+   ],
+   "angle": "Facts only from official findings; need primary source and other outlets",
+   "added": "2026-11-20"
+  },
+  {
+   "key": "metr-ai-graph-update",
+   "title": "METR updates the most misunderstood graph in AI: what it says and what it does not",
+   "kind": "explainer",
+   "score": 6,
+   "urls": [
+    "https://www.technologyreview.com/2026/11/20/1149399/the-most-misunderstood-graph-in-ai-just-got-a-major-update/"
+   ],
+   "angle": "Explainer on METR task-horizon report; MIT Tech Review",
+   "added": "2026-11-21"
+  },
+  {
+   "key": "signal-ai-agents-mobile-os",
+   "title": "Signal on restricting AI agents in mobile operating systems: what it means for your messages",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://signal.org/blog/protecting-your-privacy/",
+    "https://techcrunch.com/2026/11/21/signal-restricts-mobile-screenshots-as-it-confronts-existential-threat-of-ai-surveillance/"
+   ],
+   "angle": "Signal post plus TechCrunch coverage (screenshots restricted on mobile); mainstream outlet now exists, find a second",
+   "added": "2026-11-21"
+  },
+  {
+   "key": "ai-stocks-selloff-nov-2026",
+   "title": "AI stocks slide: S&P 500 down 3.7%, Nasdaq negative for the year",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://www.npr.org/2026/11/20/g-s1-154797/nasdaq-sp500-stock-market-ai-sink-negative",
+    "https://www.npr.org/2026/11/20/nx-s1-6048645/tech-stocks-end-the-week-on-a-down-note-despite-anthropics-mega-ipo",
+    "https://www.theguardian.com/business/2026/nov/20/global-stock-markets-slump-anthropic-ipo-ai-sell-off",
+    "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia"
+   ],
+   "angle": "Market news; only if it stays big next week; no investment advice Guardian 20 Nov: Nasdaq erased all 2026 gains on day two of Anthropic trading.",
+   "added": "2026-11-21",
+   "topic": "finance"
+  },
+  {
+   "key": "gamma-review",
+   "title": "Gamma review: AI presentations, pros and cons",
+   "kind": "review",
+   "score": 5,
+   "urls": [],
+   "angle": "Quality, editing control, pricing, vs PowerPoint Copilot.",
+   "added": "2026-11-21"
+  },
+  {
+   "key": "visa-mastercard-jpmorgan-leak",
+   "title": "Visa, Mastercard and JPMorgan customer data leaked: what to check",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://www.foxnews.com/tech/visa-mastercard-jpmorgan-customer-data-leaked"
+   ],
+   "angle": "Third-party vendor marketing data accessed, extortion group leaking records; what customers and small businesses should do. Confirm with more outlets before writing.",
+   "added": "2026-11-21",
+   "topic": "security"
+  },
+  {
+   "key": "un-killer-robots-talks",
+   "title": "UN talks on killer robots end without binding rules: what it means",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.npr.org/2026/11/21/nx-s1-6047916/killer-robots-un-drones"
+   ],
+   "angle": "Geneva talks on autonomous weapons fell short; explain the positions and what happens next in plain English.",
+   "added": "2026-11-21"
+  },
+  {
+   "key": "google-ai-schools-protest",
+   "title": "Google employees protest AI in schools policy: what is being asked",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.npr.org/2026/11/21/nx-s1-6048599/google-employees-protest-ai-in-schools-policy"
+   ],
+   "angle": "NPR: 550+ Google employees signed a petition; need second outlet and Google response",
+   "added": "2026-11-22"
+  },
+  {
+   "key": "openai-chief-scientist-limits",
+   "title": "OpenAI chief scientist on how to limit AI development: what he proposes",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://openai.com/index/perplexity-and-intelligence/",
+    "https://techcrunch.com/2026/11/22/openais-chief-scientist-has-thoughts-on-how-to-limit-ai-development/"
+   ],
+   "angle": "Jakub Pachocki essay of 22 Nov; what is proposed, what critics say, what it means for working people",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "fbi-justice-database-hack",
+   "title": "FBI investigates apparent hack of its criminal justice database",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.securityweek.com"
+   ],
+   "angle": "AP-sourced report; confirm with 2+ outlets before writing.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "wotc-ai-copyright-payout-dnd",
+   "title": "Wizards of the Coast to pass AI copyright payout to D&D writers",
+   "kind": "news",
+   "topic": "gaming",
+   "score": 7,
+   "urls": [
+    "https://www.pcgamer.com"
+   ],
+   "angle": "Check details before writing.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "android-tv-box-malware:-1.3m-d",
+   "title": "Android TV box malware: 1.3M devices turned into a botnet",
+   "kind": "news",
+   "score": 7,
+   "urls": [
+    "https://www.foxnews.com/tech/android-tv-box-malware-found-devices"
+   ],
+   "angle": "What Google says Videostrong installed, how to check your box, what to do",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "how-ai-pricing-works:-tokens,-",
+   "title": "How AI pricing works: tokens, seats and credits",
+   "kind": "explainer",
+   "score": 5,
+   "urls": [],
+   "angle": "How to estimate monthly cost for a small team.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "notion-ai-review:-pros-and-con",
+   "title": "Notion AI review: pros and cons for teams",
+   "kind": "review",
+   "score": 5,
+   "urls": [],
+   "angle": "Search, writing, meeting notes, pricing.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "sarvam-ai-review:-indian-langu",
+   "title": "Sarvam AI review: Indian-language models, pros and cons",
+   "kind": "review",
+   "score": 5,
+   "urls": [],
+   "angle": "Languages covered, quality, pricing, who should use it.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "screenconnect-cve-exploited",
+   "title": "ScreenConnect critical flaw exploited against MSP technicians: what to patch",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://thehackernews.com/2026/11/hackers-exploit-critical-screenconnect.html"
+   ],
+   "angle": "CVE-2026-84869, CVSS 9.9; trade-only likely.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "glinet-routers-kvm-compromised",
+   "title": "GL.iNet routers and KVMs compromised through a cloud flaw",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.securityweek.com/gl-inet-routers-kvms-compromised-via-remote-management-service-flaw/",
+    "https://thehackernews.com/2026/11/hackers-exploited-glinet-cloud-flaw-to.html"
+   ],
+   "angle": "What to check on home and small-office routers.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "aspnet-anti-csrf-rce",
+   "title": "Critical ASP.NET anti-CSRF library flaw exploited for RCE",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://thehackernews.com/2026/11/hackers-exploit-critical-aspnet-anti.html"
+   ],
+   "angle": "Patch advice; trade-only.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "azure-flaw-norway-energy",
+   "title": "Azure flaw exploited against Norwegian energy firms",
+   "kind": "news",
+   "topic": "security",
+   "score": 7,
+   "urls": [
+    "https://www.securityweek.com/azure-flaw-exploited-to-target-secrets-at-norwegian-energy-firms/"
+   ],
+   "angle": "What was exploited, what cloud admins should check.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "badbox-3-disrupted",
+   "title": "BadBox 3.0 ad fraud network disrupted",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.securityweek.com/badbox-3-0-ad-fraud-operation-generating-40-billion-daily-bid-requests-disrupted/"
+   ],
+   "angle": "40 billion daily bid requests; infected devices link to android-tv-box-malware item.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "fbi-ai-hackers-3-hours",
+   "title": "FBI warns AI hackers can breach systems in under 3 hours",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.foxnews.com/tech/fbi-warns-ai-hackers-breach-systems-under-3-hours"
+   ],
+   "angle": "Pairs with CERT-In post; what small firms should do.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "cyberpunk-2-cancelled-joke",
+   "title": "Cyberpunk 2 \"cancelled\" joke after GTA 6: what was actually said",
+   "kind": "news",
+   "topic": "gaming",
+   "score": 7,
+   "urls": [
+    "https://www.gamespot.com/articles/cyberpunk-2-is-canceled-director-jokes-after-gta-6-raises-the-bar/"
+   ],
+   "angle": "Clarify it is a joke; facts only.",
+   "added": "2026-11-23"
+  },
+  {
+   "key": "cleverbridge-breach",
+   "title": "Cleverbridge warns hackers stole card numbers and CVVs",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/cleverbridge-warns-hackers-stole-credit-card-numbers-cvvs-in-data-breach/"
+   ],
+   "angle": "Payment processor for software vendors; what buyers should check. Needs a second outlet.",
+   "added": "2026-11-24"
+  },
+  {
+   "key": "kepco-breach-1-5m",
+   "title": "KEPCO confirms data breach hitting 1.5 million",
+   "kind": "news",
+   "topic": "security",
+   "score": 7,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/south-koreas-power-giant-kepco-confirms-data-breach-impacting-1-5-million/"
+   ],
+   "angle": "South Korea power utility breach; what is confirmed.",
+   "added": "2026-11-24"
+  },
+  {
+   "key": "laliga-fan-data-breach",
+   "title": "LaLiga confirms hackers stole fans personal data",
+   "kind": "news",
+   "topic": "security",
+   "score": 7,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/spanish-laliga-confirms-hackers-stole-soccer-fans-personal-data/"
+   ],
+   "angle": "What was taken and what fans should do.",
+   "added": "2026-11-24"
+  },
+  {
+   "key": "claude-ship-launch",
+   "title": "Anthropic launches Claude Ship: AI agents review, fix and approve code",
+   "kind": "news",
+   "topic": "ai",
+   "score": 7,
+   "urls": [
+    "https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/"
+   ],
+   "angle": "Review with pros and cons once hands-on coverage exists.",
+   "added": "2026-11-24"
+  },
+  {
+   "key": "megaspeed-huang-senate",
+   "title": "Huang to testify in Senate; Megaspeed headed for US blacklist",
+   "kind": "news",
+   "topic": "tech",
+   "score": 7,
+   "urls": [
+    "https://techcrunch.com/2026/11/23/jensen-huang-scheduled-to-testify-next-week-in-senate-following-reinstatement-as-nvidia-ceo/"
+   ],
+   "angle": "Follow-up to the Nvidia reinstatement post; wait for the hearing.",
+   "added": "2026-11-24"
+  },
+  {
+   "key": "gofundme-donor-breach",
+   "title": "GoFundMe says donor information was exposed in a data breach: what donors should check",
+   "kind": "news",
+   "score": 7,
+   "urls": [
+    "https://www.10tv.com/article/news/nation-world/gofundme-data-breach-donor-data-nonprofits/507-6efe578f-8a12-49f8-88d3-90bcc948b1b1"
+   ],
+   "angle": "Confirm what data, how many donors and which nonprofits with GoFundMe and 2 outlets before writing",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "apple-local-ai-mac-app",
+   "title": "Apple reportedly readying a Mac app to run local AI models: what it means",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.foxnews.com/tech/apple-tightens-mac-security-ai-agents-seek-your-files"
+   ],
+   "angle": "Only if a second outlet confirms; reported via Hacker News, find the source article first",
+   "added": "2026-11-24",
+   "topic": "ai"
+  },
+  {
+   "key": "lovable-apps-exposed-passports",
+   "title": "Lovable-built apps exposed passport details and 200K private messages",
+   "kind": "news",
+   "score": 7,
+   "urls": [
+    "https://www.crissyfield.de/research/lovable-en/"
+   ],
+   "angle": "Researcher report (single source so far); need Lovable's response and a second outlet. What vibe-coded apps get wrong and what a small business should check. Trade-only rule likely.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "nable-mailassure-monai-kev",
+   "title": "CISA adds N-able MailAssure and MONAI Label flaws to its exploited list: what to patch",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://thehackernews.com/2026/11/hackers-exploit-n-able-mailassure-flaw.html"
+   ],
+   "angle": "Trade-only (--trade). Confirm CISA KEV entry and vendor advisory first.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "openai-cisco-shirudo",
+   "title": "OpenAI and Cisco's Shirudo: an AI agent runtime to block Linux exploits before patching",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://thehackernews.com/2026/11/openai-and-cisco-unveil-ai-assisted.html",
+    "https://www.bleepingcomputer.com/news/security/new-shirudo-tool-uses-ai-to-shield-unpatched-linux-systems-from-exploits/"
+   ],
+   "angle": "Needs a second outlet and the vendor announcement before writing",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "llama-cpp-v1",
+   "title": "llama.cpp 1.0: running AI models on your own computer",
+   "kind": "explainer",
+   "score": 7,
+   "urls": [
+    "https://huggingface.co/blog/ggml-org/llama-cpp-v1",
+    "https://9to5mac.com/2026/11/10/apple-has-new-mac-app-coming-to-make-running-local-ai-models-easy/"
+   ],
+   "angle": "Plain-English explainer of local AI: what llama.cpp 1.0 changes, what hardware you need, privacy and cost trade-offs, Apple local model app as context",
+   "added": "2026-11-24",
+   "topic": "ai"
+  },
+  {
+   "key": "check-point-servers-hacked",
+   "title": "Check Point management servers hacked in 22 organizations in an AI-assisted campaign: what to check",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/hackers-compromise-check-point-servers-in-22-organizations/",
+    "https://www.securityweek.com/check-point-security-management-servers-hacked-in-ai-assisted-campaign/"
+   ],
+   "angle": "What was hit, what Check Point says, what admins should check; attribute AI-assisted claim.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "eu-commission-academy-breach",
+   "title": "European Commission confirms data theft in EU Academy breach",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/european-commission-confirms-data-theft-in-eu-academy-breach/",
+    "https://www.securityweek.com/european-commission-uncovers-data-breach-in-cyberattack-investigation/"
+   ],
+   "angle": "What data, who is affected, what is not known yet.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "shinyhunters-okta-inception",
+   "title": "Okta links ShinyHunters-associated vishing group to new INCEPTION leak site; ShinyHunters claims return after FBI arrests",
+   "kind": "news",
+   "score": 8,
+   "urls": [
+    "https://thehackernews.com/2026/11/okta-links-shinyhunters-associated.html",
+    "https://www.bleepingcomputer.com/news/security/shinyhunters-resurfaces-after-fbi-arrests-uses-old-pgp-keys-as-proof/",
+    "https://www.bleepingcomputer.com/news/security/new-inception-extortion-gang-launches-large-scale-vishing-campaign/",
+    "https://www.securityweek.com/shinyhunters-claims-comeback-new-inception-group-rejects-alleged-ties/"
+   ],
+   "angle": "Vishing explainer angle for small business: what is claimed vs confirmed.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "mcdonalds-japan-breach",
+   "title": "McDonald's Japan data breach exposes customer location information",
+   "kind": "news",
+   "score": 7,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/mcdonalds-japan-data-breach-exposes-customer-location-information/"
+   ],
+   "angle": "What data, what customers should do.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "azure-apim-secrets-flaw",
+   "title": "Microsoft fixes Azure API Management Classic flaw as an actor targets customer secrets",
+   "kind": "news",
+   "score": 7,
+   "urls": [
+    "https://thehackernews.com/2026/11/microsoft-fixes-azure-api-management.html"
+   ],
+   "angle": "Who is affected, what to rotate.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "xbox-helix-free-multiplayer",
+   "title": "Xbox Project Helix reportedly designed to make online multiplayer free",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.gamespot.com/articles/xbox-project-helix-was-reportedly-designed-to-make-online-multiplayer-free/"
+   ],
+   "angle": "Report only, attribute carefully.",
+   "added": "2026-11-24",
+   "topic": "gaming"
+  },
+  {
+   "key": "amazon-decart-acquisition",
+   "title": "Amazon buys Decart: a software bet against the Nvidia gap in AI chips",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/24/amazons-decart-acquisition-is-a-bet-on-using-software-to-narrow-the-gap-with-nvidia-in-the-ai-chip-race/"
+   ],
+   "angle": "What was bought, why it matters for AI chip supply.",
+   "added": "2026-11-24",
+   "topic": "ai"
+  },
+  {
+   "key": "peninsula-energy-cyber-incident",
+   "title": "Peninsula Energy halts trading after a cyber incident hits its US uranium mine",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://www.securityweek.com/peninsula-energy-halts-trading-after-cyber-incident-hits-us-uranium-mine/"
+   ],
+   "angle": "Facts from filings and SecurityWeek only.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "whmcs-sqli-flaw",
+   "title": "WHMCS SQL injection could expose customer data and admin password hashes without login",
+   "kind": "news",
+   "score": 6,
+   "urls": [
+    "https://thehackernews.com/2026/11/whmcs-sql-injection-flaw-could-expose.html"
+   ],
+   "angle": "Hosting resellers: what to update.",
+   "added": "2026-11-24",
+   "topic": "security"
+  },
+  {
+   "key": "cia-unclassified-system-breach",
+   "title": "CIA unclassified system breached: what is known and not",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.securityweek.com/an-unclassified-cia-system-was-breached-in-a-cyberattack-ap-source-says/"
+   ],
+   "angle": "AP source via SecurityWeek: unclassified CIA system breached; unclear what was taken or by whom. Needs a second outlet.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "rackspace-spot-shutdown",
+   "title": "Rackspace shuts down Spot cloud after a breach: what customers should do",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/rackspace-shuts-down-spot-cloud-platform-after-security-breach/"
+   ],
+   "angle": "Rackspace Spot shut down after attackers got in.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "radware-breach-cloud-keys",
+   "title": "Radware breach exposed customer cloud access keys: what to rotate",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/radware-discloses-breach-exposing-customer-cloud-access-keys/"
+   ],
+   "angle": "Security vendor breach, customer cloud keys exposed.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "turnitin-cyberattack",
+   "title": "Turnitin discloses cyberattack on customer-facing systems",
+   "kind": "news",
+   "topic": "security",
+   "score": 7,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/turnitin-discloses-cyberattack-affecting-customer-facing-systems/",
+    "https://www.securityweek.com/plagiarism-checker-turnitin-investigating-cyberattack/"
+   ],
+   "angle": "CEO statement; schools and students affected.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "anthropic-below-ipo-price",
+   "title": "Anthropic shares fall below the $83 IPO price: what it means",
+   "kind": "news",
+   "topic": "finance",
+   "score": 7,
+   "urls": [
+    "https://techcrunch.com/2026/11/24/anthropic-shares-fall-below-ipo-price-a-worrying-sign-for-ai-startups/",
+    "https://www.bloomberg.com/news/articles/2026-11-24/anthropic-breaks-below-83-ipo-price-in-premarket-trading"
+   ],
+   "angle": "Post-IPO slump and pressure on AI startup valuations.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "cdpr-q3-witcher4",
+   "title": "CD Projekt Q3: Witcher 4 team size and PlayStation deal",
+   "kind": "news",
+   "topic": "gaming",
+   "score": 6,
+   "urls": [
+    "https://www.pcgamer.com/games/the-witcher/the-difference-between-the-witcher-3-and-witcher-4-will-be-comparable-to-that-of-gta-5-and-gta-6-cd-projekt-boss-says-i-mean-its-been-11-years/",
+    "https://www.gamespot.com/articles/just-like-gta-6-the-witcher-4-has-a-playstation-deal/",
+    "https://www.gamespot.com/articles/witcher-4-has-fewer-people-working-on-it-than-it-did-3-months-ago-but-just-barely/"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "tidal-ai-music-ban",
+   "title": "Tidal to remove millions of AI-generated tracks",
+   "kind": "news",
+   "topic": "tech",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/24/tidal-to-ban-and-remove-millions-of-ai-generated-tracks-as-ai-slop-inundates-music-streaming/"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "uk-ncsc-ai-attacks",
+   "title": "UK cyber agency warns AI attacks expose years of weak security",
+   "kind": "news",
+   "topic": "security",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/24/uk-warns-ai-driven-cyberattacks-are-exposing-years-of-weak-security/"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "cod-lost-players-gta6",
+   "title": "Call of Duty reportedly lost 44% of its players after GTA 6: what the analyst says",
+   "kind": "news",
+   "topic": "gaming",
+   "score": 7,
+   "urls": [
+    "https://www.pcgamer.com/gaming-industry/analyst-says-call-of-duty-lost-an-estimated-44-percent-of-its-players-when-gta-6-came-out-and-unlike-fans-of-its-live-service-competitors-theyve-been-slow-to-come-back/"
+   ],
+   "angle": "Analyst estimate, not company data; what it means for live-service games.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "openai-matrix-multiplication-exponent",
+   "title": "OpenAI posts a matrix multiplication preprint: what is claimed and what is unverified",
+   "kind": "explainer",
+   "topic": "ai",
+   "score": 6,
+   "urls": [
+    "https://github.com/openai/math/blob/main/preprints/The-matrix-multiplication-exponent-is-nine-fourths-November-24-2026/paper.pdf"
+   ],
+   "angle": "Pair with the Riemann claims explainer; claim stays unverified until peer review.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "hexpm-rce-registry-servers",
+   "title": "Hex.pm registry servers hit by CVSS 10 RCE: what Elixir and Erlang teams should check",
+   "kind": "news",
+   "score": 8,
+   "topic": "security",
+   "urls": [
+    "https://thehackernews.com/2026/11/hackers-exploited-cvss-100-hexpm-rce.html"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "wp-connect-plugins-backdoored",
+   "title": "WordPress pulls six backdoored WP Connect plugins: what site owners should check",
+   "kind": "news",
+   "score": 8,
+   "topic": "security",
+   "urls": [
+    "https://thehackernews.com/2026/11/wordpress-blocks-six-backdoored-wp.html"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "drupal-flaw-anthropic-scanner-kev",
+   "title": "Drupal flaw found by an Anthropic scanner is now exploited: what to patch",
+   "kind": "news",
+   "score": 8,
+   "topic": "security",
+   "urls": [
+    "https://www.securityweek.com/drupal-flaw-found-by-anthropic-scanner-exploited-in-attacks/",
+    "https://thehackernews.com/2026/11/drupal-fail2install-exploit-details.html",
+    "https://www.bleepingcomputer.com/news/security/hackers-now-exploit-critical-drupal-rce-flaw-to-hijack-sites/",
+    "https://www.securityweek.com/drupal-installer-patch-left-a-gap-attackers-are-already-exploiting/",
+    "https://thehackernews.com/2026/11/drupal-warns-of-new-highly-critical.html"
+   ],
+   "angle": "Update 26 Nov: Drupal now says the earlier installer patch left a gap (new highly critical advisory, CVE-2026-136716, exploited in the wild); cover both advisories and the patch order. Confirm details on drupal.org.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "ai-driven-firewall-attacks",
+   "title": "AI-assisted attacks hit Check Point and Palo Alto firewalls: what admins should do",
+   "kind": "news",
+   "score": 8,
+   "topic": "security",
+   "urls": [
+    "https://thehackernews.com/2026/11/hackers-compromise-24-check-point.html",
+    "https://www.securityweek.com/palo-alto-networks-patches-fragnesia-flaw-used-to-root-firewalls/"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "ms-nov-updates-auth-issues",
+   "title": "Microsoft confirms sign-in problems after November updates: what to know",
+   "kind": "news",
+   "score": 7,
+   "topic": "security",
+   "urls": [
+    "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-authentication-issues-after-november-updates/"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "cia-osint-system-breach",
+   "title": "Hackers reportedly breached a CIA intelligence analysis system: what is known",
+   "kind": "news",
+   "score": 7,
+   "topic": "security",
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/hackers-reportedly-breached-cia-intelligence-analysis-system/"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "com-vishing-cloud-hijack",
+   "title": "Vishing crews hijack cloud accounts for data theft: how to protect your team",
+   "kind": "news",
+   "score": 7,
+   "topic": "security",
+   "urls": [
+    "https://thehackernews.com/2026/11/com-affiliated-hackers-hijack-cloud.html"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "gpt6-protein-design",
+   "title": "GPT-6 and protein design: what OpenAI claims and what is unverified",
+   "kind": "news",
+   "score": 6,
+   "topic": "ai",
+   "urls": [
+    "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/"
+   ],
+   "angle": "",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "fincen-cyber-incident",
+   "title": "US Treasury FinCEN takes systems offline after cyber intrusion: what is known",
+   "kind": "news",
+   "score": 8,
+   "topic": "security",
+   "urls": [
+    "https://www.securityweek.com/us-treasurys-fincen-disconnects-systems-following-cyber-incident/",
+    "https://thehackernews.com/2026/11/us-treasurys-fincen-takes-some-systems.html"
+   ],
+   "angle": "Government financial regulator; what filers and banks are told; confirmed vs unknown.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "geoserver-two-flaws-exploited",
+   "title": "Two GeoServer flaws under attack, with unauthenticated RCE chains: what to patch",
+   "kind": "news",
+   "score": 8,
+   "topic": "security",
+   "urls": [
+    "https://www.securityweek.com/two-newly-disclosed-geoserver-vulnerabilities-under-attack/",
+    "https://thehackernews.com/2026/11/hackers-exploit-two-geoserver-flaws-as.html"
+   ],
+   "angle": "Trade-only likely; patch guidance for teams running GeoServer.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "dotnet-nuget-job-assessment-malware",
+   "title": "Fake job assessments push malicious NuGet packages at .NET developers",
+   "kind": "news",
+   "score": 7,
+   "topic": "security",
+   "urls": [
+    "https://www.darkreading.com/threat-intelligence/attackers-net-developers-poisoned-job-assessments"
+   ],
+   "angle": "Job-scam angle for developers; 13 malicious packages reported.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "infratrust-appliance-supply-chain",
+   "title": "InfraTrust flags exploited supply chain flaws in network appliances",
+   "kind": "news",
+   "score": 7,
+   "topic": "security",
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/infratrust-warns-of-exploited-supply-chain-flaws-in-network-appliances/"
+   ],
+   "angle": "Eclypsium research; what small offices with edge devices should check.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "danfoss-cisa-unpatched",
+   "title": "CISA warns of critical unpatched flaw in Danfoss refrigeration controllers",
+   "kind": "news",
+   "score": 6,
+   "topic": "security",
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/cisa-warns-of-critical-unpatched-flaw-in-danfoss-refrigeration-controllers/"
+   ],
+   "angle": "Niche industrial; only if the week is slow.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "ps5-xbox-sales-before-gta6",
+   "title": "PS5 and Xbox sales surged just before GTA 6 launch: what the numbers show",
+   "kind": "news",
+   "score": 7,
+   "topic": "gaming",
+   "urls": [
+    "https://www.gamespot.com/articles/ps5-and-xbox-series-xs-console-sales-surged-just-before-gta-6-came-out/"
+   ],
+   "angle": "Console sales data; attribute to the report.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "gta6-too-easy-rockstar",
+   "title": "Is GTA 6 too easy? What Rockstar says",
+   "kind": "news",
+   "score": 7,
+   "topic": "gaming",
+   "urls": [
+    "https://www.gamespot.com/articles/is-gta-6-too-easy-rockstar-weighs-in/"
+   ],
+   "angle": "Player debate on difficulty; keep to Rockstar statement and coverage.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "witcher4-not-ps5-exclusive",
+   "title": "Witcher 4 will not be a PS5 exclusive after new Sony deal",
+   "kind": "news",
+   "score": 7,
+   "topic": "gaming",
+   "urls": [
+    "https://www.gamespot.com/articles/witcher-4-wont-be-a-ps5-exclusive-after-new-deal-with-playstation/",
+    "https://www.gamespot.com/articles/the-witcher-4-wants-to-be-the-gta-6-of-the-witcher-franchise/"
+   ],
+   "angle": "Platform deal explainer; what it means for players.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "ai-agents-black-friday-shopping",
+   "title": "What to know before using AI agents for Black Friday shopping",
+   "kind": "explainer",
+   "score": 7,
+   "topic": "ai",
+   "urls": [
+    "https://www.npr.org/2026/11/25/nx-s1-6048524/what-to-know-before-using-ai-agents-for-black-friday-shopping"
+   ],
+   "angle": "Time-sensitive (Black Friday 27 Nov); ties to the ChatGPT Wallet review and banks-liability post.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "fireworks-ai-breach-notion",
+   "title": "Fireworks AI breach exposed Notion AI chat transcripts",
+   "kind": "news",
+   "score": 7,
+   "topic": "security",
+   "urls": [
+    "https://techcrunch.com/2026/11/12/cyberattack-on-fireworks-ai-allowed-hackers-to-access-notion-customers-chat-transcripts/"
+   ],
+   "angle": "Third-party AI provider risk: what a small team should ask its AI vendors",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "ruby2shell-rails-rce",
+   "title": "Ruby2shell: pre-auth RCE on stock Rails, what to patch",
+   "kind": "news",
+   "score": 7,
+   "topic": "security",
+   "urls": [
+    "https://verialabs.com/ruby2shell/"
+   ],
+   "angle": "Single trade source so far; confirm with the Rails advisory and a second outlet before writing.",
+   "added": "2026-11-25"
+  },
+  {
+   "key": "palo-alto-fragnesia-exploited",
+   "title": "Palo Alto Networks warns Fragnesia flaw is exploited in PAN-OS attacks: what to patch",
+   "kind": "news",
+   "topic": "security",
+   "score": 9,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/palo-alto-networks-warns-of-fragnesia-flaw-exploited-in-pan-os-attacks/"
+   ],
+   "angle": "Exploited PAN-OS flaw; admin patch checklist",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "character-ai-chat-auction-ags",
+   "title": "Character.AI plan to auction users private chats challenged by state AGs",
+   "kind": "news",
+   "topic": "ai",
+   "score": 7,
+   "urls": [
+    "https://techcrunch.com/2026/11/25/state-ags-fight-character-ais-plan-to-auction-off-users-private-chats/"
+   ],
+   "angle": "What was proposed, what AGs say, what users can do",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "ea-fc27-ai-commentator",
+   "title": "EA brings back a late football commentator with AI in FC 27: why fans are split",
+   "kind": "news",
+   "topic": "gaming",
+   "score": 8,
+   "urls": [
+    "https://www.gamespot.com/articles/three-years-after-his-death-ea-is-using-ai-to-bring-back-a-famed-commentator-in-fc-27/",
+    "https://www.pcgamer.com/software/ai/deceased-bbc-football-commentator-resurrected-with-ai-for-ea-sports-fc-the-family-says-its-a-touching-tribute-but-some-fans-call-it-gross-and-bleak/"
+   ],
+   "angle": "Family consent vs fan backlash; facts only",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "sp-nvidia-credit-downgrade",
+   "title": "S&P considers Nvidia credit downgrade over governance and key-man risk",
+   "kind": "news",
+   "topic": "finance",
+   "score": 8,
+   "urls": [
+    "https://techcrunch.com/2026/11/25/sp-considers-nvidia-credit-downgrade-over-governance-and-key-man-risks/"
+   ],
+   "angle": "What a credit watch means, what is stated",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "ny-ai-toy-ban",
+   "title": "New York blocks AI toys for kids this Christmas: what the rule says",
+   "kind": "news",
+   "topic": "ai",
+   "score": 6,
+   "urls": [
+    "https://techcrunch.com/2026/11/25/want-to-buy-your-kid-an-ai-toy-this-christmas-not-in-new-york/"
+   ],
+   "angle": "Parents guide",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "console-price-tariffs",
+   "title": "Another console price hike could come from new tariffs",
+   "kind": "news",
+   "topic": "gaming",
+   "score": 7,
+   "urls": [
+    "https://www.gamespot.com/articles/another-gaming-console-price-hike-could-be-coming-thanks-to-new-tariffs/"
+   ],
+   "angle": "What is reported vs confirmed",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "nyt-photoshop-ai-update-warning",
+   "title": "The New York Times tells photographers not to update Photoshop over AI features: what it means for your files",
+   "kind": "news",
+   "topic": "ai",
+   "score": 6,
+   "urls": [
+    "https://www.theverge.com/ai-artificial-intelligence/1041227/the-new-york-times-warns-photographers-not-to-update-photoshop-over-ai-features"
+   ],
+   "angle": "Newsroom guidance on Photoshop AI features; what is confirmed, what Adobe says, what working creatives should check.",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "muv-luv-ai-translation-backlash",
+   "title": "Muv-Luv adult game hit with AI translation backlash: why players are angry",
+   "kind": "news",
+   "topic": "gaming",
+   "score": 6,
+   "urls": [
+    "https://www.pcgamer.com/games/visual-novel/the-latest-adult-game-in-the-muv-luv-series-has-some-woeful-ai-translation-and-players-arent-happy-about-it/"
+   ],
+   "angle": "Reviews sank to Mostly Negative over machine translation; wider AI-in-games debate.",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "cisa-kev-mitel-micollab-juniper-vates-danfoss",
+   "title": "CISA adds 10 exploited flaws (Mitel MiCollab, Juniper, Vates, Danfoss): what to check",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://thehackernews.com/2026/11/hackers-exploit-10-vulnerabilities.html",
+    "https://www.securityweek.com/critical-juniper-session-smart-conductor-flaw-exploited-in-attacks/",
+    "https://www.securityweek.com/mitel-micollab-zero-days-exploited-in-suspected-ai-assisted-attacks/"
+   ],
+   "angle": "Confirm on cisa.gov KEV and a second outlet; patch steps for small IT teams running Mitel phones or Juniper gear.",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "polinrider-7600-github-repos",
+   "title": "North Korea-linked PolinRider poisons 7,600+ GitHub repos: what developers should check",
+   "kind": "news",
+   "score": 8,
+   "topic": "security",
+   "urls": [
+    "https://thehackernews.com/2026/11/north-korea-linked-polinrider-poisons.html",
+    "https://socket.dev/blog/polinrider-github-packagist"
+   ],
+   "angle": "New count (7,600 repos), campaign may date to Feb 2025; one outlet so far, confirm before writing",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "rockstar-union-vote",
+   "title": "Rockstar workers vote against union recognition: what happened",
+   "kind": "news",
+   "score": 7,
+   "topic": "gaming",
+   "urls": [
+    "https://www.pcgamer.com/gaming-industry/rockstar-workers-vote-overwhelmingly-against-union-recognition/"
+   ],
+   "angle": "IWGB says only 25% voted in favour; labour story, facts and company statements only",
+   "added": "2026-11-26"
+  },
+  {
+   "key": "gpt-62-usage-cuts",
+   "title": "OpenAI cuts GPT-6.2 usage limits",
+   "kind": "news",
+   "score": 6,
+   "topic": "ai",
+   "urls": [
+    "https://twitter.com/thsottiaux/status/2125784147889393806"
+   ],
+   "angle": "Astra limits hit 40% faster, Sol 25%; fold into the 30 Nov GPT-6.2 slot",
+   "added": "2026-11-26"
+  }
+ ],
+ "covered": [
+  "gemini-decisions-api",
+  "apache-httpd-rce",
+  "nvidia-huang-exit",
+  "microsoft-365-outage-nov-2026",
+  "anthropic-ipo",
+  "claude-meetings",
+  "gemini-4-hydrogen",
+  "ai-voice-scams",
+  "california-sues-openai",
+  "united-ai-agent-ban",
+  "perplexity-teammates",
+  "chatgpt-wallet",
+  "gta6-launch-numbers",
+  "nginx-http2-rce",
+  "anthropic-ipo-priced",
+  "cert-in-crafty-falcon",
+  "nvidia-huang-reinstated",
+  "banks-ai-agents-liability",
+  "crowdstrike-zscaler",
+  "rbi-dmt-directions-2026",
+  "us-ai-chip-remote-access-rule",
+  "1password-github-breach",
+  "gemini-4-neon"
+ ]
 }
