@@ -42,7 +42,7 @@
 <script src="/assets/js/support.js" defer></script>
 <link rel="modulepreload" href="/assets/vendor/three-0.184.0/three.module.min.js" fetchpriority="low">
 <link rel="modulepreload" href="/assets/vendor/three-0.184.0/three.core.min.js" fetchpriority="low">
-<link rel="modulepreload" href="/assets/js/world-v7.js?v=10r" fetchpriority="low">
+<link rel="modulepreload" href="/assets/js/world-v7.js?v=10s" fetchpriority="low">
 <!-- ap-head:start -->
 <meta http-equiv="content-language" content="en">
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="NLMsfOMIs451GqBmVggYOA" async></script>
@@ -1009,6 +1009,7 @@ const dayKey = (o = 0) => { const d = new Date(Date.now() - o * 864e5); return d
 const dailyFor = key => { let h = 0; for (const c of key) h = (h * 31 + c.charCodeAt(0)) >>> 0; return DAILY[h % DAILY.length]; };
 // Seasons follow the calendar (Dec to Feb winter, Mar to May spring, Jun to Aug summer, Sep to Nov autumn). Dates are month*100+day; a range may wrap the new year. Edit the list yearly.
 const today = () => { const m = /[?&]date=(\d{4}-\d{2}-\d{2})/.exec(location.search); const d = m ? new Date(m[1] + 'T12:00:00') : null; return d && !isNaN(d) ? d : new Date(); }; // ?date=2026-12-25 previews an event day
+const REGION_NAMES = { forest: 'Pine Forest', meadow: 'The Meadow', coast: 'The Coast', canyon: 'Red Canyon', snow: 'Snow Peaks', lake: 'The Lake', river: 'The River', ruins: 'The Ruins', jungle: 'The Jungle', savanna: 'The Savanna', blossom: 'Blossom Valley' };
 const dateSeason = (d = today()) => { const m = d.getMonth(); return m === 11 || m < 2 ? 'winter' : m < 5 ? 'spring' : m < 8 ? 'summer' : 'autumn'; };
 const EVENTS = [
   { k: 'lights', name: 'Winter lights', text: 'Christmas night. Ride in after dark.', from: 1224, to: 1226, night: true },
@@ -1062,7 +1063,7 @@ class Component extends DCLogic {
     this.mapI = setInterval(() => this.drawMap(), 100);
     this.poll = setInterval(() => { if (this.score && this.score.on && this.world) this.score.update(this.world.getState()); this.rideTick(); }, 150);
     const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
-    const loadWorld = () => import('/assets/js/world-v7.js?v=10r').then(async m => {
+    const loadWorld = () => import('/assets/js/world-v7.js?v=10s').then(async m => {
       if (!this.canvasHost.current) return;
       const gpu = m.probeGPU ? m.probeGPU() : {}; (window.__ap = this), this.world = await m.createWorld(this.canvasHost.current, { lowPower: lp || gpu.weak || gpu.igpu || this.state.lowGfx || innerWidth < 760, softGPU: !!gpu.soft, mobile: compactUI(), season: /[?&]season=/.test(location.search) ? undefined : dateSeason(), notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
         onNote: (i, x, y) => { this.blip(1180); if (i >= NOTES.length && !(this.state.found || []).includes(i)) { const found = [...(this.state.found || []), i]; this.setState({ found }); try { localStorage.setItem('apSecrets', JSON.stringify(found)); } catch (e) {} } this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
@@ -1136,6 +1137,8 @@ class Component extends DCLogic {
       else if (kind === 'bell') { (n ? [0, 0.38, 0.76, 1.14] : [0]).forEach((d, j) => { const v = Math.pow(0.45, j); [0, 0.15].forEach(at => { tone(2350, d + at, 1.1, 'sine', 0.55 * v); tone(6486, d + at, 0.4, 'sine', 0.14 * v); tone(3290, d + at, 0.7, 'triangle', 0.12 * v); }); }); }
       else if (kind === 'plank') { tone(170 + Math.random() * 70, 0, 0.06, 'triangle', 0.22); }
       else if (kind === 'crack') { tone(70, 0, 0.5, 'sawtooth', 0.25); tone(1400, 0.02, 0.06, 'square', 0.08); tone(900, 0.12, 0.05, 'square', 0.06); }
+      else if (kind === 'horn') { [311, 370].forEach(f => { tone(f, 0, 1.6, 'triangle', 0.1); tone(f, 1.9, 1.1, 'triangle', 0.08); }); }
+      else if (kind === 'dog') { [0, 0.38].forEach(at => { tone(420, at, 0.09, 'sawtooth', 0.04); tone(250, at + 0.05, 0.14, 'triangle', 0.07); }); }
       else if (kind === 'quack') { tone(520, 0, 0.12, 'sawtooth', 0.18); tone(470, 0.16, 0.12, 'sawtooth', 0.16); tone(500, 0.36, 0.1, 'sawtooth', 0.12); }
       else if (kind === 'unlock') { [0, 4, 7, 12].forEach((st, i) => tone(hz(st), i * 0.07, 0.35, 'triangle', 0.6)); }
       else if (kind === 'level') { [0, 4, 7, 12, 16, 19, 24].forEach((st, i) => tone(hz(st), i * 0.09, 0.6, 'triangle', 0.55)); tone(hz(-12), 0, 1.2, 'sine', 0.4); tone(hz(24), 0.66, 0.9, 'sine', 0.35); }
@@ -1196,9 +1199,14 @@ class Component extends DCLogic {
   progStats(s) { s = s || this.state; const st = s.stats || {}; return { ...st, air: s.bestAir || 0, lanterns: (s.lanterns || []).length, spotted: (s.spotted || []).length, secrets: (s.found || []).filter(i => i >= NOTES.length).length, treasures: (s.treasures || []).length, postcards: (s.postcards || []).length }; }
   xpInfo(s) { s = s || this.state; const ps = this.progStats(s), done = CHALLENGES.filter(c => c.val(ps) >= c.goal); const xp = ps.secrets * 100 + (s.stamps || []).length * 150 + ps.spotted * 40 + ps.lanterns * 60 + done.length * 120 + Math.min(ps.orbs || 0, 1500) + ps.treasures * 200 + ps.postcards * 120 + (s.dailyDone || []).length * 250 + (s.evtDone || []).length * 250;
     let li = 0; for (let i = 0; i < LEVELS.length; i++) if (xp >= LEVELS[i][0]) li = i; const lo = LEVELS[li][0], hi = LEVELS[li + 1] ? LEVELS[li + 1][0] : lo; return { xp, lvl: li + 1, title: LEVELS[li][1], pct: hi > lo ? Math.round((xp - lo) / (hi - lo) * 100) : 100, toNext: hi - xp, done, ps }; }
+  // San Andreas style place name, bottom right, when you ride into a new region
+  regCard(id) { const now = Date.now(); if (id !== this.rcId) { this.rcId = id; this.rcAt = now; return; } if (!REGION_NAMES[id] || id === this.rcShown || now - this.rcAt < 1500) return; this.rcShown = id;
+    let el = this.rcEl; if (!el) { el = this.rcEl = document.createElement('div'); el.setAttribute('aria-live', 'polite'); el.style.cssText = 'position:fixed;right:28px;bottom:130px;z-index:40;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(28px,5vw,54px);color:#fff6ea;text-shadow:0 2px 0 #000,0 0 18px rgba(0,0,0,.6);pointer-events:none;opacity:0;transition:opacity .8s'; document.body.appendChild(el); }
+    el.textContent = REGION_NAMES[id]; el.style.opacity = '1'; clearTimeout(this.rcT); this.rcT = setTimeout(() => { el.style.opacity = '0'; }, 3200); }
   rideTick() { const w = this.world; if (!w || !this.state.free) { this.lastPos = null; return; } const st = w.getState(), S = { ...(this.state.stats || {}) }; let ch = false;
     const kmh = Math.round(Math.abs(this.state.freeSpd || 0) * 6); if (kmh > (S.top || 0)) { S.top = kmh; ch = true; }
     if (this.lastPos) { const d = Math.hypot(st.x - this.lastPos.x, st.z - this.lastPos.z); if (d > 0.05 && d < 12) { S.dist = (S.dist || 0) + d; if (st.night > 0.6) S.nightDist = (S.nightDist || 0) + d; ch = true; } } this.lastPos = { x: st.x, z: st.z };
+    this.regCard(st.regionId); { const now = Date.now(); if (!this.ambAt) this.ambAt = now + 40000; if (now > this.ambAt) { this.ambAt = now + 60000 + Math.random() * 60000; this.sfx(st.night > 0.5 ? 'dog' : 'horn'); } }
     if (st.regionId && st.regionId !== 'road' && !(S.regions || []).includes(st.regionId)) { S.regions = [...(S.regions || []), st.regionId]; ch = true; }
     { const pos = this.lastPos, dd = this.lastDD || { x: st.x, z: st.z }, d = Math.hypot(st.x - dd.x, st.z - dd.z); this.lastDD = { x: st.x, z: st.z }; const reg = st.regionId && st.regionId !== 'road' ? st.regionId : null, dy = this.state.daily || {};
       if ((d > 0.05 && d < 12) || kmh > (dy.top || 0) || (reg && !(dy.regions || []).includes(reg))) this.bumpDaily(D => ({ dist: (D.dist || 0) + (d > 0.05 && d < 12 ? d : 0), nightDist: (D.nightDist || 0) + (d > 0.05 && d < 12 && st.night > 0.6 ? d : 0), top: Math.max(D.top || 0, kmh), regions: reg && !(D.regions || []).includes(reg) ? [...(D.regions || []), reg] : (D.regions || []) })); }
