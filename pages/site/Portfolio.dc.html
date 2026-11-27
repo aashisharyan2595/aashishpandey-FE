@@ -1008,13 +1008,14 @@ const DAILY = [
 const dayKey = (o = 0) => { const d = new Date(Date.now() - o * 864e5); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
 const dailyFor = key => { let h = 0; for (const c of key) h = (h * 31 + c.charCodeAt(0)) >>> 0; return DAILY[h % DAILY.length]; };
 // Seasons follow the calendar (Dec to Feb winter, Mar to May spring, Jun to Aug summer, Sep to Nov autumn). Dates are month*100+day; a range may wrap the new year. Edit the list yearly.
-const dateSeason = (d = new Date()) => { const m = d.getMonth(); return m === 11 || m < 2 ? 'winter' : m < 5 ? 'spring' : m < 8 ? 'summer' : 'autumn'; };
+const today = () => { const m = /[?&]date=(\d{4}-\d{2}-\d{2})/.exec(location.search); const d = m ? new Date(m[1] + 'T12:00:00') : null; return d && !isNaN(d) ? d : new Date(); }; // ?date=2026-12-25 previews an event day
+const dateSeason = (d = today()) => { const m = d.getMonth(); return m === 11 || m < 2 ? 'winter' : m < 5 ? 'spring' : m < 8 ? 'summer' : 'autumn'; };
 const EVENTS = [
   { k: 'lights', name: 'Winter lights', text: 'Christmas night. Ride in after dark.', from: 1224, to: 1226, night: true },
   { k: 'nye', name: 'New Year lights', text: 'The year turns while you ride.', from: 1231, to: 101, night: true },
   { k: 'kites', name: 'Sankranti night', text: 'Kite season. The lanterns look best tonight.', from: 114, to: 114, night: true },
   { k: 'snow', name: 'First snow', text: 'Snow season is open.', from: 1201, to: 115, snow: true }];
-const activeEvent = (d = new Date()) => { const n = (d.getMonth() + 1) * 100 + d.getDate(); return EVENTS.find(e => e.from <= e.to ? n >= e.from && n <= e.to : n >= e.from || n <= e.to) || null; };
+const activeEvent = (d = today()) => { const n = (d.getMonth() + 1) * 100 + d.getDate(); return EVENTS.find(e => e.from <= e.to ? n >= e.from && n <= e.to : n >= e.from || n <= e.to) || null; };
 const loadJ = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
 const loadStamps = () => { try { return JSON.parse(localStorage.getItem('apStamps') || '[]'); } catch (e) { return []; } };
 const WILD = ['deer', 'rabbit', 'squirrel', 'fox', 'fox cubs', 'goat', 'boar', 'roadrunner', 'lizard', 'frog', 'heron', 'crab', 'owl', 'eagle', 'tiger', 'leopard', 'peacock', 'seal', 'flamingo', 'dragonfly', 'bee', 'bat'];
@@ -1124,7 +1125,7 @@ class Component extends DCLogic {
     if (!on) { this.world.setDayPhase(null); if (ev.snow) this.world.setWeather(this.state.wxPref === 'clear' ? 'clear' : null); return; }
     if (ev.night && this.state.dayPref !== 'off') this.world.setDayPhase('night');
     if (ev.snow && this.state.wxPref !== 'clear') { this.world.setWeather('snow'); this.evT = setTimeout(() => this.world && this.world.setWeather(null), 90000); }
-    const id = ev.k + '-' + new Date().getFullYear(), done = this.state.evtDone || []; if (done.includes(id)) return;
+    const id = ev.k + '-' + today().getFullYear(), done = this.state.evtDone || []; if (done.includes(id)) return;
     const evtDone = [...done, id]; this.setState({ evtDone }); try { localStorage.setItem('apEvtDone', JSON.stringify(evtDone)); } catch (e) {}
     setTimeout(() => this.showToast(ev.name, ev.text, '+250 XP'), 1500); window.apTrack && window.apTrack('event_joined', { k: ev.k }); }
   onLantern(i) { const l = this.state.lanterns || []; if (l.includes(i)) return; const lanterns = [...l, i]; this.setState({ lanterns }); try { localStorage.setItem('apLanterns', JSON.stringify(lanterns)); } catch (e) {} this.showToast('Lantern lit', lanterns.length + ' / ' + NLANT, '+60 XP'); this.world && this.world.dinoReact && this.world.dinoReact('lantern'); window.apTrack && window.apTrack('lantern_lit', { n: lanterns.length }); }
