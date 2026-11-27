@@ -1566,7 +1566,7 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
   // ===== v3 · Living world: day clock, weather, gusts, regional flora + fauna, tyre tracks, seasons =====
   await __y(); const QS = new URLSearchParams(location.search);
   // GTA San Andreas style: a close, thick haze so the world ends in fog and nothing pops in. Chunks are culled at fog.far, so this also draws less. 
-  const FOGK = (() => { const q = QS.get('fog'), f = q === 'old' ? 1 : clamp(parseFloat(q) || 0.5, 0.3, 1); return { n: f * 0.76, f }; })(); // ?fog=0.5 thicker, ?fog=old no change
+  const CULLF = { v: 560 }, FOGC = new THREE.Color(), FOGK = (() => { const q = QS.get('fog'), f = q === 'old' ? 1 : clamp(parseFloat(q) || 0.5, 0.3, 1); return { on: q !== 'old', n: f * 0.76, f }; })(); // ?fog=0.5 thicker, ?fog=old no change
   await __y(); let alarmR = 6, quietBike = true, gustNear = 0, bellT = 0, bellAt = 0;
   await __y(); const SC = c => new THREE.Color(c), TC = new THREE.Color();
   await __y(); const addSolid = (x, z, r, h) => { const i = solids.push(h === undefined ? { x, z, r } : { x, z, r, h }) - 1, k = Math.floor(x / SG) + ',' + Math.floor(z / SG); if (!solidGrid.has(k)) solidGrid.set(k, []); solidGrid.get(k).push(i); };
@@ -1993,7 +1993,7 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
     if (!tileQ) tileQ = tiles.slice().sort((a, b) => Math.hypot(a.cx - cp.x, a.cz - cp.z) - Math.hypot(b.cx - cp.x, b.cz - cp.z));
     if (tileQ.length) { const t0 = performance.now(); while (tileQ.length && performance.now() - t0 < 5) { const J = tileJob(tileQ.shift(), COARSE); tileStep(J, 1e9); J.t.lo = tileBuild(J); } if (!tileQ.length && !tilesReady) { tilesReady = true; hookAll(); warmUp(); } return; }
     if (fineJob) { if (tileStep(fineJob, 3)) { const t = fineJob.t; t.hi = tileBuild(fineJob); if (t.lo) t.lo.visible = false; fineJob = null; } return; }
-    if (frameNo % 6 === 0) { const fineR = (lp ? 170 : 260) * (0.6 + 0.4 * drawDist), lim = scene.fog.far + 60; let best = null, bd = 1e9;
+    if (frameNo % 6 === 0) { const fineR = (lp ? 170 : 260) * (0.6 + 0.4 * drawDist), lim = CULLF.v + 60; let best = null, bd = 1e9;
       for (const t of tiles) { const d = Math.hypot(t.cx - cp.x, t.cz - cp.z) - t.r;
         if (t.hi && d > fineR * 1.8) { scene.remove(t.hi); t.hi.geometry.dispose(); t.hi = null; }
         if (!t.hi && d < fineR && d < bd) { bd = d; best = t; }
@@ -3327,7 +3327,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (T > DB.hintAt) { DB.hintAt = T + 95 + Math.random() * 40; let best = null, bd = 1e9; for (const p of PCS) { if (p.vis) continue; const d = Math.hypot(p.x - bp.x, p.z - bp.z); if (d < bd) { bd = d; best = p; } }
       if (best) say(PL(DL.hint).replace('{place}', best.name).replace('{dir}', cap1(dirWord(best.x, best.z))).replace('{dir}', dirWord(best.x, best.z)).replace('{d}', String(Math.max(50, Math.round(bd * 1.67 / 50) * 50)))); }
     if (T > DB.next && cd('idle', 50)) say(PL(DL.idle)); }
-  function v8Tick(dt, T, bp, night) { v8.T = T; const uS = renderer.domElement.height * 0.5 / Math.tan(camera.fov * Math.PI / 360); orbU.uScale.value = uS; orbU.uT.value = T; orbU.uFar.value = Math.min(420, scene.fog.far * 0.8); burstU.uScale.value = uS;
+  function v8Tick(dt, T, bp, night) { v8.T = T; const uS = renderer.domElement.height * 0.5 / Math.tan(camera.fov * Math.PI / 360); orbU.uScale.value = uS; orbU.uT.value = T; orbU.uFar.value = Math.min(420, CULLF.v * 0.8); burstU.uScale.value = uS;
     ORB.pts.visible = free; if (free) orbTick(dt, T, bp); burstTick(dt); chestTick(dt, T, bp); pcTick(T, bp); brainTick(dt, T, bp, night); if (orbBoostT > 0) orbBoostT -= dt; }
   function lanternTick(T, bp) { for (const L of LANTS) { if (L.lit) { L.gl.material.opacity = 0.7 + Math.sin(T * 3 + L.i) * 0.12; continue; } L.beacon.position.y = L.y + 4 + Math.sin(T * 2 + L.i) * 0.3; if (free && Math.abs(bp.x - L.x) < 3 && Math.abs(bp.z - L.z) < 3) lightL(L); } }
 
@@ -3545,7 +3545,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       o._apHide2 = px < (o._apHide2 ? PX * 1.3 : PX) || (c.note && d > farN); } };
   await __y(); const updateRoots = () => { const ch = scene.children; for (let i = 0; i < ch.length; i++) { const o = ch[i]; if (o._apHide || o.userData.apStatic) continue; o.updateMatrixWorld(); } };
   await __y(); const cullPass = () => {
-    const cp = camera.position, lim = scene.fog.far + 20, PX = (lp ? 3 : 1.4) * lvK, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360);
+    const cp = camera.position, lim = CULLF.v + 20, PX = (lp ? 3 : 1.4) * lvK, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360);
     for (let i = 0; i < cullList.length; i++) { const c = cullList[i], o = c.o, p = o.position, dx = p.x - cp.x, dy = p.y - cp.y, dz = p.z - cp.z, d = Math.sqrt(dx * dx + dy * dy + dz * dz) - c.r;
       const lim2 = Math.min(lim, c.r * F / PX + 30);   // beyond this the object is under about a pixel, or fully fogged
       if (o._apHide) { if (d < lim2 * 0.9) { o._apHide = false; o.updateMatrixWorld(true); } } else if (d > lim2) o._apHide = true; } };
@@ -3682,11 +3682,13 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     wxTick(dt); wxEnv(e, night);
     skyU.top.value.copy(e.top); skyU.mid.value.copy(e.mid); skyU.hor.value.copy(e.hor); skyU.night.value = night; skyU.time.value = T;
     SUN.set(sunX, sunY, -0.86).normalize(); skyU.sunDir.value.copy(SUN);
-    scene.fog.color.copy(e.fog); scene.fog.near = e.fn * drawDist * FOGK.n; scene.fog.far = e.ff * drawDist * FOGK.f;
+    // fog takes the sky's horizon colour so far hills melt into the sky instead of showing as dark shapes, and the far limit is capped so no region keeps a long view
+    CULLF.v = e.ff * drawDist; if (FOGK.on) { scene.fog.color.copy(e.fog).lerp(FOGC.copy(e.hor).lerp(e.mid, 0.4), 0.85); scene.fog.far = Math.min(e.ff * drawDist * FOGK.f, 300); scene.fog.near = Math.min(e.fn * drawDist * FOGK.n, scene.fog.far * 0.3); }
+    else { scene.fog.color.copy(e.fog); scene.fog.near = e.fn * drawDist; scene.fog.far = e.ff * drawDist; }
     FOGU.uFogBase.value = bp.y - 1.5; FOGU.uFogAmt.value = lerp(0.42, 0.66, night) + WX.mist * 0.35 + Math.min(1, WX.oc) * 0.12 + WX.dust * 0.3; FOGU.uFogHaze.value.copy(e.fog).lerp(HAZE_D, 0.3 * (1 - night)).lerp(HAZE_N, 0.4 * night);
     FOGU.uSunDir.value.copy(SUN).lerp(MOON, night).normalize(); FOGU.uSunCol.value.copy(SUNCOL).lerp(MOONCOL, night); FOGU.uSunAmt.value = lerp(0.6, 0.26, night);
     TERU.uRimCol.value.copy(e.hor).lerp(MOONCOL, night * 0.75); TERU.uRimAmt.value = lerp(0.15, 0.28, night);
-    if (frameNo % 8 === 0) { const lim = scene.fog.far + 20, cp = camera.position; for (const c of chunks) { const u = c.userData, d = Math.hypot(u.cx - cp.x, u.cz - cp.z) - u.r, vis = d < (u.dd ? Math.min(lim, u.dd * (0.6 + 0.4 * drawDist)) : lim); if (u.lo) { const far = d > u.lodD * drawDist; c.visible = vis && !far; u.lo.visible = vis && far; } else c.visible = vis; } }
+    if (frameNo % 8 === 0) { const lim = CULLF.v + 20, cp = camera.position; for (const c of chunks) { const u = c.userData, d = Math.hypot(u.cx - cp.x, u.cz - cp.z) - u.r, vis = d < (u.dd ? Math.min(lim, u.dd * (0.6 + 0.4 * drawDist)) : lim); if (u.lo) { const far = d > u.lodD * drawDist; c.visible = vis && !far; u.lo.visible = vis && far; } else c.visible = vis; } }
     hemi.color.copy(e.hs); hemi.groundColor.copy(e.hg); hemi.intensity = e.hi;
     const ld = tmp2.copy(SUN).lerp(MOON, lerp(sstep(0.42, 0.62, tE), sstep(0.3, 0.7, night), dayMix)); ld.y = Math.max(ld.y, 0.4); ld.normalize();
     key.color.copy(e.kc); key.intensity = e.ki; key.position.copy(bp).addScaledVector(ld, 60); key.target.position.copy(bp);
