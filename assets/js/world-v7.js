@@ -1566,7 +1566,7 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
   // ===== v3 · Living world: day clock, weather, gusts, regional flora + fauna, tyre tracks, seasons =====
   await __y(); const QS = new URLSearchParams(location.search);
   // GTA San Andreas style: a close, thick haze so the world ends in fog and nothing pops in. Chunks are culled at fog.far, so this also draws less. 
-  const FOGK = (() => { const q = QS.get('fog'), f = q === 'old' ? 1 : clamp(parseFloat(q) || 0.72, 0.3, 1); return { n: f * 0.76, f }; })(); // ?fog=0.5 thicker, ?fog=old no change
+  const FOGK = (() => { const q = QS.get('fog'), f = q === 'old' ? 1 : clamp(parseFloat(q) || 0.5, 0.3, 1); return { n: f * 0.76, f }; })(); // ?fog=0.5 thicker, ?fog=old no change
   await __y(); let alarmR = 6, quietBike = true, gustNear = 0, bellT = 0, bellAt = 0;
   await __y(); const SC = c => new THREE.Color(c), TC = new THREE.Color();
   await __y(); const addSolid = (x, z, r, h) => { const i = solids.push(h === undefined ? { x, z, r } : { x, z, r, h }) - 1, k = Math.floor(x / SG) + ',' + Math.floor(z / SG); if (!solidGrid.has(k)) solidGrid.set(k, []); solidGrid.get(k).push(i); };
