@@ -42,7 +42,7 @@
 <script src="/assets/js/support.js" defer></script>
 <link rel="modulepreload" href="/assets/vendor/three-0.184.0/three.module.min.js" fetchpriority="low">
 <link rel="modulepreload" href="/assets/vendor/three-0.184.0/three.core.min.js" fetchpriority="low">
-<link rel="modulepreload" href="/assets/js/world-v7.js?v=10s" fetchpriority="low">
+<link rel="modulepreload" href="/assets/js/world-v7.js?v=10u" fetchpriority="low">
 <!-- ap-head:start -->
 <meta http-equiv="content-language" content="en">
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="NLMsfOMIs451GqBmVggYOA" async></script>
@@ -361,6 +361,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
           </div>
           <div style="position:absolute;right:154px;bottom:calc(env(safe-area-inset-bottom, 0px) + 40px);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:auto;">
             <button onPointerDown="{{ boostDown }}" onPointerUp="{{ boostUp }}" onPointerLeave="{{ boostUp }}" onPointerCancel="{{ boostUp }}" aria-label="Boost" style="width:52px;height:52px;border-radius:50%;background:rgba(242,181,107,.16);border:1px solid rgba(242,181,107,.55);color:#ffe0b3;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;"><span style="font-size:14px;line-height:1;">»</span>Boost</button>
+            <button onPointerDown="{{ handDown }}" onPointerUp="{{ handUp }}" onPointerLeave="{{ handUp }}" onPointerCancel="{{ handUp }}" aria-label="Drift" style="width:52px;height:52px;border-radius:50%;background:rgba(127,243,225,.14);border:1px solid rgba(127,243,225,.5);color:#bff7ee;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;"><span style="font-size:14px;line-height:1;">↯</span>Drift</button>
             <button onPointerDown="{{ jumpDown }}" onPointerUp="{{ jumpUp }}" onPointerLeave="{{ jumpUp }}" onPointerCancel="{{ jumpUp }}" aria-label="Jump" style="width:68px;height:68px;border-radius:50%;background:rgba(159,224,110,.2);border:1px solid rgba(159,224,110,.65);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;box-shadow:0 10px 30px rgba(0,0,0,.3);"><span style="font-size:16px;line-height:1;">⤒</span>Jump</button>
           </div>
         </sc-if>
@@ -955,7 +956,7 @@ const TUT = [
   { done: 'ride', title: 'Ride', body: 'Hold W or ↑ to ride. S or ↓ brakes and reverses.', mob: 'Push the left pad up to ride and down to brake.', keys: ['W', 'S'] },
   { done: 'steer', title: 'Steer', body: 'A and D (or ← and →) steer. Lean into the corners.', mob: 'Push the pad left or right to steer.', keys: ['A', 'D'] },
   { done: 'look', title: 'Look around', body: 'Drag anywhere on the world to swing the camera.', mob: 'Drag on the right side of the screen to look around.', keys: ['Drag'] },
-  { done: 'jump', title: 'Jump and boost', body: 'Space hops over things. Hold Shift for a burst of speed.', mob: 'Tap Jump to hop over things.', keys: ['Space', 'Shift'] },
+  { done: 'jump', title: 'Jump and boost', body: 'Like GTA San Andreas: Space is the handbrake, hold it in a turn to drift. J hops over things, Shift is a burst of speed, Q and E look left and right (both to look back), H is the horn.', mob: 'Tap Jump to hop over things. Hold Drift to slide round corners.', keys: ['Space', 'J', 'Shift', 'Q', 'E', 'H'] },
   { done: 'pal', title: 'MujaSauros', body: 'Your passenger. B rings the bell, F throws a stick for him to fetch. Click him to pet him.', mob: 'Tap Bell in the dock. Tap MujaSauros to pet him.', keys: ['B', 'F'] },
   { done: null, title: 'Go explore', body: 'Gold orb trails lead somewhere worth seeing. Lanterns, secrets, stamps and treasure all go in your journal, and the watch shows the map.', keys: [] }];
 const STAMPS = [
@@ -1063,7 +1064,7 @@ class Component extends DCLogic {
     this.mapI = setInterval(() => this.drawMap(), 100);
     this.poll = setInterval(() => { if (this.score && this.score.on && this.world) this.score.update(this.world.getState()); this.rideTick(); }, 150);
     const lp = !!this.props.lowPower || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
-    const loadWorld = () => import('/assets/js/world-v7.js?v=10s').then(async m => {
+    const loadWorld = () => import('/assets/js/world-v7.js?v=10u').then(async m => {
       if (!this.canvasHost.current) return;
       const gpu = m.probeGPU ? m.probeGPU() : {}; (window.__ap = this), this.world = await m.createWorld(this.canvasHost.current, { lowPower: lp || gpu.weak || gpu.igpu || this.state.lowGfx || innerWidth < 760, softGPU: !!gpu.soft, mobile: compactUI(), season: /[?&]season=/.test(location.search) ? undefined : dateSeason(), notes: NOTES.map(n => ({ t: n.t, side: n.side, text: n.text })).concat(SECRETS.map((s, k) => ({ region: s.region, sn: k + 1, side: 1, text: s.text }))),
         onNote: (i, x, y) => { this.blip(1180); if (i >= NOTES.length && !(this.state.found || []).includes(i)) { const found = [...(this.state.found || []), i]; this.setState({ found }); try { localStorage.setItem('apSecrets', JSON.stringify(found)); } catch (e) {} } this.world && this.world.setStick(0, 0); this.setState({ note: { i, x, y } }); clearTimeout(this.noteT); this.noteT = setTimeout(() => this.setState({ note: null }), 9000); },
@@ -1103,7 +1104,7 @@ class Component extends DCLogic {
   }
   buzzWatch() { try { !this.state.reduceMotion && navigator.vibrate && navigator.vibrate(30); } catch (e) {} let k = 0; clearInterval(this.buzzI); this.buzzI = setInterval(() => { k++; this.setState({ buzz: k >= 6 ? 0 : (k % 2 ? 1 : -1) }); if (k >= 6) clearInterval(this.buzzI); }, 55); this.blip(1400); }
   tutMaybe(force) { let done = false; try { done = localStorage.getItem('apTutDone') === '1'; } catch (e) {} if (done && !force) return false; clearTimeout(this.tutT); clearTimeout(this.hudT); this.setState({ tut: 0, tutOk: false, hudMin: true });
-    if (!this.tutKey) { this.tutKey = e => { const k = (e.key || '').toLowerCase(); if (k === 'w' || k === 'arrowup') this.tutHit('ride'); if (['a', 'd', 'arrowleft', 'arrowright'].includes(k)) this.tutHit('steer'); if (k === ' ' || k === 'shift') this.tutHit('jump'); if (k === 'b' || k === 'f') this.tutHit('pal'); };
+    if (!this.tutKey) { this.tutKey = e => { const k = (e.key || '').toLowerCase(); if (k === 'w' || k === 'arrowup') this.tutHit('ride'); if (['a', 'd', 'arrowleft', 'arrowright'].includes(k)) this.tutHit('steer'); if (k === 'j' || k === 'shift') this.tutHit('jump'); if (k === 'b' || k === 'f') this.tutHit('pal'); };
       this.tutLook = e => { if (e.buttons && e.target && e.target.tagName === 'CANVAS' && Math.abs(e.movementX || 0) + Math.abs(e.movementY || 0) > 2) this.tutHit('look'); }; addEventListener('keydown', this.tutKey); addEventListener('pointermove', this.tutLook); } return true; }
   tutHit(kind) { const i = this.state.tut; if (i == null || this.state.tutOk) return; const S = TUT[i]; if (!S || S.done !== kind) return; this.setState({ tutOk: true }); this.blip(1180); clearTimeout(this.tutT); this.tutT = setTimeout(() => this.tutNext(), 900); }
   tutNext() { const i = this.state.tut; if (i == null) return; clearTimeout(this.tutT); if (i + 1 >= TUT.length) { this.tutEnd(); return; } this.setState({ tut: i + 1, tutOk: false }); }
@@ -1303,7 +1304,7 @@ class Component extends DCLogic {
       freeSpeedKmh: Math.round(Math.abs(freeSpd) * 6), secretsLabel: 'Secrets ' + (this.state.found || []).length + ' / ' + SECRETS.length,
       joyX: this.state.joyX || 0, joyY: this.state.joyY || 0,
       onJoyStart: e => this.onJoyStart(e), onJoyMove: e => this.onJoyMove(e), onJoyEnd: () => this.onJoyEnd(),
-      jumpDown: e => this.jumpDown(e), jumpUp: () => this.jumpUp(), boostDown: e => { e.preventDefault(); this.tutHit('jump'); this.world && this.world.setTouch('boost', true); }, boostUp: () => { this.world && this.world.setTouch('boost', false); },
+      jumpDown: e => this.jumpDown(e), jumpUp: () => this.jumpUp(), boostDown: e => { e.preventDefault(); this.tutHit('jump'); this.world && this.world.setTouch('boost', true); }, boostUp: () => { this.world && this.world.setTouch('boost', false); }, handDown: e => { e.preventDefault(); this.world && this.world.setTouch('hand', true); }, handUp: () => { this.world && this.world.setTouch('hand', false); },
       pad: [['l', '◀'], ['r', '▶'], ['b', '▼'], ['u', '▲']].map(([k, label]) => ({ label, down: e => { e.preventDefault(); this.world && this.world.setTouch(k, true); }, up: () => this.world && this.world.setTouch(k, false) })),
       loadMsg: ready ? 'Scroll to ride' : 'Warming up the engine…',
       desktop: !mobile, hudOp: free ? 0 : (boot !== 'done' || (ready ? 1 - sstep(0.003, 0.03, t) : 1) > 0.05 ? 0 : 1),
