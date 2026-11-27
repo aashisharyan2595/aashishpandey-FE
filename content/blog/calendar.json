@@ -24,7 +24,7 @@
    "locked": false
   },
   "2026-11-16": {
-   "title": "Gemini 4 Hydrogen review: Google\u2019s fast new model, pros and cons",
+   "title": "Gemini 4 Hydrogen review: Google’s fast new model, pros and cons",
    "kind": "review",
    "angle": "Flash successor now in Search for all users and the Gemini app: speed, price, benchmarks vs Argon, what changes for everyday search and for developers",
    "urls": [
@@ -561,7 +561,7 @@
   },
   {
    "key": "china-banned-nvidia-chips",
-   "title": "Export-banned Nvidia chips behind China\u2019s top AI models",
+   "title": "Export-banned Nvidia chips behind China’s top AI models",
    "kind": "news",
    "score": 6,
    "urls": [
@@ -572,7 +572,7 @@
   },
   {
    "key": "apple-local-ai-app",
-   "title": "Apple\u2019s coming Mac app for running local AI models: what it means",
+   "title": "Apple’s coming Mac app for running local AI models: what it means",
    "kind": "news",
    "score": 6,
    "urls": [
@@ -928,7 +928,7 @@
   },
   {
    "key": "dpdp-rules-small-business",
-   "title": "What India\u2019s DPDP rules mean for a small business",
+   "title": "What India’s DPDP rules mean for a small business",
    "kind": "explainer",
    "score": 5,
    "urls": [],
@@ -1685,7 +1685,8 @@
    "score": 8,
    "topic": "security",
    "urls": [
-    "https://thehackernews.com/2026/11/hackers-exploited-cvss-100-hexpm-rce.html"
+    "https://thehackernews.com/2026/11/hackers-exploited-cvss-100-hexpm-rce.html",
+    "https://www.securityweek.com/hex-package-manager-warns-of-potential-data-breach/"
    ],
    "angle": "",
    "added": "2026-11-25"
@@ -2120,6 +2121,81 @@
    "score": 8,
    "urls": [
     "https://www.pcgamer.com/games/microsofts-github-posts-message-celebrating-efforts-to-port-playstation-5-version-of-grand-theft-auto-6-to-pc-then-quickly-deletes-it/"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "sap-github-incident",
+   "title": "SAP confirms Project Granite incident: hackers reportedly used stolen GitHub tokens on source code",
+   "kind": "news",
+   "topic": "security",
+   "score": 10,
+   "urls": [
+    "https://www.securityweek.com/sap-confirms-cyberattack-source-code-reportedly-compromised/",
+    "https://www.handelsblatt.com/technik/ki/sap-it-sicherheitsvorfall-haben-verdaechtige-aktivitaeten-identifiziert/100273138.html",
+    "https://www.heise.de/news/IT-Vorfall-bei-SAP-Entwicklungssysteme-betroffen-11539973.html",
+    "https://businessupturn.com/technology/sap-reports-suspicious-activity-after-github-source-code-attack-claims/"
+   ],
+   "angle": "Held from breaking 2026-11-27 09:44 UTC: no SAP primary page and no L/C/R spread yet. Retry next run once Reuters/dpa or an SAP statement page is fetchable.",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "switzerland-ai-cyberattacks",
+   "title": "Switzerland confirms AI-assisted cyberattacks hit critical infrastructure operators",
+   "kind": "news",
+   "topic": "security",
+   "score": 9,
+   "urls": [
+    "https://thehackernews.com/2026/11/switzerland-confirms-ai-assisted.html"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "cacti-zero-day-rce",
+   "title": "Unpatched Cacti zero-day gives RCE in four HTTP requests: what to do",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://thehackernews.com/2026/11/unpatched-cacti-zero-day-enables-rce-in.html"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "nfs2root-linux-flaw",
+   "title": "NFS2ROOT Linux flaw lets attackers gain root: who is affected",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/new-nfs2root-linux-flaw-can-let-attackers-gain-root-privileges/"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "ms-ws2025-emergency-hotpatch",
+   "title": "Microsoft pushes emergency hotpatch for Windows Server 2025 crashes",
+   "kind": "news",
+   "topic": "security",
+   "score": 7,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/microsoft/new-out-of-band-oob-emergency-hotpatch-fixes-windows-server-2025-crashes/"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "colorado-data-breach-100k",
+   "title": "100,000 potentially affected by Colorado data breach",
+   "kind": "news",
+   "topic": "security",
+   "score": 6,
+   "urls": [
+    "https://www.securityweek.com/100000-potentially-impacted-by-colorado-data-breach/"
    ],
    "angle": "",
    "added": "2026-11-27"
