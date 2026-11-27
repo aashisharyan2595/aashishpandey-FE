@@ -177,15 +177,12 @@
    "topic": "ai"
   },
   "2026-11-28": {
-   "title": "CISA flags critical Cisco Expressway RCE as exploited: what to patch",
+   "title": "Cisco Expressway flaw exploited: 3 steps to take now",
    "kind": "news",
-   "angle": "Confirm with 2+ outlets and the Cisco advisory before writing; patch steps for small IT teams.",
-   "urls": [
-    "https://www.bleepingcomputer.com/news/security/cisa-flags-critical-cisco-expressway-rce-flaw-as-actively-exploited-in-attacks/"
-   ],
-   "score": 9,
    "topic": "security",
-   "status": "planned",
+   "score": 9,
+   "status": "written",
+   "slug": "cisco-expressway-flaw-exploited-steps",
    "locked": false
   },
   "2026-11-29": {
@@ -2225,6 +2222,7 @@
   "us-ai-chip-remote-access-rule",
   "1password-github-breach",
   "gemini-4-neon",
-  "fifa-cyberattack"
+  "fifa-cyberattack",
+  "cisco-expressway-cve-2026-76466"
  ]
 }
