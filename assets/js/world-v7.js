@@ -1552,6 +1552,10 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
     fragmentShader: 'uniform sampler2D map; varying float vL; varying vec3 vC; void main(){ float a=texture2D(map,gl_PointCoord).a*(1.-vL)*.5; if(a<.01) discard; gl_FragColor=vec4(vC,a); }' })); await __y(); dust2.name = 'dust2'; await __y(); dust2.frustumCulled = false; await __y(); scene.add(dust2);
   await __y(); const dG2 = new Float32Array(DN2).fill(0.6), SPRAY = new THREE.Color('#dcefff');
   await __y(); const DCOL2 = [new THREE.Color('#b8b0a4'), new THREE.Color('#9a7c58'), new THREE.Color('#e2cc98'), new THREE.Color('#e8e8ec')];
+  const SKN = lp ? 120 : 300, skidM = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.13, 0.7).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0x0b0b0e, transparent: true, opacity: 0.5, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }), SKN), skidD = new THREE.Object3D(), skidA = new Float32Array(SKN).fill(-1), skidX = new Float32Array(SKN), skidZ = new Float32Array(SKN), skidY = new Float32Array(SKN); let skidI = 0, skidAcc = 0, skidT = 0, skidLX = 0, skidLZ = 0;
+  skidM.frustumCulled = false; skidM.count = SKN; for (let i = 0; i < SKN; i++) { skidD.scale.setScalar(0); skidD.updateMatrix(); skidM.setMatrixAt(i, skidD.matrix); } scene.add(skidM);
+  function skidAdd(x, z, yaw) { const i = skidI++ % SKN; skidA[i] = 0; skidX[i] = x; skidZ[i] = z; skidY[i] = yaw; skidD.position.set(x, groundY(x, z) + 0.04, z); skidD.rotation.set(0, yaw, 0); skidD.scale.set(1, 1, 1); skidD.updateMatrix(); skidM.setMatrixAt(i, skidD.matrix); skidM.instanceMatrix.needsUpdate = true; }
+  function skidTick(dt) { skidT += dt; if (skidT < 0.2) return; const d = skidT; skidT = 0; let ch = false; for (let i = 0; i < SKN; i++) { if (skidA[i] < 0) continue; skidA[i] += d; const k = skidA[i] / 25; if (k >= 1) { skidA[i] = -1; skidD.scale.setScalar(0); } else skidD.scale.set(1 - k * k, 1, 1); skidD.position.set(skidX[i], groundY(skidX[i], skidZ[i]) + 0.04, skidZ[i]); skidD.rotation.set(0, skidY[i], 0); skidD.updateMatrix(); skidM.setMatrixAt(i, skidD.matrix); ch = true; } if (ch) skidM.instanceMatrix.needsUpdate = true; }
   function spawnDust(n, x, z, kind) { const c = DCOL2[kind] || DCOL2[1], y = groundY(x, z) + 0.15; for (let k = 0; k < n; k++) { const i = dI2++ % DN2, j = i * 3; dG2[i] = 0.6; dPos2[j] = x + (Math.random() - 0.5) * 0.4; dPos2[j + 1] = y; dPos2[j + 2] = z + (Math.random() - 0.5) * 0.4; dVel2[j] = (Math.random() - 0.5) * 2.2; dVel2[j + 1] = 0.6 + Math.random() * 1.4; dVel2[j + 2] = (Math.random() - 0.5) * 2.2; dLife2[i] = 0; dCol2[j] = c.r; dCol2[j + 1] = c.g; dCol2[j + 2] = c.b; } }
   function spawnSpray(n, x, y, z, pw, dx, dz) { dx = dx || 0; dz = dz || 0; for (let k = 0; k < n; k++) { const i = dI2++ % DN2, j = i * 3; dG2[i] = 9;
       dPos2[j] = x + (Math.random() - 0.5) * 0.5; dPos2[j + 1] = y + 0.05; dPos2[j + 2] = z + (Math.random() - 0.5) * 0.5;
@@ -3489,8 +3493,8 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (e.target === canvas && now - lastRip > 90) { lastRip = now; const wp = waterHit(); if (wp) wU.rip.value[ripI++ % 8].set(wp.x, wp.z, wU.time.value); hover = hitNote(); canvas.style.cursor = hover >= 0 ? 'pointer' : fireHit() ? 'pointer' : hitDino() ? 'pointer' : down && down.drag ? 'grabbing' : 'grab'; } };
   await __y(); const onUp = e => { if (down && down.pad) { stickX = 0; stickY = 0; }
     if (down && !down.drag && e.target === canvas && performance.now() - down.t < 500) { toNDC(e); const n = hitNote(); if (n >= 0) opts.onNote && opts.onNote(n, e.clientX, e.clientY); else if (hitDino()) clickDino(); else if (riderClick()) {} else { const wp = waterHit(); if (wp) for (let k = 0; k < 3; k++) wU.rip.value[ripI++ % 8].set(wp.x + k * 0.01, wp.z, wU.time.value + k * 0.35); } } down = null; };
-  await __y(); const KM = { arrowleft: 'l', a: 'l', arrowright: 'r', d: 'r', arrowup: 'u', w: 'u', arrowdown: 'b', s: 'b', ' ': 'jump', shift: 'boost' };
-  await __y(); const onKey = e => { if (e.target && /input|textarea|select/i.test(e.target.tagName)) return; if (e.type === 'keydown' && !e.repeat && free && (e.key || '').toLowerCase() === 'f') { throwStick(); e.preventDefault(); return; } if (e.type === 'keydown' && !e.repeat && (e.key || '').toLowerCase() === 'b') { ringBell(); e.preventDefault(); return; } const m = KM[(e.key || '').toLowerCase()]; if (!m) return; if (!free && (m === 'u' || m === 'b' || m === 'jump')) return; keys[m] = e.type === 'keydown'; e.preventDefault(); };
+  await __y(); const KM = { arrowleft: 'l', a: 'l', arrowright: 'r', d: 'r', arrowup: 'u', w: 'u', arrowdown: 'b', s: 'b', ' ': 'jump', shift: 'boost', x: 'hand' };
+  await __y(); const onKey = e => { if (e.target && /input|textarea|select/i.test(e.target.tagName)) return; if (e.type === 'keydown' && !e.repeat && free && (e.key || '').toLowerCase() === 'f') { throwStick(); e.preventDefault(); return; } if (e.type === 'keydown' && !e.repeat && (e.key || '').toLowerCase() === 'b') { ringBell(); e.preventDefault(); return; } const m = KM[(e.key || '').toLowerCase()]; if (!m) return; if (!free && (m === 'u' || m === 'b' || m === 'jump' || m === 'hand')) return; keys[m] = e.type === 'keydown'; e.preventDefault(); };
   await __y(); canvas.addEventListener('pointerdown', onDown); await __y(); window.addEventListener('pointermove', onMove); await __y(); window.addEventListener('pointerup', onUp); await __y(); window.addEventListener('keydown', onKey); await __y(); window.addEventListener('keyup', onKey);
   await __y(); const onResize = () => { const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return; renderer.setSize(w, h); resizePost(); camera.aspect = w / h; camera.fov = w < h ? 64 : 52; camera.updateProjectionMatrix(); };
   await __y(); window.addEventListener('resize', onResize); await __y(); onResize();
@@ -3500,7 +3504,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
   await __y(); const CAM = [[0, 0, 0], [0.6, 1, 0], [0.6, 1, 0], [0.6, 1, 0], [0.6, 1, 0], [0.15, 0, 1.8], [0.6, 1, 0], [0.6, 1, 0], [1.25, 1, 1.4], [0.5, 0.15, -0.5]];
   await __y(); const camPos = new THREE.Vector3(), camLook = new THREE.Vector3(), tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3();
   await __y(); let lastArrive = -1, fireBoost = 0, starT = -1, camRoll = 0, slip = 0, jumpHeld = false, lastGY = null, vyPrev = 0, boostAmt = 0, wheelie = 0, surf = 0, freePitch = 0, jBuf = 0, coyote = 0, jHoldT = 0;
-  let steerIn = 0, leanV = 0, lonAcc = 0, fsPrev = 0, rollS = 0, csN = 0, punch = 0, boostHold = 0, boostWas = false, punchCd = 0, punchFx = false;
+  let thrS = 0, handK = 0, steerIn = 0, leanV = 0, lonAcc = 0, fsPrev = 0, rollS = 0, csN = 0, punch = 0, boostHold = 0, boostWas = false, punchCd = 0, punchFx = false;
   await __y(); let introArmed = !opts.holdIntro, introStart = null, prevZ = zAt(0), last = performance.now(), running = true, raf = 0, readySent = false, lean = 0;
   await __y(); const clock0 = performance.now();
 
@@ -3628,26 +3632,26 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       wheels.forEach(w => { w.rotation.x -= (prevZ - z) / 0.36; });
       fx = bp.x; fz = bp.z; fh = yaw; fs = 0;
     } else {
-      const thr = clamp((keys.u || touch.u ? 1 : 0) - (keys.b || touch.b ? 1 : 0) + stickY, -1, 1), boost = (keys.boost || touch.boost) && thr > 0 ? 1 : (orbBoostT > 0 && thr > 0 ? 0.8 : 0); boostAmt += (boost - boostAmt) * (1 - Math.exp(-dt * 4));
+      const thrRaw = clamp((keys.u || touch.u ? 1 : 0) - (keys.b || touch.b ? 1 : 0) + stickY, -1, 1); thrS += (thrRaw - thrS) * (1 - Math.exp(-dt * (thrRaw < thrS ? 22 : Math.abs(thrRaw) >= Math.abs(thrS) ? 14 : 10))); if (!thrRaw && Math.abs(thrS) < 0.04) thrS = 0; const thr = thrS, hand = !!(keys.hand || touch.hand), boost = (keys.boost || touch.boost) && thr > 0 ? 1 : (orbBoostT > 0 && thr > 0 ? 0.8 : 0); boostAmt += (boost - boostAmt) * (1 - Math.exp(-dt * 4));
       { const bKey = !!(keys.boost || touch.boost) && thr > 0; boostHold = bKey ? boostHold + dt : Math.max(0, boostHold - dt * 2); punchCd -= dt;
         if (bKey && !boostWas && punchCd <= 0 && grounded) { punch = 1; punchCd = 1.3; fs += 1.2; shake = Math.max(shake, 0.25); punchFx = true; }
         boostWas = bKey; punch *= Math.exp(-dt * 2.4); }
       const onRoad = roadDist(fx, fz) < roadW(fz) + 0.3, sandy = (zBand(fz, COAST.zHi, COAST.zLo, 1) > 0.5 && fx < coastX(fz) + 30) || Math.hypot(fx - DESERT.x, fz - DESERT.z) < DESERT.r * 1.2;
       surf = onRoad ? 0 : sandy ? 2 : 1;
       const onIce = FLAKE.y !== null && Math.hypot(fx - FLAKE.x, fz - FLAKE.z) < FLAKE.r - 0.4; iceOn = onIce;
-      const grip = onIce ? 0.5 : onRoad ? 9 : sandy ? 2.4 : 4.2, drag = onIce ? 0.12 : onRoad ? 0.5 : sandy ? 1.5 : 0.9, topS = (onRoad ? 26.67 : sandy ? 18 : 24) + Math.max(boostAmt, punch) * 3.33;
+      handK += ((hand && grounded && fs > 5 ? 1 : 0) - handK) * (1 - Math.exp(-dt * 8)); const grip = (onIce ? 0.5 : onRoad ? 9 : sandy ? 2.4 : 4.2) * (1 - handK * 0.85), drag = onIce ? 0.12 : onRoad ? 0.5 : sandy ? 1.5 : 0.9, topS = (onRoad ? 26.67 : sandy ? 18 : 24) + Math.max(boostAmt, punch) * 3.33;
       const gk = clamp(1 - clamp(WX.rain || 0, 0, 1) * (onRoad ? 0.24 : 0.12) - clamp(WX.snowCover || 0, 0, 1) * (onIce ? 0 : 0.28), 0.55, 1), aLat = (onIce ? 2.4 : onRoad ? 15 : sandy ? 6.5 : 9) * gk, brakeMax = (onIce ? 2.5 : onRoad ? 15 : sandy ? 7 : 10) * gk;
       if (grounded) {
         const accel = thr > 0 ? (fs < 0 ? 22 : 13 + boostAmt * (9 + 6 * sstep(0.3, 2.5, boostHold)) + punch * 34) * clamp((topS * 1.06 - Math.max(0, fs)) / (topS * 0.25), 0, 1) : thr < 0 ? (fs > 0 ? brakeMax : 7) : 0;
-        fs += thr * dt * accel;
+        fs += thr * dt * accel; if (handK > 0.05) fs -= Math.min(Math.abs(fs), handK * 0.5 * brakeMax * dt) * Math.sign(fs);
         if (thr) fs -= fs * dt * drag * 0.22; else { const c0 = onIce ? 0.35 : onRoad ? 1 : sandy ? 4 : 2.4, c1 = onIce ? 0.0008 : sandy ? 0.004 : 0.0045, rr = Math.min(Math.abs(fs), (c0 + c1 * fs * fs) * dt); fs -= Math.sign(fs) * rr; }
         const sa = groundY(fx - Math.sin(fh) * 1.2, fz - Math.cos(fh) * 1.2) - groundY(fx + Math.sin(fh) * 1.2, fz + Math.cos(fh) * 1.2); fs -= clamp(sa / 2.4, -0.8, 0.8) * 6.5 * dt;
       }
       fs = Math.max(fs, -6); if (fs > topS) fs += (topS - fs) * Math.min(1, dt * 10);
       lonAcc += (clamp((fs - fsPrev) / Math.max(dt, 1e-3), -30, 16) - lonAcc) * (1 - Math.exp(-dt * 9)); fsPrev = fs;
-      const turnRate = Math.min(4.2, aLat * 2.3 / Math.max(Math.abs(fs), 1) + 0.35) * (grounded ? 1 : 0.3);
+      const turnRate = Math.min(4.8, aLat * 2.3 / Math.max(Math.abs(fs), 1) + 0.35) * (grounded ? 1 : 0.3) * (1 - 0.3 * sstep(17, 27, Math.abs(fs))) * (1 + handK * 0.45);
       const yawRate = -steerIn * turnRate * clamp(Math.abs(fs) / 1.5, 0.3, 1) * (fs < 0 ? -1 : 1); fh += yawRate * dt; iceSpin = onIce && grounded ? iceSpin + yawRate * dt : 0;
-      slip += -yawRate * Math.abs(fs) * 0.1 * (grounded ? (onIce ? 3 : onRoad ? 0.5 : 1.3) : 0.2) * dt;
+      slip += -yawRate * Math.abs(fs) * 0.1 * (grounded ? (onIce ? 3 : onRoad ? 0.5 : 1.3) * (1 + handK * 5) : 0.2) * dt;
       if (grounded) { if (thr < 0 && fs > 6) slip += -yawRate * Math.abs(fs) * 0.1 * (onIce ? 2 : onRoad ? 0.5 : 1.3) * dt; csN = (groundY(fx - Math.cos(fh) * 0.6, fz + Math.sin(fh) * 0.6) - groundY(fx + Math.cos(fh) * 0.6, fz - Math.sin(fh) * 0.6)) / 1.2; if (Math.abs(csN) > 0.32 && !onRoad) slip += clamp(csN, -1, 1) * 2.4 * dt; } else csN = 0; slip *= Math.exp(-dt * (grounded ? grip : 0.4)); slip = clamp(slip, -7, 7);
       const fwx = -Math.sin(fh), fwz = -Math.cos(fh), rtx = Math.cos(fh), rtz = -Math.sin(fh);
       { const inS = collideAt(fx, fz, 0.25, airY + 0.1); if (inS) { const pdx = fx - inS.x, pdz = fz - inS.z, pl = Math.hypot(pdx, pdz) || 1, need = inS.r + 0.27; fx = inS.x + pdx / pl * need; fz = inS.z + pdz / pl * need; } }
@@ -3680,6 +3684,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       const pT = grounded ? Math.atan2(ga - gb, 1.6) + wheelie + lonAcc * 0.003 : clamp(Math.atan2(airVel, Math.max(4, Math.abs(fs))) * 0.6, -0.5, 0.45); freePitch += (pT - freePitch) * (1 - Math.exp(-dt * (grounded ? 14 : 4))); if (!isFinite(freePitch)) freePitch = 0; pitch = freePitch;
       { const lT = clamp(Math.atan(-yawRate * fs / 9.81) * 0.68 + slip * 0.05, -0.6, 0.6); leanV += ((lT - lean) * 70 - leanV * 11) * dt; lean += leanV * dt; rollS += ((grounded ? Math.atan(clamp(csN, -1, 1)) * 0.35 : 0) - rollS) * (1 - Math.exp(-dt * 6)); }
       if (grounded && (surf > 0 && Math.abs(fs) > 5 || Math.abs(slip) > 1.6) && Math.random() < dt * (Math.abs(fs) * 1.6 + Math.abs(slip) * 10)) spawnDust(1, fx - fwx * 0.75, fz - fwz * 0.75, Math.abs(slip) > 1.6 && surf === 0 ? 3 : surf);
+      { const hardBrake = thr < -0.5 && fs > 8, slide = Math.abs(slip) > 1.4 || handK > 0.5 || hardBrake; if (slide && grounded && !onIce && !reduceMotion && surf < 2) { const sx = fx - fwx * 0.75, sz = fz - fwz * 0.75; skidAcc += Math.hypot(sx - skidLX, sz - skidLZ); if (skidAcc > 0.55) { skidAcc = 0; skidAdd(sx, sz, Math.atan2(-(fwx * fs + rtx * slip), -(fwz * fs + rtz * slip))); } } skidLX = fx - fwx * 0.75; skidLZ = fz - fwz * 0.75; }
       { const wS = waterAt(fx, fz), wet = wS !== null && airY <= wS + 0.08, as = Math.abs(fs);
         if (wet) { const depth = clamp(wS - (hFast || H)(fx, fz), 0, 2.5); fs *= Math.exp(-dt * (0.5 + depth * 0.8));
           if (!wasGrounded && grounded) { const pw = clamp(0.9 + (-vyPrev) * 0.05 + as * 0.03, 0.9, 2); spawnSpray(34, fx, wS, fz, pw); addRipple(fx, fz); addRipple(fx + fwx * 1.5, fz + fwz * 1.5); shake = Math.max(shake, 0.35); opts.onSplash && opts.onSplash(pw); }
@@ -3692,8 +3697,8 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       fr = { f: new THREE.Vector3(-Math.sin(fh), 0, -Math.cos(fh)), r: new THREE.Vector3(Math.cos(fh), 0, -Math.sin(fh)) };
       if (opts.onFree && T - lastFreeCb > 0.25) { lastFreeCb = T; opts.onFree(clamp((Z0 - fz) / L, 0, 1), fs); }
     }
-    if (!free) { punch *= Math.exp(-dt * 5); boostHold = 0; boostWas = false; rollS *= Math.exp(-dt * 5); lonAcc *= Math.exp(-dt * 5); steerIn *= Math.exp(-dt * 8); leanV = 0; }
-    prevZ = z; lastYaw = yaw;
+    if (!free) { thrS = 0; handK = 0; punch *= Math.exp(-dt * 5); boostHold = 0; boostWas = false; rollS *= Math.exp(-dt * 5); lonAcc *= Math.exp(-dt * 5); steerIn *= Math.exp(-dt * 8); leanV = 0; }
+    prevZ = z; lastYaw = yaw; skidTick(dt);
     if (susY === null) susY = bp.y;
     susVel += (bp.y - susY) * 300 * dt; susVel *= Math.max(0, 1 - dt * 16); if (PH.landK > 0.001) PH.landK *= Math.exp(-dt * 4); susY += susVel * dt;
     const susTravel = clamp(bp.y - susY, -0.19, 0.25); susY = bp.y - susTravel;

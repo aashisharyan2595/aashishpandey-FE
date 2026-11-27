@@ -361,6 +361,7 @@ html.ap-rm *,html.ap-rm *::before,html.ap-rm *::after{transition-duration:.01ms!
           </div>
           <div style="position:absolute;right:154px;bottom:calc(env(safe-area-inset-bottom, 0px) + 40px);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:auto;">
             <button onPointerDown="{{ boostDown }}" onPointerUp="{{ boostUp }}" onPointerLeave="{{ boostUp }}" onPointerCancel="{{ boostUp }}" aria-label="Boost" style="width:52px;height:52px;border-radius:50%;background:rgba(242,181,107,.16);border:1px solid rgba(242,181,107,.55);color:#ffe0b3;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;"><span style="font-size:14px;line-height:1;">»</span>Boost</button>
+            <button onPointerDown="{{ handDown }}" onPointerUp="{{ handUp }}" onPointerLeave="{{ handUp }}" onPointerCancel="{{ handUp }}" aria-label="Drift" style="width:52px;height:52px;border-radius:50%;background:rgba(127,243,225,.14);border:1px solid rgba(127,243,225,.5);color:#bff7ee;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;"><span style="font-size:14px;line-height:1;">↯</span>Drift</button>
             <button onPointerDown="{{ jumpDown }}" onPointerUp="{{ jumpUp }}" onPointerLeave="{{ jumpUp }}" onPointerCancel="{{ jumpUp }}" aria-label="Jump" style="width:68px;height:68px;border-radius:50%;background:rgba(159,224,110,.2);border:1px solid rgba(159,224,110,.65);color:#d3f7ac;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;box-shadow:0 10px 30px rgba(0,0,0,.3);"><span style="font-size:16px;line-height:1;">⤒</span>Jump</button>
           </div>
         </sc-if>
@@ -955,7 +956,7 @@ const TUT = [
   { done: 'ride', title: 'Ride', body: 'Hold W or ↑ to ride. S or ↓ brakes and reverses.', mob: 'Push the left pad up to ride and down to brake.', keys: ['W', 'S'] },
   { done: 'steer', title: 'Steer', body: 'A and D (or ← and →) steer. Lean into the corners.', mob: 'Push the pad left or right to steer.', keys: ['A', 'D'] },
   { done: 'look', title: 'Look around', body: 'Drag anywhere on the world to swing the camera.', mob: 'Drag on the right side of the screen to look around.', keys: ['Drag'] },
-  { done: 'jump', title: 'Jump and boost', body: 'Space hops over things. Hold Shift for a burst of speed.', mob: 'Tap Jump to hop over things.', keys: ['Space', 'Shift'] },
+  { done: 'jump', title: 'Jump and boost', body: 'Space hops over things. Hold Shift for a burst of speed. Hold X at speed to drift.', mob: 'Tap Jump to hop over things. Hold Drift to slide round corners.', keys: ['Space', 'Shift', 'X'] },
   { done: 'pal', title: 'MujaSauros', body: 'Your passenger. B rings the bell, F throws a stick for him to fetch. Click him to pet him.', mob: 'Tap Bell in the dock. Tap MujaSauros to pet him.', keys: ['B', 'F'] },
   { done: null, title: 'Go explore', body: 'Gold orb trails lead somewhere worth seeing. Lanterns, secrets, stamps and treasure all go in your journal, and the watch shows the map.', keys: [] }];
 const STAMPS = [
@@ -1303,7 +1304,7 @@ class Component extends DCLogic {
       freeSpeedKmh: Math.round(Math.abs(freeSpd) * 6), secretsLabel: 'Secrets ' + (this.state.found || []).length + ' / ' + SECRETS.length,
       joyX: this.state.joyX || 0, joyY: this.state.joyY || 0,
       onJoyStart: e => this.onJoyStart(e), onJoyMove: e => this.onJoyMove(e), onJoyEnd: () => this.onJoyEnd(),
-      jumpDown: e => this.jumpDown(e), jumpUp: () => this.jumpUp(), boostDown: e => { e.preventDefault(); this.tutHit('jump'); this.world && this.world.setTouch('boost', true); }, boostUp: () => { this.world && this.world.setTouch('boost', false); },
+      jumpDown: e => this.jumpDown(e), jumpUp: () => this.jumpUp(), boostDown: e => { e.preventDefault(); this.tutHit('jump'); this.world && this.world.setTouch('boost', true); }, boostUp: () => { this.world && this.world.setTouch('boost', false); }, handDown: e => { e.preventDefault(); this.world && this.world.setTouch('hand', true); }, handUp: () => { this.world && this.world.setTouch('hand', false); },
       pad: [['l', '◀'], ['r', '▶'], ['b', '▼'], ['u', '▲']].map(([k, label]) => ({ label, down: e => { e.preventDefault(); this.world && this.world.setTouch(k, true); }, up: () => this.world && this.world.setTouch(k, false) })),
       loadMsg: ready ? 'Scroll to ride' : 'Warming up the engine…',
       desktop: !mobile, hudOp: free ? 0 : (boot !== 'done' || (ready ? 1 - sstep(0.003, 0.03, t) : 1) > 0.05 ? 0 : 1),
