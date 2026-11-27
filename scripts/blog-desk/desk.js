@@ -233,7 +233,21 @@ function ogcheck() {
   console.log(bad.length ? 'OG IMAGE MISMATCH\n' + bad.join('\n') : 'og image = cover on every post: PASS'); if (bad.length) process.exit(1);
 }
 
+// Every post needs its OWN single-idea cover (Aashish's unique-banner rule, 2026-11-16 and 2026-11-27). Fails when a post still has the D2 build cover or when two posts use the same picture
+// (same path, or same pixels: JPEG metadata segments are stripped before hashing, so a copy with other EXIF still matches).
+function uniquecheck() {
+  const pix = (f) => { const b = fs.readFileSync(path.join(ROOT, f)); let i = 2; const keep = [b.subarray(0, 2)]; while (i < b.length && b[i] === 0xff && b[i + 1] !== 0xda) { const n = b.readUInt16BE(i + 2); if (!(b[i + 1] >= 0xe0 && b[i + 1] <= 0xef) && b[i + 1] !== 0xfe) keep.push(b.subarray(i, i + 2 + n)); i += 2 + n; } keep.push(b.subarray(i)); return require('crypto').createHash('sha1').update(Buffer.concat(keep)).digest('hex'); };
+  const posts = fs.readdirSync(CONTENT).filter((n) => /^[a-z0-9-]+\.json$/.test(n) && !['calendar.json', 'state.json', 'learn.json'].includes(n)).map((n) => readJ(path.join(CONTENT, n))).filter((p) => p && p.slug);
+  const bad = [], seen = {};
+  for (const p of posts) {
+    const cover = p.cover && p.cover.src, imgs = [cover, ...[...(p.body || '').matchAll(/\((\/assets\/blog\/[^\s)]+-art-[^\s)]+\.jpg)/g)].map((m) => m[1])].filter(Boolean);
+    if (!/-cover-(hd|v2)\.jpg$/.test(cover || '')) bad.push(`${p.slug}: cover ${cover} is the D2 build cover, make its own cover-v2 (art.js) before publishing`);
+    for (const f of imgs) { if (!fs.existsSync(path.join(ROOT, f))) { bad.push(`${p.slug}: ${f} does not exist`); continue; } const k = pix(f); if (seen[k] && seen[k][0] !== p.slug) bad.push(`${p.slug}: ${f} is the same picture as ${seen[k][1]} (${seen[k][0]})`); else seen[k] = [p.slug, f]; }
+  }
+  console.log(bad.length ? 'DUPLICATE OR MISSING BANNER ART\n' + bad.join('\n') : `every post has its own cover and art (${posts.length} posts): PASS`); if (bad.length) process.exit(1);
+}
+
 const cmd = process.argv[2], a1 = process.argv[3], a2 = process.argv[4];
-const run = { feeds, og: ogcheck, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days, exp: () => { const e = require('./exp'); return a1 === 'start' ? e.start(a2, process.argv[5], process.argv[6], arg('why')) : a1 === 'review' ? e.review() : a1 === 'keep' ? e.close(a2, 'kept') : a1 === 'revert' ? e.close(a2, 'reverted') : Promise.reject(new Error('exp start|review|keep|revert')); }, learn: () => require('./learn').learn(process.argv.includes('--force')), next: () => require('./learn').next() };
+const run = { feeds, og: ogcheck, unique: uniquecheck, fetch: () => fetchPages(a1, process.argv.slice(4).filter((x) => !x.startsWith('--'))), pick: () => pick(a1, a2), check: () => check(a1, a2), build: () => build(a1, a2), rebanner: () => rebanner(a1), rephoto: () => rephoto(a1), videos, yt: () => yt(a1), ping, days, exp: () => { const e = require('./exp'); return a1 === 'start' ? e.start(a2, process.argv[5], process.argv[6], arg('why')) : a1 === 'review' ? e.review() : a1 === 'keep' ? e.close(a2, 'kept') : a1 === 'revert' ? e.close(a2, 'reverted') : Promise.reject(new Error('exp start|review|keep|revert')); }, learn: () => require('./learn').learn(process.argv.includes('--force')), next: () => require('./learn').next() };
 if (!run[cmd]) { console.error('usage: desk.js feeds | fetch <dir> <urls> | pick <dir> <kind> | check <draft> <dir> | build <draft> <dir> --kind K --at T | ping | days'); process.exit(2); }
 Promise.resolve(run[cmd]()).then(() => process.exit(0), (e) => { console.error('desk:', e.message); process.exit(1); });

@@ -237,6 +237,12 @@ try {
     fail(f, 'header or footer differs from scripts/chrome.cjs, so the deploy rewrites it. Run: node scripts/chrome.cjs and commit');
   }
 }
+// blog covers: every post has its own cover-v2 art and no picture is shared (see desk.js unique)
+try {
+  execFileSync(process.execPath, [path.join(ROOT, 'scripts/blog-desk/desk.js'), 'unique'], { cwd: ROOT, stdio: 'pipe' });
+} catch (e) {
+  for (const line of String(e.stdout).split('\n').slice(1).map((x) => x.trim()).filter(Boolean)) fail('content/blog', line);
+}
 try {
   execFileSync(process.execPath, [path.join(ROOT, 'scripts/og-tags.cjs'), '--check'], { cwd: ROOT, stdio: 'pipe' });
 } catch (e) {
