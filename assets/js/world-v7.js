@@ -1565,6 +1565,8 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
   await __y(); hookAll();
   // ===== v3 · Living world: day clock, weather, gusts, regional flora + fauna, tyre tracks, seasons =====
   await __y(); const QS = new URLSearchParams(location.search);
+  // GTA San Andreas style: a close, thick haze so the world ends in fog and nothing pops in. Chunks are culled at fog.far, so this also draws less. 
+  const FOGK = (() => { const q = QS.get('fog'), f = q === 'old' ? 1 : clamp(parseFloat(q) || 0.72, 0.3, 1); return { n: f * 0.76, f }; })(); // ?fog=0.5 thicker, ?fog=old no change
   await __y(); let alarmR = 6, quietBike = true, gustNear = 0, bellT = 0, bellAt = 0;
   await __y(); const SC = c => new THREE.Color(c), TC = new THREE.Color();
   await __y(); const addSolid = (x, z, r, h) => { const i = solids.push(h === undefined ? { x, z, r } : { x, z, r, h }) - 1, k = Math.floor(x / SG) + ',' + Math.floor(z / SG); if (!solidGrid.has(k)) solidGrid.set(k, []); solidGrid.get(k).push(i); };
@@ -3680,7 +3682,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     wxTick(dt); wxEnv(e, night);
     skyU.top.value.copy(e.top); skyU.mid.value.copy(e.mid); skyU.hor.value.copy(e.hor); skyU.night.value = night; skyU.time.value = T;
     SUN.set(sunX, sunY, -0.86).normalize(); skyU.sunDir.value.copy(SUN);
-    scene.fog.color.copy(e.fog); scene.fog.near = e.fn * drawDist; scene.fog.far = e.ff * drawDist;
+    scene.fog.color.copy(e.fog); scene.fog.near = e.fn * drawDist * FOGK.n; scene.fog.far = e.ff * drawDist * FOGK.f;
     FOGU.uFogBase.value = bp.y - 1.5; FOGU.uFogAmt.value = lerp(0.42, 0.66, night) + WX.mist * 0.35 + Math.min(1, WX.oc) * 0.12 + WX.dust * 0.3; FOGU.uFogHaze.value.copy(e.fog).lerp(HAZE_D, 0.3 * (1 - night)).lerp(HAZE_N, 0.4 * night);
     FOGU.uSunDir.value.copy(SUN).lerp(MOON, night).normalize(); FOGU.uSunCol.value.copy(SUNCOL).lerp(MOONCOL, night); FOGU.uSunAmt.value = lerp(0.6, 0.26, night);
     TERU.uRimCol.value.copy(e.hor).lerp(MOONCOL, night * 0.75); TERU.uRimAmt.value = lerp(0.15, 0.28, night);
