@@ -24,7 +24,7 @@
    "locked": false
   },
   "2026-11-16": {
-   "title": "Gemini 4 Hydrogen review: Google’s fast new model, pros and cons",
+   "title": "Gemini 4 Hydrogen review: Google\u2019s fast new model, pros and cons",
    "kind": "review",
    "angle": "Flash successor now in Search for all users and the Gemini app: speed, price, benchmarks vs Argon, what changes for everyday search and for developers",
    "urls": [
@@ -561,7 +561,7 @@
   },
   {
    "key": "china-banned-nvidia-chips",
-   "title": "Export-banned Nvidia chips behind China’s top AI models",
+   "title": "Export-banned Nvidia chips behind China\u2019s top AI models",
    "kind": "news",
    "score": 6,
    "urls": [
@@ -572,7 +572,7 @@
   },
   {
    "key": "apple-local-ai-app",
-   "title": "Apple’s coming Mac app for running local AI models: what it means",
+   "title": "Apple\u2019s coming Mac app for running local AI models: what it means",
    "kind": "news",
    "score": 6,
    "urls": [
@@ -928,7 +928,7 @@
   },
   {
    "key": "dpdp-rules-small-business",
-   "title": "What India’s DPDP rules mean for a small business",
+   "title": "What India\u2019s DPDP rules mean for a small business",
    "kind": "explainer",
    "score": 5,
    "urls": [],
@@ -2061,6 +2061,68 @@
    ],
    "angle": "Astra limits hit 40% faster, Sol 25%; fold into the 30 Nov GPT-6.2 slot",
    "added": "2026-11-26"
+  },
+  {
+   "key": "nvidia-sea-shipments-pause",
+   "title": "Nvidia pauses server shipments to four Southeast Asian countries: what it means for export rules",
+   "kind": "news",
+   "topic": "tech",
+   "score": 8,
+   "urls": [
+    "https://techcrunch.com/2026/11/26/nvidia-hits-pause-on-chip-shipments-to-southeast-asia/",
+    "https://www.semafor.com/article/11/26/2026/nvidia-halts-chip-shipments-to-southeastern-asian-countries",
+    "https://www.forbes.com/sites/siladityaray/2026/11/26/nvidia-reportedly-halts-ai-chip-shipments-to-southeast-asia-as-us-tightens-china-curbs/"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "fake-expert-interview-google-phish",
+   "title": "Fake paid expert interviews impersonate brands to steal Google logins",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/apple/fake-paid-expert-interviews-impersonate-brands-to-steal-google-logins/"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "remus-gmail-sheets-extension",
+   "title": "Remus malware steals Gmail messages via fake Google Sheets extension",
+   "kind": "news",
+   "topic": "security",
+   "score": 8,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/remus-malware-steals-gmail-messages-via-fake-google-sheets-extension/"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "sys010-browser-mgmt-spy",
+   "title": "SYS010 malware abuses browser management to spy on Gmail and Outlook",
+   "kind": "news",
+   "topic": "security",
+   "score": 7,
+   "urls": [
+    "https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
+  },
+  {
+   "key": "github-gta6-port-post",
+   "title": "Microsoft's GitHub posts then deletes message about porting GTA 6 PS5 build to PC",
+   "kind": "news",
+   "topic": "gaming",
+   "score": 8,
+   "urls": [
+    "https://www.pcgamer.com/games/microsofts-github-posts-message-celebrating-efforts-to-port-playstation-5-version-of-grand-theft-auto-6-to-pc-then-quickly-deletes-it/"
+   ],
+   "angle": "",
+   "added": "2026-11-27"
   }
  ],
  "covered": [
@@ -2086,6 +2148,7 @@
   "rbi-dmt-directions-2026",
   "us-ai-chip-remote-access-rule",
   "1password-github-breach",
-  "gemini-4-neon"
+  "gemini-4-neon",
+  "fifa-cyberattack"
  ]
 }
