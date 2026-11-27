@@ -1,35 +1,5 @@
 {
   "seen": {
-    "https://techcrunch.com/2026/11/16/cybersecurity-ai-startup-corma-reaches-1b-valuation-in-about-3-months/": 1794879884778,
-    "https://www.npr.org/2026/11/16/nx-s1-6042920/california-sues-openai-hugging-face-hacking-incident": 1794879884778,
-    "https://techcrunch.com/2026/11/16/all-the-questions-nvidia-should-answer-on-tuesday-but-probably-wont/": 1794879884778,
-    "https://www.bugmenot.com/": 1794879884778,
-    "https://www.foxnews.com/tech/fake-ezpass-email-threatens-100-fine-unpaid-toll": 1794879884778,
-    "https://www.cs.cmu.edu/learn/": 1794879884778,
-    "https://techcrunch.com/2026/11/16/california-state-ag-sues-openai-over-rogue-agent-incidents/": 1794879884778,
-    "https://techcrunch.com/2026/11/16/trump-says-ex-nvidia-ceo-jensen-huangs-affair-with-an-alleged-chinese-spy-did-not-threaten-national-security/": 1794879884778,
-    "https://www.foxnews.com/tech/freeze-fraud-alert-monitoring-what-do-after-breach": 1794879884778,
-    "https://www.npr.org/2026/11/16/nx-s1-6042883/nvidia-jensen-huang-commerce-department": 1794879884778,
-    "https://www.technologyreview.com/2026/11/16/1148624/the-open-source-movement-wants-jensen-huang-back/": 1794879884778,
-    "https://apnews.com/article/bank-outage-chase-wells-fargo-truist-50fee2693c22f597fa6ca51a97ef2cda": 1794879884778,
-    "https://techcrunch.com/2026/11/16/sam-altman-on-nvidia-without-jensen-huang-the-industry-will-be-fine/": 1794879884778,
-    "https://www.npr.org/2026/11/16/nx-s1-6042548/un-killer-robots-ai-weapons-drones": 1794879884778,
-    "https://techcrunch.com/2026/11/16/fbi-says-artex-ai-open-source-hacking-tool-used-to-breach-networks-in-under-three-hours/": 1794879884778,
-    "https://techcrunch.com/2026/11/16/jordan-belforts-new-ai-voice-startup-tone-wants-to-sell-like-the-wolf-of-wall-street/": 1794879884778,
-    "https://techcrunch.com/2026/11/16/openai-will-embed-apollo-researchers-to-investigate-ai-subversion/": 1794879884778,
-    "https://www.foxnews.com/tech/openai-child-safety-tools-target-ai-generated-abuse": 1794879884778,
-    "https://techcrunch.com/2026/11/16/openai-releases-a-new-image-classifier-and-chatgpt-warnings-to-combat-csam/": 1794879884778,
-    "https://openai.com/index/expanding-chatgpt-for-academic-researchers": 1794879884778,
-    "https://openai.com/index/strengthening-online-child-safety": 1794879884778,
-    "https://burntsushi.net/jiff/": 1794879884778,
-    "https://trmnl.com/blog/introducing-frame": 1794879884778,
-    "https://openai.com/index/science-at-the-frontier": 1794879884778,
-    "https://masnick.com/posts/the-secret-thinkpad-powerbutton-code-to-bring-dead-laptops-back-to-life/": 1794879884778,
-    "https://openai.com/index/our-first-phase-of-embedded-assessments": 1794879884778,
-    "https://huggingface.co/blog/openrouter": 1794879884778,
-    "https://openai.com/business/customer-stories/holiday-extras-dots": 1794879884778,
-    "https://xusheng.dev/posts/windows-coding-agent-telemetry/": 1794894255728,
-    "https://www.theregister.com/saas/2026/11/16/microsoft-blames-monster-email-outage-on-software-defect-introduced-in-july-fix/5310026": 1794894255728,
     "https://openai.com/index/strengthening-nato-allied-cyber-defences-ai": 1794908660515,
     "https://blog.report-uri.com/worlds-largest-brands-infected-with-malware-via-optimizely/": 1794908660515,
     "https://news.cornell.edu/stories/2026/10/sheep-grazing-solar-fields-offers-farmers-economic-ecological-gains": 1794908660515,
@@ -661,7 +631,11 @@
     "https://www.pcgamer.com/hardware/gaming-keyboards/i-would-die-for-this-razer-hello-kitty-and-friends-wired-gaming-keyboard-but-now-i-dont-have-to-thanks-to-this-black-friday-deal/": 1795743859285,
     "https://www.bleepingcomputer.com/news/security/remus-malware-steals-gmail-messages-via-fake-google-sheets-extension/": 1795743859285,
     "https://www.bleepingcomputer.com/news/security/sys010-malware-abuses-browser-management-to-spy-on-gmail-outlook/": 1795743859285,
-    "https://micjm.com/blog/openai-is-in-cost-control-mode/": 1795743859285
+    "https://micjm.com/blog/openai-is-in-cost-control-mode/": 1795743859285,
+    "https://www.pcgamer.com/games/the-witcher/witcher-3-remastered-patch-has-lighting-fixes-sign-nerfs-and-gets-rid-of-a-nasty-werewolf-bug/": 1795758310868,
+    "https://worksinprogress.co/issue/the-greatest-architect-youve-never-heard-of-is-in-pakistan/": 1795758310868,
+    "https://techstackups.com/articles/google-workspace-ai-agents-mcp/": 1795758310868,
+    "https://commandcode.ai/moat": 1795758310868
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -686,6 +660,7 @@
     "rbi-cash-transfer-limits-2026-explained",
     "1password-breach-employee-github-customer-emails",
     "ai-chip-export-rule-remote-access",
-    "fifa-cyberattack-data-stolen-what-we-know"
+    "fifa-cyberattack-data-stolen-what-we-know",
+    "gemini-4-neon-review-pros-cons"
   ]
 }
