@@ -1,0 +1,111 @@
+{
+  "title": "Qwen4-Max review: 4 pros, 4 cons, one big price gap",
+  "slug": "qwen4-max-review-pros-cons-price",
+  "excerpt": "Alibaba's Qwen4-Max costs a quarter of Claude Opus 5.5 on output, but one independent index ranks it 12th. Pros, cons and who should try it.",
+  "body": "> **Quick answer.** Qwen4-Max is Alibaba's cheaper flagship model: $1.50 in and $4.50 out per million tokens, with a 1M context window. Alibaba's charts look strong, but one independent index ranks it 12th, well behind Claude Opus 5.5.\n\n## What is Qwen4-Max?\n\nQwen4-Max is the new top model from [Alibaba](https://www.alibabacloud.com/press-room/alibaba-unveils-qwen4-max). It has 2.4 trillion parameters in total, but it's a mixture-of-experts design, so only 71 billion are active for each token it processes. It reads images natively and has a one-million-token context window.\n\nAlibaba [unveiled it on a Sunday and opened it up the next day](https://intelligencereport.org/2026/11/16/qwen4-alibaba-ai-model-us-rivals/), after a limited preview that [began on 11 November](https://technode.com/2026/11/16/alibaba-launches-qwen4-max-with-lower-api-prices-and-a-million-token-context-window/). It's the first model in the Qwen4 family, and it follows Qwen3.8-Max, which came out in August.\n\n## What's new compared with the last one?\n\nThe pitch is more work per dollar. Alibaba says Qwen4-Max beats Qwen3.8-Max overall on its own Work360 benchmark while [using 35% fewer tokens and cutting the average cost per task by around 60%](https://www.alibabacloud.com/press-room/alibaba-unveils-qwen4-max). The press coverage quotes slightly different figures for that saving: [Digital Trends](https://www.digitaltrends.com/computing/qwen-4-max-aliababas-latest-flagship-ai-model-announced/) reports $4.43 down to $1.67 per task, and [TechNode](https://technode.com/2026/11/16/alibaba-launches-qwen4-max-with-lower-api-prices-and-a-million-token-context-window/) reports about 58% in yuan. All of it comes from Alibaba's own benchmark, so read it as a vendor claim.\n\nAlibaba also says it [filtered the training data for cyber risk](https://www.alibabacloud.com/press-room/alibaba-unveils-qwen4-max), keeping defensive material for finding and fixing vulnerabilities and removing offensive attack content. Its coding training included security checks as well as functionality tests.\n\n## How does it hold up in practice?\n\nDepends on whose numbers you trust. On Alibaba's launch chart, the model [comes first on four of 14 rows](https://llm-stats.com/blog/research/qwen4-max-launch). One is DeepSWE, where the spread across all six models is only 1.6 points, so LLM Stats calls it a tie. Alibaba adds that it [placed 6th on Code Arena](https://www.alibabacloud.com/press-room/alibaba-unveils-qwen4-max), which scores real-world coding.\n\nThe independent picture is less flattering. The [Super Intel newsletter](https://read.getsuperintel.com/p/qwen4-max-is-here-and-the-numbers-disappoint) reports that Artificial Analysis puts Qwen4-Max at 43 on its Intelligence Index, in 12th place. Kimi K3.1 Pro sits 3 points higher at 46, Claude Opus 5.5 is on 59, and the leader, Claude Fable 5.2, is on 65. The same report says Alibaba's own numbers aren't wrong where both measured the same test. The gap comes from which tests and which rivals you pick. Against its predecessor, the progress is real: [9 points higher and about a third of the cost per task](https://read.getsuperintel.com/p/qwen4-max-is-here-and-the-numbers-disappoint) ($3.27 against $10.02).\n\nOne more catch from [LLM Stats](https://llm-stats.com/blog/research/qwen4-max-launch): Alibaba's launch scores were run at the highest effort setting, xhigh, while the API runs on high by default. Treat the launch numbers as an upper bound unless you set xhigh yourself.\n\n![Pros and cons of Qwen4-Max: Output price under a quarter of Opus 5.5, Flat price across the full 1M context, Clear step up from Qwen3.8-Max versus 12th on one i](/assets/blog/qwen4-max-review-pros-cons-price-proscons.jpg \"Pros and cons at a glance\")\n\n![Four bars of the Artificial Analysis index: Fable 5.2 at 65, Opus 5.5 at 59, Kimi K3.1 Pro at 46, Qwen4-Max at 43](/assets/blog/qwen4-max-review-pros-cons-price-art-index-scores-hd.jpg \"On the Artificial Analysis index, as the Super Intel newsletter reports it, Qwen4-Max scores 43 against 59 for Opus 5.5.\")\n\n## Pros\n\n- List price is $1.50 per million input tokens and $4.50 per million output, against [$4 and $20 for Claude Opus 5.5](https://www.digitaltrends.com/computing/qwen-4-max-aliababas-latest-flagship-ai-model-announced/). LLM Stats works out a job with 10 million tokens in and 2 million out at [$24 on Qwen4-Max against $80 on Opus 5.5](https://llm-stats.com/blog/research/qwen4-max-launch).\n- Prices are [the same across the full one-million-token context](https://llm-stats.com/blog/research/qwen4-max-launch), with no long-context surcharge.\n- It's a real step up from Qwen3.8-Max, better on [every shared row of Alibaba's table](https://llm-stats.com/blog/research/qwen4-max-launch), and the independent index agrees it improved.\n- Its self-reported wins are in long-horizon agent tests and a biology test, so it does best on the kind of long agent work that burns the most tokens.\n\n## Cons\n\n- Independent tests put it behind the leaders. Twelfth place and 16 points behind Opus 5.5 on one broad index is a long way down.\n- Terminal-first coding is a weak spot. On Alibaba's own table it scores [31.5 on ProgramBench against 65.0 for Opus 5.5](https://llm-stats.com/blog/research/qwen4-max-launch), and 48.5 on Terminal-Bench 4.0 against 67.2 for Kimi K3.1.\n- The weights are closed. Unlike Qwen3.8-Max, [there's no open-weights release](https://intelligencereport.org/2026/11/16/qwen4-alibaba-ai-model-us-rivals/) for the flagship. Alibaba only promises open-source releases of smaller Qwen4 models, and gives no date.\n- The safety claims are Alibaba's own. Digital Trends notes that [no external red team has tested the model yet](https://www.digitaltrends.com/computing/qwen-4-max-aliababas-latest-flagship-ai-model-announced/), and LLM Stats says no third-party system card is published.\n\n## Who it's for, and who should skip it\n\nIf you're running long research, legal, health or business-analysis agents and the bill is the problem, Qwen4-Max is worth a test on your own tasks. LLM Stats says [moving from Qwen3.8-Max is a yes](https://llm-stats.com/blog/research/qwen4-max-launch), and testing it against Opus 5.5 or GPT-6 Astra for long-horizon agent work.\n\nSkip it if you need a terminal-first coding agent, chart-heavy or video-heavy input at the top end, open weights you can host yourself, or a batch discount. It doesn't offer batch pricing.\n\nIf you work in a regulated business or handle sensitive data, check where your data goes before you send it anywhere. The model is offered through [Alibaba's QwenCloud and apps](https://technode.com/2026/11/16/alibaba-launches-qwen4-max-with-lower-api-prices-and-a-million-token-context-window/), and I haven't seen an independent security review of it.\n\n## Price and availability\n\nThe model is on QwenCloud through a Token Plan and the API, per [Alibaba](https://www.alibabacloud.com/press-room/alibaba-unveils-qwen4-max), and in Qwen Studio, QwenWork and Qoder, according to [TechNode](https://technode.com/2026/11/16/alibaba-launches-qwen4-max-with-lower-api-prices-and-a-million-token-context-window/). LLM Stats lists [Singapore list prices of $1.50 in and $4.50 out](https://llm-stats.com/blog/research/qwen4-max-launch), and slightly lower rates in Beijing and the global regions. It also lists OpenRouter as a way in. Singapore pay-as-you-go includes 1 million free tokens for 90 days.\n\n## My take\n\nI'd read Qwen4-Max as a good price cut from a lab that's still catching up. The independent ranking shows a clear upgrade on Qwen3.8-Max and a gap to the top Claude models. For a small team with a heavy, repeatable agent job, I'd run a week of real tasks at the xhigh setting, count the cost per finished task, and compare it to what you pay now. For coding work I'd stay where I am.\n\nAlibaba's own Work360 benchmark only reports Qwen models, so the cost savings are the claim I'd trust least until someone outside checks them.\n\nNo left, centre or right news outlets split on this story, so I haven't tried to balance one against the other. The pages I could read in full were Alibaba's announcement, a Reuters report carried by The Standard in Hong Kong, and trade and independent analysis sites.\n\n## Frequently asked questions\n\n### What is Qwen4-Max?\n\nQwen4-Max is Alibaba's flagship AI model, released on 16 November 2026. It's a mixture-of-experts model with 2.4 trillion total parameters and 71 billion active per token, native image input and a one-million-token context window. It's available through QwenCloud's API and Token Plan and in Alibaba's Qwen apps, but the weights aren't public.\n\n### How much does Qwen4-Max cost?\n\nThe Singapore list price is $1.50 per million input tokens and $4.50 per million output, according to LLM Stats, and it stays flat across the whole context window. Claude Opus 5.5 lists at $4 in and $20 out. Beijing and global regions are slightly cheaper, and there's no batch discount.\n\n### Is Qwen4-Max better than Claude Opus 5.5?\n\nNot overall on the independent evidence. Artificial Analysis, as reported by Super Intel, scores Qwen4-Max 43 against 59 for Opus 5.5. Alibaba's own table has it ahead on some agent tests and behind on terminal coding and ProgramBench. Test it on your own work before switching.\n\n### Is Qwen4-Max open source?\n\nNo. Unlike Qwen3.8-Max, the flagship has no open weights. Alibaba says smaller Qwen4 models will be released as open source soon, but hasn't given a date, so you can't host Qwen4-Max yourself and have to use Alibaba's cloud or an API partner.\n\n### Should I switch from Qwen3.8-Max?\n\nLLM Stats says yes: Qwen4-Max is better on every shared benchmark row, uses fewer tokens and lists about 25% cheaper in Singapore. The exception is if you need open weights you can self-host, which only Qwen3.8-Max offers. Set the effort level to xhigh if you want results close to the launch scores.\n\n## Sources\n\n1. [Alibaba Unveils Qwen4-Max: New AI Teammate for Work, Creativity, and Discovery](https://www.alibabacloud.com/press-room/alibaba-unveils-qwen4-max), alibabacloud.com\n2. [Qwen4-Max is China's newest flagship AI model, and it makes GPT and Claude look expensive](https://www.digitaltrends.com/computing/qwen-4-max-aliababas-latest-flagship-ai-model-announced/), digitaltrends.com\n3. [Alibaba launches Qwen4-Max with lower API prices and a million](https://technode.com/2026/11/16/alibaba-launches-qwen4-max-with-lower-api-prices-and-a-million-token-context-window/), technode.com\n4. [Qwen4-Max: Near](https://llm-stats.com/blog/research/qwen4-max-launch), llm-stats.com\n5. [Qwen4](https://intelligencereport.org/2026/11/16/qwen4-alibaba-ai-model-us-rivals/), intelligencereport.org\n6. [Alibaba unveils new flagship AI model with safety upgrades](https://www.thestandard.com.hk/finance/article/348615/), thestandard.com.hk\n7. [Qwen4](https://read.getsuperintel.com/p/qwen4-max-is-here-and-the-numbers-disappoint), read.getsuperintel.com\n8. [Alibaba launches top AI model Qwen4](https://www.secnews.gr/en/751514/alibaba-qwen4-max-choris-opena-weights/), secnews.gr\n",
+  "cover": {
+    "src": "/assets/blog/qwen4-max-review-pros-cons-price-cover-hd.jpg",
+    "alt": "A small green $4.50 price tag next to a larger $20 tag, headline \"A quarter of the price\""
+  },
+  "category": "AI models",
+  "tags": [
+    "Qwen4-Max",
+    "Alibaba",
+    "AI model review",
+    "AI pricing",
+    "Claude Opus 5.5",
+    "LLM"
+  ],
+  "publishAt": 1795923000000,
+  "updated": 1795868531410,
+  "words": 1287,
+  "mins": 6,
+  "seo": {
+    "title": "Qwen4-Max review: pros, cons and price",
+    "description": "Qwen4-Max review: $4.50 per million output tokens, a 1M context window and a 12th-place independent score. Pros, cons and who should try Alibaba's model.",
+    "ogImage": "/assets/blog/qwen4-max-review-pros-cons-price-cover-v2.jpg"
+  },
+  "extra": {
+    "topic": "ai",
+    "faq": [
+      {
+        "q": "What is Qwen4-Max?",
+        "a": "Qwen4-Max is Alibaba's flagship AI model, released on 16 November 2026. It's a mixture-of-experts model with 2.4 trillion total parameters and 71 billion active per token, native image input and a one-million-token context window. It's available through QwenCloud's API and Token Plan and in Alibaba's Qwen apps, but the weights aren't public."
+      },
+      {
+        "q": "How much does Qwen4-Max cost?",
+        "a": "The Singapore list price is $1.50 per million input tokens and $4.50 per million output, according to LLM Stats, and it stays flat across the whole context window. Claude Opus 5.5 lists at $4 in and $20 out. Beijing and global regions are slightly cheaper, and there's no batch discount."
+      },
+      {
+        "q": "Is Qwen4-Max better than Claude Opus 5.5?",
+        "a": "Not overall on the independent evidence. Artificial Analysis, as reported by Super Intel, scores Qwen4-Max 43 against 59 for Opus 5.5. Alibaba's own table has it ahead on some agent tests and behind on terminal coding and ProgramBench. Test it on your own work before switching."
+      },
+      {
+        "q": "Is Qwen4-Max open source?",
+        "a": "No. Unlike Qwen3.8-Max, the flagship has no open weights. Alibaba says smaller Qwen4 models will be released as open source soon, but hasn't given a date, so you can't host Qwen4-Max yourself and have to use Alibaba's cloud or an API partner."
+      },
+      {
+        "q": "Should I switch from Qwen3.8-Max?",
+        "a": "LLM Stats says yes: Qwen4-Max is better on every shared benchmark row, uses fewer tokens and lists about 25% cheaper in Singapore. The exception is if you need open weights you can self-host, which only Qwen3.8-Max offers. Set the effort level to xhigh if you want results close to the launch scores."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.alibabacloud.com/press-room/alibaba-unveils-qwen4-max",
+        "title": "Alibaba Unveils Qwen4-Max: New AI Teammate for Work, Creativity, and Discovery - Alibaba Cloud",
+        "outlet": "alibabacloud.com"
+      },
+      {
+        "url": "https://www.digitaltrends.com/computing/qwen-4-max-aliababas-latest-flagship-ai-model-announced/",
+        "title": "Qwen4-Max is China's newest flagship AI model, and it makes GPT and Claude look expensive - Digital Trends",
+        "outlet": "digitaltrends.com"
+      },
+      {
+        "url": "https://technode.com/2026/11/16/alibaba-launches-qwen4-max-with-lower-api-prices-and-a-million-token-context-window/",
+        "title": "Alibaba launches Qwen4-Max with lower API prices and a million-token context window · TechNode",
+        "outlet": "technode.com"
+      },
+      {
+        "url": "https://llm-stats.com/blog/research/qwen4-max-launch",
+        "title": "Qwen4-Max: Near-Frontier Agent Work at $1.50 and $4.50",
+        "outlet": "llm-stats.com"
+      },
+      {
+        "url": "https://intelligencereport.org/2026/11/16/qwen4-alibaba-ai-model-us-rivals/",
+        "title": "Qwen4: Alibaba's New AI Model vs US Rivals",
+        "outlet": "intelligencereport.org"
+      },
+      {
+        "url": "https://www.thestandard.com.hk/finance/article/348615/",
+        "title": "Alibaba unveils new flagship AI model with safety upgrades",
+        "outlet": "thestandard.com.hk"
+      },
+      {
+        "url": "https://read.getsuperintel.com/p/qwen4-max-is-here-and-the-numbers-disappoint",
+        "title": "Qwen4-Max Is Here, and the Numbers Disappoint",
+        "outlet": "read.getsuperintel.com"
+      },
+      {
+        "url": "https://www.secnews.gr/en/751514/alibaba-qwen4-max-choris-opena-weights/",
+        "title": "Alibaba launches top AI model Qwen4-Max",
+        "outlet": "secnews.gr"
+      }
+    ],
+    "kind": "review",
+    "about": [
+      "Qwen4-Max",
+      "Alibaba",
+      "Claude Opus 5.5",
+      "Artificial Analysis",
+      "QwenCloud"
+    ],
+    "auto": true,
+    "thumb": {
+      "text": "$4.50 vs $20",
+      "headline": "Qwen4-Max: cheap, but 12th"
+    },
+    "art": {
+      "palette": "light"
+    }
+  }
+}

@@ -186,14 +186,16 @@
       "locked": false
     },
     "2026-11-29": {
-      "title": "Alibaba Qwen4-Max review: what's new and pros and cons",
+      "title": "Qwen4-Max review: 4 pros, 4 cons, one big price gap",
       "kind": "review",
       "angle": "New Alibaba flagship model; 483 HN points. Needs independent outlets and tests before writing.",
       "urls": [
         "https://qwen.ai/blog?id=qwen4-max"
       ],
       "score": 7,
-      "status": "planned"
+      "status": "written",
+      "slug": "qwen4-max-review-pros-cons-price",
+      "topic": "ai"
     },
     "2026-11-30": {
       "title": "GPT-6.2 Astra and Sol: what OpenAI changed",
@@ -2319,6 +2321,7 @@
     "1password-github-breach",
     "gemini-4-neon",
     "fifa-cyberattack",
-    "cisco-expressway-cve-2026-76466"
+    "cisco-expressway-cve-2026-76466",
+    "qwen4-max"
   ]
 }
