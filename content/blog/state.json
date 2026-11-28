@@ -631,7 +631,9 @@
     "https://www.bleepingcomputer.com/news/security/unpatched-cacti-zero-day-with-public-poc-gives-remote-code-execution/": 1795830275394,
     "https://thehackernews.com/2026/11/suspected-vietnam-linked-hackers-target.html": 1795830275394,
     "https://www.infohawk.com/news/2026-11-27-black-friday-webrtc-skimmer": 1795830275394,
-    "https://bouncemarket.minhanhday.com/": 1795830275394
+    "https://bouncemarket.minhanhday.com/": 1795830275394,
+    "https://research.google/blog/supercharging-transformer-residual-connections/": 1795844661360,
+    "https://github.com/convex/convex-backend-skill/issues/64": 1795844661360
   },
   "pinged": [
     "gemini-decisions-api-review-pros-cons",
@@ -657,6 +659,7 @@
     "1password-breach-employee-github-customer-emails",
     "ai-chip-export-rule-remote-access",
     "fifa-cyberattack-data-stolen-what-we-know",
-    "gemini-4-neon-review-pros-cons"
+    "gemini-4-neon-review-pros-cons",
+    "cisco-expressway-flaw-exploited-steps"
   ]
 }
