@@ -1565,6 +1565,8 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
   await __y(); hookAll();
   // ===== v3 · Living world: day clock, weather, gusts, regional flora + fauna, tyre tracks, seasons =====
   await __y(); const QS = new URLSearchParams(location.search);
+  // GTA San Andreas style: a close, thick haze so the world ends in fog and nothing pops in. Chunks are culled at fog.far, so this also draws less. 
+  const CULLF = { v: 560 }, FOGC = new THREE.Color(), FOGK = (() => { const q = QS.get('fog'), f = q === 'old' ? 1 : clamp(parseFloat(q) || 0.5, 0.3, 1); return { on: q !== 'old', n: f * 0.76, f }; })(); // ?fog=0.5 thicker, ?fog=old no change
   await __y(); let alarmR = 6, quietBike = true, gustNear = 0, bellT = 0, bellAt = 0;
   await __y(); const SC = c => new THREE.Color(c), TC = new THREE.Color();
   await __y(); const addSolid = (x, z, r, h) => { const i = solids.push(h === undefined ? { x, z, r } : { x, z, r, h }) - 1, k = Math.floor(x / SG) + ',' + Math.floor(z / SG); if (!solidGrid.has(k)) solidGrid.set(k, []); solidGrid.get(k).push(i); };
@@ -1991,7 +1993,7 @@ transformed.z += sway * ${wdz.toFixed(3)} + crs * ${wdx.toFixed(3)};
     if (!tileQ) tileQ = tiles.slice().sort((a, b) => Math.hypot(a.cx - cp.x, a.cz - cp.z) - Math.hypot(b.cx - cp.x, b.cz - cp.z));
     if (tileQ.length) { const t0 = performance.now(); while (tileQ.length && performance.now() - t0 < 5) { const J = tileJob(tileQ.shift(), COARSE); tileStep(J, 1e9); J.t.lo = tileBuild(J); } if (!tileQ.length && !tilesReady) { tilesReady = true; hookAll(); warmUp(); } return; }
     if (fineJob) { if (tileStep(fineJob, 3)) { const t = fineJob.t; t.hi = tileBuild(fineJob); if (t.lo) t.lo.visible = false; fineJob = null; } return; }
-    if (frameNo % 6 === 0) { const fineR = (lp ? 170 : 260) * (0.6 + 0.4 * drawDist), lim = scene.fog.far + 60; let best = null, bd = 1e9;
+    if (frameNo % 6 === 0) { const fineR = (lp ? 170 : 260) * (0.6 + 0.4 * drawDist), lim = CULLF.v + 60; let best = null, bd = 1e9;
       for (const t of tiles) { const d = Math.hypot(t.cx - cp.x, t.cz - cp.z) - t.r;
         if (t.hi && d > fineR * 1.8) { scene.remove(t.hi); t.hi.geometry.dispose(); t.hi = null; }
         if (!t.hi && d < fineR && d < bd) { bd = d; best = t; }
@@ -3325,7 +3327,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     if (T > DB.hintAt) { DB.hintAt = T + 95 + Math.random() * 40; let best = null, bd = 1e9; for (const p of PCS) { if (p.vis) continue; const d = Math.hypot(p.x - bp.x, p.z - bp.z); if (d < bd) { bd = d; best = p; } }
       if (best) say(PL(DL.hint).replace('{place}', best.name).replace('{dir}', cap1(dirWord(best.x, best.z))).replace('{dir}', dirWord(best.x, best.z)).replace('{d}', String(Math.max(50, Math.round(bd * 1.67 / 50) * 50)))); }
     if (T > DB.next && cd('idle', 50)) say(PL(DL.idle)); }
-  function v8Tick(dt, T, bp, night) { v8.T = T; const uS = renderer.domElement.height * 0.5 / Math.tan(camera.fov * Math.PI / 360); orbU.uScale.value = uS; orbU.uT.value = T; orbU.uFar.value = Math.min(420, scene.fog.far * 0.8); burstU.uScale.value = uS;
+  function v8Tick(dt, T, bp, night) { v8.T = T; const uS = renderer.domElement.height * 0.5 / Math.tan(camera.fov * Math.PI / 360); orbU.uScale.value = uS; orbU.uT.value = T; orbU.uFar.value = Math.min(420, CULLF.v * 0.8); burstU.uScale.value = uS;
     ORB.pts.visible = free; if (free) orbTick(dt, T, bp); burstTick(dt); chestTick(dt, T, bp); pcTick(T, bp); brainTick(dt, T, bp, night); if (orbBoostT > 0) orbBoostT -= dt; }
   function lanternTick(T, bp) { for (const L of LANTS) { if (L.lit) { L.gl.material.opacity = 0.7 + Math.sin(T * 3 + L.i) * 0.12; continue; } L.beacon.position.y = L.y + 4 + Math.sin(T * 2 + L.i) * 0.3; if (free && Math.abs(bp.x - L.x) < 3 && Math.abs(bp.z - L.z) < 3) lightL(L); } }
 
@@ -3356,7 +3358,44 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
 
     }
 
-  function v5Tick(dt, T, bp, night) { const cp = camera.position; v6Tick(dt, T, bp, night);
+  // ---------- v11 · San Andreas tricks: far night lights past the fog, a hill ring on the horizon, road traffic, a plane and a balloon, desert haze ----------
+  await __y(); const SA = (() => {
+    const pts = []; LANTS.forEach(L => pts.push(L.x, L.y + 2.2, L.z)); pts.push(LH.x, groundY(LH.x, LH.z) + 16, LH.z, MILL.x, groundY(MILL.x, MILL.z) + 4, MILL.z);
+    for (let i = 0; i < 160; i++) { const z = lerp(Z0 + 300, ZEND - 300, rnd()), x = roadX(z) + (rnd() < 0.5 ? -1 : 1) * (70 + rnd() * 520), y = groundY(x, z); if (y > -2) pts.push(x, y + 1.6, z); }
+    const lg = new THREE.BufferGeometry(); lg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+    const lm = new THREE.PointsMaterial({ map: GT, color: '#ffd8a0', size: 5, sizeAttenuation: false, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, fog: false });
+    const lights = new THREE.Points(lg, lm); lights.name = 'sa-far-lights'; lights.frustumCulled = false; scene.add(lights);
+    // horizon ring: low hills drawn beyond the fog in the fog's own colour, so the world never seems to end
+    const N = 120, R = 1300, rp = [], ri = []; for (let i = 0; i <= N; i++) { const a = i / N * Math.PI * 2, h = 40 + 70 * (0.5 + 0.5 * Math.sin(a * 5 + 1.3)) * (0.6 + 0.4 * Math.sin(a * 13 + 0.4)) + 25 * Math.sin(a * 31); rp.push(Math.cos(a) * R, -60, Math.sin(a) * R, Math.cos(a) * R, h, Math.sin(a) * R); if (i < N) { const k = i * 2; ri.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); } }
+    const rg = new THREE.BufferGeometry(); rg.setAttribute('position', new THREE.Float32BufferAttribute(rp, 3)); rg.setIndex(ri);
+    const ringM = new THREE.MeshBasicMaterial({ color: '#888', fog: false, side: THREE.DoubleSide }); const ring = mk(rg, ringM, 'sa-horizon'); ring.frustumCulled = false; scene.add(ring);
+    // traffic: a few simple cars that drive the main road in Explore mode
+    const CARC = ['#c8402e', '#2f6fb0', '#e0c24a', '#e8e4da', '#3a8a5a'], cars = [];
+    for (let i = 0; i < 4; i++) { const g = new THREE.Group(), body = mk(new THREE.BoxGeometry(1.7, 0.6, 3.8), std(CARC[i % CARC.length], { roughness: 0.5 }), 'sa-car'); body.position.y = 0.55; g.add(body);
+      const cab = mk(new THREE.BoxGeometry(1.5, 0.5, 1.9), std('#22262e', { roughness: 0.3 }), 'sa-cab'); cab.position.set(0, 1.1, -0.2); g.add(cab);
+      const hl = glowSprite('#fff2cc', 1.6, 0), tl = glowSprite('#ff3020', 1.1, 0); hl.position.set(0, 0.6, 2); tl.position.set(0, 0.6, -2); g.add(hl, tl);
+      g.visible = false; scene.add(g); cars.push({ g, hl, tl, z: 0, dir: i % 2 ? 1 : -1, spd: 13 + rnd() * 6, on: false }); }
+    // sky traffic: a small plane with a blinking light, and a hot-air balloon by day
+    const plane = new THREE.Group(); { const pm = new THREE.MeshBasicMaterial({ color: '#d8dce4', fog: false }); const fu = mk(new THREE.BoxGeometry(1.2, 1.2, 9), pm, 'sa-plane'); const wi = mk(new THREE.BoxGeometry(11, 0.25, 1.8), pm, 'sa-wing'); const ta = mk(new THREE.BoxGeometry(3.6, 0.2, 1), pm, 'sa-tail'); ta.position.z = -4; plane.add(fu, wi, ta); }
+    const blink = glowSprite('#ff4030', 4, 0); plane.add(blink); scene.add(plane); const PL = { x: 0, z: 0, vx: 1, vz: 0, t: -1 };
+    const balloon = new THREE.Group(); { const env = mk(new THREE.SphereGeometry(6, 14, 10), new THREE.MeshLambertMaterial({ color: '#e2603a', flatShading: true }), 'sa-balloon'); env.scale.y = 1.2; const bk = mk(new THREE.BoxGeometry(1.6, 1.2, 1.6), std('#6b4a33'), 'sa-basket'); bk.position.y = -9; balloon.add(env, bk); }
+    scene.add(balloon); const BL = { x: 0, z: 0, t: -1 };
+    return { lights, lm, ring, ringM, cars, plane, blink, PL, balloon, BL };
+  })();
+  function saTick(dt, T, bp, night) { const cp = camera.position;
+    SA.lm.opacity = sstep(0.3, 0.75, night) * 0.95; SA.lights.visible = SA.lm.opacity > 0.01;
+    SA.ring.position.set(cp.x, Math.min(cp.y, 40) - 10, cp.z); SA.ringM.color.copy(scene.fog.color).multiplyScalar(lerp(0.86, 0.7, night)); SA.ring.visible = FOGK.on;
+    for (const c of SA.cars) { if (!free || !FOGK.on) { c.g.visible = false; c.on = false; continue; }
+      if (!c.on || Math.abs(c.z - bp.z) > 280) { c.z = bp.z + (rnd() < 0.5 ? -1 : 1) * (180 + rnd() * 80); c.on = true; }
+      const ahead = (bp.z - c.z) * c.dir, side = c.dir, x0 = roadX(c.z) + side * 1.5, slow = ahead > 0 && ahead < 9 && Math.abs(bp.x - x0) < 2.4 ? 0.15 : 1;
+      c.z += c.dir * c.spd * slow * dt; const x = roadX(c.z) + side * 1.5, xn = roadX(c.z + c.dir) + side * 1.5;
+      c.g.position.set(x, groundY(x, c.z), c.z); c.g.rotation.y = Math.atan2(xn - x, c.dir); c.g.visible = true;
+      c.hl.material.opacity = sstep(0.3, 0.7, night) * 0.9; c.tl.material.opacity = 0.25 + sstep(0.3, 0.7, night) * 0.6; }
+    const P = SA.PL; P.t -= dt; if (P.t < 0 || Math.hypot(P.x - cp.x, P.z - cp.z) > 1100) { const a = rnd() * Math.PI * 2; P.vx = Math.cos(a); P.vz = Math.sin(a); P.x = cp.x - P.vx * 900 + P.vz * (rnd() - 0.5) * 500; P.z = cp.z - P.vz * 900 - P.vx * (rnd() - 0.5) * 500; P.t = 70; }
+    P.x += P.vx * 38 * dt; P.z += P.vz * 38 * dt; SA.plane.position.set(P.x, Math.max(cp.y, 0) + 170, P.z); SA.plane.rotation.y = Math.atan2(P.vx, P.vz); SA.blink.material.opacity = (T % 1.2 < 0.12 ? 1 : 0) * lerp(0.3, 1, night); SA.plane.visible = FOGK.on;
+    const B = SA.BL; B.t -= dt; if (B.t < 0 || Math.hypot(B.x - cp.x, B.z - cp.z) > 900) { const a = rnd() * Math.PI * 2; B.x = cp.x + Math.cos(a) * 420; B.z = cp.z + Math.sin(a) * 420; B.t = 240; }
+    B.x += dt * 1.6; SA.balloon.position.set(B.x, groundY(B.x, B.z) + 95 + Math.sin(T * 0.2) * 4, B.z); SA.balloon.visible = FOGK.on && night < 0.5; }
+  function v5Tick(dt, T, bp, night) { const cp = camera.position; v6Tick(dt, T, bp, night); saTick(dt, T, bp, night);
     { const a = sstep(0.55, 0.9, night) * (1 - Math.min(1, WX.oc)) * lerp(0.3, 1, REG.w.snow || 0); auroraU.amt.value += (a - auroraU.amt.value) * Math.min(1, dt * 0.5); aur.visible = auroraU.amt.value > 0.01;
       if (aur.visible) aur.position.set(cp.x, Math.max(cp.y, 0) + 170, cp.z + 560); if (auroraU.amt.value > 0.45 && peakR(bp.x, bp.z) < 0.55) stamp('aurora'); }
     const nearPk = Math.abs(cp.x - PEAK.x) + Math.abs(cp.z - PEAK.z) < 900;
@@ -3543,7 +3582,7 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
       o._apHide2 = px < (o._apHide2 ? PX * 1.3 : PX) || (c.note && d > farN); } };
   await __y(); const updateRoots = () => { const ch = scene.children; for (let i = 0; i < ch.length; i++) { const o = ch[i]; if (o._apHide || o.userData.apStatic) continue; o.updateMatrixWorld(); } };
   await __y(); const cullPass = () => {
-    const cp = camera.position, lim = scene.fog.far + 20, PX = (lp ? 3 : 1.4) * lvK, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360);
+    const cp = camera.position, lim = CULLF.v + 20, PX = (lp ? 3 : 1.4) * lvK, F = (renderer.domElement.height / 2) / Math.tan(camera.fov * Math.PI / 360);
     for (let i = 0; i < cullList.length; i++) { const c = cullList[i], o = c.o, p = o.position, dx = p.x - cp.x, dy = p.y - cp.y, dz = p.z - cp.z, d = Math.sqrt(dx * dx + dy * dy + dz * dz) - c.r;
       const lim2 = Math.min(lim, c.r * F / PX + 30);   // beyond this the object is under about a pixel, or fully fogged
       if (o._apHide) { if (d < lim2 * 0.9) { o._apHide = false; o.updateMatrixWorld(true); } } else if (d > lim2) o._apHide = true; } };
@@ -3680,11 +3719,13 @@ Object.assign(DL, { flute: ["I love this song. He only knows one. I love it ever
     wxTick(dt); wxEnv(e, night);
     skyU.top.value.copy(e.top); skyU.mid.value.copy(e.mid); skyU.hor.value.copy(e.hor); skyU.night.value = night; skyU.time.value = T;
     SUN.set(sunX, sunY, -0.86).normalize(); skyU.sunDir.value.copy(SUN);
-    scene.fog.color.copy(e.fog); scene.fog.near = e.fn * drawDist; scene.fog.far = e.ff * drawDist;
-    FOGU.uFogBase.value = bp.y - 1.5; FOGU.uFogAmt.value = lerp(0.42, 0.66, night) + WX.mist * 0.35 + Math.min(1, WX.oc) * 0.12 + WX.dust * 0.3; FOGU.uFogHaze.value.copy(e.fog).lerp(HAZE_D, 0.3 * (1 - night)).lerp(HAZE_N, 0.4 * night);
+    // fog takes the sky's horizon colour so far hills melt into the sky instead of showing as dark shapes, and the far limit is capped so no region keeps a long view
+    CULLF.v = e.ff * drawDist; if (FOGK.on) { scene.fog.color.copy(e.fog).lerp(FOGC.copy(e.hor).lerp(e.mid, 0.4), 0.85); scene.fog.far = Math.min(e.ff * drawDist * FOGK.f, 300); scene.fog.near = Math.min(e.fn * drawDist * FOGK.n, scene.fog.far * 0.3); }
+    else { scene.fog.color.copy(e.fog); scene.fog.near = e.fn * drawDist; scene.fog.far = e.ff * drawDist; }
+    FOGU.uFogBase.value = bp.y - 1.5; FOGU.uFogAmt.value = lerp(0.42, 0.66, night) + WX.mist * 0.35 + Math.min(1, WX.oc) * 0.12 + WX.dust * 0.3 + (FOGK.on ? Math.max(REG.w.savanna || 0, REG.w.canyon || 0) * (1 - night) * 0.3 : 0); FOGU.uFogHaze.value.copy(e.fog).lerp(HAZE_D, 0.3 * (1 - night)).lerp(HAZE_N, 0.4 * night);
     FOGU.uSunDir.value.copy(SUN).lerp(MOON, night).normalize(); FOGU.uSunCol.value.copy(SUNCOL).lerp(MOONCOL, night); FOGU.uSunAmt.value = lerp(0.6, 0.26, night);
     TERU.uRimCol.value.copy(e.hor).lerp(MOONCOL, night * 0.75); TERU.uRimAmt.value = lerp(0.15, 0.28, night);
-    if (frameNo % 8 === 0) { const lim = scene.fog.far + 20, cp = camera.position; for (const c of chunks) { const u = c.userData, d = Math.hypot(u.cx - cp.x, u.cz - cp.z) - u.r, vis = d < (u.dd ? Math.min(lim, u.dd * (0.6 + 0.4 * drawDist)) : lim); if (u.lo) { const far = d > u.lodD * drawDist; c.visible = vis && !far; u.lo.visible = vis && far; } else c.visible = vis; } }
+    if (frameNo % 8 === 0) { const lim = CULLF.v + 20, cp = camera.position; for (const c of chunks) { const u = c.userData, d = Math.hypot(u.cx - cp.x, u.cz - cp.z) - u.r, vis = d < (u.dd ? Math.min(lim, u.dd * (0.6 + 0.4 * drawDist)) : lim); if (u.lo) { const far = d > u.lodD * drawDist; c.visible = vis && !far; u.lo.visible = vis && far; } else c.visible = vis; } }
     hemi.color.copy(e.hs); hemi.groundColor.copy(e.hg); hemi.intensity = e.hi;
     const ld = tmp2.copy(SUN).lerp(MOON, lerp(sstep(0.42, 0.62, tE), sstep(0.3, 0.7, night), dayMix)); ld.y = Math.max(ld.y, 0.4); ld.normalize();
     key.color.copy(e.kc); key.intensity = e.ki; key.position.copy(bp).addScaledVector(ld, 60); key.target.position.copy(bp);
