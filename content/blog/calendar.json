@@ -1361,7 +1361,8 @@
       "topic": "tech",
       "score": 7,
       "urls": [
-        "https://techcrunch.com/2026/11/23/jensen-huang-scheduled-to-testify-next-week-in-senate-following-reinstatement-as-nvidia-ceo/"
+        "https://techcrunch.com/2026/11/23/jensen-huang-scheduled-to-testify-next-week-in-senate-following-reinstatement-as-nvidia-ceo/",
+        "https://www.npr.org/2026/11/28/nx-s1-6055695/back-as-nvidia-ceo-jensen-huang-heads-to-washington-for-tough-questions"
       ],
       "angle": "Follow-up to the Nvidia reinstatement post; wait for the hearing.",
       "added": "2026-11-24"
@@ -2230,7 +2231,8 @@
       "score": 7,
       "topic": "security",
       "urls": [
-        "https://thehackernews.com/2026/11/hackers-trojanize-official-q-dir-and.html"
+        "https://thehackernews.com/2026/11/hackers-trojanize-official-q-dir-and.html",
+        "https://www.bleepingcomputer.com/news/security/q-dir-and-desktopok-windows-utilities-compromised-to-push-python-rat/"
       ],
       "angle": "Single-outlet so far; confirm with more sources before WRITE.",
       "added": "2026-11-27"
@@ -2291,6 +2293,18 @@
       "topic": "ai",
       "urls": [
         "https://www.oag.state.va.us/media-center/news-releases/jay-jones/3162-attorneys-general-jones-and-rayfield-file-suit-against-spacex-parent-company-of-x-xai-and-grok-over-creation-and-promotion-of-child-exploitation-and-non-consensual-images-on-platform"
+      ],
+      "angle": "",
+      "added": "2026-11-28"
+    },
+    {
+      "key": "audible-removes-downloads",
+      "title": "Audible removes the download option for purchased audiobooks: what it means for owners",
+      "kind": "news",
+      "score": 6,
+      "topic": "tech",
+      "urls": [
+        "https://consumerrights.wiki/w/Audible_removes_download_option_for_purchased_audiobooks"
       ],
       "angle": "",
       "added": "2026-11-28"
