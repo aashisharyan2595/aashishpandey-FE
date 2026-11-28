@@ -2244,6 +2244,54 @@
       ],
       "angle": "Single-outlet so far; confirm with more sources before WRITE.",
       "added": "2026-11-27"
+    },
+    {
+      "key": "pcloud-password-manager-hack",
+      "title": "pCloud confirms password manager hack after suspicious login alerts: what users should do",
+      "kind": "explainer",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/pcloud-confirms-password-manager-hack-after-suspicious-login-alerts/"
+      ],
+      "angle": "",
+      "added": "2026-11-28"
+    },
+    {
+      "key": "boston-scientific-data-breach",
+      "title": "Boston Scientific data breach exposes personal and medical info: what to do",
+      "kind": "news",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/new-boston-scientific-data-breach-exposes-personal-medical-info/"
+      ],
+      "angle": "",
+      "added": "2026-11-28"
+    },
+    {
+      "key": "black-friday-webrtc-card-skimmer",
+      "title": "Card skimmers using WebRTC found on shopping sites this Black Friday: how to shop safely",
+      "kind": "explainer",
+      "score": 8,
+      "topic": "security",
+      "urls": [
+        "https://www.infohawk.com/news/2026-11-27-black-friday-webrtc-skimmer"
+      ],
+      "angle": "",
+      "added": "2026-11-28"
+    },
+    {
+      "key": "states-sue-spacex-grok",
+      "title": "US states sue SpaceX over Grok image abuse: what the lawsuit says",
+      "kind": "news",
+      "score": 7,
+      "topic": "ai",
+      "urls": [
+        "https://www.oag.state.va.us/media-center/news-releases/jay-jones/3162-attorneys-general-jones-and-rayfield-file-suit-against-spacex-parent-company-of-x-xai-and-grok-over-creation-and-promotion-of-child-exploitation-and-non-consensual-images-on-platform"
+      ],
+      "angle": "",
+      "added": "2026-11-28"
     }
   ],
   "covered": [
